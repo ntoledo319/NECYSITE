@@ -5,10 +5,73 @@ import Link from "next/link"
 import { MobileMenu } from "@/components/mobile-menu"
 import { MeetingCard } from "@/components/meeting-card"
 import { ExpandableMeetingRow } from "@/components/expandable-meeting-row"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import FlyerModal from "@/components/flyer-modal"
 import { ZoomIn } from "lucide-react"
 import FlyerWithModal from "@/components/flyer-with-modal" // Declare the variable before using it
+
+/**
+ * Returns the next upcoming business meeting date.
+ * Business meetings are held on the 1st and 3rd Sundays of every month at 2:00 PM ET.
+ * If the current time is before 2 PM on a meeting Sunday, that day is returned.
+ * Otherwise, the next meeting Sunday is returned.
+ */
+function getNextBusinessMeetingDate(): Date {
+  const now = new Date()
+
+  // Helper: get the nth Sunday (1-indexed) of a given month/year
+  function getNthSunday(year: number, month: number, n: number): Date {
+    // Start at the 1st of the month
+    const first = new Date(year, month, 1)
+    // Day of week for the 1st (0=Sun, 1=Mon, ...)
+    const dayOfWeek = first.getDay()
+    // Days until the first Sunday
+    const daysUntilSunday = (7 - dayOfWeek) % 7
+    // The first Sunday's date
+    const firstSunday = 1 + daysUntilSunday
+    // The nth Sunday's date
+    return new Date(year, month, firstSunday + (n - 1) * 7)
+  }
+
+  // Check current month and the next 2 months to find the next meeting Sunday
+  for (let offset = 0; offset < 3; offset++) {
+    const year = new Date(now.getFullYear(), now.getMonth() + offset, 1).getFullYear()
+    const month = new Date(now.getFullYear(), now.getMonth() + offset, 1).getMonth()
+
+    for (const nth of [1, 3]) {
+      const meetingDate = getNthSunday(year, month, nth)
+      // Meeting is at 2:00 PM — treat the meeting as "upcoming" until 2 PM passes
+      const meetingTime = new Date(meetingDate)
+      meetingTime.setHours(14, 0, 0, 0)
+
+      if (meetingTime > now) {
+        return meetingDate
+      }
+    }
+  }
+
+  // Fallback (should never reach here)
+  return new Date()
+}
+
+/** Format a Date as e.g. "Sunday, March 2nd" */
+function formatMeetingDate(date: Date): string {
+  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ]
+  const day = date.getDate()
+  const suffix =
+    day === 1 || day === 21 || day === 31
+      ? "st"
+      : day === 2 || day === 22
+        ? "nd"
+        : day === 3 || day === 23
+          ? "rd"
+          : "th"
+  return `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${day}${suffix}`
+}
 
 // Meeting data organized by day with updated information
 const meetingsByDay = {
@@ -258,6 +321,12 @@ export default function HomePage() {
   // State for modal
   const [enlargedFlyer, setEnlargedFlyer] = useState<{ src: string; alt: string } | null>(null)
 
+  // Auto-calculate next business meeting date (1st and 3rd Sundays)
+  const [nextMeetingDateStr, setNextMeetingDateStr] = useState<string>("")
+  useEffect(() => {
+    setNextMeetingDateStr(formatMeetingDate(getNextBusinessMeetingDate()))
+  }, [])
+
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#0f172a" }}>
       {/* FlyerModal component */}
@@ -411,7 +480,7 @@ export default function HomePage() {
                     </div>
                     <div>
                       <p className="text-gray-400 text-sm">Date</p>
-                      <p className="text-white font-bold">Sunday, March 1st</p>
+                      <p className="text-white font-bold">{nextMeetingDateStr || "Loading..."}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -856,8 +925,8 @@ export default function HomePage() {
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
-              <a href="mailto:ctbidfornecypaa@gmail.com" className="text-blue-400 hover:underline">
-                ctbidfornecypaa@gmail.com
+              <a href="mailto:info@necypaa.org" className="text-blue-400 hover:underline">
+                info@necypaa.org
               </a>
             </div>
           </div>
@@ -885,8 +954,8 @@ export default function HomePage() {
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
-              <a href="mailto:ctbidfornecypaa@gmail.com" className="text-blue-400 hover:underline">
-                ctbidfornecypaa@gmail.com
+              <a href="mailto:info@necypaa.org" className="text-blue-400 hover:underline">
+                info@necypaa.org
               </a>
             </div>
 
