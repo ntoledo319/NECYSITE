@@ -1,6 +1,3 @@
-"use client"
-
-import Image from "next/image"
 import Link from "next/link"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import { ArrowRight, ExternalLink } from "lucide-react"
@@ -11,26 +8,16 @@ export default function CTASection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Register card */}
         <div
-          className="relative overflow-hidden rounded-2xl p-7 flex flex-col gap-4"
+          className="relative overflow-hidden rounded-2xl p-7 flex flex-col gap-4 backdrop-blur-sm"
           style={{
-            background: "linear-gradient(135deg, rgba(232,0,110,0.18) 0%, rgba(232,0,110,0.06) 100%)",
-            border: "1px solid rgba(232,0,110,0.30)",
+            background: "linear-gradient(135deg, rgba(232,0,110,0.14) 0%, rgba(26,34,54,0.8) 50%, rgba(232,0,110,0.04) 100%)",
+            border: "1px solid rgba(232,0,110,0.25)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
         >
-          {/* Logo watermark in card */}
-          <div className="absolute -top-4 -right-4 w-[120px] h-[80px] pointer-events-none select-none opacity-[0.06]">
-            <Image
-              src="/images/necypaa-logo.webp"
-              alt=""
-              fill
-              className="object-contain"
-              aria-hidden="true"
-            />
-          </div>
-
           <div
-            className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20"
-            style={{ background: "var(--nec-pink)", filter: "blur(50px)" }}
+            className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15"
+            style={{ background: "var(--nec-pink)", filter: "blur(60px)" }}
           />
           <div className="relative z-10">
             <span
@@ -61,26 +48,16 @@ export default function CTASection() {
 
         {/* Hotel card */}
         <div
-          className="relative overflow-hidden rounded-2xl p-7 flex flex-col gap-4"
+          className="relative overflow-hidden rounded-2xl p-7 flex flex-col gap-4 backdrop-blur-sm"
           style={{
-            background: "linear-gradient(135deg, rgba(0,212,232,0.14) 0%, rgba(0,212,232,0.04) 100%)",
-            border: "1px solid rgba(0,212,232,0.25)",
+            background: "linear-gradient(135deg, rgba(0,212,232,0.10) 0%, rgba(26,34,54,0.8) 50%, rgba(0,212,232,0.03) 100%)",
+            border: "1px solid rgba(0,212,232,0.20)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
         >
-          {/* CT state watermark in card */}
-          <div className="absolute -bottom-8 -left-8 w-[150px] h-[180px] pointer-events-none select-none opacity-[0.04]">
-            <Image
-              src="/images/ct-state-art.webp"
-              alt=""
-              fill
-              className="object-contain"
-              aria-hidden="true"
-            />
-          </div>
-
           <div
-            className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-15"
-            style={{ background: "var(--nec-cyan)", filter: "blur(50px)" }}
+            className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-12"
+            style={{ background: "var(--nec-cyan)", filter: "blur(60px)" }}
           />
           <div className="relative z-10">
             <span

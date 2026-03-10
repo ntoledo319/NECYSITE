@@ -8,7 +8,7 @@ export default function PastEventsSection() {
     <section id="past-events" aria-label="Past events archive" className="px-4 md:px-0">
       <div className="mb-6">
         <span className="section-badge">Archive</span>
-        <h2 className="section-heading mt-3">Past Events</h2>
+        <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Past Events</h2>
         <p className="mt-2 text-sm text-gray-400">
           A look back at the events that brought us here. Thanks to everyone who showed up.
         </p>
@@ -19,13 +19,14 @@ export default function PastEventsSection() {
           <div
             key={event.id}
             className="nec-card p-5 md:p-6 group transition-all duration-200 hover:-translate-y-0.5"
+            style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)" }}
           >
             <div className="flex flex-col md:flex-row gap-6">
               {/* Info */}
               <div className="flex-1 space-y-3 min-w-0">
                 <h3
-                  className="text-xl font-bold text-white"
-                  style={{ color: "var(--nec-cyan)" }}
+                  className="text-xl font-bold"
+                  style={{ color: "var(--nec-cyan)", textShadow: "0 0 12px rgba(0,212,232,0.2)" }}
                 >
                   {event.title}
                 </h3>
@@ -77,7 +78,7 @@ export default function PastEventsSection() {
               {/* Flyer */}
               <div
                 className="w-full md:w-56 flex-shrink-0 rounded-xl overflow-hidden transition-all duration-200"
-                style={{ border: "1px solid var(--nec-border)" }}
+                style={{ border: "1px solid var(--nec-border)", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}
               >
                 <FlyerWithModal
                   src={event.flyerSrc}

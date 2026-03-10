@@ -57,24 +57,24 @@ export default function BusinessMeetingSection() {
     <section id="business-meeting" aria-label="Next business meeting" className="px-4 md:px-0">
       <div className="mb-6">
         <span className="section-badge">Planning</span>
-        <h2 className="section-heading mt-3">Next Business Meeting</h2>
+        <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Next Business Meeting</h2>
         <p className="mt-2 text-sm text-gray-400">
           Held on the 1st and 3rd Sundays of each month at 2:00 PM ET via Zoom.
         </p>
       </div>
 
       <div
-        className="nec-card p-6 md:p-8 transition-all duration-200"
-        style={{ maxWidth: "640px" }}
+        className="nec-card p-6 md:p-8 transition-all duration-200 backdrop-blur-sm"
+        style={{ maxWidth: "640px", boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)" }}
       >
-        <h3 className="text-lg font-bold text-white mb-5">NECYPAA XXXVI Business Meeting</h3>
+        <h3 className="text-lg font-bold text-white mb-5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>NECYPAA XXXVI Business Meeting</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           {/* Date */}
           <div className="flex items-start gap-3">
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(0,212,232,0.12)", border: "1px solid rgba(0,212,232,0.25)" }}
+              style={{ background: "rgba(0,212,232,0.10)", border: "1px solid rgba(0,212,232,0.20)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
             >
               <Calendar className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} />
             </div>
@@ -90,7 +90,7 @@ export default function BusinessMeetingSection() {
           <div className="flex items-start gap-3">
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(0,212,232,0.12)", border: "1px solid rgba(0,212,232,0.25)" }}
+              style={{ background: "rgba(0,212,232,0.10)", border: "1px solid rgba(0,212,232,0.20)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
             >
               <Clock className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} />
             </div>
@@ -112,15 +112,20 @@ export default function BusinessMeetingSection() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
           style={{
-            background: "rgba(0,212,232,0.12)",
-            border: "1px solid rgba(0,212,232,0.35)",
+            background: "rgba(0,212,232,0.10)",
+            border: "1px solid rgba(0,212,232,0.30)",
             color: "var(--nec-cyan)",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
           onMouseEnter={(e) => {
-            ;(e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,212,232,0.22)"
+            const el = e.currentTarget as HTMLAnchorElement
+            el.style.background = "rgba(0,212,232,0.20)"
+            el.style.boxShadow = "0 2px 16px rgba(0,212,232,0.2), inset 0 1px 0 rgba(255,255,255,0.06)"
           }}
           onMouseLeave={(e) => {
-            ;(e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,212,232,0.12)"
+            const el = e.currentTarget as HTMLAnchorElement
+            el.style.background = "rgba(0,212,232,0.10)"
+            el.style.boxShadow = "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)"
           }}
         >
           <Video className="w-4 h-4" />

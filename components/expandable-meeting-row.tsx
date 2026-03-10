@@ -20,12 +20,17 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
 
   return (
     <>
-      <tr className="border-b border-gray-700 hover:bg-gray-800">
+      <tr
+        className="border-b transition-colors duration-150"
+        style={{ borderColor: "var(--nec-border)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,212,232,0.03)" }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "transparent" }}
+      >
         <td className="p-3 text-gray-300">{meeting.day}</td>
         <td className="p-3 text-gray-300">{meeting.time}</td>
         <td className="p-3 text-gray-300">
           {meeting.url ? (
-            <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+            <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: "var(--nec-cyan)" }}>
               {meeting.name}
             </a>
           ) : (
@@ -38,7 +43,8 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         <td className="p-3 text-center">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-blue-400 hover:text-blue-300 focus:outline-none"
+            className="focus:outline-none transition-colors"
+            style={{ color: "var(--nec-cyan)" }}
             aria-label={isExpanded ? "Collapse details" : "Expand details"}
           >
             {isExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
@@ -46,7 +52,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         </td>
       </tr>
       {isExpanded && (
-        <tr className="bg-gray-800 border-b border-gray-700">
+        <tr style={{ background: "rgba(0,212,232,0.03)", borderBottom: "1px solid var(--nec-border)" }}>
           <td colSpan={7} className="p-4">
             <div className="grid grid-cols-2 gap-4">
               <div>

@@ -59,13 +59,20 @@ export default function RegisterPage() {
       ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen" style={{ background: "var(--nec-navy)" }}>
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-2">NECYPAA XXXVI Registration</h1>
-            <p className="text-xl text-amber-500">The Archway of Freedom</p>
+            <h1
+              className="text-3xl md:text-4xl font-black text-white mb-2"
+              style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
+            >
+              NECYPAA XXXVI Registration
+            </h1>
+            <p className="text-lg font-bold" style={{ color: "var(--nec-gold)" }}>
+              The Archway of Freedom
+            </p>
           </div>
 
           {/* Progress Indicator */}
@@ -75,24 +82,40 @@ export default function RegisterPage() {
                 <div key={step.key} className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${
-                        currentStep === step.key ? "bg-amber-600 text-white" : "bg-slate-700 text-slate-400"
-                      }`}
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                      style={{
+                        background: currentStep === step.key ? "var(--nec-pink)" : "rgba(42,53,82,0.8)",
+                        color: currentStep === step.key ? "white" : "var(--nec-muted)",
+                        border: currentStep === step.key ? "1px solid rgba(232,0,110,0.5)" : "1px solid var(--nec-border)",
+                        boxShadow: currentStep === step.key ? "0 0 12px rgba(232,0,110,0.2)" : "none",
+                      }}
                     >
                       {step.number}
                     </div>
-                    <span className={`text-sm ${currentStep === step.key ? "text-white" : "text-slate-400"}`}>
+                    <span
+                      className="text-sm font-medium"
+                      style={{ color: currentStep === step.key ? "white" : "var(--nec-muted)" }}
+                    >
                       {step.label}
                     </span>
                   </div>
-                  {index < steps.length - 1 && <div className="w-8 h-0.5 bg-slate-700" />}
+                  {index < steps.length - 1 && (
+                    <div className="w-8 h-0.5 rounded-full" style={{ background: "var(--nec-border)" }} />
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
           {/* Content */}
-          <div className="bg-slate-800/50 rounded-lg p-8 border border-slate-700">
+          <div
+            className="rounded-2xl p-6 md:p-8 backdrop-blur-sm"
+            style={{
+              background: "linear-gradient(135deg, rgba(26,34,54,0.9) 0%, rgba(17,24,39,0.95) 100%)",
+              border: "1px solid var(--nec-border)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+            }}
+          >
             {currentStep === "info" && <RegistrationForm onComplete={handleInfoComplete} enableScholarship />}
 
             {currentStep === "policy" && (
@@ -109,18 +132,29 @@ export default function RegisterPage() {
           </div>
 
           {/* Hotel Booking CTA */}
-          <div className="mt-8 bg-gradient-to-r from-blue-900/50 to-blue-800/50 rounded-lg p-6 border border-blue-700/50 text-center">
-            <h3 className="text-xl font-bold text-white mb-2">Need a Place to Stay?</h3>
-            <p className="text-gray-300 mb-4">Book your room at our host hotel with the special NECYPAA rate!</p>
+          <div
+            className="mt-8 rounded-2xl p-6 text-center backdrop-blur-sm"
+            style={{
+              background: "linear-gradient(135deg, rgba(0,212,232,0.08) 0%, rgba(26,34,54,0.7) 100%)",
+              border: "1px solid rgba(0,212,232,0.18)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)",
+            }}
+          >
+            <h3
+              className="text-xl font-bold text-white mb-2"
+              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}
+            >
+              Need a Place to Stay?
+            </h3>
+            <p className="text-sm text-gray-400 mb-4">
+              Book your room at our host hotel with the special NECYPAA rate!
+            </p>
             <a
               href="https://www.marriott.com/event-reservations/reservation-link.mi?id=1770049957031&key=GRP&app=resvlink"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+              className="btn-secondary inline-flex"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
               Book Hotel
             </a>
           </div>

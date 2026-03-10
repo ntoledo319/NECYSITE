@@ -3,67 +3,35 @@ interface SectionDividerProps {
   className?: string
 }
 
-export default function SectionDivider({ 
+export default function SectionDivider({
   variant = "subtle",
-  className = ""
+  className = "",
 }: SectionDividerProps) {
-  const baseClasses = "w-full rounded-full"
-  
   const variantStyles = {
     glow: {
-      height: "3px",
-      background: "linear-gradient(90deg, var(--nec-pink) 0%, var(--nec-cyan) 50%, var(--nec-orange) 100%)",
-      boxShadow: "0 0 20px rgba(0,212,232,0.5), 0 0 40px rgba(232,0,110,0.3)",
+      height: "2px",
+      background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)",
+      boxShadow: "0 0 16px rgba(0,212,232,0.4), 0 0 32px rgba(232,0,110,0.2)",
     },
     subtle: {
-      height: "2px",
-      background: "linear-gradient(90deg, var(--nec-pink) 0%, var(--nec-cyan) 50%, var(--nec-orange) 100%)",
+      height: "1px",
+      background: "linear-gradient(90deg, transparent 0%, var(--nec-border) 30%, var(--nec-border) 70%, transparent 100%)",
       boxShadow: "none",
     },
     accent: {
-      height: "4px",
-      background: "linear-gradient(90deg, var(--nec-pink) 0%, var(--nec-cyan) 50%, var(--nec-orange) 100%)",
-      boxShadow: "0 0 12px rgba(0,212,232,0.3)",
+      height: "2px",
+      background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 15%, var(--nec-cyan) 50%, var(--nec-orange) 85%, transparent 100%)",
+      boxShadow: "0 0 10px rgba(0,212,232,0.25)",
     },
   }
 
   const style = variantStyles[variant]
 
   return (
-    <div 
-      className={`${baseClasses} ${className}`}
-      style={{
-        height: style.height,
-        background: style.background,
-        boxShadow: style.boxShadow,
-      }}
+    <div
+      className={`w-full rounded-full ${className}`}
+      style={style}
       aria-hidden="true"
-    >
-      {/* CSS-only paint splatter dots for accent variant */}
-      {variant === "accent" && (
-        <div className="relative w-full h-full overflow-hidden">
-          <div 
-            className="absolute w-2 h-2 rounded-full bg-cyan-400 opacity-60"
-            style={{ top: "-2px", left: "20%" }}
-          />
-          <div 
-            className="absolute w-1.5 h-1.5 rounded-full bg-pink-500 opacity-50"
-            style={{ top: "-2px", left: "50%" }}
-          />
-          <div 
-            className="absolute w-2 h-2 rounded-full bg-orange-400 opacity-60"
-            style={{ top: "-2px", left: "80%" }}
-          />
-          <div 
-            className="absolute w-1 h-1 rounded-full bg-cyan-400 opacity-40"
-            style={{ top: "1px", left: "35%" }}
-          />
-          <div 
-            className="absolute w-1.5 h-1.5 rounded-full bg-pink-500 opacity-50"
-            style={{ top: "1px", left: "65%" }}
-          />
-        </div>
-      )}
-    </div>
+    />
   )
 }

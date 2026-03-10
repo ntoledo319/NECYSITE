@@ -84,7 +84,7 @@ export default function BreakfastCheckout() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-4">
+      <div className="rounded-2xl p-6 border space-y-4" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
         <h3 className="text-lg font-semibold text-white">Your Information</h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
@@ -98,7 +98,7 @@ export default function BreakfastCheckout() {
                 setFirstName(e.target.value)
                 setCheckoutReady(false)
               }}
-              className="bg-slate-900 border-slate-700 text-white"
+              className="text-white"
             />
           </div>
           <div>
@@ -112,7 +112,7 @@ export default function BreakfastCheckout() {
                 setLastName(e.target.value)
                 setCheckoutReady(false)
               }}
-              className="bg-slate-900 border-slate-700 text-white"
+              className="text-white"
             />
           </div>
         </div>
@@ -128,14 +128,14 @@ export default function BreakfastCheckout() {
               setEmail(e.target.value)
               setCheckoutReady(false)
             }}
-            className="bg-slate-900 border-slate-700 text-white"
+            className="text-white"
           />
         </div>
       </div>
 
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-4">
+      <div className="rounded-2xl p-6 border space-y-4" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
         <h3 className="text-lg font-semibold text-white">New Years Day Breakfast!</h3>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-gray-400">
           Friday is especially recommended. Most local restaurants are closed on New Year&apos;s Day.
         </p>
 
@@ -143,18 +143,18 @@ export default function BreakfastCheckout() {
           <button
             type="button"
             onClick={() => toggleBreakfast(fridayProduct.id, !breakfastSelections[fridayProduct.id])}
-            className={`w-full text-left rounded-md px-4 py-3 transition-colors border ${
-              breakfastSelections[fridayProduct.id]
-                ? "bg-amber-600/20 border-amber-500"
-                : "bg-amber-900/10 border-amber-700/30 hover:border-amber-600/60"
-            }`}
+            className="w-full text-left rounded-xl px-4 py-3 transition-colors border"
+            style={{
+              background: breakfastSelections[fridayProduct.id] ? "rgba(249,115,22,0.12)" : "rgba(249,115,22,0.04)",
+              borderColor: breakfastSelections[fridayProduct.id] ? "rgba(249,115,22,0.5)" : "rgba(249,115,22,0.15)",
+            }}
           >
             <div className="flex items-start gap-3">
               <Checkbox
                 id={fridayProduct.id}
                 checked={breakfastSelections[fridayProduct.id] || false}
                 onCheckedChange={(checked) => toggleBreakfast(fridayProduct.id, checked as boolean)}
-                className="mt-1 border-amber-600 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                className="mt-1 border-orange-600 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
                 onClick={(e) => e.stopPropagation()}
               />
               <div className="flex-1">
@@ -162,7 +162,7 @@ export default function BreakfastCheckout() {
                   <Label className="text-sm text-white font-semibold cursor-pointer">Friday - New Year&apos;s Day</Label>
                   <span className="text-sm text-white font-semibold">$20</span>
                 </div>
-                <p className="text-amber-300 text-xs mt-1">
+                <p className="text-orange-300 text-xs mt-1">
                   Start your day on-site with fellowship and no restaurant scramble.
                 </p>
               </div>
@@ -176,18 +176,18 @@ export default function BreakfastCheckout() {
               key={bp.id}
               type="button"
               onClick={() => toggleBreakfast(bp.id, !breakfastSelections[bp.id])}
-              className={`w-full text-left rounded-md px-3 py-2.5 transition-colors border ${
-                breakfastSelections[bp.id]
-                  ? "bg-slate-700/60 border-amber-500"
-                  : "bg-slate-800/60 border-slate-600 hover:border-slate-500"
-              }`}
+              className="w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
+              style={{
+                background: breakfastSelections[bp.id] ? "rgba(42,53,82,0.6)" : "rgba(26,34,54,0.6)",
+                borderColor: breakfastSelections[bp.id] ? "rgba(249,115,22,0.5)" : "var(--nec-border)",
+              }}
             >
               <div className="flex items-center gap-2.5">
                 <Checkbox
                   id={bp.id}
                   checked={breakfastSelections[bp.id] || false}
                   onCheckedChange={(checked) => toggleBreakfast(bp.id, checked as boolean)}
-                  className="border-slate-500 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                  className="border-gray-600 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
                   onClick={(e) => e.stopPropagation()}
                 />
                 <div className="flex-1 flex items-center justify-between">
@@ -202,10 +202,10 @@ export default function BreakfastCheckout() {
         </div>
       </div>
 
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+      <div className="rounded-2xl p-6 border" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
         <h3 className="text-lg font-semibold text-white mb-4">Order Summary</h3>
-        <div className="space-y-2 text-slate-300">
-          {selectedBreakfasts.length === 0 && <p className="text-slate-400 text-sm">Select at least one breakfast.</p>}
+        <div className="space-y-2 text-gray-300">
+          {selectedBreakfasts.length === 0 && <p className="text-gray-400 text-sm">Select at least one breakfast.</p>}
           {selectedBreakfasts.map((bp) => (
             <div key={bp.id} className="flex justify-between">
               <span>{bp.name}</span>
@@ -218,9 +218,9 @@ export default function BreakfastCheckout() {
                 <span>Processing Fee (2.9% + $0.30)</span>
                 <span className="font-medium text-white">${processingFee.toFixed(2)}</span>
               </div>
-              <div className="border-t border-slate-600 pt-2 mt-2 flex justify-between text-lg font-bold">
+              <div className="border-t pt-2 mt-2 flex justify-between text-lg font-bold" style={{ borderColor: "var(--nec-border)" }}>
                 <span className="text-white">Total</span>
-                <span className="text-orange-400">${totalAmount.toFixed(2)}</span>
+                <span style={{ color: "var(--nec-gold)" }}>${totalAmount.toFixed(2)}</span>
               </div>
             </>
           )}
@@ -231,7 +231,8 @@ export default function BreakfastCheckout() {
         <Button
           onClick={proceedToPayment}
           disabled={!isFormValid}
-          className="w-full bg-amber-600 hover:bg-amber-700 text-white py-6 text-lg font-semibold"
+          className="w-full text-white py-6 text-lg font-bold"
+          style={{ background: "var(--nec-pink)", boxShadow: "0 2px 16px rgba(232,0,110,0.3)" }}
         >
           Proceed to Payment{isFormValid ? ` - $${totalAmount.toFixed(2)}` : ""}
         </Button>

@@ -17,29 +17,26 @@ export default function HomePage() {
     >
       {/* Page-level ambient neon glow layer */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div 
-          className="absolute -top-40 -left-40 w-[800px] h-[800px] rounded-full opacity-[0.03]"
-          style={{ 
-            background: "radial-gradient(circle, var(--nec-cyan) 0%, transparent 70%)",
-            filter: "blur(100px)",
-            mixBlendMode: "screen"
-          }} 
+        <div
+          className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.05]"
+          style={{
+            background: "radial-gradient(circle, var(--nec-cyan) 0%, transparent 65%)",
+            filter: "blur(120px)",
+          }}
         />
-        <div 
-          className="absolute top-1/3 right-0 w-[600px] h-[600px] rounded-full opacity-[0.03]"
-          style={{ 
-            background: "radial-gradient(circle, var(--nec-pink) 0%, transparent 70%)",
-            filter: "blur(100px)",
-            mixBlendMode: "screen"
-          }} 
+        <div
+          className="absolute top-[30%] -right-20 w-[700px] h-[700px] rounded-full opacity-[0.04]"
+          style={{
+            background: "radial-gradient(circle, var(--nec-pink) 0%, transparent 65%)",
+            filter: "blur(120px)",
+          }}
         />
-        <div 
-          className="absolute bottom-20 left-1/4 w-[500px] h-[500px] rounded-full opacity-[0.03]"
-          style={{ 
-            background: "radial-gradient(circle, var(--nec-orange) 0%, transparent 70%)",
-            filter: "blur(100px)",
-            mixBlendMode: "screen"
-          }} 
+        <div
+          className="absolute bottom-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.04]"
+          style={{
+            background: "radial-gradient(circle, var(--nec-orange) 0%, transparent 65%)",
+            filter: "blur(120px)",
+          }}
         />
       </div>
 

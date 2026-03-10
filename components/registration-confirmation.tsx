@@ -48,9 +48,9 @@ export default function RegistrationConfirmation({
   if (isComplete) {
     return (
       <div className="text-center space-y-6 py-8">
-        <div className="w-16 h-16 bg-amber-600/20 rounded-full flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto" style={{ background: "rgba(0,212,232,0.12)" }}>
           <svg
-            className="w-8 h-8 text-amber-500"
+            className="w-8 h-8" style={{ color: "var(--nec-cyan)" }}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -67,30 +67,30 @@ export default function RegistrationConfirmation({
           <h3 className="text-2xl font-bold text-white mb-2">
             {"You're"} Registered!
           </h3>
-          <p className="text-slate-300">
+          <p className="text-gray-300">
             Thank you, {registrationData.name}. Your registration for NECYPAA XXXVI has been confirmed.
           </p>
         </div>
 
-        <div className="bg-slate-800 rounded-lg p-5 border border-slate-700 text-left max-w-sm mx-auto">
-          <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
+        <div className="rounded-2xl p-5 border text-left max-w-sm mx-auto" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
+          <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
             Registration Details
           </h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-slate-400">Name</span>
+              <span className="text-gray-400">Name</span>
               <span className="text-white">{registrationData.name}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Email</span>
+              <span className="text-gray-400">Email</span>
               <span className="text-white">{registrationData.email}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">State</span>
+              <span className="text-gray-400">State</span>
               <span className="text-white">{registrationData.state}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Homegroup</span>
+              <span className="text-gray-400">Homegroup</span>
               <span className="text-white">{registrationData.homegroup}</span>
             </div>
           </div>
@@ -98,14 +98,14 @@ export default function RegistrationConfirmation({
 
         {/* Hotel Booking CTA */}
         <div className="pt-4">
-          <p className="text-slate-400 text-sm mb-3">
+          <p className="text-gray-400 text-sm mb-3">
             {"Don't"} forget to book your hotel room!
           </p>
           <a
             href="https://www.marriott.com/event-reservations/reservation-link.mi?id=1770049957031&key=GRP&app=resvlink"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+            className="btn-secondary inline-flex items-center gap-2"
           >
             <svg
               className="w-5 h-5"
@@ -133,50 +133,50 @@ export default function RegistrationConfirmation({
         <h3 className="text-xl font-bold text-white mb-1">
           Confirm Your Registration
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-gray-400 text-sm">
           Please review your information before submitting.
         </p>
       </div>
 
-      <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+      <div className="rounded-2xl p-5 border" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-slate-400">Name</span>
+            <span className="text-gray-400">Name</span>
             <span className="text-white">{registrationData.name}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">Email</span>
+            <span className="text-gray-400">Email</span>
             <span className="text-white">{registrationData.email}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">State</span>
+            <span className="text-gray-400">State</span>
             <span className="text-white">{registrationData.state}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">Homegroup / Committee</span>
+            <span className="text-gray-400">Homegroup / Committee</span>
             <span className="text-white">{registrationData.homegroup}</span>
           </div>
           {registrationData.accommodations && (
             <div className="flex justify-between">
-              <span className="text-slate-400">Accommodations</span>
+              <span className="text-gray-400">Accommodations</span>
               <span className="text-white">{registrationData.accommodations}</span>
             </div>
           )}
           {registrationData.interpretationNeeded && (
             <div className="flex justify-between">
-              <span className="text-slate-400">Interpretation</span>
+              <span className="text-gray-400">Interpretation</span>
               <span className="text-white">Needed</span>
             </div>
           )}
           {registrationData.handicapAccessibility && (
             <div className="flex justify-between">
-              <span className="text-slate-400">Accessibility</span>
+              <span className="text-gray-400">Accessibility</span>
               <span className="text-white">Needed</span>
             </div>
           )}
           {registrationData.willingToServe && (
             <div className="flex justify-between">
-              <span className="text-slate-400">Willing to Serve</span>
+              <span className="text-gray-400">Willing to Serve</span>
               <span className="text-white">Yes</span>
             </div>
           )}
@@ -194,7 +194,7 @@ export default function RegistrationConfirmation({
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 border-slate-700 text-white hover:bg-slate-800 bg-transparent"
+          className="flex-1 text-white bg-transparent" style={{ borderColor: "var(--nec-border)" }}
           disabled={isSubmitting}
         >
           Back
@@ -202,7 +202,7 @@ export default function RegistrationConfirmation({
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
+          className="flex-1 text-white font-bold" style={{ background: "var(--nec-pink)", boxShadow: "0 2px 12px rgba(232,0,110,0.25)" }}
         >
           {isSubmitting ? "Submitting..." : "Complete Registration"}
         </Button>

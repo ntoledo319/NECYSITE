@@ -28,16 +28,16 @@ export default function BreakfastTicketSelector({
       <div>
         <h3 className="text-lg font-semibold text-white">
           Add Breakfast Tickets{" "}
-          <span className="text-slate-400 text-sm font-normal">(Optional)</span>
+          <span className="text-gray-400 text-sm font-normal">(Optional)</span>
         </h3>
-        <p className="text-slate-400 text-sm mt-1">
+        <p className="text-gray-400 text-sm mt-1">
           $20.00 each - Enjoy breakfast at the convention each morning.
         </p>
       </div>
 
       {/* Friday - New Year's Day callout */}
       {fridayProduct && (
-        <div className="bg-amber-900/30 border border-amber-600/50 rounded-lg p-4">
+        <div className="rounded-xl border p-4" style={{ background: "rgba(249,115,22,0.06)", borderColor: "rgba(249,115,22,0.25)" }}>
           <div className="flex items-start gap-3">
             <Checkbox
               id={fridayProduct.id}
@@ -45,7 +45,7 @@ export default function BreakfastTicketSelector({
               onCheckedChange={(checked) =>
                 handleToggle(fridayProduct.id, checked as boolean)
               }
-              className="mt-1 border-amber-600"
+              className="mt-1 border-orange-600 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
             />
             <div className="flex-1">
               <Label
@@ -54,7 +54,7 @@ export default function BreakfastTicketSelector({
               >
                 {fridayProduct.name}
               </Label>
-              <p className="text-amber-400 text-sm mt-1">
+              <p className="text-orange-400 text-sm mt-1">
                 New Year's Day - most local restaurants will be closed! Start
                 your new year right with breakfast and fellowship at the
                 convention.
@@ -71,7 +71,7 @@ export default function BreakfastTicketSelector({
           (product) => (
             <div
               key={product.id}
-              className="bg-slate-800 border border-slate-700 rounded-lg p-4"
+              className="rounded-xl border p-4" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}
             >
               <div className="flex items-start gap-3">
                 <Checkbox
@@ -80,7 +80,7 @@ export default function BreakfastTicketSelector({
                   onCheckedChange={(checked) =>
                     handleToggle(product.id, checked as boolean)
                   }
-                  className="mt-1 border-slate-600"
+                  className="mt-1 border-gray-600 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
                 />
                 <div className="flex-1">
                   <Label
@@ -89,7 +89,7 @@ export default function BreakfastTicketSelector({
                   >
                     {product.name}
                   </Label>
-                  <p className="text-slate-400 text-sm mt-1">
+                  <p className="text-gray-400 text-sm mt-1">
                     {product.description}
                   </p>
                   <p className="text-white font-medium text-sm mt-1">$20.00</p>

@@ -130,14 +130,14 @@ export default function TestregCheckout({
           type="button"
           onClick={onBack}
           variant="outline"
-          className="border-slate-700 text-white hover:bg-slate-800 bg-transparent"
+          className="text-white bg-transparent" style={{ borderColor: "var(--nec-border)" }}
         >
           Back
         </Button>
-        <div className="bg-white rounded-lg p-4 min-h-[400px] flex items-center justify-center">
+        <div className="rounded-2xl p-4 min-h-[400px] flex items-center justify-center" style={{ background: "rgba(26,34,54,0.9)", border: "1px solid var(--nec-border)" }}>
           <div className="text-center space-y-2">
-            <p className="text-red-600 font-semibold">Payment Error</p>
-            <p className="text-gray-600">{error}</p>
+            <p className="text-red-400 font-semibold">Payment Error</p>
+            <p className="text-gray-400">{error}</p>
           </div>
         </div>
       </div>
@@ -150,25 +150,25 @@ export default function TestregCheckout({
         type="button"
         onClick={onBack}
         variant="outline"
-        className="border-slate-700 text-white hover:bg-slate-800 bg-transparent"
+        className="text-white bg-transparent" style={{ borderColor: "var(--nec-border)" }}
       >
         Back
       </Button>
 
       {/* Registration Fee + Breakfast Add-ons */}
-      <div className="bg-slate-800 rounded-lg p-5 border border-slate-700">
+      <div className="rounded-2xl p-5 border" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
         {/* Registration price shown prominently */}
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-base font-semibold text-white">Registration Fee</h3>
-            <p className="text-slate-400 text-xs">NECYPAA XXXVI - The Archway of Freedom</p>
+            <p className="text-gray-400 text-xs">NECYPAA XXXVI - The Archway of Freedom</p>
           </div>
-          <span className="text-xl font-bold text-amber-400">${registrationFee.toFixed(2)}</span>
+          <span className="text-xl font-bold" style={{ color: "var(--nec-gold)" }}>${registrationFee.toFixed(2)}</span>
         </div>
 
-        <div className="border-t border-slate-700 pt-3">
-          <p className="text-sm text-slate-300 mb-2">
-            Add breakfast tickets <span className="text-slate-500">($20 each)</span>
+        <div className="border-t pt-3" style={{ borderColor: "var(--nec-border)" }}>
+          <p className="text-sm text-gray-300 mb-2">
+            Add breakfast tickets <span className="text-gray-500">($20 each)</span>
           </p>
 
           <div className="space-y-2">
@@ -182,11 +182,11 @@ export default function TestregCheckout({
                     !breakfastSelections[fridayProduct.id]
                   )
                 }
-                className={`w-full text-left rounded-md px-3 py-2.5 transition-colors border ${
-                  breakfastSelections[fridayProduct.id]
-                    ? "bg-amber-600/20 border-amber-500"
-                    : "bg-amber-900/10 border-amber-700/30 hover:border-amber-600/60"
-                }`}
+                className="w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
+                style={{
+                  background: breakfastSelections[fridayProduct.id] ? "rgba(249,115,22,0.12)" : "rgba(249,115,22,0.04)",
+                  borderColor: breakfastSelections[fridayProduct.id] ? "rgba(249,115,22,0.5)" : "rgba(249,115,22,0.15)",
+                }}
               >
                 <div className="flex items-center gap-2.5">
                   <Checkbox
@@ -195,7 +195,7 @@ export default function TestregCheckout({
                     onCheckedChange={(checked) =>
                       handleToggleBreakfast(fridayProduct.id, checked as boolean)
                     }
-                    className="border-amber-600 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                    className="border-orange-600 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
                     onClick={(e) => e.stopPropagation()}
                   />
                   <div className="flex-1 min-w-0">
@@ -205,7 +205,7 @@ export default function TestregCheckout({
                       </Label>
                       <span className="text-sm text-white font-medium">$20</span>
                     </div>
-                    <p className="text-amber-400 text-xs mt-0.5">
+                    <p className="text-orange-400 text-xs mt-0.5">
                       Most restaurants closed -- start your new year with fellowship!
                     </p>
                   </div>
@@ -222,11 +222,11 @@ export default function TestregCheckout({
                   onClick={() =>
                     handleToggleBreakfast(bp.id, !breakfastSelections[bp.id])
                   }
-                  className={`w-full text-left rounded-md px-3 py-2.5 transition-colors border ${
-                    breakfastSelections[bp.id]
-                      ? "bg-slate-700/60 border-amber-500"
-                      : "bg-slate-800/60 border-slate-600 hover:border-slate-500"
-                  }`}
+                  className="w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
+                  style={{
+                    background: breakfastSelections[bp.id] ? "rgba(42,53,82,0.6)" : "rgba(26,34,54,0.6)",
+                    borderColor: breakfastSelections[bp.id] ? "rgba(249,115,22,0.5)" : "var(--nec-border)",
+                  }}
                 >
                   <div className="flex items-center gap-2.5">
                     <Checkbox
@@ -235,7 +235,7 @@ export default function TestregCheckout({
                       onCheckedChange={(checked) =>
                         handleToggleBreakfast(bp.id, checked as boolean)
                       }
-                      className="border-slate-500 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                      className="border-gray-600 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
                       onClick={(e) => e.stopPropagation()}
                     />
                     <div className="flex-1 flex items-center justify-between">
@@ -252,24 +252,24 @@ export default function TestregCheckout({
         </div>
 
         {/* Inline order summary */}
-        <div className="border-t border-slate-700 mt-4 pt-3 space-y-1.5 text-sm">
-          <div className="flex justify-between text-slate-300">
+        <div className="border-t mt-4 pt-3 space-y-1.5 text-sm" style={{ borderColor: "var(--nec-border)" }}>
+          <div className="flex justify-between text-gray-300">
             <span>Registration</span>
             <span className="text-white">${registrationFee.toFixed(2)}</span>
           </div>
           {selectedBreakfasts.map((bp) => (
-            <div key={bp.id} className="flex justify-between text-slate-300">
+            <div key={bp.id} className="flex justify-between text-gray-300">
               <span>Breakfast - {bp.id === "breakfast-friday" ? "Friday" : bp.id === "breakfast-saturday" ? "Saturday" : "Sunday"}</span>
               <span className="text-white">${(bp.priceInCents / 100).toFixed(2)}</span>
             </div>
           ))}
-          <div className="flex justify-between text-slate-400 text-xs">
+          <div className="flex justify-between text-gray-400 text-xs">
             <span>Processing fee (2.9% + $0.30)</span>
             <span>${processingFee.toFixed(2)}</span>
           </div>
-          <div className="border-t border-slate-600 pt-2 mt-1 flex justify-between font-bold">
+          <div className="border-t pt-2 mt-1 flex justify-between font-bold" style={{ borderColor: "var(--nec-border)" }}>
             <span className="text-white">Total</span>
-            <span className="text-amber-400">${totalAmount.toFixed(2)}</span>
+            <span style={{ color: "var(--nec-gold)" }}>${totalAmount.toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -278,7 +278,8 @@ export default function TestregCheckout({
       {!checkoutReady ? (
         <Button
           onClick={handleProceedToPayment}
-          className="w-full bg-amber-600 hover:bg-amber-700 text-white py-6 text-lg font-semibold"
+          className="w-full text-white py-6 text-lg font-bold"
+          style={{ background: "var(--nec-pink)", boxShadow: "0 2px 16px rgba(232,0,110,0.3)" }}
           disabled={!stripePromise}
         >
           Proceed to Payment - ${totalAmount.toFixed(2)}

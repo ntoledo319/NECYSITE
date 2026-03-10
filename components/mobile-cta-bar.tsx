@@ -8,9 +8,10 @@ export default function MobileCtaBar() {
     <div
       className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-2 p-3"
       style={{
-        background: "rgba(11,18,32,0.97)",
-        backdropFilter: "blur(12px)",
-        borderTop: "1px solid rgba(42,53,82,0.8)",
+        background: "rgba(11,18,32,0.98)",
+        backdropFilter: "blur(16px)",
+        borderTop: "1px solid rgba(42,53,82,0.6)",
+        boxShadow: "0 -4px 24px rgba(0,0,0,0.4)",
       }}
     >
       <Link

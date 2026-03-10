@@ -11,7 +11,7 @@ export default function MeetingsSection() {
     <section id="meetings" aria-label="Young people's meetings in Connecticut" className="px-4 md:px-0">
       <div className="mb-6">
         <span className="section-badge">Connecticut AA</span>
-        <h2 className="section-heading mt-3">Young People&apos;s Meetings in Connecticut</h2>
+        <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Young People&apos;s Meetings in Connecticut</h2>
         <p className="mt-2 text-sm text-gray-400">
           Click any meeting name to view details on the CT-AA website. On desktop, click the arrow
           to expand the full address and meeting types.
@@ -19,10 +19,10 @@ export default function MeetingsSection() {
       </div>
 
       {/* Desktop table */}
-      <div className="hidden md:block overflow-x-auto rounded-2xl" style={{ border: "1px solid var(--nec-border)" }}>
+      <div className="hidden md:block overflow-x-auto rounded-2xl" style={{ border: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.25)" }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr style={{ background: "var(--nec-card)", borderBottom: "1px solid var(--nec-border)" }}>
+            <tr style={{ background: "linear-gradient(135deg, rgba(26,34,54,0.95) 0%, rgba(17,24,39,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Day</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Time</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Meeting</th>
@@ -50,9 +50,10 @@ export default function MeetingsSection() {
       {/* Add your meeting */}
       <div
         className="mt-6 nec-card p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+        style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)" }}
       >
         <div className="flex-1">
-          <h3 className="font-bold text-white mb-1">Add Your Meeting</h3>
+          <h3 className="font-bold text-white mb-1" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Add Your Meeting</h3>
           <p className="text-sm text-gray-400">
             Know of a young people&apos;s meeting that&apos;s not on our list? Send us the details and we&apos;ll
             get it added.
@@ -63,8 +64,9 @@ export default function MeetingsSection() {
           className="inline-flex items-center gap-2 font-semibold text-sm rounded-xl px-4 py-2.5 transition-all duration-200 flex-shrink-0"
           style={{
             background: "rgba(0,212,232,0.10)",
-            border: "1px solid rgba(0,212,232,0.30)",
+            border: "1px solid rgba(0,212,232,0.25)",
             color: "var(--nec-cyan)",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
         >
           <Mail className="w-4 h-4" />

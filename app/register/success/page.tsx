@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { CheckCircle, Hotel, Home, Mail, ArrowRight } from "lucide-react"
 import { HOTEL_BOOKING_URL, CONTACT_EMAIL } from "@/lib/constants"
@@ -8,35 +7,26 @@ import { HOTEL_BOOKING_URL, CONTACT_EMAIL } from "@/lib/constants"
 export default function RegistrationSuccessPage() {
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-16"
       style={{ background: "var(--nec-navy)" }}
     >
-      {/* CT state art watermark */}
-      <div className="absolute right-0 top-1/3 w-[300px] h-[360px] pointer-events-none select-none opacity-[0.03]">
-        <Image
-          src="/images/ct-state-art.webp"
-          alt=""
-          fill
-          className="object-contain object-right"
-          aria-hidden="true"
-        />
-      </div>
-
       {/* Top accent bar */}
       <div
-        className="fixed top-0 left-0 right-0 h-1 z-50"
+        className="fixed top-0 left-0 right-0 h-[2px] z-50"
         style={{
-          background: "linear-gradient(90deg, var(--nec-pink), var(--nec-cyan), var(--nec-orange))",
+          background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)",
+          boxShadow: "0 0 12px rgba(0,212,232,0.3), 0 0 24px rgba(232,0,110,0.15)",
         }}
       />
 
       <div className="w-full max-w-lg space-y-6">
         {/* Success card */}
         <div
-          className="rounded-2xl p-8 md:p-10 text-center space-y-5"
+          className="rounded-2xl p-8 md:p-10 text-center space-y-5 backdrop-blur-sm"
           style={{
-            background: "linear-gradient(135deg, rgba(0,212,232,0.08) 0%, rgba(232,0,110,0.06) 100%)",
-            border: "1px solid rgba(0,212,232,0.25)",
+            background: "linear-gradient(135deg, rgba(0,212,232,0.08) 0%, rgba(26,34,54,0.7) 50%, rgba(232,0,110,0.05) 100%)",
+            border: "1px solid rgba(0,212,232,0.20)",
+            boxShadow: "0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)",
           }}
         >
           {/* Icon */}
@@ -44,8 +34,9 @@ export default function RegistrationSuccessPage() {
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center"
               style={{
-                background: "rgba(0,212,232,0.12)",
-                border: "2px solid rgba(0,212,232,0.40)",
+                background: "rgba(0,212,232,0.10)",
+                border: "2px solid rgba(0,212,232,0.35)",
+                boxShadow: "0 0 24px rgba(0,212,232,0.15), 0 4px 16px rgba(0,0,0,0.3)",
               }}
             >
               <CheckCircle
@@ -59,6 +50,7 @@ export default function RegistrationSuccessPage() {
           <div className="space-y-2">
             <h1
               className="text-3xl font-black text-white"
+              style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
             >
               You&apos;re Registered!
             </h1>
@@ -88,7 +80,7 @@ export default function RegistrationSuccessPage() {
             <div className="flex items-start gap-3">
               <div
                 className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                style={{ background: "rgba(0,212,232,0.15)", color: "var(--nec-cyan)" }}
+                style={{ background: "rgba(0,212,232,0.12)", color: "var(--nec-cyan)", border: "1px solid rgba(0,212,232,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
               >
                 1
               </div>
@@ -104,7 +96,7 @@ export default function RegistrationSuccessPage() {
             <div className="flex items-start gap-3">
               <div
                 className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                style={{ background: "rgba(0,212,232,0.15)", color: "var(--nec-cyan)" }}
+                style={{ background: "rgba(0,212,232,0.12)", color: "var(--nec-cyan)", border: "1px solid rgba(0,212,232,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
               >
                 2
               </div>
@@ -119,7 +111,7 @@ export default function RegistrationSuccessPage() {
             <div className="flex items-start gap-3">
               <div
                 className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                style={{ background: "rgba(0,212,232,0.15)", color: "var(--nec-cyan)" }}
+                style={{ background: "rgba(0,212,232,0.12)", color: "var(--nec-cyan)", border: "1px solid rgba(0,212,232,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
               >
                 3
               </div>
@@ -157,7 +149,7 @@ export default function RegistrationSuccessPage() {
         {/* Help */}
         <div
           className="rounded-xl p-4 text-center space-y-1"
-          style={{ background: "var(--nec-card)", border: "1px solid var(--nec-border)" }}
+          style={{ background: "linear-gradient(135deg, rgba(26,34,54,0.9) 0%, rgba(17,24,39,0.95) 100%)", border: "1px solid var(--nec-border)", boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03)" }}
         >
           <p className="text-xs text-gray-400">Questions or need help with your registration?</p>
           <a

@@ -53,10 +53,10 @@ export default function SiteHeader() {
               onClick={close}
             >
               <Image
-                src="/images/necypaa-logo.png"
+                src="/images/necypaa-logo-transparent.webp"
                 alt="NECYPAA XXXVi"
-                width={700}
-                height={490}
+                width={720}
+                height={462}
                 className="h-10 w-auto group-hover:opacity-90 transition-opacity"
                 priority
               />

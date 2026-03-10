@@ -1,6 +1,3 @@
-"use client"
-
-import Image from "next/image"
 import Link from "next/link"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL, CONTACT_EMAIL } from "@/lib/constants"
 import { Mail, ExternalLink } from "lucide-react"
@@ -8,24 +5,16 @@ import { Mail, ExternalLink } from "lucide-react"
 export default function SiteFooter() {
   return (
     <footer
-      className="mt-24 border-t relative overflow-hidden"
-      style={{ borderColor: "var(--nec-border)", background: "var(--nec-dark)" }}
+      className="mt-24 relative overflow-hidden"
+      style={{ background: "linear-gradient(180deg, rgba(11,18,32,1) 0%, rgba(8,13,24,1) 100%)" }}
     >
-      {/* Logo watermark behind footer */}
-      <div className="absolute right-0 bottom-0 w-[400px] h-[280px] pointer-events-none select-none opacity-[0.03] -z-0">
-        <Image
-          src="/images/necypaa-logo.webp"
-          alt=""
-          fill
-          className="object-contain object-right-bottom"
-          aria-hidden="true"
-        />
-      </div>
-
       {/* Top accent bar */}
       <div
-        className="h-1 w-full"
-        style={{ background: "linear-gradient(90deg, var(--nec-pink) 0%, var(--nec-cyan) 50%, var(--nec-orange) 100%)" }}
+        className="h-[2px] w-full"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)",
+          boxShadow: "0 0 12px rgba(0,212,232,0.3), 0 0 24px rgba(232,0,110,0.15)",
+        }}
       />
 
       <div className="container mx-auto px-4 py-12 relative z-10">
@@ -34,7 +23,7 @@ export default function SiteFooter() {
           <div className="space-y-3">
             <h2
               className="text-xl font-black uppercase tracking-tight"
-              style={{ color: "var(--nec-cyan)" }}
+              style={{ color: "var(--nec-cyan)", textShadow: "0 0 16px rgba(0,212,232,0.25)" }}
             >
               NECYPAA XXXVI
             </h2>
@@ -47,7 +36,7 @@ export default function SiteFooter() {
 
           {/* Links column */}
           <div className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400">Quick Links</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/register" className="text-sm text-gray-300 hover:text-white transition-colors">
@@ -89,7 +78,7 @@ export default function SiteFooter() {
 
           {/* Contact column */}
           <div className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400">Contact</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Contact</h3>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors"
@@ -105,8 +94,8 @@ export default function SiteFooter() {
 
         {/* Bottom bar */}
         <div
-          className="mt-10 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500"
-          style={{ borderColor: "var(--nec-border)" }}
+          className="mt-10 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600"
+          style={{ borderColor: "rgba(42,53,82,0.5)" }}
         >
           <p>
             © {new Date().getFullYear()} NECYPAA XXXVI CT Host Committee · All rights reserved.

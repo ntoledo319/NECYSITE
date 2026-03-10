@@ -86,13 +86,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         {enableScholarship && (
-          <div className="bg-slate-900/30 rounded-lg border border-slate-700/70 p-3">
+          <div className="rounded-xl border p-3" style={{ background: "rgba(0,212,232,0.04)", borderColor: "var(--nec-border)" }}>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-slate-300 text-center sm:text-left">Buying registration for someone else?</p>
+              <p className="text-sm text-gray-300 text-center sm:text-left">Buying registration for someone else?</p>
               <Button
                 type="button"
                 onClick={handleScholarshipQuickStart}
-                className="w-full sm:w-auto bg-slate-700 hover:bg-slate-600 text-white h-9 px-4"
+                className="w-full sm:w-auto text-white h-9 px-4" style={{ background: "rgba(42,53,82,0.8)", border: "1px solid var(--nec-border)" }}
               >
                 Scholarship
               </Button>
@@ -102,7 +102,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="name" className="text-white">
-            Name <span className="text-amber-500">*</span>
+            Name <span className="text-pink-400">*</span>
           </Label>
           <Input
             id="name"
@@ -110,13 +110,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="bg-slate-800 border-slate-700 text-white"
+            className="text-white"
           />
         </div>
 
         <div>
           <Label htmlFor="state" className="text-white">
-            State <span className="text-amber-500">*</span>
+            State <span className="text-pink-400">*</span>
           </Label>
           <Input
             id="state"
@@ -124,13 +124,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             required
             value={formData.state}
             onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-            className="bg-slate-800 border-slate-700 text-white"
+            className="text-white"
           />
         </div>
 
         <div>
           <Label htmlFor="email" className="text-white">
-            Email <span className="text-amber-500">*</span>
+            Email <span className="text-pink-400">*</span>
           </Label>
           <Input
             id="email"
@@ -138,7 +138,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             required
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="bg-slate-800 border-slate-700 text-white"
+            className="text-white"
           />
         </div>
 
@@ -150,7 +150,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             id="accommodations"
             value={formData.accommodations}
             onChange={(e) => setFormData({ ...formData, accommodations: e.target.value })}
-            className="bg-slate-800 border-slate-700 text-white"
+            className="text-white"
             placeholder="Please describe any accommodation needs"
           />
         </div>
@@ -161,7 +161,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               id="interpretationNeeded"
               checked={formData.interpretationNeeded}
               onCheckedChange={(checked) => setFormData({ ...formData, interpretationNeeded: checked as boolean })}
-              className="border-slate-700"
+              className="border-gray-700"
             />
             <Label htmlFor="interpretationNeeded" className="text-white font-normal">
               Interpretation Needed
@@ -173,7 +173,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               id="handicapAccessibility"
               checked={formData.handicapAccessibility}
               onCheckedChange={(checked) => setFormData({ ...formData, handicapAccessibility: checked as boolean })}
-              className="border-slate-700"
+              className="border-gray-700"
             />
             <Label htmlFor="handicapAccessibility" className="text-white font-normal">
               Handicap Accessibility
@@ -185,7 +185,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               id="willingToServe"
               checked={formData.willingToServe}
               onCheckedChange={(checked) => setFormData({ ...formData, willingToServe: checked as boolean })}
-              className="border-slate-700"
+              className="border-gray-700"
             />
             <Label htmlFor="willingToServe" className="text-white font-normal">
               Willing to be of Service
@@ -195,7 +195,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="homegroup" className="text-white">
-            Homegroup/Committee <span className="text-amber-500">*</span>
+            Homegroup/Committee <span className="text-pink-400">*</span>
           </Label>
           <Input
             id="homegroup"
@@ -203,12 +203,17 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             required
             value={formData.homegroup}
             onChange={(e) => setFormData({ ...formData, homegroup: e.target.value })}
-            className="bg-slate-800 border-slate-700 text-white"
+            className="text-white"
           />
         </div>
       </div>
 
-      <Button type="submit" disabled={!isFormValid()} className="w-full bg-amber-600 hover:bg-amber-700 text-white">
+      <Button
+        type="submit"
+        disabled={!isFormValid()}
+        className="w-full text-white font-bold"
+        style={{ background: "var(--nec-pink)", boxShadow: "0 2px 12px rgba(232,0,110,0.25)" }}
+      >
         Continue to Policy Agreement
       </Button>
     </form>

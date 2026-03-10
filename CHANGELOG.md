@@ -6,6 +6,14 @@
 
 *Full site polish, UX overhaul, and brand pass — with full art integration. Branch: `feat/site-polish-ux-brand-pass`. — Nikki*
 
+### Changed
+- **Full site visual makeover** — Nuked every last `slate-` and `amber-` Tailwind class across the entire codebase. Replaced with NECYPAA brand palette (navy, cyan, pink, orange, gold). Every card, button, border, checkbox, input, and summary block now speaks the same visual language. Components hit: `registration-checkout`, `registration-confirmation`, `registration-form`, `policy-agreement`, `breakfast-checkout`, `breakfast-ticket-selector`, `testreg-checkout`, `breakfast/page`, `cash/page`. No more "default Next.js starter kit" energy.
+- **Glassmorphic card surfaces everywhere** — All form containers, summary blocks, and attribution sections upgraded to `rounded-2xl` with `rgba(26,34,54,0.6)` backgrounds, `var(--nec-border)` borders, and subtle `backdrop-blur`. Consistent depth across all pages.
+- **CTA buttons unified** — All primary action buttons now use `var(--nec-pink)` with glow shadows. Back buttons use transparent outline with brand border. No more random `bg-amber-600` or `bg-blue-600`.
+
+### Fixed
+- **Build crash on static generation** — `quick-facts-strip.tsx` used `onMouseEnter`/`onMouseLeave` event handlers without `"use client"` directive. Next.js rightfully yelled about serializing event handlers in a Server Component. Added the directive, build passes clean.
+
 ### Art Integration (New)
 - Image optimization: All upscaled art assets compressed (14MB → 68KB, 22MB → 81KB, etc.)
 - `components/section-divider.tsx` — branded gradient dividers with neon glow and CSS splatter effects

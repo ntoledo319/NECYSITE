@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 
@@ -58,12 +60,18 @@ export default function QuickFactsStrip() {
           const inner = (
             <div
               key={fact.label}
-              className="fact-pill group transition-all duration-200 hover:border-opacity-60"
-              style={
-                fact.href
-                  ? { cursor: "pointer" }
-                  : undefined
-              }
+              className="fact-pill group transition-all duration-200"
+              style={{
+                cursor: fact.href ? "pointer" : undefined,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = `${fact.color}40`
+                e.currentTarget.style.boxShadow = `0 0 0 1px ${fact.color}15, 0 4px 20px rgba(0,0,0,0.3)`
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--nec-border)"
+                e.currentTarget.style.boxShadow = "0 1px 8px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.03)"
+              }}
             >
               <span className="text-2xl">{fact.icon}</span>
               <span
@@ -74,7 +82,7 @@ export default function QuickFactsStrip() {
               </span>
               <span
                 className="text-sm font-black leading-tight"
-                style={{ color: fact.color }}
+                style={{ color: fact.color, textShadow: `0 0 12px ${fact.color}30` }}
               >
                 {fact.value}
               </span>
