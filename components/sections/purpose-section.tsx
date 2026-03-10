@@ -1,0 +1,115 @@
+"use client"
+
+import Image from "next/image"
+
+export default function PurposeSection() {
+  const pillars = [
+    {
+      icon: "🤝",
+      title: "Fellowship",
+      body: "Connect with young people in recovery from across the Northeast. NECYPAA is built on AA principles and the shared experience of getting and staying sober.",
+    },
+    {
+      icon: "🎤",
+      title: "AA Speakers",
+      body: "World-class speaker meetings, workshops, and panels — all grounded in the AA program and the Twelve Steps.",
+    },
+    {
+      icon: "🎉",
+      title: "Celebration",
+      body: "Four days of dancing, music, meetings, and memories. Proof that recovery doesn't just work — it's genuinely joyful.",
+    },
+    {
+      icon: "🌱",
+      title: "New to NECYPAA?",
+      body: "You don't need to be young. You don't need years of sobriety. You just need to be curious. All are welcome — come as you are.",
+    },
+  ]
+
+  return (
+    <section id="purpose" aria-label="About NECYPAA" className="px-4 md:px-0 relative overflow-hidden">
+      {/* CT state art watermark - III Points highlight bubble style */}
+      <div className="absolute right-0 top-1/4 w-[400px] h-[500px] pointer-events-none select-none opacity-[0.04] md:opacity-[0.06] -z-0">
+        <Image
+          src="/images/ct-state-art.webp"
+          alt=""
+          fill
+          className="object-contain object-right"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="relative z-10">
+        <div className="mb-8">
+          <span className="section-badge mb-4">About NECYPAA</span>
+          <h2 className="section-heading mt-3">What is NECYPAA?</h2>
+          <p className="mt-3 text-base text-gray-400 max-w-2xl">
+            Founded in 1989, the Northeast Convention of Young People in Alcoholics Anonymous brings
+            together young people in recovery for an annual multi-day conference. NECYPAA has been a
+            cornerstone of AA service and fellowship across the Northeast for over three decades.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {pillars.map((p) => (
+            <div
+              key={p.title}
+              className="nec-card p-5 space-y-3 transition-all duration-200"
+            >
+              <span className="text-3xl">{p.icon}</span>
+              <h3 className="font-bold text-white text-base">{p.title}</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">{p.body}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* First-timer callout */}
+        <div
+          className="rounded-2xl p-6 md:p-8 relative overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, rgba(0,212,232,0.08) 0%, rgba(232,0,110,0.06) 100%)",
+            border: "1px solid rgba(0,212,232,0.2)",
+          }}
+        >
+          {/* Subtle CT art watermark in callout */}
+          <div className="absolute right-4 bottom-4 w-[150px] h-[180px] pointer-events-none select-none opacity-[0.03] md:opacity-[0.05]">
+            <Image
+              src="/images/ct-state-art.webp"
+              alt=""
+              fill
+              className="object-contain"
+              aria-hidden="true"
+            />
+          </div>
+
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
+            <div className="flex-1 space-y-2">
+              <h3 className="text-lg font-bold text-white">First time at NECYPAA?</h3>
+              <p className="text-sm text-gray-400 leading-relaxed max-w-xl">
+                NECYPAA is an open AA event — you don&apos;t need any particular amount of sobriety or
+                age to attend. If you&apos;re in AA (or curious about it), you belong here. We&apos;ll have
+                speaker meetings, workshops, dances, and a whole lot of fellowship from Dec 31 – Jan 3
+                at the Hartford Marriott Downtown.
+              </p>
+              <p className="text-sm font-semibold" style={{ color: "var(--nec-cyan)" }}>
+                Questions? Reach out at{" "}
+                <a
+                  href="mailto:ctbidfornecypaa@gmail.com"
+                  className="underline underline-offset-2 hover:opacity-80 transition-opacity"
+                >
+                  ctbidfornecypaa@gmail.com
+                </a>
+              </p>
+            </div>
+            <div
+              className="hidden md:flex flex-shrink-0 w-16 h-16 rounded-2xl items-center justify-center text-3xl"
+              style={{ background: "rgba(0,212,232,0.12)", border: "1px solid rgba(0,212,232,0.25)" }}
+            >
+              👋
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

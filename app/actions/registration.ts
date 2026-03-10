@@ -49,7 +49,7 @@ export async function startRegistrationCheckout(
     throw new Error("Policy agreement is required for non-scholarship registrations")
   }
 
-  console.log("[v0] Creating checkout for product:", product.name, "Price:", product.priceInCents)
+  console.log("Creating checkout for product:", product.name, "Price:", product.priceInCents)
 
   const sanitizedScholarshipQuantity =
     Number.isInteger(scholarshipQuantity) && scholarshipQuantity >= 0 ? scholarshipQuantity : 0
@@ -63,7 +63,7 @@ export async function startRegistrationCheckout(
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
   const subtotalInCents = product.priceInCents * totalRegistrationQuantity + breakfastTotalCents
   const processingFee = calculateProcessingFee(subtotalInCents)
-  console.log("[v0] Processing fee:", processingFee)
+  console.log("Processing fee:", processingFee)
 
   const metadata = {
     purchase_type:
@@ -97,12 +97,13 @@ export async function startRegistrationCheckout(
     policy_signature_agreement: policyAgreements ? policyAgreements.signatureAgreement.toString() : "not_applicable",
   }
 
-  const hotelBookingUrl = "https://www.marriott.com/event-reservations/reservation-link.mi?id=1770049957031&key=GRP&app=resvlink"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.necypaact.com"
+  const successUrl = `${baseUrl}/register/success?session_id={CHECKOUT_SESSION_ID}`
 
   try {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
-      return_url: hotelBookingUrl,
+      return_url: successUrl,
       customer_email: registrationData.email || undefined,
       line_items: [
         ...(selfRegistrationQuantity > 0
@@ -165,8 +166,8 @@ export async function startRegistrationCheckout(
       },
     })
 
-    console.log("[v0] Stripe session created with ID:", session.id)
-    console.log("[v0] Client secret exists:", !!session.client_secret)
+    console.log("Stripe session created with ID:", session.id)
+    console.log("Client secret exists:", !!session.client_secret)
 
     if (!session.client_secret) {
       throw new Error("No client secret returned from Stripe")
@@ -174,7 +175,7 @@ export async function startRegistrationCheckout(
 
     return session.client_secret
   } catch (error) {
-    console.error("[v0] Stripe session creation failed:", error)
+    console.error("Stripe session creation failed:", error)
     throw error
   }
 }

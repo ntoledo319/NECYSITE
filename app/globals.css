@@ -2,8 +2,175 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────
+   NECYPAA Design Tokens – sourced from flyer
+   Palette: cyan/aqua · hot pink · orange/gold
+            deep navy · charcoal · white
+   ───────────────────────────────────────────── */
+:root {
+  --nec-cyan:     #00d4e8;
+  --nec-cyan-dim: #00afc0;
+  --nec-pink:     #e8006e;
+  --nec-pink-dim: #c0005a;
+  --nec-orange:   #f97316;
+  --nec-gold:     #fbbf24;
+  --nec-navy:     #0b1220;
+  --nec-dark:     #111827;
+  --nec-card:     #1a2236;
+  --nec-border:   #2a3552;
+  --nec-text:     #e2e8f0;
+  --nec-muted:    #8896ae;
+
+  --radius: 0.75rem;
+}
+
 @layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
   body {
-    @apply bg-gray-900 text-gray-100;
+    background-color: var(--nec-navy);
+    color: var(--nec-text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
+
+  /* Anchor scroll offset for sticky header */
+  [id] { scroll-margin-top: 80px; }
+}
+
+@layer components {
+  /* ── Branded section badge ─────────────────── */
+  .section-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest;
+    background: rgba(0,212,232,0.12);
+    border: 1px solid rgba(0,212,232,0.35);
+    color: var(--nec-cyan);
+  }
+
+  /* ── Section heading ───────────────────────── */
+  .section-heading {
+    @apply text-3xl md:text-4xl font-black leading-tight;
+    color: #fff;
+  }
+
+  /* ── Cyan gradient heading ─────────────────── */
+  .heading-cyan {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, var(--nec-cyan) 0%, #7dd3fc 100%);
+  }
+
+  /* ── Primary CTA button (pink) ─────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 font-black text-base uppercase tracking-wide
+           text-white rounded-xl px-7 py-3 transition-all duration-200 shadow-lg;
+    background: var(--nec-pink);
+    box-shadow: 0 4px 20px rgba(232,0,110,0.35);
+  }
+  .btn-primary:hover {
+    background: var(--nec-pink-dim);
+    box-shadow: 0 6px 28px rgba(232,0,110,0.55);
+    transform: translateY(-1px);
+  }
+
+  /* ── Secondary CTA button (cyan) ──────────────*/
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 font-bold text-base uppercase tracking-wide
+           rounded-xl px-7 py-3 transition-all duration-200;
+    color: var(--nec-navy);
+    background: var(--nec-cyan);
+    box-shadow: 0 4px 20px rgba(0,212,232,0.30);
+  }
+  .btn-secondary:hover {
+    background: var(--nec-cyan-dim);
+    box-shadow: 0 6px 28px rgba(0,212,232,0.50);
+    transform: translateY(-1px);
+  }
+
+  /* ── Ghost button (outlined) ───────────────── */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 font-bold text-sm uppercase tracking-wide
+           rounded-xl px-5 py-2.5 transition-all duration-200;
+    border: 1.5px solid var(--nec-border);
+    color: var(--nec-text);
+  }
+  .btn-ghost:hover {
+    border-color: var(--nec-cyan);
+    color: var(--nec-cyan);
+  }
+
+  /* ── Card surface ──────────────────────────── */
+  .nec-card {
+    background: var(--nec-card);
+    border: 1px solid var(--nec-border);
+    @apply rounded-2xl;
+  }
+  .nec-card:hover {
+    border-color: rgba(0,212,232,0.40);
+    box-shadow: 0 0 0 1px rgba(0,212,232,0.15), 0 8px 32px rgba(0,0,0,0.40);
+  }
+
+  /* ── Neon glow accent text ─────────────────── */
+  .glow-cyan  { text-shadow: 0 0 18px rgba(0,212,232,0.60); }
+  .glow-pink  { text-shadow: 0 0 18px rgba(232,0,110,0.60); }
+  .glow-gold  { text-shadow: 0 0 18px rgba(251,191,36,0.60); }
+
+  /* ── Quick-facts pill ──────────────────────── */
+  .fact-pill {
+    @apply flex flex-col items-center gap-1 px-4 py-3 rounded-xl text-center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--nec-border);
+  }
+
+  /* ── Splatter accent (CSS-only pseudo decoration) */
+  .splatter-top::before {
+    content: '';
+    position: absolute;
+    top: -8px; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 4px;
+    background: linear-gradient(90deg, var(--nec-pink), var(--nec-cyan));
+    border-radius: 99px;
+    opacity: 0.7;
+  }
+}
+
+/* ── Scroll fade-in utility ─────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.5s ease both; }
+
+/* ── Sticky bottom bar z-index ──────────────── */
+.sticky-cta-bar { z-index: 49; }
+
+/* ── Art watermark utility ─────────────────── */
+.art-watermark {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.06;
+}
+
+/* ── Ambient glow blob utility ─────────────── */
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  mix-blend-mode: screen;
+}
+
+/* ── Enhanced card hover with neon border ───── */
+.nec-card-hover {
+  transition: all 0.2s ease;
+}
+.nec-card-hover:hover {
+  border-color: rgba(0, 212, 232, 0.5);
+  box-shadow: 
+    0 0 0 1px rgba(0, 212, 232, 0.2),
+    0 0 30px rgba(0, 212, 232, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
