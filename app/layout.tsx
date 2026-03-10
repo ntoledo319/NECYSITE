@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Plus_Jakarta_Sans, Outfit, Bangers, Pacifico } from "next/font/google"
 import "./globals.css"
 import SiteHeader from "@/components/site-header"
@@ -25,6 +25,12 @@ const pacifico = Pacifico({
   subsets: ["latin"],
   variable: "--font-script",
 })
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.necypaact.com"),
