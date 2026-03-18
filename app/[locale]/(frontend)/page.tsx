@@ -4,7 +4,7 @@ import CTASection from "@/components/sections/cta-section"
 import YpaaNarrativeSection from "@/components/sections/ypaa-narrative-section"
 import BusinessMeetingSection from "@/components/sections/business-meeting-section"
 import MeetingsSection from "@/components/sections/meetings-section"
-import PastEventsSection from "@/components/sections/past-events-section"
+import EventsPreviewSection from "@/components/sections/events-preview-section"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import CharacterDivider from "@/components/character-divider"
@@ -87,14 +87,14 @@ export default function HomePage() {
           <MeetingsSection />
         </div>
 
-        {/* Divider — Mad Hatter leads into past events */}
+        {/* Divider — Mad Hatter leads into events */}
         <div className="container mx-auto px-4 mb-16">
           <CharacterDivider character="mad-hatter" flip />
         </div>
 
-        {/* 7. Past events archive */}
+        {/* 7. Events preview — upcoming + recent past with link to full page */}
         <div className="container mx-auto px-4 mb-4 pb-20 md:pb-4">
-          <PastEventsSection />
+          <EventsPreviewSection />
         </div>
       </main>
 
