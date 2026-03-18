@@ -1,0 +1,38 @@
+import { buildConfig } from "payload"
+import { sqliteAdapter } from "@payloadcms/db-sqlite"
+import { lexicalEditor } from "@payloadcms/richtext-lexical"
+import sharp from "sharp"
+import path from "path"
+import { fileURLToPath } from "url"
+import { Users } from "./collections/Users"
+import { Events } from "./collections/Events"
+import { Media } from "./collections/Media"
+import { BlogPosts } from "./collections/BlogPosts"
+import { FAQ } from "./collections/FAQ"
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+
+export default buildConfig({
+  admin: {
+    user: Users.slug,
+    importMap: {
+      baseDir: path.resolve(dirname),
+    },
+    meta: {
+      titleSuffix: " — NECYPAA XXXVI CMS",
+    },
+  },
+  collections: [Users, Events, BlogPosts, FAQ, Media],
+  secret: process.env.PAYLOAD_SECRET || "NECYPAA-XXXVI-DEV-SECRET-CHANGE-IN-PROD",
+  db: sqliteAdapter({
+    client: {
+      url: process.env.DATABASE_URI || "file:./payload.db",
+    },
+  }),
+  editor: lexicalEditor(),
+  typescript: {
+    outputFile: path.resolve(dirname, "payload-types.ts"),
+  },
+  sharp,
+})

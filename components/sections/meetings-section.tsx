@@ -22,7 +22,7 @@ export default function MeetingsSection() {
       <div className="hidden md:block overflow-x-auto rounded-2xl" style={{ border: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.25)" }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr style={{ background: "linear-gradient(135deg, rgba(26,34,54,0.95) 0%, rgba(17,24,39,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
+            <tr style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.95) 0%, rgba(15,10,30,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Day</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Time</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Meeting</th>
@@ -63,13 +63,13 @@ export default function MeetingsSection() {
           href={`mailto:${CONTACT_EMAIL}`}
           className="inline-flex items-center gap-2 font-semibold text-sm rounded-xl px-4 py-2.5 transition-all duration-200 flex-shrink-0"
           style={{
-            background: "rgba(0,212,232,0.10)",
-            border: "1px solid rgba(0,212,232,0.25)",
+            background: "rgba(124,58,237,0.12)",
+            border: "1px solid rgba(124,58,237,0.25)",
             color: "var(--nec-cyan)",
             boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
         >
-          <Mail className="w-4 h-4" />
+          <Mail className="w-4 h-4" aria-hidden="true" />
           {CONTACT_EMAIL}
         </a>
       </div>

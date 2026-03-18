@@ -23,7 +23,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
       <tr
         className="border-b transition-colors duration-150"
         style={{ borderColor: "var(--nec-border)" }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,212,232,0.03)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(124,58,237,0.04)" }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "transparent" }}
       >
         <td className="p-3 text-gray-300">{meeting.day}</td>
@@ -31,7 +31,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         <td className="p-3 text-gray-300">
           {meeting.url ? (
             <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: "var(--nec-cyan)" }}>
-              {meeting.name}
+              {meeting.name}<span className="sr-only"> (opens in new tab)</span>
             </a>
           ) : (
             meeting.name
@@ -43,7 +43,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         <td className="p-3 text-center">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="focus:outline-none transition-colors"
+            className="transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-cyan)] rounded"
             style={{ color: "var(--nec-cyan)" }}
             aria-expanded={isExpanded}
             aria-label={isExpanded ? "Collapse details" : "Expand details"}
@@ -53,7 +53,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         </td>
       </tr>
       {isExpanded && (
-        <tr style={{ background: "rgba(0,212,232,0.03)", borderBottom: "1px solid var(--nec-border)" }}>
+        <tr style={{ background: "rgba(124,58,237,0.04)", borderBottom: "1px solid var(--nec-border)" }}>
           <td colSpan={7} className="p-4">
             <div className="grid grid-cols-2 gap-4">
               <div>

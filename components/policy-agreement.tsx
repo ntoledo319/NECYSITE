@@ -4,20 +4,11 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+import type { PolicyAgreements } from "@/lib/types"
 
 interface PolicyAgreementProps {
   onComplete: (agreements: PolicyAgreements) => void
   onBack: () => void
-}
-
-export interface PolicyAgreements {
-  readPolicy: boolean
-  understandQuestions: boolean
-  acknowledgeBehavior: boolean
-  understandAdmission: boolean
-  understandReporting: boolean
-  understandInvestigation: boolean
-  signatureAgreement: boolean
 }
 
 export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementProps) {
@@ -35,7 +26,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl p-6 border" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
+      <div className="rounded-2xl p-6 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
         <h3 className="text-xl font-bold text-white mb-4">NECYPAA Non-Discrimination and Anti-Harassment Policy</h3>
         <div className="prose prose-invert max-w-none text-gray-300 space-y-4 max-h-96 overflow-y-auto text-sm">
           <p>
@@ -191,103 +182,111 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
       </div>
 
       <div className="space-y-4">
-        <p className="text-white font-semibold">
+<p className="text-white font-semibold">
           Attendees must check each box in order to be allowed admission to the NECYPAA convention.{" "}
-          <span className="text-pink-400">*</span>
+          <span className="text-pink-400" aria-hidden="true">*</span>
         </p>
+        <p className="text-sm text-gray-500"><span className="text-pink-400" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
 
         <div className="space-y-3">
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="readPolicy"
               checked={agreements.readPolicy}
               onCheckedChange={(checked) => setAgreements({ ...agreements, readPolicy: checked as boolean })}
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="readPolicy" className="text-white font-normal leading-relaxed">
               I have received, read, and understand the NECYPAA Anti-Harassment and Non-Discrimination Policy.{" "}
-              <span className="text-pink-400">*</span>
+              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="understandQuestions"
               checked={agreements.understandQuestions}
               onCheckedChange={(checked) => setAgreements({ ...agreements, understandQuestions: checked as boolean })}
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="understandQuestions" className="text-white font-normal leading-relaxed">
               I understand that any questions I have regarding this policy can be directed to NECYPAA Advisory members.{" "}
-              <span className="text-pink-400">*</span>
+              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="acknowledgeBehavior"
               checked={agreements.acknowledgeBehavior}
               onCheckedChange={(checked) => setAgreements({ ...agreements, acknowledgeBehavior: checked as boolean })}
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="acknowledgeBehavior" className="text-white font-normal leading-relaxed">
               I acknowledge that any behavior deemed unsafe or discriminatory by NECYPAA Advisory and/or NECYPAA Host
               may result in my removal from NECYPAA XXXVI and could lead to a ban from future NECYPAA events.{" "}
-              <span className="text-pink-400">*</span>
+              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="understandAdmission"
               checked={agreements.understandAdmission}
               onCheckedChange={(checked) => setAgreements({ ...agreements, understandAdmission: checked as boolean })}
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="understandAdmission" className="text-white font-normal leading-relaxed">
               I understand that I will not be permitted to enter the NECYPAA convention if I do not check each box on
-              this form. <span className="text-pink-400">*</span>
+              this form. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="understandReporting"
               checked={agreements.understandReporting}
               onCheckedChange={(checked) => setAgreements({ ...agreements, understandReporting: checked as boolean })}
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="understandReporting" className="text-white font-normal leading-relaxed">
               I understand that I have the right to report any behavior deemed unsafe or discriminatory to NECYPAA
-              Advisory and/or NECYPAA Host. <span className="text-pink-400">*</span>
+              Advisory and/or NECYPAA Host. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="understandInvestigation"
               checked={agreements.understandInvestigation}
               onCheckedChange={(checked) =>
                 setAgreements({ ...agreements, understandInvestigation: checked as boolean })
               }
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="understandInvestigation" className="text-white font-normal leading-relaxed">
               I understand that any reports I make will be fully investigated by NECYPAA Advisory.{" "}
-              <span className="text-pink-400">*</span>
+              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
           <div className="flex items-start space-x-3">
-            <Checkbox
+<Checkbox
               id="signatureAgreement"
               checked={agreements.signatureAgreement}
               onCheckedChange={(checked) => setAgreements({ ...agreements, signatureAgreement: checked as boolean })}
               className="mt-1 border-gray-700"
+              aria-required="true"
             />
             <Label htmlFor="signatureAgreement" className="text-white font-normal leading-relaxed">
               I understand that my checking each box serves as a signature and agreement to abide by the NECYPAA
-              Anti-Harassment and Non-Discrimination policy. <span className="text-pink-400">*</span>
+              Anti-Harassment and Non-Discrimination policy. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
         </div>
@@ -298,14 +297,14 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 text-white bg-transparent" style={{ borderColor: "var(--nec-border)" }}
+          className="flex-1 text-white bg-transparent border-[var(--nec-border)]"
         >
           Back
         </Button>
         <Button
           onClick={() => onComplete(agreements)}
           disabled={!allAgreed}
-          className="flex-1 text-white font-bold" style={{ background: "var(--nec-pink)", boxShadow: "0 2px 12px rgba(232,0,110,0.25)" }}
+          className="flex-1 text-white font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
         >
           Continue to Payment
         </Button>

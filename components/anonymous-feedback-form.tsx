@@ -48,8 +48,8 @@ export default function AnonymousFeedbackForm() {
         role="status"
         aria-live="polite"
         style={{
-          background: "rgba(0,212,232,0.06)",
-          border: "1px solid rgba(0,212,232,0.15)",
+          background: "rgba(124,58,237,0.08)",
+          border: "1px solid rgba(124,58,237,0.20)",
         }}
       >
         <CheckCircle className="w-8 h-8 mx-auto mb-3" style={{ color: "var(--nec-cyan)" }} />

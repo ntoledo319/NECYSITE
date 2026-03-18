@@ -10,8 +10,8 @@ export default function SectionDivider({
   const variantStyles = {
     glow: {
       height: "2px",
-      background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)",
-      boxShadow: "0 0 16px rgba(0,212,232,0.4), 0 0 32px rgba(232,0,110,0.2)",
+      background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 20%, var(--nec-pink) 50%, var(--nec-gold) 80%, transparent 100%)",
+      boxShadow: "0 0 16px rgba(124,58,237,0.4), 0 0 32px rgba(192,38,211,0.2)",
     },
     subtle: {
       height: "1px",
@@ -20,8 +20,8 @@ export default function SectionDivider({
     },
     accent: {
       height: "2px",
-      background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 15%, var(--nec-cyan) 50%, var(--nec-orange) 85%, transparent 100%)",
-      boxShadow: "0 0 10px rgba(0,212,232,0.25)",
+      background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 15%, var(--nec-pink) 50%, var(--nec-gold) 85%, transparent 100%)",
+      boxShadow: "0 0 10px rgba(124,58,237,0.25)",
     },
   }
 

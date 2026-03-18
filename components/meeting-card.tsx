@@ -17,7 +17,7 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
     <div
       className="rounded-2xl p-4"
       style={{
-        background: "linear-gradient(135deg, rgba(26,34,54,0.9) 0%, rgba(17,24,39,0.95) 100%)",
+        background: "linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%)",
         border: "1px solid var(--nec-border)",
         boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)",
       }}
@@ -25,8 +25,8 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
       <div
         className="text-white font-bold py-2 px-4 rounded-xl mb-3 text-sm uppercase tracking-wider"
         style={{
-          background: "rgba(0,212,232,0.10)",
-          border: "1px solid rgba(0,212,232,0.20)",
+          background: "rgba(124,58,237,0.12)",
+          border: "1px solid rgba(124,58,237,0.25)",
         }}
       >
         {day}
@@ -41,7 +41,7 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
           <h3 className="text-lg font-bold" style={{ color: "var(--nec-cyan)" }}>
             {meeting.url ? (
               <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                {meeting.name}
+                {meeting.name}<span className="sr-only"> (opens in new tab)</span>
               </a>
             ) : (
               meeting.name

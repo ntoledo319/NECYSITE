@@ -71,7 +71,7 @@ export default function BreakfastTicketSelector({
           (product) => (
             <div
               key={product.id}
-              className="rounded-xl border p-4" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}
+              className="rounded-xl border p-4" style={{ background: "rgba(26,16,48,0.6)", borderColor: "var(--nec-border)" }}
             >
               <div className="flex items-start gap-3">
                 <Checkbox

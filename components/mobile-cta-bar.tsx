@@ -5,12 +5,13 @@ import { HOTEL_BOOKING_URL } from "@/lib/constants"
 
 export default function MobileCtaBar() {
   return (
-    <div
+    <nav
+      aria-label="Quick actions"
       className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-2 px-3 pt-3"
       style={{
-        background: "rgba(11,18,32,0.98)",
+        background: "rgba(15,10,30,0.98)",
         backdropFilter: "blur(16px)",
-        borderTop: "1px solid rgba(42,53,82,0.6)",
+        borderTop: "1px solid rgba(45,31,78,0.6)",
         boxShadow: "0 -4px 24px rgba(0,0,0,0.4)",
         paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
       }}
@@ -27,8 +28,8 @@ export default function MobileCtaBar() {
         rel="noopener noreferrer"
         className="btn-secondary flex-1 !py-2.5 !text-sm"
       >
-        Book Hotel
+        Book Hotel<span className="sr-only"> (opens in new tab)</span>
       </a>
-    </div>
+    </nav>
   )
 }

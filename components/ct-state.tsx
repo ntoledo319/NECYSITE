@@ -9,7 +9,7 @@ export default function CTState({ className }: { className?: string }) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,212,232,0.18) 0%, rgba(232,0,110,0.10) 50%, transparent 75%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(124,58,237,0.20) 0%, rgba(192,38,211,0.10) 50%, transparent 75%)",
           filter: "blur(12px)",
         }}
       />
@@ -30,12 +30,12 @@ export default function CTState({ className }: { className?: string }) {
             y2="270"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%"   stopColor="#00ffcc" />
-            <stop offset="20%"  stopColor="#00d4e8" />
-            <stop offset="45%"  stopColor="#ff44ff" />
-            <stop offset="65%"  stopColor="#e8006e" />
-            <stop offset="80%"  stopColor="#ffd700" />
-            <stop offset="100%" stopColor="#00ffcc" />
+            <stop offset="0%"   stopColor="#7c3aed" />
+            <stop offset="20%"  stopColor="#a855f7" />
+            <stop offset="45%"  stopColor="#c026d3" />
+            <stop offset="65%"  stopColor="#e879f9" />
+            <stop offset="80%"  stopColor="#d4a017" />
+            <stop offset="100%" stopColor="#7c3aed" />
           </linearGradient>
 
           {/* Dark fill — very close to the flyer's interior */}
@@ -74,14 +74,14 @@ export default function CTState({ className }: { className?: string }) {
         <path
           d={path}
           fill="none"
-          stroke="rgba(0,212,232,0.35)"
+          stroke="rgba(124,58,237,0.35)"
           strokeWidth="14"
           style={{ filter: "blur(10px)" }}
         />
         <path
           d={path}
           fill="none"
-          stroke="rgba(232,0,110,0.25)"
+          stroke="rgba(192,38,211,0.25)"
           strokeWidth="20"
           style={{ filter: "blur(18px)" }}
         />
@@ -102,21 +102,21 @@ export default function CTState({ className }: { className?: string }) {
         {/* ── Interior decorations ──────────────── */}
 
         {/* Sparkle dots — top-left area */}
-        <circle cx="55"  cy="65"  r="2.5" fill="#00ffcc" opacity="0.7" />
-        <circle cx="70"  cy="50"  r="1.5" fill="#ff44ff" opacity="0.6" />
-        <circle cx="45"  cy="50"  r="1.8" fill="#ffd700" opacity="0.5" />
+        <circle cx="55"  cy="65"  r="2.5" fill="#a855f7" opacity="0.7" />
+        <circle cx="70"  cy="50"  r="1.5" fill="#c026d3" opacity="0.6" />
+        <circle cx="45"  cy="50"  r="1.8" fill="#d4a017" opacity="0.5" />
 
         {/* Sparkle dots — top-right */}
-        <circle cx="340" cy="58"  r="2.2" fill="#00ffcc" opacity="0.6" />
-        <circle cx="358" cy="45"  r="1.5" fill="#ff44ff" opacity="0.5" />
-        <circle cx="325" cy="44"  r="1.8" fill="#ffd700" opacity="0.4" />
+        <circle cx="340" cy="58"  r="2.2" fill="#a855f7" opacity="0.6" />
+        <circle cx="358" cy="45"  r="1.5" fill="#c026d3" opacity="0.5" />
+        <circle cx="325" cy="44"  r="1.8" fill="#d4a017" opacity="0.4" />
 
         {/* ✦ sparkles */}
-        <text x="52"  y="88"  fontSize="12" fill="#00d4e8" opacity="0.55" textAnchor="middle">✦</text>
-        <text x="348" y="82"  fontSize="9"  fill="#e8006e" opacity="0.55" textAnchor="middle">✦</text>
-        <text x="200" y="240" fontSize="7"  fill="#fbbf24" opacity="0.45" textAnchor="middle">✦</text>
-        <text x="140" y="220" fontSize="6"  fill="#00d4e8" opacity="0.4"  textAnchor="middle">✦</text>
-        <text x="270" y="225" fontSize="8"  fill="#ff44ff" opacity="0.4"  textAnchor="middle">✦</text>
+        <text x="52"  y="88"  fontSize="12" fill="#a855f7" opacity="0.55" textAnchor="middle">✦</text>
+        <text x="348" y="82"  fontSize="9"  fill="#c026d3" opacity="0.55" textAnchor="middle">✦</text>
+        <text x="200" y="240" fontSize="7"  fill="#d4a017" opacity="0.45" textAnchor="middle">✦</text>
+        <text x="140" y="220" fontSize="6"  fill="#a855f7" opacity="0.4"  textAnchor="middle">✦</text>
+        <text x="270" y="225" fontSize="8"  fill="#c026d3" opacity="0.4"  textAnchor="middle">✦</text>
 
         {/* Main "NECYPAA XXXVI" heading */}
         <text
@@ -143,7 +143,7 @@ export default function CTState({ className }: { className?: string }) {
           fontFamily="monospace, 'Courier New', sans-serif"
           fontSize="17"
           letterSpacing="1"
-          fill="#00d4e8"
+          fill="#14b8a6"
           filter="url(#text-glow)"
         >
           12.31.2026 · 01.03.2027
@@ -179,7 +179,7 @@ export default function CTState({ className }: { className?: string }) {
           fontFamily="Bangers, cursive"
           fontSize="20"
           letterSpacing="3"
-          fill="#e8006e"
+          fill="#d4a017"
           filter="url(#text-glow)"
         >
           HARTFORD, CT

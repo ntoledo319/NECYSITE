@@ -51,9 +51,9 @@ export default function PurposeSection() {
       <div
         className="rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm"
         style={{
-          background: "linear-gradient(135deg, rgba(0,212,232,0.08) 0%, rgba(26,34,54,0.6) 50%, rgba(232,0,110,0.05) 100%)",
-          border: "1px solid rgba(0,212,232,0.18)",
-          boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)",
+          background: "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.6) 50%, rgba(192,38,211,0.05) 100%)",
+          border: "1px solid rgba(124,58,237,0.22)",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.04)",
         }}
       >
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
@@ -77,7 +77,7 @@ export default function PurposeSection() {
           </div>
           <div
             className="hidden md:flex flex-shrink-0 w-16 h-16 rounded-2xl items-center justify-center text-3xl"
-            style={{ background: "rgba(0,212,232,0.10)", border: "1px solid rgba(0,212,232,0.20)", boxShadow: "0 2px 12px rgba(0,0,0,0.2)" }}
+            style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 12px rgba(0,0,0,0.25)" }}
           >
             👋
           </div>

@@ -60,22 +60,14 @@ export default function QuickFactsStrip() {
           const inner = (
             <div
               key={fact.label}
-              className="fact-pill group transition-all duration-200"
+              className="fact-pill group fact-pill-interactive transition-all duration-200"
               style={{
                 cursor: fact.href ? "pointer" : undefined,
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = `${fact.color}40`
-                e.currentTarget.style.boxShadow = `0 0 0 1px ${fact.color}15, 0 4px 20px rgba(0,0,0,0.3)`
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--nec-border)"
-                e.currentTarget.style.boxShadow = "0 1px 8px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.03)"
-              }}
             >
-              <span className="text-2xl">{fact.icon}</span>
+              <span className="text-2xl" aria-hidden="true">{fact.icon}</span>
               <span
-                className="text-[10px] font-bold uppercase tracking-widest"
+                className="text-[11px] font-bold uppercase tracking-widest"
                 style={{ color: "var(--nec-muted)" }}
               >
                 {fact.label}
@@ -86,7 +78,7 @@ export default function QuickFactsStrip() {
               >
                 {fact.value}
               </span>
-              <span className="text-[10px] text-gray-500 leading-tight">{fact.sub}</span>
+              <span className="text-[11px] text-gray-500 leading-tight">{fact.sub}</span>
             </div>
           )
 
@@ -101,6 +93,7 @@ export default function QuickFactsStrip() {
                   className="no-underline"
                 >
                   {inner}
+                  <span className="sr-only"> (opens in new tab)</span>
                 </a>
               )
             }

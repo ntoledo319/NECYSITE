@@ -2,9 +2,9 @@
 
 > The planning document that exists before the website does. Like a preamble, but for code.
 
-**Last updated:** 2026-03-16
+**Last updated:** 2026-03-18
 **Owner:** Nikki, Website Chair
-**Status:** Pre-theme. Preparing everything we can so the moment art drops, we ship.
+**Status:** Theme landed ("Escaping the Mad Realm"). Full visual identity implemented. Homepage rebuilt with YPAA narrative. Content phase — filling placeholder pages.
 
 ---
 
@@ -53,12 +53,14 @@ It must also be:
 ## 2 · Current State
 
 ### What Exists
-- Next.js 14 app (App Router, TypeScript strict mode, Tailwind CSS)
+- Next.js 15 app (App Router, TypeScript strict mode, Tailwind CSS, React 19)
 - **19 routes scaffolded** — all target pages exist (real content or placeholder)
 - Working Stripe registration flow (regular, scholarship, breakfast tickets, free/cash)
 - Policy agreement enforcement before payment
+- **Payload CMS 3.79.1** proof of concept (SQLite, admin at `/admin`)
 - Deployed on Vercel
 - **87.3 kB shared JS** — under 100kB performance target
+- **"Escaping the Mad Realm" theme fully implemented** — custom design tokens, Mad Realm palette (purple, pink, gold, cyan, navy), component library, ambient glow system
 
 ### Governing Documents (All Created)
 | Document | Status |
@@ -70,7 +72,7 @@ It must also be:
 | `.windsurf/workflows/changelog.md` | ✅ Changelog tone rules |
 | `NECYPREAMBLE.md` | ✅ This document |
 
-### Infrastructure Built (2026-03-03 through 2026-03-16)
+### Infrastructure Built (2026-03-03 through 2026-03-18)
 - Route scaffolding — all pages from Section 3 exist
 - `PageShell` component for consistent placeholder pages
 - Security hardening — rate limiting (`lib/rate-limit.ts`), Zod input validation (`lib/validation.ts`), CSP headers (`next.config.mjs`)
@@ -81,7 +83,7 @@ It must also be:
 - Skip-to-content link, ARIA landmarks, focus-visible outlines (global `focus-visible` in `globals.css`)
 - All modals have Escape key handlers and `role="dialog"` attributes
 - Member states data (`lib/data/states.ts`) — all 12 states + DC with intergroup, YPAA, Al-Anon, Alateen, and meeting finder links
-- FAQ data (`lib/data/faq.ts`) — 6 categories, 16 draft Q&As
+- FAQ data (`lib/data/faq.ts`) — cleared, awaiting new content from Nikki
 - Accessibility statement in footer with report-a-problem link
 - Anonymous feedback form (`components/anonymous-feedback-form.tsx`) on `/accessibility` page
 - Content warning component (`components/content-warning.tsx`) — reusable click-to-expand for sensitive content
@@ -91,31 +93,32 @@ It must also be:
 ### Pages With Real Content
 | Page | Status |
 |------|--------|
-| `/` (Landing) | ✅ Real — hero, meetings, past events, registration CTA |
+| `/` (Landing) | ✅ Real — Mad Realm themed hero, "What is a YPAA?" narrative section, upcoming event, meetings, past events, registration CTA |
 | `/register` | ✅ Real — multi-step form, Stripe checkout |
 | `/breakfast` | ✅ Real — breakfast ticket checkout |
 | `/cash` | ✅ Real — free registration flow |
 | `/register/success` | ✅ Real — confirmation page |
-| `/faq` | ✅ Real — accordion with 16 draft Q&As |
+| `/events` | ✅ Real — upcoming event featured + past events archive with flyer modals |
+| `/faq` | ⏳ Shell intact, content cleared — awaiting rewrite from Nikki |
 | `/journey` | ✅ Real — past event archive from events.ts |
-| `/alanon` | ✅ Real — Tradition 6 disclaimer, state grids, meeting finder |
+| `/alanon` | ✅ Real — rebuilt with chair's content: info accordions, self-quiz banner, program teaser, Alateen paperwork, Mad Realm border bleed |
 | `/accessibility` | ✅ Real — digital/in-person features, accommodation request, report a problem |
+| `/states` | ✅ Real — all 12 states + DC with resource links |
+| `/service` | ✅ Real — service opportunities, Members-at-Large, how to get involved, Zoom CTA |
 
 ### Pages Still Placeholder (Coming Soon)
 | Page | Blocker |
-|------|---------|
+|------|--------|
 | `/program` | Needs final schedule from Program Chair |
-| `/events` | Needs event data (or CMS decision) |
-| `/blog` + `/blog/[slug]` | Needs CMS decision or MDX setup |
-| `/bid` | Needs Nikki's raw content websiteified |
-| `/get-involved` | Needs content + name decision |
+| `/blog` + `/blog/[slug]` | Payload CMS schema ready — needs first blog post |
+| `/bid` | ⏳ Blocked on Nikki's raw content |
+| `/faq` | ⏳ Blocked on Nikki's new FAQ content |
 | `/prayer` | Needs content from Prayer Chair |
 | `/merch` | Needs payment/shipping decision from Merch Chair |
-| `/states` | Data exists — needs page buildout + state flag SVGs |
 | `/asl` | Needs ASL interpreters/video content |
 
 ### What Still Needs to Change
-**Everything visual.** The current site is a dark-mode gray/blue design inherited from v0.app scaffolding. It works, but it's not *ours*. The moment we have a theme, the entire visual layer gets rebuilt. The infrastructure, routing, and payment logic stay.
+**Content.** The visual identity is done — "Escaping the Mad Realm" theme is fully implemented. Locale routing (`/en/...`, `/es/...`) is live. Automated a11y testing (axe-core + Playwright) is set up. Payload CMS has schemas for events, blog posts, and FAQ. What remains is filling placeholder pages with real content, security hardening (CSRF, Stripe webhooks), and finding a Spanish translator.
 
 ---
 
@@ -134,7 +137,7 @@ It must also be:
 /faq                        — Frequently Asked Questions
 /merch                      — Merchandise (dropshipping store)
 /bid                        — How to start a bid for future NECYPAAs
-/get-involved               — Volunteering, service positions, committees
+/service                    — Service opportunities, Members-at-Large, committees
 /journey                    — "The Journey Comes First" — archive of past events
 /prayer                     — Prayer Chair resources and content
 /alanon                     — Al-Anon information and resources
@@ -180,11 +183,11 @@ If we go this route, schemas would cover:
 
 This *could* be built and populated before we have a theme. Content is content.
 
-### 4.3 Internationalization (i18n) Setup — PARTIAL
+### 4.3 Internationalization (i18n) Setup — MOSTLY DONE
 - ~~Install and configure `next-intl`~~ ✅
 - ~~Set up message files structure for static UI strings~~ ✅ (`messages/en.json`, `messages/es.json`)
 - ~~Build language switcher component (unstyled, ready to theme)~~ ✅ (`components/language-switcher.tsx`)
-- ❌ Locale routing (`/en/...`, `/es/...`) not yet active — needs `[locale]` route migration
+- ~~Locale routing (`/en/...`, `/es/...`)~~ ✅ Active (2026-03-18) — `middleware.ts` handles detection/redirect, `app/[locale]/(frontend)/` directory structure, `i18n/routing.ts` + `i18n/navigation.ts` for locale-aware links
 - ❌ Translator-friendly content workflow — blocked on finding a human translator
 
 ### 4.4 Security Hardening — PARTIAL
@@ -211,7 +214,7 @@ This *could* be built and populated before we have a theme. Content is content.
 - ✅ No auto-play media anywhere — all media opt-in
 - ✅ Global `focus-visible` outline on all interactive elements
 - ✅ WCAG target upgraded to AAA (AA as absolute floor) — per Website Chair directive
-- ❌ Automated a11y testing (axe-core + Playwright) — not yet set up
+- ~~Automated a11y testing (axe-core + Playwright)~~ ✅ Set up (2026-03-18) — `playwright.config.ts` + `e2e/accessibility.spec.ts`. WCAG 2.1 AA enforced, AAA best-effort. `pnpm test:a11y`
 - ❌ a11y CI check in build pipeline — not yet set up
 
 ### 4.6 AI Agent Rules System — MOSTLY DONE
@@ -223,9 +226,9 @@ This *could* be built and populated before we have a theme. Content is content.
 ### 4.7 Code Quality & Architecture — PARTIAL
 - ~~Set up ESLint + Prettier with consistent config~~ ✅
 - ~~Add unit tests for processing fee calculation and other business logic~~ ✅ (30 tests passing — validation, rate-limit, registration products)
-- ❌ Add Playwright for e2e tests on registration flow — not yet set up
+- ~~Add Playwright for e2e tests~~ ✅ Set up (2026-03-18) — `playwright.config.ts`, `e2e/accessibility.spec.ts`. `pnpm test:a11y`
 - ❌ Set up staging environment on Vercel — not yet (preview deployments work natively)
-- ⚠️ `/testreg` test route still exists (`app/actions/testreg.ts`) — **needs removal before production**
+- ~~`/testreg` test route~~ ✅ **Removed (2026-03-18)** — `app/(frontend)/actions/testreg.ts` + `components/testreg-checkout.tsx` deleted
 
 ### 4.8 Member States Data — MOSTLY DONE
 - ~~Build the data structure for all member states~~ ✅ (`lib/data/states.ts` — all 12 states + DC)
@@ -263,10 +266,11 @@ These items need **design input, content from other chairs, or decisions** — b
 - Print-friendly version
 - Spanish parallel content structure
 
-### 5.2 FAQ Page ✅ DONE (draft content)
-- ~~Accordion/search UI pattern~~ ✅ — Radix UI Accordion with category tabs
-- ~~Category grouping~~ ✅ — 6 categories, 16 draft Q&As (`lib/data/faq.ts`)
-- `/faq` page has real content and functionality
+### 5.2 FAQ Page ⏳ INFRASTRUCTURE DONE, CONTENT RESET
+- ~~Accordion/search UI pattern~~ ✅ — Radix UI Accordion with category tabs (`components/faq-accordion.tsx`)
+- ~~Category grouping~~ ✅ — typed interfaces `FAQItem` + `FAQCategory` in `lib/data/faq.ts`
+- **Content cleared (2026-03-18)** — draft Q&As removed, `faqData` set to `[]`. Awaiting new content from Nikki.
+- Page shell and accordion infrastructure intact — just needs data.
 - CMS schema for easy editing — still open (depends on CMS decision)
 - Spanish translation — blocked on translator
 
@@ -379,24 +383,20 @@ These items need **design input, content from other chairs, or decisions** — b
 
 These items are **blocked** until a specific dependency is resolved.
 
-### 6.1 🎨 Theme & Art (Blocked on: Committee Vote)
-**This is the big one.** Everything visual waits on this.
+### 6.1 🎨 Theme & Art ✅ RESOLVED — "Escaping the Mad Realm"
+**Status:** Theme delivered and fully implemented (2026-03-10 through 2026-03-18).
 
-Once we receive from the arts chair:
-- Color palette
-- Typography direction
-- Key graphics/illustrations
-- Visual mood/feeling
+**What was delivered:** "Escaping the Mad Realm" — steampunk-wonderland aesthetic with calligraphic logo art.
 
-We will:
-- Build the entire Tailwind theme config
-- Design and implement all page layouts
-- Create component library (buttons, cards, modals, forms)
-- Build animations and transitions that match the art's energy
-- Style the mobile experience
-- Create the visual identity for the Spanish site (same theme, localized)
-
-**Preparation:** Have all infrastructure, routing, CMS, and content ready so that when art drops, we focus purely on design implementation. Zero time wasted on plumbing.
+**What was implemented:**
+- ✅ Full Tailwind/CSS custom property theme (`globals.css`) — purple, pink, gold, cyan, navy palette
+- ✅ Component library — `.btn-primary`, `.btn-secondary`, `.btn-ghost`, `.nec-card`, `.section-badge`, `.section-heading`, `.fact-pill`, glow utilities
+- ✅ Ambient glow system — page-level radial gradient blobs (purple, pink, gold)
+- ✅ Hero section with calligraphic theme logo, gradient text, vortex glow
+- ✅ Homepage rebuilt with "What is a YPAA?" narrative section + timeline
+- ✅ Mobile-first responsive design verified
+- ✅ All placeholder pages use `PageShell` with Mad Realm styling
+- ✅ Spanish site will share the same theme (when translator is found)
 
 ### 6.2 🇪🇸 Spanish Translation (Blocked on: Finding a Translator)
 **Status:** Looking for a translator.
@@ -587,7 +587,7 @@ The root `/` will detect browser language or show a language selector.
 - **Stripe webhook verification** for payment confirmation — not yet implemented
 - **Dependency audit** — run `pnpm audit` regularly (not automated)
 - **Environment variable validation** at app startup — partial (only `lib/stripe.ts`)
-- **Remove /testreg route** — still exists (`app/actions/testreg.ts`, `components/testreg-checkout.tsx`) — **must remove before production**
+- ~~**Remove /testreg route**~~ ✅ Removed (2026-03-18)
 
 ---
 
@@ -737,40 +737,47 @@ These need answers before or during implementation:
 
 | # | Question | Who Decides | Status |
 |---|----------|-------------|--------|
-| 1 | What is the theme? | Committee vote → Arts Chair | Waiting |
+| ~~1~~ | ~~What is the theme?~~ | ~~Committee vote → Arts Chair~~ | ✅ Resolved — see below |
 | 2 | What payment/shipping service for merch dropshipping? | Merch Chair + Treasury | Contacted — awaiting details |
 | 3 | Who is translating to Spanish? | Nikki / Committee | Looking |
 | 5 | What goes on the Prayer Chair page? | Prayer Chair | Not started |
 | 6 | How much ASL content and on which pages? | Accessibilities Chair | Not started |
 | 7 | Better name for "Getting Involved" page? | Nikki / Committee | Open |
-| 8 | CMS choice — Sanity or keep it in code? | Nikki (technical decision) | Recommended Sanity |
+| 8 | CMS choice — Payload (PoC exists), Sanity, or keep it in code? | Nikki (technical decision) | Payload PoC built (SQLite), evaluating |
 | 10 | Will there be a virtual/hybrid component to the convention? | Committee | Unknown |
 | 11 | Budget for ASL video production? | Committee / Treasurer | Unknown |
 
 ### Resolved Questions
 | # | Question | Answer |
 |---|----------|--------|
+| ~~1~~ | What is the theme? | ✅ "Escaping the Mad Realm" — delivered by Arts Chair, fully implemented. See Section 6.1. |
 | ~~4~~ | What are the accessibility standards? | ✅ Received from Accessibilities Chair (2026-03-13). Implemented as `ACCESSIBILITY_GUIDELINES.md`. See Section 6.3. |
-| ~~6~~ | Al-Anon page content and design | ✅ Content received. Page built. See Section 5.6. |
+| ~~6~~ | Al-Anon page content and design | ✅ Content received. Page rebuilt (2026-03-18) with info accordions, quiz banner, program teaser. See Section 5.6. |
 | ~~9~~ | Do we need auth for any member-only content? | **No.** This is a convention website — no user accounts, no logins, no profiles. |
 | ~~13~~ | Bid guide content | Yes, Nikki has raw content. See Section 5.3. |
 
 ---
 
-## Execution Priority (When Theme Drops)
+## Execution Priority (Current — Theme Landed)
 
-When the arts chair delivers, this is the order:
+Theme is implemented. Infrastructure is solid. Content phase. Priority order:
 
-1. **Tailwind theme + component library** — Colors, fonts, buttons, cards, forms
-2. **Landing page** — First impression. Must be art.
-3. **Registration redesign** — People pay through this. Must work perfectly.
-4. **Mobile navigation** — How people move around
-5. **Program page** — Core utility
-6. **Events page** — Active engagement
-7. **All other pages** — Parallel workstream
-8. **Spanish site** — As soon as translator is ready
-9. **ASL content** — As soon as interpreters are ready
-10. **Final polish** — Animations, transitions, performance
+1. ~~**Tailwind theme + component library**~~ ✅ Done
+2. ~~**Landing page**~~ ✅ Done — YPAA narrative, hero, upcoming events
+3. ~~**Locale routing**~~ ✅ Done — `/en/...` and `/es/...` live, middleware, `NextIntlClientProvider`
+4. ~~**Events page**~~ ✅ Done — upcoming event + past events archive
+5. ~~**Automated a11y testing**~~ ✅ Done — axe-core + Playwright, `pnpm test:a11y`
+6. ~~**Remove `/testreg`**~~ ✅ Done
+7. ~~**Payload CMS collections**~~ ✅ Done — Events, BlogPosts, FAQ schemas
+8. **Security hardening** — CSRF protection, Stripe webhook verification
+9. **FAQ content** — ⏳ Blocked on Nikki's rewrite
+10. **Bid page** — ⏳ Blocked on Nikki's raw content
+11. **Get Involved page** — Needs content + name decision
+12. **Program page** — When schedule arrives from Program Chair
+13. **Blog first post** — Payload schema ready, needs content
+14. **Spanish site** — As soon as translator is ready
+15. **ASL content** — As soon as interpreters are ready
+16. **Final polish** — Performance audit, pre-launch a11y review with Accessibilities Chair
 
 ---
 

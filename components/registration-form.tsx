@@ -8,21 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
-
-interface RegistrationData {
-  name: string
-  state: string
-  email: string
-  accommodations: string
-  interpretationNeeded: boolean
-  mobilityAccessibility: boolean
-  willingToServe: boolean
-  homegroup: string
-  isScholarship: boolean
-  scholarshipRecipientName: string
-  scholarshipRecipientEmail: string
-  accessCode: string
-}
+import type { RegistrationData } from "@/lib/types"
 
 interface RegistrationFormProps {
   onComplete: (data: RegistrationData) => void
@@ -46,7 +32,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
   })
   const [showAccessCode, setShowAccessCode] = useState(false)
 
-  const hasAccessCode = formData.accessCode.trim().length > 0
+  const hasAccessCode = (formData.accessCode ?? "").trim().length > 0
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -82,7 +68,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
     }
 
     if (enableScholarship && formData.isScholarship) {
-      return formData.scholarshipRecipientName.trim() !== ""
+      return (formData.scholarshipRecipientName ?? "").trim() !== ""
     }
 
     return true
@@ -92,13 +78,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         {enableScholarship && !hasAccessCode && (
-          <div className="rounded-xl border p-3" style={{ background: "rgba(0,212,232,0.04)", borderColor: "var(--nec-border)" }}>
+          <div className="rounded-xl border border-[var(--nec-border)] p-3 bg-[rgba(124,58,237,0.05)]">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-gray-300 text-center sm:text-left">Buying registration for someone else?</p>
               <Button
                 type="button"
                 onClick={handleScholarshipQuickStart}
-                className="w-full sm:w-auto text-white h-9 px-4" style={{ background: "rgba(42,53,82,0.8)", border: "1px solid var(--nec-border)" }}
+                className="w-full sm:w-auto text-white h-9 px-4 bg-[rgba(45,31,78,0.8)] border border-[var(--nec-border)]"
               >
                 Scholarship
               </Button>
@@ -108,12 +94,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="name" className="text-white">
-            Name <span className="text-pink-400">*</span>
+            Name <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="name"
             type="text"
             required
+            aria-required="true"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="text-white"
@@ -122,12 +109,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="state" className="text-white">
-            State <span className="text-pink-400">*</span>
+            State <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="state"
             type="text"
             required
+            aria-required="true"
             value={formData.state}
             onChange={(e) => setFormData({ ...formData, state: e.target.value })}
             className="text-white"
@@ -136,12 +124,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="email" className="text-white">
-            Email <span className="text-pink-400">*</span>
+            Email <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="email"
             type="email"
             required
+            aria-required="true"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="text-white"
@@ -201,12 +190,13 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="homegroup" className="text-white">
-            Homegroup/Committee <span className="text-pink-400">*</span>
+            Homegroup/Committee <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="homegroup"
             type="text"
             required
+            aria-required="true"
             value={formData.homegroup}
             onChange={(e) => setFormData({ ...formData, homegroup: e.target.value })}
             className="text-white"
@@ -216,8 +206,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
       {/* Registration Access Code */}
       <div
-        className="rounded-xl border p-3"
-        style={{ background: "rgba(0,212,232,0.04)", borderColor: "var(--nec-border)" }}
+        className="rounded-xl border border-[var(--nec-border)] p-3 bg-[rgba(124,58,237,0.05)]"
       >
         <button
           type="button"
@@ -227,7 +216,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
           className="w-full flex items-center justify-between text-sm text-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded-lg px-1 py-0.5"
         >
           <span>Have a Registration Access Code?</span>
-          <span className="text-xs font-medium" style={{ color: "var(--nec-cyan)" }}>
+          <span className="text-xs font-medium text-[var(--nec-cyan)]">
             {showAccessCode ? "Hide" : "Show"}
           </span>
         </button>
@@ -256,8 +245,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
       <Button
         type="submit"
         disabled={!isFormValid()}
-        className="w-full text-white font-bold"
-        style={{ background: "var(--nec-pink)", boxShadow: "0 2px 12px rgba(232,0,110,0.25)" }}
+        className="w-full text-white font-bold bg-[var(--nec-pink)] shadow-md"
       >
         Continue to Policy Agreement
       </Button>

@@ -26,5 +26,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# payload cms
+payload.db
+payload-types.ts
+/public/media/
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # raw source assets
 /openart-download/

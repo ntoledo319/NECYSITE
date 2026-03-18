@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import { ArrowRight, ExternalLink } from "lucide-react"
+import { MazePattern } from "@/components/art/steampunk-gears"
 
 export default function CTASection() {
   return (
@@ -10,19 +11,22 @@ export default function CTASection() {
         <div
           className="relative overflow-hidden rounded-2xl p-7 flex flex-col gap-4 backdrop-blur-sm"
           style={{
-            background: "linear-gradient(135deg, rgba(232,0,110,0.14) 0%, rgba(26,34,54,0.8) 50%, rgba(232,0,110,0.04) 100%)",
-            border: "1px solid rgba(232,0,110,0.25)",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+            background: "linear-gradient(135deg, rgba(124,58,237,0.14) 0%, rgba(26,16,48,0.8) 50%, rgba(192,38,211,0.04) 100%)",
+            border: "1px solid rgba(124,58,237,0.30)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
         >
           <div
             className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15"
-            style={{ background: "var(--nec-pink)", filter: "blur(60px)" }}
+            style={{ background: "var(--nec-purple)", filter: "blur(60px)" }}
+            aria-hidden="true"
           />
+          {/* Mad Realm maze floor texture */}
+          <MazePattern className="absolute bottom-0 right-0 w-32 h-32 opacity-80" />
           <div className="relative z-10">
             <span
               className="text-xs font-bold uppercase tracking-widest"
-              style={{ color: "var(--nec-pink)" }}
+              style={{ color: "var(--nec-purple)" }}
             >
               Pre-Registration
             </span>
@@ -33,8 +37,8 @@ export default function CTASection() {
             </p>
             <div className="mt-2 flex items-center gap-2">
               <span
-                className="text-3xl font-black glow-pink"
-                style={{ color: "var(--nec-pink)" }}
+                className="text-3xl font-black glow-purple"
+                style={{ color: "var(--nec-gold)" }}
               >
                 $40
               </span>
@@ -42,7 +46,7 @@ export default function CTASection() {
             </div>
           </div>
           <Link href="/register" className="btn-primary self-start mt-1 relative z-10">
-            Register Now <ArrowRight className="w-4 h-4" />
+            Register Now <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>
 
@@ -50,19 +54,20 @@ export default function CTASection() {
         <div
           className="relative overflow-hidden rounded-2xl p-7 flex flex-col gap-4 backdrop-blur-sm"
           style={{
-            background: "linear-gradient(135deg, rgba(0,212,232,0.10) 0%, rgba(26,34,54,0.8) 50%, rgba(0,212,232,0.03) 100%)",
-            border: "1px solid rgba(0,212,232,0.20)",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+            background: "linear-gradient(135deg, rgba(212,160,23,0.10) 0%, rgba(26,16,48,0.8) 50%, rgba(212,160,23,0.03) 100%)",
+            border: "1px solid rgba(212,160,23,0.25)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
         >
           <div
             className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-12"
-            style={{ background: "var(--nec-cyan)", filter: "blur(60px)" }}
+            style={{ background: "var(--nec-gold)", filter: "blur(60px)" }}
+            aria-hidden="true"
           />
           <div className="relative z-10">
             <span
               className="text-xs font-bold uppercase tracking-widest"
-              style={{ color: "var(--nec-cyan)" }}
+              style={{ color: "var(--nec-gold)" }}
             >
               Host Hotel
             </span>
@@ -75,7 +80,7 @@ export default function CTASection() {
               className="text-sm font-bold italic mt-2"
               style={{ color: "var(--nec-gold)" }}
             >
-              ✦ Special NECYPAA group rate available
+              <span aria-hidden="true">✦</span> Special NECYPAA group rate available
             </p>
           </div>
           <a
@@ -84,7 +89,7 @@ export default function CTASection() {
             rel="noopener noreferrer"
             className="btn-secondary self-start mt-1 relative z-10"
           >
-            Book Hotel <ExternalLink className="w-4 h-4" />
+            Book Hotel <ExternalLink className="w-4 h-4" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </div>

@@ -1,0 +1,74 @@
+"use client"
+
+import { useState } from "react"
+import { BLOG_POSTS } from "@/lib/data/blog-posts"
+import BlogCard from "@/components/blog-card"
+import { Newspaper } from "lucide-react"
+
+export default function BlogGrid() {
+  const [visibleCount, setVisibleCount] = useState(6)
+  const sorted = [...BLOG_POSTS].sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  )
+  const visible = sorted.slice(0, visibleCount)
+  const hasMore = visibleCount < sorted.length
+
+  return (
+    <section aria-label="Blog posts">
+      {/* Post count */}
+      <div className="flex items-center gap-3 mb-8 max-w-5xl mx-auto">
+        <Newspaper
+          className="w-5 h-5 flex-shrink-0"
+          style={{ color: "var(--nec-purple)" }}
+          aria-hidden="true"
+        />
+        <p
+          className="text-sm font-semibold uppercase tracking-widest"
+          style={{ color: "var(--nec-muted)" }}
+        >
+          {sorted.length} {sorted.length === 1 ? "Post" : "Posts"}
+        </p>
+        <div
+          className="flex-1 h-[1px]"
+          aria-hidden="true"
+          style={{ background: "var(--nec-border)" }}
+        />
+      </div>
+
+      {/* Cards grid — responsive masonry-style with CSS columns */}
+      <div className="blog-grid max-w-5xl mx-auto columns-1 md:columns-2 gap-6 space-y-6">
+        {visible.map((post, i) => (
+          <div key={post.id} className="break-inside-avoid">
+            <BlogCard post={post} index={i} />
+          </div>
+        ))}
+      </div>
+
+      {/* Load more */}
+      {hasMore && (
+        <div className="text-center mt-12">
+          <button
+            type="button"
+            onClick={() => setVisibleCount((c) => c + 6)}
+            className="btn-ghost"
+          >
+            Load More Posts
+          </button>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {sorted.length === 0 && (
+        <div className="text-center py-20">
+          <p
+            className="text-lg font-semibold"
+            style={{ color: "var(--nec-muted)" }}
+          >
+            No posts yet — check back soon.
+          </p>
+        </div>
+      )}
+    </section>
+  )
+}

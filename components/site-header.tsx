@@ -8,7 +8,7 @@ import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL } from "@/lib/constants"
 import { useFocusTrap } from "@/lib/use-focus-trap"
 
 const navLinks = [
-  { href: "#purpose", label: "Purpose" },
+  { href: "#what-is-ypaa", label: "What is YPAA?" },
   { href: "#business-meeting", label: "Business Meeting" },
   { href: "#meetings", label: "YP Meetings" },
   { href: "#past-events", label: "Past Events" },
@@ -52,10 +52,10 @@ export default function SiteHeader() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-200"
         style={{
           background: scrolled
-            ? "rgba(11,18,32,0.97)"
-            : "rgba(11,18,32,0.85)",
+            ? "rgba(15,10,30,0.97)"
+            : "rgba(15,10,30,0.85)",
           backdropFilter: "blur(12px)",
-          borderBottom: scrolled ? "1px solid rgba(42,53,82,0.8)" : "1px solid transparent",
+          borderBottom: scrolled ? "1px solid rgba(45,31,78,0.8)" : "1px solid transparent",
         }}
       >
         <div className="container mx-auto px-4">
@@ -67,11 +67,11 @@ export default function SiteHeader() {
               onClick={close}
             >
               <Image
-                src="/images/necypaa-logo-transparent.webp"
-                alt="NECYPAA XXXVI"
-                width={720}
-                height={462}
-                className="h-10 w-auto group-hover:opacity-90 transition-opacity"
+                src="/images/necypaa-xxxvi-badge.jpg"
+                alt="NECYPAA XXXVI — Escaping the Mad Realm"
+                width={200}
+                height={100}
+                className="h-10 w-auto rounded-full group-hover:opacity-90 transition-opacity"
                 priority
               />
             </Link>
@@ -88,7 +88,7 @@ export default function SiteHeader() {
                     className="px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-white rounded-lg
                                hover:bg-white/5 transition-all duration-150 uppercase tracking-wide"
                   >
-                    {link.label}
+                    {link.label}<span className="sr-only"> (opens in new tab)</span>
                   </a>
                 ) : (
                   <Link
@@ -115,7 +115,7 @@ export default function SiteHeader() {
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function SiteHeader() {
             ref={drawerRef}
             aria-label="Mobile navigation"
             className="absolute top-16 left-0 right-0 flex flex-col gap-1 p-4"
-            style={{ background: "var(--nec-dark)", borderBottom: "1px solid var(--nec-border)" }}
+            style={{ background: "var(--nec-dark)", borderBottom: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}
             onClick={(e) => e.stopPropagation()}
           >
             {navLinks.map((link) =>
@@ -148,7 +148,7 @@ export default function SiteHeader() {
                   className="px-4 py-3 text-base font-semibold text-gray-200 hover:text-white
                              hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide"
                 >
-                  {link.label}
+                  {link.label}<span className="sr-only"> (opens in new tab)</span>
                 </a>
               ) : (
                 <Link
@@ -177,7 +177,7 @@ export default function SiteHeader() {
                 onClick={close}
                 className="btn-secondary w-full !justify-center"
               >
-                Book Hotel
+                Book Hotel<span className="sr-only"> (opens in new tab)</span>
               </a>
             </div>
           </nav>

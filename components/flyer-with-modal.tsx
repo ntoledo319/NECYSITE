@@ -51,7 +51,7 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
         {/* Magnifying glass icon in upper right */}
         <span
           className="absolute top-2 right-2 p-2 rounded-full transition-all opacity-70 group-hover:opacity-100"
-          style={{ background: "rgba(0,212,232,0.7)" }}
+          style={{ background: "rgba(124,58,237,0.7)" }}
           aria-hidden="true"
         >
           <Search className="w-4 h-4 text-white" />

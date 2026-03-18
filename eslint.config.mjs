@@ -1,32 +1,74 @@
-import nextConfig from "eslint-config-next"
+import reactPlugin from "eslint-plugin-react"
+import reactHooksPlugin from "eslint-plugin-react-hooks"
+import jsxA11yPlugin from "eslint-plugin-jsx-a11y"
+import nextPlugin from "@next/eslint-plugin-next"
+import tseslint from "@typescript-eslint/eslint-plugin"
+import tsParser from "@typescript-eslint/parser"
 
 const eslintConfig = [
-  ...nextConfig,
-
-  // General rules (no plugin prefix needed)
+  // Global ignores
   {
+    ignores: [
+      ".next/**",
+      "node_modules/**",
+      "*.config.{js,mjs}",
+      "app/(payload)/admin/importMap.js",
+    ],
+  },
+
+  // Base TypeScript + React setup for all TS/TSX/JS/JSX files
+  {
+    files: ["**/*.{ts,tsx,js,jsx}"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+    plugins: {
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+      "@next/next": nextPlugin,
+      "@typescript-eslint": tseslint,
+    },
+    settings: {
+      react: { version: "detect" },
+    },
     rules: {
+      // General
       "no-unused-vars": "off",
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "error",
       "no-var": "error",
-    },
-  },
 
-  // React / Next.js rule overrides
-  {
-    files: ["**/*.{ts,tsx,js,jsx}"],
-    rules: {
+      // TypeScript
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+
+      // React
       "react/no-unescaped-entities": "off",
+      "react/react-in-jsx-scope": "off",
+
+      // React Hooks
       "react-hooks/exhaustive-deps": "warn",
-      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/rules-of-hooks": "error",
+
+      // Next.js
       "@next/next/no-img-element": "error",
+      "@next/next/no-html-link-for-pages": "error",
     },
   },
 
-  // jsx-a11y — strict mode, all errors
+  // jsx-a11y — strict mode, all errors (TSX/JSX only)
   {
     files: ["**/*.{tsx,jsx}"],
+    plugins: {
+      "jsx-a11y": jsxA11yPlugin,
+    },
     rules: {
       "jsx-a11y/alt-text": "error",
       "jsx-a11y/anchor-has-content": "error",

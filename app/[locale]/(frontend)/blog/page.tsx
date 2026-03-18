@@ -1,0 +1,111 @@
+import type { Metadata } from "next"
+import SiteFooter from "@/components/site-footer"
+import MobileCtaBar from "@/components/mobile-cta-bar"
+import BlogGrid from "@/components/blog-grid"
+
+export const metadata: Metadata = {
+  title: "NECYBLOG aka BLOGYPAA — NECYPAA XXXVI",
+  description:
+    "Experience, strength, and hope from the NECYPAA XXXVI CT Host Committee. Anonymous stories from the road to Hartford.",
+}
+
+export default function BlogPage() {
+  return (
+    <div
+      className="min-h-screen flex flex-col relative"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
+      {/* Ambient vortex glow */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+        aria-hidden="true"
+      >
+        <div
+          className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.06]"
+          style={{
+            background:
+              "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
+            filter: "blur(120px)",
+          }}
+        />
+        <div
+          className="absolute top-[40%] -right-20 w-[700px] h-[700px] rounded-full opacity-[0.05]"
+          style={{
+            background:
+              "radial-gradient(circle, var(--nec-pink) 0%, transparent 65%)",
+            filter: "blur(120px)",
+          }}
+        />
+        <div
+          className="absolute bottom-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.04]"
+          style={{
+            background:
+              "radial-gradient(circle, var(--nec-gold) 0%, transparent 65%)",
+            filter: "blur(120px)",
+          }}
+        />
+      </div>
+
+      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+        <div className="container mx-auto px-4">
+          {/* ── Page Header ────────────────────────── */}
+          <header className="max-w-3xl mx-auto text-center mb-16">
+            <span className="section-badge mb-4 inline-block">NECYBLOG</span>
+            <h1 className="section-heading mb-2">
+              NECYBLOG{" "}
+              <span
+                className="block text-lg sm:text-xl font-bold mt-1"
+                style={{ color: "var(--nec-pink)" }}
+              >
+                aka BLOGYPAA
+              </span>
+            </h1>
+
+            {/* Accent divider */}
+            <div
+              className="mx-auto my-6 h-[2px] w-24 rounded-full"
+              aria-hidden="true"
+              style={{
+                background:
+                  "linear-gradient(90deg, var(--nec-purple), var(--nec-pink), var(--nec-gold))",
+                boxShadow:
+                  "0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15)",
+              }}
+            />
+
+            <div
+              className="space-y-4 text-base sm:text-lg leading-relaxed"
+              style={{ color: "var(--nec-muted)" }}
+            >
+              <p>
+                It is our hope for this to be a place where everyone involved in
+                the creation of this convention gets a few opportunities to
+                anonymously share their experience, strength, and hope as it
+                relates to happenings with this service structure.
+              </p>
+              <p
+                className="font-semibold text-white italic"
+              >
+                Take what works, vibe with the rest.
+              </p>
+              <p>
+                We do take the liberty of scrubbing any accidental tradition
+                violations from the content.
+              </p>
+              <p>
+                Aside from that, here you&apos;ll get everyone on
+                host&apos;s raw, unfiltered takes, so help us HP.
+              </p>
+            </div>
+          </header>
+
+          {/* ── Blog Cards Grid ────────────────────── */}
+          <BlogGrid />
+        </div>
+      </main>
+
+      <SiteFooter />
+      <MobileCtaBar />
+    </div>
+  )
+}

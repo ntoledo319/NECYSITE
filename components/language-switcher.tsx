@@ -66,7 +66,7 @@ export default function LanguageSwitcher() {
         <div
           className="absolute right-0 mt-1 rounded-lg overflow-hidden shadow-lg z-50"
           style={{
-            background: "rgba(26,34,54,0.98)",
+            background: "rgba(26,16,48,0.98)",
             border: "1px solid var(--nec-border)",
             minWidth: "140px",
           }}
@@ -85,8 +85,8 @@ export default function LanguageSwitcher() {
               }}
               className="flex items-center gap-2.5 w-full px-3.5 py-2.5 text-xs font-medium transition-colors text-left"
               style={{
-                color: current === locale.code ? "var(--nec-cyan)" : "var(--nec-muted)",
-                background: current === locale.code ? "rgba(0,212,232,0.06)" : "transparent",
+                color: current === locale.code ? "var(--nec-purple)" : "var(--nec-muted)",
+                background: current === locale.code ? "rgba(124,58,237,0.08)" : "transparent",
               }}
             >
               <span className="text-base">{locale.flag}</span>

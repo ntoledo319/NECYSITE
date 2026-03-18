@@ -3,6 +3,29 @@
 import { useState, useEffect } from "react"
 import { Calendar, Clock, Video } from "lucide-react"
 import { ZOOM_MEETING_URL } from "@/lib/constants"
+import { GearCluster } from "@/components/art/steampunk-gears"
+
+function getEasterSunday(year: number): Date {
+  const a = year % 19
+  const b = Math.floor(year / 100)
+  const c = year % 100
+  const d = Math.floor(b / 4)
+  const e = b % 4
+  const f = Math.floor((b + 8) / 25)
+  const g = Math.floor((b - f + 1) / 3)
+  const h = (19 * a + b - d - g + 15) % 30
+  const i = Math.floor(c / 4)
+  const k = c % 4
+  const l = (32 + 2 * e + 2 * i - h - k) % 7
+  const m = Math.floor((a + 11 * h + 22 * l) / 451)
+  const month = Math.floor((h + l - 7 * m + 114) / 31) - 1
+  const day = ((h + l - 7 * m + 114) % 31) + 1
+  return new Date(year, month, day)
+}
+
+function isSameDate(a: Date, b: Date): boolean {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+}
 
 function getNextBusinessMeetingDate(): Date {
   const now = new Date()
@@ -15,13 +38,15 @@ function getNextBusinessMeetingDate(): Date {
     return new Date(year, month, firstSunday + (n - 1) * 7)
   }
 
-  for (let offset = 0; offset < 3; offset++) {
+  for (let offset = 0; offset < 6; offset++) {
     const ref = new Date(now.getFullYear(), now.getMonth() + offset, 1)
     const year = ref.getFullYear()
     const month = ref.getMonth()
+    const easter = getEasterSunday(year)
 
     for (const nth of [1, 3]) {
       const meetingDate = getNthSunday(year, month, nth)
+      if (isSameDate(meetingDate, easter)) continue
       const meetingTime = new Date(meetingDate)
       meetingTime.setHours(14, 0, 0, 0)
       if (meetingTime > now) return meetingDate
@@ -64,9 +89,11 @@ export default function BusinessMeetingSection() {
       </div>
 
       <div
-        className="nec-card p-6 md:p-8 transition-all duration-200 backdrop-blur-sm"
+        className="nec-card p-6 md:p-8 transition-all duration-200 backdrop-blur-sm relative overflow-hidden"
         style={{ maxWidth: "640px", boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)" }}
       >
+        {/* Steampunk gear accent */}
+        <GearCluster className="absolute -top-3 -right-3 opacity-60" />
         <h3 className="text-lg font-bold text-white mb-5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>NECYPAA XXXVI Business Meeting</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -74,9 +101,9 @@ export default function BusinessMeetingSection() {
           <div className="flex items-start gap-3">
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(0,212,232,0.10)", border: "1px solid rgba(0,212,232,0.20)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+              style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
             >
-              <Calendar className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} />
+              <Calendar className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Next Date</p>
@@ -90,9 +117,9 @@ export default function BusinessMeetingSection() {
           <div className="flex items-start gap-3">
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(0,212,232,0.10)", border: "1px solid rgba(0,212,232,0.20)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+              style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
             >
-              <Clock className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} />
+              <Clock className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Time</p>
@@ -109,26 +136,16 @@ export default function BusinessMeetingSection() {
           href={ZOOM_MEETING_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
+          className="zoom-link inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
           style={{
-            background: "rgba(0,212,232,0.10)",
-            border: "1px solid rgba(0,212,232,0.30)",
+            background: "rgba(124,58,237,0.12)",
+            border: "1px solid rgba(124,58,237,0.30)",
             color: "var(--nec-cyan)",
             boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
           }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement
-            el.style.background = "rgba(0,212,232,0.20)"
-            el.style.boxShadow = "0 2px 16px rgba(0,212,232,0.2), inset 0 1px 0 rgba(255,255,255,0.06)"
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement
-            el.style.background = "rgba(0,212,232,0.10)"
-            el.style.boxShadow = "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)"
-          }}
         >
-          <Video className="w-4 h-4" />
-          Join on Zoom
+          <Video className="w-4 h-4" aria-hidden="true" />
+          Join on Zoom<span className="sr-only"> (opens in new tab)</span>
         </a>
       </div>
     </section>

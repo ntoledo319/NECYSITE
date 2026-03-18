@@ -2,19 +2,8 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { submitFreeRegistration } from "@/app/actions/free-registration"
-import type { PolicyAgreements } from "@/components/policy-agreement"
-
-interface RegistrationData {
-  name: string
-  state: string
-  email: string
-  accommodations: string
-  interpretationNeeded: boolean
-  mobilityAccessibility: boolean
-  willingToServe: boolean
-  homegroup: string
-}
+import { submitFreeRegistration } from "@/actions/free-registration"
+import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 
 interface RegistrationConfirmationProps {
   registrationData: RegistrationData
@@ -47,13 +36,14 @@ export default function RegistrationConfirmation({
 
   if (isComplete) {
     return (
-      <div className="text-center space-y-6 py-8">
-        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto" style={{ background: "rgba(0,212,232,0.12)" }}>
+      <div className="text-center space-y-6 py-8" role="status" aria-live="polite">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto bg-[rgba(124,58,237,0.12)]">
           <svg
-            className="w-8 h-8" style={{ color: "var(--nec-cyan)" }}
+            className="w-8 h-8 text-[var(--nec-cyan)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -72,7 +62,7 @@ export default function RegistrationConfirmation({
           </p>
         </div>
 
-        <div className="rounded-2xl p-5 border text-left max-w-sm mx-auto" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
+        <div className="rounded-2xl p-5 border border-[var(--nec-border)] text-left max-w-sm mx-auto bg-[rgba(26,16,48,0.6)]">
           <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
             Registration Details
           </h4>
@@ -112,6 +102,7 @@ export default function RegistrationConfirmation({
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -120,7 +111,7 @@ export default function RegistrationConfirmation({
                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
               />
             </svg>
-            Book Hotel
+            Book Hotel<span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </div>
@@ -138,7 +129,7 @@ export default function RegistrationConfirmation({
         </p>
       </div>
 
-      <div className="rounded-2xl p-5 border" style={{ background: "rgba(26,34,54,0.6)", borderColor: "var(--nec-border)" }}>
+      <div className="rounded-2xl p-5 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-400">Name</span>
@@ -183,18 +174,20 @@ export default function RegistrationConfirmation({
         </div>
       </div>
 
-      {error && (
-        <div className="bg-red-900/30 border border-red-700 text-red-300 text-sm rounded-lg p-3 text-center">
-          {error}
-        </div>
-      )}
+      <div aria-live="assertive">
+        {error && (
+          <div className="bg-red-900/30 border border-red-700 text-red-300 text-sm rounded-lg p-3 text-center" role="alert">
+            {error}
+          </div>
+        )}
+      </div>
 
       <div className="flex gap-4">
         <Button
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 text-white bg-transparent" style={{ borderColor: "var(--nec-border)" }}
+          className="flex-1 text-white bg-transparent border-[var(--nec-border)]"
           disabled={isSubmitting}
         >
           Back
@@ -202,7 +195,7 @@ export default function RegistrationConfirmation({
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex-1 text-white font-bold" style={{ background: "var(--nec-pink)", boxShadow: "0 2px 12px rgba(232,0,110,0.25)" }}
+          className="flex-1 text-white font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
         >
           {isSubmitting ? "Submitting..." : "Complete Registration"}
         </Button>
