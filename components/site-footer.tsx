@@ -30,7 +30,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="container mx-auto px-4 py-12 pb-24 md:pb-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
           {/* Identity column */}
           <div className="space-y-3">
             <div className="w-24 h-auto mb-2 opacity-80">
@@ -57,8 +57,8 @@ export default function SiteFooter() {
 
           {/* Links column */}
           <div className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Quick Links</h3>
-            <ul className="space-y-2" aria-label="Quick links">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Convention</h3>
+            <ul className="space-y-2" aria-label="Convention links">
               <li>
                 <Link href="/register" className="text-sm text-gray-300 hover:text-white transition-colors">
                   Pre-Register — $40
@@ -75,23 +75,60 @@ export default function SiteFooter() {
                 </a>
               </li>
               <li>
+                <Link href="/events" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/breakfast" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Breakfast
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  FAQ
+                </Link>
+              </li>
+              <li>
                 <a
                   href={NECYPAA_ADVISORY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-gray-300 hover:text-white transition-colors inline-flex items-center gap-1"
                 >
-                  NECYPAA Advisory Council <ExternalLink className="w-3 h-3" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
+                  Advisory Council <ExternalLink className="w-3 h-3" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
                 </a>
               </li>
+            </ul>
+          </div>
+
+          {/* Community column */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Community</h3>
+            <ul className="space-y-2" aria-label="Community links">
               <li>
-                <Link href="#what-is-ypaa" className="text-sm text-gray-300 hover:text-white transition-colors">
-                  What is YPAA?
+                <Link href="/blog" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="#meetings" className="text-sm text-gray-300 hover:text-white transition-colors">
-                  Young People's Meetings in CT
+                <Link href="/service" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Get Involved
+                </Link>
+              </li>
+              <li>
+                <Link href="/states" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Find Your State
+                </Link>
+              </li>
+              <li>
+                <Link href="/alanon" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Al-Anon / Alateen
+                </Link>
+              </li>
+              <li>
+                <Link href="/accessibility" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Accessibility
                 </Link>
               </li>
             </ul>
