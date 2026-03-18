@@ -14,7 +14,7 @@ interface PageShellProps {
 const CHARACTER_DATA = {
   "mad-hatter": {
     portal: "/images/mad-hatter-portal.jpg",
-    standalone: "/images/mad-hatter-character.jpg",
+    standalone: "/images/mad-hatter-character.png",
     alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm, with psychedelic swirl background and steampunk gears",
     standaloneAlt: "The Mad Hatter character in purple coat and orange vest with top hat",
     accent: "var(--nec-purple)",
@@ -22,7 +22,7 @@ const CHARACTER_DATA = {
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.jpg",
-    standalone: "/images/cheshire-cat-character.jpg",
+    standalone: "/images/cheshire-cat-character.png",
     alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm, grinning with psychedelic swirl background and steampunk gears",
     standaloneAlt: "The Cheshire Cat character in pink and purple stripes with a wide grin",
     accent: "var(--nec-pink)",
@@ -30,7 +30,7 @@ const CHARACTER_DATA = {
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.jpg",
-    standalone: "/images/caterpillar-character.jpg",
+    standalone: "/images/caterpillar-character.png",
     alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm, wearing a brown coat and fedora with steampunk gears",
     standaloneAlt: "The Caterpillar character in brown coat and fedora hat",
     accent: "var(--nec-gold)",

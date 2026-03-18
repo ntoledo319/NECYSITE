@@ -179,7 +179,7 @@ export default function ServicePage() {
                 {/* Cheshire Cat character accent */}
                 <div className="hidden md:block absolute -bottom-4 -right-4 w-32 h-32 opacity-[0.12] pointer-events-none z-0" aria-hidden="true">
                   <Image
-                    src="/images/cheshire-cat-character.jpg"
+                    src="/images/cheshire-cat-character.png"
                     alt=""
                     width={150}
                     height={225}

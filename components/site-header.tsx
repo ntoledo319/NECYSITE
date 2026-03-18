@@ -224,11 +224,11 @@ export default function SiteHeader() {
               onClick={close}
             >
               <Image
-                src="/images/necypaa-xxxvi-badge.jpg"
+                src="/images/necypaa-xxxvi-badge.png"
                 alt="NECYPAA XXXVI — Escaping the Mad Realm"
                 width={200}
                 height={100}
-                className="h-10 w-auto rounded-full group-hover:opacity-90 transition-opacity"
+                className="h-10 w-auto group-hover:opacity-90 transition-opacity"
                 priority
               />
             </Link>

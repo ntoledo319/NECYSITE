@@ -21,11 +21,11 @@ export default function JourneyPage() {
             <div className="text-center mb-12 relative">
               {/* Caterpillar accent — left */}
               <div className="hidden lg:block absolute -left-10 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.09] pointer-events-none" aria-hidden="true">
-                <Image src="/images/caterpillar-character.jpg" alt="" width={96} height={144} className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/caterpillar-character.png" alt="" width={96} height={144} className="w-full h-full object-contain" aria-hidden="true" />
               </div>
               {/* Mad Hatter accent — right */}
               <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                <Image src="/images/mad-hatter-character.jpg" alt="" width={80} height={120} className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/mad-hatter-character.png" alt="" width={80} height={120} className="w-full h-full object-contain" aria-hidden="true" />
               </div>
               <span className="section-badge mb-4 inline-block">Archive</span>
               <h1 className="section-heading mb-3">The Journey Comes First</h1>

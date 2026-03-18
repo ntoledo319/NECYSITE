@@ -21,7 +21,7 @@ export default function AccessibilityPage() {
             <div className="text-center mb-12 relative">
               {/* Caterpillar accent */}
               <div className="hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                <Image src="/images/caterpillar-character.jpg" alt="" width={80} height={128} className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/caterpillar-character.png" alt="" width={80} height={128} className="w-full h-full object-contain" aria-hidden="true" />
               </div>
               <span className="section-badge mb-4 inline-block">Accessibility</span>
               <h1 className="section-heading mb-3">Accessibility &amp; Inclusion</h1>

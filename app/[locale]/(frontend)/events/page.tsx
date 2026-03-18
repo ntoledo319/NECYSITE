@@ -25,7 +25,7 @@ export default function EventsPage() {
             {/* Mad Hatter character accent — left side */}
             <div className="hidden lg:block absolute -left-8 top-1/2 -translate-y-1/2 w-28 h-40 opacity-[0.10] pointer-events-none" aria-hidden="true">
               <Image
-                src="/images/mad-hatter-character.jpg"
+                src="/images/mad-hatter-character.png"
                 alt=""
                 width={130}
                 height={195}
@@ -36,7 +36,7 @@ export default function EventsPage() {
             {/* Cheshire Cat character accent — right side */}
             <div className="hidden lg:block absolute -right-8 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.08] pointer-events-none" aria-hidden="true">
               <Image
-                src="/images/cheshire-cat-character.jpg"
+                src="/images/cheshire-cat-character.png"
                 alt=""
                 width={110}
                 height={165}
