@@ -101,7 +101,7 @@ export default async function RootLayout({
               Skip to main content
             </a>
             <SiteHeader />
-            <main id="main-content">
+            <main id="main-content" className="pt-16">
               {children}
             </main>
             <AccessibilityPanel />

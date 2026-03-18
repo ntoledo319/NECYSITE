@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { X, Menu, ChevronDown } from "lucide-react"
@@ -38,9 +38,9 @@ const navItems: NavItem[] = [
   {
     label: "Community",
     children: [
-      { href: "#what-is-ypaa", label: "What is YPAA?" },
+      { href: "/#what-is-ypaa", label: "What is YPAA?" },
       { href: "/blog", label: "Blog" },
-      { href: "#meetings", label: "YP Meetings in CT" },
+      { href: "/#meetings", label: "YP Meetings in CT" },
       { href: "/states", label: "Find Your State" },
       { href: "/alanon", label: "Al-Anon / Alateen" },
     ],
@@ -48,7 +48,7 @@ const navItems: NavItem[] = [
   {
     label: "Get Involved",
     children: [
-      { href: "#business-meeting", label: "Business Meeting" },
+      { href: "/#business-meeting", label: "Business Meeting" },
       { href: "/service", label: "Service Opportunities" },
     ],
   },
@@ -58,11 +58,13 @@ const navItems: NavItem[] = [
 
 function DesktopDropdown({ item }: { item: NavDropdown }) {
   const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const timeout = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
-    return () => { if (timeout.current) clearTimeout(timeout.current) }
+    return () => {
+      if (timeout.current) clearTimeout(timeout.current)
+    }
   }, [])
 
   const enter = () => {
@@ -73,8 +75,37 @@ function DesktopDropdown({ item }: { item: NavDropdown }) {
     timeout.current = setTimeout(() => setOpen(false), 150)
   }
 
+  // Close on focus leaving the entire dropdown container
+  const handleBlur = useCallback((e: React.FocusEvent) => {
+    if (!containerRef.current?.contains(e.relatedTarget as Node)) {
+      setOpen(false)
+    }
+  }, [])
+
+  // Keyboard: Escape closes, ArrowDown opens
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setOpen(false)
+      // Return focus to the trigger button
+      const button = containerRef.current?.querySelector("button")
+      button?.focus()
+    }
+    if (e.key === "ArrowDown" && !open) {
+      e.preventDefault()
+      setOpen(true)
+    }
+  }, [open])
+
   return (
-    <div ref={ref} className="relative" onMouseEnter={enter} onMouseLeave={leave}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- hover/focus/keyboard handlers delegate to the interactive button and menu items within
+    <div
+      ref={containerRef}
+      className="relative"
+      onMouseEnter={enter}
+      onMouseLeave={leave}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyDown}
+    >
       <button
         className="px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-white rounded-lg
                    hover:bg-white/5 transition-all duration-150 uppercase tracking-wide
@@ -84,17 +115,18 @@ function DesktopDropdown({ item }: { item: NavDropdown }) {
         aria-haspopup="true"
       >
         {item.label}
-        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+        <ChevronDown
+          className={`w-3.5 h-3.5 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
       </button>
-      {open && (
+      <div
+        className={`absolute top-full left-0 -mt-1 pt-3 min-w-[200px] z-50 transition-all duration-150 origin-top
+          ${open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
+      >
         <div
-          className="absolute top-full left-0 mt-1 min-w-[200px] rounded-xl py-2 z-50"
-          style={{
-            background: "rgba(15,10,30,0.98)",
-            border: "1px solid rgba(45,31,78,0.8)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(124,58,237,0.06)",
-            backdropFilter: "blur(16px)",
-          }}
+          role="menu"
+          className="rounded-xl py-2 nec-dropdown-panel"
         >
           {item.children.map((child) =>
             child.external ? (
@@ -103,15 +135,20 @@ function DesktopDropdown({ item }: { item: NavDropdown }) {
                 href={child.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                role="menuitem"
+                tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
                 className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
               >
-                {child.label}<span className="sr-only"> (opens in new tab)</span>
+                {child.label}
+                <span className="sr-only"> (opens in new tab)</span>
               </a>
             ) : (
               <Link
                 key={child.label}
                 href={child.href}
+                role="menuitem"
+                tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
                 className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
               >
@@ -120,12 +157,18 @@ function DesktopDropdown({ item }: { item: NavDropdown }) {
             )
           )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
 
-function MobileDropdown({ item, onClose }: { item: NavDropdown; onClose: () => void }) {
+function MobileDropdown({
+  item,
+  onClose,
+}: {
+  item: NavDropdown
+  onClose: () => void
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -138,9 +181,14 @@ function MobileDropdown({ item, onClose }: { item: NavDropdown; onClose: () => v
         aria-expanded={open}
       >
         {item.label}
-        <ChevronDown className={`w-4 h-4 transition-transform duration-150 ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+        <ChevronDown
+          className={`w-4 h-4 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
       </button>
-      {open && (
+      <div
+        className={`overflow-hidden transition-all duration-200 ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+      >
         <div className="pl-4 space-y-0.5 pb-1">
           {item.children.map((child) =>
             child.external ? (
@@ -153,7 +201,8 @@ function MobileDropdown({ item, onClose }: { item: NavDropdown; onClose: () => v
                 className="block px-4 py-2.5 text-sm text-gray-300 hover:text-white
                            hover:bg-white/5 rounded-lg transition-colors"
               >
-                {child.label}<span className="sr-only"> (opens in new tab)</span>
+                {child.label}
+                <span className="sr-only"> (opens in new tab)</span>
               </a>
             ) : (
               <Link
@@ -168,7 +217,7 @@ function MobileDropdown({ item, onClose }: { item: NavDropdown; onClose: () => v
             )
           )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
@@ -196,7 +245,9 @@ export default function SiteHeader() {
         window.removeEventListener("keydown", handleEscape)
       }
     }
-    return () => { document.body.style.overflow = "" }
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [menuOpen])
 
   const close = () => setMenuOpen(false)
@@ -206,13 +257,15 @@ export default function SiteHeader() {
       <header
         role="banner"
         aria-label="Site header"
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-200"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-200 nec-header"
         style={{
           background: scrolled
             ? "rgba(15,10,30,0.97)"
             : "rgba(15,10,30,0.85)",
           backdropFilter: "blur(12px)",
-          borderBottom: scrolled ? "1px solid rgba(45,31,78,0.8)" : "1px solid transparent",
+          borderBottom: scrolled
+            ? "1px solid rgba(45,31,78,0.8)"
+            : "1px solid transparent",
         }}
       >
         <div className="container mx-auto px-4">
@@ -234,7 +287,10 @@ export default function SiteHeader() {
             </Link>
 
             {/* Desktop nav */}
-            <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1">
+            <nav
+              aria-label="Main navigation"
+              className="hidden md:flex items-center gap-1"
+            >
               {navItems.map((item) =>
                 isDropdown(item) ? (
                   <DesktopDropdown key={item.label} item={item} />
@@ -247,7 +303,8 @@ export default function SiteHeader() {
                     className="px-3 py-1.5 text-sm font-medium text-gray-300 hover:text-white rounded-lg
                                hover:bg-white/5 transition-all duration-150 uppercase tracking-wide"
                   >
-                    {item.label}<span className="sr-only"> (opens in new tab)</span>
+                    {item.label}
+                    <span className="sr-only"> (opens in new tab)</span>
                   </a>
                 ) : (
                   <Link
@@ -274,76 +331,84 @@ export default function SiteHeader() {
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
-              {menuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
+              {menuOpen ? (
+                <X className="w-6 h-6" aria-hidden="true" />
+              ) : (
+                <Menu className="w-6 h-6" aria-hidden="true" />
+              )}
             </button>
           </div>
         </div>
       </header>
 
+      {/* Mobile backdrop */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-200
+          ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        style={{ background: "rgba(0,0,0,0.6)" }}
+        onClick={close}
+      />
+
       {/* Mobile drawer */}
-      {menuOpen && (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key
-        <div
-          className="fixed inset-0 z-40 md:hidden"
-          style={{ background: "rgba(0,0,0,0.6)" }}
-          onClick={close}
-        >
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- stopPropagation prevents accidental drawer close */}
-          <nav
-            ref={drawerRef}
-            aria-label="Mobile navigation"
-            className="absolute top-16 left-0 right-0 flex flex-col gap-1 p-4 max-h-[calc(100vh-4rem)] overflow-y-auto"
-            style={{ background: "var(--nec-dark)", borderBottom: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}
-            onClick={(e) => e.stopPropagation()}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- stopPropagation prevents accidental drawer close */}
+      <nav
+        ref={drawerRef}
+        aria-label="Mobile navigation"
+        className={`fixed top-16 left-0 right-0 z-40 md:hidden flex flex-col gap-1 p-4
+          max-h-[calc(100vh-4rem)] overflow-y-auto nec-mobile-drawer
+          transition-all duration-200
+          ${menuOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {navItems.map((item) =>
+          isDropdown(item) ? (
+            <MobileDropdown key={item.label} item={item} onClose={close} />
+          ) : item.external ? (
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+              className="px-4 py-3 text-base font-semibold text-gray-200 hover:text-white
+                         hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide"
+            >
+              {item.label}
+              <span className="sr-only"> (opens in new tab)</span>
+            </a>
+          ) : (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={close}
+              className="px-4 py-3 text-base font-semibold text-gray-200 hover:text-white
+                         hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide"
+            >
+              {item.label}
+            </Link>
+          )
+        )}
+        <div className="pt-2 border-t border-gray-700/50 mt-1 space-y-2">
+          <Link
+            href="/register"
+            onClick={close}
+            className="btn-primary w-full !justify-center"
           >
-            {navItems.map((item) =>
-              isDropdown(item) ? (
-                <MobileDropdown key={item.label} item={item} onClose={close} />
-              ) : item.external ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={close}
-                  className="px-4 py-3 text-base font-semibold text-gray-200 hover:text-white
-                             hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide"
-                >
-                  {item.label}<span className="sr-only"> (opens in new tab)</span>
-                </a>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={close}
-                  className="px-4 py-3 text-base font-semibold text-gray-200 hover:text-white
-                             hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide"
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-            <div className="pt-2 border-t border-gray-700/50 mt-1 space-y-2">
-              <Link
-                href="/register"
-                onClick={close}
-                className="btn-primary w-full !justify-center"
-              >
-                Register — $40
-              </Link>
-              <a
-                href={HOTEL_BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={close}
-                className="btn-secondary w-full !justify-center"
-              >
-                Book Hotel<span className="sr-only"> (opens in new tab)</span>
-              </a>
-            </div>
-          </nav>
+            Register — $40
+          </Link>
+          <a
+            href={HOTEL_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+            className="btn-secondary w-full !justify-center"
+          >
+            Book Hotel
+            <span className="sr-only"> (opens in new tab)</span>
+          </a>
         </div>
-      )}
+      </nav>
     </>
   )
 }

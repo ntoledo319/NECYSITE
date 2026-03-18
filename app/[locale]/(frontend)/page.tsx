@@ -40,8 +40,8 @@ export default function HomePage() {
         />
       </div>
 
-      {/* ── Main content – padded for sticky header ──── */}
-      <main className="flex-1 pt-20 relative z-10">
+      {/* ── Main content ──── */}
+      <div className="flex-1 pt-4 relative z-10">
         {/* 1. Hero — full-width, no container cap */}
         <div className="mb-8">
           <HeroSection />
@@ -96,7 +96,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 mb-4 pb-20 md:pb-4">
           <EventsPreviewSection />
         </div>
-      </main>
+      </div>
 
       {/* Footer */}
       <SiteFooter />
