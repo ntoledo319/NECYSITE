@@ -10,12 +10,12 @@ export default function EventsPreviewSection() {
     <section id="events" aria-label="Events preview" className="px-4 md:px-0 space-y-10">
       {/* ── Featured Upcoming Event ──────────────────────────── */}
       <div>
-        <div className="mb-6">
+        <div className="mb-8">
           <span className="section-badge">Coming Up</span>
           <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
             Next Event
           </h2>
-          <p className="mt-2 text-sm text-gray-400">
+          <p className="mt-2 text-base text-gray-400 max-w-xl">
             Our next fundraiser is right around the corner. Come hang!
           </p>
         </div>

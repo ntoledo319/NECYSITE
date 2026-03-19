@@ -35,6 +35,32 @@ const NAVY = "#0f0a1e"
 interface Bullet { x: number; y: number }
 interface Enemy { x: number; y: number; alive: boolean; label: string; color: string }
 
+function TouchBtn({ label, ariaLabel, onPress, onRelease, color = PURPLE }: { label: string; ariaLabel: string; onPress: () => void; onRelease: () => void; color?: string }) {
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onTouchStart={(e) => { e.preventDefault(); onPress() }}
+      onTouchEnd={onRelease}
+      onTouchCancel={onRelease}
+      onMouseDown={onPress}
+      onMouseUp={onRelease}
+      onMouseLeave={onRelease}
+      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-95 transition-transform"
+      style={{
+        width: 64,
+        height: 52,
+        background: color + "20",
+        border: `2px solid ${color}50`,
+        color,
+        touchAction: "none",
+      }}
+    >
+      {label}
+    </button>
+  )
+}
+
 export default function SpaceInvadersGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [score, setScore] = useState(0)
@@ -105,8 +131,30 @@ export default function SpaceInvadersGame() {
     }
     const handleKeyUp = (e: KeyboardEvent) => { g.keys[e.key] = false }
 
+    // Touch: drag left/right to move, tap to fire
+    let touchX = 0
+    const handleTouchStart = (e: TouchEvent) => {
+      touchX = e.touches[0].clientX
+      // Tap fires
+      const now = Date.now()
+      if (now - g.lastShot > 250) {
+        g.bullets.push({ x: g.shipX, y: CANVAS_H - 50 })
+        g.lastShot = now
+      }
+    }
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      const newX = e.touches[0].clientX
+      const dx = (newX - touchX) / rect.width * CANVAS_W
+      g.shipX = Math.max(SHIP_SIZE / 2, Math.min(CANVAS_W - SHIP_SIZE / 2, g.shipX + dx))
+      touchX = newX
+    }
+
     window.addEventListener("keydown", handleKeyDown)
     window.addEventListener("keyup", handleKeyUp)
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: true })
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     function drawTriangleShip(cx: number, cy: number) {
       if (!ctx) return
@@ -261,10 +309,23 @@ export default function SpaceInvadersGame() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
       window.removeEventListener("keyup", handleKeyUp)
+      canvas.removeEventListener("touchstart", handleTouchStart)
+      canvas.removeEventListener("touchmove", handleTouchMove)
       cancelAnimationFrame(g.animId)
       g.running = false
     }
   }, [initEnemies])
+
+  const pressKey = useCallback((key: string) => { gameRef.current.keys[key] = true }, [])
+  const releaseKey = useCallback((key: string) => { gameRef.current.keys[key] = false }, [])
+  const fire = useCallback(() => {
+    const g = gameRef.current
+    const now = Date.now()
+    if (g.running && now - g.lastShot > 250) {
+      g.bullets.push({ x: g.shipX, y: CANVAS_H - 50 })
+      g.lastShot = now
+    }
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -274,11 +335,12 @@ export default function SpaceInvadersGame() {
           width={CANVAS_W}
           height={CANVAS_H}
           className="rounded-xl border border-purple-500/20"
-          style={{ imageRendering: "pixelated", maxWidth: "100%", height: "auto" }}
+          style={{ imageRendering: "pixelated", maxWidth: "100%", height: "auto", touchAction: "none" }}
           tabIndex={0}
           // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role -- role="application" is correct for game canvases; it tells assistive tech to pass all keystrokes through
           role="application"
-          aria-label="Space Invaders game. Use arrow keys to move, space or up arrow to shoot. Destroy all character defects to win."
+          aria-roledescription="game"
+          aria-label="Space Invaders game. Use arrow keys to move, space or up arrow to shoot. On mobile, drag to move and tap to fire. Destroy all character defects to win."
         />
         {gameOver && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
@@ -301,9 +363,15 @@ export default function SpaceInvadersGame() {
           </div>
         )}
       </div>
+      {/* Mobile touch controls */}
+      <div className="flex items-center gap-4 md:hidden" aria-label="Game controls" role="group">
+        <TouchBtn label="←" ariaLabel="Move left" onPress={() => pressKey("ArrowLeft")} onRelease={() => releaseKey("ArrowLeft")} />
+        <TouchBtn label="FIRE" ariaLabel="Fire" onPress={fire} onRelease={() => {}} color={CYAN} />
+        <TouchBtn label="→" ariaLabel="Move right" onPress={() => pressKey("ArrowRight")} onRelease={() => releaseKey("ArrowRight")} />
+      </div>
       <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        The AA triangle ship fires spiritual principles at character defects.
-        Arrow keys to move, Space to fire.
+        <span className="hidden md:inline">The AA triangle ship fires spiritual principles at character defects. Arrow keys to move, Space to fire.</span>
+        <span className="md:hidden">Drag to move, tap to fire. Use buttons below as an alternative.</span>
       </p>
     </div>
   )

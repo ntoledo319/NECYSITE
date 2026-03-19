@@ -5,6 +5,7 @@ import RegistrationForm from "@/components/registration-form"
 import PolicyAgreement from "@/components/policy-agreement"
 import RegistrationConfirmation from "@/components/registration-confirmation"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 type Step = "info" | "policy" | "confirm"
 
@@ -32,8 +33,9 @@ export default function FreeRegPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[var(--nec-navy)]">
-      <div className="container mx-auto px-4 pt-24 pb-12">
+    <div className="min-h-screen bg-[var(--nec-navy)] relative">
+      <PageArtAccents character="cheshire-cat" accentColor="var(--nec-pink)" variant="subtle" dividerVariant="potion" />
+      <div className="container mx-auto px-4 pt-24 pb-12 relative z-10">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
@@ -49,13 +51,14 @@ export default function FreeRegPage() {
           </div>
 
           {/* Progress Indicator */}
-          <div className="flex justify-center mb-8">
-            <div className="flex items-center gap-3">
+          <nav aria-label="Registration steps" className="flex justify-center mb-8">
+            <ol className="flex items-center gap-3 list-none p-0 m-0">
               {steps.map((step, index) => (
-                <div key={step.key} className="flex items-center gap-3">
+                <li key={step.key} className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
                     <div
                       className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                      aria-hidden="true"
                       style={{
                         background: currentStep === step.key ? "var(--nec-pink)" : "rgba(45,31,78,0.8)",
                         color: currentStep === step.key ? "white" : "var(--nec-muted)",
@@ -68,17 +71,19 @@ export default function FreeRegPage() {
                     <span
                       className="text-sm font-medium"
                       style={{ color: currentStep === step.key ? "white" : "var(--nec-muted)" }}
+                      {...(currentStep === step.key ? { "aria-current": "step" as const } : {})}
                     >
                       {step.label}
+                      <span className="sr-only"> (step {step.number} of {steps.length})</span>
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className="w-8 h-0.5 rounded-full bg-[var(--nec-border)]" />
+                    <div className="w-8 h-0.5 rounded-full bg-[var(--nec-border)]" aria-hidden="true" />
                   )}
-                </div>
+                </li>
               ))}
-            </div>
-          </div>
+            </ol>
+          </nav>
 
           {/* Content */}
           <div
@@ -135,7 +140,7 @@ export default function FreeRegPage() {
               rel="noopener noreferrer"
               className="btn-secondary inline-flex"
             >
-              Book Hotel
+              Book Hotel<span className="sr-only"> (opens in new tab)</span>
             </a>
           </div>
         </div>

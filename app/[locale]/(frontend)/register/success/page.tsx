@@ -60,13 +60,13 @@ export default function RegistrationSuccessPage() {
             >
               NECYPAA XXXVI · Hartford, CT
             </p>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
               Dec 31, 2026 – Jan 3, 2027 · Hartford Marriott Downtown
             </p>
           </div>
 
           {/* Confirmation message */}
-          <p className="text-sm text-gray-300 leading-relaxed">
+          <p className="text-sm leading-relaxed" style={{ color: "var(--nec-text, #d1d5db)" }}>
             Your registration is confirmed. A receipt was sent to the email you provided. Keep it
             for your records — you&apos;ll need your registration confirmation at check-in.
           </p>
@@ -75,7 +75,7 @@ export default function RegistrationSuccessPage() {
 
           {/* Next steps */}
           <div className="text-left space-y-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-gray-500">Next Steps</p>
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--nec-muted)" }}>Next Steps</p>
 
             <div className="flex items-start gap-3">
               <div
@@ -86,7 +86,7 @@ export default function RegistrationSuccessPage() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Book your hotel room</p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
                   Secure your room at the Hartford Marriott Downtown at our special group rate
                   before the block fills up.
                 </p>
@@ -102,7 +102,7 @@ export default function RegistrationSuccessPage() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Save the dates</p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
                   Dec 31, 2026 – Jan 3, 2027. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                 </p>
               </div>
@@ -117,7 +117,7 @@ export default function RegistrationSuccessPage() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Stay in the loop</p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
                   Check back at this site for schedule, speakers, and event updates as we get
                   closer to convention.
                 </p>
@@ -135,7 +135,7 @@ export default function RegistrationSuccessPage() {
             className="btn-secondary flex-1 !justify-center"
           >
             <Hotel className="w-4 h-4" />
-            Book Hotel Now
+            Book Hotel Now<span className="sr-only"> (opens in new tab)</span>
           </a>
           <Link
             href="/"
@@ -151,7 +151,7 @@ export default function RegistrationSuccessPage() {
           className="rounded-xl p-4 text-center space-y-1"
           style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%)", border: "1px solid var(--nec-border)", boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03)" }}
         >
-          <p className="text-xs text-gray-400">Questions or need help with your registration?</p>
+          <p className="text-xs" style={{ color: "var(--nec-muted)" }}>Questions or need help with your registration?</p>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75"
@@ -166,7 +166,7 @@ export default function RegistrationSuccessPage() {
         <div className="text-center">
           <Link
             href="/register"
-            className="text-xs text-gray-500 hover:text-gray-300 transition-colors inline-flex items-center gap-1"
+            className="text-xs transition-colors inline-flex items-center gap-1 hover:opacity-80" style={{ color: "var(--nec-muted)" }}
           >
             Register another person
             <ArrowRight className="w-3 h-3" />

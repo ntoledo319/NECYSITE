@@ -6,6 +6,7 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 import { ZOOM_MEETING_URL } from "@/lib/constants"
 import { Video, Users, Heart, Sparkles, ArrowRight } from "lucide-react"
 import { GearCluster } from "@/components/art/steampunk-gears"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "Service Opportunities — NECYPAA XXXVI",
@@ -27,7 +28,8 @@ export default function ServicePage() {
       className="min-h-screen flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="potion" />
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Service opportunities content">
         <div className="container mx-auto px-4 max-w-3xl">
           {/* ── Page Header ───────────────────────────────────────── */}
           <div className="text-center mb-14">
@@ -336,7 +338,7 @@ export default function ServicePage() {
                   }}
                 >
                   <Video className="w-4 h-4" aria-hidden="true" />
-                  Join on Zoom
+                  Join on Zoom<span className="sr-only"> (opens in new tab)</span>
                 </a>
                 <Link
                   href="/register"
@@ -357,7 +359,7 @@ export default function ServicePage() {
             Members-at-Large.
           </p>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

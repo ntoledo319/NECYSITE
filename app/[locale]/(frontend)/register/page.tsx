@@ -6,6 +6,7 @@ import RegistrationForm from "@/components/registration-form"
 import PolicyAgreement from "@/components/policy-agreement"
 import RegistrationCheckout from "@/components/registration-checkout"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 type Step = "info" | "policy" | "payment"
 
@@ -47,6 +48,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen relative bg-[var(--nec-navy)]">
+      <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="key" />
       {/* Mad Hatter portal watermark */}
       <div className="absolute top-16 left-1/2 -translate-x-1/2 w-64 h-96 opacity-[0.04] pointer-events-none z-0" aria-hidden="true">
         <Image src="/images/mad-hatter-portal.jpg" alt="" width={256} height={384} className="w-full h-full object-contain" aria-hidden="true" />
@@ -68,13 +70,14 @@ export default function RegisterPage() {
           </div>
 
           {/* Progress Indicator */}
-          <div className="flex justify-center mb-8">
-            <div className="flex items-center gap-3">
+          <nav aria-label="Registration steps" className="flex justify-center mb-8">
+            <ol className="flex items-center gap-3 list-none p-0 m-0">
               {steps.map((step, index) => (
-                <div key={step.key} className="flex items-center gap-3">
+                <li key={step.key} className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
                     <div
                       className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                      aria-hidden="true"
                       style={{
                         background: currentStep === step.key ? "var(--nec-pink)" : "rgba(45,31,78,0.8)",
                         color: currentStep === step.key ? "white" : "var(--nec-muted)",
@@ -87,17 +90,19 @@ export default function RegisterPage() {
                     <span
                       className="text-sm font-medium"
                       style={{ color: currentStep === step.key ? "white" : "var(--nec-muted)" }}
+                      {...(currentStep === step.key ? { "aria-current": "step" as const } : {})}
                     >
                       {step.label}
+                      <span className="sr-only"> (step {step.number} of {steps.length})</span>
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className="w-8 h-0.5 rounded-full bg-[var(--nec-border)]" />
+                    <div className="w-8 h-0.5 rounded-full bg-[var(--nec-border)]" aria-hidden="true" />
                   )}
-                </div>
+                </li>
               ))}
-            </div>
-          </div>
+            </ol>
+          </nav>
 
           {/* Content */}
           <div

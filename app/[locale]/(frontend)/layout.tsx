@@ -9,6 +9,7 @@ import "./globals.css"
 import SiteHeader from "@/components/site-header"
 import { A11yProvider } from "@/lib/accessibility-context"
 import AccessibilityPanel from "@/components/accessibility-panel"
+import MadRealmArtLayer from "@/components/art/mad-realm-art-layer"
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -92,6 +93,7 @@ export default async function RootLayout({
       <body className={`${jakarta.variable} ${outfit.variable} ${bangers.variable} ${pacifico.variable} ${jakarta.className}`}>
         <NextIntlClientProvider messages={messages}>
           <A11yProvider>
+            <MadRealmArtLayer />
             {/* Skip-to-content link for keyboard/screen-reader users */}
             <a
               href="#main-content"

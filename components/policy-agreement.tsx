@@ -28,7 +28,8 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
     <div className="space-y-6">
       <div className="rounded-2xl p-6 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
         <h3 className="text-xl font-bold text-white mb-4">NECYPAA Non-Discrimination and Anti-Harassment Policy</h3>
-        <div className="prose prose-invert max-w-none text-gray-300 space-y-4 max-h-96 overflow-y-auto text-sm">
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex={0} is required so keyboard-only users can scroll this overflow container */}
+        <div className="prose prose-invert max-w-none text-gray-300 space-y-4 max-h-96 overflow-y-auto text-sm" tabIndex={0} role="region" aria-label="Policy document — scroll to read full text">
           <p>
             The North East Convention of Young People in Alcoholics Anonymous (NECYPAA) adheres to the spiritual
             principles of Alcoholics Anonymous ("AA"), its 12 Steps, Traditions, and Concepts. NECYPAA is committed to

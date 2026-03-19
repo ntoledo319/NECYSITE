@@ -5,6 +5,7 @@ import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import FlyerWithModal from "@/components/flyer-with-modal"
 import { Calendar, MapPin, IceCream, Sparkles } from "lucide-react"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "Events — NECYPAA XXXVI",
@@ -18,7 +19,8 @@ export default function EventsPage() {
       className="min-h-screen flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="gear" />
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Events content">
         <div className="container mx-auto px-4">
           {/* Page header */}
           <div className="text-center mb-12 relative">
@@ -363,7 +365,7 @@ export default function EventsPage() {
             </p>
           </section>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

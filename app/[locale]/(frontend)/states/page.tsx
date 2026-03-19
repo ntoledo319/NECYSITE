@@ -27,9 +27,16 @@ export default function StatesPage() {
   }, [regionFilter])
 
   const handleStateSelect = (abbreviation: string) => {
-    setSelectedState((prev) =>
-      prev === abbreviation ? null : abbreviation,
-    )
+    const isDeselecting = selectedState === abbreviation
+    setSelectedState(isDeselecting ? null : abbreviation)
+
+    // Auto-switch region filter so the selected state's card is visible
+    if (!isDeselecting) {
+      const state = NECYPAA_STATES.find((s) => s.abbreviation === abbreviation)
+      if (state && regionFilter !== "all" && regionFilter !== state.region) {
+        setRegionFilter(state.region)
+      }
+    }
   }
 
   const stats = [
@@ -72,23 +79,23 @@ export default function StatesPage() {
       className="min-h-screen flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
-      {/* Ambient background gradients */}
+      {/* Refined ambient background — thin gradient lines, not blobs */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
         aria-hidden="true"
       >
         <div
-          className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.04]"
           style={{
             background:
-              "radial-gradient(circle, rgba(124,58,237,1) 0%, transparent 70%)",
+              "linear-gradient(180deg, rgba(124,58,237,0.3) 0%, transparent 30%, transparent 70%, rgba(20,184,166,0.2) 100%)",
           }}
         />
         <div
-          className="absolute bottom-1/4 right-0 w-[500px] h-[500px] rounded-full opacity-[0.02]"
+          className="absolute top-0 left-0 right-0 h-px"
           style={{
             background:
-              "radial-gradient(circle, rgba(20,184,166,1) 0%, transparent 70%)",
+              "linear-gradient(90deg, transparent 10%, rgba(124,58,237,0.15) 50%, transparent 90%)",
           }}
         />
       </div>
@@ -309,7 +316,7 @@ export default function StatesPage() {
                             {state.abbreviation}
                           </span>
                           <span
-                            className="block text-[10px] mt-0.5 font-medium truncate"
+                            className="block text-[11px] mt-0.5 font-medium truncate"
                             style={{ color: "var(--nec-muted)" }}
                           >
                             {state.name}
@@ -381,6 +388,7 @@ export default function StatesPage() {
               >
                 AA Meeting Finder{" "}
                 <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only"> (opens in new tab)</span>
               </a>
             </section>
 
@@ -420,7 +428,7 @@ export default function StatesPage() {
                     >
                       {tab.label}
                       <span
-                        className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                        className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
                         style={{
                           background: isActive
                             ? "rgba(124,58,237,0.2)"

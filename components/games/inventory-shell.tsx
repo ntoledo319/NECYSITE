@@ -54,7 +54,7 @@ export default function InventoryShell({
       className="min-h-screen flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Page content">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Page header */}
@@ -263,7 +263,7 @@ export default function InventoryShell({
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

@@ -349,6 +349,21 @@
 }
 .fade-up { animation: fadeUp 0.5s ease both; }
 
+/* ── Mad Realm floating particle animation ──── */
+@keyframes madRealmFloat {
+  0%   { transform: translate(0, 0) rotate(var(--particle-rotate, 0deg)); }
+  25%  { transform: translate(6px, -10px) rotate(calc(var(--particle-rotate, 0deg) + 4deg)); }
+  50%  { transform: translate(-4px, -18px) rotate(calc(var(--particle-rotate, 0deg) - 3deg)); }
+  75%  { transform: translate(8px, -8px) rotate(calc(var(--particle-rotate, 0deg) + 2deg)); }
+  100% { transform: translate(0, 0) rotate(var(--particle-rotate, 0deg)); }
+}
+.a11y-reduce-motion .mad-realm-particle {
+  animation: none !important;
+}
+.a11y-reduce-motion .mad-realm-particles {
+  display: none !important;
+}
+
 /* ── Sticky bottom bar z-index ──────────────── */
 .sticky-cta-bar { z-index: 49; }
 
@@ -637,6 +652,28 @@
 [data-color-mode="light"] :focus-visible {
   outline-color: #6d28d9;
 }
+/* Mad Realm art layer — light mode: reduce opacity further */
+[data-color-mode="light"] .mad-realm-particles {
+  opacity: 0.5;
+}
+[data-color-mode="light"] #mad-realm-maze rect,
+[data-color-mode="light"] #mad-realm-maze line,
+[data-color-mode="light"] #mad-realm-maze circle,
+[data-color-mode="light"] #mad-realm-maze polygon {
+  opacity: 0.015 !important;
+}
+/* Mad Realm art layer — high contrast: hide particles, keep maze very faint */
+.a11y-high-contrast .mad-realm-particles {
+  display: none !important;
+}
+/* Mad Realm ornate divider — light mode & high contrast */
+[data-color-mode="light"] .mad-realm-divider-line {
+  opacity: 0.4 !important;
+}
+.a11y-high-contrast .mad-realm-divider-line {
+  opacity: 0.6 !important;
+}
+
 /* Backgrounds using rgba white overlays */
 [data-color-mode="light"] .bg-black\/60,
 [data-color-mode="light"] .bg-black\/90 {

@@ -17,6 +17,7 @@ interface MeetingProps {
 
 export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const detailsId = `meeting-details-${meeting.name.replace(/\s+/g, "-").toLowerCase()}-${meeting.day.replace(/\s+/g, "-").toLowerCase()}`
 
   return (
     <>
@@ -46,14 +47,15 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
             className="transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-cyan)] rounded"
             style={{ color: "var(--nec-cyan)" }}
             aria-expanded={isExpanded}
-            aria-label={isExpanded ? "Collapse details" : "Expand details"}
+            aria-controls={detailsId}
+            aria-label={isExpanded ? `Collapse details for ${meeting.name}` : `Expand details for ${meeting.name}`}
           >
             {isExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
           </button>
         </td>
       </tr>
       {isExpanded && (
-        <tr style={{ background: "rgba(124,58,237,0.04)", borderBottom: "1px solid var(--nec-border)" }}>
+        <tr id={detailsId} style={{ background: "rgba(124,58,237,0.04)", borderBottom: "1px solid var(--nec-border)" }}>
           <td colSpan={7} className="p-4">
             <div className="grid grid-cols-2 gap-4">
               <div>

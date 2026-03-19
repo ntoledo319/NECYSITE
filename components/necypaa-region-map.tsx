@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useCallback, useId } from "react"
+import { useState, useCallback, useId, useMemo } from "react"
 
 /**
  * Interactive SVG map of the NECYPAA region.
- * Simplified state outlines — accurate enough for visual navigation,
- * not a GIS-grade projection. Each state is a clickable path that
- * emits the abbreviation via onStateSelect.
+ * Uses geographically accurate state outlines (Albers USA projection)
+ * sourced from public-domain US map data. Each state is a clickable
+ * path that emits the abbreviation via onStateSelect.
  *
  * Accessibility:
  * - Each state path has role="button", tabIndex, aria-label
@@ -29,108 +29,124 @@ interface StateShape {
   region: "new-england" | "expansion"
 }
 
-// Simplified SVG paths for the NECYPAA region states
-// ViewBox: 0 0 600 500
+// Geographically accurate SVG paths (Albers USA projection)
+// ViewBox focused on the NE region: "710 25 230 260"
 const STATE_SHAPES: StateShape[] = [
   // ── New England ──
   {
     abbreviation: "ME",
     name: "Maine",
-    d: "M495,10 L520,15 L535,55 L540,95 L530,130 L520,155 L505,160 L500,145 L490,120 L485,90 L480,55 L488,25 Z",
-    labelX: 512,
-    labelY: 85,
+    d: "M865.8,91.9 l1.5,0.4 v-2.6 l0.8,-5.5 2.6,-4.7 1.5,-4 -1.9,-2.4 v-6 l0.8,-1 0.8,-2.7 -0.2,-1.5 -0.2,-4.8 1.8,-4.8 2.9,-8.9 2.1,-4.2 h1.3 l1.3,0.2 v1.1 l1.3,2.3 2.7,0.6 0.8,-0.8 v-1 l4,-2.9 1.8,-1.8 1.5,0.2 6,2.4 1.9,1 9.1,29.9 h6 l0.8,1.9 0.2,4.8 2.9,2.3 h0.8 l0.2,-0.5 -0.5,-1.1 2.8,-0.5 1.9,2.1 2.3,3.7 v1.9 l-2.1,4.7 -1.9,0.6 -3.4,3.1 -4.8,5.5 c0,0 -0.6,0 -1.3,0 -0.6,0 -1,-2.1 -1,-2.1 l-1.8,0.2 -1,1.5 -2.4,1.5 -1,1.5 1.6,1.5 -0.5,0.6 -0.5,2.7 -1.9,-0.2 v-1.6 l-0.3,-1.3 -1.5,0.3 -1.8,-3.2 -2.1,1.3 1.3,1.5 0.3,1.1 -0.8,1.3 0.3,3.1 0.2,1.6 -1.6,2.6 -2.9,0.5 -0.3,2.9 -5.3,3.1 -1.3,0.5 -1.6,-1.5 -3.1,3.6 1,3.2 -1.5,1.3 -0.2,4.4 -1.1,6.3 -2.2,-0.9 -0.5,-3.1 -4,-1.1 -0.2,-2.5 -11.7,-37.43z m36.5,15.6 1.5,-1.5 1.4,1.1 0.6,2.4 -1.7,0.9z m6.7,-5.9 1.8,1.9 c0,0 1.3,0.1 1.3,-0.2 0,-0.3 0.2,-2 0.2,-2 l0.9,-0.8 -0.8,-1.8 -2,0.7z",
+    labelX: 886,
+    labelY: 78,
     region: "new-england",
   },
   {
     abbreviation: "NH",
     name: "New Hampshire",
-    d: "M480,55 L490,120 L500,145 L505,160 L495,175 L480,180 L472,165 L468,130 L470,95 L475,65 Z",
-    labelX: 485,
-    labelY: 130,
+    d: "M881.7,141.3 l1.1,-3.2 -2.7,-1.2 -0.5,-3.1 -4.1,-1.1 -0.3,-3 -11.7,-37.48 -0.7,0.08 -0.6,1.6 -0.6,-0.5 -1,-1 -1.5,1.9 -0.2,2.29 0.5,8.41 1.9,2.8 v4.3 l-3.9,4.8 -2.4,0.9 v0.7 l1.1,1.9 v8.6 l-0.8,9.2 -0.2,4.7 1,1.4 -0.2,4.7 -0.5,1.5 1,1.1 5.1,-1.2 13.8,-3.5 1.7,-2.9 4,-1.9z",
+    labelX: 870,
+    labelY: 118,
     region: "new-england",
   },
   {
     abbreviation: "VT",
     name: "Vermont",
-    d: "M445,60 L475,65 L470,95 L468,130 L472,165 L460,175 L445,170 L438,140 L435,110 L440,80 Z",
-    labelX: 455,
-    labelY: 125,
+    d: "M832.7,111.3 l2.4,6.5 0.8,5.3 -1,3.9 2.5,4.4 0.9,2.3 -0.7,2.6 3.3,1.5 2.9,10.8 v5.3 l11.5,-2.1 -1,-1.1 0.6,-1.9 0.2,-4.3 -1,-1.4 0.2,-4.7 0.8,-9.3 v-8.5 l-1.1,-1.8 v-1.6 l2.8,-1.1 3.5,-4.4 v-3.6 l-1.9,-2.7 -0.3,-5.79 -26.1,6.79z",
+    labelX: 846,
+    labelY: 118,
     region: "new-england",
   },
   {
     abbreviation: "MA",
     name: "Massachusetts",
-    d: "M445,170 L460,175 L480,180 L495,175 L510,180 L530,178 L540,185 L530,195 L510,200 L495,198 L480,200 L460,198 L445,195 L440,185 Z",
-    labelX: 490,
-    labelY: 188,
+    d: "M887.5,172.5 l-0.5,-2.3 0.8,-1.5 2.9,-1.5 0.8,3.1 -0.5,1.8 -2.4,1.5 v1 l1.9,-1.5 3.9,-4.5 3.9,-1.9 4.2,-1.5 -0.3,-2.4 -1,-2.9 -1.9,-2.4 -1.8,-0.8 -2.1,0.2 -0.5,0.5 1,1.3 1.5,-0.8 2.1,1.6 0.8,2.7 -1.8,1.8 -2.3,1 -3.6,-0.5 -3.9,-6 -2.3,-2.6 h-1.8 l-1.1,0.8 -1.9,-2.6 0.3,-1.5 2.4,-5.2 -2.9,-4.4 -3.7,1.8 -1.8,2.9 -18.3,4.7 -13.8,2.5 -0.6,10.6 0.7,4.9 22,-4.8 11.2,-2.8 2,1.6 3.4,4.3 2.9,4.7z m12.5,1.4 2.2,-0.7 0.5,-1.7 1,0.1 1,2.3 -1.3,0.5 -3.9,0.1z m-9.4,0.8 2.3,-2.6 h1.6 l1.8,1.5 -2.4,1 -2.2,1z",
+    labelX: 870,
+    labelY: 162,
     region: "new-england",
   },
   {
     abbreviation: "RI",
     name: "Rhode Island",
-    d: "M510,200 L525,200 L530,215 L525,228 L515,225 L508,215 Z",
-    labelX: 519,
-    labelY: 214,
+    d: "M873.6,175.7 l-0.8,-4.4 -1.6,-6 5.7,-1.5 1.5,1.3 3.4,4.3 2.8,4.4 -2.8,1.4 -1.3,-0.2 -1.1,1.8 -2.4,1.9 -2.8,1.1z",
+    labelX: 879,
+    labelY: 176,
     region: "new-england",
   },
   {
     abbreviation: "CT",
     name: "Connecticut",
-    d: "M460,198 L495,198 L510,200 L508,215 L505,235 L498,245 L480,248 L462,245 L455,230 L454,215 Z",
-    labelX: 480,
-    labelY: 225,
+    d: "M852,190.9 l3.6,-3.2 1.9,-2.1 0.8,0.6 2.7,-1.5 5.2,-1.1 7,-3.5 -0.6,-4.2 -0.8,-4.4 -1.6,-6 -4.3,1.1 -21.8,4.7 0.6,3.1 1.5,7.3 v8.3 l-0.9,2.1 1.7,2.2z",
+    labelX: 856,
+    labelY: 183,
     region: "new-england",
   },
   // ── Expansion States ──
   {
     abbreviation: "NY",
     name: "New York",
-    d: "M310,80 L380,75 L420,70 L445,60 L440,80 L435,110 L438,140 L445,170 L445,195 L454,215 L455,230 L445,240 L430,235 L410,230 L380,228 L355,230 L335,225 L320,215 L310,195 L305,165 L305,130 L308,100 Z",
-    labelX: 375,
-    labelY: 155,
+    d: "M843.4,200 l0.5,-2.7 -0.2,-2.4 -3,-1.5 -6.5,-2 -6,-2.6 -0.6,-0.4 -2.7,-0.3 -2,-1.5 -2.1,-5.9 -3.3,-0.5 -2.4,-2.4 -38.4,8.1 -31.6,6 -0.5,-6.5 1.6,-1.2 1.3,-1.1 1,-1.6 1.8,-1.1 1.9,-1.8 0.5,-1.6 2.1,-2.7 1.1,-1 -0.2,-1 -1.3,-3.1 -1.8,-0.2 -1.9,-6.1 2.9,-1.8 4.4,-1.5 4,-1.3 3.2,-0.5 6.3,-0.2 1.9,1.3 1.6,0.2 2.1,-1.3 2.6,-1.1 5.2,-0.5 2.1,-1.8 1.8,-3.2 1.6,-1.9 h2.1 l1.9,-1.1 0.2,-2.3 -1.5,-2.1 -0.3,-1.5 1.1,-2.1 v-1.5 h-1.8 l-1.8,-0.8 -0.8,-1.1 -0.2,-2.6 5.8,-5.5 0.6,-0.8 1.5,-2.9 2.9,-4.5 2.7,-3.7 2.1,-2.4 2.4,-1.8 3.1,-1.2 5.5,-1.3 3.2,0.2 4.5,-1.5 7.4,-2.2 0.7,4.9 2.4,6.5 0.8,5 -1,4.2 2.6,4.5 0.8,2 -0.9,3.2 3.7,1.7 2.7,10.2 v5.8 l-0.6,10.9 0.8,5.4 0.7,3.6 1.5,7.3 v8.1 l-1.1,2.3 2.1,2.7 0.5,0.9 -1.9,1.8 0.3,1.3 1.3,-0.3 1.5,-1.3 2.3,-2.6 1.1,-0.6 1.6,0.6 2.3,0.2 7.9,-3.9 2.9,-2.7 1.3,-1.5 4.2,1.6 -3.4,3.6 -3.9,2.9 -7.1,5.3 -2.6,1 -5.8,1.9 -4,1.1 -1,-0.4z",
+    labelX: 788,
+    labelY: 168,
     region: "expansion",
   },
   {
     abbreviation: "NJ",
     name: "New Jersey",
-    d: "M410,230 L430,235 L440,245 L445,265 L440,290 L432,310 L420,320 L410,315 L405,295 L400,270 L402,250 Z",
-    labelX: 422,
-    labelY: 278,
+    d: "M823.7,228.3 l0.1,-1.5 2.7,-1.3 1.7,-2.8 1.7,-2.4 3.3,-3.2 v-1.2 l-6.1,-4.1 -1,-2.7 -2.7,-0.3 -0.1,-0.9 -0.7,-2.2 2.2,-1.1 0.2,-2.9 -1.3,-1.3 0.2,-1.2 1.9,-3.1 v-3.1 l2.5,-3.1 5.6,2.5 6.4,1.9 2.5,1.2 0.1,1.8 -0.5,2.7 0.4,4.5 -2.1,1.9 -1.1,1 0.5,0.5 2.7,-0.3 1.1,-0.8 1.6,3.4 0.2,9.4 0.6,1.1 -1.1,5.5 -3.1,6.5 -2.7,4 -0.8,4.8 -2.1,2.4 h-0.8 l-0.3,-2.7 0.8,-1 -0.2,-1.5 -4,-0.6 -4.8,-2.3 -3.2,-2.9 -1,-2z",
+    labelX: 835,
+    labelY: 225,
     region: "expansion",
   },
   {
     abbreviation: "PA",
     name: "Pennsylvania",
-    d: "M265,195 L310,195 L320,215 L335,225 L355,230 L380,228 L410,230 L402,250 L400,270 L395,285 L370,290 L340,288 L310,285 L280,280 L260,270 L255,245 L258,220 Z",
-    labelX: 330,
-    labelY: 245,
+    d: "M736.6,192.2 l1.3,-0.5 5.7,-5.5 0.7,6.9 33.5,-6.5 36.9,-7.8 2.3,2.3 3.1,0.4 2,5.6 2.4,1.9 2.8,0.4 0.1,0.1 -2.6,3.2 v3.1 l-1.9,3.1 -0.2,1.9 1.3,1.3 -0.2,1.9 -2.4,1.1 1,3.4 0.2,1.1 2.8,0.3 0.9,2.5 5.9,3.9 v0.4 l-3.1,3 -1.5,2.2 -1.7,2.8 -2.7,1.2 -1.4,0.3 -2.1,1.3 -1.6,1.4 -22.4,4.3 -38.7,7.8 -11.3,1.4 -3.9,0.7 -5.1,-22.4 -4.3,-25.9z",
+    labelX: 780,
+    labelY: 212,
     region: "expansion",
   },
   {
     abbreviation: "DE",
     name: "Delaware",
-    d: "M420,320 L432,310 L440,325 L438,345 L430,360 L420,355 L415,340 Z",
-    labelX: 430,
-    labelY: 340,
+    d: "M834.4,247.2 l-1,0.5 -3.6,-2.4 -1.8,-4.7 -1.9,-3.6 -2.3,-1 -2.1,-3.6 0.5,-2 0.5,-2.3 0.1,-1.1 -0.6,0.1 -1.7,1 -2,1.7 -0.2,0.3 1.4,4.1 2.3,5.6 3.7,16.1 5,-0.3 6,-1.1z",
+    labelX: 832,
+    labelY: 245,
     region: "expansion",
   },
   {
     abbreviation: "MD",
     name: "Maryland",
-    d: "M280,280 L310,285 L340,288 L370,290 L395,285 L400,270 L405,295 L410,315 L420,320 L415,340 L400,345 L380,350 L350,345 L320,340 L290,335 L270,320 L268,300 Z",
-    labelX: 345,
-    labelY: 315,
+    d: "M834.8,264.1 l1.7,-3.8 0.5,-4.8 -6.3,1.1 -5.8,0.3 -3.8,-16.8 -2.3,-5.5 -1.5,-4.6 -22.2,4.3 -37.6,7.6 2,10.4 4.8,-4.9 2.5,-0.7 1.4,-1.5 1.8,-2.7 1.6,0.7 2.6,-0.2 2.6,-2.1 2,-1.5 2.1,-0.6 1.5,1.1 2.7,1.4 1.9,1.8 1.3,1.4 4.8,1.6 -0.6,2.9 5.8,2.1 2.1,-2.6 3.7,2.5 -2.1,3.3 -0.7,3.3 -1.8,2.6 v2.1 l0.3,0.8 2,1.3 3.4,1.1 4.3,-0.1 3.1,1 2.1,0.3 1,-2.1 -1.5,-2.1 v-1.8 l-2.4,-2.1 -2.1,-5.5 1.3,-5.3 -0.2,-2.1 -1.3,-1.3 c0,0 1.5,-1.6 1.5,-2.3 0,-0.6 0.5,-2.1 0.5,-2.1 l1.9,-1.3 1.9,-1.6 0.5,1 -1.5,1.6 -1.3,3.7 0.3,1.1 1.8,0.3 0.5,5.5 -2.1,1 0.3,3.6 0.5,-0.2 1.1,-1.9 1.6,1.8 -1.6,1.3 -0.3,3.4 2.6,3.4 3.9,0.5 1.6,-0.8 3.2,4.2 1,0.4z m-14.5,0.2 1.1,2.5 0.2,1.8 1.1,1.9 c0,0 0.9,-0.9 0.9,-1.2 0,-0.3 -0.7,-3.1 -0.7,-3.1 l-0.7,-2.3z",
+    labelX: 790,
+    labelY: 252,
     region: "expansion",
   },
   {
     abbreviation: "DC",
     name: "Washington, D.C.",
-    d: "M355,345 L370,342 L375,355 L365,362 L355,358 Z",
-    labelX: 365,
-    labelY: 352,
+    d: "M803,260 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0",
+    labelX: 798,
+    labelY: 268,
     region: "expansion",
   },
 ]
+
+// Centroid cache: pre-computed label positions for accurate state paths
+const LABEL_OVERRIDES: Record<string, { x: number; y: number }> = {
+  ME: { x: 886, y: 78 },
+  NH: { x: 870, y: 118 },
+  VT: { x: 846, y: 118 },
+  MA: { x: 868, y: 162 },
+  RI: { x: 882, y: 176 },
+  CT: { x: 856, y: 183 },
+  NY: { x: 788, y: 168 },
+  NJ: { x: 836, y: 228 },
+  PA: { x: 778, y: 212 },
+  DE: { x: 833, y: 247 },
+  MD: { x: 808, y: 254 },
+  DC: { x: 798, y: 268 },
+}
 
 export default function NecypaaRegionMap({
   activeState,
@@ -138,6 +154,8 @@ export default function NecypaaRegionMap({
 }: NecypaaRegionMapProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null)
   const liveRegionId = useId()
+  const rawFilterId = useId()
+  const filterId = rawFilterId.replace(/:/g, "")
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent, abbreviation: string) => {
@@ -149,45 +167,54 @@ export default function NecypaaRegionMap({
     [onStateSelect],
   )
 
-  const getStateColor = (abbr: string, region: string) => {
-    const isActive = activeState === abbr
-    const isHovered = hoveredState === abbr
+  const getStateFill = useCallback(
+    (abbr: string, region: string) => {
+      const isActive = activeState === abbr
+      const isHovered = hoveredState === abbr
+      const isNE = region === "new-england"
 
-    if (isActive) {
-      return region === "new-england"
-        ? "rgba(20,184,166,0.55)"
-        : "rgba(124,58,237,0.55)"
-    }
-    if (isHovered) {
-      return region === "new-england"
-        ? "rgba(20,184,166,0.30)"
-        : "rgba(124,58,237,0.30)"
-    }
-    return region === "new-england"
-      ? "rgba(20,184,166,0.10)"
-      : "rgba(124,58,237,0.10)"
-  }
+      if (isActive) {
+        return isNE
+          ? "rgba(20,184,166,0.40)"
+          : "rgba(124,58,237,0.40)"
+      }
+      if (isHovered) {
+        return isNE
+          ? "rgba(20,184,166,0.22)"
+          : "rgba(124,58,237,0.22)"
+      }
+      return isNE
+        ? "rgba(20,184,166,0.07)"
+        : "rgba(124,58,237,0.07)"
+    },
+    [activeState, hoveredState],
+  )
 
-  const getStrokeColor = (abbr: string, region: string) => {
-    const isActive = activeState === abbr
-    const isHovered = hoveredState === abbr
+  const getStrokeColor = useCallback(
+    (abbr: string, region: string) => {
+      const isActive = activeState === abbr
+      const isHovered = hoveredState === abbr
+      const isNE = region === "new-england"
 
-    if (isActive) {
-      return region === "new-england"
-        ? "rgba(20,184,166,0.9)"
-        : "rgba(124,58,237,0.9)"
-    }
-    if (isHovered) {
-      return region === "new-england"
-        ? "rgba(20,184,166,0.6)"
-        : "rgba(124,58,237,0.6)"
-    }
-    return "rgba(45,31,78,0.6)"
-  }
+      if (isActive) {
+        return isNE
+          ? "rgba(20,184,166,0.85)"
+          : "rgba(168,130,255,0.85)"
+      }
+      if (isHovered) {
+        return isNE
+          ? "rgba(20,184,166,0.50)"
+          : "rgba(168,130,255,0.50)"
+      }
+      return "rgba(100,80,140,0.30)"
+    },
+    [activeState, hoveredState],
+  )
 
-  const activeStateName = STATE_SHAPES.find(
-    (s) => s.abbreviation === activeState,
-  )?.name
+  const activeStateName = useMemo(
+    () => STATE_SHAPES.find((s) => s.abbreviation === activeState)?.name,
+    [activeState],
+  )
 
   return (
     <div className="necypaa-map-container relative">
@@ -204,72 +231,68 @@ export default function NecypaaRegionMap({
       </div>
 
       <svg
-        viewBox="220 0 360 400"
+        viewBox="710 25 230 260"
         xmlns="http://www.w3.org/2000/svg"
-        role="img"
+        role="group"
         aria-label="Interactive map of the NECYPAA region showing 12 states and Washington, D.C. Select a state to view its resources."
-        className="w-full h-auto max-h-[420px]"
-        style={{ filter: "drop-shadow(0 0 40px rgba(124,58,237,0.08))" }}
+        className="w-full h-auto max-h-[480px]"
+        style={{ touchAction: "manipulation" }}
       >
         <defs>
-          {/* Glow filter for active state */}
-          <filter id="state-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          {/* Refined glow for active state — soft, not blobby */}
+          <filter id={`${filterId}-active`} x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+            <feFlood floodColor="rgba(168,130,255,0.3)" result="color" />
+            <feComposite in="color" in2="blur" operator="in" result="glow" />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
-          {/* Subtle inner glow for hover */}
-          <filter
-            id="state-hover-glow"
-            x="-10%"
-            y="-10%"
-            width="120%"
-            height="120%"
-          >
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          {/* Subtle border shimmer for NE active */}
+          <filter id={`${filterId}-active-ne`} x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+            <feFlood floodColor="rgba(20,184,166,0.3)" result="color" />
+            <feComposite in="color" in2="blur" operator="in" result="glow" />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
-          {/* Radial gradient background */}
-          <radialGradient id="map-bg-grad" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="rgba(124,58,237,0.06)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0)" />
-          </radialGradient>
         </defs>
-
-        {/* Background glow */}
-        <rect
-          x="220"
-          y="0"
-          width="360"
-          height="400"
-          fill="url(#map-bg-grad)"
-          aria-hidden="true"
-        />
 
         {/* State paths */}
         {STATE_SHAPES.map((state) => {
           const isActive = activeState === state.abbreviation
           const isHovered = hoveredState === state.abbreviation
+          const label = LABEL_OVERRIDES[state.abbreviation] ?? {
+            x: state.labelX,
+            y: state.labelY,
+          }
+          const isSmall =
+            state.abbreviation === "DC" ||
+            state.abbreviation === "RI" ||
+            state.abbreviation === "DE"
 
           return (
             <g key={state.abbreviation}>
               <path
                 d={state.d}
-                fill={getStateColor(state.abbreviation, state.region)}
+                fill={getStateFill(state.abbreviation, state.region)}
                 stroke={getStrokeColor(state.abbreviation, state.region)}
-                strokeWidth={isActive ? 2.5 : isHovered ? 2 : 1}
+                strokeWidth={isActive ? 1.8 : isHovered ? 1.2 : 0.6}
                 strokeLinejoin="round"
                 className="necypaa-map-state"
                 style={{
                   cursor: "pointer",
+                  transition: "fill 0.2s ease, stroke 0.2s ease, stroke-width 0.15s ease",
                   filter: isActive
-                    ? "url(#state-glow)"
-                    : isHovered
-                      ? "url(#state-hover-glow)"
-                      : "none",
+                    ? `url(#${filterId}-active${state.region === "new-england" ? "-ne" : ""})`
+                    : "none",
                 }}
                 role="button"
                 tabIndex={0}
-                aria-label={`${state.name}${isActive ? " (selected)" : ""}. Click to view AA resources.`}
+                aria-label={`${state.name}${isActive ? " (selected)" : ""}. Select to view AA resources.`}
                 onClick={() => onStateSelect(state.abbreviation)}
                 onKeyDown={(e) => handleKeyDown(e, state.abbreviation)}
                 onMouseEnter={() => setHoveredState(state.abbreviation)}
@@ -277,25 +300,40 @@ export default function NecypaaRegionMap({
                 onFocus={() => setHoveredState(state.abbreviation)}
                 onBlur={() => setHoveredState(null)}
               />
+              {/* Enlarged invisible touch target for small states — meets WCAG 44px minimum */}
+              {isSmall && (
+                <circle
+                  cx={label.x}
+                  cy={label.y}
+                  r={14}
+                  fill="transparent"
+                  stroke="none"
+                  style={{ cursor: "pointer", touchAction: "manipulation" }}
+                  aria-hidden="true"
+                  onClick={() => onStateSelect(state.abbreviation)}
+                  onMouseEnter={() => setHoveredState(state.abbreviation)}
+                  onMouseLeave={() => setHoveredState(null)}
+                />
+              )}
               {/* State label */}
               <text
-                x={state.labelX}
-                y={state.labelY}
+                x={label.x}
+                y={label.y}
                 textAnchor="middle"
                 dominantBaseline="central"
                 className="pointer-events-none select-none"
                 style={{
                   fill:
-                    isActive || isHovered
+                    isActive
                       ? "#ffffff"
-                      : "rgba(232,224,240,0.6)",
-                  fontSize: state.abbreviation === "DC" || state.abbreviation === "RI" ? "8px" : "11px",
-                  fontWeight: isActive ? 900 : 700,
+                      : isHovered
+                        ? "rgba(255,255,255,0.85)"
+                        : "rgba(200,190,220,0.55)",
+                  fontSize: isSmall ? "5px" : "7px",
+                  fontWeight: isActive ? 800 : 600,
                   fontFamily: "var(--font-heading), Outfit, sans-serif",
-                  letterSpacing: "0.05em",
-                  textShadow: isActive
-                    ? "0 0 12px rgba(124,58,237,0.8)"
-                    : "none",
+                  letterSpacing: "0.08em",
+                  transition: "fill 0.2s ease",
                 }}
                 aria-hidden="true"
               >
@@ -306,51 +344,65 @@ export default function NecypaaRegionMap({
         })}
 
         {/* Legend */}
-        <g aria-hidden="true" transform="translate(235, 365)">
+        <g aria-hidden="true" transform="translate(718, 270)">
           <rect
             x="0"
             y="0"
-            width="8"
-            height="8"
-            rx="2"
-            fill="rgba(20,184,166,0.3)"
-            stroke="rgba(20,184,166,0.6)"
-            strokeWidth="1"
+            width="5"
+            height="5"
+            rx="1"
+            fill="rgba(20,184,166,0.25)"
+            stroke="rgba(20,184,166,0.5)"
+            strokeWidth="0.5"
           />
           <text
-            x="14"
-            y="8"
+            x="8"
+            y="4.5"
             style={{
-              fill: "var(--nec-muted)",
-              fontSize: "9px",
+              fill: "rgba(200,190,220,0.45)",
+              fontSize: "5px",
               fontFamily: "var(--font-sans), sans-serif",
+              letterSpacing: "0.04em",
             }}
           >
             New England
           </text>
           <rect
-            x="95"
+            x="58"
             y="0"
-            width="8"
-            height="8"
-            rx="2"
-            fill="rgba(124,58,237,0.3)"
-            stroke="rgba(124,58,237,0.6)"
-            strokeWidth="1"
+            width="5"
+            height="5"
+            rx="1"
+            fill="rgba(124,58,237,0.25)"
+            stroke="rgba(168,130,255,0.5)"
+            strokeWidth="0.5"
           />
           <text
-            x="109"
-            y="8"
+            x="66"
+            y="4.5"
             style={{
-              fill: "var(--nec-muted)",
-              fontSize: "9px",
+              fill: "rgba(200,190,220,0.45)",
+              fontSize: "5px",
               fontFamily: "var(--font-sans), sans-serif",
+              letterSpacing: "0.04em",
             }}
           >
             2025 Expansion
           </text>
         </g>
       </svg>
+
+      {/* Mobile-friendly selected state display — visible feedback for touch users */}
+      {activeStateName && (
+        <div
+          className="mt-3 text-center text-sm font-semibold md:hidden"
+          style={{ color: "var(--nec-muted)" }}
+          aria-hidden="true"
+        >
+          Selected:{" "}
+          <span className="text-white">{activeStateName}</span>
+        </div>
+      )}
     </div>
   )
 }

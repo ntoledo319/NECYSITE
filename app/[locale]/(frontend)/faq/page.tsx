@@ -4,6 +4,7 @@ import { faqData } from "@/lib/data/faq"
 import FAQAccordion from "@/components/faq-accordion"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "FAQ — NECYPAA XXXVI",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default function FAQPage() {
   return (
     <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <PageArtAccents character="cheshire-cat" accentColor="var(--nec-pink)" dividerVariant="key" />
       <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">

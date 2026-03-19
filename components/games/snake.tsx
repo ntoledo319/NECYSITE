@@ -34,12 +34,35 @@ const TOKENS = [
 interface Pos { x: number; y: number }
 interface Food { pos: Pos; token: typeof TOKENS[number] }
 
+function DPadButton({ label, ariaLabel, onTap, color = PURPLE }: { label: string; ariaLabel: string; onTap: () => void; color?: string }) {
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onTouchStart={(e) => { e.preventDefault(); onTap() }}
+      onClick={onTap}
+      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-90 transition-transform"
+      style={{
+        width: 52,
+        height: 52,
+        background: color + "20",
+        border: `2px solid ${color}50`,
+        color,
+        touchAction: "none",
+      }}
+    >
+      {label}
+    </button>
+  )
+}
+
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [score, setScore] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [_lastCollected, setLastCollected] = useState("")
   const lastCollectedRef = useRef("")
+  const dirRef = useRef<{ setDir: (dir: { x: number; y: number }) => void }>({ setDir: () => {} })
   const gameRef = useRef({
     snake: [{ x: Math.floor(COLS / 2), y: Math.floor(ROWS / 2) }] as Pos[],
     dir: { x: 1, y: 0 },
@@ -89,33 +112,47 @@ export default function SnakeGame() {
     const g = gameRef.current
     g.food = placeFood(g.snake)
 
+    function setDirection(dir: { x: number; y: number }) {
+      if (!g.running) return
+      if (dir.x !== 0 && g.dir.x !== -dir.x) g.nextDir = dir
+      if (dir.y !== 0 && g.dir.y !== -dir.y) g.nextDir = dir
+    }
+
+    dirRef.current = { setDir: setDirection }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!g.running) return
       switch (e.key) {
-        case "ArrowUp":
-        case "w":
-          e.preventDefault()
-          if (g.dir.y !== 1) g.nextDir = { x: 0, y: -1 }
-          break
-        case "ArrowDown":
-        case "s":
-          e.preventDefault()
-          if (g.dir.y !== -1) g.nextDir = { x: 0, y: 1 }
-          break
-        case "ArrowLeft":
-        case "a":
-          e.preventDefault()
-          if (g.dir.x !== 1) g.nextDir = { x: -1, y: 0 }
-          break
-        case "ArrowRight":
-        case "d":
-          e.preventDefault()
-          if (g.dir.x !== -1) g.nextDir = { x: 1, y: 0 }
-          break
+        case "ArrowUp": case "w": e.preventDefault(); setDirection({ x: 0, y: -1 }); break
+        case "ArrowDown": case "s": e.preventDefault(); setDirection({ x: 0, y: 1 }); break
+        case "ArrowLeft": case "a": e.preventDefault(); setDirection({ x: -1, y: 0 }); break
+        case "ArrowRight": case "d": e.preventDefault(); setDirection({ x: 1, y: 0 }); break
+      }
+    }
+
+    // Swipe gesture detection
+    let touchStartX = 0
+    let touchStartY = 0
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX
+      touchStartY = e.touches[0].clientY
+    }
+    const handleTouchEnd = (e: TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - touchStartX
+      const dy = e.changedTouches[0].clientY - touchStartY
+      const absDx = Math.abs(dx)
+      const absDy = Math.abs(dy)
+      if (Math.max(absDx, absDy) < 20) return
+      if (absDx > absDy) {
+        setDirection(dx > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 })
+      } else {
+        setDirection(dy > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 })
       }
     }
 
     window.addEventListener("keydown", handleKeyDown)
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: true })
+    canvas.addEventListener("touchend", handleTouchEnd, { passive: true })
 
     function tick() {
       g.dir = { ...g.nextDir }
@@ -252,10 +289,16 @@ export default function SnakeGame() {
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
+      canvas.removeEventListener("touchstart", handleTouchStart)
+      canvas.removeEventListener("touchend", handleTouchEnd)
       cancelAnimationFrame(g.animId)
       g.running = false
     }
   }, [placeFood])
+
+  const handleDir = useCallback((dir: { x: number; y: number }) => {
+    dirRef.current.setDir(dir)
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -265,11 +308,12 @@ export default function SnakeGame() {
           width={CANVAS_W}
           height={CANVAS_H}
           className="rounded-xl border border-purple-500/20"
-          style={{ maxWidth: "100%", height: "auto" }}
+          style={{ maxWidth: "100%", height: "auto", touchAction: "none" }}
           tabIndex={0}
           // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role -- role="application" is correct for game canvases; it tells assistive tech to pass all keystrokes through
           role="application"
-          aria-label="Snake game. Use arrow keys to guide the journey. Collect serenity tokens to grow. Do not run into yourself."
+          aria-roledescription="game"
+          aria-label="Snake game. Use arrow keys or swipe to guide the journey. Collect serenity tokens to grow. Do not run into yourself."
         />
         {gameOver && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
@@ -287,9 +331,19 @@ export default function SnakeGame() {
           </div>
         )}
       </div>
+      {/* Mobile d-pad */}
+      <div className="md:hidden flex flex-col items-center gap-1" aria-label="Game controls" role="group">
+        <DPadButton label="↑" ariaLabel="Move up" onTap={() => handleDir({ x: 0, y: -1 })} color={CYAN} />
+        <div className="flex gap-1">
+          <DPadButton label="←" ariaLabel="Move left" onTap={() => handleDir({ x: -1, y: 0 })} />
+          <div style={{ width: 52, height: 52 }} />
+          <DPadButton label="→" ariaLabel="Move right" onTap={() => handleDir({ x: 1, y: 0 })} />
+        </div>
+        <DPadButton label="↓" ariaLabel="Move down" onTap={() => handleDir({ x: 0, y: 1 })} color={GOLD} />
+      </div>
       <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        Collect serenity tokens. Each one adds a day to your journey.
-        Arrow keys to move. Don&apos;t cross your own path.
+        <span className="hidden md:inline">Collect serenity tokens. Each one adds a day to your journey. Arrow keys to move. Don&apos;t cross your own path.</span>
+        <span className="md:hidden">Swipe or use the d-pad to move. Collect tokens. Don&apos;t cross your own path.</span>
       </p>
     </div>
   )

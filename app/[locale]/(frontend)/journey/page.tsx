@@ -4,6 +4,7 @@ import { pastEvents } from "@/lib/data/events"
 import { Calendar, MapPin } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "The Journey Comes First — NECYPAA XXXVI",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default function JourneyPage() {
   return (
     <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
       <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">

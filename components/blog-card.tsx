@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useId } from "react"
+import { useState, useRef, useId, useCallback } from "react"
 import { ChevronDown, BookOpen } from "lucide-react"
 import type { BlogPost } from "@/lib/data/blog-posts"
 
@@ -35,14 +35,33 @@ interface BlogCardProps {
 export default function BlogCard({ post, index }: BlogCardProps) {
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
+  const articleRef = useRef<HTMLElement>(null)
   const uniqueId = useId()
   const contentId = `blog-content-${uniqueId}`
   const cat = CATEGORY_STYLES[post.category] ?? CATEGORY_STYLES.story
 
   const paragraphs = post.body.split("\n\n").filter(Boolean)
 
+  const handleToggle = useCallback(() => {
+    setExpanded((prev) => {
+      const willExpand = !prev
+      if (willExpand) {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            articleRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            })
+          }, 150)
+        })
+      }
+      return willExpand
+    })
+  }, [])
+
   return (
     <article
+      ref={articleRef}
       className="blog-card group relative nec-card overflow-hidden"
       style={{
         animationDelay: `${index * 80}ms`,
@@ -119,6 +138,12 @@ export default function BlogCard({ post, index }: BlogCardProps) {
                   {p}
                 </p>
               ))}
+              <p
+                className="text-sm sm:text-base leading-relaxed italic mt-4"
+                style={{ color: "var(--nec-muted)" }}
+              >
+                &mdash;Anonymous
+              </p>
             </div>
           </div>
         </div>
@@ -128,7 +153,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           type="button"
           aria-expanded={expanded}
           aria-controls={contentId}
-          onClick={() => setExpanded((prev) => !prev)}
+          onClick={handleToggle}
           className="blog-card-toggle mt-4 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide rounded-lg px-4 py-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{
             color: cat.colorVar,

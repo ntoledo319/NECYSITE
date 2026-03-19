@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Settings, X, RotateCcw, Sun, Moon, Eye, Type, Minus, Plus } from "lucide-react"
 import { useA11y } from "@/lib/accessibility-context"
 import { useFocusTrap } from "@/lib/use-focus-trap"
+import { Switch } from "@/components/ui/switch"
 
 export default function AccessibilityPanel() {
   const [open, setOpen] = useState(false)
@@ -89,7 +90,7 @@ export default function AccessibilityPanel() {
                 label="Color Mode"
                 description={settings.colorMode === "dark" ? "Dark (default)" : "Light"}
               >
-                <div className="flex rounded-lg overflow-hidden" style={{ border: "1px solid var(--nec-border)" }}>
+                <div className="flex rounded-lg overflow-hidden" role="radiogroup" aria-label="Color mode" style={{ border: "1px solid var(--nec-border)" }}>
                   <button
                     onClick={() => updateSettings({ colorMode: "dark" })}
                     className="px-3 py-1.5 text-xs font-medium transition-colors"
@@ -97,7 +98,8 @@ export default function AccessibilityPanel() {
                       background: settings.colorMode === "dark" ? "var(--nec-cyan)" : "transparent",
                       color: settings.colorMode === "dark" ? "var(--nec-navy)" : "var(--nec-muted)",
                     }}
-                    aria-pressed={settings.colorMode === "dark"}
+                    role="radio"
+                    aria-checked={settings.colorMode === "dark"}
                   >
                     Dark
                   </button>
@@ -108,7 +110,8 @@ export default function AccessibilityPanel() {
                       background: settings.colorMode === "light" ? "var(--nec-cyan)" : "transparent",
                       color: settings.colorMode === "light" ? "var(--nec-navy)" : "var(--nec-muted)",
                     }}
-                    aria-pressed={settings.colorMode === "light"}
+                    role="radio"
+                    aria-checked={settings.colorMode === "light"}
                   >
                     Light
                   </button>
@@ -121,10 +124,10 @@ export default function AccessibilityPanel() {
                 label="High Contrast"
                 description="Increases contrast ratios for better readability"
               >
-                <ToggleSwitch
+                <Switch
                   checked={settings.highContrast}
-                  onChange={(v) => updateSettings({ highContrast: v })}
-                  label="High contrast mode"
+                  onCheckedChange={(v) => updateSettings({ highContrast: v })}
+                  aria-label="High contrast mode"
                 />
               </SettingRow>
 
@@ -165,10 +168,10 @@ export default function AccessibilityPanel() {
                 label="Dyslexia-Friendly Font"
                 description="Uses a font designed for easier reading with dyslexia"
               >
-                <ToggleSwitch
+                <Switch
                   checked={settings.dyslexiaFont}
-                  onChange={(v) => updateSettings({ dyslexiaFont: v })}
-                  label="Dyslexia-friendly font"
+                  onCheckedChange={(v) => updateSettings({ dyslexiaFont: v })}
+                  aria-label="Dyslexia-friendly font"
                 />
               </SettingRow>
 
@@ -178,10 +181,10 @@ export default function AccessibilityPanel() {
                 label="Reduce Motion"
                 description="Turns off all animations and transitions"
               >
-                <ToggleSwitch
+                <Switch
                   checked={settings.reduceMotion}
-                  onChange={(v) => updateSettings({ reduceMotion: v })}
-                  label="Reduce motion"
+                  onCheckedChange={(v) => updateSettings({ reduceMotion: v })}
+                  aria-label="Reduce motion"
                 />
               </SettingRow>
 
@@ -191,10 +194,10 @@ export default function AccessibilityPanel() {
                 label="Grayscale"
                 description="Removes all color from the page"
               >
-                <ToggleSwitch
+                <Switch
                   checked={settings.grayscale}
-                  onChange={(v) => updateSettings({ grayscale: v })}
-                  label="Grayscale mode"
+                  onCheckedChange={(v) => updateSettings({ grayscale: v })}
+                  aria-label="Grayscale mode"
                 />
               </SettingRow>
             </div>
@@ -251,34 +254,3 @@ function SettingRow({
   )
 }
 
-function ToggleSwitch({
-  checked,
-  onChange,
-  label,
-}: {
-  checked: boolean
-  onChange: (v: boolean) => void
-  label: string
-}) {
-  return (
-    <button
-      role="switch"
-      aria-checked={checked}
-      aria-label={label}
-      onClick={() => onChange(!checked)}
-      className="relative w-10 h-6 rounded-full transition-colors"
-      style={{
-        background: checked ? "var(--nec-cyan)" : "rgba(255,255,255,0.1)",
-        border: checked ? "none" : "1px solid var(--nec-border)",
-      }}
-    >
-      <span
-        className="absolute top-0.5 w-5 h-5 rounded-full shadow-sm transition-transform"
-        style={{
-          background: checked ? "var(--nec-navy)" : "var(--nec-muted)",
-          transform: checked ? "translateX(18px)" : "translateX(2px)",
-        }}
-      />
-    </button>
-  )
-}

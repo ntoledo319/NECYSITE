@@ -318,6 +318,7 @@ export default function BreakoutGame() {
           tabIndex={0}
           // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role -- role="application" is correct for game canvases; it tells assistive tech to pass all keystrokes through
           role="application"
+          aria-roledescription="game"
           aria-label="Breakout game. Use arrow keys or mouse to move the paddle. Break through the Wall of Denial. Space or click to launch the ball."
         />
         {gameOver && (

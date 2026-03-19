@@ -2,6 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL, CONTACT_EMAIL } from "@/lib/constants"
 import { Mail, ExternalLink } from "lucide-react"
+import { Sparkle, Hex } from "@/components/art/graffiti-elements"
+import { Gear } from "@/components/art/steampunk-elements"
 
 export default function SiteFooter() {
   return (
@@ -18,28 +20,47 @@ export default function SiteFooter() {
         }}
       />
 
-      {/* Background character silhouettes */}
-      <div className="absolute bottom-0 left-8 w-20 h-28 opacity-[0.07] pointer-events-none" aria-hidden="true">
-        <Image src="/images/mad-hatter-character.png" alt="" width={80} height={120} className="w-full h-full object-contain" aria-hidden="true" />
+      {/* Background character silhouettes — enhanced visibility */}
+      <div className="absolute bottom-0 left-8 w-24 h-32 opacity-[0.12] pointer-events-none" aria-hidden="true">
+        <Image src="/images/mad-hatter-character.png" alt="" width={96} height={144} className="w-full h-full object-contain" aria-hidden="true" />
       </div>
-      <div className="absolute bottom-0 right-8 w-16 h-24 opacity-[0.05] pointer-events-none" aria-hidden="true">
-        <Image src="/images/cheshire-cat-character.png" alt="" width={64} height={96} className="w-full h-full object-contain" aria-hidden="true" />
+      <div className="absolute bottom-0 right-8 w-20 h-28 opacity-[0.10] pointer-events-none" aria-hidden="true">
+        <Image src="/images/cheshire-cat-character.png" alt="" width={80} height={112} className="w-full h-full object-contain" aria-hidden="true" />
       </div>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-14 h-20 opacity-[0.04] pointer-events-none hidden md:block" aria-hidden="true">
-        <Image src="/images/caterpillar-character.png" alt="" width={56} height={80} className="w-full h-full object-contain" aria-hidden="true" />
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-16 h-24 opacity-[0.07] pointer-events-none hidden md:block" aria-hidden="true">
+        <Image src="/images/caterpillar-character.png" alt="" width={64} height={96} className="w-full h-full object-contain" aria-hidden="true" />
+      </div>
+
+      {/* Steampunk gear accents */}
+      <div className="absolute top-16 left-4 pointer-events-none hidden md:block" aria-hidden="true">
+        <Gear size={40} opacity={0.06} color="var(--nec-gold)" />
+      </div>
+      <div className="absolute top-20 right-6 pointer-events-none hidden md:block" aria-hidden="true">
+        <Gear size={32} opacity={0.05} color="var(--nec-purple)" />
+      </div>
+
+      {/* Sparkle accents */}
+      <div className="absolute top-10 left-[20%] pointer-events-none" aria-hidden="true">
+        <Sparkle color="var(--nec-gold)" size={10} opacity={0.12} />
+      </div>
+      <div className="absolute top-24 right-[25%] pointer-events-none" aria-hidden="true">
+        <Sparkle color="var(--nec-cyan)" size={8} opacity={0.10} />
+      </div>
+      <div className="absolute bottom-20 left-[40%] pointer-events-none hidden md:block" aria-hidden="true">
+        <Hex color="var(--nec-purple)" size={20} opacity={0.05} />
       </div>
 
       <div className="container mx-auto px-4 py-12 pb-24 md:pb-12 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
           {/* Identity column */}
           <div className="space-y-3">
-            <div className="w-24 h-auto mb-2 opacity-90">
+            <div className="w-28 h-auto mb-2">
               <Image
-                src="/images/escaping-the-mad-realm-logo.png"
+                src="/images/mad-realm-logo-no-bg.png"
                 alt="Escaping the Mad Realm — NECYPAA XXXVI theme"
-                width={96}
-                height={144}
-                className="w-full h-auto"
+                width={112}
+                height={112}
+                className="w-full h-auto drop-shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
               />
             </div>
             <h2
@@ -75,8 +96,18 @@ export default function SiteFooter() {
                 </a>
               </li>
               <li>
+                <Link href="/program" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Program
+                </Link>
+              </li>
+              <li>
                 <Link href="/events" className="text-sm text-gray-300 hover:text-white transition-colors">
                   Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/merch" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Merch
                 </Link>
               </li>
               <li>
@@ -117,8 +148,28 @@ export default function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/journey" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Our Journey
+                </Link>
+              </li>
+              <li>
+                <Link href="/prayer" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Prayer
+                </Link>
+              </li>
+              <li>
+                <Link href="/asl" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  ASL Resources
+                </Link>
+              </li>
+              <li>
                 <Link href="/states" className="text-sm text-gray-300 hover:text-white transition-colors">
                   Find Your State
+                </Link>
+              </li>
+              <li>
+                <Link href="/bid" className="text-sm text-gray-300 hover:text-white transition-colors">
+                  Start a Bid
                 </Link>
               </li>
               <li>

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import BlogGrid from "@/components/blog-grid"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "NECYBLOG aka BLOGYPAA — NECYPAA XXXVI",
@@ -15,36 +16,7 @@ export default function BlogPage() {
       className="min-h-screen flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
-      {/* Ambient vortex glow */}
-      <div
-        className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
-        aria-hidden="true"
-      >
-        <div
-          className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.06]"
-          style={{
-            background:
-              "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
-            filter: "blur(120px)",
-          }}
-        />
-        <div
-          className="absolute top-[40%] -right-20 w-[700px] h-[700px] rounded-full opacity-[0.05]"
-          style={{
-            background:
-              "radial-gradient(circle, var(--nec-pink) 0%, transparent 65%)",
-            filter: "blur(120px)",
-          }}
-        />
-        <div
-          className="absolute bottom-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{
-            background:
-              "radial-gradient(circle, var(--nec-gold) 0%, transparent 65%)",
-            filter: "blur(120px)",
-          }}
-        />
-      </div>
+      <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
 
       <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">

@@ -2,6 +2,33 @@
 
 > Keeping track of what changed and when.
 
+## [Unreleased] - 2026-03-18 (g)
+
+*Pre-launch audit. Ran the whole codebase through the wringer — ESLint strict mode, TypeScript noEmit, WCAG text size sweep, sr-only coverage check on every external link. Killed an unused import, bumped four 10px badge texts to 11px because WCAG says so, and added the missing "(opens in new tab)" on the AA Meeting Finder link. Region map got geographically accurate SVG paths. Games got touch controls and D-pad overlays. Blog cards got smooth expand/collapse animations. Hero section got a full ambient vortex glow treatment. Footer got character silhouettes. The accessibility panel uses Radix Switch and proper focus trapping. Zero ESLint warnings. Zero TypeScript errors. Ship it. — Nikki*
+
+### Changed
+- **`components/necypaa-region-map.tsx`** — Complete rewrite: replaced simplified SVG outlines with geographically accurate Albers USA projection paths. Focused viewBox on NE region. Pre-computed centroid label positions for all 13 states. Added `useId` for unique accessible IDs, `useCallback` for event handlers, `useMemo` for active state name.
+- **`components/sections/hero-section.tsx`** — Full ambient vortex glow treatment: central purple, right magenta, left gold, bottom teal radial gradients. Portal frame art layer. Floating graffiti sparkle/splatter/hex accents. VortexSwirl SVGs flanking on desktop. Price badge with gradient background. Refined typography with display font.
+- **`components/site-footer.tsx`** — Added Mad Hatter, Cheshire Cat, Caterpillar character silhouettes as ultra-subtle background watermarks. Steampunk gear accents. Sparkle and Hex decorative elements. Theme logo above identity column.
+- **`components/sections/cta-section.tsx`** — Added decorative logo watermark and ambient glow orbs. Refined card gradients and shadows.
+- **`components/blog-card.tsx`** — Replaced abrupt show/hide with CSS grid `gridTemplateRows` expand/collapse animation. Added `useCallback` for toggle handler. Smooth scroll to expanded card. Category-colored accent bar and corner glow.
+- **`components/games/snake.tsx`** — Added mobile D-pad touch controls. Touch swipe detection. Improved game loop with `requestAnimationFrame`. AA triangle snake head.
+- **`components/games/space-invaders.tsx`** — Added mobile D-pad overlay. Touch controls for ship movement and firing.
+- **`components/games/tetris.tsx`** — Added mobile D-pad and action button overlay. Touch controls for move/rotate/drop.
+- **`components/accessibility-panel.tsx`** — Migrated toggles to Radix UI `Switch` component. Added `useFocusTrap` hook for panel. Proper `role="dialog"`, `aria-modal`, Escape key handler.
+- **`app/[locale]/(frontend)/page.tsx`** — Added page-level ambient vortex glow layer. Art accent clusters (GearCluster, ArtAccentCluster, MazePattern, KeyIcon, ClockIcon) between sections. Ornate dividers with variant props (gear, key, compass, potion).
+- **`app/[locale]/(frontend)/globals.css`** — Added `madRealmFloat` keyframe animation for floating particles. Reduce-motion overrides hide particles. Light mode reduces particle and maze opacity. High contrast hides particles entirely. Ornate divider light/high-contrast overrides.
+
+### Fixed
+- **Unused import** — Removed unused `ClockIcon` import from `page-art-accents.tsx`.
+- **WCAG minimum text size** — Bumped `text-[10px]` to `text-[11px]` in `state-card.tsx` (YPAA badge, region badge), `states/page.tsx` (filter tab count, list view state name).
+- **Missing sr-only text** — Added `(opens in new tab)` to AA Meeting Finder link on states page.
+
+### Removed
+- **`components/flyer-modal.tsx`** — Removed unused flyer modal component.
+
+---
+
 ## [Unreleased] - 2026-03-18 (f)
 
 *Full site accessibility sweep + luxury CSS polish. Every external link now tells screen readers it opens in a new tab. Every decorative icon is hidden from assistive tech. Every required field in the policy agreement actually announces "required." Inline JS hover handlers got fired and replaced with proper CSS. The selection color matches the theme now because we're not animals. Button hover transforms respect reduced motion. New styles got light mode, high contrast, and reduced motion overrides — because if you add a feature without adding the a11y override, did you really add it? — Nikki*

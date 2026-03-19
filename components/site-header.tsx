@@ -30,6 +30,8 @@ const navItems: NavItem[] = [
     children: [
       { href: "/events", label: "Events" },
       { href: "/register", label: "Register" },
+      { href: "/program", label: "Program" },
+      { href: "/merch", label: "Merch" },
       { href: "/breakfast", label: "Breakfast" },
       { href: HOTEL_BOOKING_URL, label: "Book Hotel", external: true },
       { href: "/faq", label: "FAQ" },
@@ -40,7 +42,9 @@ const navItems: NavItem[] = [
     children: [
       { href: "/#what-is-ypaa", label: "What is YPAA?" },
       { href: "/blog", label: "Blog" },
-      { href: "/#meetings", label: "YP Meetings in CT" },
+      { href: "/journey", label: "The Journey" },
+      { href: "/prayer", label: "Prayer" },
+      { href: "/asl", label: "ASL Resources" },
       { href: "/states", label: "Find Your State" },
       { href: "/alanon", label: "Al-Anon / Alateen" },
     ],
@@ -50,6 +54,7 @@ const navItems: NavItem[] = [
     children: [
       { href: "/#business-meeting", label: "Business Meeting" },
       { href: "/service", label: "Service Opportunities" },
+      { href: "/bid", label: "Start a Bid" },
     ],
   },
   { href: "/accessibility", label: "Accessibility" },

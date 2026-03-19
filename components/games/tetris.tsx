@@ -73,11 +73,56 @@ function randomPiece(): Piece {
   }
 }
 
+function TouchButton({ label, ariaLabel, onAction, color = PURPLE }: { label: string; ariaLabel: string; onAction: () => void; color?: string }) {
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const start = useCallback(() => {
+    onAction()
+    intervalRef.current = setInterval(onAction, 120)
+  }, [onAction])
+
+  const stop = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    return stop
+  }, [stop])
+
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onTouchStart={(e) => { e.preventDefault(); start() }}
+      onTouchEnd={stop}
+      onTouchCancel={stop}
+      onMouseDown={start}
+      onMouseUp={stop}
+      onMouseLeave={stop}
+      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-95 transition-transform"
+      style={{
+        width: 52,
+        height: 52,
+        background: color + "20",
+        border: `2px solid ${color}50`,
+        color,
+        touchAction: "none",
+      }}
+    >
+      {label}
+    </button>
+  )
+}
+
 export default function TetrisGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [score, setScore] = useState(0)
   const [lines, setLines] = useState(0)
   const [gameOver, setGameOver] = useState(false)
+  const actionRef = useRef<(action: string) => void>(() => {})
   const gameRef = useRef({
     board: Array.from({ length: ROWS }, () => Array(COLS).fill(null)) as (string | null)[][],
     current: randomPiece(),
@@ -170,36 +215,27 @@ export default function TetrisGame() {
       }
     }
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    function doAction(action: string) {
       if (!g.running) return
-      switch (e.key) {
-        case "ArrowLeft":
-        case "a":
-          e.preventDefault()
+      switch (action) {
+        case "left":
           if (!collides(g.current, -1, 0)) g.current.x--
           break
-        case "ArrowRight":
-        case "d":
-          e.preventDefault()
+        case "right":
           if (!collides(g.current, 1, 0)) g.current.x++
           break
-        case "ArrowDown":
-        case "s":
-          e.preventDefault()
+        case "down":
           if (!collides(g.current, 0, 1)) {
             g.current.y++
             g.score += 1
             setScore(g.score)
           }
           break
-        case "ArrowUp":
-        case "w": {
-          e.preventDefault()
+        case "rotate": {
           const rotated = rotateMatrix(g.current.shape)
           const old = g.current.shape
           g.current.shape = rotated
           if (collides(g.current)) {
-            // Wall kick attempts
             const kicks = [-1, 1, -2, 2]
             let kicked = false
             for (const kick of kicks) {
@@ -213,8 +249,7 @@ export default function TetrisGame() {
           }
           break
         }
-        case " ":
-          e.preventDefault()
+        case "drop":
           while (!collides(g.current, 0, 1)) {
             g.current.y++
             g.score += 2
@@ -222,6 +257,19 @@ export default function TetrisGame() {
           setScore(g.score)
           lock()
           break
+      }
+    }
+
+    actionRef.current = doAction
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!g.running) return
+      switch (e.key) {
+        case "ArrowLeft": case "a": e.preventDefault(); doAction("left"); break
+        case "ArrowRight": case "d": e.preventDefault(); doAction("right"); break
+        case "ArrowDown": case "s": e.preventDefault(); doAction("down"); break
+        case "ArrowUp": case "w": e.preventDefault(); doAction("rotate"); break
+        case " ": e.preventDefault(); doAction("drop"); break
       }
     }
 
@@ -323,6 +371,10 @@ export default function TetrisGame() {
     }
   }, [])
 
+  const handleAction = useCallback((action: string) => {
+    actionRef.current(action)
+  }, [])
+
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Score bar */}
@@ -340,6 +392,7 @@ export default function TetrisGame() {
           tabIndex={0}
           // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role -- role="application" is correct for game canvases; it tells assistive tech to pass all keystrokes through
           role="application"
+          aria-roledescription="game"
           aria-label="Tetris game. Arrow keys to move and rotate. Space to hard drop. Build your recovery program one block at a time."
         />
         {gameOver && (
@@ -356,8 +409,17 @@ export default function TetrisGame() {
           </div>
         )}
       </div>
+      {/* Mobile touch controls */}
+      <div className="flex items-center gap-3 md:hidden" aria-label="Game controls" role="group">
+        <TouchButton label="←" ariaLabel="Move left" onAction={() => handleAction("left")} />
+        <TouchButton label="↓" ariaLabel="Soft drop" onAction={() => handleAction("down")} color={CYAN} />
+        <TouchButton label="↑" ariaLabel="Rotate" onAction={() => handleAction("rotate")} color={GOLD} />
+        <TouchButton label="→" ariaLabel="Move right" onAction={() => handleAction("right")} />
+        <TouchButton label="⏬" ariaLabel="Hard drop" onAction={() => handleAction("drop")} color={PINK} />
+      </div>
       <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        Build your program one block at a time. ← → move, ↑ rotate, ↓ soft drop, Space hard drop.
+        <span className="hidden md:inline">Build your program one block at a time. ← → move, ↑ rotate, ↓ soft drop, Space hard drop.</span>
+        <span className="md:hidden">Tap the buttons below to play. Build your program one block at a time.</span>
       </p>
     </div>
   )

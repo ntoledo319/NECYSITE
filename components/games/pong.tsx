@@ -343,6 +343,7 @@ export default function PongGame() {
           tabIndex={0}
           // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role -- role="application" is correct for game canvases; it tells assistive tech to pass all keystrokes through
           role="application"
+          aria-roledescription="game"
           aria-label="Pong game. Use arrow keys or mouse to move your paddle. Keep the message going back and forth. First to 7 wins."
         />
         {gameOver && (
