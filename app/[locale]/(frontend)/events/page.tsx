@@ -204,7 +204,7 @@ export default function EventsPage() {
                       <div className="space-y-1.5">
                         {upcomingEvent.details.map((d) => (
                           <p key={d.label} className="text-sm text-gray-300">
-                            <span className="font-semibold text-gray-400">
+                            <span className="font-semibold text-gray-300">
                               {d.label}:{" "}
                             </span>
                             {d.value}
@@ -295,7 +295,7 @@ export default function EventsPage() {
 
                       {event.schedule.length > 0 && (
                         <div>
-                          <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">
+                          <p className="text-xs font-bold uppercase tracking-widest text-gray-300 mb-1">
                             Schedule
                           </p>
                           <ul className="space-y-0.5">
@@ -304,7 +304,7 @@ export default function EventsPage() {
                                 key={s.label}
                                 className="text-sm text-gray-300"
                               >
-                                <span className="font-semibold text-gray-400">
+                                <span className="font-semibold text-gray-300">
                                   {s.time}
                                 </span>
                                 {" — "}
@@ -322,7 +322,7 @@ export default function EventsPage() {
                               key={d.label}
                               className="text-sm text-gray-300"
                             >
-                              <span className="font-semibold text-gray-400">
+                              <span className="font-semibold text-gray-300">
                                 {d.label}:{" "}
                               </span>
                               {d.value}
@@ -332,7 +332,7 @@ export default function EventsPage() {
                       )}
 
                       {event.description && (
-                        <p className="text-sm text-gray-500 italic leading-relaxed">
+                        <p className="text-sm text-gray-300 italic leading-relaxed">
                           {event.description}
                         </p>
                       )}

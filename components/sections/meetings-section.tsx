@@ -12,7 +12,7 @@ export default function MeetingsSection() {
       <div className="mb-6">
         <span className="section-badge">Connecticut AA</span>
         <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Young People&apos;s Meetings in Connecticut</h2>
-        <p className="mt-2 text-sm text-gray-400">
+        <p className="mt-2 text-sm text-gray-300">
           Click any meeting name to view details on the CT-AA website. On desktop, click the arrow
           to expand the full address and meeting types.
         </p>
@@ -23,13 +23,13 @@ export default function MeetingsSection() {
         <table className="w-full border-collapse">
           <thead>
             <tr className="nec-meetings-thead" style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.95) 0%, rgba(15,10,30,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
-              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Day</th>
-              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Time</th>
-              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Meeting</th>
-              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Location</th>
-              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">City</th>
-              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Attendance</th>
-              <th className="p-3 text-center text-xs font-bold uppercase tracking-widest text-gray-400">Details</th>
+              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-300">Day</th>
+              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-300">Time</th>
+              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-300">Meeting</th>
+              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-300">Location</th>
+              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-300">City</th>
+              <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-300">Attendance</th>
+              <th className="p-3 text-center text-xs font-bold uppercase tracking-widest text-gray-300">Details</th>
             </tr>
           </thead>
           <tbody>
@@ -54,7 +54,7 @@ export default function MeetingsSection() {
       >
         <div className="flex-1">
           <h3 className="font-bold text-white mb-1" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Add Your Meeting</h3>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-300">
             Know of a young people&apos;s meeting that&apos;s not on our list? Send us the details and we&apos;ll
             get it added.
           </p>

@@ -75,22 +75,40 @@ function randomPiece(): Piece {
 
 function TouchButton({ label, ariaLabel, onAction, color = PURPLE }: { label: string; ariaLabel: string; onAction: () => void; color?: string }) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  const start = useCallback(() => {
-    onAction()
-    intervalRef.current = setInterval(onAction, 120)
-  }, [onAction])
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const stop = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
   }, [])
 
+  const start = useCallback(() => {
+    // Always clear any existing timeout/interval before starting new ones
+    stop()
+    onAction()
+    timeoutRef.current = setTimeout(() => {
+      intervalRef.current = setInterval(onAction, 120)
+    }, 200)
+  }, [onAction, stop])
+
   useEffect(() => {
-    return stop
-  }, [stop])
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+        intervalRef.current = null
+      }
+    }
+  }, [])
 
   return (
     <button
@@ -398,7 +416,7 @@ export default function TetrisGame() {
         {gameOver && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
             <p className="text-2xl font-black mb-1" style={{ color: PINK }}>GAME OVER</p>
-            <p className="text-sm text-gray-400 mb-1">
+            <p className="text-sm text-gray-300 mb-1">
               &ldquo;Progress, not perfection.&rdquo;
             </p>
             <p className="text-lg font-bold text-white mb-1">Score: {score}</p>

@@ -24,7 +24,7 @@
   --nec-card:     #1a1030;
   --nec-border:   #2d1f4e;
   --nec-text:     #e8e0f0;
-  --nec-muted:    #9b8cb8;
+  --nec-muted:    #b4a5d0;
 
   --radius: 0.75rem;
 
@@ -40,7 +40,7 @@
   --secondary: 265 30% 18%;
   --secondary-foreground: 270 25% 92%;
   --muted: 265 25% 18%;
-  --muted-foreground: 270 15% 60%;
+  --muted-foreground: 270 15% 68%;
   --accent: 170 65% 40%;           /* teal */
   --accent-foreground: 260 40% 8%;
   --destructive: 0 84% 60%;
@@ -135,12 +135,13 @@
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 font-bold text-sm uppercase tracking-wide
            rounded-xl px-5 py-2.5 transition-all duration-200;
-    border: 1.5px solid var(--nec-border);
+    border: 1.5px solid rgba(124,58,237,0.45);
     color: var(--nec-text);
   }
   .btn-ghost:hover {
     border-color: var(--nec-purple);
     color: var(--nec-purple);
+    background: rgba(124,58,237,0.08);
   }
 
   /* ── Card surface ──────────────────────────── */
@@ -463,6 +464,12 @@
   border-width: 2px !important;
   border-color: #999 !important;
 }
+/* High contrast: boost Tailwind gray text classes on dark backgrounds */
+.a11y-high-contrast .text-gray-300 { color: #f3f4f6 !important; }
+.a11y-high-contrast .text-gray-400 { color: #e5e7eb !important; }
+.a11y-high-contrast .text-gray-500 { color: #d1d5db !important; }
+.a11y-high-contrast .text-red-400 { color: #fca5a5 !important; }
+
 /* High contrast + light mode combo */
 [data-color-mode="light"].a11y-high-contrast {
   --nec-text: #000000;
@@ -476,6 +483,11 @@
   --nec-purple-dim: #4c1d95;
   --nec-gold: #92400e;
   --nec-navy: #ffffff;
+}
+[data-color-mode="light"].a11y-high-contrast .text-gray-300,
+[data-color-mode="light"].a11y-high-contrast .text-gray-400,
+[data-color-mode="light"].a11y-high-contrast .text-gray-500 {
+  color: #111111 !important;
 }
 [data-color-mode="light"].a11y-high-contrast :focus-visible {
   outline-color: #5b21b6 !important;
@@ -558,6 +570,7 @@
 [data-color-mode="light"] .text-gray-400 {
   color: #554466 !important;
 }
+/* gray-500 placeholder text in light mode */
 [data-color-mode="light"] .text-gray-500 {
   color: #4a3d5c !important;
 }

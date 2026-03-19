@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { NECYPAA_STATES } from "@/lib/data/states"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
+import Image from "next/image"
 import { ExternalLink, Hotel, Sparkles, FileText } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
@@ -59,19 +60,16 @@ export default function AlAnonPage() {
 
             {/* ── Al-Anon Logo & Header ──────────────────────────── */}
             <div className="text-center mb-10">
-              {/* Al-Anon participation logo */}
+              {/* Conference-approved Al-Anon Family Groups logo */}
               <div className="flex justify-center mb-6">
-                <div
-                  className="relative w-24 h-24 flex items-center justify-center"
-                  aria-hidden="true"
-                >
-                  <svg viewBox="0 0 100 100" className="w-full h-full" role="img" aria-label="Al-Anon Family Groups">
-                    <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(100,140,200,0.3)" strokeWidth="2" />
-                    <polygon points="50,12 88,72 12,72" fill="none" stroke="#4a7ab5" strokeWidth="2.5" />
-                    <polygon points="50,88 12,28 88,28" fill="none" stroke="#c0392b" strokeWidth="2.5" />
-                    <circle cx="50" cy="50" r="14" fill="none" stroke="rgba(100,140,200,0.4)" strokeWidth="1.5" />
-                  </svg>
-                </div>
+                <Image
+                  src="/images/Al-anon-eng-logo.svg"
+                  alt="Al-Anon Family Groups — Hope and help for families and friends of alcoholics"
+                  width={280}
+                  height={68}
+                  className="h-auto w-auto max-w-[280px]"
+                  priority
+                />
               </div>
               <span className="section-badge mb-4 inline-block">Al-Anon & Alateen</span>
               <h1 className="section-heading mb-3">Al-Anon / Alateen</h1>

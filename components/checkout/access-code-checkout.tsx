@@ -67,7 +67,7 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
             <span className="text-[var(--nec-gold)]">$0.00</span>
           </div>
         </div>
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-gray-300">
           Your registration will be completed using your access code. No payment is required.
         </p>
       </div>

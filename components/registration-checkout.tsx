@@ -166,7 +166,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
         <div className="rounded-2xl p-4 min-h-[400px] flex items-center justify-center bg-[rgba(26,16,48,0.9)] border border-[var(--nec-border)]" role="alert" aria-live="assertive">
           <div className="text-center space-y-2">
             <p className="text-red-400 font-semibold">Hmm, something went wrong</p>
-            <p className="text-gray-400">{error}</p>
+            <p className="text-gray-300">{error}</p>
           </div>
         </div>
       </div>
@@ -185,7 +185,10 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
           Back
         </Button>
         <div className="rounded-2xl p-4 min-h-[400px] flex items-center justify-center bg-[rgba(26,16,48,0.9)] border border-[var(--nec-border)]" role="status" aria-live="polite">
-          <p className="text-gray-400">Loading payment form...</p>
+          <div className="text-center space-y-3">
+            <div className="w-8 h-8 mx-auto border-2 border-[var(--nec-purple)] border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+            <p className="text-gray-300">Loading payment form&hellip;</p>
+          </div>
         </div>
       </div>
     )

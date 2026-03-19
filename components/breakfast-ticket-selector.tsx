@@ -28,9 +28,9 @@ export default function BreakfastTicketSelector({
       <div>
         <h3 className="text-lg font-semibold text-white">
           Add Breakfast Tickets{" "}
-          <span className="text-gray-400 text-sm font-normal">(Optional)</span>
+          <span className="text-gray-300 text-sm font-normal">(Optional)</span>
         </h3>
-        <p className="text-gray-400 text-sm mt-1">
+        <p className="text-gray-300 text-sm mt-1">
           $20.00 each - Enjoy breakfast at the convention each morning.
         </p>
       </div>
@@ -89,7 +89,7 @@ export default function BreakfastTicketSelector({
                   >
                     {product.name}
                   </Label>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-gray-300 text-sm mt-1">
                     {product.description}
                   </p>
                   <p className="text-white font-medium text-sm mt-1">$20.00</p>

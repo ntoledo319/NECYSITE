@@ -16,7 +16,7 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
   return (
     <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
       <h3 className="text-lg font-semibold text-white">New Years Day Breakfast!</h3>
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-gray-300">
         Keep your mornings simple at the convention hotel. Friday is especially useful since many local restaurants
         are closed on New Year&apos;s Day.
       </p>

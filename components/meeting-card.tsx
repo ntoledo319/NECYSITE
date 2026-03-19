@@ -48,27 +48,27 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
             )}
           </h3>
           <p className="text-gray-300">
-            <span className="text-gray-400">Time:</span> {meeting.time}
+            <span className="text-gray-300">Time:</span> {meeting.time}
           </p>
           <p className="text-gray-300">
-            <span className="text-gray-400">Location:</span> {meeting.location}
+            <span className="text-gray-300">Location:</span> {meeting.location}
           </p>
           {meeting.address && (
             <p className="text-gray-300">
-              <span className="text-gray-400">Address:</span> {meeting.address}
+              <span className="text-gray-300">Address:</span> {meeting.address}
             </p>
           )}
           <p className="text-gray-300">
-            <span className="text-gray-400">City:</span> {meeting.city}
+            <span className="text-gray-300">City:</span> {meeting.city}
           </p>
           {meeting.attendance && (
             <p className="text-gray-300">
-              <span className="text-gray-400">Attendance:</span> {meeting.attendance}
+              <span className="text-gray-300">Attendance:</span> {meeting.attendance}
             </p>
           )}
           {meeting.types && (
             <p className="text-gray-300">
-              <span className="text-gray-400">Types:</span> {meeting.types}
+              <span className="text-gray-300">Types:</span> {meeting.types}
             </p>
           )}
         </div>

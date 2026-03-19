@@ -225,7 +225,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             <Label htmlFor="accessCode" className="text-white text-sm">
               Registration Access Code
             </Label>
-            <p id="accessCode-description" className="text-xs text-gray-400 mt-1 mb-2">
+            <p id="accessCode-description" className="text-xs text-gray-300 mt-1 mb-2">
               For cash or scholarship registration only. Leave blank for standard paid registration.
             </p>
             <Input

@@ -68,13 +68,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Ornate gear divider */}
-        <div className="container mx-auto px-4 mb-4">
+        {/* Ornate gear divider + Mad Hatter */}
+        <div className="container mx-auto px-4 mb-2">
           <OrnateDivider variant="gear" color="var(--nec-purple)" />
         </div>
-
-        {/* Divider — Mad Hatter leads you into the narrative */}
-        <div className="container mx-auto px-4 mb-12">
+        <div className="container mx-auto px-4 mb-8">
           <CharacterDivider character="mad-hatter" />
         </div>
 
@@ -91,13 +89,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Ornate key divider */}
-        <div className="container mx-auto px-4 mb-4">
+        {/* Ornate key divider + Cheshire Cat */}
+        <div className="container mx-auto px-4 mb-2">
           <OrnateDivider variant="key" color="var(--nec-pink)" />
         </div>
-
-        {/* Divider — Cheshire Cat */}
-        <div className="container mx-auto px-4 mb-12">
+        <div className="container mx-auto px-4 mb-8">
           <CharacterDivider character="cheshire-cat" flip />
         </div>
 
@@ -110,13 +106,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Ornate compass divider */}
-        <div className="container mx-auto px-4 mb-4">
+        {/* Ornate compass divider + Caterpillar */}
+        <div className="container mx-auto px-4 mb-2">
           <OrnateDivider variant="compass" color="var(--nec-gold)" />
         </div>
-
-        {/* Divider — Caterpillar guides the way */}
-        <div className="container mx-auto px-4 mb-12">
+        <div className="container mx-auto px-4 mb-8">
           <CharacterDivider character="caterpillar" />
         </div>
 

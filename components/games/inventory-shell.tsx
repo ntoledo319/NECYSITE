@@ -122,7 +122,7 @@ export default function InventoryShell({
                           width={300}
                           height={450}
                           sizes="(min-width: 768px) 256px, 192px"
-                          className="relative z-10 w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
+                          className="relative z-10 w-full h-full object-cover rounded-2xl drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
                         />
                       </div>
 
@@ -159,14 +159,14 @@ export default function InventoryShell({
                       </div>
 
                       <h2 className="text-xl font-bold text-white mb-2">
-                        Page content is on the way&hellip;
+                        The committee is working on this&hellip;
                       </h2>
                       <p
                         className="text-sm max-w-md mx-auto mb-8"
                         style={{ color: "var(--nec-muted)" }}
                       >
-                        This page is under construction. In the meantime, why not
-                        take a fourth step?
+                        This page is being put together by the host committee.
+                        In the meantime, why not get to work on that fourth step?
                       </p>
 
                       {/* INVENTORY IN PROGRESS button */}

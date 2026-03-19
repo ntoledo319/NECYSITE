@@ -134,8 +134,9 @@ export default function SpaceInvadersGame() {
     // Touch: drag left/right to move, tap to fire
     let touchX = 0
     const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault()
       touchX = e.touches[0].clientX
-      // Tap fires
+      // Tap fires (respects same fire-rate limiter as keyboard)
       const now = Date.now()
       if (now - g.lastShot > 250) {
         g.bullets.push({ x: g.shipX, y: CANVAS_H - 50 })
@@ -148,12 +149,12 @@ export default function SpaceInvadersGame() {
       const newX = e.touches[0].clientX
       const dx = (newX - touchX) / rect.width * CANVAS_W
       g.shipX = Math.max(SHIP_SIZE / 2, Math.min(CANVAS_W - SHIP_SIZE / 2, g.shipX + dx))
-      touchX = newX
+      touchX = newX // update so next move is relative to current position
     }
 
     window.addEventListener("keydown", handleKeyDown)
     window.addEventListener("keyup", handleKeyUp)
-    canvas.addEventListener("touchstart", handleTouchStart, { passive: true })
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: false })
     canvas.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     function drawTriangleShip(cx: number, cy: number) {
@@ -348,7 +349,7 @@ export default function SpaceInvadersGame() {
               {won ? "DEFECTS REMOVED!" : "GAME OVER"}
             </p>
             {won && (
-              <p className="text-sm text-gray-400 mb-3 text-center px-4">
+              <p className="text-sm text-gray-300 mb-3 text-center px-4">
                 &ldquo;We were reborn.&rdquo; — Big Book, p. 63
               </p>
             )}

@@ -27,7 +27,7 @@ export default function PurposeSection() {
       <div className="mb-8">
         <span className="section-badge mb-4">About NECYPAA</span>
         <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>What is NECYPAA?</h2>
-        <p className="mt-3 text-base text-gray-400 max-w-2xl leading-relaxed">
+        <p className="mt-3 text-base text-gray-300 max-w-2xl leading-relaxed">
           Founded in 1989, the Northeast Convention of Young People in Alcoholics Anonymous brings
           together young people in recovery for an annual multi-day conference. NECYPAA has been a
           cornerstone of AA service and fellowship across the Northeast for over three decades.
@@ -42,7 +42,7 @@ export default function PurposeSection() {
           >
             <span className="text-3xl" role="img" aria-hidden="true">{p.icon}</span>
             <h3 className="font-bold text-white text-base" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>{p.title}</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">{p.body}</p>
+            <p className="text-sm text-gray-300 leading-relaxed">{p.body}</p>
           </div>
         ))}
       </div>
@@ -59,7 +59,7 @@ export default function PurposeSection() {
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
           <div className="flex-1 space-y-2">
             <h3 className="text-lg font-bold text-white" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>First time at NECYPAA?</h3>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-xl">
+            <p className="text-sm text-gray-300 leading-relaxed max-w-xl">
               NECYPAA is for the young and young at heart — the only requirement is an honest desire
               to stop drinking. If you&apos;re in AA, you belong here. We&apos;ll have
               speaker meetings, workshops, dances, and a whole lot of fellowship from Dec 31 – Jan 3

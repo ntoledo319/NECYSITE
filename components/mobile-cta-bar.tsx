@@ -1,13 +1,24 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 
 export default function MobileCtaBar() {
+  const [hidden, setHidden] = useState(false)
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setHidden(document.body.style.overflow === "hidden")
+    })
+    observer.observe(document.body, { attributes: true, attributeFilter: ["style"] })
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <nav
       aria-label="Quick actions"
-      className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-2 px-3 pt-3"
+      className={`sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-2 px-3 pt-3 transition-transform duration-200 ${hidden ? "translate-y-full" : "translate-y-0"}`}
       style={{
         background: "rgba(15,10,30,0.98)",
         backdropFilter: "blur(16px)",

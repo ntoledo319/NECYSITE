@@ -187,7 +187,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           Attendees must check each box in order to be allowed admission to the NECYPAA convention.{" "}
           <span className="text-pink-400" aria-hidden="true">*</span>
         </p>
-        <p className="text-sm text-gray-400"><span className="text-pink-400" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
+        <p className="text-sm text-gray-300"><span className="text-pink-400" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
 
         <div className="space-y-3">
           <div className="flex items-start space-x-3">

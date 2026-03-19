@@ -131,7 +131,7 @@ export default function FreeRegPage() {
             >
               Need a Place to Stay?
             </h3>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-gray-300 mb-4">
               Book your room at our host hotel with the special NECYPAA rate!
             </p>
             <a

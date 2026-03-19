@@ -59,11 +59,11 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
           <td colSpan={7} className="p-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <h4 className="text-sm font-semibold text-gray-400 mb-1">Address:</h4>
+                <h4 className="text-sm font-semibold text-gray-300 mb-1">Address:</h4>
                 <p className="text-gray-300">{meeting.address || "No address provided"}</p>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-gray-400 mb-1">Meeting Types:</h4>
+                <h4 className="text-sm font-semibold text-gray-300 mb-1">Meeting Types:</h4>
                 <p className="text-gray-300">{meeting.types || "No types specified"}</p>
               </div>
             </div>

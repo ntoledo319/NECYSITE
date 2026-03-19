@@ -141,7 +141,7 @@ export default function BreakfastCheckout() {
 
       <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
         <h3 className="text-lg font-semibold text-white">New Years Day Breakfast!</h3>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-300">
           Friday is especially recommended. Most local restaurants are closed on New Year&apos;s Day.
         </p>
 
@@ -213,7 +213,7 @@ export default function BreakfastCheckout() {
       <div className="rounded-2xl p-6 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
         <h3 className="text-lg font-semibold text-white mb-4">Order Summary</h3>
         <div className="space-y-2 text-gray-300">
-          {selectedBreakfasts.length === 0 && <p className="text-gray-400 text-sm">Select at least one breakfast.</p>}
+          {selectedBreakfasts.length === 0 && <p className="text-gray-300 text-sm">Select at least one breakfast.</p>}
           {selectedBreakfasts.map((bp) => (
             <div key={bp.id} className="flex justify-between">
               <span>{bp.name}</span>

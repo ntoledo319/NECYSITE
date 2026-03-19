@@ -80,7 +80,7 @@ export default function QuickFactsStrip() {
               >
                 {fact.value}
               </span>
-              <span className="text-xs text-gray-400 leading-tight">{fact.sub}</span>
+              <span className="text-xs text-gray-300 leading-tight">{fact.sub}</span>
             </div>
           )
 

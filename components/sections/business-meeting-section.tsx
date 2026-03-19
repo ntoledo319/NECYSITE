@@ -83,7 +83,7 @@ export default function BusinessMeetingSection() {
       <div className="mb-6">
         <span className="section-badge">Planning</span>
         <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Next Business Meeting</h2>
-        <p className="mt-2 text-sm text-gray-400 leading-relaxed">
+        <p className="mt-2 text-sm text-gray-300 leading-relaxed">
           Get to know us at our business meetings on Zoom! Come see how the convention is built — through committee work, updates, votes, and fellowship. There are always opportunities for service for anyone who wants to get involved.
         </p>
       </div>
@@ -106,7 +106,7 @@ export default function BusinessMeetingSection() {
               <Calendar className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Next Date</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-300">Next Date</p>
               <p className="text-sm font-bold text-white mt-0.5">
                 {dateStr || "Loading…"}
               </p>
@@ -122,13 +122,13 @@ export default function BusinessMeetingSection() {
               <Clock className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Time</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-300">Time</p>
               <p className="text-sm font-bold text-white mt-0.5">2:00 PM Eastern</p>
             </div>
           </div>
         </div>
 
-        <p className="text-sm text-gray-400 mb-5 leading-relaxed">
+        <p className="text-sm text-gray-300 mb-5 leading-relaxed">
           All are welcome — join us on Zoom. No commitment required.
         </p>
 

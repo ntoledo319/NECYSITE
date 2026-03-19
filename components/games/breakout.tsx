@@ -19,6 +19,7 @@ const BRICK_COLS = 6
 const BRICK_W = 50
 const BRICK_H = 20
 const BRICK_PAD = 6
+const PADDLE_SPEED = 6
 
 const PURPLE = "#7c3aed"
 const PINK = "#c026d3"
@@ -42,6 +43,65 @@ const ROW_COLORS = [PINK, PURPLE, GOLD, CYAN, TEAL, "#f97316"]
 
 interface Brick { x: number; y: number; alive: boolean; label: string; color: string }
 
+function DPadButton({ label, ariaLabel, onDown, onUp, color = PURPLE }: {
+  label: string
+  ariaLabel: string
+  onDown: () => void
+  onUp: () => void
+  color?: string
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onTouchStart={(e) => { e.preventDefault(); onDown() }}
+      onTouchEnd={(e) => { e.preventDefault(); onUp() }}
+      onTouchCancel={(e) => { e.preventDefault(); onUp() }}
+      onMouseDown={onDown}
+      onMouseUp={onUp}
+      onMouseLeave={onUp}
+      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-90 transition-transform"
+      style={{
+        width: 64,
+        height: 52,
+        background: color + "20",
+        border: `2px solid ${color}50`,
+        color,
+        touchAction: "none",
+      }}
+    >
+      {label}
+    </button>
+  )
+}
+
+function LaunchButton({ label, ariaLabel, onTap, color = CYAN }: {
+  label: string
+  ariaLabel: string
+  onTap: () => void
+  color?: string
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onTouchStart={(e) => { e.preventDefault(); onTap() }}
+      onClick={onTap}
+      className="flex items-center justify-center rounded-xl text-xs font-bold select-none active:scale-90 transition-transform uppercase tracking-wide"
+      style={{
+        width: 80,
+        height: 52,
+        background: color + "20",
+        border: `2px solid ${color}50`,
+        color,
+        touchAction: "none",
+      }}
+    >
+      {label}
+    </button>
+  )
+}
+
 export default function BreakoutGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [score, setScore] = useState(0)
@@ -61,6 +121,7 @@ export default function BreakoutGame() {
     launched: false,
     keys: {} as Record<string, boolean>,
     mouseX: CANVAS_W / 2,
+    paddleDir: 0, // -1 left, 0 none, 1 right (for d-pad)
     animId: 0,
   })
 
@@ -94,11 +155,21 @@ export default function BreakoutGame() {
     g.lives = 3
     g.running = true
     g.launched = false
+    g.paddleDir = 0
     setScore(0)
     setLives(3)
     setGameOver(false)
     setWon(false)
   }, [initBricks])
+
+  const launchBall = useCallback(() => {
+    const g = gameRef.current
+    if (!g.launched) g.launched = true
+  }, [])
+
+  const setPaddleDir = useCallback((dir: number) => {
+    gameRef.current.paddleDir = dir
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -119,18 +190,28 @@ export default function BreakoutGame() {
       g.mouseX = ((e.clientX - rect.left) / rect.width) * CANVAS_W
     }
     const handleClick = () => { if (!g.launched) g.launched = true }
-    const handleTouch = (e: TouchEvent) => {
+
+    // Touch: immediately set paddle position on touchstart AND touchmove
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault()
       const rect = canvas.getBoundingClientRect()
       g.mouseX = ((e.touches[0].clientX - rect.left) / rect.width) * CANVAS_W
-      if (!g.launched) g.launched = true
+      // Immediately snap paddle to touch position
+      g.paddleX = g.mouseX - PADDLE_W / 2
+      g.paddleX = Math.max(0, Math.min(CANVAS_W - PADDLE_W, g.paddleX))
+    }
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      g.mouseX = ((e.touches[0].clientX - rect.left) / rect.width) * CANVAS_W
     }
 
     window.addEventListener("keydown", handleKeyDown)
     window.addEventListener("keyup", handleKeyUp)
     canvas.addEventListener("mousemove", handleMouseMove)
     canvas.addEventListener("click", handleClick)
-    canvas.addEventListener("touchstart", handleTouch, { passive: true })
-    canvas.addEventListener("touchmove", handleTouch, { passive: true })
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: false })
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     function resetBall() {
       g.ballX = g.paddleX + PADDLE_W / 2
@@ -143,12 +224,17 @@ export default function BreakoutGame() {
     function loop() {
       if (!ctx || !g.running) return
 
-      // Paddle movement
-      if (g.keys["ArrowLeft"] || g.keys["a"]) g.paddleX -= 6
-      if (g.keys["ArrowRight"] || g.keys["d"]) g.paddleX += 6
-      // Mouse/touch follow
+      // Paddle movement — keyboard
+      if (g.keys["ArrowLeft"] || g.keys["a"]) g.paddleX -= PADDLE_SPEED
+      if (g.keys["ArrowRight"] || g.keys["d"]) g.paddleX += PADDLE_SPEED
+
+      // Paddle movement — d-pad buttons
+      if (g.paddleDir !== 0) g.paddleX += g.paddleDir * PADDLE_SPEED
+
+      // Mouse/touch follow (smooth)
       const targetX = g.mouseX - PADDLE_W / 2
       g.paddleX += (targetX - g.paddleX) * 0.15
+
       g.paddleX = Math.max(0, Math.min(CANVAS_W - PADDLE_W, g.paddleX))
 
       if (!g.launched) {
@@ -299,8 +385,8 @@ export default function BreakoutGame() {
       window.removeEventListener("keyup", handleKeyUp)
       canvas.removeEventListener("mousemove", handleMouseMove)
       canvas.removeEventListener("click", handleClick)
-      canvas.removeEventListener("touchstart", handleTouch)
-      canvas.removeEventListener("touchmove", handleTouch)
+      canvas.removeEventListener("touchstart", handleTouchStart)
+      canvas.removeEventListener("touchmove", handleTouchMove)
       cancelAnimationFrame(g.animId)
       g.running = false
     }
@@ -314,7 +400,7 @@ export default function BreakoutGame() {
           width={CANVAS_W}
           height={CANVAS_H}
           className="rounded-xl border border-purple-500/20"
-          style={{ maxWidth: "100%", height: "auto" }}
+          style={{ maxWidth: "100%", height: "auto", touchAction: "none" }}
           tabIndex={0}
           // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role -- role="application" is correct for game canvases; it tells assistive tech to pass all keystrokes through
           role="application"
@@ -327,7 +413,7 @@ export default function BreakoutGame() {
               {won ? "WALL BROKEN!" : "GAME OVER"}
             </p>
             {won && (
-              <p className="text-sm text-gray-400 mb-3 text-center px-4">
+              <p className="text-sm text-gray-300 mb-3 text-center px-4">
                 &ldquo;We will comprehend the word serenity.&rdquo; — The Promises
               </p>
             )}
@@ -338,9 +424,31 @@ export default function BreakoutGame() {
           </div>
         )}
       </div>
+      {/* Mobile d-pad: left, launch, right */}
+      <div className="md:hidden flex items-center gap-2" aria-label="Game controls" role="group">
+        <DPadButton
+          label="◀"
+          ariaLabel="Move left"
+          onDown={() => setPaddleDir(-1)}
+          onUp={() => setPaddleDir(0)}
+        />
+        <LaunchButton
+          label="LAUNCH"
+          ariaLabel="Launch ball"
+          onTap={launchBall}
+          color={CYAN}
+        />
+        <DPadButton
+          label="▶"
+          ariaLabel="Move right"
+          onDown={() => setPaddleDir(1)}
+          onUp={() => setPaddleDir(0)}
+          color={GOLD}
+        />
+      </div>
       <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        Break through the Wall of Denial. Mouse/touch or ← → to move.
-        Space or click to launch.
+        <span className="hidden md:inline">Break through the Wall of Denial. ← → to move, SPACE to launch.</span>
+        <span className="md:hidden">Use the buttons below to move and launch.</span>
       </p>
     </div>
   )
