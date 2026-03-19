@@ -14,20 +14,20 @@ export const metadata: Metadata = {
 
 export default function JourneyPage() {
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Page header */}
             <div className="text-center mb-12 relative">
               {/* Caterpillar accent — left */}
               <div className="hidden lg:block absolute -left-10 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.09] pointer-events-none" aria-hidden="true">
-                <Image src="/images/caterpillar-character.png" alt="" width={96} height={144} className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/caterpillar-character.png" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
               </div>
               {/* Mad Hatter accent — right */}
               <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                <Image src="/images/mad-hatter-character.png" alt="" width={80} height={120} className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/mad-hatter-character.png" alt="" width={80} height={120} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
               </div>
               <span className="section-badge mb-4 inline-block">Archive</span>
               <h1 className="section-heading mb-3">The Journey Comes First</h1>
@@ -115,7 +115,7 @@ export default function JourneyPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

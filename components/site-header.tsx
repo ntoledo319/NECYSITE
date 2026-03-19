@@ -268,9 +268,11 @@ export default function SiteHeader() {
             ? "rgba(15,10,30,0.97)"
             : "rgba(15,10,30,0.85)",
           backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
           borderBottom: scrolled
             ? "1px solid rgba(45,31,78,0.8)"
             : "1px solid transparent",
+          paddingTop: "env(safe-area-inset-top)",
         }}
       >
         <div className="container mx-auto px-4">
@@ -286,6 +288,7 @@ export default function SiteHeader() {
                 alt="NECYPAA XXXVI — Escaping the Mad Realm"
                 width={200}
                 height={100}
+                sizes="200px"
                 className="h-10 w-auto group-hover:opacity-90 transition-opacity"
                 priority
               />
@@ -361,7 +364,7 @@ export default function SiteHeader() {
         ref={drawerRef}
         aria-label="Mobile navigation"
         className={`fixed top-16 left-0 right-0 z-40 md:hidden flex flex-col gap-1 p-4
-          max-h-[calc(100vh-4rem)] overflow-y-auto nec-mobile-drawer
+          max-h-[calc(100dvh-4rem)] overflow-y-auto nec-mobile-drawer
           transition-all duration-200
           ${menuOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}
         onClick={(e) => e.stopPropagation()}

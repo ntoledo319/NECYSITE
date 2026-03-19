@@ -90,6 +90,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <meta name="color-scheme" content="dark light" />
+      </head>
       <body className={`${jakarta.variable} ${outfit.variable} ${bangers.variable} ${pacifico.variable} ${jakarta.className}`}>
         <NextIntlClientProvider messages={messages}>
           <A11yProvider>

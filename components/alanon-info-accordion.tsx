@@ -73,7 +73,7 @@ export default function AlAnonInfoAccordion() {
         <Accordion.Item
           key={section.id}
           value={section.id}
-          className="rounded-xl overflow-hidden transition-all duration-200"
+          className="nec-alanon-item rounded-xl overflow-hidden transition-all duration-200"
           style={{
             background: "rgba(15,10,30,0.45)",
             border: "1px solid rgba(100,140,200,0.12)",

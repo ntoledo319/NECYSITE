@@ -27,10 +27,10 @@ export async function startRegistrationCheckout(
   // ── Validate all inputs ──────────────────────────────────────
   const validatedProductId = productIdSchema.parse(productId)
   const validatedData = registrationDataSchema.parse(registrationData)
-  const _validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
-  const _validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
-  const _validatedAttribution = purchaseAttributionSchema.parse(attribution)
-  const _validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
+  const validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
+  const validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
+  const validatedAttribution = purchaseAttributionSchema.parse(attribution)
+  const validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
 
   // ── Rate limit by email ──────────────────────────────────────
   const rl = rateLimitCheckout(validatedData.email)
@@ -43,18 +43,17 @@ export async function startRegistrationCheckout(
     throw new Error("Hmm, we couldn't find that registration option. Please go back and try selecting it again.")
   }
 
-  if (!validatedData.isScholarship && !_validatedPolicy) {
+  if (!validatedData.isScholarship && !validatedPolicy) {
     throw new Error("We need you to review and accept the policy agreement before continuing. You can find it on the previous step.")
   }
 
 
-  const sanitizedScholarshipQuantity =
-    Number.isInteger(scholarshipQuantity) && scholarshipQuantity >= 0 ? scholarshipQuantity : 0
-  const selfRegistrationQuantity = registrationData.isScholarship ? 0 : 1
+  const sanitizedScholarshipQuantity = validatedScholarshipQty
+  const selfRegistrationQuantity = validatedData.isScholarship ? 0 : 1
   const finalScholarshipQuantity =
-    registrationData.isScholarship && sanitizedScholarshipQuantity === 0 ? 1 : sanitizedScholarshipQuantity
+    validatedData.isScholarship && sanitizedScholarshipQuantity === 0 ? 1 : sanitizedScholarshipQuantity
   const totalRegistrationQuantity = selfRegistrationQuantity + finalScholarshipQuantity
-  const selectedBreakfasts = breakfastIds
+  const selectedBreakfasts = validatedBreakfastIds
     .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
     .filter((bp): bp is (typeof BREAKFAST_PRODUCTS)[number] => Boolean(bp))
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
@@ -65,32 +64,32 @@ export async function startRegistrationCheckout(
     purchase_type:
       selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
         ? "self_plus_scholarship"
-        : registrationData.isScholarship
+        : validatedData.isScholarship
           ? "scholarship"
           : "self",
     self_registration_quantity: selfRegistrationQuantity.toString(),
     scholarship_quantity: finalScholarshipQuantity.toString(),
-    attendee_name: registrationData.name || "Not provided",
-    attendee_state: registrationData.state || "Not provided",
-    attendee_email: registrationData.email || "Not provided",
-    scholarship_recipient_name: registrationData.scholarshipRecipientName || "None",
-    scholarship_recipient_email: registrationData.scholarshipRecipientEmail || "None",
+    attendee_name: validatedData.name || "Not provided",
+    attendee_state: validatedData.state || "Not provided",
+    attendee_email: validatedData.email || "Not provided",
+    scholarship_recipient_name: validatedData.scholarshipRecipientName || "None",
+    scholarship_recipient_email: validatedData.scholarshipRecipientEmail || "None",
     breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ") || "None",
     breakfast_count: selectedBreakfasts.length.toString(),
-    attribution_aa_entity: attribution?.aaEntity || "None",
-    attribution_reserved_for_person: attribution?.reservedForPerson || "None",
-    accommodations: registrationData.isScholarship ? "Not provided (scholarship purchase)" : registrationData.accommodations || "None",
-    interpretation_needed: registrationData.isScholarship ? "not_applicable" : registrationData.interpretationNeeded.toString(),
-    mobility_accessibility: registrationData.isScholarship ? "not_applicable" : registrationData.mobilityAccessibility.toString(),
-    willing_to_serve: registrationData.isScholarship ? "not_applicable" : registrationData.willingToServe.toString(),
-    homegroup_committee: registrationData.homegroup,
-    policy_read_and_understood: policyAgreements ? policyAgreements.readPolicy.toString() : "not_applicable",
-    policy_questions_understood: policyAgreements ? policyAgreements.understandQuestions.toString() : "not_applicable",
-    policy_behavior_acknowledged: policyAgreements ? policyAgreements.acknowledgeBehavior.toString() : "not_applicable",
-    policy_admission_understood: policyAgreements ? policyAgreements.understandAdmission.toString() : "not_applicable",
-    policy_reporting_understood: policyAgreements ? policyAgreements.understandReporting.toString() : "not_applicable",
-    policy_investigation_understood: policyAgreements ? policyAgreements.understandInvestigation.toString() : "not_applicable",
-    policy_signature_agreement: policyAgreements ? policyAgreements.signatureAgreement.toString() : "not_applicable",
+    attribution_aa_entity: validatedAttribution?.aaEntity || "None",
+    attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
+    accommodations: validatedData.isScholarship ? "Not provided (scholarship purchase)" : validatedData.accommodations || "None",
+    interpretation_needed: validatedData.isScholarship ? "not_applicable" : validatedData.interpretationNeeded.toString(),
+    mobility_accessibility: validatedData.isScholarship ? "not_applicable" : validatedData.mobilityAccessibility.toString(),
+    willing_to_serve: validatedData.isScholarship ? "not_applicable" : validatedData.willingToServe.toString(),
+    homegroup_committee: validatedData.homegroup,
+    policy_read_and_understood: validatedPolicy ? validatedPolicy.readPolicy.toString() : "not_applicable",
+    policy_questions_understood: validatedPolicy ? validatedPolicy.understandQuestions.toString() : "not_applicable",
+    policy_behavior_acknowledged: validatedPolicy ? validatedPolicy.acknowledgeBehavior.toString() : "not_applicable",
+    policy_admission_understood: validatedPolicy ? validatedPolicy.understandAdmission.toString() : "not_applicable",
+    policy_reporting_understood: validatedPolicy ? validatedPolicy.understandReporting.toString() : "not_applicable",
+    policy_investigation_understood: validatedPolicy ? validatedPolicy.understandInvestigation.toString() : "not_applicable",
+    policy_signature_agreement: validatedPolicy ? validatedPolicy.signatureAgreement.toString() : "not_applicable",
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.necypaact.com"
@@ -100,7 +99,7 @@ export async function startRegistrationCheckout(
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
       return_url: successUrl,
-      customer_email: registrationData.email || undefined,
+      customer_email: validatedData.email || undefined,
       line_items: [
         ...(selfRegistrationQuantity > 0
           ? [

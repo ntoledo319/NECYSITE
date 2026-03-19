@@ -121,6 +121,7 @@ export default function InventoryShell({
                           alt={char.alt}
                           width={300}
                           height={450}
+                          sizes="(min-width: 768px) 256px, 192px"
                           className="relative z-10 w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
                         />
                       </div>

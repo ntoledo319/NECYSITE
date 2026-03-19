@@ -64,7 +64,8 @@ export default function CharacterDivider({
             src={char.src}
             alt=""
             width={96}
-            height={144}
+            height={96}
+            sizes="(min-width: 640px) 96px, 80px"
             className="w-full h-full object-contain"
             style={{
               filter: `drop-shadow(0 2px 12px rgba(${char.accentRgb},0.35)) drop-shadow(0 1px 4px rgba(0,0,0,0.4))`,

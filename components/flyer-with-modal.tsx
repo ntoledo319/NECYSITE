@@ -46,6 +46,7 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
           alt={alt}
           width={400}
           height={600}
+          sizes="(min-width: 768px) 400px, 100vw"
           className="w-full h-full object-contain rounded-lg"
         />
         {/* Magnifying glass icon in upper right */}
@@ -78,7 +79,8 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
           </button>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- stopPropagation prevents accidental close when clicking image */}
           <div
-            className="relative w-auto max-w-[90vw] h-auto max-h-[calc(100vh-4rem)]"
+            className="relative w-auto max-w-[90vw] h-auto max-h-[calc(100dvh-4rem)]"
+            style={{ maxHeight: "calc(100dvh - 4rem)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <Image
@@ -86,7 +88,8 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
               alt={alt}
               width={1200}
               height={1600}
-              className="w-auto h-auto max-w-full max-h-[calc(100vh-4rem)] object-contain rounded-lg"
+              sizes="90vw"
+              className="w-auto h-auto max-w-full max-h-[calc(100dvh-4rem)] object-contain rounded-lg"
             />
           </div>
         </div>

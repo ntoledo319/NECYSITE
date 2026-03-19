@@ -13,7 +13,7 @@ export default function ContentWarning({ warning, children }: ContentWarningProp
 
   return (
     <div
-      className="rounded-xl overflow-hidden"
+      className="content-warning rounded-xl overflow-hidden"
       style={{
         border: "1px solid var(--nec-border)",
         background: "var(--nec-bg-alt, #131b2e)",

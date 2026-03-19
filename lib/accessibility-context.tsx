@@ -95,6 +95,13 @@ function applySettings(s: A11ySettings) {
   // Color mode
   root.setAttribute("data-color-mode", s.colorMode)
 
+  // Sync color-scheme so browsers don't auto-darken/lighten the page
+  root.style.colorScheme = s.colorMode === "light" ? "light" : "dark"
+  const metaColorScheme = document.querySelector('meta[name="color-scheme"]')
+  if (metaColorScheme) {
+    metaColorScheme.setAttribute("content", s.colorMode === "light" ? "light dark" : "dark light")
+  }
+
   // High contrast
   root.classList.toggle("a11y-high-contrast", s.highContrast)
 

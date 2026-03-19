@@ -15,7 +15,7 @@ interface MeetingCardProps {
 export function MeetingCard({ day, meetings }: MeetingCardProps) {
   return (
     <div
-      className="rounded-2xl p-4"
+      className="nec-meeting-card rounded-2xl p-4"
       style={{
         background: "linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%)",
         border: "1px solid var(--nec-border)",
@@ -48,27 +48,27 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
             )}
           </h3>
           <p className="text-gray-300">
-            <span className="text-gray-500">Time:</span> {meeting.time}
+            <span className="text-gray-400">Time:</span> {meeting.time}
           </p>
           <p className="text-gray-300">
-            <span className="text-gray-500">Location:</span> {meeting.location}
+            <span className="text-gray-400">Location:</span> {meeting.location}
           </p>
           {meeting.address && (
             <p className="text-gray-300">
-              <span className="text-gray-500">Address:</span> {meeting.address}
+              <span className="text-gray-400">Address:</span> {meeting.address}
             </p>
           )}
           <p className="text-gray-300">
-            <span className="text-gray-500">City:</span> {meeting.city}
+            <span className="text-gray-400">City:</span> {meeting.city}
           </p>
           {meeting.attendance && (
             <p className="text-gray-300">
-              <span className="text-gray-500">Attendance:</span> {meeting.attendance}
+              <span className="text-gray-400">Attendance:</span> {meeting.attendance}
             </p>
           )}
           {meeting.types && (
             <p className="text-gray-300">
-              <span className="text-gray-500">Types:</span> {meeting.types}
+              <span className="text-gray-400">Types:</span> {meeting.types}
             </p>
           )}
         </div>

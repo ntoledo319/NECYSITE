@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function AlAnonPage() {
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
       {/* ── Mad Realm edge bleed: top ────────────────────────────── */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-48 z-0"
@@ -53,7 +53,7 @@ export default function AlAnonPage() {
         }}
       />
 
-      <main id="main-content" className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
 
@@ -266,6 +266,7 @@ export default function AlAnonPage() {
                       style={{ color: "#93b5e0" }}
                       aria-hidden="true"
                     />
+                    <span className="sr-only"> (opens in new tab)</span>
                   </a>
                 ))}
               </div>
@@ -312,6 +313,7 @@ export default function AlAnonPage() {
                         style={{ color: "#c4a5d6" }}
                         aria-hidden="true"
                       />
+                      <span className="sr-only"> (opens in new tab)</span>
                     </a>
                   )
                 })}
@@ -320,7 +322,7 @@ export default function AlAnonPage() {
 
           </div>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

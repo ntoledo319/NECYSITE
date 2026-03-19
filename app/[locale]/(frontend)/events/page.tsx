@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <div
-      className="min-h-screen flex flex-col relative"
+      className="min-h-screen min-h-screen-safe flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="gear" />
@@ -31,6 +31,7 @@ export default function EventsPage() {
                 alt=""
                 width={130}
                 height={195}
+                sizes="130px"
                 className="w-full h-full object-contain"
                 aria-hidden="true"
               />
@@ -42,6 +43,7 @@ export default function EventsPage() {
                 alt=""
                 width={110}
                 height={165}
+                sizes="110px"
                 className="w-full h-full object-contain"
                 aria-hidden="true"
               />

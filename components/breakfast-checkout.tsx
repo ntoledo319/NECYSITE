@@ -98,6 +98,8 @@ export default function BreakfastCheckout() {
                 setFirstName(e.target.value)
                 setCheckoutReady(false)
               }}
+              required
+              aria-required="true"
               className="text-white"
             />
           </div>
@@ -112,6 +114,8 @@ export default function BreakfastCheckout() {
                 setLastName(e.target.value)
                 setCheckoutReady(false)
               }}
+              required
+              aria-required="true"
               className="text-white"
             />
           </div>
@@ -128,6 +132,8 @@ export default function BreakfastCheckout() {
               setEmail(e.target.value)
               setCheckoutReady(false)
             }}
+            required
+            aria-required="true"
             className="text-white"
           />
         </div>
@@ -178,7 +184,7 @@ export default function BreakfastCheckout() {
               type="button"
               onClick={() => toggleBreakfast(bp.id, !breakfastSelections[bp.id])}
               aria-pressed={breakfastSelections[bp.id] || false}
-              className="w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
+              className="nec-breakfast-option w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
               style={{
                 background: breakfastSelections[bp.id] ? "rgba(45,31,78,0.6)" : "rgba(26,16,48,0.6)",
                 borderColor: breakfastSelections[bp.id] ? "rgba(249,115,22,0.5)" : "var(--nec-border)",

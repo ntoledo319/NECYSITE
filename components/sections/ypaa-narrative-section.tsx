@@ -238,7 +238,7 @@ export default function YpaaNarrativeSection() {
 
         {/* Main explainer card */}
         <div
-          className="relative overflow-hidden rounded-2xl p-6 sm:p-8 md:p-10 backdrop-blur-sm"
+          className="nec-narrative-card relative overflow-hidden rounded-2xl p-6 sm:p-8 md:p-10 backdrop-blur-sm"
           style={{
             background: "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.95) 100%)",
             border: "1px solid rgba(124,58,237,0.25)",

@@ -33,7 +33,7 @@ export default function FreeRegPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[var(--nec-navy)] relative">
+    <div className="min-h-screen min-h-screen-safe bg-[var(--nec-navy)] relative">
       <PageArtAccents character="cheshire-cat" accentColor="var(--nec-pink)" variant="subtle" dividerVariant="potion" />
       <div className="container mx-auto px-4 pt-24 pb-12 relative z-10">
         <div className="max-w-3xl mx-auto">

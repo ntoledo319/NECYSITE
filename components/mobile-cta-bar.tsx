@@ -11,6 +11,7 @@ export default function MobileCtaBar() {
       style={{
         background: "rgba(15,10,30,0.98)",
         backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
         borderTop: "1px solid rgba(45,31,78,0.6)",
         boxShadow: "0 -4px 24px rgba(0,0,0,0.4)",
         paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",

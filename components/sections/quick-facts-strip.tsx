@@ -69,7 +69,7 @@ export default function QuickFactsStrip() {
             >
               <span className="text-2xl" aria-hidden="true">{fact.icon}</span>
               <span
-                className="text-[11px] font-bold uppercase tracking-widest"
+                className="text-xs font-bold uppercase tracking-widest"
                 style={{ color: "var(--nec-muted)" }}
               >
                 {fact.label}
@@ -80,7 +80,7 @@ export default function QuickFactsStrip() {
               >
                 {fact.value}
               </span>
-              <span className="text-[11px] text-gray-500 leading-tight">{fact.sub}</span>
+              <span className="text-xs text-gray-400 leading-tight">{fact.sub}</span>
             </div>
           )
 

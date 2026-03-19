@@ -49,7 +49,7 @@ export default function PurposeSection() {
 
       {/* First-timer callout */}
       <div
-        className="rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm"
+        className="nec-callout-card rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm"
         style={{
           background: "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.6) 50%, rgba(192,38,211,0.05) 100%)",
           border: "1px solid rgba(124,58,237,0.22)",

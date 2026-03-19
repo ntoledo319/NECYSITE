@@ -118,7 +118,7 @@ export default function AnonymousFeedbackForm() {
         />
       </div>
 
-      <p className="text-[11px] leading-relaxed" style={{ color: "var(--nec-muted)" }}>
+      <p className="text-xs leading-relaxed" style={{ color: "var(--nec-muted)" }}>
         This form opens your default email client with your message pre-filled. Your email
         address will be visible to us. To stay fully anonymous, use a throwaway email address
         or send from an account that doesn&apos;t identify you.
@@ -133,7 +133,7 @@ export default function AnonymousFeedbackForm() {
           color: "var(--nec-navy)",
         }}
       >
-        <Send className="w-4 h-4" />
+        <Send className="w-4 h-4" aria-hidden="true" />
         {sending ? "Opening mail client..." : "Send Feedback"}
       </button>
     </form>

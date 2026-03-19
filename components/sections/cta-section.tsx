@@ -9,7 +9,7 @@ export default function CTASection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Register card */}
         <div
-          className="relative overflow-hidden rounded-2xl p-8 flex flex-col gap-5 backdrop-blur-sm"
+          className="nec-cta-card relative overflow-hidden rounded-2xl p-8 flex flex-col gap-5 backdrop-blur-sm"
           style={{
             background: "linear-gradient(135deg, rgba(124,58,237,0.14) 0%, rgba(26,16,48,0.85) 50%, rgba(192,38,211,0.04) 100%)",
             border: "1px solid rgba(124,58,237,0.30)",
@@ -28,6 +28,7 @@ export default function CTASection() {
               alt=""
               width={160}
               height={160}
+              sizes="160px"
               className="w-full h-full object-contain"
               aria-hidden="true"
             />
@@ -61,7 +62,7 @@ export default function CTASection() {
 
         {/* Hotel card */}
         <div
-          className="relative overflow-hidden rounded-2xl p-8 flex flex-col gap-5 backdrop-blur-sm"
+          className="nec-cta-card relative overflow-hidden rounded-2xl p-8 flex flex-col gap-5 backdrop-blur-sm"
           style={{
             background: "linear-gradient(135deg, rgba(212,160,23,0.10) 0%, rgba(26,16,48,0.85) 50%, rgba(212,160,23,0.03) 100%)",
             border: "1px solid rgba(212,160,23,0.25)",

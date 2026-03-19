@@ -76,7 +76,7 @@ export default function StatesPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col relative"
+      className="min-h-screen min-h-screen-safe flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       {/* Refined ambient background — thin gradient lines, not blobs */}
@@ -100,8 +100,7 @@ export default function StatesPage() {
         />
       </div>
 
-      <main
-        id="main-content"
+      <div
         className="flex-1 pt-24 pb-20 md:pb-12 relative z-10"
       >
         <div className="container mx-auto px-4">
@@ -488,7 +487,7 @@ export default function StatesPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

@@ -127,6 +127,7 @@ export default function PageArtAccents({
             alt=""
             width={80}
             height={112}
+            sizes="80px"
             className="w-full h-full object-contain"
             aria-hidden="true"
           />

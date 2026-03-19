@@ -15,7 +15,7 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
         <Accordion.Item
           key={i}
           value={`item-${i}`}
-          className="rounded-xl overflow-hidden transition-all duration-200"
+          className="nec-faq-item rounded-xl overflow-hidden transition-all duration-200"
           style={{
             background: "rgba(26,16,48,0.7)",
             border: "1px solid var(--nec-border)",

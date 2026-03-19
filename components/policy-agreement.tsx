@@ -183,15 +183,15 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
       </div>
 
       <div className="space-y-4">
-<p className="text-white font-semibold">
+        <p className="text-white font-semibold">
           Attendees must check each box in order to be allowed admission to the NECYPAA convention.{" "}
           <span className="text-pink-400" aria-hidden="true">*</span>
         </p>
-        <p className="text-sm text-gray-500"><span className="text-pink-400" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
+        <p className="text-sm text-gray-400"><span className="text-pink-400" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
 
         <div className="space-y-3">
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="readPolicy"
               checked={agreements.readPolicy}
               onCheckedChange={(checked) => setAgreements({ ...agreements, readPolicy: checked as boolean })}
@@ -205,7 +205,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           </div>
 
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="understandQuestions"
               checked={agreements.understandQuestions}
               onCheckedChange={(checked) => setAgreements({ ...agreements, understandQuestions: checked as boolean })}
@@ -219,7 +219,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           </div>
 
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="acknowledgeBehavior"
               checked={agreements.acknowledgeBehavior}
               onCheckedChange={(checked) => setAgreements({ ...agreements, acknowledgeBehavior: checked as boolean })}
@@ -234,7 +234,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           </div>
 
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="understandAdmission"
               checked={agreements.understandAdmission}
               onCheckedChange={(checked) => setAgreements({ ...agreements, understandAdmission: checked as boolean })}
@@ -248,7 +248,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           </div>
 
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="understandReporting"
               checked={agreements.understandReporting}
               onCheckedChange={(checked) => setAgreements({ ...agreements, understandReporting: checked as boolean })}
@@ -262,7 +262,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           </div>
 
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="understandInvestigation"
               checked={agreements.understandInvestigation}
               onCheckedChange={(checked) =>
@@ -278,7 +278,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           </div>
 
           <div className="flex items-start space-x-3">
-<Checkbox
+            <Checkbox
               id="signatureAgreement"
               checked={agreements.signatureAgreement}
               onCheckedChange={(checked) => setAgreements({ ...agreements, signatureAgreement: checked as boolean })}

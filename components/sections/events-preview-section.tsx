@@ -54,7 +54,7 @@ export default function EventsPreviewSection() {
           />
 
           <div
-            className="relative z-10 p-6 md:p-8"
+            className="nec-event-card relative z-10 p-6 md:p-8"
             style={{
               background:
                 "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.9) 50%, rgba(26,16,48,0.85) 100%)",

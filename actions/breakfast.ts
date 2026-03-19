@@ -35,21 +35,21 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
 
   const metadata = {
     purchase_type: "breakfast_only",
-    attendee_first_name: attendee.firstName,
-    attendee_last_name: attendee.lastName,
-    attendee_email: attendee.email,
+    attendee_first_name: validatedAttendee.firstName,
+    attendee_last_name: validatedAttendee.lastName,
+    attendee_email: validatedAttendee.email,
     breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", "),
     breakfast_count: selectedBreakfasts.length.toString(),
   }
 
-  const hotelBookingUrl =
-    "https://www.marriott.com/event-reservations/reservation-link.mi?id=1770049957031&key=GRP&app=resvlink"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.necypaact.com"
+  const successUrl = `${baseUrl}/breakfast/success?session_id={CHECKOUT_SESSION_ID}`
 
   try {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
-      return_url: hotelBookingUrl,
-      customer_email: attendee.email,
+      return_url: successUrl,
+      customer_email: validatedAttendee.email,
       line_items: [
         ...selectedBreakfasts.map((bp) => ({
           price_data: {

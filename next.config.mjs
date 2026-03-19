@@ -7,13 +7,13 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
-    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
   },
   async headers() {
     return [

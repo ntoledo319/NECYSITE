@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div
-      className="min-h-screen flex flex-col relative"
+      className="min-h-screen min-h-screen-safe flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
 
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           {/* ── Page Header ────────────────────────── */}
           <header className="max-w-3xl mx-auto text-center mb-16">
@@ -74,7 +74,7 @@ export default function BlogPage() {
           {/* ── Blog Cards Grid ────────────────────── */}
           <BlogGrid />
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

@@ -106,7 +106,7 @@ export default function BusinessMeetingSection() {
               <Calendar className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Next Date</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Next Date</p>
               <p className="text-sm font-bold text-white mt-0.5">
                 {dateStr || "Loading…"}
               </p>
@@ -122,7 +122,7 @@ export default function BusinessMeetingSection() {
               <Clock className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Time</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Time</p>
               <p className="text-sm font-bold text-white mt-0.5">2:00 PM Eastern</p>
             </div>
           </div>

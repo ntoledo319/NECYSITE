@@ -22,13 +22,13 @@ export default function SiteFooter() {
 
       {/* Background character silhouettes — enhanced visibility */}
       <div className="absolute bottom-0 left-8 w-24 h-32 opacity-[0.12] pointer-events-none" aria-hidden="true">
-        <Image src="/images/mad-hatter-character.png" alt="" width={96} height={144} className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/mad-hatter-character.png" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
       <div className="absolute bottom-0 right-8 w-20 h-28 opacity-[0.10] pointer-events-none" aria-hidden="true">
-        <Image src="/images/cheshire-cat-character.png" alt="" width={80} height={112} className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/cheshire-cat-character.png" alt="" width={80} height={112} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-16 h-24 opacity-[0.07] pointer-events-none hidden md:block" aria-hidden="true">
-        <Image src="/images/caterpillar-character.png" alt="" width={64} height={96} className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/caterpillar-character.png" alt="" width={64} height={96} sizes="64px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
 
       {/* Steampunk gear accents */}
@@ -50,7 +50,10 @@ export default function SiteFooter() {
         <Hex color="var(--nec-purple)" size={20} opacity={0.05} />
       </div>
 
-      <div className="container mx-auto px-4 py-12 pb-24 md:pb-12 relative z-10">
+      <div
+        className="container mx-auto px-4 py-12 pb-24 md:pb-12 relative z-10"
+        style={{ paddingBottom: "max(6rem, calc(1.5rem + env(safe-area-inset-bottom)))" }}
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
           {/* Identity column */}
           <div className="space-y-3">
@@ -60,6 +63,7 @@ export default function SiteFooter() {
                 alt="Escaping the Mad Realm — NECYPAA XXXVI theme"
                 width={112}
                 height={112}
+                sizes="112px"
                 className="w-full h-auto drop-shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
               />
             </div>
@@ -195,7 +199,7 @@ export default function SiteFooter() {
               <Mail className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
               {CONTACT_EMAIL}
             </a>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-xs pt-1">
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs pt-1">
               Questions about registration, hotel, accessibility, or anything else — reach out any time.
             </p>
           </div>
@@ -203,7 +207,7 @@ export default function SiteFooter() {
 
         {/* Accessibility statement */}
         <div
-          className="mt-10 pt-6 border-t text-xs text-gray-500 leading-relaxed"
+          className="mt-10 pt-6 border-t text-xs text-gray-400 leading-relaxed"
           style={{ borderColor: "rgba(45,31,78,0.5)" }}
         >
           <p className="max-w-2xl">
@@ -224,7 +228,7 @@ export default function SiteFooter() {
 
         {/* Bottom bar */}
         <div
-          className="mt-4 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600"
+          className="mt-4 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400"
           style={{ borderColor: "rgba(45,31,78,0.5)" }}
         >
           <p>
@@ -236,7 +240,7 @@ export default function SiteFooter() {
         </div>
 
         {/* AA trademark acknowledgment (required per Tradition compliance) */}
-        <p className="mt-3 text-center text-[11px] text-gray-600 leading-relaxed">
+        <p className="mt-3 text-center text-xs text-gray-400 leading-relaxed">
           Alcoholics Anonymous®, A.A.®, and The Big Book® are registered trademarks of Alcoholics Anonymous World Services, Inc.
         </p>
       </div>

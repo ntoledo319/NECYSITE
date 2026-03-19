@@ -14,16 +14,16 @@ export const metadata: Metadata = {
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
       <PageArtAccents character="cheshire-cat" accentColor="var(--nec-pink)" dividerVariant="key" />
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             {/* Page header */}
             <div className="text-center mb-12 relative">
               {/* Cheshire Cat accent */}
               <div className="hidden md:block absolute -right-12 top-0 w-24 h-36 opacity-[0.08] pointer-events-none" aria-hidden="true">
-                <Image src="/images/cheshire-cat-character.png" alt="" width={96} height={144} className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/cheshire-cat-character.png" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
               </div>
               <span className="section-badge mb-4 inline-block">FAQ</span>
               <h1 className="section-heading mb-3">Frequently Asked Questions</h1>
@@ -57,7 +57,7 @@ export default function FAQPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />

@@ -11,7 +11,7 @@ export async function submitFreeRegistration(
 ) {
   // ── Validate inputs ────────────────────────────────────────────
   const validatedData = registrationDataSchema.parse(registrationData)
-  const _validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
+  const validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
 
   // ── Rate limit by email ────────────────────────────────────────
   const rl = rateLimitFreeRegistration(validatedData.email)
@@ -21,27 +21,27 @@ export async function submitFreeRegistration(
 
   const metadata: Record<string, string> = {
     registration_type: "free",
-    attendee_name: registrationData.name,
-    attendee_state: registrationData.state,
-    attendee_email: registrationData.email,
-    accommodations: registrationData.accommodations || "None",
-    interpretation_needed: registrationData.interpretationNeeded.toString(),
-    mobility_accessibility: registrationData.mobilityAccessibility.toString(),
-    willing_to_serve: registrationData.willingToServe.toString(),
-    homegroup_committee: registrationData.homegroup,
-    policy_read_and_understood: policyAgreements.readPolicy.toString(),
-    policy_questions_understood: policyAgreements.understandQuestions.toString(),
-    policy_behavior_acknowledged: policyAgreements.acknowledgeBehavior.toString(),
-    policy_admission_understood: policyAgreements.understandAdmission.toString(),
-    policy_reporting_understood: policyAgreements.understandReporting.toString(),
-    policy_investigation_understood: policyAgreements.understandInvestigation.toString(),
-    policy_signature_agreement: policyAgreements.signatureAgreement.toString(),
+    attendee_name: validatedData.name,
+    attendee_state: validatedData.state,
+    attendee_email: validatedData.email,
+    accommodations: validatedData.accommodations || "None",
+    interpretation_needed: validatedData.interpretationNeeded.toString(),
+    mobility_accessibility: validatedData.mobilityAccessibility.toString(),
+    willing_to_serve: validatedData.willingToServe.toString(),
+    homegroup_committee: validatedData.homegroup,
+    policy_read_and_understood: validatedPolicy.readPolicy.toString(),
+    policy_questions_understood: validatedPolicy.understandQuestions.toString(),
+    policy_behavior_acknowledged: validatedPolicy.acknowledgeBehavior.toString(),
+    policy_admission_understood: validatedPolicy.understandAdmission.toString(),
+    policy_reporting_understood: validatedPolicy.understandReporting.toString(),
+    policy_investigation_understood: validatedPolicy.understandInvestigation.toString(),
+    policy_signature_agreement: validatedPolicy.signatureAgreement.toString(),
   }
 
   try {
     // Search for existing customer by email
     const existingCustomers = await stripe.customers.list({
-      email: registrationData.email,
+      email: validatedData.email,
       limit: 1,
     })
 
@@ -50,14 +50,14 @@ export async function submitFreeRegistration(
     if (existingCustomers.data.length > 0) {
       // Update existing customer with latest info
       customer = await stripe.customers.update(existingCustomers.data[0].id, {
-        name: registrationData.name,
+        name: validatedData.name,
         metadata,
       })
     } else {
       // Create new Stripe customer with all registration data as metadata
       customer = await stripe.customers.create({
-        name: registrationData.name,
-        email: registrationData.email,
+        name: validatedData.name,
+        email: validatedData.email,
         metadata,
       })
     }

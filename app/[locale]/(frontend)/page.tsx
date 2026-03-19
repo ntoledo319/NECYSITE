@@ -15,7 +15,7 @@ import { KeyIcon, ClockIcon } from "@/components/art/steampunk-elements"
 export default function HomePage() {
   return (
     <div
-      className="min-h-screen flex flex-col relative"
+      className="min-h-screen min-h-screen-safe flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       {/* Page-level ambient vortex glow layer */}

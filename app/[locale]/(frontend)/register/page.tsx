@@ -47,11 +47,11 @@ export default function RegisterPage() {
       ]
 
   return (
-    <div className="min-h-screen relative bg-[var(--nec-navy)]">
+    <div className="min-h-screen min-h-screen-safe relative bg-[var(--nec-navy)]">
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="key" />
       {/* Mad Hatter portal watermark */}
       <div className="absolute top-16 left-1/2 -translate-x-1/2 w-64 h-96 opacity-[0.04] pointer-events-none z-0" aria-hidden="true">
-        <Image src="/images/mad-hatter-portal.jpg" alt="" width={256} height={384} className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/mad-hatter-portal.jpg" alt="" width={256} height={384} sizes="256px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
 
       <div className="container mx-auto px-4 pt-24 pb-12 relative z-10">

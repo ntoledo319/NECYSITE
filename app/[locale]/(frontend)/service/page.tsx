@@ -25,7 +25,7 @@ const whyItems = [
 export default function ServicePage() {
   return (
     <div
-      className="min-h-screen flex flex-col relative"
+      className="min-h-screen min-h-screen-safe flex flex-col relative"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="potion" />
@@ -185,6 +185,7 @@ export default function ServicePage() {
                     alt=""
                     width={150}
                     height={225}
+                    sizes="150px"
                     className="w-full h-full object-contain"
                     aria-hidden="true"
                   />

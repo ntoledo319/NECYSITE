@@ -252,6 +252,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
                     type="button"
                     onClick={disableScholarship}
                     className="ml-2 px-3 py-1 text-white bg-red-700 hover:bg-red-600 rounded"
+                    aria-label="Remove scholarship registrations"
                   >
                     Remove
                   </button>

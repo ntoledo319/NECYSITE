@@ -117,7 +117,7 @@ export default function StateCard({ state, isHighlighted }: StateCardProps) {
             </span>
             {state.ypaaCommittee && (
               <span
-                className="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
+                className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
                 style={{
                   background: "rgba(192,38,211,0.12)",
                   color: "var(--nec-pink)",
@@ -128,7 +128,7 @@ export default function StateCard({ state, isHighlighted }: StateCardProps) {
               </span>
             )}
             <span
-              className="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
+              className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
               style={{
                 background: `rgba(${accentRgb},0.08)`,
                 color: accentColor,

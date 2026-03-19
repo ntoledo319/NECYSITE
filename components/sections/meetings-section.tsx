@@ -19,10 +19,10 @@ export default function MeetingsSection() {
       </div>
 
       {/* Desktop table */}
-      <div className="hidden md:block overflow-x-auto rounded-2xl" style={{ border: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.25)" }}>
+      <div className="nec-meetings-table hidden md:block overflow-x-auto rounded-2xl" style={{ border: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.25)" }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.95) 0%, rgba(15,10,30,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
+            <tr className="nec-meetings-thead" style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.95) 0%, rgba(15,10,30,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Day</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Time</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Meeting</th>

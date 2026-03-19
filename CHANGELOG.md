@@ -2,6 +2,31 @@
 
 > Keeping track of what changed and when.
 
+## [Unreleased] - 2026-03-19 (h)
+
+*Full-codebase audit. Ran every server action, every page, every component through the gauntlet: security, accessibility, code quality. Found server actions happily passing raw unsanitized user data straight to Stripe metadata — fixed. Found the breakfast checkout redirecting to a success page that didn't exist — built it. Found the Stripe client silently creating itself with an undefined API key — added a fail-fast guard. Found **eight pages** with duplicate `<main>` landmarks because every page thought it was special enough to have its own — they're all `<div>`s now. Zero TypeScript errors. Zero ESLint warnings. The site builds. We are (temporarily) not on fire. — Nikki*
+
+### Added
+- **`app/[locale]/(frontend)/breakfast/success/page.tsx`** — Created the missing breakfast success page. The breakfast checkout was redirecting here after Stripe payment but the page didn't exist. Accessible design matching `register/success`: confirmation message, next steps (save the dates, hotel booking CTA, contact info), all decorative icons `aria-hidden`, external links with sr-only text.
+
+### Fixed
+- **Server actions using raw unsanitized data** — `actions/registration.ts`, `actions/breakfast.ts`, `actions/free-registration.ts` were all validating input with Zod schemas but then passing the **original raw data** to Stripe metadata and customer records. Now all three exclusively use the validated+sanitized output from `registrationDataSchema.parse()`, `breakfastAttendeeSchema.parse()`, and `policyAgreementsSchema.parse()`.
+- **Breakfast checkout wrong `return_url`** — `actions/breakfast.ts` was sending users to the Marriott hotel booking page after payment instead of a success page. Now redirects to `/breakfast/success?session_id={CHECKOUT_SESSION_ID}`.
+- **`lib/stripe.ts` missing env var guard** — Stripe client was created with `process.env.STRIPE_SECRET_KEY!` (non-null assertion). If the env var was missing, you'd get cryptic Stripe API errors at runtime. Now throws a clear `"STRIPE_SECRET_KEY environment variable is not set."` error on startup.
+- **Duplicate `<main>` landmarks across 8 pages** — The root layout already wraps all page content in `<main id="main-content">`. Eight pages had their own nested `<main>` elements, causing screen readers to see multiple main landmarks. Changed to `<div>` in: `page-shell.tsx`, `alanon/page.tsx`, `faq/page.tsx`, `blog/page.tsx`, `accessibility/page.tsx`, `states/page.tsx`, `journey/page.tsx`. Also removed duplicate `id="main-content"` from `states/page.tsx`.
+- **Missing `aria-hidden="true"` on decorative icons** — `anonymous-feedback-form.tsx` (Send icon), `register/success/page.tsx` (CheckCircle, Hotel, Home, Mail, ArrowRight).
+- **Missing `required` / `aria-required="true"`** — `breakfast-checkout.tsx` firstName, lastName, and email inputs.
+- **Missing `aria-label` on scholarship Remove button** — `registration-checkout.tsx` Remove button now has `aria-label="Remove scholarship registrations"`.
+- **Al-Anon page external links missing sr-only text** — State grid links for Al-Anon and Alateen resources now have `(opens in new tab)` for screen readers.
+- **Duplicate `color-scheme` declaration** — `layout.tsx` had both an inline `style={{ colorScheme: "dark light" }}` on `<html>` and a `<meta name="color-scheme">` tag. Removed the inline style.
+
+### Housekeeping
+- **`policy-agreement.tsx`** — Fixed inconsistent indentation of `<p>` and `<Checkbox>` elements.
+- Build verified: `next build` clean, 0 TypeScript errors, 0 ESLint warnings (`--max-warnings=0`).
+- All 22+ routes compile and generate successfully.
+
+---
+
 ## [Unreleased] - 2026-03-18 (g)
 
 *Pre-launch audit. Ran the whole codebase through the wringer — ESLint strict mode, TypeScript noEmit, WCAG text size sweep, sr-only coverage check on every external link. Killed an unused import, bumped four 10px badge texts to 11px because WCAG says so, and added the missing "(opens in new tab)" on the AA Meeting Finder link. Region map got geographically accurate SVG paths. Games got touch controls and D-pad overlays. Blog cards got smooth expand/collapse animations. Hero section got a full ambient vortex glow treatment. Footer got character silhouettes. The accessibility panel uses Radix Switch and proper focus trapping. Zero ESLint warnings. Zero TypeScript errors. Ship it. — Nikki*

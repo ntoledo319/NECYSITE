@@ -121,10 +121,10 @@ export default function MadRealmParticles() {
       className="fixed inset-0 pointer-events-none z-[1] overflow-hidden mad-realm-particles"
       aria-hidden="true"
     >
-      {PARTICLES.map(({ id, Component, size, left, top, color, opacity, duration, delay, rotate }) => (
+      {PARTICLES.map(({ id, Component, size, left, top, color, opacity, duration, delay, rotate }, index) => (
         <div
           key={id}
-          className="absolute mad-realm-particle"
+          className={`absolute mad-realm-particle${index >= 8 ? " hidden md:block" : ""}`}
           style={{
             left,
             top,
@@ -132,6 +132,7 @@ export default function MadRealmParticles() {
             opacity,
             transform: `rotate(${rotate}deg)`,
             animation: `madRealmFloat ${duration} ease-in-out ${delay} infinite`,
+            willChange: "transform",
           }}
         >
           <Component size={size} />

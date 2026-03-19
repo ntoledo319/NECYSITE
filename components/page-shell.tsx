@@ -50,8 +50,8 @@ export default function PageShell({ badge, title, subtitle, children, character 
   const char = CHARACTER_DATA[charKey]
 
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
-      <main className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Page header */}
@@ -109,6 +109,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                         alt={char.alt}
                         width={300}
                         height={450}
+                        sizes="(min-width: 768px) 256px, (min-width: 640px) 224px, 192px"
                         className="relative z-10 w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
                       />
                     </div>
@@ -178,7 +179,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
             )}
           </div>
         </div>
-      </main>
+      </div>
 
       <SiteFooter />
       <MobileCtaBar />
