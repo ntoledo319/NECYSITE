@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import HeroSection from "@/components/sections/hero-section"
 import QuickFactsStrip from "@/components/sections/quick-facts-strip"
 import CTASection from "@/components/sections/cta-section"
@@ -13,6 +14,12 @@ import { ArtAccentCluster } from "@/components/art/graffiti-elements"
 import { GearCluster, MazePattern } from "@/components/art/steampunk-gears"
 import { KeyIcon, ClockIcon } from "@/components/art/steampunk-elements"
 import { EventJsonLd, OrganizationJsonLd } from "@/components/json-ld"
+
+export const metadata: Metadata = {
+  title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT · Dec 31, 2026 – Jan 3, 2027",
+  description:
+    "Pre-register for $40 — the 36th Northeast Convention of Young People in AA. Hartford Marriott Downtown, Dec 31, 2026 – Jan 3, 2027. Speakers, workshops, fellowship, and more.",
+}
 
 export default function HomePage() {
   return (

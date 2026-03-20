@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { CheckCircle, Hotel, Home, Mail, ArrowRight, UtensilsCrossed } from "lucide-react"
-import { HOTEL_BOOKING_URL, CONTACT_EMAIL } from "@/lib/constants"
+import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"
 import AddToCalendar from "@/components/add-to-calendar"
 import ShareMenu from "@/components/share-menu"
 
@@ -64,7 +64,7 @@ export default function RegistrationSuccessPage() {
               NECYPAA XXXVI · Hartford, CT
             </p>
             <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
-              Dec 31, 2026 – Jan 3, 2027 · Hartford Marriott Downtown
+              {CONVENTION_DATES} · {CONVENTION_VENUE}
             </p>
           </div>
 
@@ -106,7 +106,7 @@ export default function RegistrationSuccessPage() {
               <div>
                 <p className="text-sm font-semibold text-white">Save the dates</p>
                 <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
-                  Dec 31, 2026 – Jan 3, 2027. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
+                  {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                 </p>
               </div>
             </div>

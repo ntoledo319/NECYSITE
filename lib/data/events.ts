@@ -28,7 +28,7 @@ export const upcomingEvent: EventData = {
   ],
   description:
     "\"Rarely have we seen a person fail who has thoroughly licked their bowl.\" Come cool down with unlimited ice cream, speed fellowship, and good vibes!",
-  flyerSrc: "/images/ultimate-cool-down-flyer.png",
+  flyerSrc: "/images/ultimate-cool-down-flyer.webp",
   flyerAlt: "The Ultimate Cool Down — Ice Cream Social and Speed Fellowship, April 25th at 2 PM, CCAR 713 Main St Willimantic",
 }
 

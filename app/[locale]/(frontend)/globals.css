@@ -25,11 +25,13 @@
   --nec-border:   #2d1f4e;
   --nec-text:     #e8e0f0;
   --nec-muted:    #b4a5d0;
+  --nec-bg-alt:   #131b2e;
 
   /* Al-Anon brand colors (from official SVG) */
   --alanon-blue:     #0093D0;
   --alanon-blue-dim: #007BB5;
   --alanon-white:    #FFFFFF;
+  --nec-alateen:     #c4a5d6;
 
   --radius: 0.75rem;
 

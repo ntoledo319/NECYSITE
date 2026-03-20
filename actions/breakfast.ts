@@ -13,7 +13,11 @@ interface BreakfastAttendee {
 
 export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakfastIds: string[]) {
   // ── Validate inputs ────────────────────────────────────────────
-  const validatedAttendee = breakfastAttendeeSchema.parse(attendee)
+  const attendeeResult = breakfastAttendeeSchema.safeParse(attendee)
+  if (!attendeeResult.success) {
+    throw new Error("Invalid attendee data. Please check your information and try again.")
+  }
+  const validatedAttendee = attendeeResult.data
   const validatedIds = breakfastIdsSchema.parse(breakfastIds)
 
   // ── Rate limit by email ────────────────────────────────────────
@@ -88,6 +92,6 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
     return session.client_secret
   } catch (error) {
     console.error("Breakfast checkout session creation failed:", error)
-    throw error
+    throw new Error("Payment session could not be created. Please try again.")
   }
 }

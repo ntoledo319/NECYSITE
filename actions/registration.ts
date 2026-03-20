@@ -26,7 +26,11 @@ export async function startRegistrationCheckout(
 ) {
   // ── Validate all inputs ──────────────────────────────────────
   const validatedProductId = productIdSchema.parse(productId)
-  const validatedData = registrationDataSchema.parse(registrationData)
+  const dataResult = registrationDataSchema.safeParse(registrationData)
+  if (!dataResult.success) {
+    throw new Error("Invalid registration data. Please check your information and try again.")
+  }
+  const validatedData = dataResult.data
   const validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
   const validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
   const validatedAttribution = purchaseAttributionSchema.parse(attribution)
@@ -169,7 +173,7 @@ export async function startRegistrationCheckout(
     return session.client_secret
   } catch (error) {
     console.error("Stripe session creation failed:", error)
-    throw error
+    throw new Error("Payment session could not be created. Please try again.")
   }
 }
 
@@ -180,7 +184,11 @@ export async function submitAccessCodeRegistration(
   policyAgreements: PolicyAgreements,
 ): Promise<{ success: true } | { success: false; error: string }> {
   // ── Validate all inputs ──────────────────────────────────────
-  const validatedData = registrationDataSchema.parse(registrationData)
+  const dataResult = registrationDataSchema.safeParse(registrationData)
+  if (!dataResult.success) {
+    return { success: false, error: "Invalid registration data. Please check your information and try again." }
+  }
+  const validatedData = dataResult.data
   const validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
 
   if (!validatedData.accessCode) {

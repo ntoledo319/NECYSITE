@@ -10,7 +10,11 @@ export async function submitFreeRegistration(
   policyAgreements: PolicyAgreements,
 ) {
   // ── Validate inputs ────────────────────────────────────────────
-  const validatedData = registrationDataSchema.parse(registrationData)
+  const dataResult = registrationDataSchema.safeParse(registrationData)
+  if (!dataResult.success) {
+    throw new Error("Invalid registration data. Please check your information and try again.")
+  }
+  const validatedData = dataResult.data
   const validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
 
   // ── Rate limit by email ────────────────────────────────────────
@@ -45,24 +49,22 @@ export async function submitFreeRegistration(
       limit: 1,
     })
 
-    let customer
-
     if (existingCustomers.data.length > 0) {
       // Update existing customer with latest info
-      customer = await stripe.customers.update(existingCustomers.data[0].id, {
+      await stripe.customers.update(existingCustomers.data[0].id, {
         name: validatedData.name,
         metadata,
       })
     } else {
       // Create new Stripe customer with all registration data as metadata
-      customer = await stripe.customers.create({
+      await stripe.customers.create({
         name: validatedData.name,
         email: validatedData.email,
         metadata,
       })
     }
 
-    return { success: true, customerId: customer.id }
+    return { success: true }
   } catch (error) {
     console.error("Failed to save registration:", error)
     throw new Error("We had trouble saving your registration. Please try again in a moment — and if it keeps happening, reach out to us at info@necypaa.org.")

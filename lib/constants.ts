@@ -8,3 +8,7 @@ export const CONTACT_EMAIL = "info@necypaa.org"
 export const ZOOM_MEETING_URL = "https://us06web.zoom.us/j/5692382899?omn=86491828124"
 
 export const EVENT_SLUG = "necypaa-xxxvi"
+
+export const CONVENTION_DATES = "Dec 31, 2026 – Jan 3, 2027"
+
+export const CONVENTION_VENUE = "Hartford Marriott Downtown"

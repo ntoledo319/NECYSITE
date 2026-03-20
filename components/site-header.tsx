@@ -305,7 +305,7 @@ export default function SiteHeader() {
               onClick={close}
             >
               <Image
-                src="/images/necypaa-xxxvi-badge.png"
+                src="/images/necypaa-xxxvi-badge.webp"
                 alt="NECYPAA XXXVI — Escaping the Mad Realm"
                 width={200}
                 height={100}

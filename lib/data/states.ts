@@ -36,7 +36,7 @@ export interface StateResource {
   name: string
   abbreviation: string
   region: "new-england" | "expansion"
-  flagSvg: string
+  flagSvg?: string
   intergroups: Intergroup[]
   areaServiceUrl?: string
   ypaaCommittee?: YPAACommittee

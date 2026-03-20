@@ -27,6 +27,7 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
               <ChevronDown
                 className="w-4 h-4 flex-shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"
                 style={{ color: "var(--nec-cyan)" }}
+                aria-hidden="true"
               />
             </Accordion.Trigger>
           </Accordion.Header>

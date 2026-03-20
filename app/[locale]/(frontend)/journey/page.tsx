@@ -51,11 +51,11 @@ export default function JourneyPage() {
 
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm" style={{ color: "var(--nec-muted)" }}>
                         <span className="inline-flex items-center gap-1.5">
-                          <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} />
+                          <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
                           {event.date}
                         </span>
                         <span className="inline-flex items-center gap-1.5">
-                          <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} />
+                          <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} aria-hidden="true" />
                           {event.location}
                         </span>
                       </div>

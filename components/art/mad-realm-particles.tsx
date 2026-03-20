@@ -132,7 +132,6 @@ export default function MadRealmParticles() {
             opacity,
             transform: `rotate(${rotate}deg)`,
             animation: `madRealmFloat ${duration} ease-in-out ${delay} infinite`,
-            willChange: "transform",
           }}
         >
           <Component size={size} />

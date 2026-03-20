@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useMemo, lazy, Suspense } from "react"
+import { useState, useEffect, useMemo, lazy, Suspense } from "react"
 import { ExternalLink, Map, List, Globe, Sparkles } from "lucide-react"
+import { CONTACT_EMAIL } from "@/lib/constants"
 import { NECYPAA_STATES } from "@/lib/data/states"
 import StateCard from "@/components/state-card"
 import SiteFooter from "@/components/site-footer"
@@ -14,9 +15,11 @@ type RegionFilter = "all" | "new-england" | "expansion"
 export default function StatesPage() {
   const [selectedState, setSelectedState] = useState<string | null>(null)
   const [regionFilter, setRegionFilter] = useState<RegionFilter>("all")
-  const [viewMode, setViewMode] = useState<"map" | "list">(() =>
-    typeof window !== "undefined" && window.innerWidth < 768 ? "list" : "map"
-  )
+  const [viewMode, setViewMode] = useState<"map" | "list">("map")
+
+  useEffect(() => {
+    if (window.innerWidth < 768) setViewMode("list")
+  }, [])
 
   const totalIntergroups = NECYPAA_STATES.reduce(
     (sum, s) => sum + s.intergroups.length,
@@ -488,7 +491,7 @@ export default function StatesPage() {
                 Know of a resource that should be listed here? Missing or
                 outdated link?{" "}
                 <a
-                  href="mailto:info@necypaa.org?subject=States%20Page%20Feedback"
+                  href={`mailto:${CONTACT_EMAIL}?subject=States%20Page%20Feedback`}
                   className="underline transition-colors hover:text-white"
                   style={{ color: "var(--nec-cyan)" }}
                 >

@@ -59,7 +59,7 @@ export default function SiteFooter() {
           <div className="space-y-3">
             <div className="w-28 h-auto mb-2">
               <Image
-                src="/images/mad-realm-logo-no-bg.png"
+                src="/images/mad-realm-logo-no-bg.webp"
                 alt="Escaping the Mad Realm — NECYPAA XXXVI theme"
                 width={112}
                 height={112}

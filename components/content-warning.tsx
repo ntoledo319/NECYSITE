@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useId } from "react"
 import { AlertTriangle, ChevronDown, ChevronUp } from "lucide-react"
 
 interface ContentWarningProps {
@@ -10,6 +10,7 @@ interface ContentWarningProps {
 
 export default function ContentWarning({ warning, children }: ContentWarningProps) {
   const [revealed, setRevealed] = useState(false)
+  const panelId = useId()
 
   return (
     <div
@@ -23,7 +24,7 @@ export default function ContentWarning({ warning, children }: ContentWarningProp
         onClick={() => setRevealed(!revealed)}
         className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/5"
         aria-expanded={revealed}
-        aria-controls="content-warning-panel"
+        aria-controls={panelId}
       >
         <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} />
         <span className="text-xs font-medium flex-1" style={{ color: "var(--nec-muted)" }}>
@@ -36,7 +37,7 @@ export default function ContentWarning({ warning, children }: ContentWarningProp
         )}
       </button>
       {revealed && (
-        <div id="content-warning-panel" className="px-4 pb-4 pt-1">
+        <div id={panelId} className="px-4 pb-4 pt-1">
           {children}
         </div>
       )}

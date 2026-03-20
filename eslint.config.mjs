@@ -11,6 +11,7 @@ const eslintConfig = [
     ignores: [
       ".next/**",
       "node_modules/**",
+      "claude-skills/**",
       "*.config.{js,mjs}",
       "app/(payload)/admin/importMap.js",
     ],

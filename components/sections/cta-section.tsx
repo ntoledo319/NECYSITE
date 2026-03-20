@@ -17,7 +17,7 @@ export default function CTASection() {
           {/* Decorative logo watermark */}
           <div className="absolute -bottom-8 -right-8 w-40 h-40 opacity-[0.06] pointer-events-none" aria-hidden="true">
             <Image
-              src="/images/mad-realm-logo-no-bg.png"
+              src="/images/mad-realm-logo-no-bg.webp"
               alt=""
               width={160}
               height={160}

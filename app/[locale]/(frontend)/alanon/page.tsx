@@ -260,7 +260,7 @@ export default function AlAnonPage() {
                 rel="noopener noreferrer"
                 className="btn-alanon"
               >
-                Al-Anon Meeting Finder <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                Al-Anon Meeting Finder<span className="sr-only"> (opens in new tab)</span> <ExternalLink className="w-4 h-4" aria-hidden="true" />
               </a>
             </section>
 

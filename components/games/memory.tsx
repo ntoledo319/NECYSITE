@@ -106,6 +106,7 @@ export default function MemoryGame() {
     animId: 0,
     glowPhase: 0,
     lastTime: 0,
+    flipTimeout: null as ReturnType<typeof setTimeout> | null,
   })
 
   const resetGame = useCallback(() => {
@@ -169,12 +170,13 @@ export default function MemoryGame() {
         } else {
           // No match - flip back after delay
           g.lockInput = true
-          setTimeout(() => {
+          const flipTimeout = setTimeout(() => {
             a.flipped = false
             b.flipped = false
             g.selected = []
             g.lockInput = false
           }, 1000)
+          g.flipTimeout = flipTimeout
         }
       }
     }
@@ -370,6 +372,7 @@ export default function MemoryGame() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
       cancelAnimationFrame(g.animId)
+      if (g.flipTimeout) clearTimeout(g.flipTimeout)
     }
   }, [])
 

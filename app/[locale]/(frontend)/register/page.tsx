@@ -6,6 +6,7 @@ import RegistrationForm from "@/components/registration-form"
 import PolicyAgreement from "@/components/policy-agreement"
 import RegistrationCheckout from "@/components/registration-checkout"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
+import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
 
 type Step = "info" | "policy" | "payment"
@@ -137,17 +138,17 @@ export default function RegisterPage() {
               boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)",
             }}
           >
-            <h3
+            <h2
               className="text-xl font-bold text-white mb-2"
               style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}
             >
               Need a Place to Stay?
-            </h3>
+            </h2>
             <p className="text-sm text-gray-300 mb-4">
               Book your room at our host hotel with the special NECYPAA rate!
             </p>
             <a
-              href="https://www.marriott.com/event-reservations/reservation-link.mi?id=1770049957031&key=GRP&app=resvlink"
+              href={HOTEL_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary inline-flex"

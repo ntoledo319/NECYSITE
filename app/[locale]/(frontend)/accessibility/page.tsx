@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import { Mail, Eye, Monitor, Ear, Keyboard, Globe } from "lucide-react"
+import { CONTACT_EMAIL } from "@/lib/constants"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import AnonymousFeedbackForm from "@/components/anonymous-feedback-form"
@@ -151,7 +152,7 @@ export default function AccessibilityPage() {
                 assistance, or anything else — please let us know. We want to help.
               </p>
               <a
-                href="mailto:info@necypaa.org?subject=Accommodation%20Request"
+                href={`mailto:${CONTACT_EMAIL}?subject=Accommodation%20Request`}
                 className="btn-secondary inline-flex items-center gap-2"
               >
                 <Mail className="w-4 h-4" /> Request Accommodations
@@ -167,7 +168,7 @@ export default function AccessibilityPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
-                  href="mailto:info@necypaa.org?subject=Accessibility%20Issue"
+                  href={`mailto:${CONTACT_EMAIL}?subject=Accessibility%20Issue`}
                   className="btn-ghost inline-flex items-center gap-2"
                 >
                   <Mail className="w-4 h-4" /> Email Us
@@ -204,11 +205,11 @@ export default function AccessibilityPage() {
               <p>
                 If you encounter any accessibility barriers on this site, please contact us at{" "}
                 <a
-                  href="mailto:info@necypaa.org"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   className="underline"
                   style={{ color: "var(--nec-cyan)" }}
                 >
-                  info@necypaa.org
+                  {CONTACT_EMAIL}
                 </a>
                 . We take all feedback seriously and will work to address issues promptly.
               </p>

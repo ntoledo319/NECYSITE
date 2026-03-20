@@ -21,7 +21,7 @@ export function EventJsonLd() {
         addressCountry: "US",
       },
     },
-    image: "https://www.necypaact.com/images/necypaa-xxxvi-flyer.png",
+    image: "https://www.necypaact.com/images/necypaa-xxxvi-flyer.webp",
     organizer: {
       "@type": "Organization",
       name: "NECYPAA XXXVI Connecticut Host Committee",
@@ -52,7 +52,7 @@ export function OrganizationJsonLd() {
     name: "NECYPAA XXXVI Connecticut Host Committee",
     url: "https://www.necypaact.com",
     email: "info@necypaa.org",
-    logo: "https://www.necypaact.com/images/necypaa-xxxvi-badge.png",
+    logo: "https://www.necypaact.com/images/necypaa-xxxvi-badge.webp",
     sameAs: ["https://necypaa.org/"],
   }
 

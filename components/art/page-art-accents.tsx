@@ -57,21 +57,18 @@ export default function PageArtAccents({
             className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.06]"
             style={{
               background: "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
-              filter: "blur(120px)",
             }}
           />
           <div
             className="absolute top-[40%] -right-20 w-[700px] h-[700px] rounded-full opacity-[0.05]"
             style={{
               background: `radial-gradient(circle, rgba(${rgb},1) 0%, transparent 65%)`,
-              filter: "blur(120px)",
             }}
           />
           <div
             className="absolute bottom-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.04]"
             style={{
               background: "radial-gradient(circle, var(--nec-gold) 0%, transparent 65%)",
-              filter: "blur(120px)",
             }}
           />
         </div>

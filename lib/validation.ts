@@ -21,7 +21,7 @@ const sanitizedString = (maxLength = 500) =>
 export const registrationDataSchema = z.object({
   name: sanitizedString(200).pipe(z.string().min(1, "Name is required")),
   state: sanitizedString(100).pipe(z.string().min(1, "State is required")),
-  email: z.string().email("Valid email is required").max(320),
+  email: z.string().email("Valid email is required").max(320).trim().toLowerCase(),
   accommodations: sanitizedString(1000).default(""),
   interpretationNeeded: z.boolean(),
   mobilityAccessibility: z.boolean(),
@@ -64,7 +64,7 @@ export const purchaseAttributionSchema = z.object({
 export const breakfastAttendeeSchema = z.object({
   firstName: sanitizedString(100).pipe(z.string().min(1, "First name is required")),
   lastName: sanitizedString(100).pipe(z.string().min(1, "Last name is required")),
-  email: z.string().email("Valid email is required").max(320),
+  email: z.string().email("Valid email is required").max(320).trim().toLowerCase(),
 })
 
 export type ValidatedBreakfastAttendee = z.infer<typeof breakfastAttendeeSchema>

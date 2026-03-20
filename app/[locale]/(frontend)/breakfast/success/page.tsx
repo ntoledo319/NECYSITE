@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { CheckCircle, Hotel, Home, Mail, ArrowRight } from "lucide-react"
-import { HOTEL_BOOKING_URL, CONTACT_EMAIL } from "@/lib/constants"
+import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"
 
 export default function BreakfastSuccessPage() {
   return (
@@ -63,7 +63,7 @@ export default function BreakfastSuccessPage() {
               NECYPAA XXXVI · Hartford, CT
             </p>
             <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
-              Dec 31, 2026 – Jan 3, 2027 · Hartford Marriott Downtown
+              {CONVENTION_DATES} · {CONVENTION_VENUE}
             </p>
           </div>
 
@@ -121,7 +121,7 @@ export default function BreakfastSuccessPage() {
               <div>
                 <p className="text-sm font-semibold text-white">Save the dates</p>
                 <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
-                  Dec 31, 2026 – Jan 3, 2027. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
+                  {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                 </p>
               </div>
             </div>

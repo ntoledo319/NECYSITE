@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { submitFreeRegistration } from "@/actions/free-registration"
+import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 
 interface RegistrationConfirmationProps {
@@ -92,7 +93,7 @@ export default function RegistrationConfirmation({
             {"Don't"} forget to book your hotel room!
           </p>
           <a
-            href="https://www.marriott.com/event-reservations/reservation-link.mi?id=1770049957031&key=GRP&app=resvlink"
+            href={HOTEL_BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary inline-flex items-center gap-2"

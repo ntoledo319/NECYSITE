@@ -2,6 +2,9 @@
 
 import { useRef, useEffect, useState, useCallback } from "react"
 
+// Slogan ref is used inside the game loop to avoid re-mounting the
+// entire canvas effect every time the slogan text changes.
+
 /**
  * Pong — AA themed
  * "Carrying the Message" — keep the message going back and forth
@@ -94,6 +97,10 @@ export default function PongGame() {
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
   const [currentSlogan, setCurrentSlogan] = useState(SLOGANS[0])
+  const sloganRef = useRef(currentSlogan)
+
+  useEffect(() => { sloganRef.current = currentSlogan }, [currentSlogan])
+
   const gameRef = useRef({
     playerY: CANVAS_H / 2 - PADDLE_H / 2,
     aiY: CANVAS_H / 2 - PADDLE_H / 2,
@@ -403,7 +410,7 @@ export default function PongGame() {
         ctx.fillStyle = `rgba(234,179,8,${Math.min(0.4, 0.1 + g.rallyCount * 0.03)})`
         ctx.font = "bold 9px monospace"
         ctx.textAlign = "center"
-        ctx.fillText(currentSlogan, CANVAS_W / 2, CANVAS_H - 8)
+        ctx.fillText(sloganRef.current, CANVAS_W / 2, CANVAS_H - 8)
       }
 
       g.animId = requestAnimationFrame(loop)
@@ -423,7 +430,7 @@ export default function PongGame() {
       cancelAnimationFrame(g.animId)
       g.running = false
     }
-  }, [resetBall, currentSlogan, handleServe])
+  }, [resetBall, handleServe])
 
   return (
     <div className="flex flex-col items-center gap-4">

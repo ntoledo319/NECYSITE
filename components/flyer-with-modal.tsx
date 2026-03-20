@@ -64,7 +64,7 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- backdrop dismiss is supplementary to Escape key and close button
         <div 
           ref={modalRef}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-8" 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-8"
           role="dialog"
           aria-modal="true"
           aria-label="Enlarged flyer image"

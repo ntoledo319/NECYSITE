@@ -36,7 +36,7 @@ export default function AccessibilityPanel() {
         }}
         aria-label="Open accessibility settings"
       >
-        <Settings className="w-5 h-5" />
+        <Settings className="w-5 h-5" aria-hidden="true" />
       </button>
 
       {/* Panel overlay */}

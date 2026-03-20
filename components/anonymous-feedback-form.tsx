@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Send, CheckCircle } from "lucide-react"
 
 type FeedbackCategory = "accessibility" | "language" | "navigation" | "content" | "other"
@@ -18,6 +18,13 @@ export default function AnonymousFeedbackForm() {
   const [message, setMessage] = useState("")
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
+  const submitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (submitTimerRef.current) clearTimeout(submitTimerRef.current)
+    }
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -35,7 +42,7 @@ export default function AnonymousFeedbackForm() {
     window.location.href = `mailto:info@necypaa.org?subject=${subject}&body=${body}`
 
     // Show success state after a brief delay (user's mail client will open)
-    setTimeout(() => {
+    submitTimerRef.current = setTimeout(() => {
       setSending(false)
       setSubmitted(true)
     }, 500)
