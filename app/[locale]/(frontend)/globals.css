@@ -137,6 +137,43 @@
     transform: translateY(-1px);
   }
 
+  /* ── Alateen CTA button (purple/lavender) ────── */
+  .btn-alateen {
+    @apply inline-flex items-center justify-center gap-2 font-bold text-sm px-6 py-3 rounded-lg text-white transition-all duration-200;
+    background: linear-gradient(135deg, #c4a5d6 0%, #a478ba 100%);
+    box-shadow: 0 2px 12px rgba(196,165,214,0.30);
+  }
+  .btn-alateen:hover {
+    background: linear-gradient(135deg, #a478ba 0%, #8e5ca0 100%);
+    box-shadow: 0 4px 20px rgba(196,165,214,0.45);
+    transform: translateY(-1px);
+  }
+
+  /* ── Quiz Card (hover effects with reduce motion support) ── */
+  .nec-quiz-card {
+    @apply transition-all duration-200;
+  }
+  .nec-quiz-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+  }
+  .nec-quiz-card:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  /* ── State Card (hover effects with reduce motion support) ── */
+  .nec-state-card {
+    @apply transition-all duration-200;
+  }
+  .nec-state-card:hover {
+    border-color: rgba(124,58,237,0.30) !important;
+    background: rgba(15,10,30,0.6) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .nec-state-card:active {
+    transform: scale(0.98);
+  }
+
   /* ── Section heading ───────────────────────── */
   .section-heading {
     @apply text-3xl md:text-4xl font-black leading-tight;
@@ -577,12 +614,20 @@
 .a11y-reduce-motion .gradient-shimmer { animation: none !important; }
 .a11y-reduce-motion .btn-primary:active,
 .a11y-reduce-motion .btn-secondary:active,
-.a11y-reduce-motion .btn-ghost:active { transform: none !important; }
+.a11y-reduce-motion .btn-ghost:active,
+.a11y-reduce-motion .btn-alanon:active,
+.a11y-reduce-motion .btn-alateen:active { transform: none !important; }
 .a11y-reduce-motion .footer-link::after { transition: none !important; }
 .a11y-reduce-motion .nec-card-lift { transition: none !important; }
 .a11y-reduce-motion .nec-card-lift:hover { transform: none !important; }
 .a11y-reduce-motion .fact-pill-interactive { transition: none !important; }
 .a11y-reduce-motion .fact-pill-interactive:hover { transform: none !important; }
+.a11y-reduce-motion .nec-quiz-card { transition: none !important; }
+.a11y-reduce-motion .nec-quiz-card:hover,
+.a11y-reduce-motion .nec-quiz-card:active { transform: none !important; }
+.a11y-reduce-motion .nec-state-card { transition: none !important; }
+.a11y-reduce-motion .nec-state-card:hover,
+.a11y-reduce-motion .nec-state-card:active { transform: none !important; }
 
 /* ── Sticky bottom bar z-index ──────────────── */
 .sticky-cta-bar { z-index: 49; }
@@ -608,9 +653,11 @@
   }
   .fade-up { animation: none; opacity: 1; transform: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .btn-primary:hover, .btn-secondary:hover, .states-stat-card:hover { transform: none !important; }
+  .btn-primary:hover, .btn-secondary:hover, .btn-alanon:hover, .btn-alateen:hover, .states-stat-card:hover { transform: none !important; }
   .nec-card-lift:hover { transform: none !important; }
   .fact-pill-interactive:hover { transform: none !important; }
+  .nec-quiz-card:hover, .nec-quiz-card:active { transform: none !important; }
+  .nec-state-card:hover, .nec-state-card:active { transform: none !important; }
   .footer-link::after { transition: none !important; }
 }
 
@@ -1053,6 +1100,38 @@
   border-color: rgba(180,140,210,0.20) !important;
 }
 [data-color-mode="light"] .nec-alateen-paperwork h2 { color: #1a1030 !important; text-shadow: none !important; }
+/* Alateen quiz banner — light mode */
+[data-color-mode="light"] .nec-alateen-quiz {
+  background: linear-gradient(135deg, rgba(180,140,210,0.10) 0%, rgba(164,120,192,0.05) 100%) !important;
+  border-color: rgba(180,140,210,0.25) !important;
+}
+[data-color-mode="light"] .nec-alateen-quiz p { color: #1a1030 !important; }
+[data-color-mode="light"] .nec-alateen-quiz .text-2xl,
+[data-color-mode="light"] .nec-alateen-quiz .text-xl { color: #7a5a8e !important; text-shadow: none !important; }
+/* Alateen CTA button — light mode */
+[data-color-mode="light"] .btn-alateen {
+  background: linear-gradient(135deg, #a478ba 0%, #8e5ca0 100%) !important;
+}
+/* Al-Anon logo adaptive rendering — fixes visibility in light mode */
+[data-color-mode="light"] .alanon-logo {
+  content: url('/images/Al-anon-eng-logo.svg'); /* Black text for light backgrounds */
+}
+
+[data-color-mode="dark"] .alanon-logo {
+  content: url('/images/Al-anon-eng-logo-dark.svg'); /* White text for dark backgrounds */
+}
+
+/* High contrast mode — ensure logo has sufficient contrast */
+.a11y-high-contrast[data-color-mode="light"] .alanon-logo {
+  content: url('/images/Al-anon-eng-logo.svg');
+  filter: contrast(1.2);
+}
+
+.a11y-high-contrast[data-color-mode="dark"] .alanon-logo {
+  content: url('/images/Al-anon-eng-logo-dark.svg');
+  filter: contrast(1.2);
+}
+
 /* High contrast — Al-Anon elements */
 .a11y-high-contrast .alanon-logo-backdrop {
   box-shadow: 0 0 0 2px #000 !important;
@@ -1065,13 +1144,15 @@
   border-color: #999 !important;
 }
 .a11y-high-contrast .nec-alanon-quiz,
+.a11y-high-contrast .nec-alateen-quiz,
 .a11y-high-contrast .nec-alanon-finder,
 .a11y-high-contrast .nec-alanon-program,
 .a11y-high-contrast .nec-alateen-paperwork {
   border-width: 2px !important;
   border-color: #999 !important;
 }
-.a11y-high-contrast .btn-alanon {
+.a11y-high-contrast .btn-alanon,
+.a11y-high-contrast .btn-alateen {
   border: 2px solid #fff !important;
 }
 /* Mobile CTA bar */
