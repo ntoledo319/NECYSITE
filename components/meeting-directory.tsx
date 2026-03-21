@@ -348,7 +348,7 @@ export default function MeetingDirectory({
           <p className="text-xs" style={{ color: "var(--nec-muted)" }}>
             {hasActiveFilters
               ? "Try adjusting your filters or search terms."
-              : "Check back soon \u2014 we\u2019re always adding new meetings."}
+              : "Check back soon — we're always adding new meetings."}
           </p>
           {stateFilter && (
             <p className="text-xs mt-2" style={{ color: "var(--nec-muted)" }}>

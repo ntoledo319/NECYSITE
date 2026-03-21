@@ -40,7 +40,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/canaan-young-peoples-group",
   },
   {
-    name: "Canton Young People\u2019s \u2014 Open Topic Discussion",
+    name: "Canton Young People's — Open Topic Discussion",
     state: "CT",
     city: "Canton",
     day: "Tuesday",
@@ -51,7 +51,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/canton-young-peoples-open-topic-discussion",
   },
   {
-    name: "You\u2019re Not Alone",
+    name: "You're Not Alone",
     state: "CT",
     city: "Canton",
     day: "Tuesday",
@@ -102,7 +102,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/do-it-sober-young-peoples-group",
   },
   {
-    name: "Deep River Young People\u2019s Meeting",
+    name: "Deep River Young People's Meeting",
     state: "CT",
     city: "Deep River",
     day: "Thursday",
@@ -124,7 +124,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/steppin-free-group",
   },
   {
-    name: "Young People\u2019s Greenwich",
+    name: "Young People's Greenwich",
     state: "CT",
     city: "Greenwich",
     day: "Wednesday",
@@ -134,7 +134,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/young-peoples-greenwich",
   },
   {
-    name: "Guilford Young People\u2019s",
+    name: "Guilford Young People's",
     state: "CT",
     city: "Guilford",
     day: "Thursday",
@@ -236,7 +236,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/forever-young-group",
   },
   {
-    name: "Saturday Men\u2019s Step Group",
+    name: "Saturday Men's Step Group",
     state: "CT",
     city: "Westport",
     day: "Saturday",
@@ -258,7 +258,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://ct-aa.org/meetings/never-too-young-2",
   },
   {
-    name: "Winsted\u2019s Young Peoples",
+    name: "Winsted's Young Peoples",
     state: "CT",
     city: "Winsted",
     day: "Tuesday",
@@ -278,12 +278,12 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     type: "discussion, open",
     location: "Wolcott Activity & Learning Center, 48 Todd Rd, Wolcott, CT 06716",
     contactUrl: "https://ct-aa.org/meetings/y-a-n-a-young-peoples",
-    notes: "Outdoor meeting \u2014 bring a lawn chair",
+    notes: "Outdoor meeting — bring a lawn chair",
   },
 
   // ─── Washington, D.C. (6 meetings) ───────────────────────────────
   {
-    name: "5th Dimension Young People\u2019s Group (5D)",
+    name: "5th Dimension Young People's Group (5D)",
     state: "DC",
     city: "Washington",
     day: "Sunday",
@@ -292,7 +292,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     notes: "Online meeting",
   },
   {
-    name: "5th Dimension Young People\u2019s Group (5D)",
+    name: "5th Dimension Young People's Group (5D)",
     state: "DC",
     city: "Washington",
     day: "Monday",
@@ -319,7 +319,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     location: "2451 Ainger Pl SE, Washington, DC",
   },
   {
-    name: "DC Young People\u2019s",
+    name: "DC Young People's",
     state: "DC",
     city: "Washington",
     day: "Monday",
@@ -349,7 +349,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://www.cdiaa-de.org/cdiaa/meetings/",
   },
   {
-    name: "The Truth Group \u2014 Young People\u2019s",
+    name: "The Truth Group — Young People's",
     state: "DE",
     city: "Dover",
     day: "Saturday",
@@ -405,7 +405,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     format: "in-person",
   },
   {
-    name: "Young People\u2019s",
+    name: "Young People's",
     state: "MA",
     city: "Fairhaven",
     day: "Monday",
@@ -414,13 +414,13 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     location: "Trinity Lutheran Church, 16 Temple Pl, Fairhaven, MA",
   },
   {
-    name: "Young People\u2019s",
+    name: "Young People's",
     state: "MA",
-    city: "Martha\u2019s Vineyard",
+    city: "Martha's Vineyard",
     day: "Sunday",
     time: "7:30 PM",
     format: "in-person",
-    location: "Grace Episcopal Parish House, 36 Woodlawn Ave, Martha\u2019s Vineyard, MA",
+    location: "Grace Episcopal Parish House, 36 Woodlawn Ave, Martha's Vineyard, MA",
   },
   {
     name: "Walk By Faith",
@@ -440,7 +440,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     format: "in-person",
   },
   {
-    name: "Mendin\u2019 In Mendon",
+    name: "Mendin' In Mendon",
     state: "MA",
     city: "Mendon",
     day: "Wednesday",
@@ -471,7 +471,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Sunday",
     time: "7:00 PM",
     format: "in-person",
-    location: "St. Mary\u2019s Parish Hall, 327 Court St, Plymouth, MA",
+    location: "St. Mary's Parish Hall, 327 Court St, Plymouth, MA",
   },
   {
     name: "Quincy Young People BBSS",
@@ -480,7 +480,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Monday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Temporarily inactive \u2014 check before attending",
+    notes: "Temporarily inactive — check before attending",
   },
   {
     name: "Rockland Young People",
@@ -515,7 +515,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Monday",
     time: "8:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Tuesday Night Young People",
@@ -525,7 +525,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     time: "7:00 PM",
     format: "in-person",
     location: "Trinity Church",
-    notes: "City/address not confirmed \u2014 check local intergroup",
+    notes: "City/address not confirmed — check local intergroup",
   },
   {
     name: "Young Men",
@@ -534,7 +534,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Tuesday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Never Too Young",
@@ -543,7 +543,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Tuesday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Young People",
@@ -553,7 +553,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     time: "7:30 PM",
     format: "in-person",
     location: "St. Matthews",
-    notes: "City/address not confirmed \u2014 check local intergroup",
+    notes: "City/address not confirmed — check local intergroup",
   },
   {
     name: "slAy slAy",
@@ -562,7 +562,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Tuesday",
     time: "8:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Dim Lights Wednesday Nights",
@@ -571,7 +571,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Wednesday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Montachusett Young People",
@@ -580,7 +580,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Wednesday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Young People",
@@ -589,7 +589,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Wednesday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Young HOPE",
@@ -598,7 +598,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Thursday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "S.A.S.T.O.",
@@ -607,7 +607,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Thursday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Young People",
@@ -616,16 +616,16 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Thursday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
-    name: "Young People\u2019s",
+    name: "Young People's",
     state: "MA",
     city: "",
     day: "Thursday",
     time: "7:30 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Friday Night Young People",
@@ -634,7 +634,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Friday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Young Peoples",
@@ -643,7 +643,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Friday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "2 For 1 YP",
@@ -652,7 +652,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Friday",
     time: "8:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Young People",
@@ -661,7 +661,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Saturday",
     time: "7:00 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Saturday Night Young People",
@@ -670,7 +670,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Saturday",
     time: "7:30 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "The Firing Line",
@@ -679,7 +679,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Saturday",
     time: "7:30 PM",
     format: "in-person",
-    notes: "Location not confirmed \u2014 check local intergroup",
+    notes: "Location not confirmed — check local intergroup",
   },
   {
     name: "Sobriety On Loop",
@@ -717,7 +717,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Sunday",
     time: "8:30 PM",
     format: "in-person",
-    location: "St Luke\u2019s Episcopal, 6030 Grosvenor Ln, Bethesda, MD",
+    location: "St Luke's Episcopal, 6030 Grosvenor Ln, Bethesda, MD",
   },
   {
     name: "Promises Promises",
@@ -726,7 +726,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Monday",
     time: "7:30 PM",
     format: "in-person",
-    location: "St. Dunstan\u2019s Church, 5450 Massachusetts Ave, Bethesda, MD",
+    location: "St. Dunstan's Church, 5450 Massachusetts Ave, Bethesda, MD",
   },
   {
     name: "Coffee and Donuts",
@@ -765,7 +765,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     location: "Grace English Lutheran Church, 8601 Valleyfield Rd, Lutherville-Timonium, MD",
   },
   {
-    name: "Happy Joyous and Free Young People\u2019s Group",
+    name: "Happy Joyous and Free Young People's Group",
     state: "MD",
     city: "Silver Spring",
     day: "Sunday",
@@ -784,7 +784,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
 
   // ─── Maine (7 meetings) ──────────────────────────────────────────
   {
-    name: "AUBURN Young People\u2019s Group",
+    name: "AUBURN Young People's Group",
     state: "ME",
     city: "Auburn",
     day: "Saturday",
@@ -795,7 +795,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://csoaamaine.org/meetings/the-young-peoples-group/",
   },
   {
-    name: "Ship City Young People\u2019s Group",
+    name: "Ship City Young People's Group",
     state: "ME",
     city: "Bath",
     day: "Thursday",
@@ -905,7 +905,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://nhaa.net/meetings/young-peoples-meeting-group_000042194?type=young-people",
   },
   {
-    name: "Lakes Region Young People\u2019s Group",
+    name: "Lakes Region Young People's Group",
     state: "NH",
     city: "Laconia",
     day: "Saturday",
@@ -915,7 +915,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://nhaa.net/meetings/lakes-region-young-peoples-group_000275975?type=young-people",
   },
   {
-    name: "Sunday Night Manchester Young People\u2019s Group",
+    name: "Sunday Night Manchester Young People's Group",
     state: "NH",
     city: "Manchester",
     day: "Sunday",
@@ -975,13 +975,13 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://nhaa.net/meetings/plain-language-big-book-group_000712969?type=young-people",
   },
   {
-    name: "Young People\u2019s Unity Group",
+    name: "Young People's Unity Group",
     state: "NH",
     city: "Salem",
     day: "Friday",
     time: "7:00 PM",
     format: "in-person",
-    location: "St David\u2019s Episcopal Church, 231 Main St, Salem, NH",
+    location: "St David's Episcopal Church, 231 Main St, Salem, NH",
     contactUrl: "https://nhaa.net/meetings/young-peoples-unity-group_000041761?type=young-people",
   },
 
@@ -1001,7 +1001,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Friday",
     time: "8:00 PM",
     format: "in-person",
-    location: "St. Paul\u2019s Rectory Basement, 20 Greenville Ave, Jersey City, NJ 07305",
+    location: "St. Paul's Rectory Basement, 20 Greenville Ave, Jersey City, NJ 07305",
     contactUrl: "https://www.njypaa.org/meetings-calendar",
   },
   {
@@ -1044,14 +1044,14 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://www.njypaa.org/meetings-calendar",
   },
   {
-    name: "Essex County Young People\u2019s",
+    name: "Essex County Young People's",
     state: "NJ",
     city: "Bloomfield",
     day: "Monday",
     time: "7:30 PM",
     format: "in-person",
     location: "Park United Methodist Church, 12 Park St, Bloomfield, NJ",
-    notes: "Basement \u2014 side entrance",
+    notes: "Basement — side entrance",
   },
   {
     name: "Cherry Hill Young People",
@@ -1091,7 +1091,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     location: "Friends Of Bill W. Club, 165-169 Route 31 South, Hampton, NJ",
   },
   {
-    name: "Millington Young People\u2019s",
+    name: "Millington Young People's",
     state: "NJ",
     city: "Millington",
     day: "Sunday",
@@ -1101,7 +1101,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     notes: "Side entrance at Long Hill Road",
   },
   {
-    name: "Millington Young People\u2019s",
+    name: "Millington Young People's",
     state: "NJ",
     city: "Millington",
     day: "Wednesday",
@@ -1111,7 +1111,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     notes: "Park side lot, use side door",
   },
   {
-    name: "Millington Young People\u2019s",
+    name: "Millington Young People's",
     state: "NJ",
     city: "Millington",
     day: "Friday",
@@ -1121,17 +1121,17 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     notes: "Park side lot, use side door",
   },
   {
-    name: "Paramus Young People\u2019s",
+    name: "Paramus Young People's",
     state: "NJ",
     city: "Paramus",
     day: "Tuesday",
     time: "8:30 PM",
     format: "in-person",
-    location: "Church of the Savior \u2014 Lutheran, 643 Forest Ave, Paramus, NJ",
+    location: "Church of the Savior — Lutheran, 643 Forest Ave, Paramus, NJ",
     notes: "Open-speaker last Tuesday",
   },
   {
-    name: "Pluckemin Young People\u2019s",
+    name: "Pluckemin Young People's",
     state: "NJ",
     city: "Pluckemin",
     day: "Saturday",
@@ -1141,7 +1141,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     notes: "Rear entrance next to playground",
   },
   {
-    name: "Toms River Young People\u2019s",
+    name: "Toms River Young People's",
     state: "NJ",
     city: "Toms River",
     day: "Tuesday",
@@ -1171,7 +1171,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     format: "in-person",
     type: "open, beginners",
     location: "881 Merrick Rd, Baldwin, NY 11510",
-    notes: "Nassau County \u2014 park in back",
+    notes: "Nassau County — park in back",
   },
   {
     name: "Never Too Young",
@@ -1189,7 +1189,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Sunday",
     time: "5:30 PM",
     format: "in-person",
-    location: "St Mary\u2019s Church, 2326 84th St, Brooklyn, NY",
+    location: "St Mary's Church, 2326 84th St, Brooklyn, NY",
   },
   {
     name: "New Young Generation (Step Study)",
@@ -1198,7 +1198,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Sunday",
     time: "6:45 PM",
     format: "in-person",
-    location: "St Mary\u2019s Church, 2326 84th St, Brooklyn, NY",
+    location: "St Mary's Church, 2326 84th St, Brooklyn, NY",
   },
   {
     name: "Northside",
@@ -1228,7 +1228,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     time: "6:30 PM",
     format: "in-person",
     type: "open",
-    location: "St. Michael\u2019s Parish Hall, 651 Washington St, Buffalo, NY 14203",
+    location: "St. Michael's Parish Hall, 651 Washington St, Buffalo, NY 14203",
     contactUrl: "https://buffaloaany.org/meetings/?tsml-type=Y",
   },
   {
@@ -1242,7 +1242,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://nenyaa.org/meetings/",
   },
   {
-    name: "Young Hope Young People\u2019s Group",
+    name: "Young Hope Young People's Group",
     state: "NY",
     city: "Hudson",
     day: "Monday",
@@ -1252,7 +1252,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://nenyaa.org/meetings/",
   },
   {
-    name: "Kingston Young People\u2019s Group",
+    name: "Kingston Young People's Group",
     state: "NY",
     city: "Kingston",
     day: "Thursday",
@@ -1297,12 +1297,12 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     name: "Now You Understand (NYU Group)",
     state: "NY",
     city: "New York",
-    day: "Monday\u2013Friday",
+    day: "Monday–Friday",
     time: "",
     format: "hybrid",
-    location: "Mon: St. John\u2019s Lutheran, 83 Christopher St; Tue\u2013Fri: Judson Memorial, 239 Thompson St",
+    location: "Mon: St. John's Lutheran, 83 Christopher St; Tue–Fri: Judson Memorial, 239 Thompson St",
     contactUrl: "https://nowyouunderstandgroup.org/",
-    notes: "Primary NYC young peoples meeting. Large 18\u201335 attendance.",
+    notes: "Primary NYC young peoples meeting. Large 18–35 attendance.",
   },
   {
     name: "Young & Sober",
@@ -1342,7 +1342,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     time: "8:15 PM",
     format: "in-person",
     type: "open, discussion, speaker, LGBTQ",
-    location: "St. Paul\u2019s Episcopal Church, 25 Westminster Rd, Rochester, NY 14607",
+    location: "St. Paul's Episcopal Church, 25 Westminster Rd, Rochester, NY 14607",
   },
   {
     name: "Young and Sober",
@@ -1355,13 +1355,13 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://nenyaa.org/meetings/",
   },
   {
-    name: "Saratoga Young People\u2019s Group",
+    name: "Saratoga Young People's Group",
     state: "NY",
     city: "Saratoga Springs",
     day: "Wednesday",
     time: "7:30 PM",
     format: "in-person",
-    location: "St. Paul\u2019s Lutheran Church, 149 Lake Ave, Saratoga Springs, NY",
+    location: "St. Paul's Lutheran Church, 149 Lake Ave, Saratoga Springs, NY",
     contactUrl: "https://nenyaa.org/meetings/",
   },
   {
@@ -1374,14 +1374,14 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     location: "Grace Lutheran Church, 59 Grand Blvd, Scarsdale, NY",
   },
   {
-    name: "Young People\u2019s Living Sober Group",
+    name: "Young People's Living Sober Group",
     state: "NY",
     city: "Staten Island",
     day: "",
     time: "",
     format: "in-person",
-    location: "St Paul\u2019s Church, Staten Island, NY",
-    notes: "Day/time not confirmed \u2014 check local intergroup",
+    location: "St Paul's Church, Staten Island, NY",
+    notes: "Day/time not confirmed — check local intergroup",
   },
   {
     name: "Just For Today Grp / After Hours",
@@ -1414,7 +1414,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://www.aasyracuse.org/meetings/",
   },
   {
-    name: "Troy Young People\u2019s Group",
+    name: "Troy Young People's Group",
     state: "NY",
     city: "Troy",
     day: "Friday",
@@ -1514,7 +1514,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Monday",
     time: "6:30 PM",
     format: "in-person",
-    location: "St. Mary\u2019s Hamilton Village, UPenn, 3916 Locust Walk, Philadelphia, PA",
+    location: "St. Mary's Hamilton Village, UPenn, 3916 Locust Walk, Philadelphia, PA",
   },
   {
     name: "WHY Group Monday Night Beginners",
@@ -1541,7 +1541,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Wednesday",
     time: "7:30 PM",
     format: "in-person",
-    location: "St. Mark\u2019s Church, 1625 Locust St, Philadelphia, PA",
+    location: "St. Mark's Church, 1625 Locust St, Philadelphia, PA",
   },
   {
     name: "Philadelphia Speaker Group and Big Book Study",
@@ -1562,13 +1562,13 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     location: "Old Pine Community Center, 4th & Lombard, Philadelphia, PA",
   },
   {
-    name: "St. Joseph\u2019s University",
+    name: "St. Joseph's University",
     state: "PA",
     city: "Philadelphia",
     day: "Friday",
     time: "8:00 PM",
     format: "in-person",
-    location: "Sunroom 2 in Campion Student Center, St. Joseph\u2019s University, Philadelphia, PA",
+    location: "Sunroom 2 in Campion Student Center, St. Joseph's University, Philadelphia, PA",
   },
   {
     name: "Center City Young People",
@@ -1577,7 +1577,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Friday",
     time: "9:00 PM",
     format: "in-person",
-    location: "St. Mark\u2019s Church, 1625 Locust St, Philadelphia, PA",
+    location: "St. Mark's Church, 1625 Locust St, Philadelphia, PA",
   },
   {
     name: "Midtown",
@@ -1636,13 +1636,13 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
 
   // ─── Rhode Island (8 meetings) ────────────────────────────────────
   {
-    name: "Lit Young People\u2019s Big Book",
+    name: "Lit Young People's Big Book",
     state: "RI",
     city: "East Greenwich",
     day: "Wednesday",
     time: "7:30 PM",
     format: "in-person",
-    location: "Saint Luke\u2019s Episcopal Church, 99 Peirce St, East Greenwich, RI",
+    location: "Saint Luke's Episcopal Church, 99 Peirce St, East Greenwich, RI",
     contactUrl: "https://aainri.com/meetings/",
   },
   {
@@ -1652,7 +1652,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     day: "Friday",
     time: "7:00 PM",
     format: "in-person",
-    location: "St. Augustine\u2019s Church & Episcopal Center at URI, 15 Lower College Rd, Kingston, RI",
+    location: "St. Augustine's Church & Episcopal Center at URI, 15 Lower College Rd, Kingston, RI",
     contactUrl: "https://aainri.com/meetings/",
   },
   {
@@ -1695,7 +1695,7 @@ export const YPAA_MEETINGS: YPAAMeeting[] = [
     contactUrl: "https://aainri.com/meetings/",
   },
   {
-    name: "It\u2019s Never Too Early",
+    name: "It's Never Too Early",
     state: "RI",
     city: "Warwick",
     day: "Monday",

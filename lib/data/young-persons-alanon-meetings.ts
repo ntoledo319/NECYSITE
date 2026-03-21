@@ -52,10 +52,10 @@ export const YOUNG_PERSONS_ALANON_MEETINGS: YoungPersonsAlAnonMeeting[] = [
     location: "Saint Peter Claver Church Classroom 6, 47 Pleasant St, West Hartford, CT 06107",
     ageRange: "Young Adults",
     contactUrl: "https://ctalanon.org/",
-    notes: "Open meeting. Wheelchair accessible. Time not confirmed \u2014 call CT Al-Anon 1-888-825-2666 to verify.",
+    notes: "Open meeting. Wheelchair accessible. Time not confirmed — call CT Al-Anon 1-888-825-2666 to verify.",
   },
   {
-    name: "Young Peoples\u2019 AFG",
+    name: "Young Peoples' AFG",
     state: "NY",
     city: "Online (Capital District)",
     day: "Monday",
@@ -63,7 +63,7 @@ export const YOUNG_PERSONS_ALANON_MEETINGS: YoungPersonsAlAnonMeeting[] = [
     format: "online",
     onlineUrl: "https://global.gotomeeting.com/join/543862269",
     meetingId: "543-862-269 / Phone: +1 (872) 240-3212",
-    ageRange: "18\u201340",
+    ageRange: "18–40",
     contactUrl: "https://www.al-anon-8ny.org/online-meeting-schedule",
     notes: "District 8 Capital District Al-Anon. In need of more attendees and support. Online so accessible to anyone in the Northeast.",
   },
@@ -78,7 +78,7 @@ export const YOUNG_PERSONS_ALANON_MEETINGS: YoungPersonsAlAnonMeeting[] = [
     meetingId: "Zoom: 344 516 9083 (no password)",
     ageRange: "Young Adults",
     contactUrl: "https://www.ocalanon.org/meeting-directory/",
-    notes: "Open meeting with young adult focus. Based in California but Zoom-accessible to anyone. Time not confirmed \u2014 contact OC AIS.",
+    notes: "Open meeting with young adult focus. Based in California but Zoom-accessible to anyone. Time not confirmed — contact OC AIS.",
   },
 ]
 
