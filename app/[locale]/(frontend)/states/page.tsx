@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect, useMemo, lazy, Suspense } from "react"
-import { ExternalLink, Map, List, Globe, Sparkles } from "lucide-react"
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react"
+import { ExternalLink, Map, List, Globe, Sparkles, Users, BookOpen, Info } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import { NECYPAA_STATES } from "@/lib/data/states"
 import { YPAA_MEETINGS, YPAA_MEETING_COUNT, getYPAAMeetingCountsByState, getYPAAStatesWithMeetings } from "@/lib/data/ypaa-meetings"
@@ -13,11 +13,13 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 const NecypaaRegionMap = lazy(() => import("@/components/necypaa-region-map"))
 
 type RegionFilter = "all" | "new-england" | "expansion"
+type ContentTab = "resources" | "meetings"
 
 export default function StatesPage() {
   const [selectedState, setSelectedState] = useState<string | null>(null)
   const [regionFilter, setRegionFilter] = useState<RegionFilter>("all")
   const [viewMode, setViewMode] = useState<"map" | "list">("map")
+  const [activeTab, setActiveTab] = useState<ContentTab>("resources")
 
   useEffect(() => {
     if (window.innerWidth < 768) setViewMode("list")
@@ -35,6 +37,13 @@ export default function StatesPage() {
     if (regionFilter === "all") return NECYPAA_STATES
     return NECYPAA_STATES.filter((s) => s.region === regionFilter)
   }, [regionFilter])
+
+  const handleViewMeetings = useCallback((stateAbbreviation: string) => {
+    setSelectedState(stateAbbreviation)
+    setActiveTab("meetings")
+    // Scroll to top of content area so the directory is visible
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }, [])
 
   const handleStateSelect = (abbreviation: string) => {
     const isDeselecting = selectedState === abbreviation
@@ -354,183 +363,279 @@ export default function StatesPage() {
               )}
             </section>
 
-            {/* ── Outbound links notice ───────────────── */}
-            <div
-              className="rounded-2xl p-5 md:p-6 mb-8 text-sm leading-relaxed"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(251,191,36,0.04) 0%, rgba(15,10,30,0.6) 100%)",
-                border: "1px solid rgba(251,191,36,0.12)",
-                color: "var(--nec-muted)",
-              }}
-            >
-              <p>
-                <strong style={{ color: "var(--nec-gold)" }}>
-                  About these links:
-                </strong>{" "}
-                All links on this page are outbound resources — they will take
-                you to external websites maintained by local AA service bodies,
-                YPAA committees, and Al-Anon Family Groups. Per Tradition 6,
-                these are resource links, not affiliations or endorsements.
-              </p>
-            </div>
-
-            {/* ── AA Meeting Finder CTA ──────────────── */}
-            <section
-              className="rounded-3xl p-6 md:p-8 lg:p-10 mb-12 text-center relative overflow-hidden"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(124,58,237,0.10) 0%, rgba(26,16,48,0.7) 50%, rgba(192,38,211,0.06) 100%)",
-                border: "1px solid rgba(124,58,237,0.20)",
-                boxShadow:
-                  "0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
-              }}
-            >
-              {/* Top accent line */}
-              <div
-                className="absolute top-0 left-0 right-0 h-[2px]"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(124,58,237,0.6), rgba(192,38,211,0.6), transparent)",
-                }}
-                aria-hidden="true"
-              />
-              <h2 className="text-xl md:text-2xl font-black text-white mb-2">
-                Find an AA Meeting
-              </h2>
-              <p
-                className="text-sm md:text-base mb-6 max-w-md mx-auto"
-                style={{ color: "var(--nec-muted)" }}
-              >
-                Search for AA meetings anywhere in the NECYPAA region or
-                around the world.
-              </p>
-              <a
-                href="https://www.aa.org/find-aa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary inline-flex items-center gap-2"
-              >
-                AA Meeting Finder{" "}
-                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
-            </section>
-
-            {/* ── YPAA Meeting Directory ────────────── */}
-            <div className="mb-12" id="ypaa-meetings">
-              <MeetingDirectory
-                meetings={YPAA_MEETINGS}
-                theme="pink"
-                initialStateFilter={selectedState || ""}
-                states={ypaaStates}
-                heading="YPAA Meeting Directory"
-                description="Young people\u2019s AA meetings across the NECYPAA region. Select a state on the map above or use the filters to find meetings near you."
-                icon="users"
-                onStateFilterChange={(state) => {
-                  if (state && state !== selectedState) {
-                    handleStateSelect(state)
-                  } else if (!state && selectedState) {
-                    setSelectedState(null)
-                  }
-                }}
-              />
-            </div>
-
-            {/* ── Region Filter Tabs ─────────────────── */}
+            {/* ── Primary Content Tabs ─────────────── */}
             <div className="mb-6">
               <div
-                className="flex items-center gap-1 p-1 rounded-2xl"
+                className="flex items-center gap-1 p-1.5 rounded-2xl"
                 role="tablist"
-                aria-label="Filter states by region"
+                aria-label="Page content"
                 style={{
-                  background: "rgba(15,10,30,0.6)",
+                  background: "linear-gradient(135deg, rgba(26,16,48,0.6) 0%, rgba(15,10,30,0.8) 100%)",
                   border: "1px solid var(--nec-border)",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
                 }}
               >
-                {filterTabs.map((tab) => {
-                  const isActive = regionFilter === tab.key
-                  return (
-                    <button
-                      key={tab.key}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      aria-controls="state-cards-panel"
-                      onClick={() => setRegionFilter(tab.key)}
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
-                      style={{
-                        background: isActive
-                          ? "rgba(124,58,237,0.15)"
-                          : "transparent",
-                        color: isActive
-                          ? "var(--nec-purple)"
-                          : "var(--nec-muted)",
-                        boxShadow: isActive
-                          ? "0 0 12px rgba(124,58,237,0.08)"
-                          : "none",
-                      }}
-                    >
-                      {tab.label}
-                      <span
-                        className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
-                        style={{
-                          background: isActive
-                            ? "rgba(124,58,237,0.2)"
-                            : "rgba(45,31,78,0.4)",
-                          color: isActive
-                            ? "var(--nec-purple)"
-                            : "var(--nec-muted)",
-                        }}
-                      >
-                        {tab.count}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* ── State Cards ────────────────────────── */}
-            <section
-              id="state-cards-panel"
-              role="tabpanel"
-              aria-label="NECYPAA member states"
-            >
-              <div className="space-y-3">
-                {filteredStates.map((state) => (
-                  <StateCard
-                    key={state.abbreviation}
-                    state={state}
-                    isHighlighted={selectedState === state.abbreviation}
-                  />
-                ))}
-              </div>
-            </section>
-
-            {/* ── Bottom feedback note ────────────────── */}
-            <div
-              className="mt-12 rounded-2xl p-5 md:p-6 text-sm leading-relaxed text-center"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(26,16,48,0.5) 0%, rgba(15,10,30,0.6) 100%)",
-                border: "1px solid var(--nec-border)",
-                color: "var(--nec-muted)",
-              }}
-            >
-              <p>
-                Know of a resource that should be listed here? Missing or
-                outdated link?{" "}
-                <a
-                  href={`mailto:${CONTACT_EMAIL}?subject=States%20Page%20Feedback`}
-                  className="underline transition-colors hover:text-white"
-                  style={{ color: "var(--nec-cyan)" }}
+                <button
+                  type="button"
+                  role="tab"
+                  id="tab-resources"
+                  aria-selected={activeTab === "resources"}
+                  aria-controls="panel-resources"
+                  onClick={() => setActiveTab("resources")}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
+                  style={{
+                    background: activeTab === "resources"
+                      ? "rgba(124,58,237,0.15)"
+                      : "transparent",
+                    color: activeTab === "resources"
+                      ? "white"
+                      : "var(--nec-muted)",
+                    boxShadow: activeTab === "resources"
+                      ? "0 0 16px rgba(124,58,237,0.1)"
+                      : "none",
+                  }}
                 >
-                  Let us know
-                </a>
-                .
-              </p>
+                  <BookOpen className="w-4 h-4" style={{ color: activeTab === "resources" ? "var(--nec-cyan)" : "var(--nec-muted)" }} aria-hidden="true" />
+                  State Resources
+                  <span
+                    className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
+                    style={{
+                      background: activeTab === "resources"
+                        ? "rgba(20,184,166,0.15)"
+                        : "rgba(45,31,78,0.4)",
+                      color: activeTab === "resources"
+                        ? "var(--nec-cyan)"
+                        : "var(--nec-muted)",
+                    }}
+                  >
+                    {NECYPAA_STATES.length}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  id="tab-meetings"
+                  aria-selected={activeTab === "meetings"}
+                  aria-controls="panel-meetings"
+                  onClick={() => setActiveTab("meetings")}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
+                  style={{
+                    background: activeTab === "meetings"
+                      ? "rgba(192,38,211,0.15)"
+                      : "transparent",
+                    color: activeTab === "meetings"
+                      ? "white"
+                      : "var(--nec-muted)",
+                    boxShadow: activeTab === "meetings"
+                      ? "0 0 16px rgba(192,38,211,0.1)"
+                      : "none",
+                  }}
+                >
+                  <Users className="w-4 h-4" style={{ color: activeTab === "meetings" ? "var(--nec-pink)" : "var(--nec-muted)" }} aria-hidden="true" />
+                  YPAA Meetings
+                  <span
+                    className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
+                    style={{
+                      background: activeTab === "meetings"
+                        ? "rgba(192,38,211,0.15)"
+                        : "rgba(45,31,78,0.4)",
+                      color: activeTab === "meetings"
+                        ? "var(--nec-pink)"
+                        : "var(--nec-muted)",
+                    }}
+                  >
+                    {YPAA_MEETING_COUNT}
+                  </span>
+                </button>
+              </div>
             </div>
+
+            {/* ════════════════════════════════════════ */}
+            {/* ── TAB PANEL: State Resources ────────── */}
+            {/* ════════════════════════════════════════ */}
+            {activeTab === "resources" && (
+              <div
+                id="panel-resources"
+                role="tabpanel"
+                aria-labelledby="tab-resources"
+              >
+                {/* Compact outbound links notice */}
+                <div
+                  className="flex items-start gap-2.5 rounded-xl p-3.5 mb-6 text-xs leading-relaxed"
+                  style={{
+                    background: "rgba(251,191,36,0.03)",
+                    border: "1px solid rgba(251,191,36,0.10)",
+                    color: "var(--nec-muted)",
+                  }}
+                >
+                  <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
+                  <p>
+                    <strong style={{ color: "var(--nec-gold)" }}>Tradition 6:</strong>{" "}
+                    All links lead to external sites maintained by local AA service bodies and YPAA committees — resource links, not affiliations.
+                  </p>
+                </div>
+
+                {/* Region filter */}
+                <div className="mb-6">
+                  <div
+                    className="flex items-center gap-1 p-1 rounded-2xl"
+                    role="tablist"
+                    aria-label="Filter states by region"
+                    style={{
+                      background: "rgba(15,10,30,0.6)",
+                      border: "1px solid var(--nec-border)",
+                    }}
+                  >
+                    {filterTabs.map((tab) => {
+                      const isActive = regionFilter === tab.key
+                      return (
+                        <button
+                          key={tab.key}
+                          type="button"
+                          role="tab"
+                          aria-selected={isActive}
+                          aria-controls="state-cards-panel"
+                          onClick={() => setRegionFilter(tab.key)}
+                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
+                          style={{
+                            background: isActive
+                              ? "rgba(124,58,237,0.15)"
+                              : "transparent",
+                            color: isActive
+                              ? "var(--nec-purple)"
+                              : "var(--nec-muted)",
+                            boxShadow: isActive
+                              ? "0 0 12px rgba(124,58,237,0.08)"
+                              : "none",
+                          }}
+                        >
+                          {tab.label}
+                          <span
+                            className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
+                            style={{
+                              background: isActive
+                                ? "rgba(124,58,237,0.2)"
+                                : "rgba(45,31,78,0.4)",
+                              color: isActive
+                                ? "var(--nec-purple)"
+                                : "var(--nec-muted)",
+                            }}
+                          >
+                            {tab.count}
+                          </span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* State cards */}
+                <section
+                  id="state-cards-panel"
+                  role="tabpanel"
+                  aria-label="NECYPAA member states"
+                >
+                  <div className="space-y-3">
+                    {filteredStates.map((state) => (
+                      <StateCard
+                        key={state.abbreviation}
+                        state={state}
+                        isHighlighted={selectedState === state.abbreviation}
+                        onViewMeetings={handleViewMeetings}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                {/* AA Meeting Finder — compact */}
+                <section
+                  className="rounded-2xl p-5 md:p-6 mt-8 text-center relative overflow-hidden"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.6) 100%)",
+                    border: "1px solid rgba(124,58,237,0.15)",
+                  }}
+                >
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[2px]"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent, rgba(124,58,237,0.5), rgba(192,38,211,0.5), transparent)",
+                    }}
+                    aria-hidden="true"
+                  />
+                  <h2 className="text-lg font-black text-white mb-1">
+                    Find an AA Meeting
+                  </h2>
+                  <p
+                    className="text-xs mb-4 max-w-sm mx-auto"
+                    style={{ color: "var(--nec-muted)" }}
+                  >
+                    Search for meetings anywhere in the NECYPAA region or around the world.
+                  </p>
+                  <a
+                    href="https://www.aa.org/find-aa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-secondary inline-flex items-center gap-2 text-sm"
+                  >
+                    AA Meeting Finder{" "}
+                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                </section>
+
+                {/* Feedback note */}
+                <div
+                  className="mt-8 rounded-xl p-4 text-xs leading-relaxed text-center"
+                  style={{
+                    background: "rgba(26,16,48,0.4)",
+                    border: "1px solid var(--nec-border)",
+                    color: "var(--nec-muted)",
+                  }}
+                >
+                  <p>
+                    Know of a resource that should be listed here?{" "}
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}?subject=States%20Page%20Feedback`}
+                      className="underline transition-colors hover:text-white"
+                      style={{ color: "var(--nec-cyan)" }}
+                    >
+                      Let us know
+                    </a>
+                    .
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* ════════════════════════════════════════ */}
+            {/* ── TAB PANEL: YPAA Meetings ──────────── */}
+            {/* ════════════════════════════════════════ */}
+            {activeTab === "meetings" && (
+              <div
+                id="panel-meetings"
+                role="tabpanel"
+                aria-labelledby="tab-meetings"
+              >
+                <MeetingDirectory
+                  meetings={YPAA_MEETINGS}
+                  theme="pink"
+                  initialStateFilter={selectedState || ""}
+                  states={ypaaStates}
+                  heading="YPAA Meeting Directory"
+                  description="Young people's AA meetings across the NECYPAA region. Select a state on the map above or use the filters to find meetings near you."
+                  icon="users"
+                  onStateFilterChange={(state) => {
+                    if (state && state !== selectedState) {
+                      handleStateSelect(state)
+                    } else if (!state && selectedState) {
+                      setSelectedState(null)
+                    }
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

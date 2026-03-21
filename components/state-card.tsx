@@ -18,9 +18,10 @@ import { getYPAAMeetingsByState } from "@/lib/data/ypaa-meetings"
 interface StateCardProps {
   state: StateResource
   isHighlighted?: boolean
+  onViewMeetings?: (stateAbbreviation: string) => void
 }
 
-export default function StateCard({ state, isHighlighted }: StateCardProps) {
+export default function StateCard({ state, isHighlighted, onViewMeetings }: StateCardProps) {
   const [expanded, setExpanded] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const cardId = `state-${state.abbreviation}`
@@ -361,15 +362,16 @@ export default function StateCard({ state, isHighlighted }: StateCardProps) {
                           </span>
                         </li>
                       ))}
-                      {meetingCount > 3 && (
+                      {meetingCount > 3 && onViewMeetings && (
                         <li>
-                          <a
-                            href="#ypaa-meetings"
-                            className="inline-flex items-center gap-1 text-xs font-semibold transition-colors hover:underline mt-1"
+                          <button
+                            type="button"
+                            onClick={() => onViewMeetings(state.abbreviation)}
+                            className="inline-flex items-center gap-1 text-xs font-semibold transition-colors hover:underline mt-1 bg-transparent border-none cursor-pointer p-0"
                             style={{ color: "var(--nec-pink)" }}
                           >
-                            View all {meetingCount} meetings \u2192
-                          </a>
+                            View all {meetingCount} meetings →
+                          </button>
                         </li>
                       )}
                     </ul>
