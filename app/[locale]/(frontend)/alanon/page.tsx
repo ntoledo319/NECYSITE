@@ -7,6 +7,7 @@ import { ExternalLink, Hotel, Sparkles, FileText, Heart } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import AlAnonInfoAccordion from "@/components/alanon-info-accordion"
+import YoungPersonsAlAnonDirectory from "@/components/young-persons-alanon-directory"
 
 export const metadata: Metadata = {
   title: "Al-Anon & Alateen — NECYPAA XXXVI",
@@ -262,6 +263,11 @@ export default function AlAnonPage() {
               >
                 Al-Anon Meeting Finder<span className="sr-only"> (opens in new tab)</span> <ExternalLink className="w-4 h-4" aria-hidden="true" />
               </a>
+            </section>
+
+            {/* ── Young Persons Al-Anon Meetings ─────────── */}
+            <section className="mb-10" aria-label="Young Persons Al-Anon meetings">
+              <YoungPersonsAlAnonDirectory />
             </section>
 
             {/* ── Al-Anon State Grid ─────────────────────────────── */}

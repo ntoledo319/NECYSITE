@@ -18,6 +18,8 @@ import { useState, useCallback, useId, useMemo } from "react"
 interface NecypaaRegionMapProps {
   activeState: string | null
   onStateSelect: (abbreviation: string) => void
+  /** Optional map of state abbreviation → YPAA meeting count for badge display */
+  meetingCounts?: Record<string, number>
 }
 
 interface StateShape {
@@ -151,6 +153,7 @@ const LABEL_OVERRIDES: Record<string, { x: number; y: number }> = {
 export default function NecypaaRegionMap({
   activeState,
   onStateSelect,
+  meetingCounts,
 }: NecypaaRegionMapProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null)
   const liveRegionId = useId()
@@ -318,7 +321,7 @@ export default function NecypaaRegionMap({
               {/* State label */}
               <text
                 x={label.x}
-                y={label.y}
+                y={meetingCounts && meetingCounts[state.abbreviation] ? label.y - 2 : label.y}
                 textAnchor="middle"
                 dominantBaseline="central"
                 className="pointer-events-none select-none"
@@ -339,6 +342,35 @@ export default function NecypaaRegionMap({
               >
                 {state.abbreviation}
               </text>
+              {/* YPAA meeting count badge */}
+              {meetingCounts && meetingCounts[state.abbreviation] > 0 && !isSmall && (
+                <g className="pointer-events-none" aria-hidden="true">
+                  <rect
+                    x={label.x - 5}
+                    y={label.y + 3}
+                    width={10}
+                    height={6}
+                    rx={3}
+                    fill="rgba(192,38,211,0.85)"
+                    stroke="rgba(192,38,211,0.4)"
+                    strokeWidth={0.3}
+                  />
+                  <text
+                    x={label.x}
+                    y={label.y + 6.5}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    style={{
+                      fill: "#fff",
+                      fontSize: "3.5px",
+                      fontWeight: 800,
+                      fontFamily: "var(--font-sans), sans-serif",
+                    }}
+                  >
+                    {meetingCounts[state.abbreviation]}
+                  </text>
+                </g>
+              )}
             </g>
           )
         })}

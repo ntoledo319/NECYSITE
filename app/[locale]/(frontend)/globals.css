@@ -632,6 +632,37 @@
   transform: translateY(-2px);
 }
 
+/* ══════════════════════════════════════════════
+   MEETING DIRECTORY — Cards, Filters, Badges
+   ══════════════════════════════════════════════ */
+
+/* ── Meeting directory card hover ────────────── */
+.nec-meeting-dir-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.nec-meeting-dir-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+/* ── Meeting badge shimmer on hover ──────────── */
+.nec-meeting-badge {
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* ── Meeting directory filter select custom arrow ── */
+.nec-meeting-directory select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+
+/* ── Meeting directory search input placeholder ── */
+.nec-meeting-directory input[type="search"]::placeholder {
+  color: var(--nec-muted);
+  opacity: 0.6;
+}
+
 /* ── Reduce-motion overrides for all new animations ── */
 .a11y-reduce-motion .reveal {
   opacity: 1 !important;
@@ -1188,6 +1219,45 @@
 .a11y-high-contrast .btn-alateen {
   border: 2px solid #fff !important;
 }
+/* Meeting directory cards — light mode */
+[data-color-mode="light"] .nec-meeting-dir-card {
+  background: rgba(255,255,255,0.90) !important;
+  border-color: #d0c4e0 !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+}
+[data-color-mode="light"] .nec-meeting-dir-card h3 {
+  color: #1a1030 !important;
+}
+/* Meeting directory container — light mode */
+[data-color-mode="light"] .nec-meeting-directory {
+  background: rgba(255,255,255,0.85) !important;
+  border-color: #d0c4e0 !important;
+}
+[data-color-mode="light"] .nec-meeting-directory select,
+[data-color-mode="light"] .nec-meeting-directory input {
+  background: rgba(255,255,255,0.95) !important;
+  border-color: #d0c4e0 !important;
+  color: #1a1030 !important;
+}
+/* High contrast — meeting directory */
+.a11y-high-contrast .nec-meeting-dir-card {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-meeting-directory {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-meeting-directory select,
+.a11y-high-contrast .nec-meeting-directory input {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+/* Reduce-motion — meeting directory */
+.a11y-reduce-motion .nec-meeting-dir-card { transition: none !important; }
+.a11y-reduce-motion .nec-meeting-dir-card:hover { box-shadow: none !important; }
+.a11y-reduce-motion .nec-meeting-badge { transition: none !important; }
+
 /* Mobile CTA bar */
 [data-color-mode="light"] .sticky-cta-bar {
   background: rgba(248,245,255,0.98) !important;

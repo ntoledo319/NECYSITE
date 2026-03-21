@@ -4,7 +4,9 @@ import { useState, useEffect, useMemo, lazy, Suspense } from "react"
 import { ExternalLink, Map, List, Globe, Sparkles } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import { NECYPAA_STATES } from "@/lib/data/states"
+import { YPAA_MEETINGS, YPAA_MEETING_COUNT, getYPAAMeetingCountsByState, getYPAAStatesWithMeetings } from "@/lib/data/ypaa-meetings"
 import StateCard from "@/components/state-card"
+import MeetingDirectory from "@/components/meeting-directory"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 
@@ -26,6 +28,8 @@ export default function StatesPage() {
     0,
   )
   const ypaaCount = NECYPAA_STATES.filter((s) => s.ypaaCommittee).length
+  const meetingCounts = useMemo(() => getYPAAMeetingCountsByState(), [])
+  const ypaaStates = useMemo(() => getYPAAStatesWithMeetings(), [])
 
   const filteredStates = useMemo(() => {
     if (regionFilter === "all") return NECYPAA_STATES
@@ -53,10 +57,16 @@ export default function StatesPage() {
       bgRgb: "20,184,166",
     },
     {
-      value: String(ypaaCount),
-      label: "YPAA Committees",
+      value: String(YPAA_MEETING_COUNT),
+      label: "YPAA Meetings",
       color: "var(--nec-pink)",
       bgRgb: "192,38,211",
+    },
+    {
+      value: String(ypaaCount),
+      label: "YPAA Committees",
+      color: "var(--nec-purple)",
+      bgRgb: "124,58,237",
     },
     {
       value: String(totalIntergroups),
@@ -143,7 +153,7 @@ export default function StatesPage() {
 
             {/* ── Luxury Stats Strip ─────────────────── */}
             <div
-              className="grid grid-cols-3 gap-3 md:gap-4 mb-12"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-12"
               role="group"
               aria-label="Region statistics"
             >
@@ -279,6 +289,7 @@ export default function StatesPage() {
                     <NecypaaRegionMap
                       activeState={selectedState}
                       onStateSelect={handleStateSelect}
+                      meetingCounts={meetingCounts}
                     />
                   </Suspense>
                 </div>
@@ -405,6 +416,26 @@ export default function StatesPage() {
                 <span className="sr-only"> (opens in new tab)</span>
               </a>
             </section>
+
+            {/* ── YPAA Meeting Directory ────────────── */}
+            <div className="mb-12" id="ypaa-meetings">
+              <MeetingDirectory
+                meetings={YPAA_MEETINGS}
+                theme="pink"
+                initialStateFilter={selectedState || ""}
+                states={ypaaStates}
+                heading="YPAA Meeting Directory"
+                description="Young people\u2019s AA meetings across the NECYPAA region. Select a state on the map above or use the filters to find meetings near you."
+                icon="users"
+                onStateFilterChange={(state) => {
+                  if (state && state !== selectedState) {
+                    handleStateSelect(state)
+                  } else if (!state && selectedState) {
+                    setSelectedState(null)
+                  }
+                }}
+              />
+            </div>
 
             {/* ── Region Filter Tabs ─────────────────── */}
             <div className="mb-6">

@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect } from "react"
 import {
   ChevronDown,
+  Clock,
   ExternalLink,
+  Globe as GlobeIcon,
   MapPin,
   Users,
   Heart,
@@ -11,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react"
 import type { StateResource } from "@/lib/data/states"
+import { getYPAAMeetingsByState } from "@/lib/data/ypaa-meetings"
 
 interface StateCardProps {
   state: StateResource
@@ -26,6 +29,10 @@ export default function StateCard({ state, isHighlighted }: StateCardProps) {
   const isNewEngland = state.region === "new-england"
   const accentColor = isNewEngland ? "var(--nec-cyan)" : "var(--nec-purple)"
   const accentRgb = isNewEngland ? "20,184,166" : "124,58,237"
+
+  const stateMeetings = getYPAAMeetingsByState(state.abbreviation)
+  const meetingCount = stateMeetings.length
+  const previewMeetings = stateMeetings.slice(0, 3)
 
   // Auto-expand + scroll when highlighted from map
   useEffect(() => {
@@ -251,7 +258,7 @@ export default function StateCard({ state, isHighlighted }: StateCardProps) {
               </section>
 
               {/* YPAA Committee */}
-              {state.ypaaCommittee && (
+              {(state.ypaaCommittee || meetingCount > 0) && (
                 <section className="state-card-section">
                   <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-3">
                     <span
@@ -270,33 +277,101 @@ export default function StateCard({ state, isHighlighted }: StateCardProps) {
                     <span style={{ color: "var(--nec-pink)" }}>
                       Young People in AA
                     </span>
+                    {meetingCount > 0 && (
+                      <span
+                        className="text-[10px] font-bold px-1.5 py-0.5 rounded-md"
+                        style={{
+                          background: "rgba(192,38,211,0.12)",
+                          color: "var(--nec-pink)",
+                          border: "1px solid rgba(192,38,211,0.25)",
+                        }}
+                      >
+                        {meetingCount} meeting{meetingCount !== 1 ? "s" : ""}
+                      </span>
+                    )}
                   </h3>
-                  <a
-                    href={state.ypaaCommittee.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background =
-                        "rgba(192,38,211,0.04)"
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "transparent"
-                    }}
-                  >
-                    <span
-                      className="text-sm font-semibold transition-colors group-hover/link:text-white"
-                      style={{ color: "var(--nec-text)" }}
+                  {state.ypaaCommittee && (
+                    <a
+                      href={state.ypaaCommittee.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background =
+                          "rgba(192,38,211,0.04)"
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "transparent"
+                      }}
                     >
-                      {state.ypaaCommittee.name}
-                    </span>
-                    <ExternalLink
-                      className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover/link:opacity-100 transition-opacity"
-                      style={{ color: "var(--nec-pink)" }}
-                      aria-hidden="true"
-                    />
-                    <span className="sr-only"> (opens in new tab)</span>
-                  </a>
+                      <span
+                        className="text-sm font-semibold transition-colors group-hover/link:text-white"
+                        style={{ color: "var(--nec-text)" }}
+                      >
+                        {state.ypaaCommittee.name}
+                      </span>
+                      <ExternalLink
+                        className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover/link:opacity-100 transition-opacity"
+                        style={{ color: "var(--nec-pink)" }}
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only"> (opens in new tab)</span>
+                    </a>
+                  )}
+                  {/* Inline meeting preview */}
+                  {previewMeetings.length > 0 && (
+                    <ul
+                      className="mt-2 space-y-1.5"
+                      aria-label={`YPAA meetings in ${state.name}`}
+                    >
+                      {previewMeetings.map((m, i) => (
+                        <li
+                          key={`${m.name}-${m.day}-${i}`}
+                          className="rounded-lg p-2"
+                          style={{
+                            background: "rgba(192,38,211,0.03)",
+                            border: "1px solid rgba(192,38,211,0.08)",
+                          }}
+                        >
+                          <span className="block text-xs font-bold text-white leading-tight">
+                            {m.name}
+                          </span>
+                          <span className="flex items-center gap-1 mt-0.5">
+                            <Clock className="w-2.5 h-2.5" style={{ color: "var(--nec-pink)" }} aria-hidden="true" />
+                            <span className="text-[11px]" style={{ color: "var(--nec-muted)" }}>
+                              {m.day}{m.time ? ` \u2022 ${m.time}` : ""}
+                            </span>
+                            <span
+                              className="ml-1 text-[9px] font-bold uppercase px-1 py-px rounded"
+                              style={{
+                                background: m.format === "online" ? "rgba(124,58,237,0.12)" : m.format === "hybrid" ? "rgba(192,38,211,0.12)" : "rgba(20,184,166,0.12)",
+                                color: m.format === "online" ? "var(--nec-purple)" : m.format === "hybrid" ? "var(--nec-pink)" : "var(--nec-cyan)",
+                              }}
+                            >
+                              {m.format === "in-person" ? (
+                                <><MapPin className="w-2 h-2 inline -mt-px mr-0.5" aria-hidden="true" />In-Person</>
+                              ) : m.format === "online" ? (
+                                <><GlobeIcon className="w-2 h-2 inline -mt-px mr-0.5" aria-hidden="true" />Online</>
+                              ) : (
+                                <><GlobeIcon className="w-2 h-2 inline -mt-px mr-0.5" aria-hidden="true" />Hybrid</>
+                              )}
+                            </span>
+                          </span>
+                        </li>
+                      ))}
+                      {meetingCount > 3 && (
+                        <li>
+                          <a
+                            href="#ypaa-meetings"
+                            className="inline-flex items-center gap-1 text-xs font-semibold transition-colors hover:underline mt-1"
+                            style={{ color: "var(--nec-pink)" }}
+                          >
+                            View all {meetingCount} meetings \u2192
+                          </a>
+                        </li>
+                      )}
+                    </ul>
+                  )}
                 </section>
               )}
 
