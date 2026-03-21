@@ -49,10 +49,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/necypaa-xxxvi-flyer.webp",
+        url: "/images/necypaa-xxxvi-badge.webp",
         width: 1200,
-        height: 630,
-        alt: "NECYPAA XXXVI — Hartford, CT — Dec 31, 2026 – Jan 3, 2027",
+        height: 1200,
+        alt: "NECYPAA XXXVI — Escaping the Mad Realm — Hartford, CT — Dec 31, 2026 – Jan 3, 2027",
       },
     ],
   },
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT",
     description: "Escaping the Mad Realm — Northeast Convention of Young People in AA · New Year's Eve 2026 · Pre-reg $40",
-    images: ["/images/necypaa-xxxvi-flyer.webp"],
+    images: ["/images/necypaa-xxxvi-badge.webp"],
   },
   robots: {
     index: true,
