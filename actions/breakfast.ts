@@ -48,6 +48,8 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
     attendee_email: validatedAttendee.email,
     breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", "),
     breakfast_count: selectedBreakfasts.length.toString(),
+    breakfast_price_version: "2026-03-26-$25",
+    breakfast_ticket_price_cents: "2500",
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.necypaact.com"

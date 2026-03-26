@@ -31,7 +31,7 @@ export default function BreakfastTicketSelector({
           <span className="text-[var(--nec-muted)] text-sm font-normal">(Optional)</span>
         </h3>
         <p className="text-[var(--nec-muted)] text-sm mt-1">
-          $20.00 each - Enjoy breakfast at the convention each morning.
+          $25.00 each - Enjoy breakfast at the convention each morning.
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export default function BreakfastTicketSelector({
                 your new year right with breakfast and fellowship at the
                 convention.
               </p>
-              <p className="text-white font-medium text-sm mt-1">$20.00</p>
+              <p className="text-white font-medium text-sm mt-1">$25.00</p>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function BreakfastTicketSelector({
                   <p className="text-[var(--nec-muted)] text-sm mt-1">
                     {product.description}
                   </p>
-                  <p className="text-white font-medium text-sm mt-1">$20.00</p>
+                  <p className="text-white font-medium text-sm mt-1">$25.00</p>
                 </div>
               </div>
             </div>
