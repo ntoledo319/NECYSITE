@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import Image from "next/image"
 import RegistrationForm from "@/components/registration-form"
 import PolicyAgreement from "@/components/policy-agreement"
@@ -8,6 +9,7 @@ import RegistrationCheckout from "@/components/registration-checkout"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
+import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 type Step = "info" | "policy" | "payment"
 
@@ -15,9 +17,12 @@ export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState<Step>("info")
   const [registrationData, setRegistrationData] = useState<RegistrationData | null>(null)
   const [policyAgreements, setPolicyAgreements] = useState<PolicyAgreements | null>(null)
+  const directionRef = useRef(1)
+  const shouldReduce = useReducedMotion()
 
   const handleInfoComplete = (data: RegistrationData) => {
     setRegistrationData(data)
+    directionRef.current = 1
     if (data.isScholarship) {
       setPolicyAgreements(null)
       setCurrentStep("payment")
@@ -28,6 +33,7 @@ export default function RegisterPage() {
 
   const handlePolicyComplete = (agreements: PolicyAgreements) => {
     setPolicyAgreements(agreements)
+    directionRef.current = 1
     setCurrentStep("payment")
   }
 
@@ -107,26 +113,36 @@ export default function RegisterPage() {
 
           {/* Content */}
           <div
-            className="rounded-2xl p-6 md:p-8 backdrop-blur-sm"
+            className="rounded-2xl p-6 md:p-8 backdrop-blur-sm overflow-hidden"
             style={{
               background: "linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%)",
               border: "1px solid var(--nec-border)",
               boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
             }}
           >
-            {currentStep === "info" && <RegistrationForm onComplete={handleInfoComplete} enableScholarship />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={currentStep}
+                initial={shouldReduce ? false : { opacity: 0, x: directionRef.current * 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: directionRef.current * -40 }}
+                transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+              >
+                {currentStep === "info" && <RegistrationForm onComplete={handleInfoComplete} enableScholarship />}
 
-            {currentStep === "policy" && (
-              <PolicyAgreement onComplete={handlePolicyComplete} onBack={() => setCurrentStep("info")} />
-            )}
+                {currentStep === "policy" && (
+                  <PolicyAgreement onComplete={handlePolicyComplete} onBack={() => { directionRef.current = -1; setCurrentStep("info") }} />
+                )}
 
-            {currentStep === "payment" && registrationData && (
-              <RegistrationCheckout
-                registrationData={registrationData}
-                policyAgreements={policyAgreements}
-                onBack={() => setCurrentStep(isScholarshipFlow ? "info" : "policy")}
-              />
-            )}
+                {currentStep === "payment" && registrationData && (
+                  <RegistrationCheckout
+                    registrationData={registrationData}
+                    policyAgreements={policyAgreements}
+                    onBack={() => { directionRef.current = -1; setCurrentStep(isScholarshipFlow ? "info" : "policy") }}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Hotel Booking CTA */}

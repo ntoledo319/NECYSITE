@@ -1,9 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import { motion, useReducedMotion } from "framer-motion"
 import { BLOG_POSTS } from "@/lib/data/blog-posts"
 import BlogCard from "@/components/blog-card"
 import { Newspaper } from "lucide-react"
+import { staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 export default function BlogGrid() {
   const [visibleCount, setVisibleCount] = useState(6)
@@ -13,6 +15,8 @@ export default function BlogGrid() {
   )
   const visible = sorted.slice(0, visibleCount)
   const hasMore = visibleCount < sorted.length
+
+  const shouldReduce = useReducedMotion()
 
   return (
     <section aria-label="Blog posts">
@@ -37,13 +41,19 @@ export default function BlogGrid() {
       </div>
 
       {/* Cards grid — responsive masonry-style with CSS columns */}
-      <div className="blog-grid max-w-5xl mx-auto columns-1 md:columns-2 gap-6 space-y-6">
+      <motion.div
+        className="blog-grid max-w-5xl mx-auto columns-1 md:columns-2 gap-6 space-y-6"
+        variants={shouldReduce ? undefined : staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+      >
         {visible.map((post, i) => (
-          <div key={post.id} className="break-inside-avoid">
+          <motion.div key={post.id} className="break-inside-avoid" variants={staggerChild}>
             <BlogCard post={post} index={i} />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Load more */}
       {hasMore && (

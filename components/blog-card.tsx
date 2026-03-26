@@ -3,6 +3,7 @@
 import { useState, useRef, useId, useCallback } from "react"
 import { ChevronDown, BookOpen } from "lucide-react"
 import type { BlogPost } from "@/lib/data/blog-posts"
+import { SpotlightCard } from "@/components/ui/motion-primitives"
 
 const CATEGORY_STYLES: Record<
   string,
@@ -60,12 +61,10 @@ export default function BlogCard({ post, index }: BlogCardProps) {
   }, [])
 
   return (
+    <SpotlightCard spotlightColor={`rgba(${cat.rgb},0.10)`} spotlightSize={450}>
     <article
       ref={articleRef}
       className="blog-card group relative nec-card overflow-hidden"
-      style={{
-        animationDelay: `${index * 80}ms`,
-      }}
     >
       {/* Top accent bar */}
       <div
@@ -182,5 +181,6 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         }}
       />
     </article>
+    </SpotlightCard>
   )
 }

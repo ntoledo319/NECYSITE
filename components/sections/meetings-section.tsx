@@ -1,12 +1,16 @@
 "use client"
 
+import { motion, useReducedMotion } from "framer-motion"
 import { meetingsByDay, allMeetings } from "@/lib/data/meetings"
 import { MeetingCard } from "@/components/meeting-card"
 import { ExpandableMeetingRow } from "@/components/expandable-meeting-row"
 import { Mail } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
+import { staggerContainer, staggerChild, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 export default function MeetingsSection() {
+  const shouldReduce = useReducedMotion()
+
   return (
     <section id="meetings" aria-label="Young people's meetings in Connecticut" className="px-4 md:px-0">
       <div className="mb-6">
@@ -41,15 +45,27 @@ export default function MeetingsSection() {
       </div>
 
       {/* Mobile cards */}
-      <div className="md:hidden grid grid-cols-1 gap-4">
+      <motion.div
+        className="md:hidden grid grid-cols-1 gap-4"
+        variants={shouldReduce ? undefined : staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+      >
         {Object.entries(meetingsByDay).map(([day, meetings]) => (
-          <MeetingCard key={day} day={day} meetings={meetings} />
+          <motion.div key={day} variants={staggerChild}>
+            <MeetingCard day={day} meetings={meetings} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Add your meeting */}
-      <div
+      <motion.div
         className="mt-6 nec-card p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+        initial={shouldReduce ? false : { opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
         style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)" }}
       >
         <div className="flex-1">
@@ -72,7 +88,7 @@ export default function MeetingsSection() {
           <Mail className="w-4 h-4" aria-hidden="true" />
           {CONTACT_EMAIL}
         </a>
-      </div>
+      </motion.div>
     </section>
   )
 }

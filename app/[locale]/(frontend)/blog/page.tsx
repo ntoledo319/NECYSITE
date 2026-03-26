@@ -3,6 +3,7 @@ import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import BlogGrid from "@/components/blog-grid"
 import PageArtAccents from "@/components/art/page-art-accents"
+import MotionHeader from "@/components/ui/motion-header"
 
 export const metadata: Metadata = {
   title: "NECYBLOG aka BLOGYPAA — NECYPAA XXXVI",
@@ -21,7 +22,7 @@ export default function BlogPage() {
       <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
           {/* ── Page Header ────────────────────────── */}
-          <header className="max-w-3xl mx-auto text-center mb-16">
+          <MotionHeader className="max-w-3xl mx-auto text-center mb-16">
             <span className="section-badge mb-4 inline-block">NECYBLOG</span>
             <h1 className="section-heading mb-2">
               NECYBLOG{" "}
@@ -69,7 +70,7 @@ export default function BlogPage() {
                 host&apos;s raw, unfiltered takes, so help us HP.
               </p>
             </div>
-          </header>
+          </MotionHeader>
 
           {/* ── Blog Cards Grid ────────────────────── */}
           <BlogGrid />

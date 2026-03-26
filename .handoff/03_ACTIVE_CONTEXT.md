@@ -1,6 +1,6 @@
 # Active Context — NECYPAA XXXVI Website
 
-> **Last Updated:** 2026-03-23
+> **Last Updated:** 2026-03-26
 > **Purpose:** Snapshot of exactly where this project stands right now. Updated before every push.
 
 ---
@@ -29,7 +29,7 @@
 7. **Grain overlay** — Global film-grain via `GrainOverlayWrapper`.
 8. **Bespoke CSS tokens** — Button glow, price badge hover, organic dividers, fact pill enhancement, full a11y overrides.
 
-**Phase 2 (this session) — Total transformation:**
+**Phase 2 (previous session) — Total transformation:**
 9. **YPAA Narrative section** — Staggered timeline step reveals, spotlight highlight chips, spring entrance on Welcome Home card, `MagneticButton` on Register/Learn More CTAs.
 10. **Business Meeting section** — `SpotlightCard` on meeting card, `MagneticButton` on Zoom link, staggered entrance for date/time detail rows.
 11. **Events Preview section** — Motion header entrance, `SpotlightCard` on featured upcoming event, staggered past events scroll strip.
@@ -40,6 +40,20 @@
 16. **Homepage ambient blobs** — Extracted to `components/ui/ambient-blobs.tsx` client component. Three vortex glow blobs wrapped in `FloatingElement` with offset drift (12–16s cycles, staggered delays).
 17. **Purpose Section** — Converted to client component. Staggered pillar card entrance, `SpotlightCard` on first-timer callout.
 18. **Page Shell** — Converted to client component. `motion.div` entrance on page header, `FloatingElement` on portal art, `MagneticButton` on "Back to the Portal" CTA.
+
+**Phase 3 (this session) — Cohesion & polish layer:**
+19. **Page transition wrapper** — `components/ui/page-transition.tsx` client component using Framer Motion `motion.div` keyed by `pathname` for fade+slide entrance on every route change.
+20. **Scroll progress indicator** — `components/ui/scroll-progress.tsx` — thin gradient bar (purple→pink→gold) fixed at top of viewport, spring-dampened `scaleX` tracking `scrollYProgress`. Hidden when reduce-motion is active.
+21. **Back-to-top FAB** — `components/ui/back-to-top.tsx` — floating button appears after 600px scroll, spring entrance/exit via `AnimatePresence`, keyboard accessible with `aria-label`.
+22. **Custom 404 page** — `app/[locale]/(frontend)/not-found.tsx` — themed "Lost in the Mad Realm" page with Cheshire Cat portal art (`FloatingElement`), `MagneticButton` back-to-home link.
+23. **Blog cards** — `SpotlightCard` wrapper with category-matched glow color. Removed CSS `animationDelay` in favor of Framer Motion stagger.
+24. **Blog grid** — `motion.div` stagger container wrapping masonry grid cards with `staggerContainer`/`staggerChild` variants.
+25. **Blog page header** — `components/ui/motion-header.tsx` reusable client wrapper for spring entrance on server-component pages. Applied to blog page header.
+26. **States page** — `motion.header` spring entrance on hero, `motion.div` stagger on luxury stat badges (4-card grid), `motion.div` stagger on state card list.
+27. **Registration step transitions** — `AnimatePresence mode="wait"` with directional slide (forward=right, back=left) between info→policy→payment steps. Direction tracked via `useRef`.
+28. **Meetings section** — Staggered entrance on mobile `MeetingCard` list, spring entrance on "Add Your Meeting" CTA card.
+
+**All new components respect `useReducedMotion` — animations are disabled entirely when reduce-motion is active.**
 
 **Branch:** `ui-upgrade-26`
 **Build status:** Passing (production build green, all routes compile)

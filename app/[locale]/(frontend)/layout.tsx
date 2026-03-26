@@ -11,6 +11,9 @@ import { A11yProvider } from "@/lib/accessibility-context"
 import AccessibilityPanel from "@/components/accessibility-panel"
 import MadRealmArtLayer from "@/components/art/mad-realm-art-layer"
 import GrainOverlayWrapper from "@/components/ui/grain-overlay-wrapper"
+import PageTransition from "@/components/ui/page-transition"
+import ScrollProgress from "@/components/ui/scroll-progress"
+import BackToTop from "@/components/ui/back-to-top"
 import { WebVitalsReporter } from "@/app/web-vitals-reporter"
 
 const jakarta = Plus_Jakarta_Sans({
@@ -116,11 +119,15 @@ export default async function RootLayout({
             >
               Skip to main content
             </a>
+            <ScrollProgress />
             <GrainOverlayWrapper />
             <SiteHeader />
             <main id="main-content" className="pt-16">
-              {children}
+              <PageTransition>
+                {children}
+              </PageTransition>
             </main>
+            <BackToTop />
             <AccessibilityPanel />
           </A11yProvider>
         </NextIntlClientProvider>

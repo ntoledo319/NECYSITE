@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react"
+import { motion, useReducedMotion } from "framer-motion"
 import { ExternalLink, Map, List, Globe, Sparkles, Users, BookOpen, Info } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import { NECYPAA_STATES } from "@/lib/data/states"
@@ -9,6 +10,7 @@ import StateCard from "@/components/state-card"
 import MeetingDirectory from "@/components/meeting-directory"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
+import { staggerContainer, staggerChild, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 const NecypaaRegionMap = lazy(() => import("@/components/necypaa-region-map"))
 
@@ -20,6 +22,7 @@ export default function StatesPage() {
   const [regionFilter, setRegionFilter] = useState<RegionFilter>("all")
   const [viewMode, setViewMode] = useState<"map" | "list">("map")
   const [activeTab, setActiveTab] = useState<ContentTab>("resources")
+  const shouldReduce = useReducedMotion()
 
   useEffect(() => {
     if (window.innerWidth < 768) setViewMode("list")
@@ -130,8 +133,13 @@ export default function StatesPage() {
       >
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            {/* ── Hero Header ────────────────────────── */}
-            <header className="text-center mb-12 relative">
+            {/* ── Hero Header ──────────────────────── */}
+            <motion.header
+              className="text-center mb-12 relative"
+              initial={shouldReduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+            >
               <div className="inline-flex items-center gap-2 mb-5">
                 <span className="section-badge">
                   <Globe className="w-3.5 h-3.5" aria-hidden="true" />
@@ -158,17 +166,22 @@ export default function StatesPage() {
                 groups across the NECYPAA region — 12 states and Washington,
                 D.C.
               </p>
-            </header>
+            </motion.header>
 
             {/* ── Luxury Stats Strip ─────────────────── */}
-            <div
+            <motion.div
               className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-12"
               role="group"
               aria-label="Region statistics"
+              variants={shouldReduce ? undefined : staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
             >
               {stats.map((stat) => (
-                <div
+                <motion.div
                   key={stat.label}
+                  variants={staggerChild}
                   className="states-stat-card relative rounded-2xl p-5 md:p-6 text-center overflow-hidden"
                   style={{
                     background: `linear-gradient(135deg, rgba(${stat.bgRgb},0.08) 0%, rgba(15,10,30,0.8) 100%)`,
@@ -196,9 +209,9 @@ export default function StatesPage() {
                   >
                     {stat.label}
                   </span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* ── Interactive Map Section ─────────────── */}
             <section
@@ -535,16 +548,23 @@ export default function StatesPage() {
                   role="tabpanel"
                   aria-label="NECYPAA member states"
                 >
-                  <div className="space-y-3">
+                  <motion.div
+                    className="space-y-3"
+                    variants={shouldReduce ? undefined : staggerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-40px" }}
+                  >
                     {filteredStates.map((state) => (
-                      <StateCard
-                        key={state.abbreviation}
-                        state={state}
-                        isHighlighted={selectedState === state.abbreviation}
-                        onViewMeetings={handleViewMeetings}
-                      />
+                      <motion.div key={state.abbreviation} variants={staggerChild}>
+                        <StateCard
+                          state={state}
+                          isHighlighted={selectedState === state.abbreviation}
+                          onViewMeetings={handleViewMeetings}
+                        />
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </section>
 
                 {/* AA Meeting Finder — compact */}
