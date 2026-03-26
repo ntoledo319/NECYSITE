@@ -1471,6 +1471,276 @@
   display: none !important;
 }
 
+/* ══════════════════════════════════════════════
+   REGISTRATION FLOW — Cards, Steps, Success Pages
+   All surfaces use CSS classes (not inline styles)
+   so light mode, high contrast, and reduce-motion
+   overrides work correctly.
+   ══════════════════════════════════════════════ */
+
+/* ── Registration content card (main form wrapper) ── */
+.nec-reg-card {
+  background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+  border: 1px solid var(--nec-border);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+  @apply rounded-2xl backdrop-blur-sm;
+}
+
+/* ── Registration accent card (hotel CTA, cross-sell) — purple accent ── */
+.nec-reg-accent-purple {
+  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 100%);
+  border: 1px solid rgba(124,58,237,0.18);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+  @apply rounded-2xl backdrop-blur-sm;
+}
+
+/* ── Registration accent card — orange accent (breakfast cross-sell) ── */
+.nec-reg-accent-orange {
+  background: linear-gradient(135deg, rgba(234,88,12,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(212,160,23,0.05) 100%);
+  border: 1px solid rgba(234,88,12,0.20);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+  @apply rounded-2xl backdrop-blur-sm;
+}
+
+/* ── Success page hero card — purple variant ── */
+.nec-success-card-purple {
+  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(192,38,211,0.05) 100%);
+  border: 1px solid rgba(124,58,237,0.20);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  @apply rounded-2xl backdrop-blur-sm;
+}
+
+/* ── Success page hero card — orange variant (breakfast) ── */
+.nec-success-card-orange {
+  background: linear-gradient(135deg, rgba(249,115,22,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(234,179,8,0.05) 100%);
+  border: 1px solid rgba(249,115,22,0.20);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  @apply rounded-2xl backdrop-blur-sm;
+}
+
+/* ── Success icon ring — purple ── */
+.nec-success-icon-purple {
+  background: rgba(124,58,237,0.10);
+  border: 2px solid rgba(124,58,237,0.35);
+  box-shadow: 0 0 24px rgba(124,58,237,0.15), 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* ── Success icon ring — orange ── */
+.nec-success-icon-orange {
+  background: rgba(249,115,22,0.10);
+  border: 2px solid rgba(249,115,22,0.35);
+  box-shadow: 0 0 24px rgba(249,115,22,0.15), 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* ── Help/info card (small, bottom of success pages) ── */
+.nec-reg-help-card {
+  background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+  border: 1px solid var(--nec-border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+/* ── Step number badge — purple (reg success) ── */
+.nec-step-badge-purple {
+  background: rgba(124,58,237,0.12);
+  color: var(--nec-purple);
+  border: 1px solid rgba(124,58,237,0.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ── Step number badge — orange (breakfast success) ── */
+.nec-step-badge-orange {
+  background: rgba(249,115,22,0.12);
+  color: var(--nec-orange);
+  border: 1px solid rgba(249,115,22,0.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ── Step indicator bubble — active ── */
+.nec-step-active {
+  background: var(--nec-pink);
+  color: white;
+  border: 1px solid rgba(192,38,211,0.5);
+  box-shadow: 0 0 12px rgba(192,38,211,0.2);
+}
+
+/* ── Step indicator bubble — inactive ── */
+.nec-step-inactive {
+  background: rgba(45,31,78,0.8);
+  color: var(--nec-muted);
+  border: 1px solid var(--nec-border);
+}
+
+/* ── Breakfast info box ── */
+.nec-breakfast-info {
+  background: rgba(26,16,48,0.7);
+  border: 1px solid var(--nec-border);
+  color: var(--nec-muted);
+}
+
+/* ── Stripe embed wrapper — smooth transition from dark to white ── */
+.nec-stripe-embed {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.95) 12%, #fff 20%);
+  border: 1px solid var(--nec-border);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
+  @apply rounded-xl overflow-hidden;
+}
+
+/* ── Registration sub-card (summary, scholarship, add-ons) ── */
+.nec-reg-subcard {
+  background: rgba(26,16,48,0.6);
+  border: 1px solid var(--nec-border);
+}
+
+/* ── Registration accent bar (top of success pages) ── */
+.nec-accent-bar {
+  box-shadow: 0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15);
+}
+
+/* ── Registration page heading text-shadow ── */
+.nec-heading-shadow {
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.nec-heading-shadow-sm {
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ══════════════════════════════════════════════
+   REGISTRATION — Light Mode Overrides
+   ══════════════════════════════════════════════ */
+[data-color-mode="light"] .nec-reg-card {
+  background: rgba(255,255,255,0.92) !important;
+  border-color: var(--nec-border) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+[data-color-mode="light"] .nec-reg-accent-purple {
+  background: linear-gradient(135deg, rgba(109,40,217,0.06) 0%, rgba(255,255,255,0.85) 100%) !important;
+  border-color: rgba(109,40,217,0.20) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+}
+[data-color-mode="light"] .nec-reg-accent-orange {
+  background: linear-gradient(135deg, rgba(234,88,12,0.06) 0%, rgba(255,255,255,0.85) 50%, rgba(212,160,23,0.04) 100%) !important;
+  border-color: rgba(234,88,12,0.18) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+}
+[data-color-mode="light"] .nec-success-card-purple {
+  background: linear-gradient(135deg, rgba(109,40,217,0.06) 0%, rgba(255,255,255,0.90) 50%, rgba(147,51,234,0.04) 100%) !important;
+  border-color: rgba(109,40,217,0.20) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+}
+[data-color-mode="light"] .nec-success-card-orange {
+  background: linear-gradient(135deg, rgba(249,115,22,0.06) 0%, rgba(255,255,255,0.90) 50%, rgba(234,179,8,0.04) 100%) !important;
+  border-color: rgba(249,115,22,0.18) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+}
+[data-color-mode="light"] .nec-success-icon-purple {
+  background: rgba(109,40,217,0.08) !important;
+  border-color: rgba(109,40,217,0.25) !important;
+  box-shadow: 0 2px 12px rgba(109,40,217,0.10) !important;
+}
+[data-color-mode="light"] .nec-success-icon-orange {
+  background: rgba(249,115,22,0.08) !important;
+  border-color: rgba(249,115,22,0.25) !important;
+  box-shadow: 0 2px 12px rgba(249,115,22,0.10) !important;
+}
+[data-color-mode="light"] .nec-reg-help-card {
+  background: rgba(255,255,255,0.90) !important;
+  border-color: var(--nec-border) !important;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important;
+}
+[data-color-mode="light"] .nec-step-badge-purple {
+  background: rgba(109,40,217,0.08) !important;
+  border-color: rgba(109,40,217,0.20) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+}
+[data-color-mode="light"] .nec-step-badge-orange {
+  background: rgba(249,115,22,0.08) !important;
+  border-color: rgba(249,115,22,0.18) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+}
+[data-color-mode="light"] .nec-step-active {
+  background: var(--nec-pink) !important;
+  color: white !important;
+  border-color: rgba(147,51,234,0.4) !important;
+  box-shadow: 0 0 8px rgba(147,51,234,0.15) !important;
+}
+[data-color-mode="light"] .nec-step-inactive {
+  background: rgba(109,40,217,0.06) !important;
+  color: var(--nec-muted) !important;
+  border-color: var(--nec-border) !important;
+}
+[data-color-mode="light"] .nec-breakfast-info {
+  background: rgba(255,255,255,0.88) !important;
+  border-color: var(--nec-border) !important;
+  color: var(--nec-muted) !important;
+}
+[data-color-mode="light"] .nec-stripe-embed {
+  background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(255,255,255,0.98) 8%, #fff 16%) !important;
+  border-color: var(--nec-border) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
+}
+[data-color-mode="light"] .nec-reg-subcard {
+  background: rgba(255,255,255,0.85) !important;
+  border-color: var(--nec-border) !important;
+}
+[data-color-mode="light"] .nec-accent-bar {
+  box-shadow: 0 0 8px rgba(109,40,217,0.15), 0 0 16px rgba(147,51,234,0.08) !important;
+}
+[data-color-mode="light"] .nec-heading-shadow,
+[data-color-mode="light"] .nec-heading-shadow-sm {
+  text-shadow: none !important;
+}
+
+/* ══════════════════════════════════════════════
+   REGISTRATION — High Contrast Overrides
+   ══════════════════════════════════════════════ */
+.a11y-high-contrast .nec-reg-card,
+.a11y-high-contrast .nec-reg-accent-purple,
+.a11y-high-contrast .nec-reg-accent-orange,
+.a11y-high-contrast .nec-success-card-purple,
+.a11y-high-contrast .nec-success-card-orange,
+.a11y-high-contrast .nec-reg-help-card,
+.a11y-high-contrast .nec-reg-subcard,
+.a11y-high-contrast .nec-breakfast-info {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-success-icon-purple,
+.a11y-high-contrast .nec-success-icon-orange {
+  border-width: 3px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-step-active {
+  outline: 2px solid #a78bfa;
+  outline-offset: 1px;
+}
+.a11y-high-contrast .nec-step-inactive {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-step-badge-purple,
+.a11y-high-contrast .nec-step-badge-orange {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-stripe-embed {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-accent-bar {
+  box-shadow: none !important;
+}
+.a11y-high-contrast .nec-heading-shadow,
+.a11y-high-contrast .nec-heading-shadow-sm {
+  text-shadow: none !important;
+}
+
+/* ══════════════════════════════════════════════
+   REGISTRATION — Reduce Motion Overrides
+   ══════════════════════════════════════════════ */
+.a11y-reduce-motion .nec-accent-bar {
+  box-shadow: none !important;
+}
+
 /* ── Print Stylesheet ────────────────────────── */
 @media print {
   /* White background, dark text */

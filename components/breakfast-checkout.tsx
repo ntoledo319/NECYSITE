@@ -85,10 +85,10 @@ export default function BreakfastCheckout() {
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg p-4 min-h-[300px] flex items-center justify-center" role="alert" aria-live="assertive">
+      <div className="nec-reg-subcard rounded-2xl p-4 min-h-[300px] flex items-center justify-center" role="alert" aria-live="assertive">
         <div className="text-center space-y-2">
-          <p className="text-red-600 font-semibold">Hmm, something went wrong</p>
-          <p className="text-gray-600">{error}</p>
+          <p className="text-red-400 font-semibold">Hmm, something went wrong</p>
+          <p className="text-[var(--nec-muted)]">{error}</p>
         </div>
       </div>
     )
@@ -96,15 +96,18 @@ export default function BreakfastCheckout() {
 
   if (!stripePromise) {
     return (
-      <div className="bg-white rounded-lg p-4 min-h-[300px] flex items-center justify-center" role="status" aria-live="polite">
-        <p className="text-gray-600">Loading payment form...</p>
+      <div className="nec-reg-subcard rounded-2xl p-4 min-h-[300px] flex items-center justify-center" role="status" aria-live="polite">
+        <div className="text-center space-y-3">
+          <div className="w-8 h-8 mx-auto border-2 border-[var(--nec-purple)] border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+          <p className="text-[var(--nec-muted)]">Loading payment form&hellip;</p>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
+      <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
         <h3 className="text-lg font-semibold text-white">Your Information</h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
@@ -126,7 +129,7 @@ export default function BreakfastCheckout() {
               aria-describedby={errors.firstName ? "firstName-error" : undefined}
               className="text-white"
             />
-            {errors.firstName && <p id="firstName-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>{errors.firstName}</p>}
+            {errors.firstName && <p id="firstName-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.firstName}</p>}
           </div>
           <div>
             <Label htmlFor="lastName" className="text-white">
@@ -147,7 +150,7 @@ export default function BreakfastCheckout() {
               aria-describedby={errors.lastName ? "lastName-error" : undefined}
               className="text-white"
             />
-            {errors.lastName && <p id="lastName-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>{errors.lastName}</p>}
+            {errors.lastName && <p id="lastName-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.lastName}</p>}
           </div>
         </div>
         <div>
@@ -170,11 +173,11 @@ export default function BreakfastCheckout() {
             aria-describedby={errors.email ? "email-error" : undefined}
             className="text-white"
           />
-          {errors.email && <p id="email-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>{errors.email}</p>}
+          {errors.email && <p id="email-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.email}</p>}
         </div>
       </div>
 
-      <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
+      <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
         <h3 className="text-lg font-semibold text-white">New Years Day Breakfast!</h3>
         <p className="text-sm text-[var(--nec-muted)]">
           Friday is especially recommended. Most local restaurants are closed on New Year&apos;s Day.
@@ -245,7 +248,7 @@ export default function BreakfastCheckout() {
         </div>
       </div>
 
-      <div className="rounded-2xl p-6 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
+      <div className="nec-reg-subcard rounded-2xl p-6">
         <h3 className="text-lg font-semibold text-white mb-4">Order Summary</h3>
         <div className="space-y-2 text-[var(--nec-muted)]">
           {selectedBreakfasts.length === 0 && <p className="text-[var(--nec-muted)] text-sm">Select at least one breakfast.</p>}
@@ -279,7 +282,7 @@ export default function BreakfastCheckout() {
           Proceed to Payment{isFormValid ? ` - $${totalAmount.toFixed(2)}` : ""}
         </Button>
       ) : (
-        <div key={checkoutKey} className="bg-white rounded-lg p-4 min-h-[400px]">
+        <div key={checkoutKey} className="nec-stripe-embed p-4 min-h-[400px]">
           <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>

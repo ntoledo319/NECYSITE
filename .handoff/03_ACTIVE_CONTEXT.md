@@ -15,45 +15,43 @@
 
 ---
 
-## Latest Changes (This Session — UI Visual Identity Upgrade, Phase 2)
+## Latest Changes (This Session — Registration Flow Visual Fix)
 
-### Framer Motion + Aceternity UI Bespoke Motion System (Complete)
+### Registration Pages: Inline Style Purge + Design Token Refactor (Complete)
 
-**Phase 1 (previous session):**
-1. **Motion primitives library** — `components/ui/motion-primitives.tsx` with spring configs, stagger variants, and bespoke components: `MotionReveal`, `SpotlightCard`, `TiltCard`, `AuroraBackground`, `FloatingElement`, `MagneticButton`, `GrainOverlay`. All respect `prefers-reduced-motion`.
-2. **ScrollReveal** — Framer Motion spring-physics replacing IntersectionObserver.
-3. **Hero section** — `AuroraBackground`, `FloatingElement` accents, `MagneticButton` CTAs.
-4. **CTA cards** — `TiltCard` + `SpotlightCard` wrapping.
-5. **Quick facts** — Staggered spring entrance + `SpotlightCard` per pill.
-6. **Navigation** — Glass morphism with `motion.header`, `AnimatePresence` dropdowns/drawer.
-7. **Grain overlay** — Global film-grain via `GrainOverlayWrapper`.
-8. **Bespoke CSS tokens** — Button glow, price badge hover, organic dividers, fact pill enhancement, full a11y overrides.
+Root cause: commit `22a4200` (comprehensive UX/UI overhaul) introduced inline `style` attributes across all registration pages, bypassing the CSS theming system. These broke light mode, high contrast, and reduce-motion accessibility overrides.
 
-**Phase 2 (previous session) — Total transformation:**
-9. **YPAA Narrative section** — Staggered timeline step reveals, spotlight highlight chips, spring entrance on Welcome Home card, `MagneticButton` on Register/Learn More CTAs.
-10. **Business Meeting section** — `SpotlightCard` on meeting card, `MagneticButton` on Zoom link, staggered entrance for date/time detail rows.
-11. **Events Preview section** — Motion header entrance, `SpotlightCard` on featured upcoming event, staggered past events scroll strip.
-12. **Site Footer** — Converted to client component. Animated gradient top bar (scaleX reveal), staggered 4-column entrance with `staggerContainer`/`staggerChild`.
-13. **Mobile CTA Bar** — `AnimatePresence` spring entrance/exit from bottom, replacing CSS transition.
-14. **Character Divider** — Converted to client component. Replaced CSS `character-float` with `FloatingElement` (spring-physics bob). Gradient lines use `motion.div` scaleX entrance with directional `transformOrigin`.
-15. **FAQ Accordion** — Radix `asChild` pattern to wrap each `Accordion.Item` in `motion.div` with staggered entrance variants.
-16. **Homepage ambient blobs** — Extracted to `components/ui/ambient-blobs.tsx` client component. Three vortex glow blobs wrapped in `FloatingElement` with offset drift (12–16s cycles, staggered delays).
-17. **Purpose Section** — Converted to client component. Staggered pillar card entrance, `SpotlightCard` on first-timer callout.
-18. **Page Shell** — Converted to client component. `motion.div` entrance on page header, `FloatingElement` on portal art, `MagneticButton` on "Back to the Portal" CTA.
+**What was fixed:**
 
-**Phase 3 (this session) — Cohesion & polish layer:**
-19. **Page transition wrapper** — `components/ui/page-transition.tsx` client component using Framer Motion `motion.div` keyed by `pathname` for fade+slide entrance on every route change.
-20. **Scroll progress indicator** — `components/ui/scroll-progress.tsx` — thin gradient bar (purple→pink→gold) fixed at top of viewport, spring-dampened `scaleX` tracking `scrollYProgress`. Hidden when reduce-motion is active.
-21. **Back-to-top FAB** — `components/ui/back-to-top.tsx` — floating button appears after 600px scroll, spring entrance/exit via `AnimatePresence`, keyboard accessible with `aria-label`.
-22. **Custom 404 page** — `app/[locale]/(frontend)/not-found.tsx` — themed "Lost in the Mad Realm" page with Cheshire Cat portal art (`FloatingElement`), `MagneticButton` back-to-home link.
-23. **Blog cards** — `SpotlightCard` wrapper with category-matched glow color. Removed CSS `animationDelay` in favor of Framer Motion stagger.
-24. **Blog grid** — `motion.div` stagger container wrapping masonry grid cards with `staggerContainer`/`staggerChild` variants.
-25. **Blog page header** — `components/ui/motion-header.tsx` reusable client wrapper for spring entrance on server-component pages. Applied to blog page header.
-26. **States page** — `motion.header` spring entrance on hero, `motion.div` stagger on luxury stat badges (4-card grid), `motion.div` stagger on state card list.
-27. **Registration step transitions** — `AnimatePresence mode="wait"` with directional slide (forward=right, back=left) between info→policy→payment steps. Direction tracked via `useRef`.
-28. **Meetings section** — Staggered entrance on mobile `MeetingCard` list, spring entrance on "Add Your Meeting" CTA card.
+1. **globals.css** — Added ~280 lines of new CSS classes for registration flow surfaces:
+   - `.nec-reg-card`, `.nec-reg-subcard`, `.nec-success-card-purple`, `.nec-success-card-orange`, `.nec-reg-accent-orange`, `.nec-reg-help-card`, `.nec-breakfast-info`
+   - `.nec-step-active`, `.nec-step-inactive`, `.nec-step-badge-purple`, `.nec-step-badge-orange`
+   - `.nec-success-icon-purple`, `.nec-success-icon-orange`
+   - `.nec-heading-shadow`, `.nec-accent-bar`
+   - `.nec-stripe-embed` — gradient transition from dark theme to Stripe's white embed
+   - All classes have `[data-color-mode="light"]` and `.a11y-high-contrast` overrides.
 
-**All new components respect `useReducedMotion` — animations are disabled entirely when reduce-motion is active.**
+2. **Page refactors** — Replaced all inline `style` attributes with CSS classes:
+   - `register/page.tsx` — content card, step indicators, hotel CTA, heading shadow
+   - `cash/page.tsx` — same treatment
+   - `register/success/page.tsx` — accent bar, success card, icon ring, step badges, breakfast cross-sell, help card
+   - `breakfast/page.tsx` — background, heading shadow, info box
+   - `breakfast/success/page.tsx` — same treatment as register success with orange accents
+
+3. **Sub-component refactors** — Replaced hardcoded Tailwind grays and `text-pink-400` with design tokens:
+   - `registration-form.tsx` — `border-gray-700` → `border-[var(--nec-border)]`, `text-pink-400` → `text-[var(--nec-pink)]`, inline error styles → classes
+   - `policy-agreement.tsx` — `text-pink-400` → `text-[var(--nec-pink)]`, container → `.nec-reg-subcard`
+   - `registration-checkout.tsx` — summary card → `.nec-reg-subcard`, Stripe embed → `.nec-stripe-embed`
+   - `breakfast-checkout.tsx` — error/loading states themed (was `bg-white`/`text-gray-600`), all sub-cards → `.nec-reg-subcard`, Stripe → `.nec-stripe-embed`, added spinner to loading state
+   - `registration-confirmation.tsx` — all inline `style={{ color: "var(--nec-muted)" }}` → `text-[var(--nec-muted)]` classes, cards → `.nec-reg-subcard`
+   - `checkout/access-code-checkout.tsx` — card → `.nec-reg-subcard`
+   - `checkout/breakfast-add-ons.tsx` — card → `.nec-reg-subcard`
+   - `checkout/scholarship-attribution.tsx` — card → `.nec-reg-subcard`
+
+4. **Entrance animations** — Added Framer Motion staggered fade-up to both success pages:
+   - `register/success/page.tsx` — staggerContainer + fadeUp variants with `SPRING_GENTLE`
+   - `breakfast/success/page.tsx` — same treatment
+   - Both respect `useReducedMotion` (animations skip entirely)
 
 **Branch:** `ui-upgrade-26`
 **Build status:** Passing (production build green, all routes compile)

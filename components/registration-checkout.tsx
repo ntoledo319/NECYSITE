@@ -212,7 +212,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
         )}
       </div>
 
-      <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
+      <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
         <h3 className="text-lg font-semibold text-white">Registration Summary</h3>
         <div className="space-y-2 text-[var(--nec-muted)]">
           {selfRegistrationQuantity > 0 && (
@@ -312,7 +312,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
           Proceed to Payment - ${totalAmount.toFixed(2)}
         </Button>
       ) : (
-        <div key={checkoutKey} id="checkout" className="bg-white rounded-lg p-4 min-h-[400px]">
+        <div key={checkoutKey} id="checkout" className="nec-stripe-embed p-4 min-h-[400px]">
           <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>

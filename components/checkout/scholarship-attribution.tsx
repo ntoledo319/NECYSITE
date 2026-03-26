@@ -20,7 +20,7 @@ export default function ScholarshipAttribution({
   effectiveScholarshipQuantity,
 }: ScholarshipAttributionProps) {
   return (
-    <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
+    <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
       <h3 className="text-lg font-semibold text-white">Optional Scholarship Attribution</h3>
       <div>
         <label htmlFor="aaEntity" className="block text-sm text-[var(--nec-muted)] mb-1">

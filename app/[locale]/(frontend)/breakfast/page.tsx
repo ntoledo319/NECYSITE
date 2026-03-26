@@ -5,29 +5,19 @@ import PageArtAccents from "@/components/art/page-art-accents"
 
 export default function BreakfastPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe relative" style={{ background: "var(--nec-navy)" }}>
+    <div className="min-h-screen min-h-screen-safe relative bg-[var(--nec-navy)]">
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" variant="subtle" dividerVariant="compass" />
       <div className="container mx-auto px-4 pt-24 pb-12 relative z-10">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
-            <h1
-              className="text-3xl md:text-4xl font-black text-white mb-2"
-              style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-            >
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-2 nec-heading-shadow">
               Breakfast Ticket Checkout
             </h1>
-            <p className="text-lg font-bold" style={{ color: "var(--nec-gold)" }}>NECYPAA XXXVI</p>
+            <p className="text-lg font-bold text-[var(--nec-gold)]">NECYPAA XXXVI</p>
 
           </div>
 
-          <div
-            className="rounded-xl p-5 mb-6 text-sm leading-relaxed"
-            style={{
-              background: "rgba(26,16,48,0.7)",
-              border: "1px solid var(--nec-border)",
-              color: "var(--nec-muted)",
-            }}
-          >
+          <div className="nec-breakfast-info rounded-xl p-5 mb-6 text-sm leading-relaxed">
             <p className="mb-2">
               <strong className="text-white">New Year's Day Breakfast</strong> — Start your morning with fellowship and a great meal at the Hartford Marriott Downtown.
             </p>

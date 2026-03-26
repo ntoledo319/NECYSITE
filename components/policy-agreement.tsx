@@ -26,7 +26,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl p-6 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
+      <div className="nec-reg-subcard rounded-2xl p-6">
         <h3 className="text-xl font-bold text-white mb-4">NECYPAA Non-Discrimination and Anti-Harassment Policy</h3>
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex={0} is required so keyboard-only users can scroll this overflow container */}
         <div className="prose prose-invert max-w-none text-[var(--nec-muted)] space-y-4 max-h-96 overflow-y-auto text-sm" tabIndex={0} role="region" aria-label="Policy document — scroll to read full text">
@@ -185,9 +185,9 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
       <div className="space-y-4">
         <p className="text-white font-semibold">
           Attendees must check each box in order to be allowed admission to the NECYPAA convention.{" "}
-          <span className="text-pink-400" aria-hidden="true">*</span>
+          <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
         </p>
-        <p className="text-sm text-[var(--nec-muted)]"><span className="text-pink-400" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
+        <p className="text-sm text-[var(--nec-muted)]"><span className="text-[var(--nec-pink)]" aria-hidden="true">*</span> <span className="sr-only">Asterisk indicates</span> Required field</p>
 
         <div className="space-y-3">
           <div className="flex items-start space-x-3">
@@ -200,7 +200,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             />
             <Label htmlFor="readPolicy" className="text-white font-normal leading-relaxed">
               I have received, read, and understand the NECYPAA Anti-Harassment and Non-Discrimination Policy.{" "}
-              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
@@ -214,7 +214,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             />
             <Label htmlFor="understandQuestions" className="text-white font-normal leading-relaxed">
               I understand that any questions I have regarding this policy can be directed to NECYPAA Advisory members.{" "}
-              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
@@ -229,7 +229,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             <Label htmlFor="acknowledgeBehavior" className="text-white font-normal leading-relaxed">
               I acknowledge that any behavior deemed unsafe or discriminatory by NECYPAA Advisory and/or NECYPAA Host
               may result in my removal from NECYPAA XXXVI and could lead to a ban from future NECYPAA events.{" "}
-              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
@@ -243,7 +243,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             />
             <Label htmlFor="understandAdmission" className="text-white font-normal leading-relaxed">
               I understand that I will not be permitted to enter the NECYPAA convention if I do not check each box on
-              this form. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              this form. <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
@@ -257,7 +257,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             />
             <Label htmlFor="understandReporting" className="text-white font-normal leading-relaxed">
               I understand that I have the right to report any behavior deemed unsafe or discriminatory to NECYPAA
-              Advisory and/or NECYPAA Host. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              Advisory and/or NECYPAA Host. <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
@@ -273,7 +273,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             />
             <Label htmlFor="understandInvestigation" className="text-white font-normal leading-relaxed">
               I understand that any reports I make will be fully investigated by NECYPAA Advisory.{" "}
-              <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
 
@@ -287,7 +287,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             />
             <Label htmlFor="signatureAgreement" className="text-white font-normal leading-relaxed">
               I understand that my checking each box serves as a signature and agreement to abide by the NECYPAA
-              Anti-Harassment and Non-Discrimination policy. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
+              Anti-Harassment and Non-Discrimination policy. <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
           </div>
         </div>

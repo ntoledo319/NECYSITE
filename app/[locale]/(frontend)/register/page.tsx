@@ -65,10 +65,7 @@ export default function RegisterPage() {
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1
-              className="text-3xl md:text-4xl font-black text-white mb-2"
-              style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-            >
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-2 nec-heading-shadow">
               NECYPAA XXXVI Registration
             </h1>
             <p className="text-lg font-bold text-[var(--nec-gold)]">
@@ -83,20 +80,13 @@ export default function RegisterPage() {
                 <li key={step.key} className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${currentStep === step.key ? "nec-step-active" : "nec-step-inactive"}`}
                       aria-hidden="true"
-                      style={{
-                        background: currentStep === step.key ? "var(--nec-pink)" : "rgba(45,31,78,0.8)",
-                        color: currentStep === step.key ? "white" : "var(--nec-muted)",
-                        border: currentStep === step.key ? "1px solid rgba(192,38,211,0.5)" : "1px solid var(--nec-border)",
-                        boxShadow: currentStep === step.key ? "0 0 12px rgba(192,38,211,0.2)" : "none",
-                      }}
                     >
                       {step.number}
                     </div>
                     <span
-                      className="text-sm font-medium"
-                      style={{ color: currentStep === step.key ? "white" : "var(--nec-muted)" }}
+                      className={`text-sm font-medium ${currentStep === step.key ? "text-white" : "text-[var(--nec-muted)]"}`}
                       {...(currentStep === step.key ? { "aria-current": "step" as const } : {})}
                     >
                       {step.label}
@@ -112,14 +102,7 @@ export default function RegisterPage() {
           </nav>
 
           {/* Content */}
-          <div
-            className="rounded-2xl p-6 md:p-8 backdrop-blur-sm overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%)",
-              border: "1px solid var(--nec-border)",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
-            }}
-          >
+          <div className="nec-reg-card p-6 md:p-8 overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={currentStep}
@@ -146,21 +129,11 @@ export default function RegisterPage() {
           </div>
 
           {/* Hotel Booking CTA */}
-          <div
-            className="mt-8 rounded-2xl p-6 text-center backdrop-blur-sm"
-            style={{
-              background: "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 100%)",
-              border: "1px solid rgba(124,58,237,0.18)",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)",
-            }}
-          >
-            <h2
-              className="text-xl font-bold text-white mb-2"
-              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}
-            >
+          <div className="mt-8 nec-reg-accent-purple p-6 text-center">
+            <h2 className="text-xl font-bold text-white mb-2 nec-heading-shadow-sm">
               Need a Place to Stay?
             </h2>
-            <p className="text-sm text-gray-300 mb-4">
+            <p className="text-sm text-[var(--nec-muted)] mb-4">
               Book your room at our host hotel with the special NECYPAA rate!
             </p>
             <a

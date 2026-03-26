@@ -112,7 +112,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="name" className="text-white">
-            Name <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
+            Name <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="name"
@@ -130,7 +130,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             className="text-white"
           />
           {errors.name && (
-            <p id="name-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>
+            <p id="name-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">
               {errors.name}
             </p>
           )}
@@ -138,7 +138,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="state" className="text-white">
-            State <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
+            State <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="state"
@@ -156,7 +156,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             className="text-white"
           />
           {errors.state && (
-            <p id="state-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>
+            <p id="state-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">
               {errors.state}
             </p>
           )}
@@ -164,7 +164,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="email" className="text-white">
-            Email <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
+            Email <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="email"
@@ -182,7 +182,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             className="text-white"
           />
           {errors.email && (
-            <p id="email-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>
+            <p id="email-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">
               {errors.email}
             </p>
           )}
@@ -207,7 +207,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               id="interpretationNeeded"
               checked={formData.interpretationNeeded}
               onCheckedChange={(checked) => setFormData({ ...formData, interpretationNeeded: checked as boolean })}
-              className="border-gray-700"
+              className="border-[var(--nec-border)]"
             />
             <Label htmlFor="interpretationNeeded" className="text-white font-normal">
               Interpretation Needed
@@ -219,7 +219,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               id="mobilityAccessibility"
               checked={formData.mobilityAccessibility}
               onCheckedChange={(checked) => setFormData({ ...formData, mobilityAccessibility: checked as boolean })}
-              className="border-gray-700"
+              className="border-[var(--nec-border)]"
             />
             <Label htmlFor="mobilityAccessibility" className="text-white font-normal">
               Wheelchair / Mobility Access
@@ -231,7 +231,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               id="willingToServe"
               checked={formData.willingToServe}
               onCheckedChange={(checked) => setFormData({ ...formData, willingToServe: checked as boolean })}
-              className="border-gray-700"
+              className="border-[var(--nec-border)]"
             />
             <Label htmlFor="willingToServe" className="text-white font-normal">
               Willing to be of Service
@@ -241,7 +241,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
         <div>
           <Label htmlFor="homegroup" className="text-white">
-            Homegroup/Committee <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
+            Homegroup/Committee <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
             id="homegroup"

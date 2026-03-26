@@ -58,30 +58,30 @@ export default function RegistrationConfirmation({
           <h3 className="text-2xl font-bold text-white mb-2">
             {"You're"} Registered!
           </h3>
-          <p style={{ color: "var(--nec-text, #d1d5db)" }}>
+          <p className="text-[var(--nec-text)]">
             Thank you, {registrationData.name}. Your registration for NECYPAA XXXVI has been confirmed.
           </p>
         </div>
 
-        <div className="rounded-2xl p-5 border border-[var(--nec-border)] text-left max-w-sm mx-auto bg-[rgba(26,16,48,0.6)]">
-          <h4 className="text-sm font-semibold uppercase tracking-wide mb-3" style={{ color: "var(--nec-muted)" }}>
+        <div className="nec-reg-subcard rounded-2xl p-5 text-left max-w-sm mx-auto">
+          <h4 className="text-sm font-semibold uppercase tracking-wide mb-3 text-[var(--nec-muted)]">
             Registration Details
           </h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Name</span>
+              <span className="text-[var(--nec-muted)]">Name</span>
               <span className="text-white">{registrationData.name}</span>
             </div>
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Email</span>
+              <span className="text-[var(--nec-muted)]">Email</span>
               <span className="text-white">{registrationData.email}</span>
             </div>
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>State</span>
+              <span className="text-[var(--nec-muted)]">State</span>
               <span className="text-white">{registrationData.state}</span>
             </div>
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Homegroup</span>
+              <span className="text-[var(--nec-muted)]">Homegroup</span>
               <span className="text-white">{registrationData.homegroup}</span>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function RegistrationConfirmation({
 
         {/* Hotel Booking CTA */}
         <div className="pt-4">
-          <p className="text-sm mb-3" style={{ color: "var(--nec-muted)" }}>
+          <p className="text-sm mb-3 text-[var(--nec-muted)]">
             {"Don't"} forget to book your hotel room!
           </p>
           <a
@@ -125,50 +125,50 @@ export default function RegistrationConfirmation({
         <h3 className="text-xl font-bold text-white mb-1">
           Confirm Your Registration
         </h3>
-        <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
+        <p className="text-sm text-[var(--nec-muted)]">
           Please review your information before submitting.
         </p>
       </div>
 
-      <div className="rounded-2xl p-5 border border-[var(--nec-border)] bg-[rgba(26,16,48,0.6)]">
+      <div className="nec-reg-subcard rounded-2xl p-5">
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span style={{ color: "var(--nec-muted)" }}>Name</span>
+            <span className="text-[var(--nec-muted)]">Name</span>
             <span className="text-white">{registrationData.name}</span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "var(--nec-muted)" }}>Email</span>
+            <span className="text-[var(--nec-muted)]">Email</span>
             <span className="text-white">{registrationData.email}</span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "var(--nec-muted)" }}>State</span>
+            <span className="text-[var(--nec-muted)]">State</span>
             <span className="text-white">{registrationData.state}</span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "var(--nec-muted)" }}>Homegroup / Committee</span>
+            <span className="text-[var(--nec-muted)]">Homegroup / Committee</span>
             <span className="text-white">{registrationData.homegroup}</span>
           </div>
           {registrationData.accommodations && (
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Accommodations</span>
+              <span className="text-[var(--nec-muted)]">Accommodations</span>
               <span className="text-white">{registrationData.accommodations}</span>
             </div>
           )}
           {registrationData.interpretationNeeded && (
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Interpretation</span>
+              <span className="text-[var(--nec-muted)]">Interpretation</span>
               <span className="text-white">Needed</span>
             </div>
           )}
           {registrationData.mobilityAccessibility && (
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Accessibility</span>
+              <span className="text-[var(--nec-muted)]">Accessibility</span>
               <span className="text-white">Needed</span>
             </div>
           )}
           {registrationData.willingToServe && (
             <div className="flex justify-between">
-              <span style={{ color: "var(--nec-muted)" }}>Willing to Serve</span>
+              <span className="text-[var(--nec-muted)]">Willing to Serve</span>
               <span className="text-white">Yes</span>
             </div>
           )}

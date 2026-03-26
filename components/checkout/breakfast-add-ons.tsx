@@ -14,7 +14,7 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
   const weekendProducts = BREAKFAST_PRODUCTS.filter((p) => p.id !== "breakfast-friday")
 
   return (
-    <div className="rounded-2xl p-6 border border-[var(--nec-border)] space-y-4 bg-[rgba(26,16,48,0.6)]">
+    <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
       <h3 className="text-lg font-semibold text-white">New Years Day Breakfast!</h3>
       <p className="text-sm text-[var(--nec-muted)]">
         Keep your mornings simple at the convention hotel. Friday is especially useful since many local restaurants

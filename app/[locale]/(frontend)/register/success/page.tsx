@@ -5,91 +5,81 @@ import { CheckCircle, Hotel, Home, Mail, ArrowRight, UtensilsCrossed } from "luc
 import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"
 import AddToCalendar from "@/components/add-to-calendar"
 import ShareMenu from "@/components/share-menu"
+import { motion, useReducedMotion } from "framer-motion"
+import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0 },
+}
 
 export default function RegistrationSuccessPage() {
+  const shouldReduce = useReducedMotion()
+
   return (
-    <div
-      className="min-h-screen min-h-screen-safe flex flex-col items-center justify-center px-4 py-16"
-      style={{ background: "var(--nec-navy)" }}
-    >
+    <div className="min-h-screen min-h-screen-safe flex flex-col items-center justify-center px-4 py-16 bg-[var(--nec-navy)]">
       {/* Top accent bar */}
       <div
-        className="fixed top-0 left-0 right-0 h-[2px] z-50"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)",
-          boxShadow: "0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15)",
-        }}
+        className="fixed top-0 left-0 right-0 h-[2px] z-50 nec-accent-bar"
+        aria-hidden="true"
+        style={{ background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)" }}
       />
 
-      <div className="w-full max-w-lg space-y-6">
+      <motion.div
+        className="w-full max-w-lg space-y-6"
+        variants={shouldReduce ? undefined : staggerContainer}
+        initial={shouldReduce ? undefined : "hidden"}
+        animate="show"
+      >
         {/* Success card */}
-        <div
-          className="rounded-2xl p-8 md:p-10 text-center space-y-5 backdrop-blur-sm"
-          style={{
-            background: "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(192,38,211,0.05) 100%)",
-            border: "1px solid rgba(124,58,237,0.20)",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)",
-          }}
+        <motion.div
+          className="nec-success-card-purple p-8 md:p-10 text-center space-y-5"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
         >
           {/* Icon */}
           <div className="flex justify-center">
-            <div
-              className="w-20 h-20 rounded-full flex items-center justify-center"
-              style={{
-                background: "rgba(124,58,237,0.10)",
-                border: "2px solid rgba(124,58,237,0.35)",
-                boxShadow: "0 0 24px rgba(124,58,237,0.15), 0 4px 16px rgba(0,0,0,0.3)",
-              }}
-            >
-              <CheckCircle
-                className="w-10 h-10"
-                style={{ color: "var(--nec-cyan)" }}
-                aria-hidden="true"
-              />
+            <div className="w-20 h-20 rounded-full flex items-center justify-center nec-success-icon-purple">
+              <CheckCircle className="w-10 h-10 text-[var(--nec-cyan)]" aria-hidden="true" />
             </div>
           </div>
 
           {/* Heading */}
           <div className="space-y-2">
-            <h1
-              className="text-3xl font-black text-white"
-              style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-            >
+            <h1 className="text-3xl font-black text-white nec-heading-shadow">
               You&apos;re Registered!
             </h1>
-            <p
-              className="text-base font-semibold"
-              style={{ color: "var(--nec-cyan)" }}
-            >
+            <p className="text-base font-semibold text-[var(--nec-cyan)]">
               NECYPAA XXXVI · Hartford, CT
             </p>
-            <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
+            <p className="text-sm text-[var(--nec-muted)]">
               {CONVENTION_DATES} · {CONVENTION_VENUE}
             </p>
           </div>
 
           {/* Confirmation message */}
-          <p className="text-sm leading-relaxed" style={{ color: "var(--nec-text, #d1d5db)" }}>
+          <p className="text-sm leading-relaxed text-[var(--nec-text)]">
             Your registration is confirmed. A receipt was sent to the email you provided. Keep it
             for your records — you&apos;ll need your registration confirmation at check-in.
           </p>
 
-          <hr style={{ borderColor: "var(--nec-border)" }} />
+          <hr className="border-[var(--nec-border)]" />
 
           {/* Next steps */}
           <div className="text-left space-y-3">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--nec-muted)" }}>Next Steps</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--nec-muted)]">Next Steps</p>
 
             <div className="flex items-start gap-3">
-              <div
-                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                style={{ background: "rgba(124,58,237,0.12)", color: "var(--nec-purple)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
-              >
+              <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-purple">
                 1
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Book your hotel room</p>
-                <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
+                <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   Secure your room at the Hartford Marriott Downtown at our special group rate
                   before the block fills up.
                 </p>
@@ -97,73 +87,64 @@ export default function RegistrationSuccessPage() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div
-                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                style={{ background: "rgba(124,58,237,0.12)", color: "var(--nec-purple)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
-              >
+              <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-purple">
                 2
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Save the dates</p>
-                <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
+                <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div
-                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
-                style={{ background: "rgba(124,58,237,0.12)", color: "var(--nec-purple)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
-              >
+              <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-purple">
                 3
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Stay in the loop</p>
-                <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
+                <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   Check back at this site for schedule, speakers, and event updates as we get
                   closer to convention.
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Breakfast cross-sell */}
-        <div
-          className="rounded-2xl p-5 space-y-3 backdrop-blur-sm"
-          style={{
-            background: "linear-gradient(135deg, rgba(234,88,12,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(212,160,23,0.05) 100%)",
-            border: "1px solid rgba(234,88,12,0.20)",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)",
-          }}
+        <motion.div
+          className="nec-reg-accent-orange p-5 space-y-3"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
         >
           <div className="flex items-center gap-3">
-            <div
-              className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ background: "rgba(234,88,12,0.12)", border: "1px solid rgba(234,88,12,0.30)" }}
-            >
-              <UtensilsCrossed className="w-5 h-5" style={{ color: "var(--nec-orange)" }} aria-hidden="true" />
+            <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center nec-step-badge-orange">
+              <UtensilsCrossed className="w-5 h-5 text-[var(--nec-orange)]" aria-hidden="true" />
             </div>
             <div>
               <p className="text-sm font-semibold text-white">Don&apos;t forget breakfast!</p>
-              <p className="text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
+              <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                 Start your New Year right with the NECYPAA XXXVI breakfast event.
               </p>
             </div>
           </div>
           <Link
             href="/breakfast"
-            className="btn-ghost w-full !justify-center !text-sm"
-            style={{ borderColor: "rgba(234,88,12,0.35)", color: "var(--nec-orange)" }}
+            className="btn-ghost w-full !justify-center !text-sm border-[rgba(234,88,12,0.35)] text-[var(--nec-orange)]"
           >
             Get Breakfast Tickets
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </Link>
-        </div>
+        </motion.div>
 
         {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <motion.div
+          className="flex flex-col sm:flex-row gap-3"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+        >
           <a
             href={HOTEL_BOOKING_URL}
             target="_blank"
@@ -174,8 +155,12 @@ export default function RegistrationSuccessPage() {
             Book Hotel Now<span className="sr-only"> (opens in new tab)</span>
           </a>
           <AddToCalendar variant="ghost" className="flex-1 !justify-center" />
-        </div>
-        <div className="flex">
+        </motion.div>
+        <motion.div
+          className="flex"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+        >
           <Link
             href="/"
             className="btn-ghost flex-1 !justify-center"
@@ -183,45 +168,53 @@ export default function RegistrationSuccessPage() {
             <Home className="w-4 h-4" aria-hidden="true" />
             Back to Home
           </Link>
-        </div>
+        </motion.div>
 
         {/* Share */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+        >
           <ShareMenu
             text="I just registered for NECYPAA XXXVI — Escaping the Mad Realm! Hartford, CT · New Year's Eve 2026"
             url="https://www.necypaact.com/register"
             triggerClassName="btn-ghost !text-sm"
             triggerLabel="Tell Your Friends"
           />
-        </div>
+        </motion.div>
 
         {/* Help */}
-        <div
-          className="rounded-xl p-4 text-center space-y-1"
-          style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%)", border: "1px solid var(--nec-border)", boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03)" }}
+        <motion.div
+          className="nec-reg-help-card rounded-xl p-4 text-center space-y-1"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
         >
-          <p className="text-xs" style={{ color: "var(--nec-muted)" }}>Questions or need help with your registration?</p>
+          <p className="text-xs text-[var(--nec-muted)]">Questions or need help with your registration?</p>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75"
-            style={{ color: "var(--nec-cyan)" }}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75 text-[var(--nec-cyan)]"
           >
             <Mail className="w-3.5 h-3.5" aria-hidden="true" />
             {CONTACT_EMAIL}
           </a>
-        </div>
+        </motion.div>
 
         {/* Back link */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          variants={shouldReduce ? undefined : fadeUp}
+          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+        >
           <Link
             href="/register"
-            className="text-xs transition-colors inline-flex items-center gap-1 hover:opacity-80" style={{ color: "var(--nec-muted)" }}
+            className="text-xs transition-colors inline-flex items-center gap-1 hover:opacity-80 text-[var(--nec-muted)]"
           >
             Register another person
             <ArrowRight className="w-3 h-3" aria-hidden="true" />
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   )
 }
