@@ -205,7 +205,7 @@ export default function BreakfastCheckout() {
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <Label htmlFor={fridayProduct.id} className="text-sm text-white font-semibold cursor-pointer">Friday - New Year&apos;s Day</Label>
-                  <span className="text-sm text-white font-semibold">$20</span>
+                  <span className="text-sm text-white font-semibold">$25</span>
                 </div>
                 <p className="text-[var(--nec-gold)] text-xs mt-1">
                   Start your day on-site with fellowship and no restaurant scramble.
@@ -240,7 +240,7 @@ export default function BreakfastCheckout() {
                   <Label htmlFor={bp.id} className="text-sm text-white cursor-pointer">
                     {bp.id === "breakfast-saturday" ? "Saturday Breakfast" : "Sunday Breakfast"}
                   </Label>
-                  <span className="text-sm text-white font-medium">$20</span>
+                  <span className="text-sm text-white font-medium">$25</span>
                 </div>
               </div>
             </button>

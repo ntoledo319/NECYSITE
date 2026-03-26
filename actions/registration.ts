@@ -90,6 +90,8 @@ export async function startRegistrationCheckout(
     scholarship_recipient_email: validatedData.scholarshipRecipientEmail || "None",
     breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ") || "None",
     breakfast_count: selectedBreakfasts.length.toString(),
+    breakfast_price_version: "2026-03-26-$25",
+    breakfast_ticket_price_cents: "2500",
     attribution_aa_entity: validatedAttribution?.aaEntity || "None",
     attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
     accommodations: validatedData.isScholarship ? "Not provided (scholarship purchase)" : validatedData.accommodations || "None",
