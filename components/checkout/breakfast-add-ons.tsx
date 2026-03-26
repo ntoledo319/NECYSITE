@@ -43,7 +43,7 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <Label htmlFor={fridayProduct.id} className="text-sm text-white font-semibold cursor-pointer">Friday - New Year&apos;s Day</Label>
-                <span className="text-sm text-white font-semibold">$20</span>
+                <span className="text-sm text-white font-semibold">$25</span>
               </div>
               <p className="text-[var(--nec-gold)] text-xs mt-1">
                 Strongly recommended: most local restaurants are closed.
@@ -78,7 +78,7 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
                 <Label htmlFor={bp.id} className="text-sm text-white cursor-pointer">
                   {bp.id === "breakfast-saturday" ? "Saturday Breakfast" : "Sunday Breakfast"}
                 </Label>
-                <span className="text-sm text-white font-medium">$20</span>
+                <span className="text-sm text-white font-medium">$25</span>
               </div>
             </div>
           </button>
