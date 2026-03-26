@@ -2,79 +2,57 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import AddToCalendar from "@/components/add-to-calendar"
 import HeroPortalFrame from "@/components/art/hero-portal-frame"
 import { Sparkle, Splatter, Hex } from "@/components/art/graffiti-elements"
 import { VortexSwirl } from "@/components/art/steampunk-elements"
+import {
+  AuroraBackground,
+  FloatingElement,
+  MagneticButton,
+  SPRING_GENTLE,
+  SPRING_WOBBLY,
+  SPRING_SLOW,
+} from "@/components/ui/motion-primitives"
 
 export default function HeroSection() {
+  const shouldReduce = useReducedMotion()
+
   return (
     <section
       aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
       className="relative overflow-hidden pt-2 pb-6 md:pt-4 md:pb-8"
     >
-      {/* ── Ambient vortex glow layer ─────────────── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Central purple vortex glow */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] opacity-[0.18]"
-          style={{
-            background: "radial-gradient(ellipse 70% 60% at 50% 40%, var(--nec-purple) 0%, rgba(192,38,211,0.3) 35%, transparent 70%)",
-            filter: "blur(80px)",
-          }}
-        />
-        {/* Right magenta swirl */}
-        <div
-          className="absolute top-[10%] -right-16 w-[400px] h-[400px] opacity-[0.10]"
-          style={{
-            background: "radial-gradient(circle, var(--nec-pink) 0%, transparent 65%)",
-            filter: "blur(80px)",
-          }}
-        />
-        {/* Left gold/brass glow */}
-        <div
-          className="absolute top-[45%] -left-16 w-[350px] h-[350px] opacity-[0.08]"
-          style={{
-            background: "radial-gradient(circle, var(--nec-gold) 0%, transparent 65%)",
-            filter: "blur(80px)",
-          }}
-        />
-        {/* Bottom teal glow */}
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] opacity-[0.07]"
-          style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 80%, var(--nec-cyan) 0%, transparent 70%)",
-            filter: "blur(60px)",
-          }}
-        />
-      </div>
+      {/* ── Living aurora glow layer (replaces static radial gradients) ── */}
+      <AuroraBackground intensity={1.8} />
 
       {/* ── Portal frame art — the "looking glass" archway ── */}
       <div className="absolute inset-0 flex items-start justify-center pointer-events-none" aria-hidden="true">
         <HeroPortalFrame className="w-full max-w-[500px] md:max-w-[600px] h-auto mt-[-20px] md:mt-[-30px]" />
       </div>
 
-      {/* ── Floating graffiti accents ─────────────── */}
+      {/* ── Floating graffiti accents with spring-physics float ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute top-[8%] left-[5%] md:left-[12%]">
+        <FloatingElement className="absolute top-[8%] left-[5%] md:left-[12%]" yOffset={6} duration={5}>
           <Sparkle color="var(--nec-gold)" size={16} opacity={0.25} />
-        </div>
-        <div className="absolute top-[15%] right-[8%] md:right-[14%]">
+        </FloatingElement>
+        <FloatingElement className="absolute top-[15%] right-[8%] md:right-[14%]" yOffset={8} xOffset={3} duration={6} delay={1}>
           <Sparkle color="var(--nec-cyan)" size={12} opacity={0.2} />
-        </div>
-        <div className="absolute top-[55%] left-[3%] md:left-[10%]">
+        </FloatingElement>
+        <FloatingElement className="absolute top-[55%] left-[3%] md:left-[10%]" yOffset={10} duration={7} delay={2}>
           <Splatter color="var(--nec-pink)" size={40} opacity={0.08} />
-        </div>
-        <div className="absolute top-[65%] right-[4%] md:right-[10%]">
+        </FloatingElement>
+        <FloatingElement className="absolute top-[65%] right-[4%] md:right-[10%]" yOffset={5} xOffset={4} duration={5.5} delay={0.5}>
           <Hex color="var(--nec-purple)" size={28} opacity={0.1} />
-        </div>
-        <div className="absolute bottom-[10%] left-[15%]">
+        </FloatingElement>
+        <FloatingElement className="absolute bottom-[10%] left-[15%]" yOffset={7} duration={4.5} delay={1.5}>
           <Sparkle color="var(--nec-pink)" size={10} opacity={0.18} />
-        </div>
-        <div className="absolute bottom-[15%] right-[18%]">
+        </FloatingElement>
+        <FloatingElement className="absolute bottom-[15%] right-[18%]" yOffset={9} xOffset={2} duration={6.5} delay={3}>
           <Sparkle color="var(--nec-gold)" size={14} opacity={0.22} />
-        </div>
+        </FloatingElement>
         <div className="absolute top-[40%] left-[2%] hidden md:block">
           <VortexSwirl size={80} color="var(--nec-purple)" opacity={0.04} />
         </div>
@@ -83,11 +61,16 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* ── Hero content ──────────────────────────── */}
+      {/* ── Hero content with staggered spring entrance ── */}
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
 
         {/* Theme logo — "Escaping the Mad Realm" calligraphic art (transparent background) */}
-        <div className="relative w-full max-w-[200px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-[340px]">
+        <motion.div
+          className="relative w-full max-w-[200px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-[340px]"
+          initial={shouldReduce ? false : { opacity: 0, scale: 0.85, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={SPRING_SLOW}
+        >
           <div
             className="absolute inset-0 scale-[1.6] opacity-50 hero-glow-breathe"
             aria-hidden="true"
@@ -107,11 +90,14 @@ export default function HeroSection() {
             placeholder="blur"
             blurDataURL="data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoIAAgAAUAmJQBOgB4/gAAAAA=="
           />
-        </div>
+        </motion.div>
 
         {/* Convention title */}
-        <h1
+        <motion.h1
           className="mt-3 md:mt-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-wide gradient-shimmer"
+          initial={shouldReduce ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.15 }}
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             background: "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 35%, var(--nec-gold) 65%, var(--nec-purple) 100%)",
@@ -123,11 +109,14 @@ export default function HeroSection() {
           }}
         >
           NECYPAA XXXVI
-        </h1>
+        </motion.h1>
 
         {/* Location */}
-        <h2
+        <motion.h2
           className="mt-1 md:mt-2 text-base sm:text-lg md:text-xl lg:text-2xl font-black uppercase tracking-wide"
+          initial={shouldReduce ? false : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.25 }}
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             color: "var(--nec-gold)",
@@ -136,10 +125,15 @@ export default function HeroSection() {
           }}
         >
           Hartford, Connecticut
-        </h2>
+        </motion.h2>
 
         {/* Dates + Venue */}
-        <div className="mt-2 md:mt-2 flex flex-col items-center gap-0.5">
+        <motion.div
+          className="mt-2 md:mt-2 flex flex-col items-center gap-0.5"
+          initial={shouldReduce ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_GENTLE, delay: 0.35 }}
+        >
           <p
             className="text-sm sm:text-base md:text-lg font-bold tracking-widest uppercase"
             style={{ color: "var(--nec-cyan)" }}
@@ -149,13 +143,18 @@ export default function HeroSection() {
           <p className="text-xs sm:text-sm text-[var(--nec-muted)] tracking-wide font-medium">
             Hartford Marriott Downtown
           </p>
-        </div>
+        </motion.div>
 
         {/* Price + CTAs combined row */}
-        <div className="mt-4 md:mt-5 flex flex-col items-center gap-4 w-full max-w-lg">
+        <motion.div
+          className="mt-4 md:mt-5 flex flex-col items-center gap-4 w-full max-w-lg"
+          initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...SPRING_WOBBLY, delay: 0.45 }}
+        >
           {/* Price badge — compact, styled with purple/gold */}
           <div
-            className="inline-flex items-center gap-4 px-6 py-3 rounded-2xl backdrop-blur-sm"
+            className="inline-flex items-center gap-4 px-6 py-3 rounded-2xl backdrop-blur-sm hero-price-badge"
             style={{
               background: "linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(192,38,211,0.06) 100%)",
               border: "1px solid rgba(124,58,237,0.30)",
@@ -174,26 +173,30 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* CTA buttons */}
+          {/* CTA buttons with magnetic pull */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
-            <Link
-              href="/register"
-              className="btn-primary text-center justify-center flex-1"
-            >
-              Register — $40
-            </Link>
-            <a
-              href={HOTEL_BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary text-center justify-center flex-1"
-            >
-              Book Hotel<span className="sr-only"> (opens in new tab)</span>
-            </a>
+            <MagneticButton className="flex-1" strength={0.15}>
+              <Link
+                href="/register"
+                className="btn-primary text-center justify-center w-full"
+              >
+                Register — $40
+              </Link>
+            </MagneticButton>
+            <MagneticButton className="flex-1" strength={0.15}>
+              <a
+                href={HOTEL_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary text-center justify-center w-full"
+              >
+                Book Hotel<span className="sr-only"> (opens in new tab)</span>
+              </a>
+            </MagneticButton>
           </div>
 
           <AddToCalendar variant="inline" className="mt-1" />
-        </div>
+        </motion.div>
 
         <p className="sr-only">
           NECYPAA XXXVI — Escaping the Mad Realm. The Northeast Convention of Young People in Alcoholics Anonymous.

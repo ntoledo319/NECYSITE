@@ -15,21 +15,28 @@
 
 ---
 
-## Latest Changes (This Session — 2026-03-23)
+## Latest Changes (This Session — UI Visual Identity Upgrade)
 
-### Enterprise Audit & Professionalization
+### Framer Motion + Aceternity UI Bespoke Motion System
 
-1. **Codebase deslopping** — Removed duplicate `BreakfastAttendee` interface in `actions/breakfast.ts` (now imports from `lib/types.ts`). Added JSDoc to all 4 server action functions, all exported interfaces in `lib/types.ts`, and `calculateProcessingFee()`. Fixed stale "Next.js 14" reference in `CONTRIBUTING.md` (it's Next.js 15).
+1. **Motion primitives library** — Created `components/ui/motion-primitives.tsx` with spring configs (gentle/snappy/slow), stagger variants, and bespoke components: `MotionReveal`, `SpotlightCard` (cursor-following glow), `TiltCard` (3D perspective tilt with glare), `AuroraBackground` (ambient gradient blobs), `FloatingElement` (organic float loops), `MagneticButton` (magnetic pull effect), `GrainOverlay` (film grain texture). All respect `prefers-reduced-motion`.
 
-2. **Language switcher fix** — `components/language-switcher.tsx` now uses next-intl's `useRouter` to actually navigate between `/en/` and `/es/` routes. Previously was a visual-only placeholder with a TODO.
+2. **ScrollReveal upgrade** — Replaced IntersectionObserver-based CSS class toggling with Framer Motion spring-physics animations. Same API, smoother feel.
 
-3. **New unit tests (15 added)** — `lib/__tests__/issuer-client.test.ts` (8 tests: code masking, HTTP error codes, network failures, request verification) and `lib/__tests__/accessibility-context.test.ts` (4 tests: provider defaults, updates, reset, error boundary). Total now 45 tests.
+3. **Hero section elevation** — Added `AuroraBackground` for living ambient glow, `FloatingElement` for animated graffiti accents (sparkles, splatters, hex shapes, vortex swirls), `MagneticButton` for CTA buttons, and spring-physics entrance animations on all content elements.
 
-4. **Testing infrastructure** — Added `@testing-library/react`, `jsdom`, `@testing-library/jest-dom` as dev dependencies. Updated `vitest.config.ts` with `@vitejs/plugin-react` for JSX support and `e2e/` exclusion.
+4. **CTA cards elevation** — Wrapped register and hotel cards with `TiltCard` (4° 3D tilt on hover) and `SpotlightCard` (cursor-following glow, purple for register, gold for hotel). CTA buttons wrapped in `MagneticButton`.
 
-5. **Documentation suite** — Created `README.md` (was missing), `docs/architecture.md`, `docs/onboarding.md`, `docs/testing.md`, `docs/tech-debt-and-gaps.md`.
+5. **Quick facts upgrade** — Staggered spring-physics entrance animation on the 6 fact pills using `staggerContainer`/`staggerChild` variants. Each pill has a `SpotlightCard` with color-matched glow.
 
-6. **Emergency Handoff Protocol** — Created `.handoff/` directory with system architecture, operations, and this active context file. Cross-agent rules and pre-push hook enforcer.
+6. **Navigation glass morphism** — Header now uses `motion.header` for smooth scroll-state transitions (background, border, shadow). Desktop dropdowns use `AnimatePresence` + spring animations. Mobile drawer/backdrop use `AnimatePresence` for smooth mount/unmount. Enhanced `backdropFilter` with `saturate(1.4)`.
+
+7. **Grain overlay** — Global film-grain texture via `GrainOverlayWrapper` in layout, giving the site a lived-in, hand-printed feel. Respects reduce-motion.
+
+8. **Bespoke CSS tokens** — Added to `globals.css`: button hover glow (`::before` pseudo-elements with gradient blur), hero price badge hover states, organic gradient dividers, fact pill interaction enhancement. Full a11y overrides for reduce-motion, high-contrast, and light mode on all new effects.
+
+**Branch:** `ui-upgrade-26`
+**Build status:** Passing (production build green, hooks violation fixed)
 
 ---
 

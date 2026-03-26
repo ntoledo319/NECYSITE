@@ -4,9 +4,11 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { X, Menu, ChevronDown } from "lucide-react"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL } from "@/lib/constants"
 import { useFocusTrap } from "@/lib/use-focus-trap"
+import { SPRING_SNAPPY } from "@/components/ui/motion-primitives"
 
 type NavLink = {
   href: string
@@ -133,14 +135,20 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
           aria-hidden="true"
         />
       </button>
-      <div
-        className={`absolute top-full left-0 -mt-1 pt-3 min-w-[200px] z-50 transition-all duration-150 origin-top
-          ${open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
-      >
-        <div
-          role="menu"
-          className="rounded-xl py-2 nec-dropdown-panel"
-        >
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute top-full left-0 -mt-1 pt-3 min-w-[200px] z-50"
+            initial={{ opacity: 0, y: -4, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.97 }}
+            transition={SPRING_SNAPPY}
+          >
+            <div
+              role="menu"
+              className="rounded-xl py-2 nec-dropdown-panel"
+              style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
+            >
           {item.children.map((child) =>
             child.external ? (
               <a
@@ -174,8 +182,10 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
               </Link>
             )
           )}
-        </div>
-      </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -252,6 +262,7 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const drawerRef = useFocusTrap<HTMLElement>(menuOpen)
   const pathname = usePathname()
+  const shouldReduce = useReducedMotion()
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 12)
@@ -280,19 +291,26 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header
+      <motion.header
         role="banner"
         aria-label="Site header"
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-200 nec-header"
-        style={{
+        className="fixed top-0 left-0 right-0 z-50 nec-header"
+        animate={{
           background: scrolled
             ? "rgba(15,10,30,0.97)"
-            : "rgba(15,10,30,0.85)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          borderBottom: scrolled
-            ? "1px solid rgba(45,31,78,0.8)"
-            : "1px solid transparent",
+            : "rgba(15,10,30,0.80)",
+          borderBottomColor: scrolled
+            ? "rgba(45,31,78,0.8)"
+            : "rgba(45,31,78,0)",
+          boxShadow: scrolled
+            ? "0 4px 32px rgba(0,0,0,0.3), 0 1px 0 rgba(124,58,237,0.08)"
+            : "0 0 0 rgba(0,0,0,0)",
+        }}
+        transition={shouldReduce ? { duration: 0 } : { duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+        style={{
+          backdropFilter: "blur(16px) saturate(1.4)",
+          WebkitBackdropFilter: "blur(16px) saturate(1.4)",
+          borderBottom: "1px solid",
           paddingTop: "env(safe-area-inset-top)",
         }}
       >
@@ -373,28 +391,40 @@ export default function SiteHeader() {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Mobile backdrop */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key */}
-      <div
-        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-200
-          ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-        style={{ background: "rgba(0,0,0,0.6)" }}
-        onClick={close}
-      />
+      <AnimatePresence>
+        {menuOpen && (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key
+          <motion.div
+            className="fixed inset-0 z-40 md:hidden"
+            style={{ background: "rgba(0,0,0,0.6)" }}
+            initial={shouldReduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={close}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Mobile drawer */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- stopPropagation prevents accidental drawer close */}
-      <nav
-        ref={drawerRef}
-        aria-label="Mobile navigation"
-        className={`fixed top-16 left-0 right-0 z-40 md:hidden flex flex-col gap-1 p-4
-          max-h-[calc(100dvh-4rem)] overflow-y-auto nec-mobile-drawer
-          transition-all duration-200
-          ${menuOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <AnimatePresence>
+        {menuOpen && (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- stopPropagation prevents accidental drawer close
+          <motion.nav
+            ref={drawerRef}
+            aria-label="Mobile navigation"
+            className="fixed top-16 left-0 right-0 z-40 md:hidden flex flex-col gap-1 p-4
+              max-h-[calc(100dvh-4rem)] overflow-y-auto nec-mobile-drawer"
+            initial={shouldReduce ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={shouldReduce ? { duration: 0 } : SPRING_SNAPPY}
+            style={{ backdropFilter: "blur(20px) saturate(1.5)", WebkitBackdropFilter: "blur(20px) saturate(1.5)" }}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          >
         {navItems.map((item) =>
           isDropdown(item) ? (
             <MobileDropdown key={item.label} item={item} onClose={close} pathname={pathname} />
@@ -447,7 +477,9 @@ export default function SiteHeader() {
             <span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
-      </nav>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </>
   )
 }

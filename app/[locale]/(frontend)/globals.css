@@ -1345,6 +1345,132 @@
   border-color: #999 !important;
 }
 
+/* ── Framer Motion + Aceternity UI Enhancements ─── */
+
+/* Bespoke button hover glow — organic vortex pulse */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--nec-purple) 0%, var(--nec-pink) 50%, var(--nec-gold) 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  filter: blur(12px);
+}
+.btn-primary:hover::before,
+.btn-primary:focus-visible::before {
+  opacity: 0.35;
+}
+
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+}
+.btn-secondary::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--nec-gold) 0%, #92400e 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  filter: blur(12px);
+}
+.btn-secondary:hover::before,
+.btn-secondary:focus-visible::before {
+  opacity: 0.30;
+}
+
+/* Hero price badge — subtle inner glow pulse */
+.hero-price-badge {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-price-badge:hover {
+  border-color: rgba(124,58,237,0.50);
+  box-shadow: 0 4px 32px rgba(124,58,237,0.15), 0 4px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Section dividers — organic gradient line with steampunk warmth */
+.nec-divider-organic {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb), 0.20) 20%, rgba(var(--nec-pink-rgb), 0.15) 50%, rgba(var(--nec-gold-rgb), 0.20) 80%, transparent 100%);
+}
+
+/* Fact pill spotlight interaction enhancement */
+.fact-pill-interactive {
+  transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.25s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.25s ease;
+}
+.fact-pill-interactive:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* ── Reduce-motion overrides for new transitions ── */
+.a11y-reduce-motion .btn-primary::before,
+.a11y-reduce-motion .btn-secondary::before {
+  transition: none !important;
+}
+.a11y-reduce-motion .hero-price-badge {
+  transition: none !important;
+}
+.a11y-reduce-motion .fact-pill-interactive {
+  transition: none !important;
+  transform: none !important;
+}
+
+/* ── Grain overlay a11y overrides ──────────────── */
+.a11y-reduce-motion #mad-realm-grain { display: none !important; }
+.a11y-high-contrast [filter="url(#mad-realm-grain)"] { display: none !important; }
+[data-color-mode="light"] .fixed[aria-hidden="true"]:has(#mad-realm-grain) { opacity: 0.015 !important; }
+
+/* ── Aurora background a11y overrides ──────────── */
+.a11y-reduce-motion .aurora-blob { animation: none !important; }
+.a11y-high-contrast .aurora-blob { display: none !important; }
+
+/* ── Spotlight card a11y overrides ─────────────── */
+.a11y-reduce-motion .spotlight-glow { display: none !important; }
+.a11y-high-contrast .spotlight-glow { display: none !important; }
+
+/* ── Tilt card a11y overrides ──────────────────── */
+.a11y-reduce-motion [style*="perspective"] { transform: none !important; }
+
+/* ── Light mode overrides for new components ───── */
+[data-color-mode="light"] .hero-price-badge {
+  background: linear-gradient(135deg, rgba(109,40,217,0.08) 0%, rgba(192,38,211,0.04) 100%) !important;
+  border-color: rgba(109,40,217,0.25) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+[data-color-mode="light"] .hero-price-badge:hover {
+  border-color: rgba(109,40,217,0.40) !important;
+  box-shadow: 0 4px 24px rgba(109,40,217,0.12), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+}
+[data-color-mode="light"] .btn-primary::before {
+  background: linear-gradient(135deg, #6d28d9 0%, #9333ea 50%, #d4a017 100%);
+}
+[data-color-mode="light"] .btn-secondary::before {
+  background: linear-gradient(135deg, #d4a017 0%, #92400e 100%);
+}
+[data-color-mode="light"] .nec-divider-organic {
+  background: linear-gradient(90deg, transparent 0%, rgba(109,40,217,0.15) 20%, rgba(192,38,211,0.10) 50%, rgba(109,40,217,0.15) 80%, transparent 100%);
+}
+
+/* ── High contrast overrides for new components ── */
+.a11y-high-contrast .hero-price-badge {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .btn-primary::before,
+.a11y-high-contrast .btn-secondary::before {
+  display: none !important;
+}
+
 /* ── Print Stylesheet ────────────────────────── */
 @media print {
   /* White background, dark text */

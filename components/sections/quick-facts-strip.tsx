@@ -1,7 +1,9 @@
 "use client"
 
 import Link from "next/link"
+import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
+import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 const facts = [
   {
@@ -10,6 +12,7 @@ const facts = [
     value: "Dec 31 – Jan 3",
     sub: "New Year's Eve 2026",
     color: "var(--nec-gold)",
+    spotlightColor: "rgba(212,160,23,0.10)",
   },
   {
     icon: "📍",
@@ -17,6 +20,7 @@ const facts = [
     value: "Hartford, CT",
     sub: "Hartford Marriott Downtown",
     color: "var(--nec-cyan)",
+    spotlightColor: "rgba(20,184,166,0.10)",
   },
   {
     icon: "🎟️",
@@ -26,6 +30,7 @@ const facts = [
     color: "var(--nec-pink)",
     href: "/register",
     external: false,
+    spotlightColor: "rgba(192,38,211,0.10)",
   },
   {
     icon: "🏨",
@@ -35,6 +40,7 @@ const facts = [
     color: "var(--nec-cyan)",
     href: HOTEL_BOOKING_URL,
     external: true,
+    spotlightColor: "rgba(20,184,166,0.10)",
   },
   {
     icon: "🎉",
@@ -42,6 +48,7 @@ const facts = [
     value: "4-Day YPAA",
     sub: "Young & young at heart",
     color: "var(--nec-orange)",
+    spotlightColor: "rgba(234,88,12,0.10)",
   },
   {
     icon: "🤝",
@@ -51,64 +58,83 @@ const facts = [
     color: "var(--nec-purple)",
     href: "/service",
     external: false,
+    spotlightColor: "rgba(124,58,237,0.10)",
   },
 ]
 
 export default function QuickFactsStrip() {
+  const shouldReduce = useReducedMotion()
+
   return (
     <section aria-label="Quick facts" className="px-4 md:px-0">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+      <motion.div
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+        variants={shouldReduce ? undefined : staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+      >
         {facts.map((fact) => {
           const inner = (
-            <div
-              key={fact.label}
-              className="fact-pill group fact-pill-interactive transition-all duration-200 hover:scale-[1.02] hover:-translate-y-0.5"
-              style={{
-                cursor: fact.href ? "pointer" : undefined,
-              }}
+            <SpotlightCard
+              className="fact-pill group fact-pill-interactive rounded-xl"
+              spotlightColor={fact.spotlightColor}
+              spotlightSize={200}
             >
-              <span className="text-2xl" aria-hidden="true">{fact.icon}</span>
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                style={{ color: "var(--nec-muted)" }}
+              <div
+                className="flex flex-col items-center gap-1 p-4 text-center"
+                style={{ cursor: fact.href ? "pointer" : undefined }}
               >
-                {fact.label}
-              </span>
-              <span
-                className="text-sm font-black leading-tight"
-                style={{ color: fact.color, textShadow: `0 0 12px ${fact.color}30` }}
-              >
-                {fact.value}
-              </span>
-              <span className="text-xs text-[var(--nec-muted)] leading-tight">{fact.sub}</span>
-            </div>
+                <span className="text-2xl" aria-hidden="true">{fact.icon}</span>
+                <span
+                  className="text-xs font-bold uppercase tracking-widest"
+                  style={{ color: "var(--nec-muted)" }}
+                >
+                  {fact.label}
+                </span>
+                <span
+                  className="text-sm font-black leading-tight"
+                  style={{ color: fact.color, textShadow: `0 0 12px ${fact.color}30` }}
+                >
+                  {fact.value}
+                </span>
+                <span className="text-xs text-[var(--nec-muted)] leading-tight">{fact.sub}</span>
+              </div>
+            </SpotlightCard>
           )
 
           if (fact.href) {
             if (fact.external) {
               return (
-                <a
+                <motion.a
                   key={fact.label}
                   href={fact.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="no-underline"
+                  variants={shouldReduce ? undefined : staggerChild}
                 >
                   {inner}
                   <span className="sr-only"> (opens in new tab)</span>
-                </a>
+                </motion.a>
               )
             }
             return (
-              <Link key={fact.label} href={fact.href} className="no-underline">
-                {inner}
-              </Link>
+              <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
+                <Link href={fact.href} className="no-underline block">
+                  {inner}
+                </Link>
+              </motion.div>
             )
           }
 
-          return <div key={fact.label}>{inner}</div>
+          return (
+            <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
+              {inner}
+            </motion.div>
+          )
         })}
-      </div>
+      </motion.div>
     </section>
   )
 }

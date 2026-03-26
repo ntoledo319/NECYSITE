@@ -1,7 +1,8 @@
 "use client"
 
-import { useScrollReveal } from "@/lib/use-scroll-reveal"
+import { motion, useReducedMotion } from "framer-motion"
 import type { ReactNode } from "react"
+import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 interface ScrollRevealProps {
   children: ReactNode
@@ -10,17 +11,25 @@ interface ScrollRevealProps {
   as?: "div" | "section"
 }
 
+const delayMap = { 0: 0, 1: 0.1, 2: 0.2, 3: 0.3 }
+
 export default function ScrollReveal({
   children,
   className = "",
   delay = 0,
-  as: Tag = "div",
+  as = "div",
 }: ScrollRevealProps) {
-  const ref = useScrollReveal<HTMLDivElement>()
-  const delayClass = delay > 0 ? `reveal-delay-${delay}` : ""
+  const shouldReduce = useReducedMotion()
+  const Tag = motion[as]
 
   return (
-    <Tag ref={ref} className={`reveal ${delayClass} ${className}`}>
+    <Tag
+      className={className}
+      initial={shouldReduce ? false : { opacity: 0, y: 28, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ ...SPRING_GENTLE, delay: delayMap[delay] }}
+    >
       {children}
     </Tag>
   )
