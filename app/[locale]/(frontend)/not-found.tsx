@@ -15,7 +15,7 @@ export default function NotFound() {
     >
       {/* Ambient glow */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.08]"
+        className="nec-glow-blob absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.08]"
         aria-hidden="true"
         style={{
           background: "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
@@ -49,17 +49,11 @@ export default function NotFound() {
           404
         </span>
 
-        <h1
-          className="text-3xl md:text-4xl font-black text-white mb-3"
-          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-        >
+        <h1 className="text-3xl md:text-4xl font-black text-white mb-3 nec-heading-shadow">
           Lost in the Mad Realm
         </h1>
 
-        <p
-          className="text-base md:text-lg leading-relaxed mb-8"
-          style={{ color: "var(--nec-muted)" }}
-        >
+        <p className="text-base md:text-lg leading-relaxed mb-8 text-[var(--nec-muted)]">
           This page doesn&apos;t exist — or perhaps the Cheshire Cat hid it.
           Either way, let&apos;s get you back to familiar ground.
         </p>
@@ -67,13 +61,7 @@ export default function NotFound() {
         <MagneticButton strength={0.25}>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-bold text-sm rounded-xl px-6 py-3 transition-colors"
-            style={{
-              background: "rgba(124,58,237,0.15)",
-              border: "1px solid rgba(124,58,237,0.35)",
-              color: "white",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3), 0 0 12px rgba(124,58,237,0.15)",
-            }}
+            className="nec-cta-accent inline-flex items-center gap-2 font-bold text-sm rounded-xl px-6 py-3 transition-colors text-white"
           >
             Back to the Portal
           </Link>

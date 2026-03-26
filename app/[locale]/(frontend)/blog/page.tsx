@@ -26,10 +26,7 @@ export default function BlogPage() {
             <span className="section-badge mb-4 inline-block">NECYBLOG</span>
             <h1 className="section-heading mb-2">
               NECYBLOG{" "}
-              <span
-                className="block text-lg sm:text-xl font-bold mt-1"
-                style={{ color: "var(--nec-pink)" }}
-              >
+              <span className="block text-lg sm:text-xl font-bold mt-1 text-[var(--nec-pink)]">
                 aka BLOGYPAA
               </span>
             </h1>
@@ -46,10 +43,7 @@ export default function BlogPage() {
               }}
             />
 
-            <div
-              className="space-y-4 text-base sm:text-lg leading-relaxed"
-              style={{ color: "var(--nec-muted)" }}
-            >
+            <div className="space-y-4 text-base sm:text-lg leading-relaxed text-[var(--nec-muted)]">
               <p>
                 It is our hope for this to be a place where everyone involved in
                 the creation of this convention gets a few opportunities to

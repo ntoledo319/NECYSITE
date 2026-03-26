@@ -31,7 +31,7 @@ export default function JourneyPage() {
               </div>
               <span className="section-badge mb-4 inline-block">Archive</span>
               <h1 className="section-heading mb-3">The Journey Comes First</h1>
-              <p className="text-lg max-w-2xl mx-auto" style={{ color: "var(--nec-muted)" }}>
+              <p className="text-lg max-w-2xl mx-auto text-[var(--nec-muted)]">
                 A look back at the events, fundraisers, and fellowship that brought us to Hartford. The
                 journey is the point.
               </p>
@@ -49,18 +49,18 @@ export default function JourneyPage() {
                     <div className="flex-1 space-y-3">
                       <h2 className="text-xl md:text-2xl font-bold text-white">{event.title}</h2>
 
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm" style={{ color: "var(--nec-muted)" }}>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-[var(--nec-muted)]">
                         <span className="inline-flex items-center gap-1.5">
-                          <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
+                          <Calendar className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]" aria-hidden="true" />
                           {event.date}
                         </span>
                         <span className="inline-flex items-center gap-1.5">
-                          <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} aria-hidden="true" />
+                          <MapPin className="w-4 h-4 flex-shrink-0 text-[var(--nec-pink)]" aria-hidden="true" />
                           {event.location}
                         </span>
                       </div>
 
-                      <p className="text-sm leading-relaxed" style={{ color: "var(--nec-text)" }}>
+                      <p className="text-sm leading-relaxed text-[var(--nec-text)]">
                         {event.description}
                       </p>
 
@@ -70,12 +70,7 @@ export default function JourneyPage() {
                           {event.schedule.map((s) => (
                             <span
                               key={s.label}
-                              className="text-xs px-2.5 py-1 rounded-lg font-medium"
-                              style={{
-                                background: "rgba(124,58,237,0.08)",
-                                border: "1px solid rgba(124,58,237,0.2)",
-                                color: "var(--nec-cyan)",
-                              }}
+                              className="nec-pill-subtle text-xs px-2.5 py-1 rounded-lg font-medium text-[var(--nec-cyan)]"
                             >
                               {s.label}: {s.time}
                             </span>
@@ -89,12 +84,7 @@ export default function JourneyPage() {
                           {event.details.map((d) => (
                             <span
                               key={d.label}
-                              className="text-xs px-2.5 py-1 rounded-lg font-medium"
-                              style={{
-                                background: "rgba(192,38,211,0.06)",
-                                border: "1px solid rgba(192,38,211,0.15)",
-                                color: "var(--nec-muted)",
-                              }}
+                              className="nec-pill-pink text-xs px-2.5 py-1 rounded-lg font-medium text-[var(--nec-muted)]"
                             >
                               {d.label}: {d.value}
                             </span>
@@ -109,7 +99,7 @@ export default function JourneyPage() {
 
             {/* Bottom note */}
             <div className="mt-12 text-center">
-              <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
+              <p className="text-sm text-[var(--nec-muted)]">
                 More events to come. The journey continues.
               </p>
             </div>

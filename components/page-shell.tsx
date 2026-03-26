@@ -129,8 +129,8 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     {/* Steampunk gear SVGs */}
                     <div className="absolute top-6 left-6 opacity-[0.06] pointer-events-none" aria-hidden="true">
                       <svg width="60" height="60" viewBox="0 0 100 100" fill="none">
-                        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="6" className="text-purple-400" />
-                        <circle cx="50" cy="50" r="18" stroke="currentColor" strokeWidth="4" className="text-purple-400" />
+                        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="6" className="text-[var(--nec-purple)]" />
+                        <circle cx="50" cy="50" r="18" stroke="currentColor" strokeWidth="4" className="text-[var(--nec-purple)]" />
                         {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
                           <rect
                             key={angle}
@@ -140,7 +140,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                             height="16"
                             rx="2"
                             fill="currentColor"
-                            className="text-purple-400"
+                            className="text-[var(--nec-purple)]"
                             transform={`rotate(${angle} 50 50)`}
                           />
                         ))}
@@ -148,8 +148,8 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     </div>
                     <div className="absolute bottom-8 right-8 opacity-[0.05] pointer-events-none" aria-hidden="true">
                       <svg width="45" height="45" viewBox="0 0 100 100" fill="none">
-                        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="6" className="text-pink-400" />
-                        <circle cx="50" cy="50" r="18" stroke="currentColor" strokeWidth="4" className="text-pink-400" />
+                        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="6" className="text-[var(--nec-pink)]" />
+                        <circle cx="50" cy="50" r="18" stroke="currentColor" strokeWidth="4" className="text-[var(--nec-pink)]" />
                         {[0, 60, 120, 180, 240, 300].map((angle) => (
                           <rect
                             key={angle}
@@ -159,7 +159,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                             height="16"
                             rx="2"
                             fill="currentColor"
-                            className="text-pink-400"
+                            className="text-[var(--nec-pink)]"
                             transform={`rotate(${angle} 50 50)`}
                           />
                         ))}
@@ -169,7 +169,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     <h2 className="text-xl font-bold text-white mb-3">
                       Still Escaping the Mad Realm&hellip;
                     </h2>
-                    <p className="text-sm max-w-md mx-auto mb-6" style={{ color: "var(--nec-muted)" }}>
+                    <p className="text-sm max-w-md mx-auto mb-6 text-[var(--nec-muted)]">
                       This page is under construction. We&apos;re building something
                       special for NECYPAA XXXVI — check back soon.
                     </p>

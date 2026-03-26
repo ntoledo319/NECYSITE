@@ -1741,6 +1741,167 @@
   box-shadow: none !important;
 }
 
+/* ══════════════════════════════════════════════
+   SITE-WIDE — Surface Utility Classes
+   ══════════════════════════════════════════════ */
+
+/* ── Featured / highlighted card (events, service MAL) ── */
+.nec-featured-card {
+  background: linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.9) 50%, rgba(26,16,48,0.85) 100%);
+  border: 1px solid rgba(124,58,237,0.15);
+}
+
+/* ── Icon badge (small icon container) ── */
+.nec-icon-badge {
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.25);
+}
+.nec-icon-badge-pink {
+  background: rgba(192,38,211,0.12);
+  border: 1px solid rgba(192,38,211,0.25);
+}
+.nec-icon-badge-gold {
+  background: rgba(234,179,8,0.12);
+  border: 1px solid rgba(234,179,8,0.25);
+}
+
+/* ── Schedule / info pill ── */
+.nec-pill {
+  background: rgba(124,58,237,0.10);
+  border: 1px solid rgba(124,58,237,0.25);
+}
+.nec-pill-subtle {
+  background: rgba(124,58,237,0.06);
+  border: 1px solid rgba(124,58,237,0.12);
+}
+.nec-pill-pink {
+  background: rgba(192,38,211,0.06);
+  border: 1px solid rgba(192,38,211,0.15);
+}
+
+/* ── Ghost CTA with accent glow ── */
+.nec-cta-accent {
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.30);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* ── Gradient card (accommodation, callout) ── */
+.nec-gradient-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 100%);
+  border: 1px solid rgba(124,58,237,0.18);
+}
+
+/* ── Muted statement card ── */
+.nec-statement-card {
+  background: rgba(26,16,48,0.4);
+  border: 1px solid var(--nec-border);
+}
+
+/* ── Error page icon ring ── */
+.nec-error-icon {
+  background: rgba(124,58,237,0.15);
+  border: 2px solid rgba(124,58,237,0.4);
+}
+
+/* ── Section label glow ── */
+.nec-section-label {
+  text-shadow: 0 0 16px rgba(124,58,237,0.2);
+}
+
+/* ── Decorative glow blobs (for light mode suppression) ── */
+.nec-glow-blob {
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════
+   SITE-WIDE — Light Mode Overrides
+   ══════════════════════════════════════════════ */
+[data-color-mode="light"] .nec-featured-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,245,255,0.98) 50%, rgba(255,255,255,0.95) 100%) !important;
+  border-color: rgba(124,58,237,0.2) !important;
+}
+[data-color-mode="light"] .nec-icon-badge {
+  background: rgba(124,58,237,0.08) !important;
+  border-color: rgba(124,58,237,0.18) !important;
+}
+[data-color-mode="light"] .nec-icon-badge-pink {
+  background: rgba(192,38,211,0.08) !important;
+  border-color: rgba(192,38,211,0.18) !important;
+}
+[data-color-mode="light"] .nec-icon-badge-gold {
+  background: rgba(234,179,8,0.08) !important;
+  border-color: rgba(234,179,8,0.18) !important;
+}
+[data-color-mode="light"] .nec-pill,
+[data-color-mode="light"] .nec-pill-subtle {
+  background: rgba(124,58,237,0.06) !important;
+  border-color: rgba(124,58,237,0.15) !important;
+}
+[data-color-mode="light"] .nec-pill-pink {
+  background: rgba(192,38,211,0.04) !important;
+  border-color: rgba(192,38,211,0.10) !important;
+}
+[data-color-mode="light"] .nec-cta-accent {
+  background: rgba(124,58,237,0.08) !important;
+  border-color: rgba(124,58,237,0.22) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+[data-color-mode="light"] .nec-gradient-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(248,245,255,0.95) 100%) !important;
+  border-color: rgba(124,58,237,0.15) !important;
+}
+[data-color-mode="light"] .nec-statement-card {
+  background: rgba(248,245,255,0.8) !important;
+  border-color: var(--nec-border) !important;
+}
+[data-color-mode="light"] .nec-error-icon {
+  background: rgba(124,58,237,0.08) !important;
+  border-color: rgba(124,58,237,0.25) !important;
+}
+[data-color-mode="light"] .nec-section-label {
+  text-shadow: none !important;
+}
+[data-color-mode="light"] .nec-glow-blob {
+  opacity: 0.03 !important;
+}
+
+/* ══════════════════════════════════════════════
+   SITE-WIDE — High Contrast Overrides
+   ══════════════════════════════════════════════ */
+.a11y-high-contrast .nec-featured-card,
+.a11y-high-contrast .nec-gradient-card,
+.a11y-high-contrast .nec-statement-card {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-icon-badge,
+.a11y-high-contrast .nec-icon-badge-pink,
+.a11y-high-contrast .nec-icon-badge-gold {
+  border-width: 2px !important;
+  border-color: #777 !important;
+}
+.a11y-high-contrast .nec-pill,
+.a11y-high-contrast .nec-pill-subtle,
+.a11y-high-contrast .nec-pill-pink {
+  border-width: 2px !important;
+  border-color: #777 !important;
+}
+.a11y-high-contrast .nec-cta-accent {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-error-icon {
+  border-width: 3px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-section-label {
+  text-shadow: none !important;
+}
+.a11y-high-contrast .nec-glow-blob {
+  display: none !important;
+}
+
 /* ── Print Stylesheet ────────────────────────── */
 @media print {
   /* White background, dark text */

@@ -51,10 +51,7 @@ export default function EventsPage() {
             </div>
             <span className="section-badge mb-4 inline-block">Events</span>
             <h1 className="section-heading mb-3">The Road to Hartford</h1>
-            <p
-              className="text-lg max-w-2xl mx-auto"
-              style={{ color: "var(--nec-muted)" }}
-            >
+            <p className="text-lg max-w-2xl mx-auto text-[var(--nec-muted)]">
               Fundraisers, fellowship events, and good times. Every event
               brings us one step closer to NECYPAA XXXVI.
             </p>
@@ -70,13 +67,7 @@ export default function EventsPage() {
 
           {/* ── Upcoming Event ─────────────────────────────────────── */}
           <section aria-label="Upcoming event" className="max-w-4xl mx-auto mb-16">
-            <h2
-              className="text-xs font-bold uppercase tracking-widest mb-5 pl-1"
-              style={{
-                color: "var(--nec-pink)",
-                textShadow: "0 0 16px rgba(192,38,211,0.2)",
-              }}
-            >
+            <h2 className="text-xs font-bold uppercase tracking-widest mb-5 pl-1 text-[var(--nec-pink)] nec-section-label">
               Coming Up Next
             </h2>
 
@@ -89,7 +80,7 @@ export default function EventsPage() {
             >
               {/* Glow effects */}
               <div
-                className="pointer-events-none absolute -top-12 -left-12 w-64 h-64 z-0"
+                className="nec-glow-blob absolute -top-12 -left-12 w-64 h-64 z-0"
                 aria-hidden="true"
                 style={{
                   background:
@@ -97,7 +88,7 @@ export default function EventsPage() {
                 }}
               />
               <div
-                className="pointer-events-none absolute -bottom-12 -right-12 w-64 h-64 z-0"
+                className="nec-glow-blob absolute -bottom-12 -right-12 w-64 h-64 z-0"
                 aria-hidden="true"
                 style={{
                   background:
@@ -113,14 +104,7 @@ export default function EventsPage() {
                 }}
               />
 
-              <div
-                className="relative z-10 p-6 md:p-8"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.9) 50%, rgba(26,16,48,0.85) 100%)",
-                  border: "1px solid rgba(124,58,237,0.15)",
-                }}
-              >
+              <div className="nec-featured-card relative z-10 p-6 md:p-8">
                 <div className="flex flex-col lg:flex-row gap-8 items-start">
                   {/* Flyer */}
                   <div className="w-full lg:w-[340px] flex-shrink-0 relative">
@@ -153,38 +137,31 @@ export default function EventsPage() {
                   <div className="flex-1 space-y-4 min-w-0">
                     <div className="flex items-center gap-2">
                       <IceCream
-                        className="w-5 h-5 flex-shrink-0"
-                        style={{ color: "var(--nec-pink)" }}
+                        className="w-5 h-5 flex-shrink-0 text-[var(--nec-pink)]"
                         aria-hidden="true"
                       />
-                      <span
-                        className="text-xs font-bold uppercase tracking-widest"
-                        style={{ color: "var(--nec-pink)" }}
-                      >
+                      <span className="text-xs font-bold uppercase tracking-widest text-[var(--nec-pink)]">
                         Ice Cream Social / Speed Fellowship
                       </span>
                     </div>
 
                     <h3
-                      className="text-2xl md:text-3xl font-black text-white"
-                      style={{ textShadow: "0 2px 12px rgba(0,0,0,0.3)" }}
+                      className="text-2xl md:text-3xl font-black text-white nec-heading-shadow"
                     >
                       {upcomingEvent.title}
                     </h3>
 
                     <div className="flex flex-col sm:flex-row gap-3 text-sm">
-                      <span className="inline-flex items-center gap-2 text-gray-300">
+                      <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
                         <Calendar
-                          className="w-4 h-4 flex-shrink-0"
-                          style={{ color: "var(--nec-cyan)" }}
+                          className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]"
                           aria-hidden="true"
                         />
                         {upcomingEvent.date}
                       </span>
-                      <span className="inline-flex items-center gap-2 text-gray-300">
+                      <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
                         <MapPin
-                          className="w-4 h-4 flex-shrink-0"
-                          style={{ color: "var(--nec-gold)" }}
+                          className="w-4 h-4 flex-shrink-0 text-[var(--nec-gold)]"
                           aria-hidden="true"
                         />
                         {upcomingEvent.location}
@@ -196,12 +173,7 @@ export default function EventsPage() {
                         {upcomingEvent.schedule.map((s) => (
                           <span
                             key={s.label}
-                            className="text-xs px-3 py-1.5 rounded-lg font-semibold"
-                            style={{
-                              background: "rgba(124,58,237,0.10)",
-                              border: "1px solid rgba(124,58,237,0.25)",
-                              color: "var(--nec-cyan)",
-                            }}
+                            className="nec-pill text-xs px-3 py-1.5 rounded-lg font-semibold text-[var(--nec-cyan)]"
                           >
                             {s.time} — {s.label}
                           </span>
@@ -212,8 +184,8 @@ export default function EventsPage() {
                     {upcomingEvent.details.length > 0 && (
                       <div className="space-y-1.5">
                         {upcomingEvent.details.map((d) => (
-                          <p key={d.label} className="text-sm text-gray-300">
-                            <span className="font-semibold text-gray-300">
+                          <p key={d.label} className="text-sm text-[var(--nec-text)]">
+                            <span className="font-semibold text-[var(--nec-text)]">
                               {d.label}:{" "}
                             </span>
                             {d.value}
@@ -222,21 +194,11 @@ export default function EventsPage() {
                       </div>
                     )}
 
-                    <p
-                      className="text-sm leading-relaxed italic"
-                      style={{ color: "var(--nec-muted)" }}
-                    >
+                    <p className="text-sm leading-relaxed italic text-[var(--nec-muted)]">
                       {upcomingEvent.description}
                     </p>
 
-                    <div
-                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg"
-                      style={{
-                        background: "rgba(124,58,237,0.10)",
-                        border: "1px solid rgba(124,58,237,0.20)",
-                        color: "var(--nec-purple)",
-                      }}
-                    >
+                    <div className="nec-pill inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg text-[var(--nec-purple)]">
                       <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
                       See you there!
                     </div>
@@ -248,13 +210,7 @@ export default function EventsPage() {
 
           {/* ── Past Events ────────────────────────────────────────── */}
           <section aria-label="Past events archive" className="max-w-4xl mx-auto">
-            <h2
-              className="text-xs font-bold uppercase tracking-widest mb-5 pl-1"
-              style={{
-                color: "var(--nec-cyan)",
-                textShadow: "0 0 16px rgba(124,58,237,0.2)",
-              }}
-            >
+            <h2 className="text-xs font-bold uppercase tracking-widest mb-5 pl-1 text-[var(--nec-cyan)] nec-section-label">
               Past Events
             </h2>
 
@@ -272,29 +228,23 @@ export default function EventsPage() {
                     {/* Info */}
                     <div className="flex-1 space-y-3 min-w-0">
                       <h3
-                        className="text-xl font-bold"
-                        style={{
-                          color: "var(--nec-purple)",
-                          textShadow: "0 0 12px rgba(124,58,237,0.2)",
-                        }}
+                        className="text-xl font-bold text-[var(--nec-purple)] nec-section-label"
                       >
                         {event.title}
                       </h3>
 
                       <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-                        <span className="inline-flex items-center gap-2 text-gray-300">
+                        <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
                           <Calendar
-                            className="w-4 h-4 flex-shrink-0"
-                            style={{ color: "var(--nec-cyan)" }}
+                            className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]"
                             aria-hidden="true"
                           />
                           {event.date}
                         </span>
                         {event.location && (
-                          <span className="inline-flex items-center gap-2 text-gray-300">
+                          <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
                             <MapPin
-                              className="w-4 h-4 flex-shrink-0"
-                              style={{ color: "var(--nec-gold)" }}
+                              className="w-4 h-4 flex-shrink-0 text-[var(--nec-gold)]"
                               aria-hidden="true"
                             />
                             {event.location}
@@ -304,16 +254,16 @@ export default function EventsPage() {
 
                       {event.schedule.length > 0 && (
                         <div>
-                          <p className="text-xs font-bold uppercase tracking-widest text-gray-300 mb-1">
+                          <p className="text-xs font-bold uppercase tracking-widest text-[var(--nec-text)] mb-1">
                             Schedule
                           </p>
                           <ul className="space-y-0.5">
                             {event.schedule.map((s) => (
                               <li
                                 key={s.label}
-                                className="text-sm text-gray-300"
+                                className="text-sm text-[var(--nec-text)]"
                               >
-                                <span className="font-semibold text-gray-300">
+                                <span className="font-semibold text-[var(--nec-text)]">
                                   {s.time}
                                 </span>
                                 {" — "}
@@ -329,9 +279,9 @@ export default function EventsPage() {
                           {event.details.map((d) => (
                             <span
                               key={d.label}
-                              className="text-sm text-gray-300"
+                              className="text-sm text-[var(--nec-text)]"
                             >
-                              <span className="font-semibold text-gray-300">
+                              <span className="font-semibold text-[var(--nec-text)]">
                                 {d.label}:{" "}
                               </span>
                               {d.value}
@@ -341,7 +291,7 @@ export default function EventsPage() {
                       )}
 
                       {event.description && (
-                        <p className="text-sm text-gray-300 italic leading-relaxed">
+                        <p className="text-sm text-[var(--nec-text)] italic leading-relaxed">
                           {event.description}
                         </p>
                       )}
@@ -367,10 +317,7 @@ export default function EventsPage() {
             </div>
 
             {/* Archive note */}
-            <p
-              className="text-center text-sm mt-10 italic"
-              style={{ color: "var(--nec-muted)" }}
-            >
+            <p className="text-center text-sm mt-10 italic text-[var(--nec-muted)]">
               Thanks to everyone who showed up and made these events happen.
               The road to Hartford is paved with fellowship.
             </p>

@@ -21,22 +21,15 @@ export default function Error({
     >
       <div className="max-w-md w-full text-center space-y-6">
         <div
-          className="w-16 h-16 mx-auto rounded-full flex items-center justify-center"
-          style={{
-            background: "rgba(124,58,237,0.15)",
-            border: "2px solid rgba(124,58,237,0.4)",
-          }}
+          className="nec-error-icon w-16 h-16 mx-auto rounded-full flex items-center justify-center"
           aria-hidden="true"
         >
           <span className="text-2xl">⚙</span>
         </div>
-        <h1
-          className="text-2xl font-black"
-          style={{ color: "var(--nec-text)" }}
-        >
+        <h1 className="text-2xl font-black text-[var(--nec-text)]">
           Something went wrong
         </h1>
-        <p style={{ color: "var(--nec-muted)" }}>
+        <p className="text-[var(--nec-muted)]">
           We hit an unexpected snag. You can try again, or head back to the
           homepage.
         </p>
@@ -52,10 +45,7 @@ export default function Error({
           </Link>
         </div>
         {error.digest && (
-          <p
-            className="text-xs"
-            style={{ color: "var(--nec-muted)" }}
-          >
+          <p className="text-xs text-[var(--nec-muted)]">
             Error reference: {error.digest}
           </p>
         )}

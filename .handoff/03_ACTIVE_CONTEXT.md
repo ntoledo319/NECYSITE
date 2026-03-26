@@ -15,46 +15,44 @@
 
 ---
 
-## Latest Changes (This Session — Registration Flow Visual Fix)
+## Latest Changes (This Session — System-Wide UI Pass)
 
-### Registration Pages: Inline Style Purge + Design Token Refactor (Complete)
+### Site-Wide Inline Style Purge + Design Token Unification (Complete)
 
-Root cause: commit `22a4200` (comprehensive UX/UI overhaul) introduced inline `style` attributes across all registration pages, bypassing the CSS theming system. These broke light mode, high contrast, and reduce-motion accessibility overrides.
+Comprehensive audit and fix of all hardcoded Tailwind colors (`text-gray-*`, `text-purple-400`, `text-pink-400`), inline `style={{ color }}` attributes, and inline `rgba()` backgrounds across every frontend page and component. All replaced with CSS utility classes using design tokens, with full light mode and high-contrast overrides.
 
 **What was fixed:**
 
-1. **globals.css** — Added ~280 lines of new CSS classes for registration flow surfaces:
-   - `.nec-reg-card`, `.nec-reg-subcard`, `.nec-success-card-purple`, `.nec-success-card-orange`, `.nec-reg-accent-orange`, `.nec-reg-help-card`, `.nec-breakfast-info`
-   - `.nec-step-active`, `.nec-step-inactive`, `.nec-step-badge-purple`, `.nec-step-badge-orange`
-   - `.nec-success-icon-purple`, `.nec-success-icon-orange`
-   - `.nec-heading-shadow`, `.nec-accent-bar`
-   - `.nec-stripe-embed` — gradient transition from dark theme to Stripe's white embed
+1. **globals.css** — Added ~450 lines of new CSS utility classes in two phases:
+   - **Registration flow surfaces** (phase 1): `.nec-reg-card`, `.nec-reg-subcard`, `.nec-success-card-purple`, `.nec-success-card-orange`, `.nec-reg-accent-orange`, `.nec-reg-help-card`, `.nec-breakfast-info`, `.nec-step-active`, `.nec-step-inactive`, `.nec-step-badge-purple`, `.nec-step-badge-orange`, `.nec-success-icon-purple`, `.nec-success-icon-orange`, `.nec-heading-shadow`, `.nec-accent-bar`, `.nec-stripe-embed`
+   - **Site-wide surfaces** (phase 2): `.nec-featured-card`, `.nec-icon-badge` (+ `-pink`, `-gold`), `.nec-pill` (+ `-subtle`, `-pink`), `.nec-cta-accent`, `.nec-gradient-card`, `.nec-statement-card`, `.nec-error-icon`, `.nec-section-label`, `.nec-glow-blob`
    - All classes have `[data-color-mode="light"]` and `.a11y-high-contrast` overrides.
 
-2. **Page refactors** — Replaced all inline `style` attributes with CSS classes:
-   - `register/page.tsx` — content card, step indicators, hotel CTA, heading shadow
-   - `cash/page.tsx` — same treatment
-   - `register/success/page.tsx` — accent bar, success card, icon ring, step badges, breakfast cross-sell, help card
-   - `breakfast/page.tsx` — background, heading shadow, info box
-   - `breakfast/success/page.tsx` — same treatment as register success with orange accents
+2. **Registration pages** (phase 1):
+   - `register/page.tsx`, `cash/page.tsx`, `register/success/page.tsx`, `breakfast/page.tsx`, `breakfast/success/page.tsx` — all inline styles → CSS classes
 
-3. **Sub-component refactors** — Replaced hardcoded Tailwind grays and `text-pink-400` with design tokens:
-   - `registration-form.tsx` — `border-gray-700` → `border-[var(--nec-border)]`, `text-pink-400` → `text-[var(--nec-pink)]`, inline error styles → classes
-   - `policy-agreement.tsx` — `text-pink-400` → `text-[var(--nec-pink)]`, container → `.nec-reg-subcard`
-   - `registration-checkout.tsx` — summary card → `.nec-reg-subcard`, Stripe embed → `.nec-stripe-embed`
-   - `breakfast-checkout.tsx` — error/loading states themed (was `bg-white`/`text-gray-600`), all sub-cards → `.nec-reg-subcard`, Stripe → `.nec-stripe-embed`, added spinner to loading state
-   - `registration-confirmation.tsx` — all inline `style={{ color: "var(--nec-muted)" }}` → `text-[var(--nec-muted)]` classes, cards → `.nec-reg-subcard`
-   - `checkout/access-code-checkout.tsx` — card → `.nec-reg-subcard`
-   - `checkout/breakfast-add-ons.tsx` — card → `.nec-reg-subcard`
-   - `checkout/scholarship-attribution.tsx` — card → `.nec-reg-subcard`
+3. **Registration components** (phase 1):
+   - `registration-form.tsx`, `policy-agreement.tsx`, `registration-checkout.tsx`, `breakfast-checkout.tsx`, `registration-confirmation.tsx`, `checkout/access-code-checkout.tsx`, `checkout/breakfast-add-ons.tsx`, `checkout/scholarship-attribution.tsx`
 
-4. **Entrance animations** — Added Framer Motion staggered fade-up to both success pages:
-   - `register/success/page.tsx` — staggerContainer + fadeUp variants with `SPRING_GENTLE`
-   - `breakfast/success/page.tsx` — same treatment
-   - Both respect `useReducedMotion` (animations skip entirely)
+4. **Content pages** (phase 2 — this session):
+   - `events/page.tsx` — `text-gray-300` → `text-[var(--nec-text)]`, inline rgba → `.nec-featured-card`, `.nec-icon-badge`, `.nec-pill`, `.nec-glow-blob`
+   - `service/page.tsx` — same treatment, MAL card → `.nec-featured-card`
+   - `accessibility/page.tsx` — all `style={{ color }}` → className, `.nec-gradient-card`, `.nec-statement-card`, `.nec-section-label`
+   - `journey/page.tsx` — all `style={{ color }}` → className, pills → `.nec-pill-subtle`, `.nec-pill-pink`
+   - `blog/page.tsx` + `blog/[slug]/page.tsx` — all `style={{ color }}` → className
+   - `error.tsx` — icon ring → `.nec-error-icon`, colors → className
+   - `not-found.tsx` — CTA → `.nec-cta-accent`, glow → `.nec-glow-blob`, colors → className
+   - `states/page.tsx` — `text-gray-300` → `text-[var(--nec-text)]`
+
+5. **Components**:
+   - `page-shell.tsx` — `text-purple-400` → `text-[var(--nec-purple)]`, `text-pink-400` → `text-[var(--nec-pink)]`, muted text → className
+
+6. **Entrance animations** — Added Framer Motion staggered fade-up to both success pages (respects `useReducedMotion`)
+
+**Result:** Zero `text-gray-*`, `text-purple-400`, or `text-pink-400` hardcoded classes remain. All color styles use design tokens. All surfaces have light mode and high-contrast overrides.
 
 **Branch:** `ui-upgrade-26`
-**Build status:** Passing (production build green, all routes compile)
+**Build status:** Passing (production build green, all routes compile, zero lint errors)
 
 ---
 

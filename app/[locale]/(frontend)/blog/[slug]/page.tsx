@@ -71,8 +71,7 @@ export default async function BlogPostPage({
             {/* Back link */}
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-semibold mb-8 transition-colors hover:text-white"
-              style={{ color: "var(--nec-muted)" }}
+              className="inline-flex items-center gap-2 text-sm font-semibold mb-8 transition-colors hover:text-white text-[var(--nec-muted)]"
             >
               <ArrowLeft className="w-4 h-4" aria-hidden="true" />
               Back to NECYBLOG
@@ -110,8 +109,7 @@ export default async function BlogPostPage({
                   </span>
                   <time
                     dateTime={post.publishedAt}
-                    className="text-xs font-medium"
-                    style={{ color: "var(--nec-muted)" }}
+                    className="text-xs font-medium text-[var(--nec-muted)]"
                   >
                     {formatDate(post.publishedAt)}
                   </time>
@@ -127,18 +125,14 @@ export default async function BlogPostPage({
                   {paragraphs.map((p, i) => (
                     <p
                       key={i}
-                      className="text-base leading-relaxed"
-                      style={{ color: "var(--nec-text)" }}
+                      className="text-base leading-relaxed text-[var(--nec-text)]"
                     >
                       {p}
                     </p>
                   ))}
                 </div>
 
-                <p
-                  className="text-base leading-relaxed italic mt-6"
-                  style={{ color: "var(--nec-muted)" }}
-                >
+                <p className="text-base leading-relaxed italic mt-6 text-[var(--nec-muted)]">
                   &mdash;Anonymous
                 </p>
               </div>

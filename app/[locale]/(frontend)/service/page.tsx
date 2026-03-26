@@ -35,10 +35,7 @@ export default function ServicePage() {
           <div className="text-center mb-14">
             <span className="section-badge mb-4 inline-block">Service</span>
             <h1 className="section-heading mb-4">Service Opportunities</h1>
-            <p
-              className="text-lg leading-relaxed max-w-2xl mx-auto"
-              style={{ color: "var(--nec-muted)" }}
-            >
+            <p className="text-lg leading-relaxed max-w-2xl mx-auto text-[var(--nec-muted)]">
               NECYPAA is always looking for trusted servants to help carry the
               work forward. Whether you are interested in a specific position or
               just want to get involved as a Member-at-Large, there is a place
@@ -58,34 +55,21 @@ export default function ServicePage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: "rgba(124,58,237,0.12)",
-                    border: "1px solid rgba(124,58,237,0.25)",
-                  }}
+                  className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
                 >
-                  <Sparkles
-                    className="w-5 h-5"
-                    style={{ color: "var(--nec-cyan)" }}
-                  />
+                  <Sparkles className="w-5 h-5 text-[var(--nec-cyan)]" />
                 </div>
                 <h2 className="text-xl font-bold text-white">
                   Open Service Opportunities
                 </h2>
               </div>
-              <p
-                className="text-sm leading-relaxed mb-3"
-                style={{ color: "var(--nec-muted)" }}
-              >
+              <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
                 NECYPAA regularly has positions to fill across committees and
                 service areas. Openings may include elected, appointed, or other
                 roles depending on current needs.
               </p>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--nec-muted)" }}
-              >
+              <p className="text-sm leading-relaxed text-[var(--nec-muted)]">
                 If you are looking to get more involved, this is a great place
                 to start.
               </p>
@@ -103,7 +87,7 @@ export default function ServicePage() {
             >
               {/* Glow */}
               <div
-                className="pointer-events-none absolute -top-10 -left-10 w-56 h-56 z-0"
+                className="nec-glow-blob absolute -top-10 -left-10 w-56 h-56 z-0"
                 aria-hidden="true"
                 style={{
                   background:
@@ -111,7 +95,7 @@ export default function ServicePage() {
                 }}
               />
               <div
-                className="pointer-events-none absolute -bottom-10 -right-10 w-56 h-56 z-0"
+                className="nec-glow-blob absolute -bottom-10 -right-10 w-56 h-56 z-0"
                 aria-hidden="true"
                 style={{
                   background:
@@ -127,54 +111,31 @@ export default function ServicePage() {
                 }}
               />
 
-              <div
-                className="relative z-10 p-6 md:p-8"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.9) 50%, rgba(26,16,48,0.85) 100%)",
-                  border: "1px solid rgba(124,58,237,0.15)",
-                }}
-              >
+              <div className="nec-featured-card relative z-10 p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: "rgba(192,38,211,0.12)",
-                      border: "1px solid rgba(192,38,211,0.25)",
-                    }}
+                    className="nec-icon-badge-pink w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                     aria-hidden="true"
                   >
-                    <Users
-                      className="w-5 h-5"
-                      style={{ color: "var(--nec-pink)" }}
-                    />
+                    <Users className="w-5 h-5 text-[var(--nec-pink)]" />
                   </div>
                   <h2 className="text-xl font-bold text-white">
                     Members-at-Large
                   </h2>
                 </div>
 
-                <p
-                  className="text-sm leading-relaxed mb-3"
-                  style={{ color: "var(--nec-muted)" }}
-                >
+                <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
                   Not ready for a position yet? We also always need
                   Members-at-Large.
                 </p>
-                <p
-                  className="text-sm leading-relaxed mb-3"
-                  style={{ color: "var(--nec-muted)" }}
-                >
+                <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
                   Members-at-Large are the life and soul that keeps NECYPAA
                   moving. They help support committee work, do stuff at events,
                   bring ideas, pitch in where needed, and stay connected to the
                   larger effort. You do not need to hold a specific title to be
                   useful here. There is no time requirement.
                 </p>
-                <p
-                  className="text-sm font-semibold leading-relaxed"
-                  style={{ color: "var(--nec-cyan)" }}
-                >
+                <p className="text-sm font-semibold leading-relaxed text-[var(--nec-cyan)]">
                   Showing up consistently and being willing to help matters.
                 </p>
 
@@ -205,27 +166,17 @@ export default function ServicePage() {
             >
               <div className="flex items-center gap-3 mb-5">
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: "rgba(234,179,8,0.12)",
-                    border: "1px solid rgba(234,179,8,0.25)",
-                  }}
+                  className="nec-icon-badge-gold w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
                 >
-                  <Heart
-                    className="w-5 h-5"
-                    style={{ color: "var(--nec-gold)" }}
-                  />
+                  <Heart className="w-5 h-5 text-[var(--nec-gold)]" />
                 </div>
                 <h2 className="text-xl font-bold text-white">
                   Why Get Involved?
                 </h2>
               </div>
 
-              <p
-                className="text-sm leading-relaxed mb-4"
-                style={{ color: "var(--nec-muted)" }}
-              >
+              <p className="text-sm leading-relaxed mb-4 text-[var(--nec-muted)]">
                 Service with NECYPAA is a chance to:
               </p>
 
@@ -233,14 +184,10 @@ export default function ServicePage() {
                 {whyItems.map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <ArrowRight
-                      className="w-4 h-4 flex-shrink-0 mt-0.5"
-                      style={{ color: "var(--nec-purple)" }}
+                      className="w-4 h-4 flex-shrink-0 mt-0.5 text-[var(--nec-purple)]"
                       aria-hidden="true"
                     />
-                    <span
-                      className="text-sm leading-relaxed"
-                      style={{ color: "var(--nec-muted)" }}
-                    >
+                    <span className="text-sm leading-relaxed text-[var(--nec-muted)]">
                       {item}
                     </span>
                   </li>
@@ -262,63 +209,35 @@ export default function ServicePage() {
               <GearCluster className="absolute -bottom-2 -right-2 opacity-60" />
               <div className="flex items-center gap-3 mb-5">
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: "rgba(124,58,237,0.12)",
-                    border: "1px solid rgba(124,58,237,0.25)",
-                  }}
+                  className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
                 >
-                  <Video
-                    className="w-5 h-5"
-                    style={{ color: "var(--nec-cyan)" }}
-                  />
+                  <Video className="w-5 h-5 text-[var(--nec-cyan)]" />
                 </div>
                 <h2 className="text-xl font-bold text-white">
                   How to Get Involved
                 </h2>
               </div>
 
-              <p
-                className="text-sm leading-relaxed mb-5"
-                style={{ color: "var(--nec-muted)" }}
-              >
+              <p className="text-sm leading-relaxed mb-5 text-[var(--nec-muted)]">
                 If you are interested in serving, here are a few ways to jump
                 in:
               </p>
 
               <div className="space-y-3 mb-6">
-                <div
-                  className="flex items-start gap-3 p-3 rounded-xl"
-                  style={{
-                    background: "rgba(124,58,237,0.06)",
-                    border: "1px solid rgba(124,58,237,0.12)",
-                  }}
-                >
-                  <span
-                    className="text-xs font-bold uppercase tracking-widest mt-0.5 flex-shrink-0"
-                    style={{ color: "var(--nec-cyan)" }}
-                  >
+                <div className="nec-pill-subtle flex items-start gap-3 p-3 rounded-xl">
+                  <span className="text-xs font-bold uppercase tracking-widest mt-0.5 flex-shrink-0 text-[var(--nec-cyan)]">
                     01
                   </span>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-[var(--nec-text)]">
                     Attend a <strong className="text-white">business meeting</strong> on Zoom
                   </p>
                 </div>
-                <div
-                  className="flex items-start gap-3 p-3 rounded-xl"
-                  style={{
-                    background: "rgba(124,58,237,0.06)",
-                    border: "1px solid rgba(124,58,237,0.12)",
-                  }}
-                >
-                  <span
-                    className="text-xs font-bold uppercase tracking-widest mt-0.5 flex-shrink-0"
-                    style={{ color: "var(--nec-cyan)" }}
-                  >
+                <div className="nec-pill-subtle flex items-start gap-3 p-3 rounded-xl">
+                  <span className="text-xs font-bold uppercase tracking-widest mt-0.5 flex-shrink-0 text-[var(--nec-cyan)]">
                     02
                   </span>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-[var(--nec-text)]">
                     Attend a <strong className="text-white">committee meeting</strong> also on Zoom
                   </p>
                 </div>
@@ -329,14 +248,7 @@ export default function ServicePage() {
                   href={ZOOM_MEETING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
-                  style={{
-                    background: "rgba(124,58,237,0.12)",
-                    border: "1px solid rgba(124,58,237,0.30)",
-                    color: "var(--nec-cyan)",
-                    boxShadow:
-                      "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
-                  }}
+                  className="nec-cta-accent inline-flex items-center justify-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide text-[var(--nec-cyan)]"
                 >
                   <Video className="w-4 h-4" aria-hidden="true" />
                   Join on Zoom<span className="sr-only"> (opens in new tab)</span>
@@ -352,10 +264,7 @@ export default function ServicePage() {
           </section>
 
           {/* ── Closing ────────────────────────────────────────────── */}
-          <p
-            className="text-center text-sm italic leading-relaxed"
-            style={{ color: "var(--nec-muted)" }}
-          >
+          <p className="text-center text-sm italic leading-relaxed text-[var(--nec-muted)]">
             We need trusted servants, and we always need more
             Members-at-Large.
           </p>
