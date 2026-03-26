@@ -1,23 +1,33 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL, CONTACT_EMAIL } from "@/lib/constants"
 import { Mail, ExternalLink } from "lucide-react"
 import { Sparkle, Hex } from "@/components/art/graffiti-elements"
 import { Gear } from "@/components/art/steampunk-elements"
+import { SPRING_GENTLE, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 export default function SiteFooter() {
+  const shouldReduce = useReducedMotion()
+
   return (
     <footer
       className="mt-24 relative overflow-hidden"
       style={{ background: "linear-gradient(180deg, rgba(15,10,30,1) 0%, rgba(10,6,20,1) 100%)" }}
     >
       {/* Top accent bar */}
-      <div
+      <motion.div
         className="h-[2px] w-full"
         style={{
           background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 20%, var(--nec-pink) 50%, var(--nec-gold) 80%, transparent 100%)",
           boxShadow: "0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15)",
         }}
+        initial={shouldReduce ? false : { scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={shouldReduce ? { duration: 0 } : { duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
       />
 
       {/* Background character silhouettes — enhanced visibility */}
@@ -54,9 +64,15 @@ export default function SiteFooter() {
         className="container mx-auto px-4 py-12 pb-24 md:pb-12 relative z-10"
         style={{ paddingBottom: "max(6rem, calc(1.5rem + env(safe-area-inset-bottom)))" }}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+        >
           {/* Identity column */}
-          <div className="space-y-3">
+          <motion.div variants={staggerChild} className="space-y-3">
             <div className="w-28 h-auto mb-2">
               <Image
                 src="/images/mad-realm-logo-no-bg.webp"
@@ -78,10 +94,10 @@ export default function SiteFooter() {
               The Northeast Convention of Young People in Alcoholics Anonymous — Hartford, Connecticut.
               Dec 31, 2026 – Jan 3, 2027.
             </p>
-          </div>
+          </motion.div>
 
           {/* Links column */}
-          <div className="space-y-3">
+          <motion.div variants={staggerChild} className="space-y-3">
             <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "var(--nec-cyan)", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Convention</h3>
             <ul className="space-y-2" aria-label="Convention links">
               <li>
@@ -135,10 +151,10 @@ export default function SiteFooter() {
                 </a>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Community column */}
-          <div className="space-y-3">
+          <motion.div variants={staggerChild} className="space-y-3">
             <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "var(--nec-pink)", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Community</h3>
             <ul className="space-y-2" aria-label="Community links">
               <li>
@@ -187,10 +203,10 @@ export default function SiteFooter() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact column */}
-          <div className="space-y-3">
+          <motion.div variants={staggerChild} className="space-y-3">
             <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "var(--nec-gold)", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Contact</h3>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
@@ -202,8 +218,8 @@ export default function SiteFooter() {
             <p className="text-sm text-[var(--nec-muted)] leading-relaxed max-w-xs pt-1">
               Questions about registration, hotel, accessibility, or anything else — reach out any time.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Accessibility statement */}
         <div

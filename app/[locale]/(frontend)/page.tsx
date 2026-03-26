@@ -14,6 +14,7 @@ import { ArtAccentCluster } from "@/components/art/graffiti-elements"
 import { GearCluster, MazePattern } from "@/components/art/steampunk-gears"
 import { KeyIcon, ClockIcon } from "@/components/art/steampunk-elements"
 import { EventJsonLd, OrganizationJsonLd } from "@/components/json-ld"
+import AmbientBlobs from "@/components/ui/ambient-blobs"
 
 export const metadata: Metadata = {
   title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT · Dec 31, 2026 – Jan 3, 2027",
@@ -30,30 +31,8 @@ export default function HomePage() {
       <EventJsonLd />
       <OrganizationJsonLd />
 
-      {/* Page-level ambient vortex glow layer */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.06]"
-          style={{
-            background: "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
-            filter: "blur(120px)",
-          }}
-        />
-        <div
-          className="absolute top-[30%] -right-20 w-[700px] h-[700px] rounded-full opacity-[0.05]"
-          style={{
-            background: "radial-gradient(circle, var(--nec-pink) 0%, transparent 65%)",
-            filter: "blur(120px)",
-          }}
-        />
-        <div
-          className="absolute bottom-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{
-            background: "radial-gradient(circle, var(--nec-gold) 0%, transparent 65%)",
-            filter: "blur(120px)",
-          }}
-        />
-      </div>
+      {/* Page-level ambient vortex glow layer — organic floating drift */}
+      <AmbientBlobs />
 
       {/* ── Main content ──── */}
       <div className="flex-1 pt-0 relative z-10">

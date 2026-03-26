@@ -1,9 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { motion, useReducedMotion } from "framer-motion"
 import { Calendar, Clock, Video } from "lucide-react"
 import { ZOOM_MEETING_URL } from "@/lib/constants"
 import { GearCluster } from "@/components/art/steampunk-gears"
+import {
+  SPRING_GENTLE,
+  SpotlightCard,
+  MagneticButton,
+  staggerContainer,
+  staggerChild,
+} from "@/components/ui/motion-primitives"
 
 function getEasterSunday(year: number): Date {
   const a = year % 19
@@ -73,6 +81,7 @@ function formatMeetingDate(date: Date): string {
 
 export default function BusinessMeetingSection() {
   const [dateStr, setDateStr] = useState("")
+  const shouldReduce = useReducedMotion()
 
   useEffect(() => {
     setDateStr(formatMeetingDate(getNextBusinessMeetingDate()))
@@ -80,25 +89,42 @@ export default function BusinessMeetingSection() {
 
   return (
     <section id="business-meeting" aria-label="Next business meeting" className="px-4 md:px-0">
-      <div className="mb-6">
+      <motion.div
+        className="mb-6"
+        initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={SPRING_GENTLE}
+      >
         <span className="section-badge section-badge-shimmer">Planning</span>
         <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Next Business Meeting</h2>
         <p className="mt-2 text-sm text-[var(--nec-muted)] leading-relaxed">
           Get to know us at our business meetings on Zoom! Come see how the convention is built — through committee work, updates, votes, and fellowship. There are always opportunities for service for anyone who wants to get involved.
         </p>
-      </div>
+      </motion.div>
 
-      <div
+      <SpotlightCard
         className="nec-card nec-card-lift p-6 md:p-8 backdrop-blur-sm relative overflow-hidden"
-        style={{ maxWidth: "640px", boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)" }}
+        spotlightColor="rgba(124,58,237,0.08)"
+        spotlightSize={400}
       >
+        <div
+          className="absolute inset-0 rounded-[inherit]"
+          style={{ maxWidth: "640px", boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)" }}
+        />
         {/* Steampunk gear accent */}
         <GearCluster className="absolute -top-3 -right-3 opacity-60" />
         <h3 className="text-lg font-bold text-white mb-5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>NECYPAA XXXVI Business Meeting</h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+        >
           {/* Date */}
-          <div className="flex items-start gap-3">
+          <motion.div variants={staggerChild} className="flex items-start gap-3">
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
@@ -111,10 +137,10 @@ export default function BusinessMeetingSection() {
                 {dateStr || "Loading…"}
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Time */}
-          <div className="flex items-start gap-3">
+          <motion.div variants={staggerChild} className="flex items-start gap-3">
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
@@ -125,29 +151,31 @@ export default function BusinessMeetingSection() {
               <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nec-muted)]">Time</p>
               <p className="text-sm font-bold text-white mt-0.5">2:00 PM Eastern</p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         <p className="text-sm text-[var(--nec-muted)] mb-5 leading-relaxed">
           All are welcome — join us on Zoom. No commitment required.
         </p>
 
-        <a
-          href={ZOOM_MEETING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="zoom-link inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
-          style={{
-            background: "rgba(124,58,237,0.12)",
-            border: "1px solid rgba(124,58,237,0.30)",
-            color: "var(--nec-cyan)",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
-          }}
-        >
-          <Video className="w-4 h-4" aria-hidden="true" />
-          Join on Zoom<span className="sr-only"> (opens in new tab)</span>
-        </a>
-      </div>
+        <MagneticButton strength={0.25}>
+          <a
+            href={ZOOM_MEETING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="zoom-link inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
+            style={{
+              background: "rgba(124,58,237,0.12)",
+              border: "1px solid rgba(124,58,237,0.30)",
+              color: "var(--nec-cyan)",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
+            }}
+          >
+            <Video className="w-4 h-4" aria-hidden="true" />
+            Join on Zoom<span className="sr-only"> (opens in new tab)</span>
+          </a>
+        </MagneticButton>
+      </SpotlightCard>
     </section>
   )
 }

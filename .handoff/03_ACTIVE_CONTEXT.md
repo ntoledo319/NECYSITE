@@ -15,28 +15,34 @@
 
 ---
 
-## Latest Changes (This Session — UI Visual Identity Upgrade)
+## Latest Changes (This Session — UI Visual Identity Upgrade, Phase 2)
 
-### Framer Motion + Aceternity UI Bespoke Motion System
+### Framer Motion + Aceternity UI Bespoke Motion System (Complete)
 
-1. **Motion primitives library** — Created `components/ui/motion-primitives.tsx` with spring configs (gentle/snappy/slow), stagger variants, and bespoke components: `MotionReveal`, `SpotlightCard` (cursor-following glow), `TiltCard` (3D perspective tilt with glare), `AuroraBackground` (ambient gradient blobs), `FloatingElement` (organic float loops), `MagneticButton` (magnetic pull effect), `GrainOverlay` (film grain texture). All respect `prefers-reduced-motion`.
+**Phase 1 (previous session):**
+1. **Motion primitives library** — `components/ui/motion-primitives.tsx` with spring configs, stagger variants, and bespoke components: `MotionReveal`, `SpotlightCard`, `TiltCard`, `AuroraBackground`, `FloatingElement`, `MagneticButton`, `GrainOverlay`. All respect `prefers-reduced-motion`.
+2. **ScrollReveal** — Framer Motion spring-physics replacing IntersectionObserver.
+3. **Hero section** — `AuroraBackground`, `FloatingElement` accents, `MagneticButton` CTAs.
+4. **CTA cards** — `TiltCard` + `SpotlightCard` wrapping.
+5. **Quick facts** — Staggered spring entrance + `SpotlightCard` per pill.
+6. **Navigation** — Glass morphism with `motion.header`, `AnimatePresence` dropdowns/drawer.
+7. **Grain overlay** — Global film-grain via `GrainOverlayWrapper`.
+8. **Bespoke CSS tokens** — Button glow, price badge hover, organic dividers, fact pill enhancement, full a11y overrides.
 
-2. **ScrollReveal upgrade** — Replaced IntersectionObserver-based CSS class toggling with Framer Motion spring-physics animations. Same API, smoother feel.
-
-3. **Hero section elevation** — Added `AuroraBackground` for living ambient glow, `FloatingElement` for animated graffiti accents (sparkles, splatters, hex shapes, vortex swirls), `MagneticButton` for CTA buttons, and spring-physics entrance animations on all content elements.
-
-4. **CTA cards elevation** — Wrapped register and hotel cards with `TiltCard` (4° 3D tilt on hover) and `SpotlightCard` (cursor-following glow, purple for register, gold for hotel). CTA buttons wrapped in `MagneticButton`.
-
-5. **Quick facts upgrade** — Staggered spring-physics entrance animation on the 6 fact pills using `staggerContainer`/`staggerChild` variants. Each pill has a `SpotlightCard` with color-matched glow.
-
-6. **Navigation glass morphism** — Header now uses `motion.header` for smooth scroll-state transitions (background, border, shadow). Desktop dropdowns use `AnimatePresence` + spring animations. Mobile drawer/backdrop use `AnimatePresence` for smooth mount/unmount. Enhanced `backdropFilter` with `saturate(1.4)`.
-
-7. **Grain overlay** — Global film-grain texture via `GrainOverlayWrapper` in layout, giving the site a lived-in, hand-printed feel. Respects reduce-motion.
-
-8. **Bespoke CSS tokens** — Added to `globals.css`: button hover glow (`::before` pseudo-elements with gradient blur), hero price badge hover states, organic gradient dividers, fact pill interaction enhancement. Full a11y overrides for reduce-motion, high-contrast, and light mode on all new effects.
+**Phase 2 (this session) — Total transformation:**
+9. **YPAA Narrative section** — Staggered timeline step reveals, spotlight highlight chips, spring entrance on Welcome Home card, `MagneticButton` on Register/Learn More CTAs.
+10. **Business Meeting section** — `SpotlightCard` on meeting card, `MagneticButton` on Zoom link, staggered entrance for date/time detail rows.
+11. **Events Preview section** — Motion header entrance, `SpotlightCard` on featured upcoming event, staggered past events scroll strip.
+12. **Site Footer** — Converted to client component. Animated gradient top bar (scaleX reveal), staggered 4-column entrance with `staggerContainer`/`staggerChild`.
+13. **Mobile CTA Bar** — `AnimatePresence` spring entrance/exit from bottom, replacing CSS transition.
+14. **Character Divider** — Converted to client component. Replaced CSS `character-float` with `FloatingElement` (spring-physics bob). Gradient lines use `motion.div` scaleX entrance with directional `transformOrigin`.
+15. **FAQ Accordion** — Radix `asChild` pattern to wrap each `Accordion.Item` in `motion.div` with staggered entrance variants.
+16. **Homepage ambient blobs** — Extracted to `components/ui/ambient-blobs.tsx` client component. Three vortex glow blobs wrapped in `FloatingElement` with offset drift (12–16s cycles, staggered delays).
+17. **Purpose Section** — Converted to client component. Staggered pillar card entrance, `SpotlightCard` on first-timer callout.
+18. **Page Shell** — Converted to client component. `motion.div` entrance on page header, `FloatingElement` on portal art, `MagneticButton` on "Back to the Portal" CTA.
 
 **Branch:** `ui-upgrade-26`
-**Build status:** Passing (production build green, hooks violation fixed)
+**Build status:** Passing (production build green, all routes compile)
 
 ---
 

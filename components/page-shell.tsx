@@ -1,7 +1,11 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { motion, useReducedMotion } from "framer-motion"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
+import { FloatingElement, MagneticButton, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 interface PageShellProps {
   badge: string
@@ -48,6 +52,7 @@ function getCharacterForPage(badge: string): "mad-hatter" | "cheshire-cat" | "ca
 export default function PageShell({ badge, title, subtitle, children, character }: PageShellProps) {
   const charKey = character || getCharacterForPage(badge)
   const char = CHARACTER_DATA[charKey]
+  const shouldReduce = useReducedMotion()
 
   return (
     <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
@@ -55,7 +60,12 @@ export default function PageShell({ badge, title, subtitle, children, character 
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Page header */}
-            <div className="text-center mb-10">
+            <motion.div
+              className="text-center mb-10"
+              initial={shouldReduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+            >
               <span className="section-badge mb-4 inline-block">{badge}</span>
               <h1 className="section-heading mb-3">{title}</h1>
               {subtitle && (
@@ -63,7 +73,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                   {subtitle}
                 </p>
               )}
-            </div>
+            </motion.div>
 
             {/* Page content */}
             {children || (
@@ -95,6 +105,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
 
                   <div className="p-8 md:p-12 text-center">
                     {/* Portal art */}
+                    <FloatingElement yOffset={8} duration={5}>
                     <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto mb-6">
                       <div
                         className="absolute inset-0 scale-[1.3] rounded-full"
@@ -113,6 +124,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                         className="relative z-10 w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
                       />
                     </div>
+                    </FloatingElement>
 
                     {/* Steampunk gear SVGs */}
                     <div className="absolute top-6 left-6 opacity-[0.06] pointer-events-none" aria-hidden="true">
@@ -161,6 +173,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                       This page is under construction. We&apos;re building something
                       special for NECYPAA XXXVI — check back soon.
                     </p>
+                    <MagneticButton strength={0.25}>
                     <Link
                       href="/"
                       className="inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
@@ -173,6 +186,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     >
                       Back to the Portal
                     </Link>
+                    </MagneticButton>
                   </div>
                 </div>
               </div>

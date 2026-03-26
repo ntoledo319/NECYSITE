@@ -1,4 +1,8 @@
+"use client"
+
 import Image from "next/image"
+import { motion, useReducedMotion } from "framer-motion"
+import { FloatingElement, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 interface CharacterDividerProps {
   character: "mad-hatter" | "cheshire-cat" | "caterpillar"
@@ -31,20 +35,27 @@ export default function CharacterDivider({
 }: CharacterDividerProps) {
   const char = CHARACTERS[character]
 
+  const shouldReduce = useReducedMotion()
+
   return (
     <div
       className={`relative flex items-center gap-4 ${className}`}
       aria-hidden="true"
     >
       {/* Left gradient line */}
-      <div
+      <motion.div
         className="flex-1 h-[2px] rounded-full"
         style={{
           background: flip
             ? `linear-gradient(90deg, rgba(${char.accentRgb},0.5) 0%, transparent 100%)`
             : `linear-gradient(90deg, transparent 0%, rgba(${char.accentRgb},0.5) 100%)`,
           boxShadow: `0 0 12px rgba(${char.accentRgb},0.15)`,
+          transformOrigin: flip ? "right center" : "left center",
         }}
+        initial={shouldReduce ? false : { scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       />
 
       {/* Character */}
@@ -56,34 +67,41 @@ export default function CharacterDivider({
             filter: "blur(16px)",
           }}
         />
-        <div
-          className={`relative w-20 h-20 sm:w-24 sm:h-24 ${flip ? "character-float-flip" : "character-float"}`}
-          style={{ transform: flip ? "scaleX(-1)" : undefined }}
-        >
-          <Image
-            src={char.src}
-            alt=""
-            width={96}
-            height={96}
-            sizes="(min-width: 640px) 96px, 80px"
-            className="w-full h-full object-contain"
-            style={{
-              filter: `drop-shadow(0 2px 12px rgba(${char.accentRgb},0.35)) drop-shadow(0 1px 4px rgba(0,0,0,0.4))`,
-            }}
-            aria-hidden="true"
-          />
-        </div>
+        <FloatingElement yOffset={6} duration={4}>
+          <div
+            className="relative w-20 h-20 sm:w-24 sm:h-24"
+            style={{ transform: flip ? "scaleX(-1)" : undefined }}
+          >
+            <Image
+              src={char.src}
+              alt=""
+              width={96}
+              height={96}
+              sizes="(min-width: 640px) 96px, 80px"
+              className="w-full h-full object-contain"
+              style={{
+                filter: `drop-shadow(0 2px 12px rgba(${char.accentRgb},0.35)) drop-shadow(0 1px 4px rgba(0,0,0,0.4))`,
+              }}
+              aria-hidden="true"
+            />
+          </div>
+        </FloatingElement>
       </div>
 
       {/* Right gradient line */}
-      <div
+      <motion.div
         className="flex-1 h-[2px] rounded-full"
         style={{
           background: flip
             ? `linear-gradient(90deg, transparent 0%, rgba(${char.accentRgb},0.5) 100%)`
             : `linear-gradient(90deg, rgba(${char.accentRgb},0.5) 0%, transparent 100%)`,
           boxShadow: `0 0 12px rgba(${char.accentRgb},0.15)`,
+          transformOrigin: flip ? "left center" : "right center",
         }}
+        initial={shouldReduce ? false : { scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       />
     </div>
   )

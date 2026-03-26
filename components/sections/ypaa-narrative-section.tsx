@@ -1,6 +1,15 @@
 "use client"
 
 import Link from "next/link"
+import { motion, useReducedMotion } from "framer-motion"
+import {
+  SPRING_GENTLE,
+  SPRING_SLOW,
+  staggerContainer,
+  staggerChild,
+  SpotlightCard,
+  MagneticButton,
+} from "@/components/ui/motion-primitives"
 
 /* ── Inline SVG graphics for the narrative ── */
 
@@ -209,6 +218,8 @@ const highlights = [
 ]
 
 export default function YpaaNarrativeSection() {
+  const shouldReduce = useReducedMotion()
+
   return (
     <section id="what-is-ypaa" aria-label="What is a YPAA Convention">
       {/* ═══════════════════════════════════════════
@@ -216,7 +227,13 @@ export default function YpaaNarrativeSection() {
           ═══════════════════════════════════════════ */}
       <div className="mb-20">
         {/* Section header */}
-        <div className="text-center mb-10">
+        <motion.div
+          className="text-center mb-10"
+          initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={SPRING_GENTLE}
+        >
           <span className="section-badge section-badge-shimmer mb-4 inline-block">About YPAA</span>
           <h2
             className="section-heading mt-3"
@@ -234,17 +251,23 @@ export default function YpaaNarrativeSection() {
               YPAA?
             </span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* Main explainer card */}
-        <div
+        <SpotlightCard
           className="nec-narrative-card relative overflow-hidden rounded-2xl p-6 sm:p-8 md:p-10 backdrop-blur-sm"
-          style={{
-            background: "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.95) 100%)",
-            border: "1px solid rgba(124,58,237,0.25)",
-            boxShadow: "0 4px 40px rgba(0,0,0,0.4), 0 0 80px rgba(124,58,237,0.06)",
-          }}
+          spotlightColor="rgba(124,58,237,0.10)"
+          spotlightSize={500}
         >
+          <div
+            className="absolute inset-0 rounded-[inherit]"
+            style={{
+              background: "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.95) 100%)",
+              border: "1px solid rgba(124,58,237,0.25)",
+              boxShadow: "0 4px 40px rgba(0,0,0,0.4), 0 0 80px rgba(124,58,237,0.06)",
+              borderRadius: "inherit",
+            }}
+          />
           {/* Decorative corner glows */}
           <div
             className="pointer-events-none absolute -top-20 -right-20 w-64 h-64"
@@ -292,11 +315,18 @@ export default function YpaaNarrativeSection() {
               >
                 What you&apos;ll experience
               </p>
-              <div className="flex flex-wrap justify-center gap-3">
+              <motion.div
+                className="flex flex-wrap justify-center gap-3"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+              >
                 {highlights.map((h) => (
-                  <div
+                  <motion.div
                     key={h.text}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm"
+                    variants={staggerChild}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm fact-pill-interactive"
                     style={{
                       background: "rgba(124,58,237,0.08)",
                       border: "1px solid rgba(124,58,237,0.20)",
@@ -305,14 +335,21 @@ export default function YpaaNarrativeSection() {
                   >
                     <span aria-hidden="true">{h.icon}</span>
                     <span>{h.text}</span>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
 
             {/* The deeper question row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-              <div
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+            >
+              <motion.div
+                variants={staggerChild}
                 className="rounded-xl p-5 text-center"
                 style={{
                   background: "rgba(20,184,166,0.06)",
@@ -325,8 +362,9 @@ export default function YpaaNarrativeSection() {
                 <p className="text-sm leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                   What is it like to get sober young? To be a parent in sobriety?
                 </p>
-              </div>
-              <div
+              </motion.div>
+              <motion.div
+                variants={staggerChild}
                 className="rounded-xl p-5 text-center"
                 style={{
                   background: "rgba(192,38,211,0.06)",
@@ -339,8 +377,9 @@ export default function YpaaNarrativeSection() {
                 <p className="text-sm leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                   Building community in AA that crosses state and even country lines.
                 </p>
-              </div>
-              <div
+              </motion.div>
+              <motion.div
+                variants={staggerChild}
                 className="rounded-xl p-5 text-center"
                 style={{
                   background: "rgba(212,160,23,0.06)",
@@ -353,10 +392,10 @@ export default function YpaaNarrativeSection() {
                 <p className="text-sm leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                   What does a healthy sober relationship look like? What does joy look like?
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </SpotlightCard>
       </div>
 
       {/* ═══════════════════════════════════════════
@@ -387,20 +426,28 @@ export default function YpaaNarrativeSection() {
         {/* Timeline */}
         <div className="relative max-w-2xl mx-auto">
           {/* Vertical glowing line */}
-          <div
+          <motion.div
             className="absolute left-4 md:left-6 top-0 bottom-0 w-px"
             aria-hidden="true"
             style={{
               background: "linear-gradient(180deg, var(--nec-purple) 0%, var(--nec-pink) 30%, var(--nec-cyan) 60%, var(--nec-gold) 100%)",
               boxShadow: "0 0 8px rgba(124,58,237,0.3)",
             }}
+            initial={shouldReduce ? false : { scaleY: 0, originY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={shouldReduce ? { duration: 0 } : { ...SPRING_SLOW, duration: 2 }}
           />
 
           <div className="space-y-6">
             {narrativeSteps.map((step, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="relative pl-12 md:pl-16"
+                initial={shouldReduce ? false : { opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={shouldReduce ? { duration: 0 } : { ...SPRING_GENTLE, delay: i * 0.04 }}
               >
                 {/* Timeline dot */}
                 <div
@@ -428,7 +475,7 @@ export default function YpaaNarrativeSection() {
                 >
                   {step.text}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -482,18 +529,22 @@ export default function YpaaNarrativeSection() {
 
                 {/* CTA */}
                 <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link
-                    href="/register"
-                    className="btn-primary text-center justify-center"
-                  >
-                    Register — $40
-                  </Link>
-                  <Link
-                    href="/faq"
-                    className="btn-ghost text-center justify-center"
-                  >
-                    Still have questions?
-                  </Link>
+                  <MagneticButton strength={0.25}>
+                    <Link
+                      href="/register"
+                      className="btn-primary text-center justify-center"
+                    >
+                      Register — $40
+                    </Link>
+                  </MagneticButton>
+                  <MagneticButton strength={0.15}>
+                    <Link
+                      href="/faq"
+                      className="btn-ghost text-center justify-center"
+                    >
+                      Still have questions?
+                    </Link>
+                  </MagneticButton>
                 </div>
               </div>
             </div>

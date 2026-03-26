@@ -1,4 +1,10 @@
+"use client"
+
+import { motion, useReducedMotion } from "framer-motion"
+import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
+
 export default function PurposeSection() {
+  const shouldReduce = useReducedMotion()
   const pillars = [
     {
       icon: "🤝",
@@ -34,20 +40,28 @@ export default function PurposeSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+      >
         {pillars.map((p) => (
-          <div
+          <motion.div
             key={p.title}
+            variants={staggerChild}
             className="nec-card p-5 space-y-3 transition-all duration-200 hover:-translate-y-0.5"
           >
             <span className="text-3xl" role="img" aria-hidden="true">{p.icon}</span>
             <h3 className="font-bold text-white text-base" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>{p.title}</h3>
             <p className="text-sm text-[var(--nec-muted)] leading-relaxed">{p.body}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* First-timer callout */}
+      <SpotlightCard spotlightColor="rgba(124,58,237,0.10)" spotlightSize={500}>
       <div
         className="nec-callout-card rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm"
         style={{
@@ -83,6 +97,7 @@ export default function PurposeSection() {
           </div>
         </div>
       </div>
+      </SpotlightCard>
     </section>
   )
 }

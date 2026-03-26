@@ -1,16 +1,31 @@
 "use client"
 
 import Link from "next/link"
+import { motion, useReducedMotion } from "framer-motion"
 import { upcomingEvent, pastEvents } from "@/lib/data/events"
 import FlyerWithModal from "@/components/flyer-with-modal"
 import { Calendar, MapPin, ArrowRight, Sparkles } from "lucide-react"
+import {
+  SPRING_GENTLE,
+  SpotlightCard,
+  staggerContainer,
+  staggerChild,
+} from "@/components/ui/motion-primitives"
 
 export default function EventsPreviewSection() {
+  const shouldReduce = useReducedMotion()
+
   return (
     <section id="events" aria-label="Events preview" className="px-4 md:px-0 space-y-10">
       {/* ── Featured Upcoming Event ──────────────────────────── */}
       <div>
-        <div className="mb-8">
+        <motion.div
+          className="mb-8"
+          initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={SPRING_GENTLE}
+        >
           <span className="section-badge section-badge-shimmer">Coming Up</span>
           <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
             Next Event
@@ -18,15 +33,20 @@ export default function EventsPreviewSection() {
           <p className="mt-2 text-base text-[var(--nec-muted)] max-w-xl">
             Our next fundraiser is right around the corner. Come hang!
           </p>
-        </div>
+        </motion.div>
 
-        <div
+        <SpotlightCard
           className="relative rounded-2xl overflow-hidden"
-          style={{
-            boxShadow:
-              "0 8px 40px rgba(0,0,0,0.35), 0 0 60px rgba(124,58,237,0.08), 0 0 120px rgba(192,38,211,0.05)",
-          }}
+          spotlightColor="rgba(124,58,237,0.10)"
+          spotlightSize={500}
         >
+          <div
+            className="absolute inset-0 rounded-[inherit] z-0"
+            style={{
+              boxShadow:
+                "0 8px 40px rgba(0,0,0,0.35), 0 0 60px rgba(124,58,237,0.08), 0 0 120px rgba(192,38,211,0.05)",
+            }}
+          />
           {/* Glow effects */}
           <div
             className="pointer-events-none absolute -top-12 -left-12 w-64 h-64 z-0"
@@ -130,7 +150,7 @@ export default function EventsPreviewSection() {
               </div>
             </div>
           </div>
-        </div>
+        </SpotlightCard>
       </div>
 
       {/* ── Recent Past Events (compact scroll strip) ─────────── */}
@@ -152,17 +172,22 @@ export default function EventsPreviewSection() {
             </Link>
           </div>
 
-          <div
+          <motion.div
             className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scrollbar-thin"
             role="list"
             aria-label="Recent past events"
             style={{ scrollbarColor: "rgba(124,58,237,0.25) transparent" }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
           >
             {pastEvents.slice(0, 4).map((event) => (
-              <div
+              <motion.div
                 key={event.id}
                 role="listitem"
                 className="flex-shrink-0 w-36 sm:w-40 snap-start group"
+                variants={staggerChild}
               >
                 <div
                   className="w-full aspect-[3/4] rounded-xl overflow-hidden mb-2 transition-transform duration-200 group-hover:-translate-y-0.5"
@@ -186,7 +211,7 @@ export default function EventsPreviewSection() {
                 <p className="text-[10px]" style={{ color: "var(--nec-muted)" }}>
                   {event.date.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/, "")}
                 </p>
-              </div>
+              </motion.div>
             ))}
 
             {pastEvents.length > 4 && (
@@ -213,7 +238,7 @@ export default function EventsPreviewSection() {
                 </span>
               </Link>
             )}
-          </div>
+          </motion.div>
         </div>
       )}
     </section>
