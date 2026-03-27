@@ -167,7 +167,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           <p className="italic">
             Each member of Alcoholics Anonymous is but a small part of a great whole. A.A. must continue to live or most
             of us will surely die. Hence our common welfare comes first. But individual welfare follows close afterward.
-            —Tradition One (Long Form)
+            ���Tradition One (Long Form)
           </p>
 
           <p>
@@ -183,7 +183,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
       </div>
 
       <div className="space-y-4">
-        <p className="text-white font-semibold">
+        <p className="text-[var(--nec-text)] font-semibold">
           Attendees must check each box in order to be allowed admission to the NECYPAA convention.{" "}
           <span className="text-pink-400" aria-hidden="true">*</span>
         </p>
@@ -198,7 +198,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="readPolicy" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="readPolicy" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I have received, read, and understand the NECYPAA Anti-Harassment and Non-Discrimination Policy.{" "}
               <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -212,7 +212,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandQuestions" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandQuestions" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that any questions I have regarding this policy can be directed to NECYPAA Advisory members.{" "}
               <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -226,7 +226,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="acknowledgeBehavior" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="acknowledgeBehavior" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I acknowledge that any behavior deemed unsafe or discriminatory by NECYPAA Advisory and/or NECYPAA Host
               may result in my removal from NECYPAA XXXVI and could lead to a ban from future NECYPAA events.{" "}
               <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
@@ -241,7 +241,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandAdmission" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandAdmission" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that I will not be permitted to enter the NECYPAA convention if I do not check each box on
               this form. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -255,7 +255,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandReporting" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandReporting" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that I have the right to report any behavior deemed unsafe or discriminatory to NECYPAA
               Advisory and/or NECYPAA Host. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -271,7 +271,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandInvestigation" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandInvestigation" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that any reports I make will be fully investigated by NECYPAA Advisory.{" "}
               <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -285,7 +285,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="signatureAgreement" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="signatureAgreement" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that my checking each box serves as a signature and agreement to abide by the NECYPAA
               Anti-Harassment and Non-Discrimination policy. <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -298,7 +298,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 text-white bg-transparent border-[var(--nec-border)]"
+          className="flex-1 text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
         >
           Back
         </Button>

@@ -111,7 +111,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
         )}
 
         <div>
-          <Label htmlFor="name" className="text-white">
+          <Label htmlFor="name" className="text-[var(--nec-text)]">
             Name <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
@@ -127,7 +127,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               if (errors.name) setErrors(prev => ({ ...prev, name: "" }))
             }}
             onBlur={(e) => validateField("name", e.target.value)}
-            className="text-white"
+            className="text-[var(--nec-text)]"
           />
           {errors.name && (
             <p id="name-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>
@@ -137,7 +137,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
         </div>
 
         <div>
-          <Label htmlFor="state" className="text-white">
+          <Label htmlFor="state" className="text-[var(--nec-text)]">
             State <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
@@ -153,7 +153,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               if (errors.state) setErrors(prev => ({ ...prev, state: "" }))
             }}
             onBlur={(e) => validateField("state", e.target.value)}
-            className="text-white"
+            className="text-[var(--nec-text)]"
           />
           {errors.state && (
             <p id="state-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>
@@ -163,7 +163,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
         </div>
 
         <div>
-          <Label htmlFor="email" className="text-white">
+          <Label htmlFor="email" className="text-[var(--nec-text)]">
             Email <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
@@ -179,7 +179,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               if (errors.email) setErrors(prev => ({ ...prev, email: "" }))
             }}
             onBlur={(e) => validateField("email", e.target.value)}
-            className="text-white"
+            className="text-[var(--nec-text)]"
           />
           {errors.email && (
             <p id="email-error" role="alert" className="text-xs mt-1" style={{ color: "var(--nec-pink)" }}>
@@ -189,14 +189,14 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
         </div>
 
         <div>
-          <Label htmlFor="accommodations" className="text-white">
+          <Label htmlFor="accommodations" className="text-[var(--nec-text)]">
             Accommodations
           </Label>
           <Textarea
             id="accommodations"
             value={formData.accommodations}
             onChange={(e) => setFormData({ ...formData, accommodations: e.target.value })}
-            className="text-white"
+            className="text-[var(--nec-text)]"
             placeholder="Please describe any accommodation needs"
           />
         </div>
@@ -209,7 +209,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               onCheckedChange={(checked) => setFormData({ ...formData, interpretationNeeded: checked as boolean })}
               className="border-gray-700"
             />
-            <Label htmlFor="interpretationNeeded" className="text-white font-normal">
+            <Label htmlFor="interpretationNeeded" className="text-[var(--nec-text)] font-normal">
               Interpretation Needed
             </Label>
           </div>
@@ -221,7 +221,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               onCheckedChange={(checked) => setFormData({ ...formData, mobilityAccessibility: checked as boolean })}
               className="border-gray-700"
             />
-            <Label htmlFor="mobilityAccessibility" className="text-white font-normal">
+            <Label htmlFor="mobilityAccessibility" className="text-[var(--nec-text)] font-normal">
               Wheelchair / Mobility Access
             </Label>
           </div>
@@ -233,14 +233,14 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               onCheckedChange={(checked) => setFormData({ ...formData, willingToServe: checked as boolean })}
               className="border-gray-700"
             />
-            <Label htmlFor="willingToServe" className="text-white font-normal">
+            <Label htmlFor="willingToServe" className="text-[var(--nec-text)] font-normal">
               Willing to be of Service
             </Label>
           </div>
         </div>
 
         <div>
-          <Label htmlFor="homegroup" className="text-white">
+          <Label htmlFor="homegroup" className="text-[var(--nec-text)]">
             Homegroup/Committee <span className="text-pink-400" aria-hidden="true">*</span><span className="sr-only"> (required)</span>
           </Label>
           <Input
@@ -250,7 +250,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             aria-required="true"
             value={formData.homegroup}
             onChange={(e) => setFormData({ ...formData, homegroup: e.target.value })}
-            className="text-white"
+            className="text-[var(--nec-text)]"
           />
         </div>
       </div>
@@ -284,7 +284,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               type="text"
               value={formData.accessCode}
               onChange={(e) => setFormData({ ...formData, accessCode: e.target.value })}
-              className="text-white"
+              className="text-[var(--nec-text)]"
               placeholder="Enter your access code"
               autoComplete="off"
               aria-describedby="accessCode-description"
