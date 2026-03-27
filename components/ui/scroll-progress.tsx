@@ -1,19 +1,36 @@
 "use client"
 
-import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion"
+import { useState, useEffect, useCallback } from "react"
 
 export default function ScrollProgress() {
-  const shouldReduce = useReducedMotion()
-  const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
+  const [progress, setProgress] = useState(0)
 
-  if (shouldReduce) return null
+  const onScroll = useCallback(() => {
+    const scrollTop = document.documentElement.scrollTop
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+    setProgress(scrollHeight > 0 ? scrollTop / scrollHeight : 0)
+  }, [])
+
+  useEffect(() => {
+    let ticking = false
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          onScroll()
+          ticking = false
+        })
+      }
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [onScroll])
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
+    <div
+      className="scroll-progress-bar fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
       style={{
-        scaleX,
+        transform: `scaleX(${progress})`,
         background:
           "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 50%, var(--nec-gold) 100%)",
         boxShadow: "0 0 8px rgba(124,58,237,0.4), 0 0 16px rgba(192,38,211,0.2)",

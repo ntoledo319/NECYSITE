@@ -1,21 +1,32 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
 import { usePathname } from "next/navigation"
-import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
+import { useEffect, useRef, type ReactNode } from "react"
 
-export default function PageTransition({ children }: { children: React.ReactNode }) {
+export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const shouldReduce = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const prevPathname = useRef(pathname)
+
+  useEffect(() => {
+    if (pathname === prevPathname.current) return
+    prevPathname.current = pathname
+
+    const el = ref.current
+    if (!el) return
+
+    el.style.opacity = "0"
+    el.style.transform = "translateY(8px)"
+    requestAnimationFrame(() => {
+      el.style.transition = "opacity 0.25s ease, transform 0.25s ease"
+      el.style.opacity = "1"
+      el.style.transform = "translateY(0)"
+    })
+  }, [pathname])
 
   return (
-    <motion.div
-      key={pathname}
-      initial={shouldReduce ? false : { opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={shouldReduce ? { duration: 0 } : { ...SPRING_GENTLE, duration: 0.3 }}
-    >
+    <div ref={ref} className="page-transition">
       {children}
-    </motion.div>
+    </div>
   )
 }

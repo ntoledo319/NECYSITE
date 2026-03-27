@@ -124,7 +124,7 @@ export default function MadRealmParticles() {
       {PARTICLES.map(({ id, Component, size, left, top, color, opacity, duration, delay, rotate }, index) => (
         <div
           key={id}
-          className={`absolute mad-realm-particle${index >= 8 ? " hidden md:block" : ""}`}
+          className={`absolute mad-realm-particle${index >= 6 ? " hidden lg:block" : ""}`}
           style={{
             left,
             top,

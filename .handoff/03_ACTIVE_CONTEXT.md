@@ -64,6 +64,18 @@ Applied non-breaking performance improvements to reduce initial JS payload and i
 4. **CSS performance** — `translate3d()` for GPU-composited particle animation, `contain: strict` + `content-visibility: auto` on decorative fixed layers (particles, maze, ambient blobs), `will-change: transform` + `backface-visibility: hidden` on individual particles.
 5. **Lockfile** — Regenerated `pnpm-lock.yaml` to include `framer-motion` (was missing, caused Vercel build failure).
 
+### Runtime Performance Pass (Complete)
+
+Eliminated framer-motion from 4 of 5 global layout components, removing continuous JS animation overhead:
+
+1. **AmbientBlobs** — removed `filter: blur(120px)` (massive GPU cost) and framer-motion `FloatingElement`. Replaced with softer radial gradients (transparent at 50%) + pure CSS `@keyframes ambientDrift`. Same visual, fraction of the cost.
+2. **GrainOverlay** — converted from `"use client"` + framer-motion `useReducedMotion` to a server component. Hidden via `.a11y-reduce-motion .grain-overlay { display: none }` CSS rule instead of JS.
+3. **ScrollProgress** — replaced framer-motion `useScroll` + `useSpring` (JS on every scroll frame) with `requestAnimationFrame`-throttled vanilla scroll listener.
+4. **BackToTop** — replaced framer-motion `AnimatePresence` + `motion.button` with CSS transitions (`.back-to-top-btn` / `.back-to-top-visible`). rAF-throttled scroll listener.
+5. **PageTransition** — replaced `motion.div` with `key={pathname}` (unmounts/remounts entire page tree) with a simple CSS opacity+transform transition triggered by ref manipulation.
+6. **Particles** — reduced visible count from 8→6 on mobile/tablet (hidden until `lg:`).
+7. **CSS** — added `will-change`, `backface-visibility: hidden`, `contain: strict`, `content-visibility: auto` to all decorative layers. All new classes have `.a11y-reduce-motion` overrides.
+
 ---
 
 ## Recent Commits (Pre-Session)

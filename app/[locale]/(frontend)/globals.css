@@ -488,6 +488,62 @@
 }
 .fade-up { animation: fadeUp 0.5s ease both; }
 
+/* ── Ambient blob drift (pure CSS, no JS) ───── */
+@keyframes ambientDrift {
+  0%   { transform: translate3d(0, 0, 0); }
+  25%  { transform: translate3d(15px, -30px, 0); }
+  50%  { transform: translate3d(-10px, -18px, 0); }
+  75%  { transform: translate3d(8px, -8px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+.ambient-blob {
+  animation: ambientDrift 24s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.a11y-reduce-motion .ambient-blob {
+  animation: none !important;
+}
+.a11y-reduce-motion .grain-overlay {
+  display: none !important;
+}
+.scroll-progress-bar {
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 0.1s linear;
+}
+.a11y-reduce-motion .scroll-progress-bar {
+  display: none !important;
+}
+
+/* ── Back to top button (CSS transition, no framer-motion) ── */
+.back-to-top-btn {
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  will-change: transform, opacity;
+}
+.back-to-top-btn.back-to-top-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.back-to-top-btn:hover {
+  transform: scale(1.1);
+}
+.back-to-top-btn:active {
+  transform: scale(0.95);
+}
+.a11y-reduce-motion .back-to-top-btn {
+  transition: none !important;
+}
+
+/* ── Page transition (CSS, no framer-motion) ── */
+.a11y-reduce-motion .page-transition {
+  transition: none !important;
+}
+
 /* ── Mad Realm floating particle animation ──── */
 @keyframes madRealmFloat {
   0%   { transform: translate3d(0, 0, 0) rotate(var(--particle-rotate, 0deg)); }
