@@ -325,12 +325,56 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
         />
       )}
 
+      {/* Purchaser Info for Scholarship-Only Purchases */}
+      {isScholarshipOnlyPurchase && (
+        <div className="space-y-4 rounded-xl border p-4" style={{ background: "rgba(26,16,48,0.6)", borderColor: "var(--nec-border)" }}>
+          <h3 className="text-lg font-semibold text-white">Your Contact Information</h3>
+          <p className="text-sm text-[var(--nec-muted)]">
+            We need your email to send the payment receipt and scholarship confirmation.
+          </p>
+          <div className="space-y-3">
+            <div>
+              <Label htmlFor="purchaser-name" className="text-white text-sm mb-1.5 block">
+                Your Name (optional)
+              </Label>
+              <Input
+                id="purchaser-name"
+                type="text"
+                placeholder="Your name"
+                value={purchaserName}
+                onChange={(e) => handlePurchaserNameChange(e.target.value)}
+                className="bg-[var(--nec-input)] border-[var(--nec-border)] text-white placeholder:text-[var(--nec-muted)]"
+              />
+            </div>
+            <div>
+              <Label htmlFor="purchaser-email" className="text-white text-sm mb-1.5 block">
+                Your Email <span className="text-red-400">*</span>
+              </Label>
+              <Input
+                id="purchaser-email"
+                type="email"
+                placeholder="your.email@example.com"
+                value={purchaserEmail}
+                onChange={(e) => handlePurchaserEmailChange(e.target.value)}
+                className="bg-[var(--nec-input)] border-[var(--nec-border)] text-white placeholder:text-[var(--nec-muted)]"
+              />
+              {purchaserEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(purchaserEmail.trim()) && (
+                <p className="text-red-400 text-sm mt-1">Please enter a valid email address</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {!checkoutReady ? (
         <Button
           onClick={proceedToPayment}
-          className="w-full text-white py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
+          disabled={!canProceedToPayment}
+          className="w-full text-white py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Proceed to Payment - ${totalAmount.toFixed(2)}
+          {isScholarshipOnlyPurchase && !canProceedToPayment
+            ? "Enter your email to continue"
+            : `Proceed to Payment - $${totalAmount.toFixed(2)}`}
         </Button>
       ) : (
         <div key={checkoutKey} id="checkout" className="bg-white rounded-lg p-4 min-h-[400px]">
