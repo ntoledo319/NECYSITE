@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import dynamic from "next/dynamic"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { routing } from "@/i18n/routing"
 import "./globals.css"
 import SiteHeader from "@/components/site-header"
@@ -102,6 +103,7 @@ export default async function RootLayout({
       </head>
       <body className={`${jakarta.variable} ${outfit.variable} ${bangers.variable} ${jakarta.className}`}>
         <WebVitalsReporter />
+        <SpeedInsights />
         <NextIntlClientProvider messages={messages}>
           <A11yProvider>
             <MadRealmArtLayer />
