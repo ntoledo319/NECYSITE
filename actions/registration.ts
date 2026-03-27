@@ -46,8 +46,22 @@ export async function startRegistrationCheckout(
   const validatedAttribution = purchaseAttributionSchema.parse(attribution)
   const validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
 
+  // ── Determine if this is a scholarship-only purchase ──────────
+  const isScholarshipOnlyPurchase = validatedData.isScholarship && !validatedData.name && !validatedData.email
+  
+  // For scholarship-only, we need purchaser email from attribution or purchaserEmail field
+  const purchaserEmail = isScholarshipOnlyPurchase 
+    ? (validatedData.purchaserEmail || validatedAttribution?.reservedForPerson?.split(",")[0]?.trim() || "")
+    : validatedData.email
+
+  if (!purchaserEmail && !isScholarshipOnlyPurchase) {
+    throw new Error("Email is required for checkout.")
+  }
+
   // ── Rate limit by email ──────────────────────────────────────
-  const rl = rateLimitCheckout(validatedData.email)
+  // For scholarship-only, we'll rate limit by the purchaser email if available, otherwise skip
+  const emailForRateLimit = purchaserEmail || "scholarship-purchase"
+  const rl = rateLimitCheckout(emailForRateLimit)
   if (!rl.success) {
     throw new Error("Too many checkout attempts. Please wait a moment and try again.")
   }
@@ -115,7 +129,7 @@ export async function startRegistrationCheckout(
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
       return_url: successUrl,
-      customer_email: validatedData.email || undefined,
+      customer_email: purchaserEmail || undefined,
       line_items: [
         ...(selfRegistrationQuantity > 0
           ? [

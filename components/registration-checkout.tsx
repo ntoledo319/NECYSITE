@@ -10,6 +10,8 @@ import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 import AccessCodeCheckout from "@/components/checkout/access-code-checkout"
 import BreakfastAddOns from "@/components/checkout/breakfast-add-ons"
 import ScholarshipAttribution from "@/components/checkout/scholarship-attribution"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 interface RegistrationCheckoutProps {
   registrationData: RegistrationData
@@ -30,6 +32,11 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
   const [breakfastSelections, setBreakfastSelections] = useState<Record<string, boolean>>({})
   const [checkoutReady, setCheckoutReady] = useState(false)
   const [checkoutKey, setCheckoutKey] = useState(0)
+  
+  // For scholarship-only purchases, we need to collect purchaser info
+  const isScholarshipOnlyPurchase = registrationData.isScholarship && !registrationData.name && !registrationData.email
+  const [purchaserName, setPurchaserName] = useState(registrationData.purchaserName || "")
+  const [purchaserEmail, setPurchaserEmail] = useState(registrationData.purchaserEmail || "")
 
   const product = REGISTRATION_PRODUCTS.find((p) => p.id === "necypaa-xxxvi-registration")
   const unitRegistrationFeeCents = product?.priceInCents || 0
@@ -70,9 +77,14 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
       const reservedNames = reservedForPeople.map((name) => name.trim()).filter(Boolean)
       const selectedBreakfastIds = canAddBreakfast ? selectedBreakfasts.map((bp) => bp.id) : []
 
+      // For scholarship-only purchases, add purchaser info to the registration data
+      const registrationDataWithPurchaser = isScholarshipOnlyPurchase
+        ? { ...registrationData, purchaserName: purchaserName.trim(), purchaserEmail: purchaserEmail.trim() }
+        : registrationData
+
       return await startRegistrationCheckout(
         "necypaa-xxxvi-registration",
-        registrationData,
+        registrationDataWithPurchaser,
         policyAgreements,
         effectiveScholarshipQuantity,
         selectedBreakfastIds,
@@ -89,7 +101,10 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
     aaEntity,
     canAddBreakfast,
     effectiveScholarshipQuantity,
+    isScholarshipOnlyPurchase,
     policyAgreements,
+    purchaserEmail,
+    purchaserName,
     registrationData,
     reservedForPeople,
     selectedBreakfasts,
@@ -132,6 +147,12 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
   const disableScholarship = () => { setIsScholarshipMode(false); resetCheckout() }
   const decreaseScholarship = () => { setScholarshipQuantity((q) => Math.max(1, q - 1)); resetCheckout() }
   const increaseScholarship = () => { setScholarshipQuantity((q) => Math.min(20, q + 1)); resetCheckout() }
+
+  const handlePurchaserNameChange = (value: string) => { setPurchaserName(value); resetCheckout() }
+  const handlePurchaserEmailChange = (value: string) => { setPurchaserEmail(value); resetCheckout() }
+  
+  // For scholarship-only, require valid purchaser email before proceeding
+  const canProceedToPayment = !isScholarshipOnlyPurchase || (purchaserEmail.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(purchaserEmail.trim()))
 
   const proceedToPayment = () => {
     setCheckoutKey((prev) => prev + 1)

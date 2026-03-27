@@ -18,10 +18,11 @@ const sanitizedString = (maxLength = 500) =>
 
 // ─── Registration ─────────────────────────────────────────────
 
-export const registrationDataSchema = z.object({
-  name: sanitizedString(200).pipe(z.string().min(1, "Name is required")),
-  state: sanitizedString(100).pipe(z.string().min(1, "State is required")),
-  email: z.string().email("Valid email is required").max(320).trim().toLowerCase(),
+// Base schema for registration data - allows empty fields for scholarship-only purchases
+const baseRegistrationDataSchema = z.object({
+  name: sanitizedString(200).default(""),
+  state: sanitizedString(100).default(""),
+  email: z.string().max(320).trim().toLowerCase().default(""),
   accommodations: sanitizedString(1000).default(""),
   interpretationNeeded: z.boolean(),
   mobilityAccessibility: z.boolean(),
@@ -34,6 +35,29 @@ export const registrationDataSchema = z.object({
     "Must be a valid email or empty",
   ),
   accessCode: z.string().max(50).trim().default(""),
+  // Purchaser info for scholarship-only purchases
+  purchaserName: sanitizedString(200).default(""),
+  purchaserEmail: z.string().max(320).trim().toLowerCase().default(""),
+})
+
+// Full validation with refinement based on isScholarship flag
+export const registrationDataSchema = baseRegistrationDataSchema.superRefine((data, ctx) => {
+  // For scholarship-only purchases (isScholarship: true with empty attendee fields),
+  // we don't require name/email/state because those belong to the recipient, not the purchaser
+  const isScholarshipOnlyPurchase = data.isScholarship && !data.name && !data.email
+
+  if (!isScholarshipOnlyPurchase) {
+    // Standard registration or self+scholarship - require attendee fields
+    if (!data.name) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Name is required", path: ["name"] })
+    }
+    if (!data.state) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "State is required", path: ["state"] })
+    }
+    if (!data.email || !z.string().email().safeParse(data.email).success) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Valid email is required", path: ["email"] })
+    }
+  }
 })
 
 export type ValidatedRegistrationData = z.infer<typeof registrationDataSchema>

@@ -12,6 +12,10 @@ export interface RegistrationData {
   scholarshipRecipientName?: string
   scholarshipRecipientEmail?: string
   accessCode?: string
+  /** Purchaser name for scholarship-only purchases */
+  purchaserName?: string
+  /** Purchaser email for scholarship-only purchases (used for Stripe receipt) */
+  purchaserEmail?: string
 }
 
 /** Seven required behavior-policy acknowledgements collected during registration. */
