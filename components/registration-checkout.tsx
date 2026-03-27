@@ -327,14 +327,14 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
 
       {/* Purchaser Info for Scholarship-Only Purchases */}
       {isScholarshipOnlyPurchase && (
-        <div className="space-y-4 rounded-xl border p-4" style={{ background: "rgba(26,16,48,0.6)", borderColor: "var(--nec-border)" }}>
-          <h3 className="text-lg font-semibold text-white">Your Contact Information</h3>
+        <div className="nec-purchaser-info-card space-y-4 rounded-xl border border-[var(--nec-border)] p-4 bg-[rgba(26,16,48,0.6)]">
+          <h3 className="text-lg font-semibold text-[var(--nec-text)]">Your Contact Information</h3>
           <p className="text-sm text-[var(--nec-muted)]">
             We need your email to send the payment receipt and scholarship confirmation.
           </p>
           <div className="space-y-3">
             <div>
-              <Label htmlFor="purchaser-name" className="text-white text-sm mb-1.5 block">
+              <Label htmlFor="purchaser-name" className="text-[var(--nec-text)] text-sm mb-1.5 block">
                 Your Name (optional)
               </Label>
               <Input
@@ -343,11 +343,11 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
                 placeholder="Your name"
                 value={purchaserName}
                 onChange={(e) => handlePurchaserNameChange(e.target.value)}
-                className="bg-[var(--nec-input)] border-[var(--nec-border)] text-white placeholder:text-[var(--nec-muted)]"
+                className="w-full rounded-xl border border-[var(--nec-border)] bg-[rgba(15,10,30,0.8)] text-[var(--nec-text)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder:text-[var(--nec-muted)]"
               />
             </div>
             <div>
-              <Label htmlFor="purchaser-email" className="text-white text-sm mb-1.5 block">
+              <Label htmlFor="purchaser-email" className="text-[var(--nec-text)] text-sm mb-1.5 block">
                 Your Email <span className="text-red-400">*</span>
               </Label>
               <Input
@@ -356,7 +356,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
                 placeholder="your.email@example.com"
                 value={purchaserEmail}
                 onChange={(e) => handlePurchaserEmailChange(e.target.value)}
-                className="bg-[var(--nec-input)] border-[var(--nec-border)] text-white placeholder:text-[var(--nec-muted)]"
+                className="w-full rounded-xl border border-[var(--nec-border)] bg-[rgba(15,10,30,0.8)] text-[var(--nec-text)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 placeholder:text-[var(--nec-muted)]"
               />
               {purchaserEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(purchaserEmail.trim()) && (
                 <p className="text-red-400 text-sm mt-1">Please enter a valid email address</p>

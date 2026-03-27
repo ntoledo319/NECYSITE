@@ -922,6 +922,20 @@
   border-color: #6d28d9 !important;
   box-shadow: 0 0 0 1px rgba(109,40,217,0.12), 0 4px 16px rgba(0,0,0,0.08) !important;
 }
+/* Purchaser info card (scholarship checkout) */
+[data-color-mode="light"] .nec-purchaser-info-card {
+  background: rgba(255,255,255,0.92) !important;
+  border-color: #d0c4e0 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04) !important;
+}
+[data-color-mode="light"] .nec-purchaser-info-card input {
+  background: rgba(248,245,255,0.95) !important;
+  border-color: #d0c4e0 !important;
+  color: #1a1030 !important;
+}
+[data-color-mode="light"] .nec-purchaser-info-card input::placeholder {
+  color: #6b5b7a !important;
+}
 /* Headings */
 [data-color-mode="light"] .section-heading {
   color: #1a1030;
