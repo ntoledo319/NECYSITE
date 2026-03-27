@@ -490,11 +490,21 @@
 
 /* ── Mad Realm floating particle animation ──── */
 @keyframes madRealmFloat {
-  0%   { transform: translate(0, 0) rotate(var(--particle-rotate, 0deg)); }
-  25%  { transform: translate(6px, -10px) rotate(calc(var(--particle-rotate, 0deg) + 4deg)); }
-  50%  { transform: translate(-4px, -18px) rotate(calc(var(--particle-rotate, 0deg) - 3deg)); }
-  75%  { transform: translate(8px, -8px) rotate(calc(var(--particle-rotate, 0deg) + 2deg)); }
-  100% { transform: translate(0, 0) rotate(var(--particle-rotate, 0deg)); }
+  0%   { transform: translate3d(0, 0, 0) rotate(var(--particle-rotate, 0deg)); }
+  25%  { transform: translate3d(6px, -10px, 0) rotate(calc(var(--particle-rotate, 0deg) + 4deg)); }
+  50%  { transform: translate3d(-4px, -18px, 0) rotate(calc(var(--particle-rotate, 0deg) - 3deg)); }
+  75%  { transform: translate3d(8px, -8px, 0) rotate(calc(var(--particle-rotate, 0deg) + 2deg)); }
+  100% { transform: translate3d(0, 0, 0) rotate(var(--particle-rotate, 0deg)); }
+}
+/* GPU-accelerate + isolate decorative fixed layers from layout */
+.mad-realm-particles {
+  contain: strict;
+  will-change: auto;
+  content-visibility: auto;
+}
+.mad-realm-particle {
+  will-change: transform;
+  backface-visibility: hidden;
 }
 .a11y-reduce-motion .mad-realm-particle {
   animation: none !important;

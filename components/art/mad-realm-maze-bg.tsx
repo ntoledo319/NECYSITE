@@ -8,6 +8,7 @@ export default function MadRealmMazeBg() {
   return (
     <div
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+      style={{ contain: "strict", contentVisibility: "auto" }}
       aria-hidden="true"
     >
       <svg

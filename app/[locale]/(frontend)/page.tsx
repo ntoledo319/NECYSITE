@@ -1,20 +1,24 @@
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 import HeroSection from "@/components/sections/hero-section"
 import QuickFactsStrip from "@/components/sections/quick-facts-strip"
 import CTASection from "@/components/sections/cta-section"
-import YpaaNarrativeSection from "@/components/sections/ypaa-narrative-section"
-import BusinessMeetingSection from "@/components/sections/business-meeting-section"
-import EventsPreviewSection from "@/components/sections/events-preview-section"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
-import CharacterDivider from "@/components/character-divider"
 import OrnateDivider from "@/components/art/ornate-divider"
 import ScrollReveal from "@/components/scroll-reveal"
-import { ArtAccentCluster } from "@/components/art/graffiti-elements"
-import { GearCluster, MazePattern } from "@/components/art/steampunk-gears"
-import { KeyIcon, ClockIcon } from "@/components/art/steampunk-elements"
 import { EventJsonLd, OrganizationJsonLd } from "@/components/json-ld"
-import AmbientBlobs from "@/components/ui/ambient-blobs"
+
+const YpaaNarrativeSection = dynamic(() => import("@/components/sections/ypaa-narrative-section"))
+const BusinessMeetingSection = dynamic(() => import("@/components/sections/business-meeting-section"))
+const EventsPreviewSection = dynamic(() => import("@/components/sections/events-preview-section"))
+const CharacterDivider = dynamic(() => import("@/components/character-divider"))
+const AmbientBlobs = dynamic(() => import("@/components/ui/ambient-blobs"))
+const ArtAccentCluster = dynamic(() => import("@/components/art/graffiti-elements").then(m => ({ default: m.ArtAccentCluster })))
+const GearCluster = dynamic(() => import("@/components/art/steampunk-gears").then(m => ({ default: m.GearCluster })))
+const MazePattern = dynamic(() => import("@/components/art/steampunk-gears").then(m => ({ default: m.MazePattern })))
+const KeyIcon = dynamic(() => import("@/components/art/steampunk-elements").then(m => ({ default: m.KeyIcon })))
+const ClockIcon = dynamic(() => import("@/components/art/steampunk-elements").then(m => ({ default: m.ClockIcon })))
 
 export const metadata: Metadata = {
   title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT · Dec 31, 2026 – Jan 3, 2027",

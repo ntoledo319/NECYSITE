@@ -51,8 +51,18 @@ Comprehensive audit and fix of all hardcoded Tailwind colors (`text-gray-*`, `te
 
 **Result:** Zero `text-gray-*`, `text-purple-400`, or `text-pink-400` hardcoded classes remain. All color styles use design tokens. All surfaces have light mode and high-contrast overrides.
 
-**Branch:** `ui-upgrade-26`
+**Branch:** `main`
 **Build status:** Passing (production build green, all routes compile, zero lint errors)
+
+### Performance Optimization Pass (Complete)
+
+Applied non-breaking performance improvements to reduce initial JS payload and improve runtime rendering:
+
+1. **`next.config.mjs`** — Added `optimizePackageImports` for `lucide-react`, `framer-motion`, Radix UI, and `recharts` (better tree-shaking)
+2. **Layout (`layout.tsx`)** — Dynamic import for 5 non-critical client components: GrainOverlay, PageTransition, ScrollProgress, BackToTop, WebVitalsReporter. Removed duplicate manual font preload `<link>` tags (next/font handles this). Added `display: "swap"` + `preload: true` to all 3 font configs.
+3. **Homepage (`page.tsx`)** — Dynamic import for 10 below-fold components: YpaaNarrative, BusinessMeeting, EventsPreview, CharacterDivider, AmbientBlobs, ArtAccentCluster, GearCluster, MazePattern, KeyIcon, ClockIcon. Above-fold (Hero, QuickFacts, CTA) stays eagerly loaded.
+4. **CSS performance** — `translate3d()` for GPU-composited particle animation, `contain: strict` + `content-visibility: auto` on decorative fixed layers (particles, maze, ambient blobs), `will-change: transform` + `backface-visibility: hidden` on individual particles.
+5. **Lockfile** — Regenerated `pnpm-lock.yaml` to include `framer-motion` (was missing, caused Vercel build failure).
 
 ---
 

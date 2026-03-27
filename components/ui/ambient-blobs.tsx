@@ -4,7 +4,7 @@ import { FloatingElement } from "@/components/ui/motion-primitives"
 
 export default function AmbientBlobs() {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true" style={{ contain: "strict", contentVisibility: "auto" }}>
       <FloatingElement yOffset={30} xOffset={15} duration={12} delay={0}>
         <div
           className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.06]"

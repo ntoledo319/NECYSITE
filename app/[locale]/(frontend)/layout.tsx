@@ -4,32 +4,40 @@ import { Plus_Jakarta_Sans, Outfit, Bangers } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
+import dynamic from "next/dynamic"
 import { routing } from "@/i18n/routing"
 import "./globals.css"
 import SiteHeader from "@/components/site-header"
 import { A11yProvider } from "@/lib/accessibility-context"
 import AccessibilityPanel from "@/components/accessibility-panel"
 import MadRealmArtLayer from "@/components/art/mad-realm-art-layer"
-import GrainOverlayWrapper from "@/components/ui/grain-overlay-wrapper"
-import PageTransition from "@/components/ui/page-transition"
-import ScrollProgress from "@/components/ui/scroll-progress"
-import BackToTop from "@/components/ui/back-to-top"
-import { WebVitalsReporter } from "@/app/web-vitals-reporter"
+
+const GrainOverlayWrapper = dynamic(() => import("@/components/ui/grain-overlay-wrapper"))
+const PageTransition = dynamic(() => import("@/components/ui/page-transition"))
+const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress"))
+const BackToTop = dynamic(() => import("@/components/ui/back-to-top"))
+const WebVitalsReporter = dynamic(() => import("@/app/web-vitals-reporter").then(m => ({ default: m.WebVitalsReporter })))
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+  preload: true,
 })
 
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-heading",
+  display: "swap",
+  preload: true,
 })
 
 const bangers = Bangers({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+  preload: true,
 })
 
 export const viewport: Viewport = {
@@ -91,20 +99,6 @@ export default async function RootLayout({
     <html lang={locale}>
       <head>
         <meta name="color-scheme" content="dark light" />
-        <link
-          rel="preload"
-          href="https://fonts.gstatic.com/s/plusjakartasans/v8/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_qU7NShXUEKi4Rw.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="https://fonts.gstatic.com/s/outfit/v11/QGYyz_MVcBeNP4NjuGObqx1XmO1I4TC0C4G-EiAou6Y.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className={`${jakarta.variable} ${outfit.variable} ${bangers.variable} ${jakarta.className}`}>
         <WebVitalsReporter />
