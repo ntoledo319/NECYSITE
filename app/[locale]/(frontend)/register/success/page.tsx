@@ -1,220 +1,290 @@
 "use client"
 
 import Link from "next/link"
-import { CheckCircle, Hotel, Home, Mail, ArrowRight, UtensilsCrossed } from "lucide-react"
-import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"
+import {
+  ArrowRight,
+  CheckCircle,
+  Hotel,
+  Home,
+  Mail,
+  Receipt,
+  Sparkles,
+  UtensilsCrossed,
+} from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
 import AddToCalendar from "@/components/add-to-calendar"
 import ShareMenu from "@/components/share-menu"
-import { motion, useReducedMotion } from "framer-motion"
+import PageArtAccents from "@/components/art/page-art-accents"
 import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
+import {
+  CONTACT_EMAIL,
+  CONVENTION_DATES,
+  CONVENTION_VENUE,
+  HOTEL_BOOKING_URL,
+} from "@/lib/constants"
 
 const staggerContainer = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
 }
+
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0 },
 }
 
+const nextSteps = [
+  {
+    title: "Book the host hotel",
+    copy:
+      "Keep the whole weekend within walking distance of the ballroom, marathon rooms, and breakfast events.",
+  },
+  {
+    title: "Save the convention dates",
+    copy:
+      `${CONVENTION_DATES}. Plan for travel on both ends so you can land without rushing the weekend.`,
+  },
+  {
+    title: "Watch for program updates",
+    copy:
+      "Speaker, workshop, and entertainment details will keep filling in as the committee releases more of the schedule.",
+  },
+]
+
+const confirmationNotes = [
+  { label: "Receipt", value: "Sent to your email" },
+  { label: "Check-in", value: "Use your registration name" },
+  { label: "Venue", value: CONVENTION_VENUE },
+]
+
 export default function RegistrationSuccessPage() {
   const shouldReduce = useReducedMotion()
 
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col items-center justify-center px-4 py-16 bg-[var(--nec-navy)]">
-      {/* Top accent bar */}
-      <div
-        className="fixed top-0 left-0 right-0 h-[2px] z-50 nec-accent-bar"
-        aria-hidden="true"
-        style={{ background: "linear-gradient(90deg, transparent 0%, var(--nec-pink) 20%, var(--nec-cyan) 50%, var(--nec-orange) 80%, transparent 100%)" }}
+    <div className="relative min-h-screen min-h-screen-safe bg-[var(--nec-navy)]">
+      <PageArtAccents
+        character="cheshire-cat"
+        accentColor="var(--nec-cyan)"
+        variant="subtle"
+        dividerVariant="compass"
       />
 
-      <motion.div
-        className="w-full max-w-lg space-y-6"
-        variants={shouldReduce ? undefined : staggerContainer}
-        initial={shouldReduce ? undefined : "hidden"}
-        animate="show"
-      >
-        {/* Success card */}
+      <div className="container relative z-10 mx-auto px-4 pb-16 pt-24">
         <motion.div
-          className="nec-success-card-purple p-8 md:p-10 text-center space-y-5"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+          className="mx-auto max-w-6xl"
+          variants={shouldReduce ? undefined : staggerContainer}
+          initial={shouldReduce ? undefined : "hidden"}
+          animate="show"
         >
-          {/* Icon */}
-          <div className="flex justify-center">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center nec-success-icon-purple">
-              <CheckCircle className="w-10 h-10 text-[var(--nec-cyan)]" aria-hidden="true" />
-            </div>
-          </div>
-
-          {/* Heading */}
-          <div className="space-y-2">
-            <h1 className="text-3xl font-black text-[var(--nec-text)] nec-heading-shadow">
-              You&apos;re Registered!
+          <motion.header
+            className="max-w-3xl"
+            variants={shouldReduce ? undefined : fadeUp}
+            transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+          >
+            <span className="section-badge">Registration Confirmed</span>
+            <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl lg:text-6xl">
+              You&apos;re officially in for NECYPAA XXXVI.
             </h1>
-            <p className="text-base font-semibold text-[var(--nec-cyan)]">
-              NECYPAA XXXVI · Hartford, CT
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
+              Your registration is locked in. Keep this page as your weekend launchpad for hotel,
+              calendar, breakfast, and the next details you&apos;ll want before Hartford.
             </p>
-            <p className="text-sm text-[var(--nec-muted)]">
-              {CONVENTION_DATES} · {CONVENTION_VENUE}
-            </p>
-          </div>
+          </motion.header>
 
-          {/* Confirmation message */}
-          <p className="text-sm leading-relaxed text-[var(--nec-text)]">
-            Your registration is confirmed. A receipt was sent to the email you provided. Keep it
-            for your records — you&apos;ll need your registration confirmation at check-in.
-          </p>
+          <div className="mt-10 grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
+            <motion.section
+              className="space-y-6"
+              variants={shouldReduce ? undefined : fadeUp}
+              transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+              aria-label="Registration confirmation"
+            >
+              <div className="nec-reg-card overflow-hidden p-7 md:p-9">
+                <div className="flex flex-wrap items-start justify-between gap-5 border-b border-[rgba(var(--nec-purple-rgb),0.10)] pb-6">
+                  <div className="max-w-2xl">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(var(--nec-cyan-rgb),0.18)] bg-[rgba(var(--nec-cyan-rgb),0.08)] text-[var(--nec-cyan)]">
+                      <CheckCircle className="h-8 w-8" aria-hidden="true" />
+                    </div>
+                    <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--nec-cyan)]">
+                      Confirmation Archived
+                    </p>
+                    <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                      Hartford has your name on the list.
+                    </h2>
+                    <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
+                      A receipt was sent to the email you provided. Hold on to it for your records,
+                      and use your registration name at check-in when you arrive at convention.
+                    </p>
+                  </div>
 
-          <hr className="border-[var(--nec-border)]" />
+                  <div className="grid min-w-[15rem] gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    {confirmationNotes.map((item) => (
+                      <div
+                        key={item.label}
+                        className="rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.68)] p-4"
+                      >
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                          {item.label}
+                        </p>
+                        <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">
+                          {item.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-          {/* Next steps */}
-          <div className="text-left space-y-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-[var(--nec-muted)]">Next Steps</p>
-
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-purple">
-                1
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  {nextSteps.map((step, index) => (
+                    <div
+                      key={step.title}
+                      className="rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.64)] p-5"
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(var(--nec-cyan-rgb),0.18)] bg-[rgba(var(--nec-cyan-rgb),0.08)] text-sm font-semibold text-[var(--nec-cyan)]">
+                        {index + 1}
+                      </div>
+                      <h3 className="mt-4 text-base font-semibold text-[var(--nec-text)]">
+                        {step.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-7 text-[var(--nec-muted)]">
+                        {step.copy}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-[var(--nec-text)]">Book your hotel room</p>
-                <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
-                  Secure your room at the Hartford Marriott Downtown at our special group rate
-                  before the block fills up.
+
+              <div className="grid gap-4 md:grid-cols-[0.95fr_1.05fr]">
+                <div className="rounded-[1.6rem] border border-[rgba(var(--nec-orange-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-orange-rgb),0.10),rgba(var(--nec-card-rgb),0.82))] p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-orange-rgb),0.18)] bg-[rgba(var(--nec-orange-rgb),0.10)] text-[var(--nec-orange)]">
+                      <UtensilsCrossed className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-orange)]">
+                        Morning Add-On
+                      </p>
+                      <h3 className="mt-1 text-lg font-semibold text-[var(--nec-text)]">
+                        Breakfast tickets still available
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-[var(--nec-muted)]">
+                    If you want the weekend to open with coffee, fellowship, and one less line to
+                    think about, grab breakfast before you close this tab.
+                  </p>
+                  <Link
+                    href="/breakfast"
+                    className="btn-secondary mt-5 border-[rgba(var(--nec-orange-rgb),0.24)] text-[var(--nec-orange)]"
+                  >
+                    Get Breakfast Tickets
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
+
+                <div className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.72)] p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-purple-rgb),0.06)] text-[var(--nec-purple)]">
+                      <Receipt className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                        Need Changes?
+                      </p>
+                      <h3 className="mt-1 text-lg font-semibold text-[var(--nec-text)]">
+                        Registration help is one email away
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-[var(--nec-muted)]">
+                    Questions about scholarship purchases, accessibility requests, or correcting a
+                    registration detail can go directly to the host committee.
+                  </p>
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--nec-cyan)] transition-opacity hover:opacity-80"
+                  >
+                    <Mail className="h-4 w-4" aria-hidden="true" />
+                    {CONTACT_EMAIL}
+                  </a>
+                </div>
+              </div>
+            </motion.section>
+
+            <motion.aside
+              className="space-y-4 lg:sticky lg:top-28"
+              variants={shouldReduce ? undefined : fadeUp}
+              transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+            >
+              <div className="nec-card p-6">
+                <p className="form-section-label">Weekend Ready</p>
+                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                  Your next moves are simple.
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
+                  Hotel, calendar, and home base. The rest of the program can arrive gradually.
+                </p>
+
+                <div className="mt-6 space-y-3">
+                  <a
+                    href={HOTEL_BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary w-full !justify-center"
+                  >
+                    <Hotel className="h-4 w-4" aria-hidden="true" />
+                    Book Host Hotel
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                  <AddToCalendar className="w-full !justify-center" />
+                  <Link href="/" className="btn-ghost w-full !justify-center">
+                    <Home className="h-4 w-4" aria-hidden="true" />
+                    Back to Home
+                  </Link>
+                </div>
+              </div>
+
+              <div className="rounded-[1.6rem] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.08),rgba(var(--nec-card-rgb),0.78))] p-6">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.10)] text-[var(--nec-gold)]">
+                    <Sparkles className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
+                      Convention Window
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-[var(--nec-text)]">
+                      {CONVENTION_DATES}
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm leading-7 text-[var(--nec-muted)]">
+                  New Year&apos;s weekend moves fast. Reserving the basics now lets the rest of the
+                  experience stay loose, present, and fun.
                 </p>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-purple">
-                2
+              <div className="text-center">
+                <ShareMenu
+                  text="I just registered for NECYPAA XXXVI in Hartford. Come make the trip with me."
+                  url="https://www.necypaact.com/register"
+                  triggerClassName="btn-ghost w-full !justify-center"
+                  triggerLabel="Tell Your Friends"
+                />
               </div>
-              <div>
-                <p className="text-sm font-semibold text-[var(--nec-text)]">Save the dates</p>
-                <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
-                  {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
-                </p>
-              </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-purple">
-                3
+              <div className="text-center">
+                <Link
+                  href="/register"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--nec-muted)] transition-opacity hover:opacity-80"
+                >
+                  Register another person
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-[var(--nec-text)]">Stay in the loop</p>
-                <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
-                  Check back at this site for schedule, speakers, and event updates as we get
-                  closer to convention.
-                </p>
-              </div>
-            </div>
+            </motion.aside>
           </div>
         </motion.div>
-
-        {/* Breakfast cross-sell */}
-        <motion.div
-          className="nec-reg-accent-orange p-5 space-y-3"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-        >
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center nec-step-badge-orange">
-              <UtensilsCrossed className="w-5 h-5 text-[var(--nec-orange)]" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[var(--nec-text)]">Don&apos;t forget breakfast!</p>
-              <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
-                Start your New Year right with the NECYPAA XXXVI breakfast event.
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/breakfast"
-            className="btn-ghost w-full !justify-center !text-sm border-[rgba(234,88,12,0.35)] text-[var(--nec-orange)]"
-          >
-            Get Breakfast Tickets
-            <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-          </Link>
-        </motion.div>
-
-        {/* CTA buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-3"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-        >
-          <a
-            href={HOTEL_BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary flex-1 !justify-center"
-          >
-            <Hotel className="w-4 h-4" aria-hidden="true" />
-            Book Hotel Now<span className="sr-only"> (opens in new tab)</span>
-          </a>
-          <AddToCalendar variant="ghost" className="flex-1 !justify-center" />
-        </motion.div>
-        <motion.div
-          className="flex"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-        >
-          <Link
-            href="/"
-            className="btn-ghost flex-1 !justify-center"
-          >
-            <Home className="w-4 h-4" aria-hidden="true" />
-            Back to Home
-          </Link>
-        </motion.div>
-
-        {/* Share */}
-        <motion.div
-          className="text-center"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-        >
-          <ShareMenu
-            text="I just registered for NECYPAA XXXVI — Escaping the Mad Realm! Hartford, CT · New Year's Eve 2026"
-            url="https://www.necypaact.com/register"
-            triggerClassName="btn-ghost !text-sm"
-            triggerLabel="Tell Your Friends"
-          />
-        </motion.div>
-
-        {/* Help */}
-        <motion.div
-          className="nec-reg-help-card rounded-xl p-4 text-center space-y-1"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-        >
-          <p className="text-xs text-[var(--nec-muted)]">Questions or need help with your registration?</p>
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75 text-[var(--nec-cyan)]"
-          >
-            <Mail className="w-3.5 h-3.5" aria-hidden="true" />
-            {CONTACT_EMAIL}
-          </a>
-        </motion.div>
-
-        {/* Back link */}
-        <motion.div
-          className="text-center"
-          variants={shouldReduce ? undefined : fadeUp}
-          transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-        >
-          <Link
-            href="/register"
-            className="text-xs transition-colors inline-flex items-center gap-1 hover:opacity-80 text-[var(--nec-muted)]"
-          >
-            Register another person
-            <ArrowRight className="w-3 h-3" aria-hidden="true" />
-          </Link>
-        </motion.div>
-      </motion.div>
+      </div>
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import Image from "next/image"
-import { Mail, Eye, Monitor, Ear, Keyboard, Globe } from "lucide-react"
+import { Ear, Eye, Keyboard, Mail, Monitor, Globe } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import AnonymousFeedbackForm from "@/components/anonymous-feedback-form"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "Accessibility — NECYPAA XXXVI",
@@ -12,194 +12,205 @@ export const metadata: Metadata = {
     "Our commitment to accessibility and inclusion at NECYPAA XXXVI. Information about accommodations, ASL, and how to request support.",
 }
 
+const digitalFeatures = [
+  {
+    icon: <Eye className="h-5 w-5" />,
+    title: "Visual settings",
+    items: ["Light and dark mode", "High contrast mode", "Adjustable text size", "Grayscale mode", "Dyslexia-friendly font"],
+  },
+  {
+    icon: <Monitor className="h-5 w-5" />,
+    title: "Motion and media",
+    items: ["Reduced motion controls", "No autoplay media", "Alt text on imagery", "Captions planned for video content"],
+  },
+  {
+    icon: <Keyboard className="h-5 w-5" />,
+    title: "Keyboard support",
+    items: ["Skip links", "Visible focus states", "Modal escape handling", "Full keyboard navigation"],
+  },
+  {
+    icon: <Globe className="h-5 w-5" />,
+    title: "Language and clarity",
+    items: ["Plain language", "Person-first recovery language", "Spanish support in progress", "No jargon-first explanations"],
+  },
+]
+
+const venueFeatures = [
+  "Wheelchair-accessible venue with elevators and accessible restrooms",
+  "ASL interpretation planning and coordination on request",
+  "Quiet and sensory break space",
+  "Dietary accommodation planning",
+  "Sliding-scale and scholarship support",
+  "Extra help available through direct committee contact",
+]
+
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <PageArtAccents character="caterpillar" accentColor="var(--nec-cyan)" dividerVariant="key" />
+
+      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-12 relative">
-              {/* Caterpillar accent */}
-              <div className="hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                <Image src="/images/caterpillar-character.png" alt="" width={80} height={128} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+          <div className="mx-auto max-w-5xl space-y-10">
+            <header className="grid gap-6 lg:grid-cols-[1.04fr_0.96fr] lg:items-end">
+              <div className="max-w-3xl">
+                <span className="section-badge inline-flex">Accessibility</span>
+                <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
+                  Access is part of the design, not cleanup after.
+                </h1>
+                <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
+                  NECYPAA XXXVI is committed to making the site and the in-person convention usable, legible, and welcoming for as many people as we can. If something gets in your way, we want to know early enough to help.
+                </p>
               </div>
-              <span className="section-badge mb-4 inline-block">Accessibility</span>
-              <h1 className="section-heading mb-3">Accessibility &amp; Inclusion</h1>
-              <p className="text-lg max-w-2xl mx-auto text-[var(--nec-muted)]">
-                We&apos;re committed to making NECYPAA XXXVI accessible to everyone — online and in
-                person. If you need accommodations, we want to hear from you.
-              </p>
-            </div>
 
-            {/* Commitment statement */}
-            <section className="nec-card p-6 md:p-8 mb-8">
-              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Our Commitment</h2>
-              <p className="text-sm leading-relaxed mb-3 text-[var(--nec-text)]">
-                Every person deserves equal access to recovery resources and fellowship events. Our
-                accessibility guidelines are developed in partnership with the NECYPAA XXXVI
-                Accessibilities Chair and informed by the experiences of our community.
-              </p>
-              <p className="text-sm leading-relaxed text-[var(--nec-text)]">
-                We target WCAG 2.1 AAA compliance wherever achievable, with AA as our absolute
-                floor. Connecticut state accessibility requirements and ADA Title III standards are
-                also met.
-              </p>
+              <aside className="rounded-[1.85rem] border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-card-rgb),0.9),rgba(var(--nec-cyan-rgb),0.05))] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-cyan)]">
+                  Working Standard
+                </p>
+                <p className="mt-3 text-base leading-7 text-[var(--nec-muted)]">
+                  The site targets WCAG 2.1 AAA wherever achievable, with AA as the floor, and the convention team coordinates accommodations directly instead of making people guess what is possible.
+                </p>
+              </aside>
+            </header>
+
+            <section className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+              <article className="rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.86)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                  Our commitment
+                </p>
+                <div className="mt-4 space-y-4 text-base leading-7 text-[var(--nec-muted)]">
+                  <p>
+                    Every person deserves equal access to recovery resources, fellowship, and convention information.
+                    This page exists to say what we are doing, where we are still improving, and how to reach us before a barrier becomes a bad weekend.
+                  </p>
+                  <p>
+                    Accessibility is treated as real infrastructure here: interaction design, content clarity, accommodation planning, and a feedback loop that the committee is expected to respond to.
+                  </p>
+                </div>
+              </article>
+
+              <article className="rounded-[1.85rem] border border-[rgba(var(--nec-gold-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.86)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
+                  Need something specific?
+                </p>
+                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                  Tell us before the weekend gets here.
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">
+                  If you need ASL interpretation, mobility support, sensory adjustments, dietary accommodation, or something not listed, email the committee directly so the request can be planned rather than improvised.
+                </p>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}?subject=Accommodation%20Request`}
+                  className="btn-secondary mt-5 inline-flex items-center gap-2"
+                >
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                  Request accommodations
+                </a>
+              </article>
             </section>
 
-            {/* Digital features grid */}
-            <h2
-              className="text-lg font-bold uppercase tracking-widest mb-4 pl-1 text-[var(--nec-cyan)] nec-section-label"
-            >
-              Digital Accessibility
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4 mb-10">
-              <FeatureCard
-                icon={<Eye className="w-5 h-5" />}
-                title="Visual Settings"
-                items={[
-                  "Dark & light mode",
-                  "High-contrast mode",
-                  "Adjustable text size",
-                  "Grayscale mode",
-                  "Dyslexia-friendly font option",
-                ]}
-              />
-              <FeatureCard
-                icon={<Monitor className="w-5 h-5" />}
-                title="Motion & Media"
-                items={[
-                  "Ability to turn off all animations",
-                  "No flashing or strobe effects",
-                  "All media is opt-in (no autoplay)",
-                  "Alt text on all images",
-                  "Captions on all video content",
-                ]}
-              />
-              <FeatureCard
-                icon={<Keyboard className="w-5 h-5" />}
-                title="Navigation"
-                items={[
-                  "Full keyboard navigation",
-                  "Skip-to-content links",
-                  "Visible focus indicators",
-                  "Escape key closes all modals",
-                  "No timed content or auto-advance",
-                ]}
-              />
-              <FeatureCard
-                icon={<Globe className="w-5 h-5" />}
-                title="Language & Tone"
-                items={[
-                  "Plain, clear language throughout",
-                  "Spanish translation (in progress)",
-                  "ASL video content (planned)",
-                  "Gender-neutral greetings",
-                  "Person-first language",
-                ]}
-              />
-            </div>
+            <section aria-label="Digital accessibility features" className="space-y-5">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-cyan)]">
+                  Digital Accessibility
+                </p>
+                <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                  What the site is already doing.
+                </h2>
+              </div>
 
-            {/* In-person features */}
-            <h2
-              className="text-lg font-bold uppercase tracking-widest mb-4 pl-1 text-[var(--nec-pink)] nec-section-label"
-            >
-              In-Person Accessibility
-            </h2>
-            <div className="nec-card p-6 md:p-8 mb-10">
-              <ul className="space-y-2.5 text-sm text-[var(--nec-text)]">
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--nec-cyan)]">•</span>
-                  Wheelchair accessible venue (ramps, elevators, accessible restrooms)
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--nec-cyan)]">•</span>
-                  ASL interpreters available on request
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--nec-cyan)]">•</span>
-                  Quiet / sensory break room
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--nec-cyan)]">•</span>
-                  Dietary food options (halal, kosher, vegan, gluten-free, allergy-safe)
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--nec-cyan)]">•</span>
-                  Sliding scale pricing and financial assistance
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[var(--nec-cyan)]">•</span>
-                  Childcare and kid-friendly options under consideration
-                </li>
-              </ul>
-            </div>
-
-            {/* Request accommodations */}
-            <section
-              className="nec-gradient-card rounded-xl p-6 md:p-8 mb-10 text-center"
-            >
-              <Ear className="w-8 h-8 mx-auto mb-3 text-[var(--nec-cyan)]" />
-              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">Need Accommodations?</h2>
-              <p className="text-sm mb-4 max-w-md mx-auto text-[var(--nec-muted)]">
-                If you need any accommodations — ASL interpretation, dietary needs, mobility
-                assistance, or anything else — please let us know. We want to help.
-              </p>
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=Accommodation%20Request`}
-                className="btn-secondary inline-flex items-center gap-2"
-              >
-                <Mail className="w-4 h-4" /> Request Accommodations
-              </a>
+              <div className="grid gap-4 md:grid-cols-2">
+                {digitalFeatures.map((feature) => (
+                  <article
+                    key={feature.title}
+                    className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-5 py-5 shadow-[0_16px_34px_rgba(44,24,16,0.06)]"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-cyan-rgb),0.06)] text-[var(--nec-cyan)]">
+                        {feature.icon}
+                      </div>
+                      <h3 className="text-lg font-semibold text-[var(--nec-text)]">{feature.title}</h3>
+                    </div>
+                    <ul className="mt-4 space-y-2 text-sm leading-6 text-[var(--nec-muted)]">
+                      {feature.items.map((item) => (
+                        <li key={item}>• {item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
             </section>
 
-            {/* Report a problem */}
-            <section className="nec-card p-6 md:p-8 mb-10">
-              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Report an Accessibility Problem</h2>
-              <p className="text-sm leading-relaxed mb-4 text-[var(--nec-text)]">
-                Found something on this site that isn&apos;t accessible? We want to fix it. You can
-                report issues by email, and anonymous reports are welcome.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
+            <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+              <article className="rounded-[1.85rem] border border-[rgba(var(--nec-pink-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.86)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-pink)]">
+                  In-Person Support
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                  What we are planning for the venue.
+                </h2>
+                <ul className="mt-4 space-y-2.5 text-sm leading-6 text-[var(--nec-muted)]">
+                  {venueFeatures.map((feature) => (
+                    <li key={feature}>• {feature}</li>
+                  ))}
+                </ul>
+              </article>
+
+              <article className="rounded-[1.85rem] border border-[rgba(var(--nec-gold-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.86)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)]">
+                    <Ear className="h-5 w-5 text-[var(--nec-gold)]" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
+                      Feedback and fixes
+                    </p>
+                    <h2 className="mt-1 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                      Tell us where the barrier is.
+                    </h2>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-[var(--nec-muted)]">
+                  If something on the site or at the convention is not working for you, email us directly or use the anonymous form below. We take feedback seriously and use it to update both the site and the event planning.
+                </p>
                 <a
                   href={`mailto:${CONTACT_EMAIL}?subject=Accessibility%20Issue`}
-                  className="btn-ghost inline-flex items-center gap-2"
+                  className="btn-ghost mt-5 inline-flex items-center gap-2"
                 >
-                  <Mail className="w-4 h-4" /> Email Us
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                  Report an issue
                 </a>
+              </article>
+            </section>
+
+            <section className="rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.88)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                Anonymous Feedback
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                Say it without naming yourself.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--nec-muted)]">
+                If anonymous feedback makes it easier to be direct, use the form here. No name or email is required.
+              </p>
+              <div className="mt-5">
+                <AnonymousFeedbackForm />
               </div>
             </section>
 
-            {/* Anonymous feedback form */}
-            <section className="nec-card p-6 md:p-8 mb-10">
-              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Anonymous Feedback</h2>
-              <p className="text-sm leading-relaxed mb-4 text-[var(--nec-text)]">
-                Want to share feedback without identifying yourself? Use this form. No email
-                address or name is required.
+            <section className="rounded-[1.9rem] border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.84)] px-6 py-6 text-sm leading-7 text-[var(--nec-muted)] shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-cyan)]">
+                Accessibility Statement
               </p>
-              <AnonymousFeedbackForm />
-            </section>
-
-            {/* Accessibility statement */}
-            <section
-              className="nec-statement-card rounded-xl p-5 text-xs leading-relaxed text-[var(--nec-muted)]"
-            >
-              <h3 className="text-sm font-bold text-[var(--nec-text)] mb-2">Accessibility Statement</h3>
-              <p className="mb-2">
-                NECYPAA XXXVI is committed to ensuring digital accessibility for people of all
-                abilities. We continually improve the user experience for everyone and apply relevant
-                accessibility standards. This site targets WCAG 2.1 Level AAA conformance wherever
-                achievable, with Level AA as our absolute minimum.
+              <p className="mt-4">
+                NECYPAA XXXVI is committed to improving digital and in-person accessibility for people of all abilities. This site aims for WCAG 2.1 Level AAA wherever achievable, with Level AA as the minimum baseline. We continue to review content, interactions, and accommodation processes as planning evolves.
               </p>
-              <p>
-                If you encounter any accessibility barriers on this site, please contact us at{" "}
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="underline text-[var(--nec-cyan)]"
-                >
+              <p className="mt-4">
+                If you encounter a barrier, contact{" "}
+                <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-[var(--nec-cyan)] underline">
                   {CONTACT_EMAIL}
                 </a>
-                . We take all feedback seriously and will work to address issues promptly.
+                . Feedback helps us improve both the website and the convention itself.
               </p>
             </section>
           </div>
@@ -208,33 +219,6 @@ export default function AccessibilityPage() {
 
       <SiteFooter />
       <MobileCtaBar />
-    </div>
-  )
-}
-
-function FeatureCard({
-  icon,
-  title,
-  items,
-}: {
-  icon: React.ReactNode
-  title: string
-  items: string[]
-}) {
-  return (
-    <div className="nec-card p-5">
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-[var(--nec-cyan)]">{icon}</span>
-        <h3 className="text-sm font-bold text-[var(--nec-text)]">{title}</h3>
-      </div>
-      <ul className="space-y-1.5 text-xs text-[var(--nec-text)]">
-        {items.map((item) => (
-          <li key={item} className="flex items-start gap-2">
-            <span className="mt-0.5 text-[10px] text-[var(--nec-cyan)]">✓</span>
-            {item}
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }

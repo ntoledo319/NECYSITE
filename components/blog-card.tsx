@@ -3,19 +3,18 @@
 import { useState, useRef, useId, useCallback } from "react"
 import { ChevronDown, BookOpen } from "lucide-react"
 import type { BlogPost } from "@/lib/data/blog-posts"
-import { SpotlightCard } from "@/components/ui/motion-primitives"
 
 const CATEGORY_STYLES: Record<
   string,
   { label: string; colorVar: string; rgb: string }
 > = {
-  story: { label: "Story", colorVar: "var(--nec-purple)", rgb: "124,58,237" },
-  update: { label: "Update", colorVar: "var(--nec-cyan)", rgb: "20,184,166" },
-  recap: { label: "Recap", colorVar: "var(--nec-gold)", rgb: "212,160,23" },
+  story: { label: "Story", colorVar: "var(--nec-purple)", rgb: "var(--nec-purple-rgb)" },
+  update: { label: "Update", colorVar: "var(--nec-cyan)", rgb: "var(--nec-cyan-rgb)" },
+  recap: { label: "Recap", colorVar: "var(--nec-gold)", rgb: "var(--nec-gold-rgb)" },
   announcement: {
     label: "Announcement",
     colorVar: "var(--nec-pink)",
-    rgb: "192,38,211",
+    rgb: "var(--nec-pink-rgb)",
   },
 }
 
@@ -33,7 +32,7 @@ interface BlogCardProps {
   index: number
 }
 
-export default function BlogCard({ post, index }: BlogCardProps) {
+export default function BlogCard({ post, index: _index }: BlogCardProps) {
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const articleRef = useRef<HTMLElement>(null)
@@ -61,10 +60,9 @@ export default function BlogCard({ post, index }: BlogCardProps) {
   }, [])
 
   return (
-    <SpotlightCard spotlightColor={`rgba(${cat.rgb},0.10)`} spotlightSize={450}>
     <article
       ref={articleRef}
-      className="blog-card group relative nec-card overflow-hidden"
+      className="blog-card group relative overflow-hidden rounded-[1.65rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] shadow-[0_18px_40px_rgba(44,24,16,0.08)] transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.16)] hover:shadow-[0_22px_48px_rgba(44,24,16,0.10)]"
     >
       {/* Top accent bar */}
       <div
@@ -81,8 +79,8 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           <span
             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest"
             style={{
-              background: `rgba(${cat.rgb},0.12)`,
-              border: `1px solid rgba(${cat.rgb},0.35)`,
+              background: `rgba(${cat.rgb},0.10)`,
+              border: `1px solid rgba(${cat.rgb},0.22)`,
               color: cat.colorVar,
             }}
           >
@@ -99,7 +97,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="text-xl sm:text-2xl font-black text-[var(--nec-text)] mb-3 leading-tight">
+        <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)] mb-3 leading-tight">
           {post.title}
         </h3>
 
@@ -156,8 +154,8 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           className="blog-card-toggle mt-4 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide rounded-lg px-4 py-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{
             color: cat.colorVar,
-            background: `rgba(${cat.rgb},0.08)`,
-            border: `1px solid rgba(${cat.rgb},0.20)`,
+            background: `rgba(${cat.rgb},0.06)`,
+            border: `1px solid rgba(${cat.rgb},0.18)`,
           }}
         >
           {expanded ? "Read Less" : "Read More"}
@@ -181,6 +179,5 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         }}
       />
     </article>
-    </SpotlightCard>
   )
 }

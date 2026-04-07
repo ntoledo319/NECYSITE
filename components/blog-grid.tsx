@@ -31,7 +31,7 @@ export default function BlogGrid() {
           className="text-sm font-semibold uppercase tracking-widest"
           style={{ color: "var(--nec-muted)" }}
         >
-          {sorted.length} {sorted.length === 1 ? "Post" : "Posts"}
+          {sorted.length} {sorted.length === 1 ? "Dispatch" : "Dispatches"}
         </p>
         <div
           className="flex-1 h-[1px]"
@@ -63,7 +63,7 @@ export default function BlogGrid() {
             onClick={() => setVisibleCount((c) => c + 6)}
             className="btn-ghost"
           >
-            Load More Posts
+            Load More Writing
           </button>
         </div>
       )}
@@ -75,7 +75,7 @@ export default function BlogGrid() {
             className="text-lg font-semibold"
             style={{ color: "var(--nec-muted)" }}
           >
-            No posts yet — check back soon.
+            No dispatches yet. The host committee is still finding the words.
           </p>
         </div>
       )}

@@ -2,39 +2,155 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight, Gamepad2 } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import { GearCluster } from "@/components/art/steampunk-gears"
+import PageArtAccents from "@/components/art/page-art-accents"
+
+type Character = "mad-hatter" | "cheshire-cat" | "caterpillar"
+type DividerVariant = "gear" | "key" | "potion" | "compass"
+type AccentTone = "purple" | "pink" | "gold" | "cyan"
+
+interface InventoryDetail {
+  label: string
+  value: string
+  accent?: AccentTone
+}
+
+interface InventoryNote {
+  title: string
+  body: string
+}
+
+interface InventoryLink {
+  href: string
+  label: string
+  description: string
+  external?: boolean
+  accent?: AccentTone
+}
 
 interface InventoryShellProps {
   badge: string
   title: string
   subtitle?: string
-  character: "mad-hatter" | "cheshire-cat" | "caterpillar"
+  character: Character
   gameName: string
   gameDescription: string
   children: React.ReactNode
+  dividerVariant?: DividerVariant
+  statusLabel: string
+  statusTitle: string
+  statusCopy: string
+  detailItems: InventoryDetail[]
+  bridgeLinks: InventoryLink[]
+  notesTitle: string
+  notes: InventoryNote[]
+  committeeNote: string
+  portalCaption: string
+  gamePrompt?: string
 }
 
 const CHARACTER_DATA = {
   "mad-hatter": {
     portal: "/images/mad-hatter-portal.jpg",
+    standalone: "/images/mad-hatter-character.png",
     alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-purple)",
     accentRgb: "var(--nec-purple-rgb)",
+    dividerVariant: "potion" as const,
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.jpg",
+    standalone: "/images/cheshire-cat-character.png",
     alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-pink)",
     accentRgb: "var(--nec-pink-rgb)",
+    dividerVariant: "gear" as const,
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.jpg",
+    standalone: "/images/caterpillar-character.png",
     alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-gold)",
     accentRgb: "var(--nec-gold-rgb)",
+    dividerVariant: "compass" as const,
   },
+}
+
+const ACCENT_STYLES: Record<
+  AccentTone,
+  { color: string; bg: string; border: string }
+> = {
+  purple: {
+    color: "var(--nec-purple)",
+    bg: "rgba(var(--nec-purple-rgb),0.05)",
+    border: "rgba(var(--nec-purple-rgb),0.16)",
+  },
+  pink: {
+    color: "var(--nec-pink)",
+    bg: "rgba(var(--nec-pink-rgb),0.05)",
+    border: "rgba(var(--nec-pink-rgb),0.16)",
+  },
+  gold: {
+    color: "var(--nec-gold)",
+    bg: "rgba(var(--nec-gold-rgb),0.05)",
+    border: "rgba(var(--nec-gold-rgb),0.16)",
+  },
+  cyan: {
+    color: "var(--nec-cyan)",
+    bg: "rgba(var(--nec-cyan-rgb),0.05)",
+    border: "rgba(var(--nec-cyan-rgb),0.16)",
+  },
+}
+
+function BridgeLinkCard({ link }: { link: InventoryLink }) {
+  const accent = ACCENT_STYLES[link.accent ?? "purple"]
+  const className =
+    "block rounded-[1.35rem] border px-4 py-4 transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+
+  if (link.external) {
+    return (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        style={{
+          background: accent.bg,
+          borderColor: accent.border,
+          outlineColor: accent.color,
+        }}
+      >
+        <p className="flex items-center gap-2 text-sm font-semibold text-[var(--nec-text)]">
+          {link.label}
+          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          <span className="sr-only"> (opens in new tab)</span>
+        </p>
+        <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">{link.description}</p>
+      </a>
+    )
+  }
+
+  return (
+    <Link
+      href={link.href}
+      className={className}
+      style={{
+        background: accent.bg,
+        borderColor: accent.border,
+        outlineColor: accent.color,
+      }}
+    >
+      <p className="flex items-center gap-2 text-sm font-semibold text-[var(--nec-text)]">
+        {link.label}
+        <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+      </p>
+      <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">{link.description}</p>
+    </Link>
+  )
 }
 
 export default function InventoryShell({
@@ -45,221 +161,220 @@ export default function InventoryShell({
   gameName,
   gameDescription,
   children,
+  dividerVariant,
+  statusLabel,
+  statusTitle,
+  statusCopy,
+  detailItems,
+  bridgeLinks,
+  notesTitle,
+  notes,
+  committeeNote,
+  portalCaption,
+  gamePrompt = "Need a detour while this room is still under construction?",
 }: InventoryShellProps) {
   const [showGame, setShowGame] = useState(false)
   const char = CHARACTER_DATA[character]
 
   return (
-    <div
-      className="min-h-screen flex flex-col relative"
-      style={{ backgroundColor: "var(--nec-navy)" }}
-    >
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Page content">
+    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <PageArtAccents
+        character={character}
+        accentColor={char.accent}
+        variant="subtle"
+        dividerVariant={dividerVariant ?? char.dividerVariant}
+      />
+
+      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Page header */}
-            <div className="text-center mb-10">
-              <span className="section-badge mb-4 inline-block">{badge}</span>
-              <h1 className="section-heading mb-3">{title}</h1>
+          <div className="mx-auto max-w-6xl">
+            <header className="mx-auto max-w-3xl text-center">
+              <span className="section-badge inline-flex">{badge}</span>
+              <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
+                {title}
+              </h1>
               {subtitle && (
-                <p
-                  className="text-lg max-w-2xl mx-auto"
-                  style={{ color: "var(--nec-muted)" }}
-                >
+                <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
                   {subtitle}
                 </p>
               )}
-            </div>
+            </header>
 
-            {/* Main card */}
-            <div className="relative">
-              {/* Ambient glow */}
-              <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none"
-                aria-hidden="true"
-                style={{
-                  background: `radial-gradient(ellipse 70% 60% at 50% 45%, rgba(${char.accentRgb},0.18) 0%, rgba(var(--nec-purple-rgb),0.06) 40%, transparent 70%)`,
-                  filter: "blur(60px)",
-                }}
-              />
+            <div className="mt-10 grid gap-8 lg:grid-cols-[0.96fr_1.04fr]">
+              <div className="space-y-6">
+                <article className="nec-card overflow-hidden p-6 md:p-7">
+                  <div
+                    className="mb-5 inline-flex items-center gap-2 rounded-full px-3 py-1.5"
+                    style={{
+                      background: `rgba(${char.accentRgb},0.07)`,
+                      border: `1px solid rgba(${char.accentRgb},0.16)`,
+                    }}
+                  >
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: char.accent }}>
+                      {statusLabel}
+                    </span>
+                  </div>
 
-              <div
-                className="relative nec-card overflow-hidden"
-                style={{
-                  boxShadow: "var(--shadow-card-hover)",
-                }}
-              >
-                {/* Top accent bar */}
-                <div
-                  className="h-1 w-full"
-                  aria-hidden="true"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40) 0%, rgba(var(--nec-pink-rgb),0.30) 50%, rgba(var(--nec-gold-rgb),0.30) 100%)",
-                  }}
-                />
+                  <div className="space-y-4">
+                    <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                      {statusTitle}
+                    </h2>
+                    <p className="max-w-2xl text-base leading-7 text-[var(--nec-muted)]">
+                      {statusCopy}
+                    </p>
+                  </div>
 
-                <div className="p-6 md:p-10 text-center relative">
-                  {/* Gear accents */}
-                  <GearCluster className="absolute top-4 left-4 opacity-50" />
-                  <GearCluster className="absolute bottom-4 right-4 opacity-40" />
-
-                  {!showGame ? (
-                    <>
-                      {/* Portal art */}
-                      <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto mb-6">
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {detailItems.map((item) => {
+                      const accent = ACCENT_STYLES[item.accent ?? "purple"]
+                      return (
                         <div
-                          className="absolute inset-0 scale-[1.3] rounded-full"
-                          aria-hidden="true"
+                          key={item.label}
+                          className="rounded-[1.25rem] border px-4 py-4"
                           style={{
-                            background: `radial-gradient(circle, rgba(${char.accentRgb},0.25) 0%, transparent 65%)`,
-                            filter: "blur(30px)",
+                            background: accent.bg,
+                            borderColor: accent.border,
                           }}
-                        />
-                        <Image
-                          src={char.portal}
-                          alt={char.alt}
-                          width={300}
-                          height={450}
-                          sizes="(min-width: 768px) 256px, 192px"
-                          className="relative z-10 w-full h-full object-cover rounded-2xl drop-shadow-[0_4px_30px_rgba(var(--nec-purple-rgb),0.25)]"
-                        />
-                      </div>
+                        >
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent.color }}>
+                            {item.label}
+                          </p>
+                          <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">
+                            {item.value}
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </article>
 
-                      {/* AA triangle icon */}
-                      <div className="mx-auto mb-4 w-12 h-12" aria-hidden="true">
-                        <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
-                          <circle
-                            cx="50"
-                            cy="50"
-                            r="45"
-                            stroke={char.accent}
-                            strokeWidth="2"
-                            opacity="0.3"
-                          />
-                          <polygon
-                            points="50,15 85,75 15,75"
-                            stroke={char.accent}
-                            strokeWidth="2.5"
-                            fill="none"
-                            opacity="0.5"
-                          />
-                          <text
-                            x="50"
-                            y="58"
-                            textAnchor="middle"
-                            fill="white"
-                            fontSize="14"
-                            fontWeight="bold"
-                            opacity="0.4"
-                          >
-                            AA
-                          </text>
-                        </svg>
-                      </div>
+                <article className="rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.82)] p-6 shadow-[0_20px_44px_rgba(44,24,16,0.08)]">
+                  <div className="mb-5 flex items-center gap-3">
+                    <div
+                      className="flex h-11 w-11 items-center justify-center rounded-full"
+                      style={{
+                        background: `rgba(${char.accentRgb},0.08)`,
+                        border: `1px solid rgba(${char.accentRgb},0.16)`,
+                      }}
+                    >
+                      <Image
+                        src={char.standalone}
+                        alt=""
+                        width={42}
+                        height={56}
+                        sizes="42px"
+                        className="h-8 w-auto object-contain"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: char.accent }}>
+                        Committee Note
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">{committeeNote}</p>
+                    </div>
+                  </div>
 
-                      <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">
-                        The committee is working on this&hellip;
+                  <div className="grid gap-3">
+                    {bridgeLinks.map((link) => (
+                      <BridgeLinkCard key={link.label} link={link} />
+                    ))}
+                  </div>
+                </article>
+              </div>
+
+              <div className="space-y-6">
+                <article className="nec-card overflow-hidden p-4 md:p-5">
+                  <div className="relative overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
+                    <div
+                      className="pointer-events-none absolute inset-x-0 top-0 h-20"
+                      aria-hidden="true"
+                      style={{
+                        background: `linear-gradient(180deg, rgba(${char.accentRgb},0.14) 0%, transparent 100%)`,
+                      }}
+                    />
+                    <Image
+                      src={char.portal}
+                      alt={char.alt}
+                      width={1200}
+                      height={1200}
+                      sizes="(max-width: 1024px) 100vw, 42vw"
+                      className="relative h-auto w-full rounded-[1.2rem] object-cover"
+                    />
+                  </div>
+
+                  <div className="mt-4 flex items-start gap-4">
+                    <GearCluster className="opacity-50" />
+                    <p className="text-sm leading-6 text-[var(--nec-muted)]">{portalCaption}</p>
+                  </div>
+                </article>
+
+                <article className="rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.84)] p-6 shadow-[0_20px_44px_rgba(44,24,16,0.08)]">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: char.accent }}>
+                        {notesTitle}
+                      </p>
+                      <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                        What this page is being shaped to hold.
                       </h2>
-                      <p
-                        className="text-sm max-w-md mx-auto mb-8"
-                        style={{ color: "var(--nec-muted)" }}
-                      >
-                        This page is being put together by the host committee.
-                        In the meantime, why not get to work on that fourth step?
-                      </p>
+                    </div>
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-full"
+                      style={{
+                        background: `rgba(${char.accentRgb},0.08)`,
+                        border: `1px solid rgba(${char.accentRgb},0.16)`,
+                      }}
+                    >
+                      <Gamepad2 className="h-4 w-4" style={{ color: char.accent }} aria-hidden="true" />
+                    </div>
+                  </div>
 
-                      {/* INVENTORY IN PROGRESS button */}
-                      <button
-                        type="button"
-                        onClick={() => setShowGame(true)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault()
-                            setShowGame(true)
-                          }
-                        }}
-                        className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-lg uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-4"
-                        style={{
-                          background: `linear-gradient(135deg, rgba(${char.accentRgb},0.2) 0%, rgba(var(--nec-dark-rgb),0.9) 50%, rgba(${char.accentRgb},0.15) 100%)`,
-                          border: `2px solid rgba(${char.accentRgb},0.4)`,
-                          boxShadow: `var(--shadow-card), 0 0 40px rgba(${char.accentRgb},0.1)`,
-                          color: "white",
-                          outlineColor: char.accent,
-                        }}
-                        aria-expanded={showGame}
-                        aria-label={`Inventory in Progress. Click to play ${gameName}. ${gameDescription}`}
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {notes.map((note) => (
+                      <div
+                        key={note.title}
+                        className="rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] px-4 py-4"
                       >
-                        {/* Pulsing dot */}
-                        <span className="relative flex h-3 w-3" aria-hidden="true">
-                          <span
-                            className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                            style={{ backgroundColor: char.accent }}
-                          />
-                          <span
-                            className="relative inline-flex rounded-full h-3 w-3"
-                            style={{ backgroundColor: char.accent }}
-                          />
-                        </span>
-                        Inventory in Progress
-                        {/* Subtle arrow hint */}
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          className="opacity-50 group-hover:opacity-100 transition-opacity"
-                          aria-hidden="true"
-                        >
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </button>
-
-                      <p
-                        className="text-xs mt-4 italic"
-                        style={{ color: "var(--nec-muted)" }}
-                      >
-                        &ldquo;Made a searching and fearless moral inventory&hellip;&rdquo; — Step 4
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      {/* Game header */}
-                      <div className="mb-6">
-                        <h2 className="text-lg font-bold text-[var(--nec-text)] mb-1">
-                          {gameName}
-                        </h2>
-                        <p
-                          className="text-xs"
-                          style={{ color: "var(--nec-muted)" }}
-                        >
-                          {gameDescription}
-                        </p>
+                        <p className="text-sm font-semibold text-[var(--nec-text)]">{note.title}</p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">{note.body}</p>
                       </div>
+                    ))}
+                  </div>
+                </article>
 
-                      {/* Game component */}
-                      <div aria-live="polite">
-                        {children}
-                      </div>
+                <article className="rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-card-rgb),0.88),rgba(var(--nec-purple-rgb),0.04))] p-6 shadow-[0_22px_48px_rgba(44,24,16,0.10)]">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                    <div className="max-w-xl">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: char.accent }}>
+                        Side Quest
+                      </p>
+                      <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                        {gameName}
+                      </h2>
+                      <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">
+                        {gamePrompt}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowGame((current) => !current)}
+                      className="inline-flex items-center justify-center gap-2 rounded-full border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.96)] px-4 py-2.5 text-sm font-semibold text-[var(--nec-text)] transition-[border-color,background,transform] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.24)] hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-2 focus-visible:outline-offset-2"
+                      style={{ outlineColor: char.accent }}
+                      aria-expanded={showGame}
+                    >
+                      {showGame ? "Hide the game" : "Open the game"}
+                    </button>
+                  </div>
 
-                      {/* Back button */}
-                      <button
-                        type="button"
-                        onClick={() => setShowGame(false)}
-                        className="mt-6 text-sm font-medium underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4"
-                        style={{
-                          color: "var(--nec-muted)",
-                          outlineColor: char.accent,
-                        }}
-                      >
-                        ← Back to page
-                      </button>
-                    </>
+                  <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">{gameDescription}</p>
+
+                  {showGame && (
+                    <div className="mt-5 rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] p-4">
+                      <div aria-live="polite">{children}</div>
+                    </div>
                   )}
-                </div>
+                </article>
               </div>
             </div>
           </div>

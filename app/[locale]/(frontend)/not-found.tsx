@@ -3,69 +3,92 @@
 import Link from "next/link"
 import Image from "next/image"
 import { motion, useReducedMotion } from "framer-motion"
-import { FloatingElement, MagneticButton, SPRING_GENTLE } from "@/components/ui/motion-primitives"
+import { ArrowRight, MapPin, Ticket } from "lucide-react"
+import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
+
+const recoveryRoutes = [
+  {
+    href: "/",
+    label: "Back to the homepage",
+    description: "Start from the main portal and reorient yourself from there.",
+    icon: MapPin,
+  },
+  {
+    href: "/register",
+    label: "Go to registration",
+    description: "If you came here trying to plan the weekend, this is still the highest-value move.",
+    icon: Ticket,
+  },
+  {
+    href: "/events",
+    label: "See the road to Hartford",
+    description: "The live parts of the site are all on the events side right now.",
+    icon: ArrowRight,
+  },
+]
 
 export default function NotFound() {
   const shouldReduce = useReducedMotion()
 
   return (
-    <div
-      className="min-h-[80vh] flex flex-col items-center justify-center px-4 text-center relative overflow-hidden"
-      style={{ backgroundColor: "var(--nec-navy)" }}
-    >
-      {/* Ambient glow */}
+    <div className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-4 py-16 text-center" style={{ backgroundColor: "var(--nec-navy)" }}>
       <div
-        className="nec-glow-blob absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.08]"
+        className="pointer-events-none absolute inset-0"
         aria-hidden="true"
         style={{
-          background: "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
-          filter: "blur(100px)",
+          background:
+            "radial-gradient(ellipse at top, rgba(var(--nec-purple-rgb),0.08) 0%, transparent 55%), radial-gradient(ellipse at bottom right, rgba(var(--nec-gold-rgb),0.06) 0%, transparent 60%)",
         }}
       />
 
       <motion.div
-        className="relative z-10 max-w-lg"
+        className="relative z-10 w-full max-w-3xl"
         initial={shouldReduce ? false : { opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       >
-        {/* Portal art */}
-        <FloatingElement yOffset={8} duration={5}>
-          <div className="relative w-32 h-32 mx-auto mb-8">
+        <div className="rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.9)] px-6 py-8 shadow-[0_24px_60px_rgba(44,24,16,0.10)] md:px-8 md:py-10">
+          <span className="section-badge inline-flex">404</span>
+
+          <div className="mx-auto mt-6 w-full max-w-[220px] overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
             <Image
-              src="/images/cheshire-cat-portal.png"
+              src="/images/cheshire-cat-portal.jpg"
               alt=""
-              width={128}
-              height={128}
-              className="w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(var(--nec-purple-rgb),0.25)]"
+              width={600}
+              height={800}
+              sizes="220px"
+              className="h-auto w-full rounded-[1.15rem] object-cover"
               aria-hidden="true"
             />
           </div>
-        </FloatingElement>
 
-        <span
-          className="section-badge mb-4 inline-block"
-        >
-          404
-        </span>
+          <h1 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)]">
+            Lost in the Mad Realm.
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
+            This route is gone, wrong, or never existed in the first place. Instead of dumping you into a dead end,
+            here are the three places most likely to get you back on track.
+          </p>
 
-        <h1 className="text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-3 nec-heading-shadow">
-          Lost in the Mad Realm
-        </h1>
-
-        <p className="text-base md:text-lg leading-relaxed mb-8 text-[var(--nec-muted)]">
-          This page doesn&apos;t exist — or perhaps the Cheshire Cat hid it.
-          Either way, let&apos;s get you back to familiar ground.
-        </p>
-
-        <MagneticButton strength={0.25}>
-          <Link
-            href="/"
-            className="nec-cta-accent inline-flex items-center gap-2 font-bold text-sm rounded-xl px-6 py-3 transition-colors text-[var(--nec-text)]"
-          >
-            Back to the Portal
-          </Link>
-        </MagneticButton>
+          <div className="mt-8 grid gap-3 text-left md:grid-cols-3">
+            {recoveryRoutes.map((route) => {
+              const Icon = route.icon
+              return (
+                <Link
+                  key={route.href}
+                  href={route.href}
+                  className="rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] px-4 py-4 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.18)] hover:bg-[rgba(var(--nec-purple-rgb),0.04)]"
+                >
+                  <p className="flex items-center gap-2 text-sm font-semibold text-[var(--nec-text)]">
+                    <Icon className="h-4 w-4 text-[var(--nec-purple)]" aria-hidden="true" />
+                    {route.label}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">{route.description}</p>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
       </motion.div>
     </div>
   )
