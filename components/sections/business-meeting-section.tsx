@@ -86,30 +86,54 @@ export default function BusinessMeetingSection() {
 
   return (
     <section id="business-meeting" aria-label="Next business meeting" className="h-full">
-      <article className="nec-card flex h-full flex-col p-7 md:p-8">
+      <article className="nec-card relative flex h-full flex-col overflow-hidden p-7 md:p-8">
+        <div
+          className="absolute inset-x-0 top-0 h-[3px]"
+          aria-hidden="true"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0) 0%, rgba(var(--nec-purple-rgb),0.5) 35%, rgba(var(--nec-cyan-rgb),0.45) 100%)",
+          }}
+        />
+        <div
+          className="pointer-events-none absolute right-0 top-0 hidden h-48 w-40 lg:block"
+          aria-hidden="true"
+          style={{
+            background:
+              "radial-gradient(circle at top right, rgba(var(--nec-purple-rgb),0.09), transparent 70%)",
+          }}
+        />
+
         <span className="section-badge">Committee Work</span>
         <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
           Join the next business meeting.
         </h2>
-        <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+        <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--nec-muted)]">
           Meet the host committee, hear what is moving, and see how the convention is actually built.
           If someone wants to help, this page should make the door feel open.
         </p>
 
-        <div className="mt-6 rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Next meeting</p>
-          <p className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
-            {dateStr || "Loading…"}
-          </p>
+        <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+          <div className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Next meeting</p>
+            <p className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
+              {dateStr || "Loading…"}
+            </p>
+          </div>
+
+          <div className="rounded-[1.6rem] border border-[rgba(var(--nec-cyan-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.72)] p-5">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{meetingDetails[2].label}</p>
+            <p className="mt-3 text-sm font-semibold leading-6 text-[var(--nec-text)]">{meetingDetails[2].value}</p>
+          </div>
         </div>
 
-        <dl className="mt-6 grid gap-4">
+        <dl className="mt-6 grid gap-4 md:grid-cols-3">
           {meetingDetails.map((detail) => {
             const Icon = detail.icon
             return (
               <div
                 key={detail.label}
-                className="grid gap-3 rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] p-4 sm:grid-cols-[auto_1fr]"
+                className="grid gap-3 rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] p-4"
               >
                 <div
                   className="flex h-11 w-11 items-center justify-center rounded-2xl border"

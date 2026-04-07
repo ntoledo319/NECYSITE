@@ -13,7 +13,7 @@ const registrationHighlights = [
 
 export default function CTASection() {
   return (
-    <section aria-label="Plan your convention weekend" className="space-y-5">
+    <section aria-label="Plan your convention weekend" className="space-y-6">
       <div className="max-w-2xl">
         <span className="section-badge">Plan Your Weekend</span>
         <h2 className="section-heading mt-5">Start with the two decisions that matter most.</h2>
@@ -23,13 +23,21 @@ export default function CTASection() {
         </p>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
         <article className="nec-card relative overflow-hidden p-8 md:p-10">
           <div
             className="absolute inset-y-0 right-0 hidden w-40 md:block"
             aria-hidden="true"
             style={{
               background: "linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb),0.04) 100%)",
+            }}
+          />
+          <div
+            className="absolute inset-x-0 top-0 h-[3px]"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0) 0%, rgba(var(--nec-gold-rgb),0.45) 26%, rgba(var(--nec-purple-rgb),0.5) 64%, rgba(var(--nec-purple-rgb),0) 100%)",
             }}
           />
           <div className="absolute right-6 top-6 hidden opacity-[0.08] md:block" aria-hidden="true">
@@ -57,8 +65,10 @@ export default function CTASection() {
               </p>
             </div>
 
-            <div className="grid gap-4 rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5 md:grid-cols-[auto_1fr] md:items-center">
-              <div className="text-4xl font-semibold text-[var(--nec-gold)]">$40</div>
+            <div className="grid gap-4 rounded-[1.65rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5 md:grid-cols-[auto_1fr] md:items-center">
+              <div className="rounded-[1.25rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)] px-4 py-3 text-center">
+                <div className="text-4xl font-semibold text-[var(--nec-gold)]">$40</div>
+              </div>
               <div className="space-y-2">
                 <p className="text-sm font-semibold text-[var(--nec-text)]">Pre-registration price</p>
                 <p className="text-sm leading-6 text-[var(--nec-muted)]">
@@ -67,11 +77,11 @@ export default function CTASection() {
               </div>
             </div>
 
-            <ul className="grid gap-3">
+            <ul className="grid gap-3 md:grid-cols-3">
               {registrationHighlights.map((item) => (
                 <li
                   key={item}
-                  className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-4 py-3 text-sm leading-6 text-[var(--nec-muted)]"
+                  className="rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-4 py-4 text-sm leading-6 text-[var(--nec-muted)] shadow-[0_14px_28px_rgba(44,24,16,0.04)]"
                 >
                   {item}
                 </li>
@@ -91,7 +101,15 @@ export default function CTASection() {
         </article>
 
         <div className="grid gap-6">
-          <article className="nec-card p-7">
+          <article className="nec-card relative overflow-hidden p-7">
+            <div
+              className="absolute inset-x-0 top-0 h-[3px]"
+              aria-hidden="true"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0) 0%, rgba(var(--nec-gold-rgb),0.48) 50%, rgba(var(--nec-gold-rgb),0) 100%)",
+              }}
+            />
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)]">
                 <Hotel className="h-5 w-5 text-[var(--nec-gold)]" aria-hidden="true" />
@@ -114,7 +132,15 @@ export default function CTASection() {
             </div>
           </article>
 
-          <article className="nec-card p-7">
+          <article className="nec-card relative overflow-hidden p-7">
+            <div
+              className="absolute inset-x-0 top-0 h-[3px]"
+              aria-hidden="true"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0) 0%, rgba(var(--nec-cyan-rgb),0.48) 50%, rgba(var(--nec-cyan-rgb),0) 100%)",
+              }}
+            />
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-cyan-rgb),0.06)]">
                 <Users className="h-5 w-5 text-[var(--nec-cyan)]" aria-hidden="true" />

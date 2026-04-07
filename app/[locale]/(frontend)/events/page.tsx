@@ -23,6 +23,14 @@ export default function EventsPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl space-y-10">
             <header className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-6 py-8 shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8 md:py-10">
+              <div
+                className="absolute inset-x-0 top-0 h-[3px]"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(var(--nec-pink-rgb),0) 0%, rgba(var(--nec-pink-rgb),0.48) 30%, rgba(var(--nec-purple-rgb),0.52) 72%, rgba(var(--nec-cyan-rgb),0.28) 100%)",
+                }}
+              />
               <div className="absolute right-6 top-6 hidden opacity-[0.08] lg:block" aria-hidden="true">
                 <Image
                   src="/images/mad-hatter-character.png"
@@ -66,7 +74,15 @@ export default function EventsPage() {
                 </p>
               </div>
 
-              <article className="nec-card overflow-hidden p-6 md:p-8">
+              <article className="nec-card relative overflow-hidden p-6 md:p-8">
+                <div
+                  className="absolute inset-x-0 top-0 h-[3px]"
+                  aria-hidden="true"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(var(--nec-pink-rgb),0) 0%, rgba(var(--nec-pink-rgb),0.46) 34%, rgba(var(--nec-cyan-rgb),0.46) 100%)",
+                  }}
+                />
                 <div className="grid gap-6 md:grid-cols-[260px_1fr] md:gap-8">
                   <div className="overflow-hidden rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
                     <FlyerWithModal
@@ -101,7 +117,7 @@ export default function EventsPage() {
                         {upcomingEvent.schedule.map((slot) => (
                           <div
                             key={slot.label}
-                            className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
+                            className="rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
                           >
                             <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
                             <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
@@ -113,7 +129,10 @@ export default function EventsPage() {
                     {upcomingEvent.details.length > 0 && (
                       <dl className="grid gap-4 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-5 sm:grid-cols-2">
                         {upcomingEvent.details.map((detail) => (
-                          <div key={detail.label}>
+                          <div
+                            key={detail.label}
+                            className="rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.56)] px-4 py-3"
+                          >
                             <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
                             <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
                           </div>
@@ -138,7 +157,15 @@ export default function EventsPage() {
 
               <div className="grid gap-5 md:grid-cols-2">
                 {pastEvents.map((event) => (
-                  <article key={event.id} className="nec-card p-5">
+                  <article key={event.id} className="nec-card relative p-5">
+                    <div
+                      className="absolute inset-x-0 top-0 h-[2px]"
+                      aria-hidden="true"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0) 0%, rgba(var(--nec-cyan-rgb),0.28) 50%, rgba(var(--nec-cyan-rgb),0) 100%)",
+                      }}
+                    />
                     <div className="flex gap-4">
                       <div className="w-24 flex-shrink-0 overflow-hidden rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-1.5">
                         <FlyerWithModal

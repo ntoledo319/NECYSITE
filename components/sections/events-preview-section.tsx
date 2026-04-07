@@ -25,19 +25,30 @@ export default function EventsPreviewSection() {
         </Link>
       </div>
 
-      <article className="nec-card overflow-hidden p-6 md:p-8">
-        <div className="grid gap-6 md:grid-cols-[220px_1fr] md:gap-8">
-          <div className="overflow-hidden rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
+      <article className="nec-card relative overflow-hidden p-6 md:p-8">
+        <div
+          className="absolute inset-x-0 top-0 h-[3px]"
+          aria-hidden="true"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(var(--nec-pink-rgb),0) 0%, rgba(var(--nec-pink-rgb),0.5) 30%, rgba(var(--nec-cyan-rgb),0.5) 100%)",
+          }}
+        />
+        <div className="grid gap-6 md:grid-cols-[240px_1fr] md:gap-8">
+          <div className="overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2 sm:p-2.5">
             <FlyerWithModal
               src={upcomingEvent.flyerSrc}
               alt={upcomingEvent.flyerAlt}
               title={upcomingEvent.title}
-              className="rounded-[1.1rem]"
+              className="rounded-[1.2rem]"
             />
           </div>
 
-          <div className="space-y-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-pink)]">Coming Up Next</p>
+          <div className="space-y-5">
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-pink)]">Coming Up Next</p>
+              <span className="hidden h-px flex-1 bg-[linear-gradient(90deg,rgba(var(--nec-pink-rgb),0.18),rgba(var(--nec-cyan-rgb),0.04))] sm:block" aria-hidden="true" />
+            </div>
             <h3 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
               {upcomingEvent.title}
             </h3>
@@ -60,7 +71,7 @@ export default function EventsPreviewSection() {
                 {upcomingEvent.schedule.map((slot) => (
                   <div
                     key={slot.label}
-                    className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
+                    className="rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
                   >
                     <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
                     <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
@@ -72,7 +83,10 @@ export default function EventsPreviewSection() {
             {upcomingEvent.details.length > 0 && (
               <dl className="grid gap-3 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-5 sm:grid-cols-2">
                 {upcomingEvent.details.map((detail) => (
-                  <div key={detail.label}>
+                  <div
+                    key={detail.label}
+                    className="rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.56)] px-4 py-3"
+                  >
                     <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
                     <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
                   </div>
@@ -96,8 +110,16 @@ export default function EventsPreviewSection() {
             {pastEvents.slice(0, 4).map((event) => (
               <article
                 key={event.id}
-                className="rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.76)] p-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]"
+                className="relative rounded-[1.45rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.76)] p-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]"
               >
+                <div
+                  className="absolute inset-x-0 top-0 h-[2px]"
+                  aria-hidden="true"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0) 0%, rgba(var(--nec-cyan-rgb),0.28) 50%, rgba(var(--nec-cyan-rgb),0) 100%)",
+                  }}
+                />
                 <div className="flex gap-4">
                   <div className="w-20 flex-shrink-0 overflow-hidden rounded-[1rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-1.5">
                     <FlyerWithModal

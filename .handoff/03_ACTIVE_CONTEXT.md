@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-only page-by-page differentiation pass.
+**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-only page-by-page differentiation and refinement pass.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -94,6 +94,21 @@ This follow-up pass continued the same constraint: redesign the page surfaces wi
 - no intentional committee-copy rewrite
 - route copy preserved, with changes focused on composition, grouping, imagery, and surface treatment
 
+### 6. Final Visual-Only Refinement Pass Across Homepage + Destination Routes
+
+This most recent pass stayed inside the same rule: no approved wording changes, only visual and interaction work.
+
+**What changed in this pass:**
+- `hero-section.tsx`, `quick-facts-strip.tsx`, `cta-section.tsx`, `business-meeting-section.tsx`, `events-preview-section.tsx`, and `ypaa-narrative-section.tsx` were recomposed so the homepage reads as a more authored sequence rather than a stack of similar cards
+- `states/page.tsx`, `state-card.tsx`, and `meeting-directory.tsx` were polished away from the older dark-glass treatment and toward calmer framed surfaces with clearer hierarchy
+- `alanon/page.tsx` and `alanon-info-accordion.tsx` got stronger route-specific framing and cleaner card treatment without changing the approved wording
+- `breakfast/page.tsx` and `breakfast-checkout.tsx` were upgraded from a utility checkout feel into a more intentional ticket-purchase flow while preserving all existing text
+- `events/page.tsx` received a final surface polish so it aligns more tightly with the newer homepage/event-preview language
+
+**Constraint maintained in this pass:**
+- no intentional committee-copy rewrite
+- work limited to layout, framing, imagery emphasis, spacing, and control polish
+
 ---
 
 ## Features: Current Status
@@ -111,6 +126,7 @@ This follow-up pass continued the same constraint: redesign the page surfaces wi
 - Meetings browser
 - Journey archive page
 - Blog index and article presentation
+- Shared homepage section system
 
 ### Present but Still Needing Final Content / Visual-Only Follow-Up
 - Program

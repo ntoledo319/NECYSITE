@@ -189,11 +189,23 @@ export default function MeetingDirectory({
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:min-w-[260px]">
-            <div className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]">
+            <div
+              className="rounded-[1.4rem] border px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]"
+              style={{
+                background: `rgba(${t.accentRgb},0.05)`,
+                borderColor: `rgba(${t.accentRgb},0.16)`,
+              }}
+            >
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Visible</p>
-              <p className="mt-2 text-2xl font-semibold text-[var(--nec-text)]">{filtered.length}</p>
+              <p className="mt-2 text-2xl font-semibold" style={{ color: t.accent }}>{filtered.length}</p>
             </div>
-            <div className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]">
+            <div
+              className="rounded-[1.4rem] border px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]"
+              style={{
+                background: "rgba(var(--nec-card-rgb),0.84)",
+                borderColor: `rgba(${t.accentRgb},0.10)`,
+              }}
+            >
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">States</p>
               <p className="mt-2 text-2xl font-semibold text-[var(--nec-text)]">{states.length}</p>
             </div>
@@ -201,7 +213,7 @@ export default function MeetingDirectory({
         </div>
 
         <div
-          className="grid gap-3 rounded-[1.5rem] p-4 md:grid-cols-2 md:p-5 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))_auto]"
+          className="grid gap-3 rounded-[1.7rem] p-4 md:grid-cols-2 md:p-5 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))_auto]"
           style={{
             background: `rgba(${t.accentRgb},0.025)`,
             border: `1px solid rgba(${t.accentRgb},0.10)`,
@@ -222,7 +234,10 @@ export default function MeetingDirectory({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`${filterControlClassName} pl-11 pr-4`}
-                style={{ background: "rgba(var(--nec-card-rgb),0.92)" }}
+                style={{
+                  background: "rgba(var(--nec-card-rgb),0.92)",
+                  borderColor: `rgba(${t.accentRgb},0.12)`,
+                }}
               />
             </div>
           </div>
@@ -314,11 +329,15 @@ export default function MeetingDirectory({
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div
             id={resultsId}
-            className="inline-flex items-center gap-2 rounded-full border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] px-3.5 py-2"
+            className="inline-flex items-center gap-2 rounded-full border px-3.5 py-2"
             aria-live="polite"
             aria-atomic="true"
+            style={{
+              background: "rgba(var(--nec-card-rgb),0.86)",
+              borderColor: `rgba(${t.accentRgb},0.12)`,
+            }}
           >
-            <Filter className="h-3.5 w-3.5 text-[var(--nec-muted)]" aria-hidden="true" />
+            <Filter className="h-3.5 w-3.5" style={{ color: t.accent }} aria-hidden="true" />
             <span className="text-sm font-medium text-[var(--nec-muted)]">
               {filtered.length} meeting{filtered.length !== 1 ? "s" : ""} found
               {stateFilter ? ` in ${STATE_NAMES[stateFilter] || stateFilter}` : ""}

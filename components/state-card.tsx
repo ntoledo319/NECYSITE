@@ -46,23 +46,21 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
   return (
     <article
       ref={cardRef}
-      className="state-card-luxury group/card rounded-2xl overflow-hidden"
+      className="group/card overflow-hidden rounded-[1.7rem] transition-[border-color,box-shadow,transform] duration-200"
       style={{
         background: expanded
-          ? `linear-gradient(135deg, rgba(${accentRgb},0.06) 0%, rgba(var(--nec-card-rgb),0.85) 40%, rgba(var(--nec-dark-rgb),0.95) 100%)`
-          : "var(--nec-card)",
+          ? `linear-gradient(135deg, rgba(${accentRgb},0.05) 0%, rgba(var(--nec-card-rgb),0.92) 42%, rgba(var(--nec-card-rgb),0.84) 100%)`
+          : "rgba(var(--nec-card-rgb),0.82)",
         border: isHighlighted
           ? `1.5px solid rgba(${accentRgb},0.5)`
           : expanded
             ? `1px solid rgba(${accentRgb},0.25)`
-            : "1px solid var(--nec-border)",
+            : "1px solid rgba(var(--nec-purple-rgb),0.10)",
         boxShadow: isHighlighted
-          ? `0 0 30px rgba(${accentRgb},0.15), 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)`
+          ? `0 18px 42px rgba(44,24,16,0.10), 0 0 0 1px rgba(${accentRgb},0.08)`
           : expanded
-            ? `0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)`
-            : "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+            ? `0 16px 34px rgba(44,24,16,0.08)`
+            : "0 10px 22px rgba(44,24,16,0.05)",
       }}
     >
       {/* Top accent gradient line */}
@@ -82,11 +80,11 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
         aria-expanded={expanded}
         aria-controls={panelId}
         onClick={() => setExpanded((prev) => !prev)}
-        className="w-full text-left p-5 md:p-6 flex items-center gap-4 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)] rounded-2xl"
+        className="flex w-full items-center gap-4 rounded-[1.7rem] p-5 text-left focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)] md:p-6"
       >
         {/* State abbreviation badge — luxury version */}
         <span
-          className="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center text-xl md:text-2xl font-black relative overflow-hidden"
+          className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center overflow-hidden rounded-[1.25rem] text-xl font-black md:h-16 md:w-16 md:text-2xl"
           style={{
             background: expanded
               ? `linear-gradient(135deg, rgba(${accentRgb},0.20) 0%, rgba(${accentRgb},0.08) 100%)`
@@ -94,7 +92,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
             color: accentColor,
             border: `1px solid rgba(${accentRgb},${expanded ? "0.35" : "0.15"})`,
             boxShadow: expanded
-              ? `0 0 20px rgba(${accentRgb},0.1), inset 0 1px 0 rgba(255,255,255,0.06)`
+              ? `0 12px 22px rgba(44,24,16,0.08)`
               : "none",
           }}
         >
@@ -111,11 +109,11 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
         </span>
 
         {/* State name and summary */}
-        <span className="flex-1 min-w-0">
-          <span className="block text-base md:text-lg font-bold text-[var(--nec-text)] leading-tight">
+        <span className="min-w-0 flex-1">
+          <span className="block text-base font-bold leading-tight text-[var(--nec-text)] md:text-lg">
             {state.name}
           </span>
-          <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
+          <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
             <span
               className="text-xs font-medium"
               style={{ color: "var(--nec-muted)" }}
@@ -125,7 +123,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
             </span>
             {state.ypaaCommittee && (
               <span
-                className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
+                className="rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
                 style={{
                   background: "rgba(var(--nec-pink-rgb),0.08)",
                   color: "var(--nec-pink)",
@@ -136,7 +134,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
               </span>
             )}
             <span
-              className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
+              className="rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
               style={{
                 background: `rgba(${accentRgb},0.08)`,
                 color: accentColor,
@@ -147,7 +145,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
             </span>
           </span>
           {state.notes && (
-            <span className="flex items-center gap-1 mt-1.5">
+            <span className="mt-1.5 flex items-center gap-1">
               <Sparkles
                 className="w-3 h-3 flex-shrink-0"
                 style={{ color: "var(--nec-gold)" }}
@@ -181,7 +179,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
           id={panelId}
           role="region"
           aria-labelledby={cardId}
-          className="px-5 md:px-6 pb-6 pt-0 state-card-panel"
+          className="state-card-panel px-5 pb-6 pt-0 md:px-6"
         >
           <div
             className="border-t pt-5"
@@ -218,17 +216,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         href={ig.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link flex items-start gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
-                        style={{
-                          background: "transparent",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background =
-                            "rgba(var(--nec-cyan-rgb),0.04)"
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = "transparent"
-                        }}
+                        className="group/link -mx-1 flex items-start gap-2 rounded-[1rem] p-2.5 transition-[background-color,border-color] duration-200 hover:bg-[rgba(var(--nec-cyan-rgb),0.04)]"
                       >
                         <span className="flex-1 min-w-0">
                           <span
@@ -296,14 +284,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       href={state.ypaaCommittee.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background =
-                          "rgba(var(--nec-pink-rgb),0.04)"
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "transparent"
-                      }}
+                      className="group/link -mx-1 flex items-center gap-2 rounded-[1rem] p-2.5 transition-[background-color,border-color] duration-200 hover:bg-[rgba(var(--nec-pink-rgb),0.04)]"
                     >
                       <span
                         className="text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
@@ -328,7 +309,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       {previewMeetings.map((m, i) => (
                         <li
                           key={`${m.name}-${m.day}-${i}`}
-                          className="rounded-lg p-2"
+                          className="rounded-[1rem] p-2.5"
                           style={{
                             background: "rgba(var(--nec-pink-rgb),0.03)",
                             border: "1px solid rgba(var(--nec-pink-rgb),0.06)",
@@ -408,14 +389,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       href={state.alanon.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background =
-                          "rgba(var(--nec-gold-rgb),0.04)"
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "transparent"
-                      }}
+                      className="group/link -mx-1 flex items-center gap-2 rounded-[1rem] p-2.5 transition-[background-color,border-color] duration-200 hover:bg-[rgba(var(--nec-gold-rgb),0.04)]"
                     >
                       <span
                         className="text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
@@ -437,14 +411,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         href={state.alanon.alateenUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background =
-                            "rgba(var(--nec-gold-rgb),0.04)"
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = "transparent"
-                        }}
+                        className="group/link -mx-1 flex items-center gap-2 rounded-[1rem] p-2.5 transition-[background-color,border-color] duration-200 hover:bg-[rgba(var(--nec-gold-rgb),0.04)]"
                       >
                         <span
                           className="text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
@@ -488,19 +455,11 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                   href={state.meetingFinderUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all duration-200"
+                  className="inline-flex items-center gap-2 rounded-[1rem] px-4 py-2.5 text-sm font-bold transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5"
                   style={{
                     background: "rgba(234,88,12,0.08)",
                     border: "1px solid rgba(234,88,12,0.2)",
                     color: "var(--nec-orange)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(234,88,12,0.15)"
-                    e.currentTarget.style.borderColor = "rgba(234,88,12,0.4)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(234,88,12,0.08)"
-                    e.currentTarget.style.borderColor = "rgba(234,88,12,0.2)"
                   }}
                 >
                   AA meetings in {state.name}

@@ -31,96 +31,147 @@ export default function HeroSection() {
   return (
     <section
       aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
-      className="relative overflow-hidden py-10 md:py-14 lg:py-16"
+      className="relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12 lg:pb-16 lg:pt-14"
     >
       <div
-        className="absolute inset-x-0 top-0 h-[70%] pointer-events-none"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[78%]"
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse at top left, rgba(var(--nec-gold-rgb),0.08) 0%, transparent 55%), radial-gradient(ellipse at top right, rgba(var(--nec-purple-rgb),0.08) 0%, transparent 52%)",
+            "radial-gradient(ellipse at top left, rgba(var(--nec-gold-rgb),0.10) 0%, transparent 55%), radial-gradient(ellipse at top right, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 52%), linear-gradient(180deg, rgba(var(--nec-card-rgb),0.12) 0%, transparent 100%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-x-4 top-0 h-px md:inset-x-8"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb),0.18) 20%, rgba(var(--nec-gold-rgb),0.3) 50%, rgba(var(--nec-purple-rgb),0.18) 80%, transparent 100%)",
         }}
       />
 
       <div className="container mx-auto px-4 relative">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:gap-14">
-          <div className="max-w-2xl">
-            <span className="section-badge">Hartford 2026</span>
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] lg:gap-12">
+          <div className="relative max-w-3xl">
+            <div className="nec-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10">
+              <div
+                className="absolute inset-x-0 top-0 h-[3px]"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0) 0%, rgba(var(--nec-gold-rgb),0.45) 25%, rgba(var(--nec-purple-rgb),0.55) 65%, rgba(var(--nec-purple-rgb),0) 100%)",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute inset-y-0 right-0 hidden w-40 lg:block"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb),0.04) 100%)",
+                }}
+              />
 
-            <Image
-              src="/images/mad-realm-logo-no-bg.webp"
-              alt="Escaping the Mad Realm — NECYPAA XXXVI theme logo"
-              width={360}
-              height={192}
-              priority
-              sizes="(max-width: 768px) 70vw, 360px"
-              className="mt-6 h-auto w-full max-w-[260px] sm:max-w-[320px] md:max-w-[360px]"
-            />
+              <div className="relative z-10">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="section-badge">Hartford 2026</span>
+                  <span className="hidden h-px flex-1 bg-[linear-gradient(90deg,rgba(var(--nec-purple-rgb),0.16),rgba(var(--nec-gold-rgb),0.04))] sm:block" aria-hidden="true" />
+                </div>
 
-            <div className="mt-7 space-y-5">
-              <h1
-                className="text-4xl font-semibold leading-[0.92] tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl md:text-6xl"
-                style={{ fontFamily: "var(--font-display), var(--font-heading), Georgia, serif" }}
-              >
-                NECYPAA XXXVI
-              </h1>
-              <p className="max-w-xl text-lg leading-8 text-[var(--nec-muted)] md:text-xl">
-                Four days of fellowship, workshops, speakers, dancing, and sober joy at the Hartford
-                Marriott Downtown. The art already gives this weekend a world. The convention brings
-                the people.
-              </p>
-            </div>
+                <div className="mt-6 grid gap-7 xl:grid-cols-[auto_1fr] xl:items-end">
+                  <Image
+                    src="/images/mad-realm-logo-no-bg.webp"
+                    alt="Escaping the Mad Realm — NECYPAA XXXVI theme logo"
+                    width={360}
+                    height={192}
+                    priority
+                    sizes="(max-width: 768px) 70vw, 360px"
+                    className="h-auto w-full max-w-[260px] sm:max-w-[320px] md:max-w-[360px]"
+                  />
 
-            <dl className="mt-8 grid gap-4 sm:grid-cols-3">
-              {conventionDetails.map((detail) => {
-                const Icon = detail.icon
-                return (
-                  <div
-                    key={detail.label}
-                    className="rounded-2xl border p-4"
-                    style={{
-                      background: "rgba(var(--nec-card-rgb),0.72)",
-                      borderColor: "rgba(var(--nec-purple-rgb),0.12)",
-                    }}
-                  >
-                    <dt className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">
-                      <Icon className="h-4 w-4" style={{ color: detail.accent }} aria-hidden="true" />
-                      {detail.label}
-                    </dt>
-                    <dd className="mt-3 text-sm font-semibold leading-6 text-[var(--nec-text)]">
-                      {detail.value}
-                    </dd>
+                  <div className="space-y-5">
+                    <h1
+                      className="text-4xl font-semibold leading-[0.92] tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl md:text-6xl"
+                      style={{ fontFamily: "var(--font-display), var(--font-heading), Georgia, serif" }}
+                    >
+                      NECYPAA XXXVI
+                    </h1>
+                    <p className="max-w-xl text-lg leading-8 text-[var(--nec-muted)] md:text-xl">
+                      Four days of fellowship, workshops, speakers, dancing, and sober joy at the Hartford
+                      Marriott Downtown. The art already gives this weekend a world. The convention brings
+                      the people.
+                    </p>
                   </div>
-                )
-              })}
-            </dl>
+                </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link href="/register" className="btn-primary">
-                Register for $40
-              </Link>
-              <a href={HOTEL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary">
-                Book the Hotel
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
-              <Link href="/events" className="btn-ghost">
-                Explore Events
-              </Link>
-            </div>
+                <dl className="mt-8 grid gap-4 sm:grid-cols-3">
+                  {conventionDetails.map((detail) => {
+                    const Icon = detail.icon
+                    return (
+                      <div
+                        key={detail.label}
+                        className="relative overflow-hidden rounded-[1.4rem] border p-4"
+                        style={{
+                          background: "rgba(var(--nec-card-rgb),0.72)",
+                          borderColor: "rgba(var(--nec-purple-rgb),0.12)",
+                        }}
+                      >
+                        <div
+                          className="absolute inset-x-0 top-0 h-[2px]"
+                          aria-hidden="true"
+                          style={{ background: `linear-gradient(90deg, transparent 0%, ${detail.accent} 45%, transparent 100%)` }}
+                        />
+                        <dt className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                          <Icon className="h-4 w-4" style={{ color: detail.accent }} aria-hidden="true" />
+                          {detail.label}
+                        </dt>
+                        <dd className="mt-3 text-sm font-semibold leading-6 text-[var(--nec-text)]">
+                          {detail.value}
+                        </dd>
+                      </div>
+                    )
+                  })}
+                </dl>
 
-            <div className="mt-6 flex flex-col gap-3 border-t border-[rgba(var(--nec-purple-rgb),0.10)] pt-5 sm:flex-row sm:items-center sm:justify-between">
-              <p className="flex items-center gap-2 text-sm text-[var(--nec-muted)]">
-                <Sparkles className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
-                Young people and the young at heart, all weekend long.
-              </p>
-              <AddToCalendar variant="inline" />
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <Link href="/register" className="btn-primary">
+                    Register for $40
+                  </Link>
+                  <a href={HOTEL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary">
+                    Book the Hotel
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                  <Link href="/events" className="btn-ghost">
+                    Explore Events
+                  </Link>
+                </div>
+
+                <div className="mt-6 flex flex-col gap-3 border-t border-[rgba(var(--nec-purple-rgb),0.10)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="flex items-center gap-2 text-sm text-[var(--nec-muted)]">
+                    <Sparkles className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
+                    Young people and the young at heart, all weekend long.
+                  </p>
+                  <AddToCalendar variant="inline" />
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="lg:justify-self-end">
-            <div className="relative mx-auto max-w-[470px]">
-              <div className="nec-card overflow-hidden p-3 sm:p-4">
-                <div className="overflow-hidden rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
+            <div className="relative mx-auto max-w-[520px]">
+              <div
+                className="pointer-events-none absolute inset-5 rounded-[2rem] border border-[rgba(var(--nec-gold-rgb),0.14)]"
+                aria-hidden="true"
+              />
+              <div className="nec-card relative overflow-hidden p-3 sm:p-4">
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 h-[3px]"
+                  aria-hidden="true"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0) 0%, rgba(var(--nec-gold-rgb),0.45) 38%, rgba(var(--nec-purple-rgb),0.45) 72%, rgba(var(--nec-purple-rgb),0) 100%)",
+                  }}
+                />
+                <div className="overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2 sm:p-2.5">
                   <Image
                     src="/images/mad-realm-poster-full.webp"
                     alt="NECYPAA XXXVI Escaping the Mad Realm poster art"
@@ -128,16 +179,24 @@ export default function HeroSection() {
                     height={1467}
                     priority
                     sizes="(max-width: 768px) 88vw, (max-width: 1280px) 42vw, 470px"
-                    className="h-auto w-full object-cover"
+                    className="h-auto w-full rounded-[1.15rem] object-cover"
                   />
                 </div>
               </div>
 
-              <div className="absolute -bottom-5 left-4 right-4 sm:left-auto sm:right-6 sm:w-[230px]">
-                <div className="rounded-2xl border bg-[rgba(var(--nec-card-rgb),0.94)] p-4 shadow-[0_18px_40px_rgba(44,24,16,0.12)]">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Pre-registration</p>
-                  <p className="mt-2 text-3xl font-semibold text-[var(--nec-gold)]">$40</p>
-                  <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
+              <div className="absolute -bottom-5 left-4 right-4 sm:left-auto sm:right-6 sm:w-[260px]">
+                <div className="rounded-[1.6rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.95)] p-4 shadow-[0_18px_40px_rgba(44,24,16,0.12)]">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Pre-registration</p>
+                      <p className="mt-2 text-3xl font-semibold text-[var(--nec-gold)]">$40</p>
+                    </div>
+                    <div
+                      className="mt-1 h-10 w-10 rounded-full border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)]"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">
                     Lock in your spot early, reserve your room, and arrive with the weekend already
                     mapped out.
                   </p>

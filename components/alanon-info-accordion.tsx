@@ -73,14 +73,15 @@ export default function AlAnonInfoAccordion() {
         <Accordion.Item
           key={section.id}
           value={section.id}
-          className="nec-alanon-item rounded-xl overflow-hidden transition-all duration-200"
+          className="nec-alanon-item overflow-hidden rounded-[1.4rem] transition-all duration-200"
           style={{
-            background: "var(--nec-card)",
+            background: "rgba(var(--nec-card-rgb),0.82)",
             border: "1px solid rgba(0,147,208,0.12)",
+            boxShadow: "0 12px 28px rgba(44,24,16,0.05)",
           }}
         >
           <Accordion.Header>
-            <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-[var(--nec-text)] nec-nav-hover transition-colors">
+            <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-[var(--nec-text)] transition-[background-color,color] duration-200 hover:bg-[rgba(0,147,208,0.03)]">
               <span className="pr-4">{section.title}</span>
               <ChevronDown
                 className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"
@@ -91,8 +92,8 @@ export default function AlAnonInfoAccordion() {
           </Accordion.Header>
           <Accordion.Content className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
             <div
-              className="px-5 pb-5 text-sm leading-relaxed"
-              style={{ color: "var(--nec-text)" }}
+              className="border-t px-5 pb-5 pt-4 text-sm leading-relaxed"
+              style={{ borderColor: "rgba(0,147,208,0.08)", color: "var(--nec-text)" }}
             >
               {section.content}
             </div>

@@ -135,11 +135,23 @@ export default function StatesPage() {
           <div className="max-w-5xl mx-auto">
             {/* ── Hero Header ──────────────────────── */}
             <motion.header
-              className="text-center mb-12 relative"
+              className="relative mb-12 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8 md:py-10"
               initial={shouldReduce ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+              style={{
+                background: "rgba(var(--nec-card-rgb),0.74)",
+                borderColor: "rgba(var(--nec-purple-rgb),0.12)",
+              }}
             >
+              <div
+                className="absolute inset-x-0 top-0 h-[3px]"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0) 0%, rgba(var(--nec-cyan-rgb),0.45) 30%, rgba(var(--nec-purple-rgb),0.52) 72%, rgba(var(--nec-pink-rgb),0.36) 100%)",
+                }}
+              />
               <div className="inline-flex items-center gap-2 mb-5">
                 <span className="section-badge">
                   <Globe className="w-3.5 h-3.5" aria-hidden="true" />
@@ -170,7 +182,7 @@ export default function StatesPage() {
 
             {/* ── Luxury Stats Strip ─────────────────── */}
             <motion.div
-              className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-12"
+              className="mb-12 grid grid-cols-2 gap-3 md:gap-4 sm:grid-cols-4"
               role="group"
               aria-label="Region statistics"
               variants={shouldReduce ? undefined : staggerContainer}
@@ -182,7 +194,7 @@ export default function StatesPage() {
                 <motion.div
                   key={stat.label}
                   variants={staggerChild}
-                  className="states-stat-card relative rounded-2xl p-5 md:p-6 text-center overflow-hidden"
+                  className="states-stat-card relative overflow-hidden rounded-[1.55rem] p-5 text-center md:p-6"
                   style={{
                     background: `linear-gradient(135deg, rgba(${stat.bgRgb},0.08) 0%, rgba(var(--nec-card-rgb),0.8) 100%)`,
                     border: `1px solid rgba(${stat.bgRgb},0.18)`,
@@ -215,11 +227,10 @@ export default function StatesPage() {
 
             {/* ── Interactive Map Section ─────────────── */}
             <section
-              className="mb-12 rounded-3xl overflow-hidden states-map-section"
+              className="states-map-section mb-12 overflow-hidden rounded-[2rem]"
               style={{
-                background:
-                  "var(--nec-card)",
-                border: "1px solid var(--nec-border)",
+                background: "rgba(var(--nec-card-rgb),0.86)",
+                border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
                 boxShadow: "var(--shadow-card-hover)",
               }}
               aria-label="Interactive region map"
@@ -300,7 +311,7 @@ export default function StatesPage() {
               {viewMode === "map" ? (
                 <div className="p-4 md:p-6 lg:p-8">
                   <Suspense fallback={
-                    <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="flex min-h-[400px] items-center justify-center">
                       <div className="text-center space-y-3">
                         <div className="w-8 h-8 mx-auto border-2 border-[var(--nec-purple)] border-t-transparent rounded-full animate-spin" aria-hidden="true" />
                         <p className="text-[var(--nec-text)]">Loading map...</p>
@@ -378,12 +389,12 @@ export default function StatesPage() {
             {/* ── Primary Content Tabs ─────────────── */}
             <div className="mb-6">
               <div
-                className="flex items-center gap-1 p-1.5 rounded-2xl"
+                className="flex items-center gap-1 rounded-[1.4rem] p-1.5"
                 role="tablist"
                 aria-label="Page content"
                 style={{
-                  background: "var(--nec-card)",
-                  border: "1px solid var(--nec-border)",
+                  background: "rgba(var(--nec-card-rgb),0.84)",
+                  border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
                   boxShadow: "var(--shadow-card)",
                 }}
               >
