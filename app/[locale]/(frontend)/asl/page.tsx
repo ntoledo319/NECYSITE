@@ -16,6 +16,7 @@ export default function ASLPage() {
       title="Access to the message matters."
       subtitle="This page is where interpretation details, signing resources, and practical ASL information will live as the committee confirms coverage for the convention."
       character="cheshire-cat"
+      theme="asl"
       dividerVariant="key"
       statusLabel="Access Coordination"
       statusTitle="The ASL page is being built as a usable access hub, not a token mention buried in the footer."

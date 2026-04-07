@@ -17,6 +17,7 @@ export default function ProgramPage() {
       title="A four-day weekend needs a readable spine."
       subtitle={`The full convention program is still being built, but the shape of the weekend is already clear: arrive ready for fellowship, movement, meetings, speakers, and late-night recovery energy from ${CONVENTION_DATES}.`}
       character="cheshire-cat"
+      theme="program"
       dividerVariant="compass"
       statusLabel="Weekend Structure"
       statusTitle="This page will become the schedule people actually plan their weekend around."

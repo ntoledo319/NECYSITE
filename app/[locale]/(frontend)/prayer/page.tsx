@@ -16,6 +16,7 @@ export default function PrayerPage() {
       title="Spiritual footing without clinical energy."
       subtitle="This room will hold the quieter side of the convention: the readings, reflections, and breathing space that keep the weekend grounded when everything else gets loud."
       character="caterpillar"
+      theme="prayer"
       dividerVariant="compass"
       statusLabel="Spiritual Room"
       statusTitle="The prayer page is being shaped into a calm place to land, not a pile of generic inspirational quotes."

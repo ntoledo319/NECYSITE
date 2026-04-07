@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-**Phase:** Side-branch design revolution complete enough for review. The current branch is now a full light-first, editorial, page-specific redesign rather than a partial polish pass.
+**Phase:** Side-branch design revolution complete enough for review. The current branch is now a full light-first, page-specific redesign, with a follow-up pass reducing repeated editorial treatment on the placeholder-family routes.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older site)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -73,6 +73,21 @@ This session completed the route-level differentiation pass so the site feels au
 
 Several routes that previously read as generic “coming soon” pages now have specific voices, bridge links, route-specific notes, committee framing, and themed visual treatment. The branch still contains future-facing pages, but they no longer feel dead or temporary in a low-effort way.
 
+### 5. Follow-Up Correction: Less Copy-Led, More Visual Separation
+
+After the big page sweep, the shared placeholder-family routes still felt too similar and too editorial in tone. A follow-up pass corrected that without rewriting the page copy again.
+
+**What changed in that correction:**
+- `components/games/inventory-shell.tsx` now supports page-specific visual modes instead of one repeated centered editorial layout
+- FAQ now presents more like an answer board
+- Program now reads more like a structured schedule rail
+- Merch now uses a more poster-drop / ticket-wall composition
+- Prayer now feels calmer and more spatial
+- ASL now prioritizes clear signboard-like structure
+- Bid now has more of a blueprint / handoff-room treatment
+
+This pass was intentionally visual-first and avoided another round of broad copy rewriting.
+
 ---
 
 ## Features: Current Status
@@ -128,11 +143,11 @@ See `docs/tech-debt-and-gaps.md` for the broader backlog.
 ## Recent Commits Already On Branch
 
 ```
+08d01a2 Individualize NECYPAA pages across the site
 1fbca97 Polish NECYPAA UI across core flows
 4c0117d feat(events): populate past events + redesign homepage section
 3bf7aa5 fix(meta): use badge image for social sharing preview
 fdf3e5c refactor(states): tabbed layout to prevent resource burial
-861bc77 fix(meetings): replace unicode escape sequences with actual characters
 ```
 
 ---
@@ -140,6 +155,6 @@ fdf3e5c refactor(states): tabbed layout to prevent resource burial
 ## What a New Developer Should Know Immediately
 
 1. `main` is no longer the visual reference. The side branch is intentionally a dramatic redesign.
-2. The project now leans editorial, warm, and page-specific. Avoid reintroducing generic SaaS gradients, random pills, or effect-heavy surfaces.
+2. The project now leans warm, specific, and page-distinct. Avoid reintroducing generic SaaS gradients, random pills, or one repeated editorial composition across every route.
 3. The remaining work is more about finishing real content and backend reliability than about establishing a design direction.
 4. Before pushing again, keep this file current. The pre-push hook expects it.

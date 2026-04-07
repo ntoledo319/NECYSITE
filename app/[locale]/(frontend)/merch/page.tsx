@@ -16,6 +16,7 @@ export default function MerchPage() {
       title="Wear the weekend home with you."
       subtitle="Merchandise should feel like a souvenir from a specific convention, not generic conference swag. This page will hold the pieces worth lining up for when the first drop is ready."
       character="mad-hatter"
+      theme="merch"
       dividerVariant="key"
       statusLabel="Merch Bench"
       statusTitle="The merch table is being built with real poster energy, not throwaway filler."

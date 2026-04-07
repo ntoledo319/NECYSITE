@@ -18,6 +18,7 @@ export default function FAQPage() {
       title="Answers for the questions people actually ask."
       subtitle="We are building this around real attendee uncertainty, not filler. Until the full answer desk is published, the fastest answers already live on the pages below."
       character="cheshire-cat"
+      theme="faq"
       dividerVariant="gear"
       statusLabel="Answer Desk"
       statusTitle="The full FAQ is being assembled from the practical things people need before they travel."

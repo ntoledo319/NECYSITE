@@ -17,6 +17,7 @@ export default function BidPage() {
       title="If your area wants to host next, start here."
       subtitle="A future bid should feel possible, but not casual. This page is where the process, expectations, and real committee wisdom will eventually be gathered in one place."
       character="mad-hatter"
+      theme="bid"
       dividerVariant="potion"
       statusLabel="Future Host Track"
       statusTitle="The bid page is being prepared as a serious handoff room for the next area that wants to step up."
