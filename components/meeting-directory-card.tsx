@@ -1,6 +1,6 @@
 "use client"
 
-import { MapPin, Globe, Clock, ExternalLink, Info } from "lucide-react"
+import { Clock, ExternalLink, Globe, Info, MapPin } from "lucide-react"
 import type { MeetingFormat } from "@/lib/data/ypaa-meetings"
 
 export interface MeetingDirectoryItem {
@@ -29,22 +29,20 @@ interface MeetingDirectoryCardProps {
 const THEME_COLORS = {
   pink: {
     accent: "var(--nec-pink)",
-    accentRgb: "192,38,211",
-    nameHover: "rgba(192,38,211,0.08)",
+    accentRgb: "var(--nec-pink-rgb)",
     badge: {
-      "in-person": { bg: "rgba(20,184,166,0.10)", border: "rgba(20,184,166,0.25)", color: "var(--nec-cyan)", label: "In-Person" },
-      online: { bg: "rgba(124,58,237,0.10)", border: "rgba(124,58,237,0.25)", color: "var(--nec-purple)", label: "Online" },
-      hybrid: { bg: "rgba(192,38,211,0.10)", border: "rgba(192,38,211,0.25)", color: "var(--nec-pink)", label: "Hybrid" },
+      "in-person": { bg: "rgba(var(--nec-cyan-rgb),0.08)", border: "rgba(var(--nec-cyan-rgb),0.18)", color: "var(--nec-cyan)", label: "In-Person" },
+      online: { bg: "rgba(var(--nec-purple-rgb),0.08)", border: "rgba(var(--nec-purple-rgb),0.18)", color: "var(--nec-purple)", label: "Online" },
+      hybrid: { bg: "rgba(var(--nec-pink-rgb),0.08)", border: "rgba(var(--nec-pink-rgb),0.18)", color: "var(--nec-pink)", label: "Hybrid" },
     },
   },
   blue: {
     accent: "var(--alanon-blue)",
-    accentRgb: "0,147,208",
-    nameHover: "rgba(0,147,208,0.08)",
+    accentRgb: "var(--alanon-blue-rgb)",
     badge: {
-      "in-person": { bg: "rgba(0,147,208,0.10)", border: "rgba(0,147,208,0.25)", color: "var(--alanon-blue)", label: "In-Person" },
-      online: { bg: "rgba(124,58,237,0.10)", border: "rgba(124,58,237,0.25)", color: "var(--nec-purple)", label: "Online" },
-      hybrid: { bg: "rgba(0,147,208,0.10)", border: "rgba(0,147,208,0.20)", color: "var(--alanon-blue)", label: "Hybrid" },
+      "in-person": { bg: "rgba(var(--alanon-blue-rgb),0.08)", border: "rgba(var(--alanon-blue-rgb),0.18)", color: "var(--alanon-blue)", label: "In-Person" },
+      online: { bg: "rgba(var(--nec-purple-rgb),0.08)", border: "rgba(var(--nec-purple-rgb),0.18)", color: "var(--nec-purple)", label: "Online" },
+      hybrid: { bg: "rgba(var(--alanon-blue-rgb),0.08)", border: "rgba(var(--alanon-blue-rgb),0.15)", color: "var(--alanon-blue)", label: "Hybrid" },
     },
   },
 } as const
@@ -56,144 +54,128 @@ export default function MeetingDirectoryCard({ meeting, theme = "pink" }: Meetin
   const hasOnlineUrl = Boolean(meeting.onlineUrl)
 
   return (
-    <article
-      className="nec-meeting-dir-card group/mcard rounded-xl p-4 transition-all duration-200"
-      style={{
-        background: `linear-gradient(135deg, rgba(${t.accentRgb},0.03) 0%, rgba(var(--nec-card-rgb),0.8) 100%)`,
-        border: `1px solid rgba(${t.accentRgb},0.12)`,
-      }}
-    >
-      {/* Header: Name + State badge */}
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h3
-          className="text-sm font-bold leading-tight text-[var(--nec-text)]"
-        >
-          {meeting.name}
-        </h3>
-        <span
-          className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
-          style={{
-            background: `rgba(${t.accentRgb},0.10)`,
-            color: t.accent,
-            border: `1px solid rgba(${t.accentRgb},0.20)`,
-          }}
-        >
-          {meeting.state}
-        </span>
-      </div>
+    <article className="nec-card h-full p-5">
+      <div className="flex h-full flex-col gap-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-2 min-w-0">
+            <h3 className="text-base font-semibold leading-tight text-[var(--nec-text)]">
+              {meeting.name}
+            </h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
+                style={{
+                  background: formatBadge.bg,
+                  border: `1px solid ${formatBadge.border}`,
+                  color: formatBadge.color,
+                }}
+              >
+                {meeting.format === "in-person" ? (
+                  <MapPin className="h-3 w-3" aria-hidden="true" />
+                ) : (
+                  <Globe className="h-3 w-3" aria-hidden="true" />
+                )}
+                {formatBadge.label}
+              </span>
+              {meeting.type && (
+                <span className="rounded-full border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-2.5 py-1 text-[11px] font-medium text-[var(--nec-muted)]">
+                  {meeting.type}
+                </span>
+              )}
+              {meeting.ageRange && (
+                <span
+                  className="rounded-full px-2.5 py-1 text-[11px] font-medium"
+                  style={{
+                    background: `rgba(${t.accentRgb},0.06)`,
+                    border: `1px solid rgba(${t.accentRgb},0.15)`,
+                    color: t.accent,
+                  }}
+                >
+                  {meeting.ageRange}
+                </span>
+              )}
+            </div>
+          </div>
 
-      {/* Day + Time */}
-      <div className="flex items-center gap-1.5 mb-2">
-        <Clock
-          className="w-3.5 h-3.5 flex-shrink-0"
-          style={{ color: t.accent }}
-          aria-hidden="true"
-        />
-        <span className="text-xs font-semibold" style={{ color: "var(--nec-text)" }}>
-          {meeting.day && meeting.time
-            ? `${meeting.day} \u2022 ${meeting.time}`
-            : meeting.day || meeting.time || "Contact for schedule"}
-        </span>
-      </div>
-
-      {/* Format badge */}
-      <div className="flex flex-wrap items-center gap-1.5 mb-2">
-        <span
-          className="nec-meeting-badge inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md"
-          style={{
-            background: formatBadge.bg,
-            border: `1px solid ${formatBadge.border}`,
-            color: formatBadge.color,
-          }}
-        >
-          {meeting.format === "in-person" ? (
-            <MapPin className="w-2.5 h-2.5" aria-hidden="true" />
-          ) : (
-            <Globe className="w-2.5 h-2.5" aria-hidden="true" />
-          )}
-          {formatBadge.label}
-        </span>
-        {meeting.type && (
           <span
-            className="text-[10px] font-medium px-2 py-0.5 rounded-md"
+            className="flex-shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "var(--nec-muted)",
-            }}
-          >
-            {meeting.type}
-          </span>
-        )}
-        {meeting.ageRange && (
-          <span
-            className="text-[10px] font-medium px-2 py-0.5 rounded-md"
-            style={{
-              background: `rgba(${t.accentRgb},0.06)`,
-              border: `1px solid rgba(${t.accentRgb},0.15)`,
+              background: `rgba(${t.accentRgb},0.08)`,
               color: t.accent,
+              border: `1px solid rgba(${t.accentRgb},0.16)`,
             }}
           >
-            {meeting.ageRange}
+            {meeting.state}
           </span>
+        </div>
+
+        <div className="grid gap-3 border-y border-[rgba(var(--nec-purple-rgb),0.08)] py-4">
+          <div className="flex items-start gap-3">
+            <Clock className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: t.accent }} aria-hidden="true" />
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">When</p>
+              <p className="mt-1 text-sm font-semibold leading-6 text-[var(--nec-text)]">
+                {meeting.day && meeting.time
+                  ? `${meeting.day} • ${meeting.time}`
+                  : meeting.day || meeting.time || "Contact for schedule"}
+              </p>
+            </div>
+          </div>
+
+          {(meeting.city || hasLocation) && (
+            <div className="flex items-start gap-3">
+              <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: t.accent }} aria-hidden="true" />
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Where</p>
+                <p className="mt-1 text-sm leading-6 text-[var(--nec-text)]">
+                  {meeting.city && hasLocation
+                    ? `${meeting.city} — ${meeting.location}`
+                    : meeting.city || meeting.location}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-3 text-sm">
+          {hasOnlineUrl && (
+            <a
+              href={meeting.onlineUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-semibold transition-colors hover:opacity-80"
+              style={{ color: t.accent }}
+            >
+              <Globe className="h-4 w-4" aria-hidden="true" />
+              Join Online
+              {meeting.meetingId && <span className="text-[var(--nec-muted)]">({meeting.meetingId})</span>}
+              <span className="sr-only"> (opens in new tab)</span>
+            </a>
+          )}
+
+          {meeting.notes && (
+            <p className="flex items-start gap-2 text-sm leading-6 text-[var(--nec-muted)]">
+              <Info className="mt-1 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <span>{meeting.notes}</span>
+            </p>
+          )}
+        </div>
+
+        {meeting.contactUrl && meeting.contactUrl.startsWith("http") && (
+          <div className="mt-auto pt-3">
+            <a
+              href={meeting.contactUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+            >
+              Source / More Info
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="sr-only"> (opens in new tab)</span>
+            </a>
+          </div>
         )}
       </div>
-
-      {/* City + Location */}
-      {(meeting.city || hasLocation) && (
-        <p
-          className="text-xs leading-relaxed mb-1"
-          style={{ color: "var(--nec-muted)" }}
-        >
-          <MapPin className="w-3 h-3 inline-block mr-1 -mt-0.5" style={{ color: t.accent }} aria-hidden="true" />
-          {meeting.city && hasLocation
-            ? `${meeting.city} — ${meeting.location}`
-            : meeting.city || meeting.location}
-        </p>
-      )}
-
-      {/* Online link */}
-      {hasOnlineUrl && (
-        <a
-          href={meeting.onlineUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs font-semibold transition-colors hover:underline mb-1"
-          style={{ color: t.accent }}
-        >
-          <Globe className="w-3 h-3" aria-hidden="true" />
-          Join Online
-          {meeting.meetingId && (
-            <span style={{ color: "var(--nec-muted)" }}> ({meeting.meetingId})</span>
-          )}
-          <span className="sr-only"> (opens in new tab)</span>
-        </a>
-      )}
-
-      {/* Notes */}
-      {meeting.notes && (
-        <p className="flex items-start gap-1 text-[11px] mt-2 leading-relaxed" style={{ color: "var(--nec-muted)" }}>
-          <Info className="w-3 h-3 flex-shrink-0 mt-0.5" aria-hidden="true" />
-          {meeting.notes}
-        </p>
-      )}
-
-      {/* Contact/source link */}
-      {meeting.contactUrl && meeting.contactUrl.startsWith("http") && (
-        <div className="mt-2 pt-2 border-t" style={{ borderColor: `rgba(${t.accentRgb},0.08)` }}>
-          <a
-            href={meeting.contactUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[11px] font-medium transition-colors hover:underline"
-            style={{ color: "var(--nec-muted)" }}
-          >
-            Source / More Info
-            <ExternalLink className="w-2.5 h-2.5" aria-hidden="true" />
-            <span className="sr-only"> (opens in new tab)</span>
-          </a>
-        </div>
-      )}
     </article>
   )
 }

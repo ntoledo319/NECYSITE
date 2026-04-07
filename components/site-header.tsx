@@ -28,40 +28,26 @@ function isDropdown(item: NavItem): item is NavDropdown {
 }
 
 const navItems: NavItem[] = [
+  { href: "/#what-is-ypaa", label: "About" },
+  { href: "/events", label: "Events" },
+  { href: "/program", label: "Program" },
+  { href: HOTEL_BOOKING_URL, label: "Hotel", external: true },
+  { href: "/blog", label: "Blog" },
+  { href: "/service", label: "Service" },
+  { href: "/faq", label: "FAQ" },
   {
-    label: "Convention",
+    label: "Resources",
     children: [
-      { href: "/events", label: "Events" },
-      { href: "/register", label: "Register" },
-      { href: "/program", label: "Program" },
-      { href: "/merch", label: "Merch" },
       { href: "/breakfast", label: "Breakfast" },
-      { href: HOTEL_BOOKING_URL, label: "Book Hotel", external: true },
-      { href: "/faq", label: "FAQ" },
-    ],
-  },
-  {
-    label: "Community",
-    children: [
-      { href: "/#what-is-ypaa", label: "What is YPAA? ↓" },
-      { href: "/blog", label: "Blog" },
-      { href: "/journey", label: "The Journey" },
+      { href: "/merch", label: "Merch" },
       { href: "/prayer", label: "Prayer" },
       { href: "/asl", label: "ASL Resources" },
       { href: "/states", label: "Find Your State" },
       { href: "/alanon", label: "Al-Anon / Alateen" },
+      { href: "/accessibility", label: "Accessibility" },
+      { href: NECYPAA_ADVISORY_URL, label: "Advisory", external: true },
     ],
   },
-  {
-    label: "Get Involved",
-    children: [
-      { href: "/#business-meeting", label: "Business Meeting ↓" },
-      { href: "/service", label: "Service Opportunities" },
-      { href: "/bid", label: "Start a Bid" },
-    ],
-  },
-  { href: "/accessibility", label: "Accessibility" },
-  { href: NECYPAA_ADVISORY_URL, label: "Advisory", external: true },
 ]
 
 function isActivePath(pathname: string, href: string): boolean {
@@ -122,8 +108,8 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
       onKeyDown={handleKeyDown}
     >
       <button
-        className="px-3 py-1.5 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-lg
-                   hover:bg-[rgba(0,0,0,0.04)] transition-all duration-150 uppercase tracking-wide
+        className="px-3 py-2 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-xl
+                   hover:bg-[rgba(var(--nec-purple-rgb),0.04)] transition-all duration-150 tracking-[0.01em]
                    inline-flex items-center gap-1 nec-nav-link"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
@@ -159,7 +145,7 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
                 role="menuitem"
                 tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-2 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
+                className="block px-4 py-2.5 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
               >
                 {child.label}
                 <span className="sr-only"> (opens in new tab)</span>
@@ -205,7 +191,7 @@ function MobileDropdown({
     <div>
       <button
         className="w-full px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-[var(--nec-text)]
-                   nec-nav-hover rounded-xl transition-all uppercase tracking-wide
+                   nec-nav-hover rounded-xl transition-all tracking-[0.01em]
                    flex items-center justify-between"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
@@ -305,18 +291,18 @@ export default function SiteHeader() {
         }}
         transition={shouldReduce ? { duration: 0 } : { duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
         style={{
-          backdropFilter: "blur(16px) saturate(1.4)",
-          WebkitBackdropFilter: "blur(16px) saturate(1.4)",
+          backdropFilter: "blur(12px) saturate(1.1)",
+          WebkitBackdropFilter: "blur(12px) saturate(1.1)",
           borderBottom: "1px solid",
           paddingTop: "env(safe-area-inset-top)",
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-[4.5rem]">
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center group"
+              className="flex items-center gap-3 group"
               onClick={close}
             >
               <Image
@@ -325,15 +311,21 @@ export default function SiteHeader() {
                 width={200}
                 height={100}
                 sizes="200px"
-                className="h-10 w-auto group-hover:opacity-90 transition-opacity"
+                className="h-11 w-auto group-hover:opacity-90 transition-opacity"
                 priority
               />
+              <div className="hidden min-w-0 sm:block">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Hartford, Connecticut</p>
+                <p className="truncate text-sm font-semibold tracking-[0.01em] text-[var(--nec-text)]">
+                  NECYPAA XXXVI
+                </p>
+              </div>
             </Link>
 
             {/* Desktop nav */}
             <nav
               aria-label="Main navigation"
-              className="hidden md:flex items-center gap-1"
+              className="hidden md:flex items-center gap-0.5"
             >
               {navItems.map((item) =>
                 isDropdown(item) ? (
@@ -344,8 +336,8 @@ export default function SiteHeader() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-lg
-                               nec-nav-hover transition-all duration-150 uppercase tracking-wide"
+                    className="px-3 py-2 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-xl
+                               nec-nav-hover transition-all duration-150 tracking-[0.01em]"
                   >
                     {item.label}
                     <span className="sr-only"> (opens in new tab)</span>
@@ -354,8 +346,8 @@ export default function SiteHeader() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-lg
-                               transition-all duration-150 uppercase tracking-wide ${
+                    className={`px-3 py-2 text-sm font-medium rounded-xl
+                               transition-all duration-150 tracking-[0.01em] ${
                                isActivePath(pathname, item.href)
                                  ? "text-[var(--nec-text)] nec-nav-active"
                                  : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
@@ -368,15 +360,15 @@ export default function SiteHeader() {
               )}
               <Link
                 href="/register"
-                className="btn-primary ml-3 !py-2 !px-5 !text-sm"
+                className="btn-primary ml-3 !min-h-[2.85rem] !px-5 !py-2 !text-sm"
               >
-                Register — $40
+                Register
               </Link>
             </nav>
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 rounded-lg text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
+              className="md:hidden p-2 rounded-xl text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
@@ -393,7 +385,6 @@ export default function SiteHeader() {
       {/* Mobile backdrop */}
       <AnimatePresence>
         {menuOpen && (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key
           <motion.div
             className="fixed inset-0 z-40 md:hidden"
             style={{ background: "rgba(0,0,0,0.3)" }}
@@ -409,17 +400,15 @@ export default function SiteHeader() {
       {/* Mobile drawer */}
       <AnimatePresence>
         {menuOpen && (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- stopPropagation prevents accidental drawer close
           <motion.nav
             ref={drawerRef}
             aria-label="Mobile navigation"
-            className="fixed top-16 left-0 right-0 z-40 md:hidden flex flex-col gap-1 p-4
-              max-h-[calc(100dvh-4rem)] overflow-y-auto nec-mobile-drawer"
+            className="fixed left-0 right-0 top-[4.5rem] z-40 md:hidden flex max-h-[calc(100dvh-4.5rem)] flex-col gap-1 overflow-y-auto p-4 nec-mobile-drawer"
             initial={shouldReduce ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={shouldReduce ? { duration: 0 } : SPRING_SNAPPY}
-            style={{ backdropFilter: "blur(20px) saturate(1.5)", WebkitBackdropFilter: "blur(20px) saturate(1.5)" }}
+            style={{ backdropFilter: "blur(14px) saturate(1.05)", WebkitBackdropFilter: "blur(14px) saturate(1.05)" }}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
         {navItems.map((item) =>
@@ -433,7 +422,7 @@ export default function SiteHeader() {
               rel="noopener noreferrer"
               onClick={close}
               className="px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-[var(--nec-text)]
-                         nec-nav-hover rounded-xl transition-all uppercase tracking-wide"
+                         nec-nav-hover rounded-xl transition-all tracking-[0.01em]"
             >
               {item.label}
               <span className="sr-only"> (opens in new tab)</span>
@@ -443,7 +432,7 @@ export default function SiteHeader() {
               key={item.label}
               href={item.href}
               onClick={close}
-              className={`px-4 py-3 text-base font-semibold rounded-xl transition-all uppercase tracking-wide ${
+              className={`px-4 py-3 text-base font-semibold rounded-xl transition-all tracking-[0.01em] ${
                 isActivePath(pathname, item.href)
                   ? "text-[var(--nec-text)] nec-nav-active border-l-2"
                   : "text-[var(--nec-text)] hover:text-[var(--nec-text)] nec-nav-hover"
@@ -461,7 +450,7 @@ export default function SiteHeader() {
             onClick={close}
             className="btn-primary w-full !justify-center"
           >
-            Register — $40
+            Register
           </Link>
           <a
             href={HOTEL_BOOKING_URL}

@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Source_Serif_4, Playfair_Display, Bangers } from "next/font/google"
+import { Source_Serif_4, Playfair_Display, Cormorant_Garamond } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
@@ -32,8 +32,8 @@ const playfair = Playfair_Display({
   preload: true,
 })
 
-const bangers = Bangers({
-  weight: "400",
+const cormorant = Cormorant_Garamond({
+  weight: ["500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
@@ -100,7 +100,7 @@ export default async function RootLayout({
       <head>
         <meta name="color-scheme" content="light dark" />
       </head>
-      <body className={`${sourceSerif.variable} ${playfair.variable} ${bangers.variable} ${sourceSerif.className}`}>
+      <body className={`${sourceSerif.variable} ${playfair.variable} ${cormorant.variable} ${sourceSerif.className}`}>
         <WebVitalsReporter />
         <NextIntlClientProvider messages={messages}>
           <A11yProvider>

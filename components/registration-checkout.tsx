@@ -159,7 +159,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
           type="button"
           onClick={onBack}
           variant="outline"
-          className="text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
+          className="text-[var(--nec-text)]"
         >
           Back
         </Button>
@@ -180,7 +180,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
           type="button"
           onClick={onBack}
           variant="outline"
-          className="text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
+          className="text-[var(--nec-text)]"
         >
           Back
         </Button>
@@ -201,19 +201,22 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
           type="button"
           onClick={onBack}
           variant="outline"
-          className="text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
+          className="text-[var(--nec-text)]"
         >
           Back
         </Button>
         {!isScholarshipMode && selfRegistrationQuantity > 0 && (
-          <Button type="button" onClick={enableScholarship} className="text-[var(--nec-text)] bg-[var(--nec-orange)]">
+          <Button type="button" onClick={enableScholarship} className="border border-[rgba(var(--nec-orange-rgb),0.26)] bg-[var(--nec-orange)] text-white">
             Add Scholarship
           </Button>
         )}
       </div>
 
-      <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-[var(--nec-text)]">Registration Summary</h3>
+      <div className="nec-reg-subcard p-6 space-y-4">
+        <div className="space-y-2">
+          <p className="form-section-label">Order Summary</p>
+          <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">Registration Summary</h3>
+        </div>
         <div className="space-y-2 text-[var(--nec-muted)]">
           {selfRegistrationQuantity > 0 && (
             <div className="flex justify-between">
@@ -223,7 +226,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
           )}
 
           {isScholarshipMode && (
-            <div className="space-y-2 rounded-xl border border-[var(--nec-border)] p-3">
+            <div className="space-y-2 rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.72)] p-4">
               <div className="flex justify-between items-center">
                 <span>Scholarship Fee ({effectiveScholarshipQuantity} x ${unitRegistrationFee.toFixed(2)})</span>
                 <span className="font-medium text-[var(--nec-text)]">
@@ -234,7 +237,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
                 <button
                   type="button"
                   onClick={decreaseScholarship}
-                  className="px-3 py-1 text-[var(--nec-text)] rounded disabled:opacity-50 bg-[rgba(var(--nec-purple-rgb),0.10)]"
+                  className="rounded-lg bg-[rgba(var(--nec-purple-rgb),0.10)] px-3 py-1 text-[var(--nec-text)] disabled:opacity-50"
                   disabled={scholarshipQuantity <= 1}
                   aria-label="Decrease scholarship quantity"
                 >
@@ -244,7 +247,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
                 <button
                   type="button"
                   onClick={increaseScholarship}
-                  className="px-3 py-1 text-[var(--nec-text)] rounded disabled:opacity-50 bg-[rgba(var(--nec-purple-rgb),0.10)]"
+                  className="rounded-lg bg-[rgba(var(--nec-purple-rgb),0.10)] px-3 py-1 text-[var(--nec-text)] disabled:opacity-50"
                   disabled={scholarshipQuantity >= 20}
                   aria-label="Increase scholarship quantity"
                 >
@@ -254,7 +257,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
                   <button
                     type="button"
                     onClick={disableScholarship}
-                    className="ml-2 px-3 py-1 text-[var(--nec-text)] bg-red-700 hover:bg-red-600 rounded"
+                    className="ml-2 rounded-lg bg-red-700 px-3 py-1 text-white hover:bg-red-600"
                     aria-label="Remove scholarship registrations"
                   >
                     Remove
@@ -307,7 +310,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
       {!checkoutReady ? (
         <Button
           onClick={proceedToPayment}
-          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
+          className="w-full py-6 text-lg"
         >
           Proceed to Payment - ${totalAmount.toFixed(2)}
         </Button>

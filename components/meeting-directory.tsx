@@ -27,24 +27,28 @@ interface MeetingDirectoryProps {
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
+const FORMAT_LABELS: Record<MeetingFormat, string> = {
+  "in-person": "In-Person",
+  online: "Online",
+  hybrid: "Hybrid",
+}
+
 const THEME = {
   pink: {
-    accentRgb: "192,38,211",
+    accentRgb: "var(--nec-pink-rgb)",
     accent: "var(--nec-pink)",
-    badgeBg: "rgba(192,38,211,0.12)",
-    badgeBorder: "rgba(192,38,211,0.30)",
-    filterActiveBg: "rgba(192,38,211,0.15)",
-    filterActiveBorder: "rgba(192,38,211,0.40)",
-    headingGradient: "linear-gradient(90deg, var(--nec-pink) 0%, var(--nec-purple) 100%)",
+    badgeBg: "rgba(var(--nec-pink-rgb),0.08)",
+    badgeBorder: "rgba(var(--nec-pink-rgb),0.20)",
+    filterActiveBg: "rgba(var(--nec-pink-rgb),0.10)",
+    filterActiveBorder: "rgba(var(--nec-pink-rgb),0.30)",
   },
   blue: {
-    accentRgb: "0,147,208",
+    accentRgb: "var(--alanon-blue-rgb)",
     accent: "var(--alanon-blue)",
-    badgeBg: "rgba(0,147,208,0.12)",
-    badgeBorder: "rgba(0,147,208,0.30)",
-    filterActiveBg: "rgba(0,147,208,0.15)",
-    filterActiveBorder: "rgba(0,147,208,0.40)",
-    headingGradient: "linear-gradient(90deg, var(--alanon-blue) 0%, var(--alanon-blue-dim) 100%)",
+    badgeBg: "rgba(var(--alanon-blue-rgb),0.08)",
+    badgeBorder: "rgba(var(--alanon-blue-rgb),0.20)",
+    filterActiveBg: "rgba(var(--alanon-blue-rgb),0.10)",
+    filterActiveBorder: "rgba(var(--alanon-blue-rgb),0.30)",
   },
 } as const
 
@@ -87,12 +91,14 @@ export default function MeetingDirectory({
   const [formatFilter, setFormatFilter] = useState<MeetingFormat | "">("")
   const [searchQuery, setSearchQuery] = useState("")
 
-  // Sync when parent changes the state filter (e.g., map click)
+  const filterLabelClassName = "form-section-label mb-2 block text-[0.72rem]"
+  const filterControlClassName =
+    "h-12 w-full rounded-xl border border-[rgba(var(--nec-purple-rgb),0.14)] px-4 text-sm font-medium text-[var(--nec-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition-[border-color,box-shadow,background,color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+
   useEffect(() => {
     setStateFilter(initialStateFilter)
   }, [initialStateFilter])
 
-  // Sync external state filter
   const handleStateChange = (value: string) => {
     setStateFilter(value)
     onStateFilterChange?.(value)
@@ -102,28 +108,34 @@ export default function MeetingDirectory({
     let result = meetings
 
     if (stateFilter) {
-      result = result.filter((m) => m.state === stateFilter)
+      result = result.filter((meeting) => meeting.state === stateFilter)
     }
     if (dayFilter) {
-      result = result.filter((m) => m.day === dayFilter)
+      result = result.filter((meeting) => meeting.day === dayFilter)
     }
     if (formatFilter) {
-      result = result.filter((m) => m.format === formatFilter)
+      result = result.filter((meeting) => meeting.format === formatFilter)
     }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase()
       result = result.filter(
-        (m) =>
-          m.name.toLowerCase().includes(q) ||
-          m.city.toLowerCase().includes(q) ||
-          (m.location && m.location.toLowerCase().includes(q))
+        (meeting) =>
+          meeting.name.toLowerCase().includes(q) ||
+          meeting.city.toLowerCase().includes(q) ||
+          (meeting.location && meeting.location.toLowerCase().includes(q))
       )
     }
 
     return result
   }, [meetings, stateFilter, dayFilter, formatFilter, searchQuery])
 
-  const hasActiveFilters = stateFilter || dayFilter || formatFilter || searchQuery
+  const hasActiveFilters = Boolean(stateFilter || dayFilter || formatFilter || searchQuery)
+  const activeFilters = [
+    stateFilter ? STATE_NAMES[stateFilter] || stateFilter : null,
+    dayFilter || null,
+    formatFilter ? FORMAT_LABELS[formatFilter] : null,
+    searchQuery.trim() ? `Search: ${searchQuery.trim()}` : null,
+  ].filter(Boolean) as string[]
 
   const clearAll = () => {
     setStateFilter("")
@@ -137,234 +149,249 @@ export default function MeetingDirectory({
 
   return (
     <section
-      className="nec-meeting-directory rounded-3xl overflow-hidden"
+      className="nec-meeting-directory overflow-hidden rounded-[2rem]"
       style={{
-        background: `linear-gradient(135deg, rgba(${t.accentRgb},0.04) 0%, rgba(var(--nec-card-rgb),0.85) 40%, rgba(var(--nec-dark-rgb),0.95) 100%)`,
-        border: `1px solid rgba(${t.accentRgb},0.15)`,
-        boxShadow: `0 4px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03)`,
+        background: `linear-gradient(180deg, rgba(var(--nec-card-rgb),0.98) 0%, rgba(${t.accentRgb},0.04) 100%)`,
+        border: `1px solid rgba(${t.accentRgb},0.14)`,
+        boxShadow: "0 26px 60px rgba(44,24,16,0.10), 0 2px 6px rgba(0,0,0,0.03)",
       }}
       aria-labelledby={`${uid}-heading`}
     >
-      {/* Top accent line */}
       <div
         className="h-[2px] w-full"
         style={{
-          background: `linear-gradient(90deg, transparent 0%, rgba(${t.accentRgb},0.5) 30%, rgba(${t.accentRgb},0.8) 50%, rgba(${t.accentRgb},0.5) 70%, transparent 100%)`,
+          background: `linear-gradient(90deg, transparent 0%, rgba(${t.accentRgb},0.36) 24%, rgba(${t.accentRgb},0.68) 50%, rgba(${t.accentRgb},0.36) 76%, transparent 100%)`,
         }}
         aria-hidden="true"
       />
 
-      <div className="p-6 md:p-8">
+      <div className="space-y-6 p-6 md:space-y-7 md:p-8">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1.5"
+              style={{ background: t.badgeBg, border: `1px solid ${t.badgeBorder}` }}
+            >
+              <IconComponent className="h-4 w-4" style={{ color: t.accent }} aria-hidden="true" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: t.accent }}>
+                Regional Directory
+              </span>
+            </div>
+            <h2
+              id={`${uid}-heading`}
+              className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] md:text-3xl"
+            >
+              {heading}
+            </h2>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--nec-muted)]">
+              {description}
+            </p>
+          </div>
 
-      {/* Heading */}
-      <div className="mb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <span
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{
-              background: `rgba(${t.accentRgb},0.12)`,
-              border: `1px solid rgba(${t.accentRgb},0.25)`,
-            }}
-          >
-            <IconComponent className="w-4 h-4" style={{ color: t.accent }} aria-hidden="true" />
-          </span>
-          <h2
-            id={`${uid}-heading`}
-            className="text-xl md:text-2xl font-black bg-clip-text text-transparent"
-            style={{ backgroundImage: t.headingGradient }}
-          >
-            {heading}
-          </h2>
-        </div>
-        <p className="text-sm" style={{ color: "var(--nec-muted)" }}>
-          {description}
-        </p>
-      </div>
-
-      {/* Filter bar */}
-      <div
-        className="flex flex-wrap items-end gap-3 mb-5 p-4 rounded-xl"
-        style={{
-          background: `rgba(${t.accentRgb},0.03)`,
-          border: `1px solid rgba(${t.accentRgb},0.08)`,
-        }}
-        role="search"
-        aria-label={`Filter ${heading}`}
-      >
-        {/* Search */}
-        <div className="flex-1 min-w-[180px]">
-          <label htmlFor={searchId} className="block text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--nec-muted)" }}>
-            Search
-          </label>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: "var(--nec-muted)" }} aria-hidden="true" />
-            <input
-              id={searchId}
-              type="search"
-              placeholder="Meeting name or city..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-2 rounded-lg text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-1"
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.10)",
-                color: "var(--nec-text)",
-                outlineColor: t.accent,
-              }}
-            />
+          <div className="grid grid-cols-2 gap-3 sm:min-w-[260px]">
+            <div className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Visible</p>
+              <p className="mt-2 text-2xl font-semibold text-[var(--nec-text)]">{filtered.length}</p>
+            </div>
+            <div className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">States</p>
+              <p className="mt-2 text-2xl font-semibold text-[var(--nec-text)]">{states.length}</p>
+            </div>
           </div>
         </div>
 
-        {/* State filter */}
-        <div className="min-w-[130px]">
-          <label htmlFor={stateId} className="block text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--nec-muted)" }}>
-            State
-          </label>
-          <select
-            id={stateId}
-            value={stateFilter}
-            onChange={(e) => handleStateChange(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-1 appearance-none cursor-pointer"
-            style={{
-              background: stateFilter ? t.filterActiveBg : "rgba(255,255,255,0.04)",
-              border: `1px solid ${stateFilter ? t.filterActiveBorder : "rgba(255,255,255,0.10)"}`,
-              color: stateFilter ? t.accent : "var(--nec-text)",
-              outlineColor: t.accent,
-            }}
-          >
-            <option value="">All States</option>
-            {states.map((s) => (
-              <option key={s} value={s}>
-                {STATE_NAMES[s] || s}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Day filter */}
-        <div className="min-w-[120px]">
-          <label htmlFor={dayId} className="block text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--nec-muted)" }}>
-            Day
-          </label>
-          <select
-            id={dayId}
-            value={dayFilter}
-            onChange={(e) => setDayFilter(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-1 appearance-none cursor-pointer"
-            style={{
-              background: dayFilter ? t.filterActiveBg : "rgba(255,255,255,0.04)",
-              border: `1px solid ${dayFilter ? t.filterActiveBorder : "rgba(255,255,255,0.10)"}`,
-              color: dayFilter ? t.accent : "var(--nec-text)",
-              outlineColor: t.accent,
-            }}
-          >
-            <option value="">All Days</option>
-            {DAYS.map((d) => (
-              <option key={d} value={d}>{d}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Format filter */}
-        <div className="min-w-[120px]">
-          <label htmlFor={formatId} className="block text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--nec-muted)" }}>
-            Format
-          </label>
-          <select
-            id={formatId}
-            value={formatFilter}
-            onChange={(e) => setFormatFilter(e.target.value as MeetingFormat | "")}
-            className="w-full px-3 py-2 rounded-lg text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-1 appearance-none cursor-pointer"
-            style={{
-              background: formatFilter ? t.filterActiveBg : "rgba(255,255,255,0.04)",
-              border: `1px solid ${formatFilter ? t.filterActiveBorder : "rgba(255,255,255,0.10)"}`,
-              color: formatFilter ? t.accent : "var(--nec-text)",
-              outlineColor: t.accent,
-            }}
-          >
-            <option value="">All Formats</option>
-            <option value="in-person">In-Person</option>
-            <option value="online">Online</option>
-            <option value="hybrid">Hybrid</option>
-          </select>
-        </div>
-
-        {/* Clear filters */}
-        {hasActiveFilters && (
-          <button
-            type="button"
-            onClick={clearAll}
-            className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-1"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "var(--nec-text)",
-              outlineColor: t.accent,
-            }}
-            aria-label="Clear all filters"
-          >
-            <X className="w-3 h-3" aria-hidden="true" />
-            Clear
-          </button>
-        )}
-      </div>
-
-      {/* Results count (live region) */}
-      <div
-        id={resultsId}
-        className="flex items-center gap-2 mb-4"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <Filter className="w-3.5 h-3.5" style={{ color: "var(--nec-muted)" }} aria-hidden="true" />
-        <span className="text-xs font-semibold" style={{ color: "var(--nec-muted)" }}>
-          {filtered.length} meeting{filtered.length !== 1 ? "s" : ""} found
-          {stateFilter ? ` in ${STATE_NAMES[stateFilter] || stateFilter}` : ""}
-        </span>
-      </div>
-
-      {/* Meeting grid */}
-      {filtered.length > 0 ? (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((meeting, i) => (
-            <MeetingDirectoryCard
-              key={`${meeting.name}-${meeting.state}-${meeting.day}-${i}`}
-              meeting={meeting}
-              theme={theme}
-            />
-          ))}
-        </div>
-      ) : (
         <div
-          className="text-center py-12 px-6 rounded-xl"
+          className="grid gap-3 rounded-[1.5rem] p-4 md:grid-cols-2 md:p-5 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))_auto]"
           style={{
-            background: `rgba(${t.accentRgb},0.03)`,
-            border: `1px dashed rgba(${t.accentRgb},0.15)`,
+            background: `rgba(${t.accentRgb},0.025)`,
+            border: `1px solid rgba(${t.accentRgb},0.10)`,
           }}
+          role="search"
+          aria-label={`Filter ${heading}`}
         >
-          <p className="text-sm font-semibold mb-1" style={{ color: "var(--nec-text)" }}>
-            No meetings found
-          </p>
-          <p className="text-xs" style={{ color: "var(--nec-muted)" }}>
-            {hasActiveFilters
-              ? "Try adjusting your filters or search terms."
-              : "Check back soon — we're always adding new meetings."}
-          </p>
-          {stateFilter && (
-            <p className="text-xs mt-2" style={{ color: "var(--nec-muted)" }}>
-              Know of a meeting in {STATE_NAMES[stateFilter] || stateFilter}?{" "}
-              <a
-                href="mailto:info@necypaa.org"
-                className="font-semibold underline"
-                style={{ color: t.accent }}
-              >
-                Let us know
-              </a>
-            </p>
+          <div className="md:col-span-2 xl:col-span-1">
+            <label htmlFor={searchId} className={filterLabelClassName}>
+              Search
+            </label>
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--nec-muted)]" aria-hidden="true" />
+              <input
+                id={searchId}
+                type="search"
+                placeholder="Meeting name, city, or location"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`${filterControlClassName} pl-11 pr-4`}
+                style={{ background: "rgba(var(--nec-card-rgb),0.92)" }}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor={stateId} className={filterLabelClassName}>
+              State
+            </label>
+            <select
+              id={stateId}
+              value={stateFilter}
+              onChange={(e) => handleStateChange(e.target.value)}
+              className={`${filterControlClassName} appearance-none cursor-pointer pr-10`}
+              style={{
+                background: stateFilter ? t.filterActiveBg : "rgba(var(--nec-card-rgb),0.92)",
+                borderColor: stateFilter ? t.filterActiveBorder : "rgba(var(--nec-purple-rgb),0.14)",
+                color: stateFilter ? t.accent : "var(--nec-text)",
+              }}
+            >
+              <option value="">All States</option>
+              {states.map((state) => (
+                <option key={state} value={state}>
+                  {STATE_NAMES[state] || state}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor={dayId} className={filterLabelClassName}>
+              Day
+            </label>
+            <select
+              id={dayId}
+              value={dayFilter}
+              onChange={(e) => setDayFilter(e.target.value)}
+              className={`${filterControlClassName} appearance-none cursor-pointer pr-10`}
+              style={{
+                background: dayFilter ? t.filterActiveBg : "rgba(var(--nec-card-rgb),0.92)",
+                borderColor: dayFilter ? t.filterActiveBorder : "rgba(var(--nec-purple-rgb),0.14)",
+                color: dayFilter ? t.accent : "var(--nec-text)",
+              }}
+            >
+              <option value="">All Days</option>
+              {DAYS.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor={formatId} className={filterLabelClassName}>
+              Format
+            </label>
+            <select
+              id={formatId}
+              value={formatFilter}
+              onChange={(e) => setFormatFilter(e.target.value as MeetingFormat | "")}
+              className={`${filterControlClassName} appearance-none cursor-pointer pr-10`}
+              style={{
+                background: formatFilter ? t.filterActiveBg : "rgba(var(--nec-card-rgb),0.92)",
+                borderColor: formatFilter ? t.filterActiveBorder : "rgba(var(--nec-purple-rgb),0.14)",
+                color: formatFilter ? t.accent : "var(--nec-text)",
+              }}
+            >
+              <option value="">All Formats</option>
+              <option value="in-person">In-Person</option>
+              <option value="online">Online</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={clearAll}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] px-4 text-sm font-semibold transition-[border-color,background,color] duration-200 hover:border-[rgba(var(--nec-purple-rgb),0.22)] hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)] xl:self-end"
+              style={{ color: t.accent }}
+              aria-label="Clear all filters"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+              Clear filters
+            </button>
           )}
         </div>
-      )}
-      </div>{/* end inner padding wrapper */}
+
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div
+            id={resultsId}
+            className="inline-flex items-center gap-2 rounded-full border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] px-3.5 py-2"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <Filter className="h-3.5 w-3.5 text-[var(--nec-muted)]" aria-hidden="true" />
+            <span className="text-sm font-medium text-[var(--nec-muted)]">
+              {filtered.length} meeting{filtered.length !== 1 ? "s" : ""} found
+              {stateFilter ? ` in ${STATE_NAMES[stateFilter] || stateFilter}` : ""}
+            </span>
+          </div>
+
+          {activeFilters.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {activeFilters.map((label) => (
+                <span
+                  key={label}
+                  className="rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em]"
+                  style={{
+                    background: t.badgeBg,
+                    border: `1px solid ${t.badgeBorder}`,
+                    color: t.accent,
+                  }}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {filtered.length > 0 ? (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((meeting, index) => (
+              <MeetingDirectoryCard
+                key={`${meeting.name}-${meeting.state}-${meeting.day}-${index}`}
+                meeting={meeting}
+                theme={theme}
+              />
+            ))}
+          </div>
+        ) : (
+          <div
+            className="rounded-[1.5rem] px-6 py-12 text-center"
+            style={{
+              background: `rgba(${t.accentRgb},0.03)`,
+              border: `1px dashed rgba(${t.accentRgb},0.16)`,
+            }}
+          >
+            <p className="text-lg font-semibold text-[var(--nec-text)]">No meetings matched that view.</p>
+            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[var(--nec-muted)]">
+              {hasActiveFilters
+                ? "Try broadening your search or clearing one of the filters."
+                : "Check back soon. We keep adding meetings across the region."}
+            </p>
+            <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={clearAll}
+                  className="inline-flex items-center gap-2 rounded-full border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.92)] px-4 py-2.5 text-sm font-semibold text-[var(--nec-text)] transition-[border-color,background] duration-200 hover:border-[rgba(var(--nec-purple-rgb),0.22)] hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
+                >
+                  <X className="h-4 w-4" aria-hidden="true" />
+                  Reset filters
+                </button>
+              )}
+              {stateFilter && (
+                <a
+                  href="mailto:info@necypaa.org"
+                  className="inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold"
+                  style={{ color: t.accent }}
+                >
+                  Know a meeting in {STATE_NAMES[stateFilter] || stateFilter}? Let us know.
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   )
 }

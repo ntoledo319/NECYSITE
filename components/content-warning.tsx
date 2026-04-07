@@ -14,20 +14,20 @@ export default function ContentWarning({ warning, children }: ContentWarningProp
 
   return (
     <div
-      className="content-warning rounded-xl overflow-hidden"
+      className="content-warning overflow-hidden rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.88)] shadow-[0_16px_34px_rgba(44,24,16,0.06)]"
       style={{
-        border: "1px solid var(--nec-border)",
-        background: "var(--nec-bg-alt, #131b2e)",
+        background: "rgba(var(--nec-card-rgb),0.88)",
       }}
     >
       <button
+        type="button"
         onClick={() => setRevealed(!revealed)}
-        className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/5"
+        className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
         aria-expanded={revealed}
         aria-controls={panelId}
       >
         <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} />
-        <span className="text-xs font-medium flex-1" style={{ color: "var(--nec-muted)" }}>
+        <span className="flex-1 text-sm font-medium" style={{ color: "var(--nec-muted)" }}>
           Content warning: {warning}
         </span>
         {revealed ? (
@@ -37,7 +37,7 @@ export default function ContentWarning({ warning, children }: ContentWarningProp
         )}
       </button>
       {revealed && (
-        <div id={panelId} className="px-4 pb-4 pt-1">
+        <div id={panelId} className="border-t border-[rgba(var(--nec-purple-rgb),0.08)] px-4 pb-4 pt-3">
           {children}
         </div>
       )}

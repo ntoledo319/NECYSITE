@@ -2,115 +2,144 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { ArrowRight, ExternalLink, Hotel, Users } from "lucide-react"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
-import { ArrowRight, ExternalLink } from "lucide-react"
-import { SpotlightCard, TiltCard, MagneticButton } from "@/components/ui/motion-primitives"
+
+const registrationHighlights = [
+  "Panels, speakers, outreach, dances, and fellowship all weekend.",
+  "A central downtown hotel so the whole convention feels connected.",
+  "A clearer road map for first-timers and returning YPAA people alike.",
+]
 
 export default function CTASection() {
   return (
-    <section aria-label="Register and book hotel" className="px-4 md:px-0 relative">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Register card — spotlight tracks cursor, tilt on hover */}
-        <TiltCard className="rounded-2xl" tiltDegree={4} glareOpacity={0.06}>
-          <SpotlightCard
-            className="nec-cta-card nec-cta-card-purple nec-card-lift rounded-2xl"
-            spotlightColor="rgba(124,58,237,0.15)"
-            spotlightSize={400}
-          >
-            <div className="relative overflow-hidden rounded-2xl p-8 flex flex-col gap-5 backdrop-blur-sm">
-              <div
-                className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-15"
-                style={{ background: "var(--nec-purple)", filter: "blur(60px)" }}
-                aria-hidden="true"
-              />
-              {/* Decorative logo watermark */}
-              <div className="absolute -bottom-8 -right-8 w-40 h-40 opacity-[0.06] pointer-events-none" aria-hidden="true">
-                <Image
-                  src="/images/mad-realm-logo-no-bg.webp"
-                  alt=""
-                  width={160}
-                  height={160}
-                  sizes="160px"
-                  className="w-full h-full object-contain"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="relative z-10">
-                <span
-                  className="text-xs font-bold uppercase tracking-widest"
-                  style={{ color: "var(--nec-purple)" }}
-                >
-                  Pre-Registration Open
-                </span>
-                <h3 className="text-2xl md:text-3xl font-black text-[var(--nec-text)] mt-1">Secure Your Spot</h3>
-                <p className="text-sm text-[var(--nec-muted)] mt-3 leading-relaxed">
-                  Pre-registration is open at $40. Lock in your spot for NECYPAA XXXVI — Dec 31,
-                  2026 through Jan 3, 2027 at the Hartford Marriott Downtown.
+    <section aria-label="Plan your convention weekend" className="space-y-5">
+      <div className="max-w-2xl">
+        <span className="section-badge">Plan Your Weekend</span>
+        <h2 className="section-heading mt-5">Start with the two decisions that matter most.</h2>
+        <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
+          Register early, book the hotel, and let the rest of the weekend unfold from there. The
+          site should feel like a guide, not a maze, so these actions stay close to the top.
+        </p>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+        <article className="nec-card relative overflow-hidden p-8 md:p-10">
+          <div
+            className="absolute inset-y-0 right-0 hidden w-40 md:block"
+            aria-hidden="true"
+            style={{
+              background: "linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb),0.04) 100%)",
+            }}
+          />
+          <div className="absolute right-6 top-6 hidden opacity-[0.08] md:block" aria-hidden="true">
+            <Image
+              src="/images/mad-realm-logo-no-bg.webp"
+              alt=""
+              width={140}
+              height={140}
+              sizes="140px"
+              className="h-auto w-28"
+            />
+          </div>
+
+          <div className="relative z-10 max-w-2xl space-y-6">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                Registration Open
+              </p>
+              <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] md:text-4xl">
+                Secure your spot before the holiday weekend gets crowded.
+              </h3>
+              <p className="mt-4 max-w-xl text-base leading-7 text-[var(--nec-muted)]">
+                Pre-registration is $40 for NECYPAA XXXVI. If someone lands on this page unsure what
+                to do next, the answer should be immediate.
+              </p>
+            </div>
+
+            <div className="grid gap-4 rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5 md:grid-cols-[auto_1fr] md:items-center">
+              <div className="text-4xl font-semibold text-[var(--nec-gold)]">$40</div>
+              <div className="space-y-2">
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Pre-registration price</p>
+                <p className="text-sm leading-6 text-[var(--nec-muted)]">
+                  The fastest way to get from “I should go” to “I’m in.”
                 </p>
-                <div className="mt-3 flex items-center gap-3">
-                  <span
-                    className="text-4xl font-black"
-                    style={{ color: "var(--nec-gold)", textShadow: "0 0 20px rgba(212,160,23,0.3)" }}
-                  >
-                    $40
-                  </span>
-                  <span className="text-sm text-[var(--nec-muted)]">pre-registration price</span>
+              </div>
+            </div>
+
+            <ul className="grid gap-3">
+              {registrationHighlights.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-4 py-3 text-sm leading-6 text-[var(--nec-muted)]"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/register" className="btn-primary">
+                Register Now
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link href="/faq" className="btn-ghost">
+                Read the FAQ
+              </Link>
+            </div>
+          </div>
+        </article>
+
+        <div className="grid gap-6">
+          <article className="nec-card p-7">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)]">
+                <Hotel className="h-5 w-5 text-[var(--nec-gold)]" aria-hidden="true" />
+              </div>
+              <div className="space-y-3">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-gold)]">Host Hotel</p>
+                <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
+                  Stay where the weekend is happening.
+                </h3>
+                <p className="text-sm leading-7 text-[var(--nec-muted)]">
+                  Hartford Marriott Downtown keeps the convention centralized and the schedule easy to
+                  navigate. Around New Year&apos;s Eve, that convenience matters.
+                </p>
+                <a href={HOTEL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary">
+                  Book Hotel
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article className="nec-card p-7">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-cyan-rgb),0.06)]">
+                <Users className="h-5 w-5 text-[var(--nec-cyan)]" aria-hidden="true" />
+              </div>
+              <div className="space-y-3">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-cyan)]">Get Involved</p>
+                <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
+                  Bringing a committee, a homegroup, or just your willingness?
+                </h3>
+                <p className="text-sm leading-7 text-[var(--nec-muted)]">
+                  Business meetings and service opportunities are part of the story here. The site
+                  should make that invitation obvious instead of hiding it three clicks deep.
+                </p>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Link href="/service" className="btn-ghost">
+                    Service Opportunities
+                  </Link>
+                  <Link href="/#business-meeting" className="btn-ghost">
+                    Next Business Meeting
+                  </Link>
                 </div>
               </div>
-              <MagneticButton className="self-start mt-1 relative z-10" strength={0.2}>
-                <Link href="/register" className="btn-primary">
-                  Register Now <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </Link>
-              </MagneticButton>
             </div>
-          </SpotlightCard>
-        </TiltCard>
-
-        {/* Hotel card — gold spotlight, tilt on hover */}
-        <TiltCard className="rounded-2xl" tiltDegree={4} glareOpacity={0.06}>
-          <SpotlightCard
-            className="nec-cta-card nec-cta-card-gold nec-card-lift rounded-2xl"
-            spotlightColor="rgba(212,160,23,0.12)"
-            spotlightSize={400}
-          >
-            <div className="relative overflow-hidden rounded-2xl p-8 flex flex-col gap-5 backdrop-blur-sm">
-              <div
-                className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-12"
-                style={{ background: "var(--nec-gold)", filter: "blur(60px)" }}
-                aria-hidden="true"
-              />
-              <div className="relative z-10">
-                <span
-                  className="text-xs font-bold uppercase tracking-widest"
-                  style={{ color: "var(--nec-gold)" }}
-                >
-                  Host Hotel
-                </span>
-                <h3 className="text-2xl md:text-3xl font-black text-[var(--nec-text)] mt-1">Hartford Marriott Downtown</h3>
-                <p className="text-sm text-[var(--nec-muted)] mt-3 leading-relaxed">
-                  We have a room block at the Marriott with a special NECYPAA group rate. Rooms go
-                  fast around New Year&apos;s Eve — reserve yours early.
-                </p>
-                <p
-                  className="text-sm font-bold italic mt-3"
-                  style={{ color: "var(--nec-gold)" }}
-                >
-                  <span aria-hidden="true">✦</span> Special NECYPAA group rate available
-                </p>
-              </div>
-              <MagneticButton className="self-start mt-1 relative z-10" strength={0.2}>
-                <a
-                  href={HOTEL_BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary"
-                >
-                  Book Hotel <ExternalLink className="w-4 h-4" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
-                </a>
-              </MagneticButton>
-            </div>
-          </SpotlightCard>
-        </TiltCard>
+          </article>
+        </div>
       </div>
     </section>
   )

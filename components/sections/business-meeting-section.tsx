@@ -1,17 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 import { Calendar, Clock, Video } from "lucide-react"
 import { ZOOM_MEETING_URL } from "@/lib/constants"
-import { GearCluster } from "@/components/art/steampunk-gears"
-import {
-  SPRING_GENTLE,
-  SpotlightCard,
-  MagneticButton,
-  staggerContainer,
-  staggerChild,
-} from "@/components/ui/motion-primitives"
 
 function getEasterSunday(year: number): Date {
   const a = year % 19
@@ -79,103 +71,76 @@ function formatMeetingDate(date: Date): string {
   return `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${day}${suffix}`
 }
 
+const meetingDetails = [
+  { label: "Schedule", value: "First and third Sunday of each month", icon: Calendar, accent: "var(--nec-purple)", accentRgb: "var(--nec-purple-rgb)" },
+  { label: "Time", value: "2:00 PM Eastern", icon: Clock, accent: "var(--nec-gold)", accentRgb: "var(--nec-gold-rgb)" },
+  { label: "Location", value: "Zoom", icon: Video, accent: "var(--nec-cyan)", accentRgb: "var(--nec-cyan-rgb)" },
+]
+
 export default function BusinessMeetingSection() {
   const [dateStr, setDateStr] = useState("")
-  const shouldReduce = useReducedMotion()
 
   useEffect(() => {
     setDateStr(formatMeetingDate(getNextBusinessMeetingDate()))
   }, [])
 
   return (
-    <section id="business-meeting" aria-label="Next business meeting" className="px-4 md:px-0">
-      <motion.div
-        className="mb-6"
-        initial={shouldReduce ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={SPRING_GENTLE}
-      >
-        <span className="section-badge section-badge-shimmer">Planning</span>
-        <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Next Business Meeting</h2>
-        <p className="mt-2 text-sm text-[var(--nec-muted)] leading-relaxed">
-          Get to know us at our business meetings on Zoom! Come see how the convention is built — through committee work, updates, votes, and fellowship. There are always opportunities for service for anyone who wants to get involved.
-        </p>
-      </motion.div>
-
-      <SpotlightCard
-        className="nec-card nec-card-lift p-6 md:p-8 backdrop-blur-sm relative overflow-hidden"
-        spotlightColor="rgba(124,58,237,0.08)"
-        spotlightSize={400}
-      >
-        <div
-          className="absolute inset-0 rounded-[inherit]"
-          style={{ maxWidth: "640px", boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)" }}
-        />
-        {/* Steampunk gear accent */}
-        <GearCluster className="absolute -top-3 -right-3 opacity-60" />
-        <h3 className="text-lg font-bold text-[var(--nec-text)] mb-5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>NECYPAA XXXVI Business Meeting</h3>
-
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-        >
-          {/* Date */}
-          <motion.div variants={staggerChild} className="flex items-start gap-3">
-            <div
-              className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
-            >
-              <Calendar className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nec-muted)]">Next Date</p>
-              <p className="text-sm font-bold text-[var(--nec-text)] mt-0.5">
-                {dateStr || "Loading…"}
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Time */}
-          <motion.div variants={staggerChild} className="flex items-start gap-3">
-            <div
-              className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
-            >
-              <Clock className="w-4 h-4" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nec-muted)]">Time</p>
-              <p className="text-sm font-bold text-[var(--nec-text)] mt-0.5">2:00 PM Eastern</p>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        <p className="text-sm text-[var(--nec-muted)] mb-5 leading-relaxed">
-          All are welcome — join us on Zoom. No commitment required.
+    <section id="business-meeting" aria-label="Next business meeting" className="h-full">
+      <article className="nec-card flex h-full flex-col p-7 md:p-8">
+        <span className="section-badge">Committee Work</span>
+        <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+          Join the next business meeting.
+        </h2>
+        <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+          Meet the host committee, hear what is moving, and see how the convention is actually built.
+          If someone wants to help, this page should make the door feel open.
         </p>
 
-        <MagneticButton strength={0.25}>
-          <a
-            href={ZOOM_MEETING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="zoom-link inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
-            style={{
-              background: "rgba(124,58,237,0.12)",
-              border: "1px solid rgba(124,58,237,0.30)",
-              color: "var(--nec-cyan)",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
-            }}
-          >
-            <Video className="w-4 h-4" aria-hidden="true" />
-            Join on Zoom<span className="sr-only"> (opens in new tab)</span>
-          </a>
-        </MagneticButton>
-      </SpotlightCard>
+        <div className="mt-6 rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Next meeting</p>
+          <p className="mt-3 text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
+            {dateStr || "Loading…"}
+          </p>
+        </div>
+
+        <dl className="mt-6 grid gap-4">
+          {meetingDetails.map((detail) => {
+            const Icon = detail.icon
+            return (
+              <div
+                key={detail.label}
+                className="grid gap-3 rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] p-4 sm:grid-cols-[auto_1fr]"
+              >
+                <div
+                  className="flex h-11 w-11 items-center justify-center rounded-2xl border"
+                  style={{
+                    background: `rgba(${detail.accentRgb},0.06)`,
+                    borderColor: `rgba(${detail.accentRgb},0.14)`,
+                  }}
+                >
+                  <Icon className="h-5 w-5" style={{ color: detail.accent }} aria-hidden="true" />
+                </div>
+                <div>
+                  <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
+                  <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
+                </div>
+              </div>
+            )
+          })}
+        </dl>
+
+        <div className="mt-auto pt-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href={ZOOM_MEETING_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
+              Join on Zoom
+              <span className="sr-only"> (opens in new tab)</span>
+            </a>
+            <Link href="/service" className="btn-ghost">
+              Explore Service
+            </Link>
+          </div>
+        </div>
+      </article>
     </section>
   )
 }

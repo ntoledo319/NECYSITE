@@ -52,8 +52,10 @@
   /* Al-Anon brand colors (from official SVG) */
   --alanon-blue:     #0093D0;
   --alanon-blue-dim: #007BB5;
+  --alanon-blue-rgb: 0, 147, 208;
   --alanon-white:    #FFFFFF;
   --nec-alateen:     #7D5A8E;
+  --nec-orange-rgb:  184, 115, 51;
 
   --radius: 0.5rem;
 
@@ -113,6 +115,8 @@
   --nec-navy-rgb:   13, 27, 42;
   --nec-card-rgb:   29, 45, 62;
   --nec-dark-rgb:   22, 35, 54;
+  --alanon-blue-rgb: 0, 147, 208;
+  --nec-orange-rgb:  212, 154, 106;
 
   /* Shadow tokens — deeper for dark surfaces */
   --shadow-text:    0 2px 8px rgba(0, 0, 0, 0.30);
@@ -205,18 +209,34 @@
 @layer components {
   /* ── Branded section badge ─────────────────── */
   .section-badge {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest;
-    background: rgba(var(--nec-purple-rgb), 0.08);
-    border: 1px solid rgba(var(--nec-purple-rgb), 0.25);
+    @apply inline-flex items-center gap-3 text-[11px] font-semibold uppercase;
+    font-family: var(--font-display), var(--font-heading), Georgia, serif;
+    letter-spacing: 0.18em;
+    background: transparent;
+    border: 0;
     color: var(--nec-purple);
+  }
+  .section-badge::after {
+    content: "";
+    width: 3rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.55), rgba(var(--nec-gold-rgb),0.35));
   }
 
   /* ── Al-Anon section badge (blue variant) ──── */
   .section-badge-alanon {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest;
-    background: rgba(0,147,208,0.12);
-    border: 1px solid rgba(0,147,208,0.35);
+    @apply inline-flex items-center gap-3 text-[11px] font-semibold uppercase;
+    font-family: var(--font-display), var(--font-heading), Georgia, serif;
+    letter-spacing: 0.18em;
+    background: transparent;
+    border: 0;
     color: var(--alanon-blue);
+  }
+  .section-badge-alanon::after {
+    content: "";
+    width: 3rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0,147,208,0.55), rgba(0,147,208,0.18));
   }
 
   /* ── Al-Anon logo backdrop ───────────────────── */
@@ -290,8 +310,9 @@
 
   /* ── Section heading ───────────────────────── */
   .section-heading {
-    @apply text-3xl md:text-4xl font-black leading-tight;
+    @apply text-3xl md:text-4xl font-semibold leading-tight;
     color: var(--nec-text);
+    letter-spacing: -0.025em;
   }
 
   /* ── Accent gradient heading ────────────────── */
@@ -302,54 +323,65 @@
 
   /* ── Primary CTA button (plum) ─────────────── */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 font-black text-base uppercase tracking-wide
-           text-white rounded-lg px-7 py-3 transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-semibold text-white transition-all duration-200;
+    min-height: 3.25rem;
+    border-radius: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     background: var(--nec-purple);
-    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(var(--nec-purple-rgb), 0.34);
+    box-shadow: 0 12px 30px rgba(107, 48, 96, 0.18), 0 2px 6px rgba(0, 0, 0, 0.04);
   }
   .btn-primary:hover {
     background: var(--nec-purple-dim);
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: 0 16px 34px rgba(107, 48, 96, 0.22), 0 3px 8px rgba(0, 0, 0, 0.05);
     transform: translateY(-1px);
   }
 
   /* ── Secondary CTA button (brass) ─────────────*/
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 font-bold text-base uppercase tracking-wide
-           rounded-lg px-7 py-3 transition-all duration-200;
-    color: #FFFBF0;
-    background: var(--nec-gold);
-    box-shadow: var(--shadow-card);
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-semibold transition-all duration-200;
+    min-height: 3.25rem;
+    border-radius: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fdf8ee;
+    background: linear-gradient(180deg, #8a6912 0%, var(--nec-gold) 100%);
+    border: 1px solid rgba(var(--nec-gold-rgb), 0.34);
+    box-shadow: 0 12px 30px rgba(122, 91, 13, 0.15), 0 2px 6px rgba(0, 0, 0, 0.04);
   }
   .btn-secondary:hover {
-    filter: brightness(0.92);
-    box-shadow: var(--shadow-card-hover);
+    filter: brightness(0.96);
+    box-shadow: 0 16px 34px rgba(122, 91, 13, 0.18), 0 3px 8px rgba(0, 0, 0, 0.05);
     transform: translateY(-1px);
   }
 
   /* ── Ghost button (outlined) ───────────────── */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 font-bold text-sm uppercase tracking-wide
-           rounded-lg px-5 py-2.5 transition-all duration-200;
-    border: 1.5px solid var(--nec-border);
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold transition-all duration-200;
+    border-radius: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid rgba(var(--nec-purple-rgb), 0.16);
+    background: rgba(var(--nec-card-rgb), 0.72);
     color: var(--nec-text);
   }
   .btn-ghost:hover {
-    border-color: var(--nec-purple);
+    border-color: rgba(var(--nec-purple-rgb), 0.28);
     color: var(--nec-purple);
-    background: rgba(var(--nec-purple-rgb), 0.06);
+    background: rgba(var(--nec-purple-rgb), 0.05);
   }
 
   /* ── Card surface ──────────────────────────── */
   .nec-card {
-    background: var(--nec-card);
-    border: 1px solid var(--nec-border);
-    box-shadow: var(--shadow-card);
-    @apply rounded-xl;
+    background: linear-gradient(180deg, rgba(var(--nec-card-rgb), 0.98) 0%, rgba(var(--nec-card-rgb), 0.94) 100%);
+    border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
+    box-shadow: 0 18px 44px rgba(44, 24, 16, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+    @apply rounded-2xl;
   }
   .nec-card:hover {
-    border-color: rgba(var(--nec-purple-rgb), 0.30);
-    box-shadow: var(--shadow-card-hover);
+    border-color: rgba(var(--nec-purple-rgb), 0.18);
+    box-shadow: 0 22px 50px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
   }
 
   /* ── CTA card (purple accent) ─────────────────── */
@@ -396,7 +428,8 @@
 
   /* ── Header base ─────────────────────────────── */
   .nec-header {
-    background: rgba(var(--nec-navy-rgb, 245,240,232), 0.92);
+    background: rgba(var(--nec-card-rgb), 0.82);
+    border-bottom: 1px solid rgba(var(--nec-purple-rgb), 0.08);
   }
 
   /* ── Nav link hover/active utilities ──────────── */
@@ -414,17 +447,16 @@
 
   /* ── Desktop dropdown panel ────────────────────── */
   .nec-dropdown-panel {
-    background: rgba(var(--nec-card-rgb), 0.98);
-    border: 1px solid var(--nec-border);
-    box-shadow: 0 8px 32px rgba(44, 24, 16, 0.10), 0 1px 3px rgba(0, 0, 0, 0.04);
-    backdrop-filter: blur(16px);
+    background: rgba(var(--nec-card-rgb), 0.96);
+    border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
+    box-shadow: 0 18px 44px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.03);
   }
 
   /* ── Mobile drawer panel ─────────────────────── */
   .nec-mobile-drawer {
-    background: rgba(var(--nec-navy-rgb, 245,240,232), 0.96);
-    border-bottom: 1px solid var(--nec-border);
-    box-shadow: 0 4px 24px rgba(44, 24, 16, 0.08);
+    background: rgba(var(--nec-card-rgb), 0.95);
+    border-bottom: 1px solid rgba(var(--nec-purple-rgb), 0.12);
+    box-shadow: 0 18px 44px rgba(44, 24, 16, 0.08);
   }
 
   /* ── Zoom / ghost-style link hover ────────────── */
@@ -451,9 +483,9 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
   .nec-interactive-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card-hover);
-    border-color: rgba(var(--nec-purple-rgb), 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 22px 50px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-color: rgba(var(--nec-purple-rgb), 0.20);
   }
   .nec-interactive-card:active {
     transform: translateY(0);
@@ -631,7 +663,7 @@
 /* ── Back to top button (CSS transition, no framer-motion) ── */
 .back-to-top-btn {
   opacity: 0;
-  transform: translateY(20px) scale(0.8);
+  transform: translateY(18px) scale(0.96);
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
   will-change: transform, opacity;
@@ -642,10 +674,10 @@
   pointer-events: auto;
 }
 .back-to-top-btn:hover {
-  transform: scale(1.1);
+  transform: translateY(-2px) scale(1.02);
 }
 .back-to-top-btn:active {
-  transform: scale(0.95);
+  transform: translateY(0) scale(0.98);
 }
 .a11y-reduce-motion .back-to-top-btn {
   transition: none !important;
@@ -703,11 +735,11 @@
 
 /* ── Hero logo breathing glow ───────────────── */
 @keyframes heroGlowBreathe {
-  0%, 100% { opacity: 0.45; transform: scale(1.55); }
-  50%      { opacity: 0.65; transform: scale(1.65); }
+  0%, 100% { opacity: 0.18; transform: scale(1.01); }
+  50%      { opacity: 0.28; transform: scale(1.03); }
 }
 .hero-glow-breathe {
-  animation: heroGlowBreathe 4s ease-in-out infinite;
+  animation: heroGlowBreathe 10s ease-in-out infinite;
 }
 
 /* ── Section badge shimmer ──────────────────── */
@@ -716,16 +748,8 @@
   100% { background-position: 200% 0; }
 }
 .section-badge-shimmer {
-  background-image: linear-gradient(
-    110deg,
-    transparent 0%,
-    transparent 40%,
-    rgba(255,255,255,0.12) 50%,
-    transparent 60%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: badgeShimmer 9s ease-in-out infinite;
+  background-image: none;
+  animation: none;
 }
 
 /* ── Character divider float ────────────────── */
@@ -799,7 +823,7 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .nec-card-lift:hover {
-  transform: translateY(-3px);
+  transform: translateY(-1px);
 }
 
 /* ── Quick facts hover lift ─────────────────── */
@@ -807,7 +831,7 @@
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .fact-pill-interactive:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* ══════════════════════════════════════════════
@@ -819,7 +843,7 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .nec-meeting-dir-card:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 16px 34px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 /* ── Meeting badge shimmer on hover ──────────── */
@@ -1367,18 +1391,18 @@ footer {
 
 /* ── Registration content card (main form wrapper) ── */
 .nec-reg-card {
-  background: var(--nec-card);
-  border: 1px solid var(--nec-border);
-  box-shadow: var(--shadow-card);
-  @apply rounded-xl;
+  background: linear-gradient(180deg, rgba(var(--nec-card-rgb), 0.98) 0%, rgba(var(--nec-card-rgb), 0.94) 100%);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.14);
+  box-shadow: 0 24px 56px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.03);
+  @apply rounded-[1.75rem];
 }
 
 /* ── Registration accent card (hotel CTA, cross-sell) — purple accent ── */
 .nec-reg-accent-purple {
-  background: rgba(var(--nec-purple-rgb), 0.04);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.18);
+  background: linear-gradient(180deg, rgba(var(--nec-purple-rgb), 0.05) 0%, rgba(var(--nec-card-rgb), 0.92) 100%);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.16);
   box-shadow: var(--shadow-card);
-  @apply rounded-xl;
+  @apply rounded-2xl;
 }
 
 /* ── Registration accent card — orange accent (breakfast cross-sell) ── */
@@ -1444,17 +1468,17 @@ footer {
 
 /* ── Step indicator bubble — active ── */
 .nec-step-active {
-  background: var(--nec-pink);
+  background: var(--nec-purple);
   color: white;
-  border: 1px solid rgba(var(--nec-pink-rgb), 0.4);
-  box-shadow: 0 0 8px rgba(var(--nec-pink-rgb), 0.15);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.38);
+  box-shadow: 0 12px 24px rgba(107, 48, 96, 0.14);
 }
 
 /* ── Step indicator bubble — inactive ── */
 .nec-step-inactive {
-  background: rgba(var(--nec-purple-rgb), 0.06);
+  background: rgba(var(--nec-card-rgb), 0.78);
   color: var(--nec-muted);
-  border: 1px solid var(--nec-border);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
 }
 
 /* ── Breakfast info box ── */
@@ -1474,8 +1498,9 @@ footer {
 
 /* ── Registration sub-card (summary, scholarship, add-ons) ── */
 .nec-reg-subcard {
-  background: rgba(var(--nec-dark-rgb), 0.4);
-  border: 1px solid var(--nec-border);
+  background: rgba(var(--nec-purple-rgb), 0.03);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
+  @apply rounded-2xl;
 }
 
 /* ── Registration accent bar (top of success pages) ── */
@@ -1489,6 +1514,40 @@ footer {
 }
 .nec-heading-shadow-sm {
   text-shadow: 0 1px 3px rgba(44, 24, 16, 0.10);
+}
+
+.form-section-label {
+  font-family: var(--font-display), var(--font-heading), Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nec-purple);
+}
+
+.form-support-text {
+  color: var(--nec-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.form-option-card {
+  background: rgba(var(--nec-card-rgb), 0.84);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.10);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.form-option-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(var(--nec-purple-rgb), 0.20);
+  box-shadow: 0 18px 36px rgba(44, 24, 16, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.form-option-card[data-active="true"] {
+  background: rgba(var(--nec-purple-rgb), 0.05);
+  border-color: rgba(var(--nec-purple-rgb), 0.22);
+  box-shadow: 0 20px 40px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 /* Registration light mode overrides removed — light IS the default now.

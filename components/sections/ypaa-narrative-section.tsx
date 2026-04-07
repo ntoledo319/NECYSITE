@@ -7,8 +7,6 @@ import {
   SPRING_SLOW,
   staggerContainer,
   staggerChild,
-  SpotlightCard,
-  MagneticButton,
 } from "@/components/ui/motion-primitives"
 
 /* ── Inline SVG graphics for the narrative ── */
@@ -237,8 +235,7 @@ export default function YpaaNarrativeSection() {
           <span className="section-badge section-badge-shimmer mb-4 inline-block">About YPAA</span>
           <h2
             className="section-heading mt-3"
-            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-          >
+            >
             What is a{" "}
             <span
               style={{
@@ -254,35 +251,14 @@ export default function YpaaNarrativeSection() {
         </motion.div>
 
         {/* Main explainer card */}
-        <SpotlightCard
-          className="nec-narrative-card relative overflow-hidden rounded-2xl p-6 sm:p-8 md:p-10 backdrop-blur-sm"
-          spotlightColor="rgba(124,58,237,0.10)"
-          spotlightSize={500}
-        >
+        <div className="nec-card relative overflow-hidden rounded-[1.75rem] p-6 sm:p-8 md:p-10">
           <div
             className="absolute inset-0 rounded-[inherit]"
             style={{
-              background: "var(--nec-card)",
-              border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
-              boxShadow: "var(--shadow-card),0 0 80px rgba(var(--nec-purple-rgb),0.04)",
+              background: "linear-gradient(180deg, rgba(var(--nec-card-rgb),0.98) 0%, rgba(var(--nec-card-rgb),0.94) 100%)",
+              border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
+              boxShadow: "0 22px 50px rgba(44, 24, 16, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)",
               borderRadius: "inherit",
-            }}
-          />
-          {/* Decorative corner glows */}
-          <div
-            className="pointer-events-none absolute -top-20 -right-20 w-64 h-64"
-            aria-hidden="true"
-            style={{
-              background: "radial-gradient(circle, rgba(192,38,211,0.12) 0%, transparent 70%)",
-              filter: "blur(40px)",
-            }}
-          />
-          <div
-            className="pointer-events-none absolute -bottom-20 -left-20 w-64 h-64"
-            aria-hidden="true"
-            style={{
-              background: "radial-gradient(circle, rgba(124,58,237,0.10) 0%, transparent 70%)",
-              filter: "blur(40px)",
             }}
           />
 
@@ -328,8 +304,8 @@ export default function YpaaNarrativeSection() {
                     variants={staggerChild}
                     className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm fact-pill-interactive"
                     style={{
-                      background: "rgba(124,58,237,0.08)",
-                      border: "1px solid rgba(124,58,237,0.20)",
+                      background: "rgba(var(--nec-purple-rgb),0.06)",
+                      border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
                       color: "var(--nec-text)",
                     }}
                   >
@@ -352,8 +328,8 @@ export default function YpaaNarrativeSection() {
                 variants={staggerChild}
                 className="rounded-xl p-5 text-center"
                 style={{
-                  background: "rgba(20,184,166,0.06)",
-                  border: "1px solid rgba(20,184,166,0.18)",
+                  background: "rgba(var(--nec-cyan-rgb),0.05)",
+                  border: "1px solid rgba(var(--nec-cyan-rgb),0.15)",
                 }}
               >
                 <div className="mx-auto mb-3 w-12 h-12">
@@ -367,8 +343,8 @@ export default function YpaaNarrativeSection() {
                 variants={staggerChild}
                 className="rounded-xl p-5 text-center"
                 style={{
-                  background: "rgba(192,38,211,0.06)",
-                  border: "1px solid rgba(192,38,211,0.18)",
+                  background: "rgba(var(--nec-pink-rgb),0.05)",
+                  border: "1px solid rgba(var(--nec-pink-rgb),0.15)",
                 }}
               >
                 <div className="mx-auto mb-3 w-12 h-12">
@@ -382,8 +358,8 @@ export default function YpaaNarrativeSection() {
                 variants={staggerChild}
                 className="rounded-xl p-5 text-center"
                 style={{
-                  background: "rgba(212,160,23,0.06)",
-                  border: "1px solid rgba(212,160,23,0.18)",
+                  background: "rgba(var(--nec-gold-rgb),0.05)",
+                  border: "1px solid rgba(var(--nec-gold-rgb),0.15)",
                 }}
               >
                 <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center text-3xl">
@@ -395,7 +371,7 @@ export default function YpaaNarrativeSection() {
               </motion.div>
             </motion.div>
           </div>
-        </SpotlightCard>
+        </div>
       </div>
 
       {/* ═══════════════════════════════════════════
@@ -407,8 +383,7 @@ export default function YpaaNarrativeSection() {
         <div className="text-center mb-12">
           <h2
             className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight text-[var(--nec-text)]"
-            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-          >
+            >
             A YPAA Convention goes{" "}
             <span
               style={{
@@ -425,13 +400,12 @@ export default function YpaaNarrativeSection() {
 
         {/* Timeline */}
         <div className="relative max-w-2xl mx-auto">
-          {/* Vertical glowing line */}
+          {/* Vertical timeline line */}
           <motion.div
             className="absolute left-4 md:left-6 top-0 bottom-0 w-px"
             aria-hidden="true"
             style={{
-              background: "linear-gradient(180deg, var(--nec-purple) 0%, var(--nec-pink) 30%, var(--nec-cyan) 60%, var(--nec-gold) 100%)",
-              boxShadow: "0 0 8px rgba(124,58,237,0.3)",
+              background: "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.45) 0%, rgba(var(--nec-cyan-rgb),0.28) 100%)",
             }}
             initial={shouldReduce ? false : { scaleY: 0, originY: 0 }}
             whileInView={{ scaleY: 1 }}
@@ -451,13 +425,12 @@ export default function YpaaNarrativeSection() {
               >
                 {/* Timeline dot */}
                 <div
-                  className="absolute left-2.5 md:left-4 top-1.5 w-3 h-3 rounded-full timeline-dot-pulse"
+                  className="absolute left-2.5 md:left-4 top-1.5 w-3 h-3 rounded-full"
                   aria-hidden="true"
                   style={{
                     background: step.color,
-                    boxShadow: `0 0 8px ${step.color}`,
-                    "--dot-color": step.color,
-                  } as React.CSSProperties}
+                    boxShadow: `0 0 0 6px rgba(var(--nec-card-rgb),0.94)`,
+                  }}
                 />
 
                 <p
@@ -467,10 +440,7 @@ export default function YpaaNarrativeSection() {
                       : "text-base sm:text-lg"
                   }`}
                   style={{
-                    color: step.emphasis ? "white" : "var(--nec-text)",
-                    textShadow: step.emphasis
-                      ? `0 0 20px ${step.color}`
-                      : undefined,
+                    color: "var(--nec-text)",
                   }}
                 >
                   {step.text}
@@ -491,20 +461,11 @@ export default function YpaaNarrativeSection() {
             <div
               className="rounded-2xl p-6 sm:p-8 text-center relative overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(192,38,211,0.08) 50%, rgba(212,160,23,0.06) 100%)",
-                border: "1px solid rgba(124,58,237,0.30)",
-                boxShadow: "0 0 60px rgba(124,58,237,0.10), 0 4px 30px rgba(0,0,0,0.3)",
+                background: "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.05) 0%, rgba(var(--nec-card-rgb),0.96) 100%)",
+                border: "1px solid rgba(var(--nec-purple-rgb),0.14)",
+                boxShadow: "0 22px 48px rgba(44, 24, 16, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)",
               }}
             >
-              {/* Ambient glow */}
-              <div
-                className="pointer-events-none absolute inset-0"
-                aria-hidden="true"
-                style={{
-                  background: "radial-gradient(ellipse 50% 60% at 50% 50%, rgba(124,58,237,0.08) 0%, transparent 70%)",
-                }}
-              />
-
               <div className="relative z-10">
                 <p
                   className="text-2xl sm:text-3xl md:text-4xl font-black mb-2"
@@ -520,8 +481,8 @@ export default function YpaaNarrativeSection() {
                 <p
                   className="text-xl sm:text-2xl md:text-3xl font-black"
                   style={{
-                    color: "white",
-                    textShadow: "0 0 20px rgba(124,58,237,0.4)",
+                    color: "var(--nec-text)",
+                    textShadow: "none",
                   }}
                 >
                   Welcome home.
@@ -529,22 +490,18 @@ export default function YpaaNarrativeSection() {
 
                 {/* CTA */}
                 <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-                  <MagneticButton strength={0.25}>
-                    <Link
-                      href="/register"
-                      className="btn-primary text-center justify-center"
-                    >
-                      Register — $40
-                    </Link>
-                  </MagneticButton>
-                  <MagneticButton strength={0.15}>
-                    <Link
-                      href="/faq"
-                      className="btn-ghost text-center justify-center"
-                    >
-                      Still have questions?
-                    </Link>
-                  </MagneticButton>
+                  <Link
+                    href="/register"
+                    className="btn-primary text-center justify-center"
+                  >
+                    Register — $40
+                  </Link>
+                  <Link
+                    href="/faq"
+                    className="btn-ghost text-center justify-center"
+                  >
+                    Still have questions?
+                  </Link>
                 </div>
               </div>
             </div>

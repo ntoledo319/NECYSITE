@@ -26,10 +26,16 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
 
   return (
     <div className="space-y-6">
-      <div className="nec-reg-subcard rounded-2xl p-6">
-        <h3 className="text-xl font-bold text-[var(--nec-text)] mb-4">NECYPAA Non-Discrimination and Anti-Harassment Policy</h3>
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex={0} is required so keyboard-only users can scroll this overflow container */}
-        <div className="prose prose-invert max-w-none text-[var(--nec-muted)] space-y-4 max-h-96 overflow-y-auto text-sm" tabIndex={0} role="region" aria-label="Policy document — scroll to read full text">
+      <div className="nec-reg-subcard p-6">
+        <p className="form-section-label">Convention Policy</p>
+        <h3 className="mb-4 mt-3 text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
+          NECYPAA Non-Discrimination and Anti-Harassment Policy
+        </h3>
+        <div
+          className="max-h-96 space-y-4 overflow-y-auto rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.8)] p-5 text-sm leading-7 text-[var(--nec-muted)]"
+          role="region"
+          aria-label="Policy document — scroll to read full text"
+        >
           <p>
             The North East Convention of Young People in Alcoholics Anonymous (NECYPAA) adheres to the spiritual
             principles of Alcoholics Anonymous ("AA"), its 12 Steps, Traditions, and Concepts. NECYPAA is committed to
@@ -298,14 +304,14 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
+          className="flex-1"
         >
           Back
         </Button>
         <Button
           onClick={() => onComplete(agreements)}
           disabled={!allAgreed}
-          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(var(--nec-pink-rgb),0.15)]"
+          className="flex-1"
         >
           Continue to Payment
         </Button>

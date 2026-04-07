@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { Calendar, MapPin } from "lucide-react"
 import { pastEvents, upcomingEvent } from "@/lib/data/events"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import FlyerWithModal from "@/components/flyer-with-modal"
-import { Calendar, MapPin, IceCream, Sparkles } from "lucide-react"
 import PageArtAccents from "@/components/art/page-art-accents"
 import ShareMenu from "@/components/share-menu"
 
@@ -16,312 +16,170 @@ export const metadata: Metadata = {
 
 export default function EventsPage() {
   return (
-    <div
-      className="min-h-screen min-h-screen-safe flex flex-col relative"
-      style={{ backgroundColor: "var(--nec-navy)" }}
-    >
+    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="gear" />
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Events content">
+
+      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
         <div className="container mx-auto px-4">
-          {/* Page header */}
-          <div className="text-center mb-12 relative">
-            {/* Mad Hatter character accent — left side */}
-            <div className="hidden lg:block absolute -left-8 top-1/2 -translate-y-1/2 w-28 h-40 opacity-[0.10] pointer-events-none" aria-hidden="true">
-              <Image
-                src="/images/mad-hatter-character.png"
-                alt=""
-                width={130}
-                height={195}
-                sizes="130px"
-                className="w-full h-full object-contain"
-                aria-hidden="true"
-              />
-            </div>
-            {/* Cheshire Cat character accent — right side */}
-            <div className="hidden lg:block absolute -right-8 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.08] pointer-events-none" aria-hidden="true">
-              <Image
-                src="/images/cheshire-cat-character.png"
-                alt=""
-                width={110}
-                height={165}
-                sizes="110px"
-                className="w-full h-full object-contain"
-                aria-hidden="true"
-              />
-            </div>
-            <span className="section-badge mb-4 inline-block">Events</span>
-            <h1 className="section-heading mb-3">The Road to Hartford</h1>
-            <p className="text-lg max-w-2xl mx-auto text-[var(--nec-muted)]">
-              Fundraisers, fellowship events, and good times. Every event
-              brings us one step closer to NECYPAA XXXVI.
-            </p>
-            <div className="mt-4">
-              <ShareMenu
-                text="Check out the events leading up to NECYPAA XXXVI — Escaping the Mad Realm!"
-                url="https://www.necypaact.com/events"
-                triggerClassName="text-sm font-semibold transition-opacity hover:opacity-75"
-                triggerLabel="Share Events"
-              />
-            </div>
-          </div>
+          <div className="mx-auto max-w-5xl space-y-10">
+            <header className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-6 py-8 shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8 md:py-10">
+              <div className="absolute right-6 top-6 hidden opacity-[0.08] lg:block" aria-hidden="true">
+                <Image
+                  src="/images/mad-hatter-character.png"
+                  alt=""
+                  width={120}
+                  height={180}
+                  sizes="120px"
+                  className="h-auto w-24"
+                />
+              </div>
 
-          {/* ── Upcoming Event ─────────────────────────────────────── */}
-          <section aria-label="Upcoming event" className="max-w-4xl mx-auto mb-16">
-            <h2 className="text-xs font-bold uppercase tracking-widest mb-5 pl-1 text-[var(--nec-pink)] nec-section-label">
-              Coming Up Next
-            </h2>
+              <div className="max-w-3xl">
+                <span className="section-badge">Events</span>
+                <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
+                  The road to Hartford.
+                </h1>
+                <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
+                  Fundraisers, fellowship nights, and committee momentum all lead toward NECYPAA XXXVI.
+                  This page should make the path legible at a glance.
+                </p>
+                <div className="mt-6">
+                  <ShareMenu
+                    text="Check out the events leading up to NECYPAA XXXVI — Escaping the Mad Realm!"
+                    url="https://www.necypaact.com/events"
+                    triggerClassName="btn-ghost"
+                    triggerLabel="Share Events"
+                  />
+                </div>
+              </div>
+            </header>
 
-            <div
-              className="relative rounded-2xl overflow-hidden"
-              style={{
-                boxShadow:
-                  "0 8px 40px rgba(0,0,0,0.35), 0 0 60px rgba(124,58,237,0.08), 0 0 120px rgba(192,38,211,0.05)",
-              }}
-            >
-              {/* Glow effects */}
-              <div
-                className="nec-glow-blob absolute -top-12 -left-12 w-64 h-64 z-0"
-                aria-hidden="true"
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(124,58,237,0.20) 0%, rgba(192,38,211,0.08) 50%, transparent 70%)",
-                }}
-              />
-              <div
-                className="nec-glow-blob absolute -bottom-12 -right-12 w-64 h-64 z-0"
-                aria-hidden="true"
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(192,38,211,0.18) 0%, rgba(124,58,237,0.06) 50%, transparent 70%)",
-                }}
-              />
-              <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-1 z-20"
-                aria-hidden="true"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(124,58,237,0.6) 0%, rgba(192,38,211,0.5) 50%, rgba(124,58,237,0.6) 100%)",
-                }}
-              />
+            <section aria-label="Upcoming event" className="space-y-5">
+              <div className="max-w-2xl">
+                <span className="section-badge">Coming Up Next</span>
+                <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                  The featured event should do the heavy lifting.
+                </h2>
+                <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+                  One large, readable card. Flyer first, logistics second, no decorative fog between the
+                  visitor and the actual information.
+                </p>
+              </div>
 
-              <div className="nec-featured-card relative z-10 p-6 md:p-8">
-                <div className="flex flex-col lg:flex-row gap-8 items-start">
-                  {/* Flyer */}
-                  <div className="w-full lg:w-[340px] flex-shrink-0 relative">
-                    <div
-                      className="absolute -inset-3 rounded-2xl z-0"
-                      aria-hidden="true"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(124,58,237,0.25) 0%, rgba(192,38,211,0.15) 50%, rgba(124,58,237,0.20) 100%)",
-                        filter: "blur(12px)",
-                      }}
+              <article className="nec-card overflow-hidden p-6 md:p-8">
+                <div className="grid gap-6 md:grid-cols-[260px_1fr] md:gap-8">
+                  <div className="overflow-hidden rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
+                    <FlyerWithModal
+                      src={upcomingEvent.flyerSrc}
+                      alt={upcomingEvent.flyerAlt}
+                      title={upcomingEvent.title}
+                      className="rounded-[1.1rem]"
                     />
-                    <div
-                      className="relative z-10 rounded-xl overflow-hidden"
-                      style={{
-                        border: "2px solid rgba(124,58,237,0.30)",
-                        boxShadow:
-                          "0 4px 24px rgba(0,0,0,0.4), 0 0 20px rgba(124,58,237,0.12)",
-                      }}
-                    >
-                      <FlyerWithModal
-                        src={upcomingEvent.flyerSrc}
-                        alt={upcomingEvent.flyerAlt}
-                        className="rounded-xl"
-                      />
-                    </div>
                   </div>
 
-                  {/* Info */}
-                  <div className="flex-1 space-y-4 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <IceCream
-                        className="w-5 h-5 flex-shrink-0 text-[var(--nec-pink)]"
-                        aria-hidden="true"
-                      />
-                      <span className="text-xs font-bold uppercase tracking-widest text-[var(--nec-pink)]">
-                        Ice Cream Social / Speed Fellowship
-                      </span>
-                    </div>
-
-                    <h3
-                      className="text-2xl md:text-3xl font-black text-[var(--nec-text)] nec-heading-shadow"
-                    >
+                  <div className="space-y-4">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-pink)]">Featured Event</p>
+                    <h3 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
                       {upcomingEvent.title}
                     </h3>
 
-                    <div className="flex flex-col sm:flex-row gap-3 text-sm">
-                      <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
-                        <Calendar
-                          className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]"
-                          aria-hidden="true"
-                        />
+                    <div className="flex flex-col gap-3 text-sm text-[var(--nec-muted)] sm:flex-row sm:flex-wrap">
+                      <span className="inline-flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-[var(--nec-cyan)]" aria-hidden="true" />
                         {upcomingEvent.date}
                       </span>
-                      <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
-                        <MapPin
-                          className="w-4 h-4 flex-shrink-0 text-[var(--nec-gold)]"
-                          aria-hidden="true"
-                        />
+                      <span className="inline-flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
                         {upcomingEvent.location}
                       </span>
                     </div>
 
+                    <p className="text-base leading-7 text-[var(--nec-muted)]">{upcomingEvent.description}</p>
+
                     {upcomingEvent.schedule.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {upcomingEvent.schedule.map((s) => (
-                          <span
-                            key={s.label}
-                            className="nec-pill text-xs px-3 py-1.5 rounded-lg font-semibold text-[var(--nec-cyan)]"
+                      <div className="grid gap-2 sm:grid-cols-2">
+                        {upcomingEvent.schedule.map((slot) => (
+                          <div
+                            key={slot.label}
+                            className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
                           >
-                            {s.time} — {s.label}
-                          </span>
+                            <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
+                            <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
+                          </div>
                         ))}
                       </div>
                     )}
 
                     {upcomingEvent.details.length > 0 && (
-                      <div className="space-y-1.5">
-                        {upcomingEvent.details.map((d) => (
-                          <p key={d.label} className="text-sm text-[var(--nec-text)]">
-                            <span className="font-semibold text-[var(--nec-text)]">
-                              {d.label}:{" "}
-                            </span>
-                            {d.value}
-                          </p>
+                      <dl className="grid gap-4 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-5 sm:grid-cols-2">
+                        {upcomingEvent.details.map((detail) => (
+                          <div key={detail.label}>
+                            <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
+                            <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
+                          </div>
                         ))}
-                      </div>
+                      </dl>
                     )}
-
-                    <p className="text-sm leading-relaxed italic text-[var(--nec-muted)]">
-                      {upcomingEvent.description}
-                    </p>
-
-                    <div className="nec-pill inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg text-[var(--nec-purple)]">
-                      <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-                      See you there!
-                    </div>
                   </div>
                 </div>
+              </article>
+            </section>
+
+            <section aria-label="Past events archive" className="space-y-5">
+              <div className="max-w-2xl">
+                <span className="section-badge">Archive</span>
+                <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                  Past events should still be easy to scan.
+                </h2>
+                <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+                  The archive works better as a clean grid of readable summaries than a stack of over-decorated cards.
+                </p>
               </div>
-            </div>
-          </section>
 
-          {/* ── Past Events ────────────────────────────────────────── */}
-          <section aria-label="Past events archive" className="max-w-4xl mx-auto">
-            <h2 className="text-xs font-bold uppercase tracking-widest mb-5 pl-1 text-[var(--nec-cyan)] nec-section-label">
-              Past Events
-            </h2>
-
-            <div className="space-y-5">
-              {pastEvents.map((event) => (
-                <article
-                  key={event.id}
-                  className="nec-card p-5 md:p-6 group transition-all duration-200 hover:-translate-y-0.5"
-                  style={{
-                    boxShadow:
-                      "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)",
-                  }}
-                >
-                  <div className="flex flex-col md:flex-row gap-6">
-                    {/* Info */}
-                    <div className="flex-1 space-y-3 min-w-0">
-                      <h3
-                        className="text-xl font-bold text-[var(--nec-purple)] nec-section-label"
-                      >
-                        {event.title}
-                      </h3>
-
-                      <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
-                        <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
-                          <Calendar
-                            className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]"
-                            aria-hidden="true"
-                          />
-                          {event.date}
-                        </span>
-                        {event.location && (
-                          <span className="inline-flex items-center gap-2 text-[var(--nec-text)]">
-                            <MapPin
-                              className="w-4 h-4 flex-shrink-0 text-[var(--nec-gold)]"
-                              aria-hidden="true"
-                            />
-                            {event.location}
-                          </span>
-                        )}
+              <div className="grid gap-5 md:grid-cols-2">
+                {pastEvents.map((event) => (
+                  <article key={event.id} className="nec-card p-5">
+                    <div className="flex gap-4">
+                      <div className="w-24 flex-shrink-0 overflow-hidden rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-1.5">
+                        <FlyerWithModal
+                          src={event.flyerSrc}
+                          alt={event.flyerAlt}
+                          title={event.title}
+                          className="rounded-2xl"
+                        />
                       </div>
 
-                      {event.schedule.length > 0 && (
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-widest text-[var(--nec-text)] mb-1">
-                            Schedule
+                      <div className="min-w-0 space-y-3">
+                        <h3 className="text-xl font-semibold leading-tight text-[var(--nec-text)]">{event.title}</h3>
+                        <div className="space-y-2 text-sm text-[var(--nec-muted)]">
+                          <p className="inline-flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-[var(--nec-cyan)]" aria-hidden="true" />
+                            {event.date}
                           </p>
-                          <ul className="space-y-0.5">
-                            {event.schedule.map((s) => (
-                              <li
-                                key={s.label}
-                                className="text-sm text-[var(--nec-text)]"
-                              >
-                                <span className="font-semibold text-[var(--nec-text)]">
-                                  {s.time}
-                                </span>
-                                {" — "}
-                                {s.label}
+                          {event.location && (
+                            <p className="inline-flex items-center gap-2">
+                              <MapPin className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
+                              {event.location}
+                            </p>
+                          )}
+                        </div>
+                        {event.schedule.length > 0 && (
+                          <ul className="space-y-1 text-sm leading-6 text-[var(--nec-muted)]">
+                            {event.schedule.slice(0, 3).map((slot) => (
+                              <li key={slot.label}>
+                                <span className="font-semibold text-[var(--nec-text)]">{slot.time}</span> {slot.label}
                               </li>
                             ))}
                           </ul>
-                        </div>
-                      )}
-
-                      {event.details.length > 0 && (
-                        <div className="flex flex-wrap gap-x-6 gap-y-1">
-                          {event.details.map((d) => (
-                            <span
-                              key={d.label}
-                              className="text-sm text-[var(--nec-text)]"
-                            >
-                              <span className="font-semibold text-[var(--nec-text)]">
-                                {d.label}:{" "}
-                              </span>
-                              {d.value}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      {event.description && (
-                        <p className="text-sm text-[var(--nec-text)] italic leading-relaxed">
-                          {event.description}
-                        </p>
-                      )}
+                        )}
+                        <p className="text-sm leading-6 text-[var(--nec-muted)]">{event.description}</p>
+                      </div>
                     </div>
-
-                    {/* Flyer */}
-                    <div
-                      className="w-full md:w-56 flex-shrink-0 rounded-xl overflow-hidden"
-                      style={{
-                        border: "1px solid var(--nec-border)",
-                        boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-                      }}
-                    >
-                      <FlyerWithModal
-                        src={event.flyerSrc}
-                        alt={event.flyerAlt}
-                        className="rounded-xl"
-                      />
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {/* Archive note */}
-            <p className="text-center text-sm mt-10 italic text-[var(--nec-muted)]">
-              Thanks to everyone who showed up and made these events happen.
-              The road to Hartford is paved with fellowship.
-            </p>
-          </section>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </div>
         </div>
       </div>
 

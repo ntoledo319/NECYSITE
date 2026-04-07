@@ -28,11 +28,11 @@ export default function AccessibilityPanel() {
     <>
       {/* Trigger button */}
       <button
+        type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--nec-cyan)] focus-visible:outline-none"
+        className="fixed bottom-20 left-4 z-50 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.94)] text-[var(--nec-purple)] shadow-[0_18px_40px_rgba(44,24,16,0.12)] transition-[transform,border-color,background] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.22)] hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] focus-visible:ring-offset-2 md:bottom-6 md:left-6"
         style={{
-          background: "var(--nec-cyan)",
-          color: "var(--nec-navy)",
+          background: "rgba(var(--nec-card-rgb),0.94)",
         }}
         aria-label="Open accessibility settings"
       >
@@ -45,7 +45,7 @@ export default function AccessibilityPanel() {
           {/* Backdrop */}
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key and close button */}
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-[rgba(28,21,17,0.48)] backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
 
@@ -54,17 +54,19 @@ export default function AccessibilityPanel() {
             ref={panelRef}
             className="absolute right-0 top-0 bottom-0 w-full max-w-sm overflow-y-auto"
             style={{
-              background: "var(--nec-navy, #0b1220)",
-              borderLeft: "1px solid var(--nec-border, #2a3552)",
+              background: "rgba(var(--nec-card-rgb),0.98)",
+              borderLeft: "1px solid rgba(var(--nec-purple-rgb),0.12)",
+              boxShadow: "-24px 0 60px rgba(20,14,10,0.14)",
             }}
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-center justify-between p-4 border-b" style={{ borderColor: "var(--nec-border)", background: "var(--nec-navy)" }}>
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b p-4" style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)", background: "rgba(var(--nec-card-rgb),0.98)" }}>
               <h2 className="text-base font-bold text-[var(--nec-text)]">Accessibility Settings</h2>
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   onClick={resetSettings}
-                  className="p-1.5 rounded-lg transition-colors hover:bg-white/5"
+                  className="rounded-full p-2 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
                   style={{ color: "var(--nec-muted)" }}
                   aria-label="Reset all settings to defaults"
                   title="Reset to defaults"
@@ -72,8 +74,9 @@ export default function AccessibilityPanel() {
                   <RotateCcw className="w-4 h-4" />
                 </button>
                 <button
+                  type="button"
                   onClick={() => setOpen(false)}
-                  className="p-1.5 rounded-lg transition-colors hover:bg-white/5"
+                  className="rounded-full p-2 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
                   style={{ color: "var(--nec-muted)" }}
                   aria-label="Close accessibility settings"
                 >
@@ -92,6 +95,7 @@ export default function AccessibilityPanel() {
               >
                 <div className="flex rounded-lg overflow-hidden" role="radiogroup" aria-label="Color mode" style={{ border: "1px solid var(--nec-border)" }}>
                   <button
+                    type="button"
                     onClick={() => updateSettings({ colorMode: "dark" })}
                     className="px-3 py-1.5 text-xs font-medium transition-colors"
                     style={{
@@ -104,6 +108,7 @@ export default function AccessibilityPanel() {
                     Dark
                   </button>
                   <button
+                    type="button"
                     onClick={() => updateSettings({ colorMode: "light" })}
                     className="px-3 py-1.5 text-xs font-medium transition-colors"
                     style={{
@@ -139,9 +144,10 @@ export default function AccessibilityPanel() {
               >
                 <div className="flex items-center gap-2">
                   <button
+                    type="button"
                     onClick={() => updateSettings({ fontSize: Math.max(1, settings.fontSize - 0.25) })}
                     disabled={settings.fontSize <= 1}
-                    className="p-1.5 rounded-lg transition-colors hover:bg-white/5 disabled:opacity-30"
+                    className="rounded-full p-2 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] disabled:opacity-30"
                     style={{ color: "var(--nec-muted)" }}
                     aria-label="Decrease font size"
                   >
@@ -151,9 +157,10 @@ export default function AccessibilityPanel() {
                     {Math.round(settings.fontSize * 100)}%
                   </span>
                   <button
+                    type="button"
                     onClick={() => updateSettings({ fontSize: Math.min(2, settings.fontSize + 0.25) })}
                     disabled={settings.fontSize >= 2}
-                    className="p-1.5 rounded-lg transition-colors hover:bg-white/5 disabled:opacity-30"
+                    className="rounded-full p-2 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] disabled:opacity-30"
                     style={{ color: "var(--nec-muted)" }}
                     aria-label="Increase font size"
                   >
@@ -203,7 +210,7 @@ export default function AccessibilityPanel() {
             </div>
 
             {/* Footer */}
-            <div className="p-4 mt-4 border-t text-xs" style={{ borderColor: "var(--nec-border)", color: "var(--nec-muted)" }}>
+            <div className="mt-4 border-t p-4 text-xs" style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)", color: "var(--nec-muted)" }}>
               <p>
                 Your settings are saved locally on this device. If you need additional
                 accommodations, please email{" "}
@@ -235,8 +242,8 @@ function SettingRow({
 }) {
   return (
     <div
-      className="flex items-center justify-between gap-4 p-3 rounded-xl"
-      style={{ background: "rgba(var(--nec-dark-rgb),0.5)", border: "1px solid var(--nec-border)" }}
+      className="flex items-center justify-between gap-4 rounded-[1.1rem] border p-3.5"
+      style={{ background: "rgba(var(--nec-card-rgb),0.78)", border: "1px solid rgba(var(--nec-purple-rgb),0.10)" }}
     >
       <div className="flex items-start gap-3 min-w-0">
         <span className="mt-0.5 flex-shrink-0" style={{ color: "var(--nec-cyan)" }}>
@@ -253,4 +260,3 @@ function SettingRow({
     </div>
   )
 }
-

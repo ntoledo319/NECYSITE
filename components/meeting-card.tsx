@@ -15,15 +15,11 @@ interface MeetingCardProps {
 export function MeetingCard({ day, meetings }: MeetingCardProps) {
   return (
     <div
-      className="nec-meeting-card rounded-2xl p-4"
-      style={{
-        background: "var(--nec-card)",
-        border: "1px solid var(--nec-border)",
-        boxShadow: "var(--shadow-card)",
-      }}
+      className="nec-meeting-card rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.88)] p-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]"
+      style={{ background: "rgba(var(--nec-card-rgb),0.88)" }}
     >
       <div
-        className="text-[var(--nec-text)] font-bold py-2 px-4 rounded-xl mb-3 text-sm uppercase tracking-wider"
+        className="mb-4 rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--nec-text)]"
         style={{
           background: "rgba(var(--nec-purple-rgb),0.08)",
           border: "1px solid rgba(var(--nec-purple-rgb),0.18)",
@@ -35,42 +31,44 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
       {meetings.map((meeting, index) => (
         <div
           key={`${day}-${meeting.name}-${index}`}
-          className={`${index < meetings.length - 1 ? "mb-4 pb-4 border-b" : ""}`}
-          style={{ borderColor: "var(--nec-border)" }}
+          className={`${index < meetings.length - 1 ? "mb-4 border-b border-[rgba(var(--nec-purple-rgb),0.08)] pb-4" : ""}`}
         >
-          <h3 className="text-lg font-bold" style={{ color: "var(--nec-cyan)" }}>
+          <h3 className="text-base font-semibold leading-6 text-[var(--nec-text)]">
             {meeting.url ? (
-              <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--nec-purple)] hover:underline">
                 {meeting.name}<span className="sr-only"> (opens in new tab)</span>
               </a>
             ) : (
               meeting.name
             )}
           </h3>
-          <p className="text-[var(--nec-muted)]">
-            <span className="text-[var(--nec-muted)]">Time:</span> {meeting.time}
-          </p>
-          <p className="text-[var(--nec-muted)]">
-            <span className="text-[var(--nec-muted)]">Location:</span> {meeting.location}
-          </p>
-          {meeting.address && (
-            <p className="text-[var(--nec-muted)]">
-              <span className="text-[var(--nec-muted)]">Address:</span> {meeting.address}
+
+          <div className="mt-3 space-y-2 text-sm leading-6 text-[var(--nec-muted)]">
+            <p>
+              <span className="font-medium text-[var(--nec-text)]">Time:</span> {meeting.time}
             </p>
-          )}
-          <p className="text-[var(--nec-muted)]">
-            <span className="text-[var(--nec-muted)]">City:</span> {meeting.city}
-          </p>
-          {meeting.attendance && (
-            <p className="text-[var(--nec-muted)]">
-              <span className="text-[var(--nec-muted)]">Attendance:</span> {meeting.attendance}
+            <p>
+              <span className="font-medium text-[var(--nec-text)]">Location:</span> {meeting.location}
             </p>
-          )}
-          {meeting.types && (
-            <p className="text-[var(--nec-muted)]">
-              <span className="text-[var(--nec-muted)]">Types:</span> {meeting.types}
+            {meeting.address && (
+              <p>
+                <span className="font-medium text-[var(--nec-text)]">Address:</span> {meeting.address}
+              </p>
+            )}
+            <p>
+              <span className="font-medium text-[var(--nec-text)]">City:</span> {meeting.city}
             </p>
-          )}
+            {meeting.attendance && (
+              <p>
+                <span className="font-medium text-[var(--nec-text)]">Attendance:</span> {meeting.attendance}
+              </p>
+            )}
+            {meeting.types && (
+              <p>
+                <span className="font-medium text-[var(--nec-text)]">Types:</span> {meeting.types}
+              </p>
+            )}
+          </div>
         </div>
       ))}
     </div>

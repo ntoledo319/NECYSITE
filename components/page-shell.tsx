@@ -5,7 +5,7 @@ import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
-import { FloatingElement, MagneticButton, SPRING_GENTLE } from "@/components/ui/motion-primitives"
+import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 interface PageShellProps {
   badge: string
@@ -19,24 +19,21 @@ const CHARACTER_DATA = {
   "mad-hatter": {
     portal: "/images/mad-hatter-portal.jpg",
     standalone: "/images/mad-hatter-character.png",
-    alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm, with psychedelic swirl background and steampunk gears",
-    standaloneAlt: "The Mad Hatter character in purple coat and orange vest with top hat",
+    alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-purple)",
     accentRgb: "var(--nec-purple-rgb)",
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.jpg",
     standalone: "/images/cheshire-cat-character.png",
-    alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm, grinning with psychedelic swirl background and steampunk gears",
-    standaloneAlt: "The Cheshire Cat character in pink and purple stripes with a wide grin",
+    alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-pink)",
     accentRgb: "var(--nec-pink-rgb)",
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.jpg",
     standalone: "/images/caterpillar-character.png",
-    alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm, wearing a brown coat and fedora with steampunk gears",
-    standaloneAlt: "The Caterpillar character in brown coat and fedora hat",
+    alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-gold)",
     accentRgb: "var(--nec-gold-rgb)",
   },
@@ -55,142 +52,110 @@ export default function PageShell({ badge, title, subtitle, children, character 
   const shouldReduce = useReducedMotion()
 
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Page header */}
+          <div className="mx-auto max-w-5xl">
             <motion.div
-              className="text-center mb-10"
+              className="mb-10 text-center"
               initial={shouldReduce ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
             >
-              <span className="section-badge mb-4 inline-block">{badge}</span>
+              <span className="section-badge mb-4 inline-flex">{badge}</span>
               <h1 className="section-heading mb-3">{title}</h1>
               {subtitle && (
-                <p className="text-lg max-w-2xl mx-auto" style={{ color: "var(--nec-muted)" }}>
+                <p className="mx-auto max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
                   {subtitle}
                 </p>
               )}
             </motion.div>
 
-            {/* Page content */}
             {children || (
-              <div className="relative">
-                {/* Ambient glow behind the portal */}
-                <div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none"
-                  aria-hidden="true"
-                  style={{
-                    background: `radial-gradient(ellipse 70% 60% at 50% 45%, rgba(${char.accentRgb},0.12) 0%, rgba(var(--nec-purple-rgb),0.05) 40%, transparent 70%)`,
-                    filter: "blur(60px)",
-                  }}
-                />
-
-                <div
-                  className="relative nec-card overflow-hidden"
-                  style={{
-                    boxShadow: "var(--shadow-card-hover)",
-                  }}
-                >
-                  {/* Top accent bar */}
+              <motion.div
+                className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]"
+                initial={shouldReduce ? false : { opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={shouldReduce ? { duration: 0 } : { ...SPRING_GENTLE, delay: 0.08 }}
+              >
+                <div className="nec-card relative overflow-hidden p-8 md:p-10">
                   <div
-                    className="h-1 w-full"
+                    className="absolute inset-x-0 top-0 h-1"
                     aria-hidden="true"
                     style={{
-                      background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40) 0%, rgba(var(--nec-pink-rgb),0.30) 50%, rgba(var(--nec-gold-rgb),0.30) 100%)",
+                      background: `linear-gradient(90deg, rgba(${char.accentRgb},0.55) 0%, rgba(var(--nec-gold-rgb),0.28) 100%)`,
                     }}
                   />
 
-                  <div className="p-8 md:p-12 text-center">
-                    {/* Portal art */}
-                    <FloatingElement yOffset={8} duration={5}>
-                    <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto mb-6">
-                      <div
-                        className="absolute inset-0 scale-[1.3] rounded-full"
-                        aria-hidden="true"
-                        style={{
-                          background: `radial-gradient(circle, rgba(${char.accentRgb},0.15) 0%, transparent 65%)`,
-                          filter: "blur(30px)",
-                        }}
-                      />
+                  <div className="space-y-6">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Coming Soon</p>
+                      <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                        This room is still being built.
+                      </h2>
+                      <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+                        Instead of dropping you into a generic placeholder, we&apos;re pointing you toward the
+                        pages that already matter most right now.
+                      </p>
+                    </div>
+
+                    <div className="grid gap-3">
+                      <Link href="/register" className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)]">
+                        <p className="text-sm font-semibold text-[var(--nec-text)]">Register for NECYPAA XXXVI</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Secure your spot and start planning the weekend.</p>
+                      </Link>
+                      <Link href="/events" className="rounded-2xl border border-[rgba(var(--nec-gold-rgb),0.12)] bg-[rgba(var(--nec-gold-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-gold-rgb),0.05)]">
+                        <p className="text-sm font-semibold text-[var(--nec-text)]">See the road to Hartford</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Follow fundraisers, fellowship nights, and updates.</p>
+                      </Link>
+                      <Link href="/faq" className="rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-cyan-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-cyan-rgb),0.05)]">
+                        <p className="text-sm font-semibold text-[var(--nec-text)]">Read the FAQ</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Find answers without leaving the site guessing.</p>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid gap-6">
+                  <div className="nec-card overflow-hidden p-4">
+                    <div className="overflow-hidden rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)]">
                       <Image
                         src={char.portal}
                         alt={char.alt}
-                        width={300}
-                        height={450}
-                        sizes="(min-width: 768px) 256px, (min-width: 640px) 224px, 192px"
-                        className="relative z-10 w-full h-full object-contain"
-                        style={{ filter: "drop-shadow(0 4px 30px rgba(var(--nec-purple-rgb),0.20))" }}
+                        width={900}
+                        height={1200}
+                        sizes="(max-width: 1024px) 100vw, 40vw"
+                        className="h-auto w-full object-cover"
                       />
                     </div>
-                    </FloatingElement>
+                  </div>
 
-                    {/* Steampunk gear SVGs */}
-                    <div className="absolute top-6 left-6 opacity-[0.06] pointer-events-none" aria-hidden="true">
-                      <svg width="60" height="60" viewBox="0 0 100 100" fill="none">
-                        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="6" className="text-[var(--nec-purple)]" />
-                        <circle cx="50" cy="50" r="18" stroke="currentColor" strokeWidth="4" className="text-[var(--nec-purple)]" />
-                        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
-                          <rect
-                            key={angle}
-                            x="46"
-                            y="8"
-                            width="8"
-                            height="16"
-                            rx="2"
-                            fill="currentColor"
-                            className="text-[var(--nec-purple)]"
-                            transform={`rotate(${angle} 50 50)`}
-                          />
-                        ))}
-                      </svg>
+                  <div className="rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.76)] p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="overflow-hidden rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-2">
+                        <Image
+                          src={char.standalone}
+                          alt=""
+                          width={90}
+                          height={120}
+                          sizes="90px"
+                          className="h-20 w-auto object-contain"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">In Progress</p>
+                        <p className="mt-2 text-lg font-semibold text-[var(--nec-text)]">
+                          The page is on the roadmap, not abandoned.
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
+                          We&apos;re filling these sections with real content instead of keeping decorative emptiness on
+                          the navigation forever.
+                        </p>
+                      </div>
                     </div>
-                    <div className="absolute bottom-8 right-8 opacity-[0.05] pointer-events-none" aria-hidden="true">
-                      <svg width="45" height="45" viewBox="0 0 100 100" fill="none">
-                        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="6" className="text-[var(--nec-pink)]" />
-                        <circle cx="50" cy="50" r="18" stroke="currentColor" strokeWidth="4" className="text-[var(--nec-pink)]" />
-                        {[0, 60, 120, 180, 240, 300].map((angle) => (
-                          <rect
-                            key={angle}
-                            x="46"
-                            y="8"
-                            width="8"
-                            height="16"
-                            rx="2"
-                            fill="currentColor"
-                            className="text-[var(--nec-pink)]"
-                            transform={`rotate(${angle} 50 50)`}
-                          />
-                        ))}
-                      </svg>
-                    </div>
-
-                    <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">
-                      Still Escaping the Mad Realm&hellip;
-                    </h2>
-                    <p className="text-sm max-w-md mx-auto mb-6 text-[var(--nec-muted)]">
-                      This page is under construction. We&apos;re building something
-                      special for NECYPAA XXXVI — check back soon.
-                    </p>
-                    <MagneticButton strength={0.25}>
-                    <Link
-                      href="/"
-                      className="inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
-                      style={{
-                        background: `rgba(${char.accentRgb},0.08)`,
-                        border: `1px solid rgba(${char.accentRgb},0.20)`,
-                        color: char.accent,
-                        boxShadow: "var(--shadow-card)",
-                      }}
-                    >
-                      Back to the Portal
-                    </Link>
-                    </MagneticButton>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
         </div>
