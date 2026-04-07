@@ -1,9 +1,11 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Heart, Sparkles, Users, Video } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import { ZOOM_MEETING_URL } from "@/lib/constants"
+import { Video, Users, Heart, Sparkles, ArrowRight } from "lucide-react"
+import { GearCluster } from "@/components/art/steampunk-gears"
 import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
@@ -12,162 +14,260 @@ export const metadata: Metadata = {
     "Get involved with NECYPAA XXXVI. Open service positions, Members-at-Large opportunities, and ways to support the convention.",
 }
 
-const contributionLines = [
+const whyItems = [
   "Support the work of the committee",
   "Help plan and carry out events",
-  "Build real friendships through service",
-  "Carry the convention with more than just attendance",
-]
-
-const serviceLanes = [
-  {
-    title: "Open positions",
-    body: "There are chairs, support roles, and practical holes that open up as the committee keeps moving. This is where people step into responsibility.",
-    accent: "var(--nec-purple)",
-    border: "rgba(var(--nec-purple-rgb),0.14)",
-    bg: "rgba(var(--nec-purple-rgb),0.05)",
-  },
-  {
-    title: "Members-at-Large",
-    body: "No title required. Just show up, stay close, help at events, and become part of the engine that keeps NECYPAA alive between business meetings.",
-    accent: "var(--nec-pink)",
-    border: "rgba(var(--nec-pink-rgb),0.14)",
-    bg: "rgba(var(--nec-pink-rgb),0.05)",
-  },
-  {
-    title: "Committee meetings",
-    body: "Zoom meetings are the easiest doorway in. If you want to understand the rhythm of host, start where the actual work gets discussed.",
-    accent: "var(--nec-cyan)",
-    border: "rgba(var(--nec-cyan-rgb),0.14)",
-    bg: "rgba(var(--nec-cyan-rgb),0.05)",
-  },
+  "Grow your network",
+  "Meet other young people in AA",
+  "Do some really cool stuff",
 ]
 
 export default function ServicePage() {
   return (
-    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div
+      className="min-h-screen min-h-screen-safe flex flex-col relative"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="potion" />
-
-      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-5xl space-y-10">
-            <header className="grid gap-6 lg:grid-cols-[1.04fr_0.96fr] lg:items-end">
-              <div className="max-w-3xl">
-                <span className="section-badge inline-flex">Service</span>
-                <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
-                  The convention gets built by people who keep showing up.
-                </h1>
-                <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
-                  NECYPAA is always looking for trusted servants. Some people step into a role. Some become Members-at-Large.
-                  Both matter. Service is how this whole thing moves from poster art into an actual weekend.
-                </p>
-              </div>
-
-              <aside className="rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-card-rgb),0.88),rgba(var(--nec-purple-rgb),0.05))] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-                  Quickest Way In
-                </p>
-                <h2 className="mt-3 text-xl font-semibold text-[var(--nec-text)]">Join a meeting before you overthink it.</h2>
-                <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">
-                  The cleanest first move is to show up on Zoom, listen, meet people, and let the next right service ask reveal itself.
-                </p>
-              </aside>
-            </header>
-
-            <section className="grid gap-4 md:grid-cols-3" aria-label="Ways into service">
-              {serviceLanes.map((lane) => (
-                <article
-                  key={lane.title}
-                  className="rounded-[1.6rem] border px-5 py-5 shadow-[0_16px_34px_rgba(44,24,16,0.06)]"
-                  style={{
-                    background: lane.bg,
-                    borderColor: lane.border,
-                  }}
-                >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: lane.accent }}>
-                    {lane.title}
-                  </p>
-                  <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">{lane.body}</p>
-                </article>
-              ))}
-            </section>
-
-            <section className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">
-              <article className="rounded-[1.85rem] border border-[rgba(var(--nec-gold-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.86)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)]">
-                    <Heart className="h-5 w-5 text-[var(--nec-gold)]" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
-                      Why it is worth it
-                    </p>
-                    <h2 className="mt-1 text-xl font-semibold text-[var(--nec-text)]">Service pays people back in strange ways.</h2>
-                  </div>
-                </div>
-
-                <ul className="mt-5 space-y-3">
-                  {contributionLines.map((line) => (
-                    <li key={line} className="flex items-start gap-3 text-sm leading-6 text-[var(--nec-muted)]">
-                      <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0 text-[var(--nec-purple)]" aria-hidden="true" />
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-
-              <article className="rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.86)] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)]">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-cyan-rgb),0.06)]">
-                    <Sparkles className="h-5 w-5 text-[var(--nec-cyan)]" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-cyan)]">
-                      How to jump in
-                    </p>
-                    <h2 className="mt-1 text-xl font-semibold text-[var(--nec-text)]">Two useful next steps, no ceremony required.</h2>
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-3">
-                  <div className="rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.92)] px-4 py-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">01</p>
-                    <p className="mt-2 text-sm font-semibold text-[var(--nec-text)]">Attend a business meeting on Zoom</p>
-                    <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-                      Learn what the committee is handling right now, hear what is open, and meet the people actually carrying the work.
-                    </p>
-                  </div>
-                  <div className="rounded-[1.25rem] border border-[rgba(var(--nec-pink-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.92)] px-4 py-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-pink)]">02</p>
-                    <p className="mt-2 text-sm font-semibold text-[var(--nec-text)]">Stay close as a Member-at-Large</p>
-                    <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-                      You do not need a title to be essential. Consistency and willingness still change what this committee can do.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href={ZOOM_MEETING_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-secondary inline-flex items-center justify-center gap-2"
-                  >
-                    <Video className="h-4 w-4" aria-hidden="true" />
-                    Join on Zoom<span className="sr-only"> (opens in new tab)</span>
-                  </a>
-                  <Link href="/register" className="btn-ghost inline-flex items-center justify-center gap-2">
-                    <Users className="h-4 w-4" aria-hidden="true" />
-                    Register for NECYPAA
-                  </Link>
-                </div>
-              </article>
-            </section>
-
-            <p className="text-center text-sm italic leading-7 text-[var(--nec-muted)]">
-              Trusted servants build conventions. Members-at-Large make them feel alive.
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Service opportunities content">
+        <div className="container mx-auto px-4 max-w-3xl">
+          {/* ── Page Header ───────────────────────────────────────── */}
+          <div className="text-center mb-14">
+            <span className="section-badge mb-4 inline-block">Service</span>
+            <h1 className="section-heading mb-4">Service Opportunities</h1>
+            <p className="text-lg leading-relaxed max-w-2xl mx-auto text-[var(--nec-muted)]">
+              NECYPAA is always looking for trusted servants to help carry the
+              work forward. Whether you are interested in a specific position or
+              just want to get involved as a Member-at-Large, there is a place
+              for you to plug in. Service is how we build the committee, support
+              the fellowship, and help make NECYPAA happen.
             </p>
           </div>
+
+          {/* ── Open Service Opportunities ─────────────────────────── */}
+          <section aria-label="Open service opportunities" className="mb-12">
+            <div
+              className="nec-card p-6 md:p-8"
+              style={{
+                boxShadow:
+                  "var(--shadow-card)",
+              }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  <Sparkles className="w-5 h-5 text-[var(--nec-cyan)]" />
+                </div>
+                <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                  Open Service Opportunities
+                </h2>
+              </div>
+              <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
+                NECYPAA regularly has positions to fill across committees and
+                service areas. Openings may include elected, appointed, or other
+                roles depending on current needs.
+              </p>
+              <p className="text-sm leading-relaxed text-[var(--nec-muted)]">
+                If you are looking to get more involved, this is a great place
+                to start.
+              </p>
+            </div>
+          </section>
+
+          {/* ── Members-at-Large ───────────────────────────────────── */}
+          <section aria-label="Members-at-Large" className="mb-12">
+            <div
+              className="relative rounded-2xl overflow-hidden"
+              style={{
+                boxShadow:
+                  "var(--shadow-card-hover)",
+              }}
+            >
+              {/* Glow */}
+              <div
+                className="nec-glow-blob absolute -top-10 -left-10 w-56 h-56 z-0"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 70%)",
+                }}
+              />
+              <div
+                className="nec-glow-blob absolute -bottom-10 -right-10 w-56 h-56 z-0"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(var(--nec-pink-rgb),0.08) 0%, transparent 70%)",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-1 z-20"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40) 0%, rgba(var(--nec-pink-rgb),0.30) 50%, rgba(var(--nec-purple-rgb),0.40) 100%)",
+                }}
+              />
+
+              <div className="nec-featured-card relative z-10 p-6 md:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="nec-icon-badge-pink w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    aria-hidden="true"
+                  >
+                    <Users className="w-5 h-5 text-[var(--nec-pink)]" />
+                  </div>
+                  <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                    Members-at-Large
+                  </h2>
+                </div>
+
+                <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
+                  Not ready for a position yet? We also always need
+                  Members-at-Large.
+                </p>
+                <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
+                  Members-at-Large are the life and soul that keeps NECYPAA
+                  moving. They help support committee work, do stuff at events,
+                  bring ideas, pitch in where needed, and stay connected to the
+                  larger effort. You do not need to hold a specific title to be
+                  useful here. There is no time requirement.
+                </p>
+                <p className="text-sm font-semibold leading-relaxed text-[var(--nec-cyan)]">
+                  Showing up consistently and being willing to help matters.
+                </p>
+
+                {/* Cheshire Cat character accent */}
+                <div className="hidden md:block absolute -bottom-4 -right-4 w-32 h-32 opacity-[0.12] pointer-events-none z-0" aria-hidden="true">
+                  <Image
+                    src="/images/cheshire-cat-character.png"
+                    alt=""
+                    width={150}
+                    height={225}
+                    sizes="150px"
+                    className="w-full h-full object-contain"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Why Get Involved ───────────────────────────────────── */}
+          <section aria-label="Why get involved" className="mb-12">
+            <div
+              className="nec-card p-6 md:p-8"
+              style={{
+                boxShadow:
+                  "var(--shadow-card)",
+              }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <div
+                  className="nec-icon-badge-gold w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  <Heart className="w-5 h-5 text-[var(--nec-gold)]" />
+                </div>
+                <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                  Why Get Involved?
+                </h2>
+              </div>
+
+              <p className="text-sm leading-relaxed mb-4 text-[var(--nec-muted)]">
+                Service with NECYPAA is a chance to:
+              </p>
+
+              <ul className="space-y-2.5 mb-2">
+                {whyItems.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <ArrowRight
+                      className="w-4 h-4 flex-shrink-0 mt-0.5 text-[var(--nec-purple)]"
+                      aria-hidden="true"
+                    />
+                    <span className="text-sm leading-relaxed text-[var(--nec-muted)]">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          {/* ── How to Get Involved ────────────────────────────────── */}
+          <section aria-label="How to get involved" className="mb-12">
+            <div
+              className="nec-card p-6 md:p-8 relative overflow-hidden"
+              style={{
+                boxShadow:
+                  "var(--shadow-card)",
+              }}
+            >
+              {/* Steampunk gear accent */}
+              <GearCluster className="absolute -bottom-2 -right-2 opacity-60" />
+              <div className="flex items-center gap-3 mb-5">
+                <div
+                  className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  <Video className="w-5 h-5 text-[var(--nec-cyan)]" />
+                </div>
+                <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                  How to Get Involved
+                </h2>
+              </div>
+
+              <p className="text-sm leading-relaxed mb-5 text-[var(--nec-muted)]">
+                If you are interested in serving, here are a few ways to jump
+                in:
+              </p>
+
+              <div className="space-y-3 mb-6">
+                <div className="nec-pill-subtle flex items-start gap-3 p-3 rounded-xl">
+                  <span className="text-xs font-bold uppercase tracking-widest mt-0.5 flex-shrink-0 text-[var(--nec-cyan)]">
+                    01
+                  </span>
+                  <p className="text-sm text-[var(--nec-text)]">
+                    Attend a <strong className="text-[var(--nec-text)]">business meeting</strong> on Zoom
+                  </p>
+                </div>
+                <div className="nec-pill-subtle flex items-start gap-3 p-3 rounded-xl">
+                  <span className="text-xs font-bold uppercase tracking-widest mt-0.5 flex-shrink-0 text-[var(--nec-cyan)]">
+                    02
+                  </span>
+                  <p className="text-sm text-[var(--nec-text)]">
+                    Attend a <strong className="text-[var(--nec-text)]">committee meeting</strong> also on Zoom
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a
+                  href={ZOOM_MEETING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nec-cta-accent inline-flex items-center justify-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide text-[var(--nec-cyan)]"
+                >
+                  <Video className="w-4 h-4" aria-hidden="true" />
+                  Join on Zoom<span className="sr-only"> (opens in new tab)</span>
+                </a>
+                <Link
+                  href="/register"
+                  className="btn-primary !py-2.5 !px-5 !text-sm text-center"
+                >
+                  Register for NECYPAA — $40
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Closing ────────────────────────────────────────────── */}
+          <p className="text-center text-sm italic leading-relaxed text-[var(--nec-muted)]">
+            We need trusted servants, and we always need more
+            Members-at-Large.
+          </p>
         </div>
       </div>
 

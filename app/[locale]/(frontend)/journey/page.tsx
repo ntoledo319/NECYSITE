@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import { Calendar, MapPin } from "lucide-react"
+import Image from "next/image"
 import { pastEvents } from "@/lib/data/events"
+import { Calendar, MapPin } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import PageArtAccents from "@/components/art/page-art-accents"
-import FlyerWithModal from "@/components/flyer-with-modal"
 
 export const metadata: Metadata = {
   title: "The Journey Comes First — NECYPAA XXXVI",
@@ -14,148 +14,95 @@ export const metadata: Metadata = {
 
 export default function JourneyPage() {
   return (
-    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
-
-      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
+      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-5xl space-y-10">
-            <header className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
-              <div className="max-w-3xl">
-                <span className="section-badge inline-flex">Archive</span>
-                <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
-                  The journey comes first.
-                </h1>
-                <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
-                  Hartford does not begin when people check into the hotel. It begins in borrowed halls,
-                  after-meeting fundraisers, strange themes, late-night drives, and the little nights where a host committee becomes real.
-                </p>
+          <div className="max-w-4xl mx-auto">
+            {/* Page header */}
+            <div className="text-center mb-12 relative">
+              {/* Caterpillar accent — left */}
+              <div className="hidden lg:block absolute -left-10 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.09] pointer-events-none" aria-hidden="true">
+                <Image src="/images/caterpillar-character.png" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
               </div>
-
-              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                <div className="rounded-[1.5rem] border border-[rgba(var(--nec-gold-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Events Archived</p>
-                  <p className="mt-2 text-2xl font-semibold text-[var(--nec-text)]">{pastEvents.length}</p>
-                </div>
-                <div className="rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">What It Holds</p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">Fundraisers, dances, panels, and the committee’s mileage</p>
-                </div>
-                <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Point of View</p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">The journey is not marketing. It is the substance.</p>
-                </div>
+              {/* Mad Hatter accent — right */}
+              <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
+                <Image src="/images/mad-hatter-character.png" alt="" width={80} height={120} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
               </div>
-            </header>
+              <span className="section-badge mb-4 inline-block">Archive</span>
+              <h1 className="section-heading mb-3">The Journey Comes First</h1>
+              <p className="text-lg max-w-2xl mx-auto text-[var(--nec-muted)]">
+                A look back at the events, fundraisers, and fellowship that brought us to Hartford. The
+                journey is the point.
+              </p>
+            </div>
 
-            <section className="rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-card-rgb),0.88),rgba(var(--nec-gold-rgb),0.04))] px-6 py-6 shadow-[0_22px_50px_rgba(44,24,16,0.08)] md:px-8">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
-                    Why this page exists
-                  </p>
-                  <p className="mt-3 text-base leading-7 text-[var(--nec-muted)]">
-                    Recovery events become lore fast. This archive keeps the flyers, the locations, and the strange little facts that would otherwise disappear once the next event poster takes over.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-                    How to read it
-                  </p>
-                  <p className="mt-3 text-base leading-7 text-[var(--nec-muted)]">
-                    Think of this less like a schedule graveyard and more like a yearbook wall. The poster art, themes, and details tell the story of how Hartford got built.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            <section className="space-y-8" aria-label="Road to Hartford event archive">
-              {pastEvents.map((event, index) => (
+            {/* Event timeline */}
+            <div className="space-y-6">
+              {pastEvents.map((event) => (
                 <article
                   key={event.id}
-                  className="grid gap-5 lg:grid-cols-[90px_1fr] lg:gap-6"
+                  className="nec-card p-6 md:p-8 transition-all duration-200"
                 >
-                  <div className="hidden lg:flex justify-center">
-                    <div className="flex w-full max-w-[90px] flex-col items-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.92)] text-sm font-semibold text-[var(--nec-text)] shadow-[0_16px_32px_rgba(44,24,16,0.08)]">
-                        {String(index + 1).padStart(2, "0")}
-                      </div>
-                      {index < pastEvents.length - 1 && (
-                        <div className="mt-3 h-full min-h-[90px] w-px bg-[linear-gradient(180deg,rgba(var(--nec-purple-rgb),0.18),rgba(var(--nec-gold-rgb),0.08))]" />
-                      )}
-                    </div>
-                  </div>
+                  <div className="flex flex-col md:flex-row gap-6">
+                    {/* Event info */}
+                    <div className="flex-1 space-y-3">
+                      <h2 className="text-xl md:text-2xl font-bold text-[var(--nec-text)]">{event.title}</h2>
 
-                  <div className="rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.84)] p-5 shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:p-6">
-                    <div className="grid gap-5 md:grid-cols-[140px_1fr]">
-                      <div className="w-full max-w-[180px] overflow-hidden rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
-                        <FlyerWithModal
-                          src={event.flyerSrc}
-                          alt={event.flyerAlt}
-                          title={event.title}
-                          className="rounded-[1rem]"
-                        />
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-[var(--nec-muted)]">
+                        <span className="inline-flex items-center gap-1.5">
+                          <Calendar className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]" aria-hidden="true" />
+                          {event.date}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPin className="w-4 h-4 flex-shrink-0 text-[var(--nec-pink)]" aria-hidden="true" />
+                          {event.location}
+                        </span>
                       </div>
 
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
-                            Road Marker {String(index + 1).padStart(2, "0")}
-                          </p>
-                          <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                            {event.title}
-                          </h2>
-                        </div>
+                      <p className="text-sm leading-relaxed text-[var(--nec-text)]">
+                        {event.description}
+                      </p>
 
-                        <div className="flex flex-col gap-2 text-sm text-[var(--nec-muted)] sm:flex-row sm:flex-wrap sm:gap-4">
-                          <span className="inline-flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-[var(--nec-cyan)]" aria-hidden="true" />
-                            {event.date}
-                          </span>
-                          {event.location && (
-                            <span className="inline-flex items-center gap-2">
-                              <MapPin className="h-4 w-4 text-[var(--nec-pink)]" aria-hidden="true" />
-                              {event.location}
+                      {/* Schedule */}
+                      {event.schedule.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {event.schedule.map((s) => (
+                            <span
+                              key={s.label}
+                              className="nec-pill-subtle text-xs px-2.5 py-1 rounded-lg font-medium text-[var(--nec-cyan)]"
+                            >
+                              {s.label}: {s.time}
                             </span>
-                          )}
+                          ))}
                         </div>
+                      )}
 
-                        {event.description && (
-                          <p className="text-base leading-7 text-[var(--nec-muted)]">{event.description}</p>
-                        )}
-
-                        {event.schedule.length > 0 && (
-                          <div className="grid gap-2 sm:grid-cols-2">
-                            {event.schedule.map((slot) => (
-                              <div
-                                key={slot.label}
-                                className="rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.9)] px-4 py-3"
-                              >
-                                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
-                                <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {event.details.length > 0 && (
-                          <div className="flex flex-wrap gap-2 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-4">
-                            {event.details.map((detail) => (
-                              <span
-                                key={detail.label}
-                                className="rounded-full border border-[rgba(var(--nec-gold-rgb),0.14)] bg-[rgba(var(--nec-gold-rgb),0.05)] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--nec-gold)]"
-                              >
-                                {detail.label}: {detail.value}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      {/* Details */}
+                      {event.details.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {event.details.map((d) => (
+                            <span
+                              key={d.label}
+                              className="nec-pill-pink text-xs px-2.5 py-1 rounded-lg font-medium text-[var(--nec-muted)]"
+                            >
+                              {d.label}: {d.value}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </article>
               ))}
-            </section>
+            </div>
+
+            {/* Bottom note */}
+            <div className="mt-12 text-center">
+              <p className="text-sm text-[var(--nec-muted)]">
+                More events to come. The journey continues.
+              </p>
+            </div>
           </div>
         </div>
       </div>
