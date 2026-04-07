@@ -40,11 +40,13 @@ const navItems: NavItem[] = [
     children: [
       { href: "/breakfast", label: "Breakfast" },
       { href: "/merch", label: "Merch" },
+      { href: "/journey", label: "Our Journey" },
       { href: "/prayer", label: "Prayer" },
       { href: "/asl", label: "ASL Resources" },
       { href: "/states", label: "Find Your State" },
       { href: "/alanon", label: "Al-Anon / Alateen" },
       { href: "/accessibility", label: "Accessibility" },
+      { href: "/bid", label: "Start a Bid" },
       { href: NECYPAA_ADVISORY_URL, label: "Advisory", external: true },
     ],
   },

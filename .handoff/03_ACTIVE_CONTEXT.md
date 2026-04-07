@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-only page-by-page differentiation and refinement pass.
+**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-first refinement pass with selective functionality-alignment checks against `main`.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -109,6 +109,19 @@ This most recent pass stayed inside the same rule: no approved wording changes, 
 - no intentional committee-copy rewrite
 - work limited to layout, framing, imagery emphasis, spacing, and control polish
 
+### 7. `main` Functionality Alignment Pass
+
+This pass explicitly audited `main` to confirm the branch still communicates the actual jobs of the website, not just its improved look.
+
+**What changed in this pass:**
+- `site-header.tsx` was updated so `Journey` and `Start a Bid` are reachable from the primary navigation again, matching important discoverability paths that existed on `main`
+- `components/games/inventory-shell.tsx` now gives unfinished routes contextual exits to relevant working pages instead of generic placeholder-only guidance
+
+**Intent of this pass:**
+- preserve the current branch’s better visual system
+- keep approved page copy intact
+- restore route discoverability and practical navigation cues where `main` still communicated product intent better
+
 ---
 
 ## Features: Current Status
@@ -127,6 +140,7 @@ This most recent pass stayed inside the same rule: no approved wording changes, 
 - Journey archive page
 - Blog index and article presentation
 - Shared homepage section system
+- Primary route discoverability layer
 
 ### Present but Still Needing Final Content / Visual-Only Follow-Up
 - Program
@@ -164,6 +178,7 @@ See `docs/tech-debt-and-gaps.md` for the broader backlog.
 ## Recent Commits On Branch
 
 ```
+1e8140f Refine remaining visual-only destination pages
 73419b0 Differentiate unfinished routes visually
 b9bd286 Update handoff after copy rollback
 f499b88 Revert unapproved copy changes from page sweep

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import { GearCluster } from "@/components/art/steampunk-gears"
@@ -156,6 +157,45 @@ const THEME_STYLES: Record<
     contentLayout: "lg:grid-cols-[0.96fr_1.04fr]",
     textAlign: "text-left",
   },
+}
+
+const RELATED_LINKS: Record<InventoryTheme, Array<{ href: string; label: string }>> = {
+  faq: [
+    { href: "/register", label: "Register" },
+    { href: "/events", label: "Events" },
+    { href: "/accessibility", label: "Accessibility" },
+    { href: "/service", label: "Service Opportunities" },
+  ],
+  program: [
+    { href: "/events", label: "Events" },
+    { href: "/breakfast", label: "Breakfast" },
+    { href: "/register", label: "Register" },
+    { href: "/faq", label: "FAQ" },
+  ],
+  merch: [
+    { href: "/register", label: "Register" },
+    { href: "/events", label: "Events" },
+    { href: "/blog", label: "Blog" },
+    { href: "/faq", label: "FAQ" },
+  ],
+  prayer: [
+    { href: "/journey", label: "Our Journey" },
+    { href: "/alanon", label: "Al-Anon / Alateen" },
+    { href: "/accessibility", label: "Accessibility" },
+    { href: "/service", label: "Service Opportunities" },
+  ],
+  asl: [
+    { href: "/accessibility", label: "Accessibility" },
+    { href: "/register", label: "Register" },
+    { href: "/alanon", label: "Al-Anon / Alateen" },
+    { href: "/states", label: "Find Your State" },
+  ],
+  bid: [
+    { href: "/service", label: "Service Opportunities" },
+    { href: "/#business-meeting", label: "Business Meeting" },
+    { href: "/states", label: "Find Your State" },
+    { href: "/journey", label: "Our Journey" },
+  ],
 }
 
 function ThemeHeroArt({
@@ -577,6 +617,7 @@ export default function InventoryShell({
   const [showGame, setShowGame] = useState(false)
   const char = CHARACTER_DATA[character]
   const themeStyle = THEME_STYLES[theme]
+  const relatedLinks = RELATED_LINKS[theme]
 
   return (
     <div
@@ -749,6 +790,22 @@ export default function InventoryShell({
                         >
                           &ldquo;Made a searching and fearless moral inventory&hellip;&rdquo; — Step 4
                         </p>
+
+                        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                          {relatedLinks.map((link) => (
+                            <Link
+                              key={`${theme}-${link.href}`}
+                              href={link.href}
+                              className="rounded-[1rem] border px-4 py-3 text-sm font-semibold text-[var(--nec-text)] transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5"
+                              style={{
+                                borderColor: themeStyle.buttonBorder,
+                                background: "rgba(var(--nec-card-rgb),0.82)",
+                              }}
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
 
                       <ThemeMotif theme={theme} char={char} />
