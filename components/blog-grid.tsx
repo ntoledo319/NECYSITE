@@ -15,13 +15,11 @@ export default function BlogGrid() {
   )
   const visible = sorted.slice(0, visibleCount)
   const hasMore = visibleCount < sorted.length
-
   const shouldReduce = useReducedMotion()
 
   return (
     <section aria-label="Blog posts">
-      {/* Post count */}
-      <div className="flex items-center gap-3 mb-8 max-w-5xl mx-auto">
+      <div className="mx-auto mb-8 flex max-w-6xl items-center gap-3">
         <Newspaper
           className="w-5 h-5 flex-shrink-0"
           style={{ color: "var(--nec-purple)" }}
@@ -36,31 +34,33 @@ export default function BlogGrid() {
         <div
           className="flex-1 h-[1px]"
           aria-hidden="true"
-          style={{ background: "var(--nec-border)" }}
+          style={{ background: "linear-gradient(90deg, var(--nec-border), transparent)" }}
         />
       </div>
 
-      {/* Cards grid — responsive masonry-style with CSS columns */}
       <motion.div
-        className="blog-grid max-w-5xl mx-auto columns-1 md:columns-2 gap-6 space-y-6"
+        className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
         variants={shouldReduce ? undefined : staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
       >
-        {visible.map((post, i) => (
-          <motion.div key={post.id} className="break-inside-avoid" variants={staggerChild}>
-            <BlogCard post={post} index={i} />
+        {visible.map((post, index) => (
+          <motion.div
+            key={post.id}
+            variants={staggerChild}
+            className={index === 0 ? "md:col-span-2 xl:col-span-2" : ""}
+          >
+            <BlogCard post={post} index={index} />
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Load more */}
       {hasMore && (
         <div className="text-center mt-12">
           <button
             type="button"
-            onClick={() => setVisibleCount((c) => c + 6)}
+            onClick={() => setVisibleCount((count) => count + 6)}
             className="btn-ghost"
           >
             Load More Posts
@@ -68,7 +68,6 @@ export default function BlogGrid() {
         </div>
       )}
 
-      {/* Empty state */}
       {sorted.length === 0 && (
         <div className="text-center py-20">
           <p

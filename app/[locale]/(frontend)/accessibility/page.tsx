@@ -5,6 +5,7 @@ import { CONTACT_EMAIL } from "@/lib/constants"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import AnonymousFeedbackForm from "@/components/anonymous-feedback-form"
+import PageArtAccents from "@/components/art/page-art-accents"
 
 export const metadata: Metadata = {
   title: "Accessibility — NECYPAA XXXVI",
@@ -14,26 +15,51 @@ export const metadata: Metadata = {
 
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden" style={{ backgroundColor: "var(--nec-navy)" }}>
+      <PageArtAccents character="caterpillar" accentColor="var(--nec-cyan)" variant="subtle" dividerVariant="key" />
       <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {/* Header */}
-            <div className="text-center mb-12 relative">
+            <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center mb-12 relative">
+              <div className="max-w-3xl">
               {/* Caterpillar accent */}
-              <div className="hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
+                <div className="hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
                 <Image src="/images/caterpillar-character.png" alt="" width={80} height={128} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
-              </div>
-              <span className="section-badge mb-4 inline-block">Accessibility</span>
-              <h1 className="section-heading mb-3">Accessibility &amp; Inclusion</h1>
-              <p className="text-lg max-w-2xl mx-auto text-[var(--nec-muted)]">
+                </div>
+                <span className="section-badge mb-4 inline-block">Accessibility</span>
+                <h1 className="section-heading mb-3">Accessibility &amp; Inclusion</h1>
+                <p className="text-lg max-w-2xl text-[var(--nec-muted)]">
                 We&apos;re committed to making NECYPAA XXXVI accessible to everyone — online and in
                 person. If you need accommodations, we want to hear from you.
-              </p>
+                </p>
+              </div>
+
+              <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_22px_54px_rgba(44,24,16,0.08)]">
+                <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+                  <div className="absolute left-6 top-6 h-16 w-16 rounded-full border border-[rgba(var(--nec-cyan-rgb),0.16)]" />
+                  <div className="absolute right-8 top-8 h-12 w-20 rounded-[1rem] border border-[rgba(var(--nec-gold-rgb),0.14)]" />
+                </div>
+                <div className="relative grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
+                    <Eye className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                  </div>
+                  <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
+                    <Monitor className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                  </div>
+                  <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
+                    <Keyboard className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                  </div>
+                  <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
+                    <Globe className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Commitment statement */}
-            <section className="nec-card p-6 md:p-8 mb-8">
+            <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+              <div className="space-y-8">
+            <section className="nec-card p-6 md:p-8">
               <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Our Commitment</h2>
               <p className="text-sm leading-relaxed mb-3 text-[var(--nec-text)]">
                 Every person deserves equal access to recovery resources and fellowship events. Our
@@ -47,7 +73,6 @@ export default function AccessibilityPage() {
               </p>
             </section>
 
-            {/* Digital features grid */}
             <h2
               className="text-lg font-bold uppercase tracking-widest mb-4 pl-1 text-[var(--nec-cyan)] nec-section-label"
             >
@@ -99,8 +124,9 @@ export default function AccessibilityPage() {
                 ]}
               />
             </div>
+              </div>
 
-            {/* In-person features */}
+              <div className="space-y-8">
             <h2
               className="text-lg font-bold uppercase tracking-widest mb-4 pl-1 text-[var(--nec-pink)] nec-section-label"
             >
@@ -137,7 +163,7 @@ export default function AccessibilityPage() {
 
             {/* Request accommodations */}
             <section
-              className="nec-gradient-card rounded-xl p-6 md:p-8 mb-10 text-center"
+              className="nec-gradient-card rounded-xl p-6 md:p-8 text-center"
             >
               <Ear className="w-8 h-8 mx-auto mb-3 text-[var(--nec-cyan)]" />
               <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">Need Accommodations?</h2>
@@ -152,6 +178,8 @@ export default function AccessibilityPage() {
                 <Mail className="w-4 h-4" /> Request Accommodations
               </a>
             </section>
+              </div>
+            </div>
 
             {/* Report a problem */}
             <section className="nec-card p-6 md:p-8 mb-10">

@@ -57,18 +57,18 @@ export default async function BlogPostPage({
 
   const cat = CATEGORY_STYLES[post.category] ?? CATEGORY_STYLES.story
   const paragraphs = post.body.split("\n\n").filter(Boolean)
+  const [leadParagraph, ...remainingParagraphs] = paragraphs
 
   return (
     <div
-      className="min-h-screen min-h-screen-safe flex flex-col relative"
+      className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" variant="subtle" dividerVariant="compass" />
 
       <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            {/* Back link */}
+          <div className="max-w-6xl mx-auto">
             <Link
               href="/blog"
               className="inline-flex items-center gap-2 text-sm font-semibold mb-8 transition-colors hover:text-[var(--nec-text)] text-[var(--nec-muted)]"
@@ -77,73 +77,115 @@ export default async function BlogPostPage({
               Back to NECYBLOG
             </Link>
 
-            {/* Article card */}
-            <article
-              className="nec-card overflow-hidden"
-              style={{
-                boxShadow: `0 8px 48px rgba(0,0,0,0.4), 0 0 80px rgba(${cat.rgb},0.08)`,
-              }}
-            >
-              {/* Top accent bar */}
-              <div
-                className="h-1 w-full"
-                aria-hidden="true"
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+              <article
+                className="overflow-hidden border bg-[rgba(var(--nec-card-rgb),0.94)] shadow-[0_24px_60px_rgba(44,24,16,0.10)]"
                 style={{
-                  background: `linear-gradient(90deg, rgba(${cat.rgb},0.7) 0%, rgba(${cat.rgb},0.2) 100%)`,
+                  borderRadius: "2rem",
+                  borderColor: `rgba(${cat.rgb},0.16)`,
                 }}
-              />
+              >
+                <div
+                  className="h-1.5 w-full"
+                  aria-hidden="true"
+                  style={{
+                    background: `linear-gradient(90deg, rgba(${cat.rgb},0.72) 0%, rgba(${cat.rgb},0.22) 100%)`,
+                  }}
+                />
 
-              <div className="p-8 md:p-12">
-                {/* Meta row */}
-                <div className="flex flex-wrap items-center gap-3 mb-6">
-                  <span
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest"
+                <div className="border-b border-[rgba(var(--nec-purple-rgb),0.10)] px-6 py-7 md:px-10 md:py-9">
+                  <div className="flex flex-wrap items-center gap-3 mb-5">
+                    <span
+                      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
+                      style={{
+                        background: `rgba(${cat.rgb},0.12)`,
+                        border: `1px solid rgba(${cat.rgb},0.24)`,
+                        color: cat.colorVar,
+                      }}
+                    >
+                      <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+                      {cat.label}
+                    </span>
+                    <time
+                      dateTime={post.publishedAt}
+                      className="text-sm font-medium text-[var(--nec-muted)]"
+                    >
+                      {formatDate(post.publishedAt)}
+                    </time>
+                  </div>
+
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-[-0.045em] text-[var(--nec-text)] leading-tight">
+                    {post.title}
+                  </h1>
+
+                  <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--nec-muted)]">
+                    {post.excerpt}
+                  </p>
+                </div>
+
+                <div className="px-6 py-7 md:px-10 md:py-10">
+                  {leadParagraph && (
+                    <div
+                      className="rounded-[1.4rem] border px-5 py-5 md:px-6"
+                      style={{
+                        borderColor: `rgba(${cat.rgb},0.18)`,
+                        background: `linear-gradient(145deg, rgba(${cat.rgb},0.08), rgba(var(--nec-card-rgb),0.72))`,
+                      }}
+                    >
+                      <p className="text-lg leading-9 text-[var(--nec-text)] md:text-[1.3rem]">
+                        {leadParagraph}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="mt-8 space-y-5">
+                    {remainingParagraphs.map((paragraph, index) => (
+                      <p
+                        key={index}
+                        className="max-w-3xl text-base leading-8 text-[var(--nec-text)]"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+
+                  <p className="text-base leading-relaxed italic mt-8 text-[var(--nec-muted)]">
+                    &mdash;Anonymous
+                  </p>
+                </div>
+              </article>
+
+              <aside className="space-y-4 lg:sticky lg:top-28">
+                <div
+                  className="overflow-hidden rounded-[1.6rem] border bg-[rgba(var(--nec-card-rgb),0.86)] p-4 shadow-[0_18px_44px_rgba(44,24,16,0.08)]"
+                  style={{ borderColor: `rgba(${cat.rgb},0.16)` }}
+                >
+                  <div
+                    className="rounded-[1.15rem] border p-2"
                     style={{
-                      background: `rgba(${cat.rgb},0.12)`,
-                      border: `1px solid rgba(${cat.rgb},0.35)`,
-                      color: cat.colorVar,
+                      borderColor: `rgba(${cat.rgb},0.16)`,
+                      background: `linear-gradient(145deg, rgba(${cat.rgb},0.07), rgba(var(--nec-card-rgb),0.90))`,
                     }}
                   >
-                    <BookOpen className="w-3 h-3" aria-hidden="true" />
-                    {cat.label}
-                  </span>
-                  <time
-                    dateTime={post.publishedAt}
-                    className="text-xs font-medium text-[var(--nec-muted)]"
-                  >
-                    {formatDate(post.publishedAt)}
-                  </time>
+                    <div className="aspect-[4/5] overflow-hidden rounded-[0.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.88)]">
+                      <div
+                        className="h-full w-full"
+                        aria-hidden="true"
+                        style={{
+                          background: `radial-gradient(circle at 50% 26%, rgba(${cat.rgb},0.24) 0%, transparent 28%), linear-gradient(180deg, rgba(${cat.rgb},0.08) 0%, rgba(var(--nec-card-rgb),0.96) 72%)`,
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                {/* Title */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-6 leading-tight">
-                  {post.title}
-                </h1>
-
-                {/* Body */}
-                <div className="space-y-4">
-                  {paragraphs.map((p, i) => (
-                    <p
-                      key={i}
-                      className="text-base leading-relaxed text-[var(--nec-text)]"
-                    >
-                      {p}
-                    </p>
-                  ))}
+                <div className="text-center">
+                  <Link href="/blog" className="btn-ghost w-full !justify-center">
+                    <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+                    Read More Posts
+                  </Link>
                 </div>
-
-                <p className="text-base leading-relaxed italic mt-6 text-[var(--nec-muted)]">
-                  &mdash;Anonymous
-                </p>
-              </div>
-            </article>
-
-            {/* Back to blog CTA */}
-            <div className="text-center mt-10">
-              <Link href="/blog" className="btn-ghost">
-                <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-                Read More Posts
-              </Link>
+              </aside>
             </div>
           </div>
         </div>

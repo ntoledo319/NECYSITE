@@ -3,7 +3,6 @@
 import { useState, useRef, useId, useCallback } from "react"
 import { ChevronDown, BookOpen } from "lucide-react"
 import type { BlogPost } from "@/lib/data/blog-posts"
-import { SpotlightCard } from "@/components/ui/motion-primitives"
 
 const CATEGORY_STYLES: Record<
   string,
@@ -40,7 +39,6 @@ export default function BlogCard({ post, index }: BlogCardProps) {
   const uniqueId = useId()
   const contentId = `blog-content-${uniqueId}`
   const cat = CATEGORY_STYLES[post.category] ?? CATEGORY_STYLES.story
-
   const paragraphs = post.body.split("\n\n").filter(Boolean)
 
   const handleToggle = useCallback(() => {
@@ -60,33 +58,51 @@ export default function BlogCard({ post, index }: BlogCardProps) {
     })
   }, [])
 
+  const cardShift =
+    index % 3 === 0
+      ? "rotate-[-0.8deg]"
+      : index % 3 === 1
+        ? "rotate-[0.55deg]"
+        : "rotate-[-0.25deg]"
+
   return (
-    <SpotlightCard spotlightColor={`rgba(${cat.rgb},0.10)`} spotlightSize={450}>
     <article
       ref={articleRef}
-      className="blog-card group relative nec-card overflow-hidden"
+      className={`group relative overflow-hidden border bg-[rgba(var(--nec-card-rgb),0.92)] shadow-[0_22px_44px_rgba(44,24,16,0.08)] transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.18)] hover:shadow-[0_26px_54px_rgba(44,24,16,0.12)] ${cardShift}`}
+      style={{
+        borderRadius: index % 2 === 0 ? "1.6rem" : "1.25rem",
+        borderColor: `rgba(${cat.rgb},0.16)`,
+        background:
+          index % 2 === 0
+            ? `linear-gradient(145deg, rgba(${cat.rgb},0.06), rgba(var(--nec-card-rgb),0.94) 38%, rgba(var(--nec-card-rgb),0.88) 100%)`
+            : `linear-gradient(145deg, rgba(var(--nec-card-rgb),0.95), rgba(${cat.rgb},0.04) 100%)`,
+      }}
     >
-      {/* Top accent bar */}
       <div
-        className="h-1 w-full"
+        className="absolute left-0 top-0 h-full w-1.5"
         aria-hidden="true"
         style={{
-          background: `linear-gradient(90deg, rgba(${cat.rgb},0.7) 0%, rgba(${cat.rgb},0.2) 100%)`,
+          background: `linear-gradient(180deg, rgba(${cat.rgb},0.72) 0%, rgba(${cat.rgb},0.18) 100%)`,
         }}
       />
 
-      <div className="p-6 sm:p-8">
-        {/* Meta row */}
-        <div className="flex flex-wrap items-center gap-3 mb-4">
+      <div
+        className="absolute right-5 top-5 h-10 w-10 rounded-full opacity-[0.16] blur-xl"
+        aria-hidden="true"
+        style={{ background: `rgba(${cat.rgb},0.55)` }}
+      />
+
+      <div className="relative p-6 sm:p-7">
+        <div className="mb-5 flex flex-wrap items-center gap-3">
           <span
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
             style={{
               background: `rgba(${cat.rgb},0.12)`,
-              border: `1px solid rgba(${cat.rgb},0.35)`,
+              border: `1px solid rgba(${cat.rgb},0.24)`,
               color: cat.colorVar,
             }}
           >
-            <BookOpen className="w-3 h-3" aria-hidden="true" />
+            <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
             {cat.label}
           </span>
           <time
@@ -98,26 +114,23 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           </time>
         </div>
 
-        {/* Title */}
-        <h3 className="text-xl sm:text-2xl font-black text-[var(--nec-text)] mb-3 leading-tight">
+        <h3 className="text-xl sm:text-[1.7rem] font-semibold tracking-[-0.03em] text-[var(--nec-text)] mb-3 leading-tight">
           {post.title}
         </h3>
 
-        {/* Excerpt — always visible */}
         <p
-          className="text-sm sm:text-base leading-relaxed mb-5"
+          className="text-sm sm:text-base leading-7 mb-5"
           style={{ color: "var(--nec-muted)" }}
         >
           {post.excerpt}
         </p>
 
-        {/* Expandable body */}
         <div
           id={contentId}
           ref={contentRef}
           role="region"
           aria-label={`Full text of ${post.title}`}
-          className="blog-card-body overflow-hidden"
+          className="overflow-hidden"
           style={{
             display: "grid",
             gridTemplateRows: expanded ? "1fr" : "0fr",
@@ -125,20 +138,20 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         >
           <div className="min-h-0">
             <div
-              className="pt-4 border-t space-y-4"
-              style={{ borderColor: "var(--nec-border)" }}
+              className="space-y-4 border-t pt-5"
+              style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)" }}
             >
-              {paragraphs.map((p, i) => (
+              {paragraphs.map((paragraph, paragraphIndex) => (
                 <p
-                  key={i}
-                  className="text-sm sm:text-base leading-relaxed"
+                  key={paragraphIndex}
+                  className="text-sm sm:text-base leading-7"
                   style={{ color: "var(--nec-text)" }}
                 >
-                  {p}
+                  {paragraph}
                 </p>
               ))}
               <p
-                className="text-sm sm:text-base leading-relaxed italic mt-4"
+                className="text-sm sm:text-base leading-relaxed italic pt-1"
                 style={{ color: "var(--nec-muted)" }}
               >
                 &mdash;Anonymous
@@ -147,22 +160,22 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           </div>
         </div>
 
-        {/* Expand/Collapse toggle */}
         <button
           type="button"
           aria-expanded={expanded}
           aria-controls={contentId}
           onClick={handleToggle}
-          className="blog-card-toggle mt-4 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide rounded-lg px-4 py-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="mt-5 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold uppercase tracking-wide transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{
             color: cat.colorVar,
             background: `rgba(${cat.rgb},0.08)`,
             border: `1px solid rgba(${cat.rgb},0.20)`,
+            outlineColor: cat.colorVar,
           }}
         >
           {expanded ? "Read Less" : "Read More"}
           <ChevronDown
-            className="w-4 h-4 blog-card-chevron"
+            className="w-4 h-4 transition-transform duration-200"
             aria-hidden="true"
             style={{
               transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
@@ -170,17 +183,6 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           />
         </button>
       </div>
-
-      {/* Decorative corner glow */}
-      <div
-        className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full pointer-events-none opacity-[0.06]"
-        aria-hidden="true"
-        style={{
-          background: `radial-gradient(circle, rgba(${cat.rgb},1) 0%, transparent 70%)`,
-          filter: "blur(30px)",
-        }}
-      />
     </article>
-    </SpotlightCard>
   )
 }

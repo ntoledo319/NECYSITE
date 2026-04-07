@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current pass is re-differentiating unfinished routes using layout/art direction only.
+**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-only page-by-page differentiation pass.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -79,6 +79,21 @@ This pass resumed work on unfinished routes without changing committee-approved 
 - avoid further editorialization of route copy
 - keep future work inside the “visual-only unless approved” rule
 
+### 5. Expanded Visual-Only Sweep Across Remaining Utility / Archive Pages
+
+This follow-up pass continued the same constraint: redesign the page surfaces without changing approved wording.
+
+**What changed in this pass:**
+- `blog/page.tsx`, `blog/[slug]/page.tsx`, `blog-grid.tsx`, and `blog-card.tsx` were recomposed to feel more like a journal/archive system and less like generic content cards
+- `journey/page.tsx` now uses flyer-led timeline composition instead of a plain stack of archive cards
+- `register/success/page.tsx` and `breakfast/success/page.tsx` were rebuilt into more distinctive confirmation layouts while preserving the existing strings
+- `error.tsx` and `not-found.tsx` now have stronger authored recovery states
+- `accessibility/page.tsx` and `cash/page.tsx` were restructured for clearer hierarchy and less generic vertical card stacking
+
+**Constraint maintained in this pass:**
+- no intentional committee-copy rewrite
+- route copy preserved, with changes focused on composition, grouping, imagery, and surface treatment
+
 ---
 
 ## Features: Current Status
@@ -86,12 +101,16 @@ This pass resumed work on unfinished routes without changing committee-approved 
 ### Strong / Review-Ready
 - Homepage
 - Registration flow
+- Registration success flow
 - Breakfast sales flow
+- Breakfast success flow
 - Events page
 - States directory
 - Al-Anon page
 - Accessibility panel and public accessibility page
 - Meetings browser
+- Journey archive page
+- Blog index and article presentation
 
 ### Present but Still Needing Final Content / Visual-Only Follow-Up
 - Program
@@ -129,6 +148,7 @@ See `docs/tech-debt-and-gaps.md` for the broader backlog.
 ## Recent Commits On Branch
 
 ```
+73419b0 Differentiate unfinished routes visually
 b9bd286 Update handoff after copy rollback
 f499b88 Revert unapproved copy changes from page sweep
 1fbca97 Polish NECYPAA UI across core flows
