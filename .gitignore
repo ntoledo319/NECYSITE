@@ -5,6 +5,8 @@ claude-skills/
 
 # dependencies
 /node_modules
+package-lock.json
+yarn.lock
 
 # next.js
 /.next/
