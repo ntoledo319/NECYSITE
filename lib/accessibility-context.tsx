@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
 export interface A11ySettings {
-  /** "dark" = default NECYPAA theme, "light" = light background */
+  /** "light" = warm parchment default, "dark" = warm navy alternative */
   colorMode: "dark" | "light"
   /** High-contrast mode — boosts contrast ratios */
   highContrast: boolean
@@ -18,7 +18,7 @@ export interface A11ySettings {
 }
 
 const DEFAULT_SETTINGS: A11ySettings = {
-  colorMode: "dark",
+  colorMode: "light",
   highContrast: false,
   fontSize: 1,
   dyslexiaFont: false,
@@ -43,7 +43,7 @@ export function useA11y() {
 }
 
 function detectOsColorMode(): "dark" | "light" {
-  if (typeof window === "undefined") return "dark"
+  if (typeof window === "undefined") return "light"
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
 }
 

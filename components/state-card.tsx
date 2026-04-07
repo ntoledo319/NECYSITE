@@ -49,8 +49,8 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
       className="state-card-luxury group/card rounded-2xl overflow-hidden"
       style={{
         background: expanded
-          ? `linear-gradient(135deg, rgba(${accentRgb},0.06) 0%, rgba(26,16,48,0.85) 40%, rgba(15,10,30,0.95) 100%)`
-          : "rgba(26,16,48,0.6)",
+          ? `linear-gradient(135deg, rgba(${accentRgb},0.06) 0%, rgba(var(--nec-card-rgb),0.85) 40%, rgba(var(--nec-dark-rgb),0.95) 100%)`
+          : "var(--nec-card)",
         border: isHighlighted
           ? `1.5px solid rgba(${accentRgb},0.5)`
           : expanded
@@ -112,7 +112,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
 
         {/* State name and summary */}
         <span className="flex-1 min-w-0">
-          <span className="block text-base md:text-lg font-bold text-white leading-tight">
+          <span className="block text-base md:text-lg font-bold text-[var(--nec-text)] leading-tight">
             {state.name}
           </span>
           <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
@@ -232,7 +232,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       >
                         <span className="flex-1 min-w-0">
                           <span
-                            className="block text-sm font-semibold transition-colors group-hover/link:text-white"
+                            className="block text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
                             style={{ color: "var(--nec-text)" }}
                           >
                             {ig.name}
@@ -306,7 +306,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       }}
                     >
                       <span
-                        className="text-sm font-semibold transition-colors group-hover/link:text-white"
+                        className="text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
                         style={{ color: "var(--nec-text)" }}
                       >
                         {state.ypaaCommittee.name}
@@ -334,7 +334,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                             border: "1px solid rgba(192,38,211,0.08)",
                           }}
                         >
-                          <span className="block text-xs font-bold text-white leading-tight">
+                          <span className="block text-xs font-bold text-[var(--nec-text)] leading-tight">
                             {m.name}
                           </span>
                           <span className="flex items-center gap-1 mt-0.5">
@@ -418,7 +418,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       }}
                     >
                       <span
-                        className="text-sm font-semibold transition-colors group-hover/link:text-white"
+                        className="text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
                         style={{ color: "var(--nec-text)" }}
                       >
                         Al-Anon
@@ -447,7 +447,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         }}
                       >
                         <span
-                          className="text-sm font-semibold transition-colors group-hover/link:text-white"
+                          className="text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
                           style={{ color: "var(--nec-text)" }}
                         >
                           Alateen
@@ -521,7 +521,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                     href={state.areaServiceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs inline-flex items-center gap-1.5 transition-colors hover:text-white"
+                    className="text-xs inline-flex items-center gap-1.5 transition-colors hover:text-[var(--nec-text)]"
                     style={{ color: "var(--nec-muted)" }}
                   >
                     Area Service Committee

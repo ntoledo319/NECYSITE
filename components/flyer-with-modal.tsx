@@ -55,7 +55,7 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
           style={{ background: "rgba(124,58,237,0.7)" }}
           aria-hidden="true"
         >
-          <Search className="w-4 h-4 text-white" />
+          <Search className="w-4 h-4 text-[var(--nec-text)]" />
         </span>
       </button>
 
@@ -75,7 +75,7 @@ export default function FlyerWithModal({ src, alt, className = "" }: FlyerWithMo
             className="absolute top-4 right-4 p-2 bg-[rgba(124,58,237,0.4)] hover:bg-[rgba(124,58,237,0.6)] rounded-full transition-colors"
             aria-label="Close"
           >
-            <X className="w-6 h-6 text-white" />
+            <X className="w-6 h-6 text-[var(--nec-text)]" />
           </button>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- stopPropagation prevents accidental close when clicking image */}
           <div

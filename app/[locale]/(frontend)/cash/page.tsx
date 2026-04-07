@@ -40,7 +40,7 @@ export default function FreeRegPage() {
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-black text-white mb-2 nec-heading-shadow">
+            <h1 className="text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-2 nec-heading-shadow">
               NECYPAA XXXVI Registration
             </h1>
             <p className="text-lg font-bold text-[var(--nec-gold)]">
@@ -61,7 +61,7 @@ export default function FreeRegPage() {
                       {step.number}
                     </div>
                     <span
-                      className={`text-sm font-medium ${currentStep === step.key ? "text-white" : "text-[var(--nec-muted)]"}`}
+                      className={`text-sm font-medium ${currentStep === step.key ? "text-[var(--nec-text)]" : "text-[var(--nec-muted)]"}`}
                       {...(currentStep === step.key ? { "aria-current": "step" as const } : {})}
                     >
                       {step.label}
@@ -102,7 +102,7 @@ export default function FreeRegPage() {
 
           {/* Hotel Booking CTA */}
           <div className="mt-8 nec-reg-accent-purple p-6 text-center">
-            <h2 className="text-xl font-bold text-white mb-2 nec-heading-shadow-sm">
+            <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2 nec-heading-shadow-sm">
               Need a Place to Stay?
             </h2>
             <p className="text-sm text-[var(--nec-muted)] mb-4">

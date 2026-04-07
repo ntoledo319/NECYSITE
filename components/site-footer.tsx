@@ -14,15 +14,14 @@ export default function SiteFooter() {
 
   return (
     <footer
-      className="mt-24 relative overflow-hidden"
-      style={{ background: "linear-gradient(180deg, rgba(15,10,30,1) 0%, rgba(10,6,20,1) 100%)" }}
+      className="mt-24 relative overflow-hidden nec-footer"
     >
       {/* Top accent bar */}
       <motion.div
         className="h-[2px] w-full"
         style={{
           background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 20%, var(--nec-pink) 50%, var(--nec-gold) 80%, transparent 100%)",
-          boxShadow: "0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15)",
+          boxShadow: "0 0 8px rgba(var(--nec-purple-rgb),0.15), 0 0 16px rgba(var(--nec-pink-rgb),0.08)",
         }}
         initial={shouldReduce ? false : { scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
@@ -80,12 +79,11 @@ export default function SiteFooter() {
                 width={112}
                 height={112}
                 sizes="112px"
-                className="w-full h-auto drop-shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
+                className="w-full h-auto"
               />
             </div>
             <h2
-              className="text-xl font-black uppercase tracking-tight"
-              style={{ color: "var(--nec-purple)", textShadow: "0 0 16px rgba(124,58,237,0.25)" }}
+              className="text-xl font-black uppercase tracking-tight text-[var(--nec-purple)]"
             >
               NECYPAA XXXVI
             </h2>
@@ -98,10 +96,10 @@ export default function SiteFooter() {
 
           {/* Links column */}
           <motion.div variants={staggerChild} className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "var(--nec-cyan)", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Convention</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--nec-cyan)]">Convention</h3>
             <ul className="space-y-2" aria-label="Convention links">
               <li>
-                <Link href="/register" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/register" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Pre-Register — $40
                 </Link>
               </li>
@@ -110,33 +108,33 @@ export default function SiteFooter() {
                   href={HOTEL_BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link inline-flex items-center gap-1"
+                  className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link inline-flex items-center gap-1"
                 >
                   Book Hotel <ExternalLink className="w-3 h-3" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
                 </a>
               </li>
               <li>
-                <Link href="/program" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/program" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Program
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/events" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Events
                 </Link>
               </li>
               <li>
-                <Link href="/merch" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/merch" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Merch
                 </Link>
               </li>
               <li>
-                <Link href="/breakfast" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/breakfast" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Breakfast
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/faq" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   FAQ
                 </Link>
               </li>
@@ -145,7 +143,7 @@ export default function SiteFooter() {
                   href={NECYPAA_ADVISORY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link inline-flex items-center gap-1"
+                  className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link inline-flex items-center gap-1"
                 >
                   Advisory Council <ExternalLink className="w-3 h-3" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
                 </a>
@@ -155,50 +153,50 @@ export default function SiteFooter() {
 
           {/* Community column */}
           <motion.div variants={staggerChild} className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "var(--nec-pink)", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Community</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--nec-pink)]">Community</h3>
             <ul className="space-y-2" aria-label="Community links">
               <li>
-                <Link href="/blog" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/blog" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/service" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/service" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Get Involved
                 </Link>
               </li>
               <li>
-                <Link href="/journey" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/journey" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Our Journey
                 </Link>
               </li>
               <li>
-                <Link href="/prayer" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/prayer" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Prayer
                 </Link>
               </li>
               <li>
-                <Link href="/asl" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/asl" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   ASL Resources
                 </Link>
               </li>
               <li>
-                <Link href="/states" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/states" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Find Your State
                 </Link>
               </li>
               <li>
-                <Link href="/bid" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/bid" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Start a Bid
                 </Link>
               </li>
               <li>
-                <Link href="/alanon" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/alanon" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Al-Anon / Alateen
                 </Link>
               </li>
               <li>
-                <Link href="/accessibility" className="text-sm text-[var(--nec-muted)] hover:text-white transition-colors footer-link">
+                <Link href="/accessibility" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
                   Accessibility
                 </Link>
               </li>
@@ -207,10 +205,10 @@ export default function SiteFooter() {
 
           {/* Contact column */}
           <motion.div variants={staggerChild} className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "var(--nec-gold)", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Contact</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--nec-gold)]">Contact</h3>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="inline-flex items-center gap-2 text-sm text-[var(--nec-muted)] hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors"
             >
               <Mail className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
               {CONTACT_EMAIL}
@@ -224,18 +222,18 @@ export default function SiteFooter() {
         {/* Accessibility statement */}
         <div
           className="mt-10 pt-6 border-t text-xs text-[var(--nec-muted)] leading-relaxed"
-          style={{ borderColor: "rgba(45,31,78,0.5)" }}
+          style={{ borderColor: "var(--nec-border)" }}
         >
           <p className="max-w-2xl">
             <strong className="text-[var(--nec-muted)]">Accessibility:</strong>{" "}
             NECYPAA XXXVI is committed to digital accessibility for people of all abilities.
             This site targets WCAG 2.1 Level AAA wherever achievable, with Level AA as our minimum.{" "}
-            <Link href="/accessibility" className="underline text-[var(--nec-muted)] hover:text-white transition-colors">
+            <Link href="/accessibility" className="underline text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors">
               Accessibility page
             </Link>{" · "}
             <a
               href="mailto:info@necypaa.org?subject=Accessibility%20Issue"
-              className="underline text-[var(--nec-muted)] hover:text-white transition-colors"
+              className="underline text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors"
             >
               Report a problem
             </a>
@@ -245,7 +243,7 @@ export default function SiteFooter() {
         {/* Bottom bar */}
         <div
           className="mt-4 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--nec-muted)]"
-          style={{ borderColor: "rgba(45,31,78,0.5)" }}
+          style={{ borderColor: "var(--nec-border)" }}
         >
           <p>
             © {new Date().getFullYear()} NECYPAA XXXVI CT Host Committee · All rights reserved.

@@ -26,7 +26,7 @@ export default function BreakfastTicketSelector({
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold text-white">
+        <h3 className="text-lg font-semibold text-[var(--nec-text)]">
           Add Breakfast Tickets{" "}
           <span className="text-[var(--nec-muted)] text-sm font-normal">(Optional)</span>
         </h3>
@@ -50,7 +50,7 @@ export default function BreakfastTicketSelector({
             <div className="flex-1">
               <Label
                 htmlFor={fridayProduct.id}
-                className="text-white font-semibold cursor-pointer"
+                className="text-[var(--nec-text)] font-semibold cursor-pointer"
               >
                 {fridayProduct.name}
               </Label>
@@ -59,7 +59,7 @@ export default function BreakfastTicketSelector({
                 your new year right with breakfast and fellowship at the
                 convention.
               </p>
-              <p className="text-white font-medium text-sm mt-1">$25.00</p>
+              <p className="text-[var(--nec-text)] font-medium text-sm mt-1">$25.00</p>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function BreakfastTicketSelector({
           (product) => (
             <div
               key={product.id}
-              className="nec-breakfast-option rounded-xl border p-4" style={{ background: "rgba(26,16,48,0.6)", borderColor: "var(--nec-border)" }}
+              className="nec-breakfast-option rounded-xl border p-4" style={{ background: "var(--nec-card)", borderColor: "var(--nec-border)" }}
             >
               <div className="flex items-start gap-3">
                 <Checkbox
@@ -85,14 +85,14 @@ export default function BreakfastTicketSelector({
                 <div className="flex-1">
                   <Label
                     htmlFor={product.id}
-                    className="text-white font-medium cursor-pointer"
+                    className="text-[var(--nec-text)] font-medium cursor-pointer"
                   >
                     {product.name}
                   </Label>
                   <p className="text-[var(--nec-muted)] text-sm mt-1">
                     {product.description}
                   </p>
-                  <p className="text-white font-medium text-sm mt-1">$25.00</p>
+                  <p className="text-[var(--nec-text)] font-medium text-sm mt-1">$25.00</p>
                 </div>
               </div>
             </div>

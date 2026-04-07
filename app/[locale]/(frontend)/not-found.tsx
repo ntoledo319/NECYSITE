@@ -49,7 +49,7 @@ export default function NotFound() {
           404
         </span>
 
-        <h1 className="text-3xl md:text-4xl font-black text-white mb-3 nec-heading-shadow">
+        <h1 className="text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-3 nec-heading-shadow">
           Lost in the Mad Realm
         </h1>
 
@@ -61,7 +61,7 @@ export default function NotFound() {
         <MagneticButton strength={0.25}>
           <Link
             href="/"
-            className="nec-cta-accent inline-flex items-center gap-2 font-bold text-sm rounded-xl px-6 py-3 transition-colors text-white"
+            className="nec-cta-accent inline-flex items-center gap-2 font-bold text-sm rounded-xl px-6 py-3 transition-colors text-[var(--nec-text)]"
           >
             Back to the Portal
           </Link>

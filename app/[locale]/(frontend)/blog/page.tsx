@@ -51,7 +51,7 @@ export default function BlogPage() {
                 relates to happenings with this service structure.
               </p>
               <p
-                className="font-semibold text-white italic"
+                className="font-semibold text-[var(--nec-text)] italic"
               >
                 Take what works, vibe with the rest.
               </p>

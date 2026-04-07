@@ -122,9 +122,9 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
       onKeyDown={handleKeyDown}
     >
       <button
-        className="px-3 py-1.5 text-sm font-medium text-[var(--nec-muted)] hover:text-white rounded-lg
-                   hover:bg-white/5 transition-all duration-150 uppercase tracking-wide
-                   inline-flex items-center gap-1"
+        className="px-3 py-1.5 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-lg
+                   hover:bg-[rgba(0,0,0,0.04)] transition-all duration-150 uppercase tracking-wide
+                   inline-flex items-center gap-1 nec-nav-link"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="true"
@@ -159,7 +159,7 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
                 role="menuitem"
                 tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-2 text-sm text-[var(--nec-muted)] hover:text-white hover:bg-white/5 transition-colors"
+                className="block px-4 py-2 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
               >
                 {child.label}
                 <span className="sr-only"> (opens in new tab)</span>
@@ -173,8 +173,8 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
                 onClick={() => setOpen(false)}
                 className={`block px-4 py-2 text-sm transition-colors ${
                   isActivePath(pathname, child.href)
-                    ? "text-white bg-white/[0.07] font-semibold"
-                    : "text-[var(--nec-muted)] hover:text-white hover:bg-white/5"
+                    ? "text-[var(--nec-text)] nec-nav-active font-semibold"
+                    : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
                 }`}
                 {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
               >
@@ -204,8 +204,8 @@ function MobileDropdown({
   return (
     <div>
       <button
-        className="w-full px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-white
-                   hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide
+        className="w-full px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-[var(--nec-text)]
+                   nec-nav-hover rounded-xl transition-all uppercase tracking-wide
                    flex items-center justify-between"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
@@ -228,8 +228,8 @@ function MobileDropdown({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
-                className="block px-4 py-2.5 text-sm text-[var(--nec-muted)] hover:text-white
-                           hover:bg-white/5 rounded-lg transition-colors"
+                className="block px-4 py-2.5 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)]
+                           nec-nav-hover rounded-lg transition-colors"
               >
                 {child.label}
                 <span className="sr-only"> (opens in new tab)</span>
@@ -241,8 +241,8 @@ function MobileDropdown({
                 onClick={onClose}
                 className={`block px-4 py-2.5 text-sm rounded-lg transition-colors ${
                   isActivePath(pathname, child.href)
-                    ? "text-white bg-white/[0.07] font-semibold border-l-2"
-                    : "text-[var(--nec-muted)] hover:text-white hover:bg-white/5"
+                    ? "text-[var(--nec-text)] nec-nav-active font-semibold border-l-2"
+                    : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
                 }`}
                 style={isActivePath(pathname, child.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
                 {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
@@ -296,14 +296,11 @@ export default function SiteHeader() {
         aria-label="Site header"
         className="fixed top-0 left-0 right-0 z-50 nec-header"
         animate={{
-          background: scrolled
-            ? "rgba(15,10,30,0.97)"
-            : "rgba(15,10,30,0.80)",
           borderBottomColor: scrolled
-            ? "rgba(45,31,78,0.8)"
-            : "rgba(45,31,78,0)",
+            ? "var(--nec-border)"
+            : "transparent",
           boxShadow: scrolled
-            ? "0 4px 32px rgba(0,0,0,0.3), 0 1px 0 rgba(124,58,237,0.08)"
+            ? "0 2px 16px rgba(0,0,0,0.06)"
             : "0 0 0 rgba(0,0,0,0)",
         }}
         transition={shouldReduce ? { duration: 0 } : { duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
@@ -347,8 +344,8 @@ export default function SiteHeader() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 text-sm font-medium text-[var(--nec-muted)] hover:text-white rounded-lg
-                               hover:bg-white/5 transition-all duration-150 uppercase tracking-wide"
+                    className="px-3 py-1.5 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-lg
+                               nec-nav-hover transition-all duration-150 uppercase tracking-wide"
                   >
                     {item.label}
                     <span className="sr-only"> (opens in new tab)</span>
@@ -360,8 +357,8 @@ export default function SiteHeader() {
                     className={`px-3 py-1.5 text-sm font-medium rounded-lg
                                transition-all duration-150 uppercase tracking-wide ${
                                isActivePath(pathname, item.href)
-                                 ? "text-white bg-white/[0.07]"
-                                 : "text-[var(--nec-muted)] hover:text-white hover:bg-white/5"
+                                 ? "text-[var(--nec-text)] nec-nav-active"
+                                 : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
                                }`}
                     {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}
                   >
@@ -379,7 +376,7 @@ export default function SiteHeader() {
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 rounded-lg text-[var(--nec-muted)] hover:text-white hover:bg-white/5 transition-colors"
+              className="md:hidden p-2 rounded-lg text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
@@ -399,7 +396,7 @@ export default function SiteHeader() {
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key
           <motion.div
             className="fixed inset-0 z-40 md:hidden"
-            style={{ background: "rgba(0,0,0,0.6)" }}
+            style={{ background: "rgba(0,0,0,0.3)" }}
             initial={shouldReduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -435,8 +432,8 @@ export default function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={close}
-              className="px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-white
-                         hover:bg-white/5 rounded-xl transition-all uppercase tracking-wide"
+              className="px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-[var(--nec-text)]
+                         nec-nav-hover rounded-xl transition-all uppercase tracking-wide"
             >
               {item.label}
               <span className="sr-only"> (opens in new tab)</span>
@@ -448,8 +445,8 @@ export default function SiteHeader() {
               onClick={close}
               className={`px-4 py-3 text-base font-semibold rounded-xl transition-all uppercase tracking-wide ${
                 isActivePath(pathname, item.href)
-                  ? "text-white bg-white/[0.07] border-l-2"
-                  : "text-[var(--nec-text)] hover:text-white hover:bg-white/5"
+                  ? "text-[var(--nec-text)] nec-nav-active border-l-2"
+                  : "text-[var(--nec-text)] hover:text-[var(--nec-text)] nec-nav-hover"
               }`}
               style={isActivePath(pathname, item.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
               {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}

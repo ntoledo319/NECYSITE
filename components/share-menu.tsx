@@ -180,18 +180,18 @@ export default function ShareMenu({
         <div
           className="nec-share-sheet rounded-t-2xl md:rounded-2xl p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:pb-5"
           style={{
-            background: "linear-gradient(135deg, rgba(26,16,48,0.98) 0%, rgba(15,10,30,0.99) 100%)",
+            background: "var(--nec-card)",
             border: "1px solid var(--nec-border)",
-            boxShadow: "0 -8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)",
+            boxShadow: "0 -8px 40px rgba(0,0,0,0.08), 0 2px 12px rgba(0,0,0,0.04)",
           }}
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-bold text-white">Share</h2>
+            <h2 className="text-base font-bold text-[var(--nec-text)]">Share</h2>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="p-1.5 rounded-lg text-[var(--nec-muted)] hover:text-white hover:bg-white/5 transition-colors"
+              className="p-1.5 rounded-lg text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
               aria-label="Close share menu"
             >
               <X className="w-5 h-5" aria-hidden="true" />
@@ -257,11 +257,11 @@ export default function ShareMenu({
       >
         {toast && (
           <div
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[var(--nec-text)]"
             style={{
-              background: "rgba(15,10,30,0.95)",
-              border: "1px solid rgba(124,58,237,0.30)",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+              background: "var(--nec-card)",
+              border: "1px solid rgba(var(--nec-purple-rgb),0.20)",
+              boxShadow: "var(--shadow-card)",
               backdropFilter: "blur(12px)",
             }}
           >

@@ -77,7 +77,7 @@ export default function EventsPreviewSection() {
             className="nec-event-card relative z-10 p-6 md:p-8"
             style={{
               background:
-                "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.9) 50%, rgba(26,16,48,0.85) 100%)",
+                "var(--nec-card)",
               border: "1px solid rgba(124,58,237,0.15)",
             }}
           >
@@ -112,7 +112,7 @@ export default function EventsPreviewSection() {
               {/* Event info */}
               <div className="flex-1 space-y-4 min-w-0">
                 <h3
-                  className="text-2xl md:text-3xl font-black text-white"
+                  className="text-2xl md:text-3xl font-black text-[var(--nec-text)]"
                   style={{ textShadow: "0 2px 12px rgba(0,0,0,0.3)" }}
                 >
                   {upcomingEvent.title}
@@ -219,7 +219,7 @@ export default function EventsPreviewSection() {
                 href="/events"
                 className="flex-shrink-0 w-36 sm:w-40 snap-start flex flex-col items-center justify-center rounded-xl transition-all duration-200 hover:-translate-y-0.5"
                 style={{
-                  background: "rgba(26,16,48,0.5)",
+                  background: "rgba(var(--nec-card-rgb),0.5)",
                   border: "1px dashed rgba(124,58,237,0.25)",
                   aspectRatio: "3/4",
                 }}

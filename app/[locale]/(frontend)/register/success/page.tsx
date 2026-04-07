@@ -50,7 +50,7 @@ export default function RegistrationSuccessPage() {
 
           {/* Heading */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-black text-white nec-heading-shadow">
+            <h1 className="text-3xl font-black text-[var(--nec-text)] nec-heading-shadow">
               You&apos;re Registered!
             </h1>
             <p className="text-base font-semibold text-[var(--nec-cyan)]">
@@ -78,7 +78,7 @@ export default function RegistrationSuccessPage() {
                 1
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Book your hotel room</p>
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Book your hotel room</p>
                 <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   Secure your room at the Hartford Marriott Downtown at our special group rate
                   before the block fills up.
@@ -91,7 +91,7 @@ export default function RegistrationSuccessPage() {
                 2
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Save the dates</p>
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Save the dates</p>
                 <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                 </p>
@@ -103,7 +103,7 @@ export default function RegistrationSuccessPage() {
                 3
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Stay in the loop</p>
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Stay in the loop</p>
                 <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   Check back at this site for schedule, speakers, and event updates as we get
                   closer to convention.
@@ -124,7 +124,7 @@ export default function RegistrationSuccessPage() {
               <UtensilsCrossed className="w-5 h-5 text-[var(--nec-orange)]" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-white">Don&apos;t forget breakfast!</p>
+              <p className="text-sm font-semibold text-[var(--nec-text)]">Don&apos;t forget breakfast!</p>
               <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                 Start your New Year right with the NECYPAA XXXVI breakfast event.
               </p>

@@ -60,7 +60,7 @@ export default function ServicePage() {
                 >
                   <Sparkles className="w-5 h-5 text-[var(--nec-cyan)]" />
                 </div>
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-xl font-bold text-[var(--nec-text)]">
                   Open Service Opportunities
                 </h2>
               </div>
@@ -119,7 +119,7 @@ export default function ServicePage() {
                   >
                     <Users className="w-5 h-5 text-[var(--nec-pink)]" />
                   </div>
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-xl font-bold text-[var(--nec-text)]">
                     Members-at-Large
                   </h2>
                 </div>
@@ -171,7 +171,7 @@ export default function ServicePage() {
                 >
                   <Heart className="w-5 h-5 text-[var(--nec-gold)]" />
                 </div>
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-xl font-bold text-[var(--nec-text)]">
                   Why Get Involved?
                 </h2>
               </div>
@@ -214,7 +214,7 @@ export default function ServicePage() {
                 >
                   <Video className="w-5 h-5 text-[var(--nec-cyan)]" />
                 </div>
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-xl font-bold text-[var(--nec-text)]">
                   How to Get Involved
                 </h2>
               </div>
@@ -230,7 +230,7 @@ export default function ServicePage() {
                     01
                   </span>
                   <p className="text-sm text-[var(--nec-text)]">
-                    Attend a <strong className="text-white">business meeting</strong> on Zoom
+                    Attend a <strong className="text-[var(--nec-text)]">business meeting</strong> on Zoom
                   </p>
                 </div>
                 <div className="nec-pill-subtle flex items-start gap-3 p-3 rounded-xl">
@@ -238,7 +238,7 @@ export default function ServicePage() {
                     02
                   </span>
                   <p className="text-sm text-[var(--nec-text)]">
-                    Attend a <strong className="text-white">committee meeting</strong> also on Zoom
+                    Attend a <strong className="text-[var(--nec-text)]">committee meeting</strong> also on Zoom
                   </p>
                 </div>
               </div>

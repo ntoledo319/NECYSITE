@@ -32,8 +32,8 @@ export default function BackToTop() {
       onClick={scrollToTop}
       className={`back-to-top-btn fixed bottom-20 right-4 md:bottom-8 md:right-6 z-40 w-10 h-10 rounded-xl flex items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)] ${visible ? "back-to-top-visible" : ""}`}
       style={{
-        background: "rgba(26,16,48,0.9)",
-        border: "1px solid rgba(124,58,237,0.3)",
+        background: "rgba(var(--nec-card-rgb),0.9)",
+        border: "1px solid rgba(var(--nec-purple-rgb),0.2)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         boxShadow: "0 4px 24px rgba(0,0,0,0.4), 0 0 12px rgba(124,58,237,0.15)",

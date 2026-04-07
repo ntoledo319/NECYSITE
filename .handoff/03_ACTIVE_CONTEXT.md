@@ -1,80 +1,68 @@
 # Active Context — NECYPAA XXXVI Website
 
-> **Last Updated:** 2026-03-26
+> **Last Updated:** 2026-04-05
 > **Purpose:** Snapshot of exactly where this project stands right now. Updated before every push.
 
 ---
 
 ## Current Project State
 
-**Phase:** Content filling + polish. Core infrastructure is complete. Convention is Dec 31, 2026.
+**Phase:** Aesthetic overhaul (Wave 1–2 complete, Wave 3–4 pending). Convention is Dec 31, 2026.
 
-**Branch:** `main`
-**Build status:** Passing (lint, type check, 45 unit tests, production build all green)
-**Deployment:** Live at https://www.necypaact.com via Vercel auto-deploy
+**Branch:** `wave2/light-first-component-surgery` (branched from `main` — main is untouched)
+**Build status:** Passing (production build green, all routes compile)
+**Deployment:** Not yet merged to main. Vercel auto-deploys from main only.
 
 ---
 
-## Latest Changes (This Session — System-Wide UI Pass)
+## Latest Changes (This Session — Aesthetic Redo Wave 1)
 
-### Site-Wide Inline Style Purge + Design Token Unification (Complete)
+### Wave 1A: Color Token Overhaul — Light-First Warm Parchment (Complete)
 
-Comprehensive audit and fix of all hardcoded Tailwind colors (`text-gray-*`, `text-purple-400`, `text-pink-400`), inline `style={{ color }}` attributes, and inline `rgba()` backgrounds across every frontend page and component. All replaced with CSS utility classes using design tokens, with full light mode and high-contrast overrides.
+Complete replacement of the dark-first neon SaaS palette with a warm, parchment-based light-first design system derived from the original Mad Realm poster art.
 
-**What was fixed:**
+**What changed:**
 
-1. **globals.css** — Added ~450 lines of new CSS utility classes in two phases:
-   - **Registration flow surfaces** (phase 1): `.nec-reg-card`, `.nec-reg-subcard`, `.nec-success-card-purple`, `.nec-success-card-orange`, `.nec-reg-accent-orange`, `.nec-reg-help-card`, `.nec-breakfast-info`, `.nec-step-active`, `.nec-step-inactive`, `.nec-step-badge-purple`, `.nec-step-badge-orange`, `.nec-success-icon-purple`, `.nec-success-icon-orange`, `.nec-heading-shadow`, `.nec-accent-bar`, `.nec-stripe-embed`
-   - **Site-wide surfaces** (phase 2): `.nec-featured-card`, `.nec-icon-badge` (+ `-pink`, `-gold`), `.nec-pill` (+ `-subtle`, `-pink`), `.nec-cta-accent`, `.nec-gradient-card`, `.nec-statement-card`, `.nec-error-icon`, `.nec-section-label`, `.nec-glow-blob`
-   - All classes have `[data-color-mode="light"]` and `.a11y-high-contrast` overrides.
+1. **`:root` tokens** — Replaced all color variables with warm palette:
+   - `--nec-navy` → warm parchment `#F5F0E8` (was dark purple `#0a0612`)
+   - `--nec-text` → dark walnut `#2C1810` (was white)
+   - `--nec-muted` → warm gray `#6B5B4F` (was cold gray)
+   - `--nec-purple` → aged plum `#6B3060` (was neon `#7c3aed`)
+   - `--nec-cyan` → teal patina `#2D6B5E` (was electric cyan)
+   - `--nec-gold` → antique gold `#7A5B0D` (was bright yellow)
+   - `--nec-pink` → raspberry `#8B2252` (was neon magenta)
+   - Added `--nec-card`, `--shadow-card`, `--shadow-text` tokens
+   - Added RGB triplet variables for `rgba()` usage
 
-2. **Registration pages** (phase 1):
-   - `register/page.tsx`, `cash/page.tsx`, `register/success/page.tsx`, `breakfast/page.tsx`, `breakfast/success/page.tsx` — all inline styles → CSS classes
+2. **`[data-color-mode="dark"]` block** — New warm navy palette (navy `#0F1A2B`, cream text `#E8E0D4`) with corresponding shadow/card tokens.
 
-3. **Registration components** (phase 1):
-   - `registration-form.tsx`, `policy-agreement.tsx`, `registration-checkout.tsx`, `breakfast-checkout.tsx`, `registration-confirmation.tsx`, `checkout/access-code-checkout.tsx`, `checkout/breakfast-add-ons.tsx`, `checkout/scholarship-attribution.tsx`
+3. **Removed ~300 lines of `[data-color-mode="light"]` overrides** — Since light is now the default, these were all redundant. Base styles use CSS variables that resolve correctly in both modes.
 
-4. **Content pages** (phase 2 — this session):
-   - `events/page.tsx` — `text-gray-300` → `text-[var(--nec-text)]`, inline rgba → `.nec-featured-card`, `.nec-icon-badge`, `.nec-pill`, `.nec-glow-blob`
-   - `service/page.tsx` — same treatment, MAL card → `.nec-featured-card`
-   - `accessibility/page.tsx` — all `style={{ color }}` → className, `.nec-gradient-card`, `.nec-statement-card`, `.nec-section-label`
-   - `journey/page.tsx` — all `style={{ color }}` → className, pills → `.nec-pill-subtle`, `.nec-pill-pink`
-   - `blog/page.tsx` + `blog/[slug]/page.tsx` — all `style={{ color }}` → className
-   - `error.tsx` — icon ring → `.nec-error-icon`, colors → className
-   - `not-found.tsx` — CTA → `.nec-cta-accent`, glow → `.nec-glow-blob`, colors → className
-   - `states/page.tsx` — `text-gray-300` → `text-[var(--nec-text)]`
+4. **Component base styles** — All registration cards, site-wide surfaces, badges, pills, buttons, etc. now use `var(--nec-*)` and `rgba(var(--nec-*-rgb), opacity)` instead of hardcoded `rgba(26,16,48,...)`.
 
-5. **Components**:
-   - `page-shell.tsx` — `text-purple-400` → `text-[var(--nec-purple)]`, `text-pink-400` → `text-[var(--nec-pink)]`, muted text → className
+5. **High contrast** — Updated for both light (max contrast warm colors on parchment) and dark (bright warm tones on navy) modes.
 
-6. **Entrance animations** — Added Framer Motion staggered fade-up to both success pages (respects `useReducedMotion`)
+6. **Focus rings** — Plum (`--nec-purple`) on light, teal (`--nec-cyan`) on dark. Both exceed 3:1 contrast on their backgrounds.
 
-**Result:** Zero `text-gray-*`, `text-purple-400`, or `text-pink-400` hardcoded classes remain. All color styles use design tokens. All surfaces have light mode and high-contrast overrides.
+7. **A11yProvider** — Default `colorMode` changed from `"dark"` to `"light"`. OS preference detection still works. Tests updated.
 
-**Branch:** `main`
-**Build status:** Passing (production build green, all routes compile, zero lint errors)
+### Wave 1B: Typography Swap (Complete)
 
-### Performance Optimization Pass (Complete)
+Replaced generic SaaS sans-serifs with warm editorial serifs:
 
-Applied non-breaking performance improvements to reduce initial JS payload and improve runtime rendering:
+- **Body**: Plus Jakarta Sans → **Source Serif 4** (excellent readability, warm, WCAG AAA compliant)
+- **Headings**: Outfit → **Playfair Display** (editorial high-contrast serif, evokes storybook/letterpress)
+- **Display**: Bangers kept (fits Mad Realm whimsy)
+- Updated `layout.tsx`, `tailwind.config.js`, `globals.css`, `critical.css` font-family fallbacks.
 
-1. **`next.config.mjs`** — Added `optimizePackageImports` for `lucide-react`, `framer-motion`, Radix UI, and `recharts` (better tree-shaking)
-2. **Layout (`layout.tsx`)** — Dynamic import for 5 non-critical client components: GrainOverlay, PageTransition, ScrollProgress, BackToTop, WebVitalsReporter. Removed duplicate manual font preload `<link>` tags (next/font handles this). Added `display: "swap"` + `preload: true` to all 3 font configs.
-3. **Homepage (`page.tsx`)** — Dynamic import for 10 below-fold components: YpaaNarrative, BusinessMeeting, EventsPreview, CharacterDivider, AmbientBlobs, ArtAccentCluster, GearCluster, MazePattern, KeyIcon, ClockIcon. Above-fold (Hero, QuickFacts, CTA) stays eagerly loaded.
-4. **CSS performance** — `translate3d()` for GPU-composited particle animation, `contain: strict` + `content-visibility: auto` on decorative fixed layers (particles, maze, ambient blobs), `will-change: transform` + `backface-visibility: hidden` on individual particles.
-5. **Lockfile** — Regenerated `pnpm-lock.yaml` to include `framer-motion` (was missing, caused Vercel build failure).
+### Wave 1D: Remove AuroraBackground & AmbientBlobs (Complete)
 
-### Runtime Performance Pass (Complete)
+- Removed `AuroraBackground` from `hero-section.tsx` (framer-motion animated blobs — AI slop)
+- Removed `AmbientBlobs` from `page.tsx` (CSS animated glow blobs — unnecessary with warm parchment body)
+- Component files left in place as dead code (can be deleted in cleanup pass)
+- Home page First Load JS dropped ~1kB
 
-Eliminated framer-motion from 4 of 5 global layout components, removing continuous JS animation overhead:
-
-1. **AmbientBlobs** — removed `filter: blur(120px)` (massive GPU cost) and framer-motion `FloatingElement`. Replaced with softer radial gradients (transparent at 50%) + pure CSS `@keyframes ambientDrift`. Same visual, fraction of the cost.
-2. **GrainOverlay** — converted from `"use client"` + framer-motion `useReducedMotion` to a server component. Hidden via `.a11y-reduce-motion .grain-overlay { display: none }` CSS rule instead of JS.
-3. **ScrollProgress** — replaced framer-motion `useScroll` + `useSpring` (JS on every scroll frame) with `requestAnimationFrame`-throttled vanilla scroll listener.
-4. **BackToTop** — replaced framer-motion `AnimatePresence` + `motion.button` with CSS transitions (`.back-to-top-btn` / `.back-to-top-visible`). rAF-throttled scroll listener.
-5. **PageTransition** — replaced `motion.div` with `key={pathname}` (unmounts/remounts entire page tree) with a simple CSS opacity+transform transition triggered by ref manipulation.
-6. **Particles** — reduced visible count from 8→6 on mobile/tablet (hidden until `lg:`).
-7. **CSS** — added `will-change`, `backface-visibility: hidden`, `contain: strict`, `content-visibility: auto` to all decorative layers. All new classes have `.a11y-reduce-motion` overrides.
+**Build:** Passing. All tests pass. Zero lint errors.
 
 ---
 

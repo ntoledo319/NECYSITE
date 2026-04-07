@@ -27,7 +27,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
   return (
     <div className="space-y-6">
       <div className="nec-reg-subcard rounded-2xl p-6">
-        <h3 className="text-xl font-bold text-white mb-4">NECYPAA Non-Discrimination and Anti-Harassment Policy</h3>
+        <h3 className="text-xl font-bold text-[var(--nec-text)] mb-4">NECYPAA Non-Discrimination and Anti-Harassment Policy</h3>
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex={0} is required so keyboard-only users can scroll this overflow container */}
         <div className="prose prose-invert max-w-none text-[var(--nec-muted)] space-y-4 max-h-96 overflow-y-auto text-sm" tabIndex={0} role="region" aria-label="Policy document — scroll to read full text">
           <p>
@@ -41,7 +41,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             Host & Advisory Committees) to adhere to this Policy.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">NON-DISCRIMINATION POLICY</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">NON-DISCRIMINATION POLICY</h4>
           <p>
             NECYPAA expressly prohibits any form of discrimination by or against its Advisory Council Members, Host
             Committee members, Bid Committee members, or attendees of the annual conference or events, and all
@@ -51,7 +51,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             said protected attribute, rather than on the basis of the individual's merit.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">ANTI-HARASSMENT POLICY</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">ANTI-HARASSMENT POLICY</h4>
           <p>
             NECYPAA expressly prohibits any form of harassment or sexual harassment by or against any Advisory Council
             members, Host Committee members, Bid Committee members, conference attendees, and all participants in
@@ -80,7 +80,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             </li>
           </ul>
 
-          <h4 className="text-white font-semibold mt-4">
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">
             NON-DISCRIMINATION AND ANTI-HARASSMENT ENFORCEMENT GUIDELINES
           </h4>
           <p>
@@ -90,7 +90,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             constitute a violation of law.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">Reporting</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">Reporting</h4>
           <p>
             Advisory Council members, Host Committee members, Bid Committee members, conference attendees, and
             participants in NECYPAA-operated or -moderated websites, internet forums, and social media pages should help
@@ -110,7 +110,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             notify the police directly.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">Retaliation</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">Retaliation</h4>
           <p>
             No individual will be subject to, and it is the NECYPAA's policy to strictly prohibit, any form of
             discipline or retaliation for reporting incidents of discrimination, harassment, or sexual harassment, or
@@ -118,7 +118,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             harassment, or sexual harassment.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">Disciplinary or Corrective Action</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">Disciplinary or Corrective Action</h4>
           <p>
             When an investigation reveals a violation of this Policy has occurred the Advisory Council must take
             corrective action. Upon a finding of discrimination, harassment, or sexual harassment, the Advisory Council
@@ -129,7 +129,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             harassment need not amount to a criminal violation to be disciplined under this Policy.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">Confidentiality</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">Confidentiality</h4>
           <p>
             NECYPAA recognizes that confidentiality is important. Those responsible for implementing this Policy will
             respect the confidentiality and privacy of individuals reporting or accused of discrimination, harassment,
@@ -144,13 +144,13 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             NECYPAA advisory.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">SAFETY CARD FOR A.A. GROUPS</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">SAFETY CARD FOR A.A. GROUPS</h4>
           <p className="text-xs italic">
             (The General Service Office has made this optional statement available as an A.A. service piece for those
             groups who wish to use it.)
           </p>
 
-          <h5 className="text-white font-semibold mt-3">Suggested Statement on Safety</h5>
+          <h5 className="text-[var(--nec-text)] font-semibold mt-3">Suggested Statement on Safety</h5>
           <p>
             Our group endeavors to provide a safe meeting place for all attendees and encourages each person here to
             contribute to fostering a secure and welcoming environment in which our meetings can take place. As our
@@ -163,7 +163,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
             is recommended when someone may have broken the law or endangered the safety of another person.
           </p>
 
-          <h4 className="text-white font-semibold mt-4">Our Common Welfare</h4>
+          <h4 className="text-[var(--nec-text)] font-semibold mt-4">Our Common Welfare</h4>
           <p className="italic">
             Each member of Alcoholics Anonymous is but a small part of a great whole. A.A. must continue to live or most
             of us will surely die. Hence our common welfare comes first. But individual welfare follows close afterward.
@@ -183,7 +183,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
       </div>
 
       <div className="space-y-4">
-        <p className="text-white font-semibold">
+        <p className="text-[var(--nec-text)] font-semibold">
           Attendees must check each box in order to be allowed admission to the NECYPAA convention.{" "}
           <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
         </p>
@@ -198,7 +198,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="readPolicy" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="readPolicy" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I have received, read, and understand the NECYPAA Anti-Harassment and Non-Discrimination Policy.{" "}
               <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -212,7 +212,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandQuestions" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandQuestions" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that any questions I have regarding this policy can be directed to NECYPAA Advisory members.{" "}
               <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -226,7 +226,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="acknowledgeBehavior" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="acknowledgeBehavior" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I acknowledge that any behavior deemed unsafe or discriminatory by NECYPAA Advisory and/or NECYPAA Host
               may result in my removal from NECYPAA XXXVI and could lead to a ban from future NECYPAA events.{" "}
               <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
@@ -241,7 +241,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandAdmission" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandAdmission" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that I will not be permitted to enter the NECYPAA convention if I do not check each box on
               this form. <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -255,7 +255,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandReporting" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandReporting" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that I have the right to report any behavior deemed unsafe or discriminatory to NECYPAA
               Advisory and/or NECYPAA Host. <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -271,7 +271,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="understandInvestigation" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="understandInvestigation" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that any reports I make will be fully investigated by NECYPAA Advisory.{" "}
               <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -285,7 +285,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
-            <Label htmlFor="signatureAgreement" className="text-white font-normal leading-relaxed">
+            <Label htmlFor="signatureAgreement" className="text-[var(--nec-text)] font-normal leading-relaxed">
               I understand that my checking each box serves as a signature and agreement to abide by the NECYPAA
               Anti-Harassment and Non-Discrimination policy. <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span><span className="sr-only">(required)</span>
             </Label>
@@ -298,14 +298,14 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 text-white bg-transparent border-[var(--nec-border)]"
+          className="flex-1 text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
         >
           Back
         </Button>
         <Button
           onClick={() => onComplete(agreements)}
           disabled={!allAgreed}
-          className="flex-1 text-white font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
+          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
         >
           Continue to Payment
         </Button>

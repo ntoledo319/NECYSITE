@@ -47,7 +47,7 @@ export default function JourneyPage() {
                   <div className="flex flex-col md:flex-row gap-6">
                     {/* Event info */}
                     <div className="flex-1 space-y-3">
-                      <h2 className="text-xl md:text-2xl font-bold text-white">{event.title}</h2>
+                      <h2 className="text-xl md:text-2xl font-bold text-[var(--nec-text)]">{event.title}</h2>
 
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-[var(--nec-muted)]">
                         <span className="inline-flex items-center gap-1.5">

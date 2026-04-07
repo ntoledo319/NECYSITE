@@ -59,14 +59,14 @@ export default function MeetingDirectoryCard({ meeting, theme = "pink" }: Meetin
     <article
       className="nec-meeting-dir-card group/mcard rounded-xl p-4 transition-all duration-200"
       style={{
-        background: `linear-gradient(135deg, rgba(${t.accentRgb},0.03) 0%, rgba(26,16,48,0.8) 100%)`,
+        background: `linear-gradient(135deg, rgba(${t.accentRgb},0.03) 0%, rgba(var(--nec-card-rgb),0.8) 100%)`,
         border: `1px solid rgba(${t.accentRgb},0.12)`,
       }}
     >
       {/* Header: Name + State badge */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <h3
-          className="text-sm font-bold leading-tight text-white"
+          className="text-sm font-bold leading-tight text-[var(--nec-text)]"
         >
           {meeting.name}
         </h3>

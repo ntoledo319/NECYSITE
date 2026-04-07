@@ -55,7 +55,7 @@ export default function RegistrationConfirmation({
           </svg>
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-white mb-2">
+          <h3 className="text-2xl font-bold text-[var(--nec-text)] mb-2">
             {"You're"} Registered!
           </h3>
           <p className="text-[var(--nec-text)]">
@@ -70,19 +70,19 @@ export default function RegistrationConfirmation({
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Name</span>
-              <span className="text-white">{registrationData.name}</span>
+              <span className="text-[var(--nec-text)]">{registrationData.name}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Email</span>
-              <span className="text-white">{registrationData.email}</span>
+              <span className="text-[var(--nec-text)]">{registrationData.email}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">State</span>
-              <span className="text-white">{registrationData.state}</span>
+              <span className="text-[var(--nec-text)]">{registrationData.state}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Homegroup</span>
-              <span className="text-white">{registrationData.homegroup}</span>
+              <span className="text-[var(--nec-text)]">{registrationData.homegroup}</span>
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function RegistrationConfirmation({
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-white mb-1">
+        <h3 className="text-xl font-bold text-[var(--nec-text)] mb-1">
           Confirm Your Registration
         </h3>
         <p className="text-sm text-[var(--nec-muted)]">
@@ -134,42 +134,42 @@ export default function RegistrationConfirmation({
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-[var(--nec-muted)]">Name</span>
-            <span className="text-white">{registrationData.name}</span>
+            <span className="text-[var(--nec-text)]">{registrationData.name}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-[var(--nec-muted)]">Email</span>
-            <span className="text-white">{registrationData.email}</span>
+            <span className="text-[var(--nec-text)]">{registrationData.email}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-[var(--nec-muted)]">State</span>
-            <span className="text-white">{registrationData.state}</span>
+            <span className="text-[var(--nec-text)]">{registrationData.state}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-[var(--nec-muted)]">Homegroup / Committee</span>
-            <span className="text-white">{registrationData.homegroup}</span>
+            <span className="text-[var(--nec-text)]">{registrationData.homegroup}</span>
           </div>
           {registrationData.accommodations && (
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Accommodations</span>
-              <span className="text-white">{registrationData.accommodations}</span>
+              <span className="text-[var(--nec-text)]">{registrationData.accommodations}</span>
             </div>
           )}
           {registrationData.interpretationNeeded && (
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Interpretation</span>
-              <span className="text-white">Needed</span>
+              <span className="text-[var(--nec-text)]">Needed</span>
             </div>
           )}
           {registrationData.mobilityAccessibility && (
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Accessibility</span>
-              <span className="text-white">Needed</span>
+              <span className="text-[var(--nec-text)]">Needed</span>
             </div>
           )}
           {registrationData.willingToServe && (
             <div className="flex justify-between">
               <span className="text-[var(--nec-muted)]">Willing to Serve</span>
-              <span className="text-white">Yes</span>
+              <span className="text-[var(--nec-text)]">Yes</span>
             </div>
           )}
         </div>
@@ -188,7 +188,7 @@ export default function RegistrationConfirmation({
           type="button"
           onClick={onBack}
           variant="outline"
-          className="flex-1 text-white bg-transparent border-[var(--nec-border)]"
+          className="flex-1 text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
           disabled={isSubmitting}
         >
           Back
@@ -196,7 +196,7 @@ export default function RegistrationConfirmation({
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex-1 text-white font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
+          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
         >
           {isSubmitting ? "Submitting..." : "Complete Registration"}
         </Button>

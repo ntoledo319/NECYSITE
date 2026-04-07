@@ -25,11 +25,11 @@ export default function MobileCtaBar() {
           aria-label="Quick actions"
           className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-2 px-3 pt-3"
           style={{
-            background: "rgba(15,10,30,0.98)",
+            background: "rgba(var(--nec-navy-rgb),0.96)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            borderTop: "1px solid rgba(45,31,78,0.6)",
-            boxShadow: "0 -4px 24px rgba(0,0,0,0.4)",
+            borderTop: "1px solid var(--nec-border)",
+            boxShadow: "0 -4px 24px rgba(0,0,0,0.06)",
             paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
           }}
           initial={shouldReduce ? false : { y: 80, opacity: 0 }}

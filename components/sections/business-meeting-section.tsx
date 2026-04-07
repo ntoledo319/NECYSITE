@@ -114,7 +114,7 @@ export default function BusinessMeetingSection() {
         />
         {/* Steampunk gear accent */}
         <GearCluster className="absolute -top-3 -right-3 opacity-60" />
-        <h3 className="text-lg font-bold text-white mb-5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>NECYPAA XXXVI Business Meeting</h3>
+        <h3 className="text-lg font-bold text-[var(--nec-text)] mb-5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>NECYPAA XXXVI Business Meeting</h3>
 
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6"
@@ -133,7 +133,7 @@ export default function BusinessMeetingSection() {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nec-muted)]">Next Date</p>
-              <p className="text-sm font-bold text-white mt-0.5">
+              <p className="text-sm font-bold text-[var(--nec-text)] mt-0.5">
                 {dateStr || "Loading…"}
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function BusinessMeetingSection() {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nec-muted)]">Time</p>
-              <p className="text-sm font-bold text-white mt-0.5">2:00 PM Eastern</p>
+              <p className="text-sm font-bold text-[var(--nec-text)] mt-0.5">2:00 PM Eastern</p>
             </div>
           </motion.div>
         </motion.div>

@@ -146,7 +146,7 @@ export default function StatesPage() {
                   Regional Directory
                 </span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[var(--nec-text)] leading-[1.1] mb-4">
                 <span className="block">Member</span>
                 <span
                   className="bg-clip-text text-transparent"
@@ -184,7 +184,7 @@ export default function StatesPage() {
                   variants={staggerChild}
                   className="states-stat-card relative rounded-2xl p-5 md:p-6 text-center overflow-hidden"
                   style={{
-                    background: `linear-gradient(135deg, rgba(${stat.bgRgb},0.08) 0%, rgba(15,10,30,0.8) 100%)`,
+                    background: `linear-gradient(135deg, rgba(${stat.bgRgb},0.08) 0%, rgba(var(--nec-card-rgb),0.8) 100%)`,
                     border: `1px solid rgba(${stat.bgRgb},0.18)`,
                     boxShadow: `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)`,
                   }}
@@ -218,7 +218,7 @@ export default function StatesPage() {
               className="mb-12 rounded-3xl overflow-hidden states-map-section"
               style={{
                 background:
-                  "linear-gradient(180deg, rgba(26,16,48,0.6) 0%, rgba(15,10,30,0.8) 100%)",
+                  "var(--nec-card)",
                 border: "1px solid var(--nec-border)",
                 boxShadow:
                   "0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)",
@@ -228,7 +228,7 @@ export default function StatesPage() {
               {/* Map header with view toggle */}
               <div className="flex items-center justify-between p-5 md:p-6 border-b" style={{ borderColor: "var(--nec-border)" }}>
                 <div>
-                  <h2 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                  <h2 className="text-lg md:text-xl font-bold text-[var(--nec-text)] flex items-center gap-2">
                     <Sparkles
                       className="w-5 h-5"
                       style={{ color: "var(--nec-purple)" }}
@@ -251,7 +251,7 @@ export default function StatesPage() {
                   aria-label="View mode"
                   style={{
                     border: "1px solid var(--nec-border)",
-                    background: "rgba(15,10,30,0.6)",
+                    background: "rgba(var(--nec-dark-rgb),0.6)",
                   }}
                 >
                   <button
@@ -383,9 +383,9 @@ export default function StatesPage() {
                 role="tablist"
                 aria-label="Page content"
                 style={{
-                  background: "linear-gradient(135deg, rgba(26,16,48,0.6) 0%, rgba(15,10,30,0.8) 100%)",
+                  background: "var(--nec-card)",
                   border: "1px solid var(--nec-border)",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+                  boxShadow: "var(--shadow-card)",
                 }}
               >
                 <button
@@ -415,7 +415,7 @@ export default function StatesPage() {
                     style={{
                       background: activeTab === "resources"
                         ? "rgba(20,184,166,0.15)"
-                        : "rgba(45,31,78,0.4)",
+                        : "rgba(var(--nec-purple-rgb),0.06)",
                       color: activeTab === "resources"
                         ? "var(--nec-cyan)"
                         : "var(--nec-muted)",
@@ -451,7 +451,7 @@ export default function StatesPage() {
                     style={{
                       background: activeTab === "meetings"
                         ? "rgba(192,38,211,0.15)"
-                        : "rgba(45,31,78,0.4)",
+                        : "rgba(var(--nec-purple-rgb),0.06)",
                       color: activeTab === "meetings"
                         ? "var(--nec-pink)"
                         : "var(--nec-muted)",
@@ -495,7 +495,7 @@ export default function StatesPage() {
                     role="tablist"
                     aria-label="Filter states by region"
                     style={{
-                      background: "rgba(15,10,30,0.6)",
+                      background: "rgba(var(--nec-dark-rgb),0.6)",
                       border: "1px solid var(--nec-border)",
                     }}
                   >
@@ -528,7 +528,7 @@ export default function StatesPage() {
                             style={{
                               background: isActive
                                 ? "rgba(124,58,237,0.2)"
-                                : "rgba(45,31,78,0.4)",
+                                : "rgba(var(--nec-purple-rgb),0.06)",
                               color: isActive
                                 ? "var(--nec-purple)"
                                 : "var(--nec-muted)",
@@ -572,7 +572,7 @@ export default function StatesPage() {
                   className="rounded-2xl p-5 md:p-6 mt-8 text-center relative overflow-hidden"
                   style={{
                     background:
-                      "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.6) 100%)",
+                      "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.06) 0%, rgba(var(--nec-card-rgb),0.6) 100%)",
                     border: "1px solid rgba(124,58,237,0.15)",
                   }}
                 >
@@ -584,7 +584,7 @@ export default function StatesPage() {
                     }}
                     aria-hidden="true"
                   />
-                  <h2 className="text-lg font-black text-white mb-1">
+                  <h2 className="text-lg font-black text-[var(--nec-text)] mb-1">
                     Find an AA Meeting
                   </h2>
                   <p
@@ -609,7 +609,7 @@ export default function StatesPage() {
                 <div
                   className="mt-8 rounded-xl p-4 text-xs leading-relaxed text-center"
                   style={{
-                    background: "rgba(26,16,48,0.4)",
+                    background: "rgba(var(--nec-card-rgb),0.4)",
                     border: "1px solid var(--nec-border)",
                     color: "var(--nec-muted)",
                   }}
@@ -618,7 +618,7 @@ export default function StatesPage() {
                     Know of a resource that should be listed here?{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}?subject=States%20Page%20Feedback`}
-                      className="underline transition-colors hover:text-white"
+                      className="underline transition-colors hover:text-[var(--nec-text)]"
                       style={{ color: "var(--nec-cyan)" }}
                     >
                       Let us know

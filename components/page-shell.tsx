@@ -166,7 +166,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                       </svg>
                     </div>
 
-                    <h2 className="text-xl font-bold text-white mb-3">
+                    <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">
                       Still Escaping the Mad Realm&hellip;
                     </h2>
                     <p className="text-sm max-w-md mx-auto mb-6 text-[var(--nec-muted)]">

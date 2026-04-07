@@ -12,8 +12,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', 'Plus Jakarta Sans', 'sans-serif'],
-        heading: ['var(--font-heading)', 'Outfit', 'sans-serif'],
+        sans: ['var(--font-sans)', 'Source Serif 4', 'Georgia', 'serif'],
+        heading: ['var(--font-heading)', 'Playfair Display', 'Georgia', 'serif'],
         display: ['var(--font-display)', 'Bangers', 'cursive'],
         script: ['var(--font-script)', 'Pacifico', 'cursive'],
       },

@@ -30,12 +30,12 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
             variants={staggerChild}
             className="nec-faq-item rounded-xl overflow-hidden transition-all duration-200"
             style={{
-              background: "rgba(26,16,48,0.7)",
+              background: "var(--nec-card)",
               border: "1px solid var(--nec-border)",
             }}
           >
           <Accordion.Header>
-            <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-white hover:bg-white/[0.03] transition-colors">
+            <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-[var(--nec-text)] nec-nav-hover transition-colors">
               <span className="pr-4">{item.question}</span>
               <ChevronDown
                 className="w-4 h-4 flex-shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"

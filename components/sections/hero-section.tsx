@@ -9,7 +9,6 @@ import HeroPortalFrame from "@/components/art/hero-portal-frame"
 import { Sparkle, Splatter, Hex } from "@/components/art/graffiti-elements"
 import { VortexSwirl } from "@/components/art/steampunk-elements"
 import {
-  AuroraBackground,
   FloatingElement,
   MagneticButton,
   SPRING_GENTLE,
@@ -25,9 +24,6 @@ export default function HeroSection() {
       aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
       className="relative overflow-hidden pt-2 pb-6 md:pt-4 md:pb-8"
     >
-      {/* ── Living aurora glow layer (replaces static radial gradients) ── */}
-      <AuroraBackground intensity={1.8} />
-
       {/* ── Portal frame art — the "looking glass" archway ── */}
       <div className="absolute inset-0 flex items-start justify-center pointer-events-none" aria-hidden="true">
         <HeroPortalFrame className="w-full max-w-[500px] md:max-w-[600px] h-auto mt-[-20px] md:mt-[-30px]" />

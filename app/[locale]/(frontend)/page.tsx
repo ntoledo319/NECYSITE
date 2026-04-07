@@ -13,7 +13,6 @@ const YpaaNarrativeSection = dynamic(() => import("@/components/sections/ypaa-na
 const BusinessMeetingSection = dynamic(() => import("@/components/sections/business-meeting-section"))
 const EventsPreviewSection = dynamic(() => import("@/components/sections/events-preview-section"))
 const CharacterDivider = dynamic(() => import("@/components/character-divider"))
-const AmbientBlobs = dynamic(() => import("@/components/ui/ambient-blobs"))
 const ArtAccentCluster = dynamic(() => import("@/components/art/graffiti-elements").then(m => ({ default: m.ArtAccentCluster })))
 const GearCluster = dynamic(() => import("@/components/art/steampunk-gears").then(m => ({ default: m.GearCluster })))
 const MazePattern = dynamic(() => import("@/components/art/steampunk-gears").then(m => ({ default: m.MazePattern })))
@@ -34,9 +33,6 @@ export default function HomePage() {
     >
       <EventJsonLd />
       <OrganizationJsonLd />
-
-      {/* Page-level ambient vortex glow layer — organic floating drift */}
-      <AmbientBlobs />
 
       {/* ── Main content ──── */}
       <div className="flex-1 pt-0 relative z-10">

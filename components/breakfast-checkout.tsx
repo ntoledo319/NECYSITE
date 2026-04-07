@@ -108,10 +108,10 @@ export default function BreakfastCheckout() {
   return (
     <div className="space-y-6">
       <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-white">Your Information</h3>
+        <h3 className="text-lg font-semibold text-[var(--nec-text)]">Your Information</h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <Label htmlFor="firstName" className="text-white">
+            <Label htmlFor="firstName" className="text-[var(--nec-text)]">
               First Name
             </Label>
             <Input
@@ -127,12 +127,12 @@ export default function BreakfastCheckout() {
               aria-required="true"
               aria-invalid={!!errors.firstName}
               aria-describedby={errors.firstName ? "firstName-error" : undefined}
-              className="text-white"
+              className="text-[var(--nec-text)]"
             />
             {errors.firstName && <p id="firstName-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.firstName}</p>}
           </div>
           <div>
-            <Label htmlFor="lastName" className="text-white">
+            <Label htmlFor="lastName" className="text-[var(--nec-text)]">
               Last Name
             </Label>
             <Input
@@ -148,13 +148,13 @@ export default function BreakfastCheckout() {
               aria-required="true"
               aria-invalid={!!errors.lastName}
               aria-describedby={errors.lastName ? "lastName-error" : undefined}
-              className="text-white"
+              className="text-[var(--nec-text)]"
             />
             {errors.lastName && <p id="lastName-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.lastName}</p>}
           </div>
         </div>
         <div>
-          <Label htmlFor="email" className="text-white">
+          <Label htmlFor="email" className="text-[var(--nec-text)]">
             Email
           </Label>
           <Input
@@ -171,14 +171,14 @@ export default function BreakfastCheckout() {
             aria-required="true"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
-            className="text-white"
+            className="text-[var(--nec-text)]"
           />
           {errors.email && <p id="email-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.email}</p>}
         </div>
       </div>
 
       <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-white">New Years Day Breakfast!</h3>
+        <h3 className="text-lg font-semibold text-[var(--nec-text)]">New Years Day Breakfast!</h3>
         <p className="text-sm text-[var(--nec-muted)]">
           Friday is especially recommended. Most local restaurants are closed on New Year&apos;s Day.
         </p>
@@ -204,8 +204,8 @@ export default function BreakfastCheckout() {
               />
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor={fridayProduct.id} className="text-sm text-white font-semibold cursor-pointer">Friday - New Year&apos;s Day</Label>
-                  <span className="text-sm text-white font-semibold">$25</span>
+                  <Label htmlFor={fridayProduct.id} className="text-sm text-[var(--nec-text)] font-semibold cursor-pointer">Friday - New Year&apos;s Day</Label>
+                  <span className="text-sm text-[var(--nec-text)] font-semibold">$25</span>
                 </div>
                 <p className="text-[var(--nec-gold)] text-xs mt-1">
                   Start your day on-site with fellowship and no restaurant scramble.
@@ -224,7 +224,7 @@ export default function BreakfastCheckout() {
               aria-pressed={breakfastSelections[bp.id] || false}
               className="nec-breakfast-option w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
               style={{
-                background: breakfastSelections[bp.id] ? "rgba(45,31,78,0.6)" : "rgba(26,16,48,0.6)",
+                background: breakfastSelections[bp.id] ? "rgba(var(--nec-purple-rgb),0.08)" : "var(--nec-card)",
                 borderColor: breakfastSelections[bp.id] ? "rgba(212,160,23,0.5)" : "var(--nec-border)",
               }}
             >
@@ -237,10 +237,10 @@ export default function BreakfastCheckout() {
                   onClick={(e) => e.stopPropagation()}
                 />
                 <div className="flex-1 flex items-center justify-between">
-                  <Label htmlFor={bp.id} className="text-sm text-white cursor-pointer">
+                  <Label htmlFor={bp.id} className="text-sm text-[var(--nec-text)] cursor-pointer">
                     {bp.id === "breakfast-saturday" ? "Saturday Breakfast" : "Sunday Breakfast"}
                   </Label>
-                  <span className="text-sm text-white font-medium">$25</span>
+                  <span className="text-sm text-[var(--nec-text)] font-medium">$25</span>
                 </div>
               </div>
             </button>
@@ -249,23 +249,23 @@ export default function BreakfastCheckout() {
       </div>
 
       <div className="nec-reg-subcard rounded-2xl p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Order Summary</h3>
+        <h3 className="text-lg font-semibold text-[var(--nec-text)] mb-4">Order Summary</h3>
         <div className="space-y-2 text-[var(--nec-muted)]">
           {selectedBreakfasts.length === 0 && <p className="text-[var(--nec-muted)] text-sm">Select at least one breakfast.</p>}
           {selectedBreakfasts.map((bp) => (
             <div key={bp.id} className="flex justify-between">
               <span>{bp.name}</span>
-              <span className="font-medium text-white">${(bp.priceInCents / 100).toFixed(2)}</span>
+              <span className="font-medium text-[var(--nec-text)]">${(bp.priceInCents / 100).toFixed(2)}</span>
             </div>
           ))}
           {selectedBreakfasts.length > 0 && (
             <>
               <div className="flex justify-between text-sm">
                 <span>Processing Fee (2.9% + $0.30)</span>
-                <span className="font-medium text-white">${processingFee.toFixed(2)}</span>
+                <span className="font-medium text-[var(--nec-text)]">${processingFee.toFixed(2)}</span>
               </div>
               <div className="border-t border-[var(--nec-border)] pt-2 mt-2 flex justify-between text-lg font-bold">
-                <span className="text-white">Total</span>
+                <span className="text-[var(--nec-text)]">Total</span>
                 <span className="text-[var(--nec-gold)]">${totalAmount.toFixed(2)}</span>
               </div>
             </>
@@ -277,7 +277,7 @@ export default function BreakfastCheckout() {
         <Button
           onClick={proceedToPayment}
           disabled={!isFormValid}
-          className="w-full text-white py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
+          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
         >
           Proceed to Payment{isFormValid ? ` - $${totalAmount.toFixed(2)}` : ""}
         </Button>

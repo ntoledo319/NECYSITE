@@ -67,7 +67,7 @@ export default function LanguageSwitcher() {
         <div
           className="absolute right-0 mt-1 rounded-lg overflow-hidden shadow-lg z-50"
           style={{
-            background: "rgba(26,16,48,0.98)",
+            background: "var(--nec-card)",
             border: "1px solid var(--nec-border)",
             minWidth: "140px",
           }}

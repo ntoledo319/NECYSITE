@@ -50,20 +50,20 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
         type="button"
         onClick={onBack}
         variant="outline"
-        className="text-white bg-transparent border-[var(--nec-border)]"
+        className="text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
       >
         Back
       </Button>
 
       <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-white">Registration Summary</h3>
+        <h3 className="text-lg font-semibold text-[var(--nec-text)]">Registration Summary</h3>
         <div className="space-y-2 text-[var(--nec-muted)]">
           <div className="flex justify-between">
             <span>Registration (Access Code)</span>
-            <span className="font-medium text-white">$0.00</span>
+            <span className="font-medium text-[var(--nec-text)]">$0.00</span>
           </div>
           <div className="border-t border-[var(--nec-border)] pt-2 mt-2 flex justify-between text-lg font-bold">
-            <span className="text-white">Total</span>
+            <span className="text-[var(--nec-text)]">Total</span>
             <span className="text-[var(--nec-gold)]">$0.00</span>
           </div>
         </div>
@@ -82,13 +82,13 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
 
       {accessCodeSuccess ? (
         <div className="text-center py-4" role="status" aria-live="polite">
-          <p className="text-white font-semibold">Registration complete! Redirecting&hellip;</p>
+          <p className="text-[var(--nec-text)] font-semibold">Registration complete! Redirecting&hellip;</p>
         </div>
       ) : (
         <Button
           onClick={handleAccessCodeSubmit}
           disabled={isSubmittingCode}
-          className="w-full text-white py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
+          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
         >
           {isSubmittingCode ? "Completing Registration\u2026" : "Complete Registration"}
         </Button>

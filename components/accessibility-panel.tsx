@@ -60,7 +60,7 @@ export default function AccessibilityPanel() {
           >
             {/* Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between p-4 border-b" style={{ borderColor: "var(--nec-border)", background: "var(--nec-navy)" }}>
-              <h2 className="text-base font-bold text-white">Accessibility Settings</h2>
+              <h2 className="text-base font-bold text-[var(--nec-text)]">Accessibility Settings</h2>
               <div className="flex items-center gap-2">
                 <button
                   onClick={resetSettings}
@@ -236,14 +236,14 @@ function SettingRow({
   return (
     <div
       className="flex items-center justify-between gap-4 p-3 rounded-xl"
-      style={{ background: "rgba(26,16,48,0.5)", border: "1px solid var(--nec-border)" }}
+      style={{ background: "rgba(var(--nec-dark-rgb),0.5)", border: "1px solid var(--nec-border)" }}
     >
       <div className="flex items-start gap-3 min-w-0">
         <span className="mt-0.5 flex-shrink-0" style={{ color: "var(--nec-cyan)" }}>
           {icon}
         </span>
         <div className="min-w-0">
-          <span className="block text-sm font-semibold text-white">{label}</span>
+          <span className="block text-sm font-semibold text-[var(--nec-text)]">{label}</span>
           <span className="block text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
             {description}
           </span>

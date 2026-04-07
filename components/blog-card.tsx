@@ -99,7 +99,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="text-xl sm:text-2xl font-black text-white mb-3 leading-tight">
+        <h3 className="text-xl sm:text-2xl font-black text-[var(--nec-text)] mb-3 leading-tight">
           {post.title}
         </h3>
 

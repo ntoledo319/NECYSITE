@@ -4,7 +4,9 @@ import { renderHook, act } from "@testing-library/react"
 import { createElement, type ReactNode } from "react"
 
 // Must set up DOM environment mocks before importing the module
-const mockMatchMedia = vi.fn().mockReturnValue({ matches: false })
+const mockMatchMedia = vi.fn((query: string) => ({
+  matches: query === "(prefers-color-scheme: light)",
+}))
 Object.defineProperty(globalThis, "matchMedia", { value: mockMatchMedia, writable: true })
 
 const mockLocalStorage = (() => {
@@ -41,7 +43,7 @@ describe("A11yProvider", () => {
     const { result } = renderHook(() => useA11y(), { wrapper })
 
     expect(result.current.settings).toEqual({
-      colorMode: "dark",
+      colorMode: "light",
       highContrast: false,
       fontSize: 1,
       dyslexiaFont: false,
@@ -59,7 +61,7 @@ describe("A11yProvider", () => {
 
     expect(result.current.settings.highContrast).toBe(true)
     // Other settings unchanged
-    expect(result.current.settings.colorMode).toBe("dark")
+    expect(result.current.settings.colorMode).toBe("light")
     expect(result.current.settings.fontSize).toBe(1)
   })
 
@@ -77,7 +79,7 @@ describe("A11yProvider", () => {
     })
 
     expect(result.current.settings).toEqual({
-      colorMode: "dark",
+      colorMode: "light",
       highContrast: false,
       fontSize: 1,
       dyslexiaFont: false,

@@ -75,12 +75,12 @@ export default function AlAnonInfoAccordion() {
           value={section.id}
           className="nec-alanon-item rounded-xl overflow-hidden transition-all duration-200"
           style={{
-            background: "rgba(15,10,30,0.45)",
+            background: "var(--nec-card)",
             border: "1px solid rgba(0,147,208,0.12)",
           }}
         >
           <Accordion.Header>
-            <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-white hover:bg-white/[0.03] transition-colors">
+            <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-[var(--nec-text)] nec-nav-hover transition-colors">
               <span className="pr-4">{section.title}</span>
               <ChevronDown
                 className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"

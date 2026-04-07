@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Plus_Jakarta_Sans, Outfit, Bangers } from "next/font/google"
+import { Source_Serif_4, Playfair_Display, Bangers } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
@@ -18,14 +18,14 @@ const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress"))
 const BackToTop = dynamic(() => import("@/components/ui/back-to-top"))
 const WebVitalsReporter = dynamic(() => import("@/app/web-vitals-reporter").then(m => ({ default: m.WebVitalsReporter })))
 
-const jakarta = Plus_Jakarta_Sans({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
   preload: true,
 })
 
-const outfit = Outfit({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
@@ -98,9 +98,9 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <head>
-        <meta name="color-scheme" content="dark light" />
+        <meta name="color-scheme" content="light dark" />
       </head>
-      <body className={`${jakarta.variable} ${outfit.variable} ${bangers.variable} ${jakarta.className}`}>
+      <body className={`${sourceSerif.variable} ${playfair.variable} ${bangers.variable} ${sourceSerif.className}`}>
         <WebVitalsReporter />
         <NextIntlClientProvider messages={messages}>
           <A11yProvider>

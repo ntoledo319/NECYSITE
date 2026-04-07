@@ -146,7 +146,7 @@ export default function EventsPage() {
                     </div>
 
                     <h3
-                      className="text-2xl md:text-3xl font-black text-white nec-heading-shadow"
+                      className="text-2xl md:text-3xl font-black text-[var(--nec-text)] nec-heading-shadow"
                     >
                       {upcomingEvent.title}
                     </h3>

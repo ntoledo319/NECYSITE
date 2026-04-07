@@ -42,7 +42,7 @@ export default function CTASection() {
                 >
                   Pre-Registration Open
                 </span>
-                <h3 className="text-2xl md:text-3xl font-black text-white mt-1">Secure Your Spot</h3>
+                <h3 className="text-2xl md:text-3xl font-black text-[var(--nec-text)] mt-1">Secure Your Spot</h3>
                 <p className="text-sm text-[var(--nec-muted)] mt-3 leading-relaxed">
                   Pre-registration is open at $40. Lock in your spot for NECYPAA XXXVI — Dec 31,
                   2026 through Jan 3, 2027 at the Hartford Marriott Downtown.
@@ -86,7 +86,7 @@ export default function CTASection() {
                 >
                   Host Hotel
                 </span>
-                <h3 className="text-2xl md:text-3xl font-black text-white mt-1">Hartford Marriott Downtown</h3>
+                <h3 className="text-2xl md:text-3xl font-black text-[var(--nec-text)] mt-1">Hartford Marriott Downtown</h3>
                 <p className="text-sm text-[var(--nec-muted)] mt-3 leading-relaxed">
                   We have a room block at the Marriott with a special NECYPAA group rate. Rooms go
                   fast around New Year&apos;s Eve — reserve yours early.

@@ -71,7 +71,7 @@ export default async function BlogPostPage({
             {/* Back link */}
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-semibold mb-8 transition-colors hover:text-white text-[var(--nec-muted)]"
+              className="inline-flex items-center gap-2 text-sm font-semibold mb-8 transition-colors hover:text-[var(--nec-text)] text-[var(--nec-muted)]"
             >
               <ArrowLeft className="w-4 h-4" aria-hidden="true" />
               Back to NECYBLOG
@@ -116,7 +116,7 @@ export default async function BlogPostPage({
                 </div>
 
                 {/* Title */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-6 leading-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-6 leading-tight">
                   {post.title}
                 </h1>
 

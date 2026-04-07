@@ -4,75 +4,168 @@
 
 /* ─────────────────────────────────────────────
    NECYPAA Design Tokens – "Escaping the Mad Realm"
-   Palette: teal · magenta · purple · brass/gold
-            deep purple-black · charcoal · cream
-   Steampunk-Wonderland aesthetic
+   Palette derived FROM committee art:
+     teal patina · warm rose · plum · aged brass
+     parchment · warm navy · copper · sage
+   Light-first: warm parchment canvas (art's native bg)
    ───────────────────────────────────────────── */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --nec-cyan:     #14b8a6;
-  --nec-cyan-dim: #0d9488;
-  --nec-pink:     #c026d3;
-  --nec-pink-dim: #a21caf;
-  --nec-orange:   #ea580c;
-  --nec-gold:     #d4a017;
-  --nec-purple:   #7c3aed;
-  --nec-purple-dim: #6d28d9;
-  --nec-navy:     #0f0a1e;
-  --nec-dark:     #150e28;
-  --nec-card:     #1a1030;
-  --nec-border:   #2d1f4e;
-  --nec-text:     #e8e0f0;
-  --nec-muted:    #b4a5d0;
-  --nec-bg-alt:   #131b2e;
+  /* Accent colors — extracted from poster, borders, characters */
+  --nec-cyan:     #1B6B5F;    /* teal patina — oxidized copper from art borders (5.58:1 AAA) */
+  --nec-cyan-dim: #155A50;
+  --nec-pink:     #9E3350;    /* warm rose — Cheshire Cat stripes (6.08:1 AAA) */
+  --nec-pink-dim: #8A2D46;
+  --nec-orange:   #B87333;    /* copper — from clockwork gears */
+  --nec-gold:     #7A5B0D;    /* aged brass — text-safe (5.56:1 on parchment) */
+  --nec-purple:   #6B3060;    /* warm plum — Hatter's coat (8.35:1 AAA) */
+  --nec-purple-dim: #5A2750;
+
+  /* Surface & text colors — parchment canvas */
+  --nec-navy:     #F5F0E8;    /* parchment — the art's native canvas */
+  --nec-dark:     #EDE5D8;    /* deeper parchment */
+  --nec-card:     #FFFFFF;    /* white card surfaces */
+  --nec-border:   #C9B99A;    /* warm tan border */
+  --nec-text:     #2C1810;    /* warm dark brown (14.87:1 AAA) */
+  --nec-muted:    #5C4A3A;    /* warm medium brown (7.42:1 AAA) */
+  --nec-bg-alt:   #E8E0D0;    /* alternate parchment */
 
   /* RGB variants for rgba() usage */
-  --nec-purple-rgb: 124, 58, 237;
-  --nec-pink-rgb:   192, 38, 211;
-  --nec-cyan-rgb:   20, 184, 166;
-  --nec-gold-rgb:   212, 160, 23;
-  --nec-navy-rgb:   15, 10, 30;
-  --nec-card-rgb:   26, 16, 48;
-  --nec-dark-rgb:   21, 14, 40;
+  --nec-purple-rgb: 107, 48, 96;
+  --nec-pink-rgb:   158, 51, 80;
+  --nec-cyan-rgb:   27, 107, 95;
+  --nec-gold-rgb:   122, 91, 13;
+  --nec-navy-rgb:   245, 240, 232;
+  --nec-card-rgb:   255, 255, 255;
+  --nec-dark-rgb:   237, 229, 216;
 
-  /* Shadow tokens */
-  --shadow-text:    0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-card:    0 2px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --shadow-glow-purple: 0 0 24px rgba(124, 58, 237, 0.25);
-  --shadow-glow-pink:   0 0 24px rgba(192, 38, 211, 0.25);
-  --shadow-glow-gold:   0 0 24px rgba(212, 160, 23, 0.30);
-  --shadow-glow-cyan:   0 0 24px rgba(20, 184, 166, 0.25);
+  /* Shadow tokens — warm, tactile, not neon */
+  --shadow-text:    0 1px 4px rgba(44, 24, 16, 0.12);
+  --shadow-card:    0 2px 12px rgba(44, 24, 16, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 8px 28px rgba(44, 24, 16, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-glow-purple: 0 2px 16px rgba(107, 48, 96, 0.10);
+  --shadow-glow-pink:   0 2px 16px rgba(158, 51, 80, 0.10);
+  --shadow-glow-gold:   0 2px 16px rgba(122, 91, 13, 0.12);
+  --shadow-glow-cyan:   0 2px 16px rgba(27, 107, 95, 0.10);
 
   /* Al-Anon brand colors (from official SVG) */
   --alanon-blue:     #0093D0;
   --alanon-blue-dim: #007BB5;
   --alanon-white:    #FFFFFF;
-  --nec-alateen:     #c4a5d6;
+  --nec-alateen:     #7D5A8E;
 
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
-  /* shadcn/ui HSL tokens – mapped to Mad Realm palette */
-  --background: 260 40% 8%;        /* deep purple-black */
-  --foreground: 270 25% 92%;       /* light purple-tinted text */
-  --card: 265 35% 13%;
-  --card-foreground: 270 25% 92%;
-  --popover: 265 35% 13%;
-  --popover-foreground: 270 25% 92%;
-  --primary: 280 72% 50%;          /* magenta-purple */
+  /* shadcn/ui HSL tokens — warm editorial palette */
+  --background: 36 33% 94%;        /* parchment */
+  --foreground: 16 50% 13%;        /* warm dark brown */
+  --card: 0 0% 100%;
+  --card-foreground: 16 50% 13%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 16 50% 13%;
+  --primary: 315 38% 35%;          /* warm plum */
   --primary-foreground: 0 0% 100%;
-  --secondary: 265 30% 18%;
-  --secondary-foreground: 270 25% 92%;
-  --muted: 265 25% 18%;
-  --muted-foreground: 270 15% 68%;
-  --accent: 170 65% 40%;           /* teal */
-  --accent-foreground: 260 40% 8%;
-  --destructive: 0 84% 60%;
+  --secondary: 36 25% 90%;
+  --secondary-foreground: 16 50% 13%;
+  --muted: 36 20% 88%;
+  --muted-foreground: 20 22% 30%;
+  --accent: 170 42% 26%;           /* teal patina */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 40%;
   --destructive-foreground: 0 0% 100%;
-  --border: 265 30% 22%;           /* nec-border */
-  --input: 265 30% 22%;
-  --ring: 170 65% 40%;             /* teal focus ring */
+  --border: 38 22% 69%;            /* warm tan */
+  --input: 38 22% 69%;
+  --ring: 315 38% 35%;             /* plum focus ring (8.35:1 on parchment) */
+}
+
+/* ─────────────────────────────────────────────
+   Dark Mode — warm navy, not cold purple-black
+   Toggled via A11yProvider or OS preference
+   ───────────────────────────────────────────── */
+[data-color-mode="dark"] {
+  color-scheme: dark;
+
+  /* Accent colors — lighter for dark backgrounds */
+  --nec-cyan:     #5DBAA8;    /* teal patina light (7.50:1 on navy) */
+  --nec-cyan-dim: #4AA898;
+  --nec-pink:     #D4748E;    /* rose light (5.54:1 on navy) */
+  --nec-pink-dim: #C0607A;
+  --nec-orange:   #D49A6A;    /* copper light */
+  --nec-gold:     #D4A84B;    /* brass light (7.87:1 on navy) */
+  --nec-purple:   #C08ABF;    /* plum light (6.32:1 on navy) */
+  --nec-purple-dim: #A870A6;
+
+  /* Surface & text colors — warm navy canvas */
+  --nec-navy:     #0D1B2A;    /* warm dark navy */
+  --nec-dark:     #162336;    /* slightly lighter navy */
+  --nec-card:     #1D2D3E;    /* card surfaces */
+  --nec-border:   #2A3D52;    /* warm navy border */
+  --nec-text:     #E8DFD0;    /* parchment text (13.17:1 AAA) */
+  --nec-muted:    #A0927F;    /* warm grey-brown (5.73:1 AA) */
+  --nec-bg-alt:   #152233;
+
+  /* RGB variants */
+  --nec-purple-rgb: 192, 138, 191;
+  --nec-pink-rgb:   212, 116, 142;
+  --nec-cyan-rgb:   93, 186, 168;
+  --nec-gold-rgb:   212, 168, 75;
+  --nec-navy-rgb:   13, 27, 42;
+  --nec-card-rgb:   29, 45, 62;
+  --nec-dark-rgb:   22, 35, 54;
+
+  /* Shadow tokens — deeper for dark surfaces */
+  --shadow-text:    0 2px 8px rgba(0, 0, 0, 0.30);
+  --shadow-card:    0 2px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-glow-purple: 0 2px 16px rgba(192, 138, 191, 0.15);
+  --shadow-glow-pink:   0 2px 16px rgba(212, 116, 142, 0.15);
+  --shadow-glow-gold:   0 2px 16px rgba(212, 168, 75, 0.18);
+  --shadow-glow-cyan:   0 2px 16px rgba(93, 186, 168, 0.15);
+
+  --nec-alateen: #c4a5d6;
+
+  /* shadcn/ui HSL tokens — dark mode */
+  --background: 210 38% 11%;
+  --foreground: 33 20% 88%;
+  --card: 208 30% 18%;
+  --card-foreground: 33 20% 88%;
+  --popover: 208 30% 18%;
+  --popover-foreground: 33 20% 88%;
+  --primary: 301 25% 65%;
+  --primary-foreground: 210 38% 11%;
+  --secondary: 210 25% 18%;
+  --secondary-foreground: 33 20% 88%;
+  --muted: 210 20% 18%;
+  --muted-foreground: 30 14% 56%;
+  --accent: 167 33% 55%;
+  --accent-foreground: 210 38% 11%;
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 210 25% 24%;
+  --input: 210 25% 24%;
+  --ring: 167 33% 55%;             /* teal focus ring on dark bg */
+}
+[data-color-mode="dark"] body {
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(var(--nec-gold-rgb), 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(var(--nec-purple-rgb), 0.03) 0%, transparent 60%);
+}
+[data-color-mode="dark"] .nec-header {
+  background: rgba(var(--nec-navy-rgb), 0.95);
+}
+[data-color-mode="dark"] .nec-mobile-drawer {
+  background: rgba(var(--nec-navy-rgb), 0.97);
+}
+[data-color-mode="dark"] .nec-nav-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+[data-color-mode="dark"] .nec-nav-active {
+  background: rgba(255, 255, 255, 0.08);
+}
+[data-color-mode="dark"] ::selection {
+  background: rgba(var(--nec-purple-rgb), 0.30);
+  color: var(--nec-text);
 }
 
 @layer base {
@@ -83,25 +176,26 @@
   body {
     background-color: var(--nec-navy);
     color: var(--nec-text);
-    font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+    font-family: var(--font-sans), 'Source Serif 4', Georgia, serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* Subtle maze/texture overlay for Mad Realm feel */
+    /* Warm parchment texture — subtle warmth, not noise */
     background-image:
-      radial-gradient(circle at 20% 80%, rgba(124,58,237,0.04) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(192,38,211,0.03) 0%, transparent 50%);
+      radial-gradient(ellipse at 20% 80%, rgba(var(--nec-gold-rgb), 0.03) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(var(--nec-purple-rgb), 0.02) 0%, transparent 60%);
   }
 
-  /* Luxury selection colors */
+  /* Warm selection colors */
   ::selection {
-    background: rgba(124,58,237,0.35);
-    color: #fff;
+    background: rgba(var(--nec-purple-rgb), 0.20);
+    color: var(--nec-text);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), 'Outfit', sans-serif;
+    font-family: var(--font-heading), 'Playfair Display', Georgia, serif;
     letter-spacing: -0.01em;
+    color: var(--nec-text);
   }
 
   /* Anchor scroll offset for sticky header */
@@ -112,8 +206,8 @@
   /* ── Branded section badge ─────────────────── */
   .section-badge {
     @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest;
-    background: rgba(124,58,237,0.15);
-    border: 1px solid rgba(124,58,237,0.40);
+    background: rgba(var(--nec-purple-rgb), 0.08);
+    border: 1px solid rgba(var(--nec-purple-rgb), 0.25);
     color: var(--nec-purple);
   }
 
@@ -186,9 +280,9 @@
     @apply transition-all duration-200;
   }
   .nec-state-card:hover {
-    border-color: rgba(124,58,237,0.30) !important;
-    background: rgba(15,10,30,0.6) !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    border-color: rgba(var(--nec-purple-rgb), 0.25) !important;
+    background: rgba(var(--nec-dark-rgb), 0.6) !important;
+    box-shadow: var(--shadow-card-hover);
   }
   .nec-state-card:active {
     transform: scale(0.98);
@@ -197,129 +291,147 @@
   /* ── Section heading ───────────────────────── */
   .section-heading {
     @apply text-3xl md:text-4xl font-black leading-tight;
-    color: #fff;
+    color: var(--nec-text);
   }
 
-  /* ── Purple gradient heading ────────────────── */
+  /* ── Accent gradient heading ────────────────── */
   .heading-cyan {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-cyan) 100%);
   }
 
-  /* ── Primary CTA button (purple) ────────────── */
+  /* ── Primary CTA button (plum) ─────────────── */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 font-black text-base uppercase tracking-wide
-           text-white rounded-xl px-7 py-3 transition-all duration-200 shadow-lg;
-    background: linear-gradient(135deg, var(--nec-purple) 0%, var(--nec-pink) 100%);
-    box-shadow: 0 4px 20px rgba(124,58,237,0.35);
+           text-white rounded-lg px-7 py-3 transition-all duration-200;
+    background: var(--nec-purple);
+    box-shadow: var(--shadow-card);
   }
   .btn-primary:hover {
-    background: linear-gradient(135deg, var(--nec-purple-dim) 0%, var(--nec-pink-dim) 100%);
-    box-shadow: 0 6px 28px rgba(124,58,237,0.55);
+    background: var(--nec-purple-dim);
+    box-shadow: var(--shadow-card-hover);
     transform: translateY(-1px);
   }
 
-  /* ── Secondary CTA button (gold/brass) ────────*/
+  /* ── Secondary CTA button (brass) ─────────────*/
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 font-bold text-base uppercase tracking-wide
-           rounded-xl px-7 py-3 transition-all duration-200;
-    color: var(--nec-navy);
-    background: linear-gradient(135deg, var(--nec-gold) 0%, #b8860b 100%);
-    box-shadow: 0 4px 20px rgba(212,160,23,0.30);
+           rounded-lg px-7 py-3 transition-all duration-200;
+    color: #FFFBF0;
+    background: var(--nec-gold);
+    box-shadow: var(--shadow-card);
   }
   .btn-secondary:hover {
-    background: linear-gradient(135deg, #c49515 0%, #a07710 100%);
-    box-shadow: 0 6px 28px rgba(212,160,23,0.50);
+    filter: brightness(0.92);
+    box-shadow: var(--shadow-card-hover);
     transform: translateY(-1px);
   }
 
   /* ── Ghost button (outlined) ───────────────── */
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 font-bold text-sm uppercase tracking-wide
-           rounded-xl px-5 py-2.5 transition-all duration-200;
-    border: 1.5px solid rgba(124,58,237,0.45);
+           rounded-lg px-5 py-2.5 transition-all duration-200;
+    border: 1.5px solid var(--nec-border);
     color: var(--nec-text);
   }
   .btn-ghost:hover {
     border-color: var(--nec-purple);
     color: var(--nec-purple);
-    background: rgba(124,58,237,0.08);
+    background: rgba(var(--nec-purple-rgb), 0.06);
   }
 
   /* ── Card surface ──────────────────────────── */
   .nec-card {
-    background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+    background: var(--nec-card);
     border: 1px solid var(--nec-border);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03);
-    @apply rounded-2xl;
+    box-shadow: var(--shadow-card);
+    @apply rounded-xl;
   }
   .nec-card:hover {
-    border-color: rgba(124,58,237,0.40);
-    box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 8px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.05);
+    border-color: rgba(var(--nec-purple-rgb), 0.30);
+    box-shadow: var(--shadow-card-hover);
   }
 
   /* ── CTA card (purple accent) ─────────────────── */
   .nec-cta-card-purple {
-    background: linear-gradient(135deg, rgba(124,58,237,0.14) 0%, rgba(26,16,48,0.85) 50%, rgba(192,38,211,0.04) 100%);
-    border: 1px solid rgba(124,58,237,0.40);
-    box-shadow: 0 4px 32px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04);
+    background: rgba(var(--nec-purple-rgb), 0.04);
+    border: 1px solid rgba(var(--nec-purple-rgb), 0.20);
+    box-shadow: var(--shadow-card);
   }
 
   /* ── CTA card (gold accent) ──────────────────── */
   .nec-cta-card-gold {
-    background: linear-gradient(135deg, rgba(212,160,23,0.10) 0%, rgba(26,16,48,0.85) 50%, rgba(212,160,23,0.03) 100%);
-    border: 1px solid rgba(212,160,23,0.35);
-    box-shadow: 0 4px 32px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04);
+    background: rgba(var(--nec-gold-rgb), 0.04);
+    border: 1px solid rgba(var(--nec-gold-rgb), 0.20);
+    box-shadow: var(--shadow-card);
   }
 
   /* ── Info/help card ──────────────────────────── */
   .nec-info-card {
-    background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+    background: var(--nec-card);
     border: 1px solid var(--nec-border);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: var(--shadow-card);
   }
 
-  /* ── Magical glow accent text ────────────────── */
-  .glow-cyan    { text-shadow: 0 0 18px rgba(20,184,166,0.60); }
-  .glow-pink    { text-shadow: 0 0 18px rgba(192,38,211,0.60); }
-  .glow-gold    { text-shadow: 0 0 18px rgba(212,160,23,0.60); }
-  .glow-purple  { text-shadow: 0 0 18px rgba(124,58,237,0.60); }
+  /* ── Accent text emphasis (subtle on light, warm on dark) ── */
+  .glow-cyan    { color: var(--nec-cyan); }
+  .glow-pink    { color: var(--nec-pink); }
+  .glow-gold    { color: var(--nec-gold); }
+  .glow-purple  { color: var(--nec-purple); }
 
   /* ── Quick-facts pill ──────────────────────── */
   .fact-pill {
     @apply flex flex-col items-center gap-1 px-4 py-3 rounded-xl text-center;
-    background: linear-gradient(135deg, rgba(124,58,237,0.06) 0%, rgba(192,38,211,0.03) 100%);
+    background: var(--nec-card);
     border: 1px solid var(--nec-border);
-    box-shadow: 0 1px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: var(--shadow-card);
   }
 
   /* ── Fact pill hover (CSS-driven, not inline JS) ── */
   .fact-pill-interactive:hover,
   .fact-pill-interactive:focus-within {
-    border-color: rgba(124,58,237,0.40);
-    box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 4px 20px rgba(0,0,0,0.3);
+    border-color: rgba(var(--nec-purple-rgb), 0.30);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* ── Header base ─────────────────────────────── */
+  .nec-header {
+    background: rgba(var(--nec-navy-rgb, 245,240,232), 0.92);
+  }
+
+  /* ── Nav link hover/active utilities ──────────── */
+  .nec-nav-hover:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+  .nec-nav-active {
+    background: rgba(var(--nec-purple-rgb), 0.06);
+  }
+
+  /* ── Footer base ────────────────────────────────── */
+  .nec-footer {
+    background: var(--nec-dark);
   }
 
   /* ── Desktop dropdown panel ────────────────────── */
   .nec-dropdown-panel {
-    background: rgba(15,10,30,0.98);
-    border: 1px solid rgba(45,31,78,0.8);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(124,58,237,0.06);
+    background: rgba(var(--nec-card-rgb), 0.98);
+    border: 1px solid var(--nec-border);
+    box-shadow: 0 8px 32px rgba(44, 24, 16, 0.10), 0 1px 3px rgba(0, 0, 0, 0.04);
     backdrop-filter: blur(16px);
   }
 
   /* ── Mobile drawer panel ─────────────────────── */
   .nec-mobile-drawer {
-    background: var(--nec-dark);
+    background: rgba(var(--nec-navy-rgb, 245,240,232), 0.96);
     border-bottom: 1px solid var(--nec-border);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 24px rgba(44, 24, 16, 0.08);
   }
 
   /* ── Zoom / ghost-style link hover ────────────── */
   .zoom-link:hover,
   .zoom-link:focus-visible {
-    background: rgba(124,58,237,0.25) !important;
-    box-shadow: 0 2px 16px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+    background: rgba(var(--nec-purple-rgb), 0.08) !important;
+    box-shadow: var(--shadow-card) !important;
   }
 
   /* ── Splatter accent (CSS-only pseudo decoration) */
@@ -328,10 +440,10 @@
     position: absolute;
     top: -8px; left: 50%;
     transform: translateX(-50%);
-    width: 120px; height: 4px;
+    width: 120px; height: 2px;
     background: linear-gradient(90deg, var(--nec-purple), var(--nec-gold));
     border-radius: 99px;
-    opacity: 0.7;
+    opacity: 0.4;
   }
 
   /* Standardized interactive card hover */
@@ -341,7 +453,7 @@
   .nec-interactive-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-card-hover);
-    border-color: rgba(124, 58, 237, 0.35);
+    border-color: rgba(var(--nec-purple-rgb), 0.25);
   }
   .nec-interactive-card:active {
     transform: translateY(0);
@@ -381,7 +493,7 @@
 }
 .states-stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+  box-shadow: var(--shadow-card-hover) !important;
 }
 .a11y-reduce-motion .states-stat-card {
   transition: none !important;
@@ -796,6 +908,9 @@
   outline: 2px solid var(--nec-purple);
   outline-offset: 2px;
 }
+[data-color-mode="dark"] :focus-visible {
+  outline-color: var(--nec-cyan);
+}
 
 /* ── Accessibility: Reduce Motion (class-based) ── */
 .a11y-reduce-motion, .a11y-reduce-motion *, .a11y-reduce-motion *::before, .a11y-reduce-motion *::after {
@@ -808,30 +923,34 @@
 /* ── Accessibility: Grayscale ─────────────── */
 .a11y-grayscale { filter: grayscale(1); }
 
-/* ── Accessibility: High Contrast ─────────── */
+/* ── Accessibility: High Contrast (light-first) ─── */
 .a11y-high-contrast {
-  --nec-text: #ffffff;
-  --nec-muted: #e0e0e0;
-  --nec-border: #999999;
-  --nec-cyan: #2dd4bf;
-  --nec-cyan-dim: #14b8a6;
-  --nec-pink: #e879f9;
-  --nec-pink-dim: #c026d3;
-  --nec-purple: #a78bfa;
-  --nec-purple-dim: #7c3aed;
-  --nec-orange: #ff9a3e;
-  --nec-gold: #ffd54f;
+  --nec-text: #000000;
+  --nec-muted: #1A1005;
+  --nec-border: #555555;
+  --nec-cyan: #0D5549;
+  --nec-cyan-dim: #0A4A3F;
+  --nec-pink: #7A1A35;
+  --nec-pink-dim: #6A152E;
+  --nec-purple: #4A1840;
+  --nec-purple-dim: #3D1235;
+  --nec-orange: #8B4513;
+  --nec-gold: #5C4008;
+  --nec-purple-rgb: 74, 24, 64;
+  --nec-pink-rgb: 122, 26, 53;
+  --nec-cyan-rgb: 13, 85, 73;
+  --nec-gold-rgb: 92, 64, 8;
 }
 .a11y-high-contrast .nec-card {
   border-color: #999 !important;
   border-width: 2px !important;
 }
 .a11y-high-contrast .btn-primary {
-  outline: 2px solid #a78bfa;
+  outline: 2px solid var(--nec-purple);
   outline-offset: 1px;
 }
 .a11y-high-contrast .btn-secondary {
-  outline: 2px solid #ffd54f;
+  outline: 2px solid var(--nec-gold);
   outline-offset: 1px;
 }
 .a11y-high-contrast .btn-ghost {
@@ -848,7 +967,7 @@
   text-decoration: none !important;
 }
 .a11y-high-contrast :focus-visible {
-  outline: 3px solid #a78bfa !important;
+  outline: 3px solid var(--nec-purple) !important;
   outline-offset: 3px !important;
 }
 .a11y-high-contrast .section-badge {
@@ -862,33 +981,37 @@
   border-width: 2px !important;
   border-color: #999 !important;
 }
-/* High contrast: boost Tailwind gray text classes on dark backgrounds */
-.a11y-high-contrast .text-gray-300 { color: #f3f4f6 !important; }
-.a11y-high-contrast .text-gray-400 { color: #e5e7eb !important; }
-.a11y-high-contrast .text-gray-500 { color: #d1d5db !important; }
-.a11y-high-contrast .text-red-400 { color: #fca5a5 !important; }
+/* High contrast: boost Tailwind gray text classes */
+.a11y-high-contrast .text-gray-300 { color: #1a1a1a !important; }
+.a11y-high-contrast .text-gray-400 { color: #222222 !important; }
+.a11y-high-contrast .text-gray-500 { color: #333333 !important; }
+.a11y-high-contrast .text-red-400 { color: #991b1b !important; }
 
-/* High contrast + light mode combo */
-[data-color-mode="light"].a11y-high-contrast {
-  --nec-text: #000000;
-  --nec-muted: #222222;
-  --nec-border: #555555;
-  --nec-cyan: #0f766e;
-  --nec-cyan-dim: #0d6560;
-  --nec-pink: #86198f;
-  --nec-pink-dim: #701a75;
-  --nec-purple: #5b21b6;
-  --nec-purple-dim: #4c1d95;
-  --nec-gold: #92400e;
-  --nec-navy: #ffffff;
+/* High contrast + dark mode combo */
+[data-color-mode="dark"].a11y-high-contrast {
+  --nec-text: #ffffff;
+  --nec-muted: #e0e0e0;
+  --nec-border: #999999;
+  --nec-cyan: #7EEADB;
+  --nec-cyan-dim: #5DBAA8;
+  --nec-pink: #F0A0B8;
+  --nec-pink-dim: #D4748E;
+  --nec-purple: #E0B8DF;
+  --nec-purple-dim: #C08ABF;
+  --nec-gold: #FFD54F;
+  --nec-navy: #060E18;
+  --nec-purple-rgb: 224, 184, 223;
+  --nec-pink-rgb: 240, 160, 184;
+  --nec-cyan-rgb: 126, 234, 219;
+  --nec-gold-rgb: 255, 213, 79;
 }
-[data-color-mode="light"].a11y-high-contrast .text-gray-300,
-[data-color-mode="light"].a11y-high-contrast .text-gray-400,
-[data-color-mode="light"].a11y-high-contrast .text-gray-500 {
-  color: #111111 !important;
+[data-color-mode="dark"].a11y-high-contrast .text-gray-300,
+[data-color-mode="dark"].a11y-high-contrast .text-gray-400,
+[data-color-mode="dark"].a11y-high-contrast .text-gray-500 {
+  color: #f3f4f6 !important;
 }
-[data-color-mode="light"].a11y-high-contrast :focus-visible {
-  outline-color: #5b21b6 !important;
+[data-color-mode="dark"].a11y-high-contrast :focus-visible {
+  outline-color: var(--nec-cyan) !important;
 }
 
 /* ── Accessibility: Dyslexia Font ─────────── */
@@ -908,355 +1031,149 @@
   font-family: 'OpenDyslexic', sans-serif !important;
 }
 
-/* ── Accessibility: Light Mode ────────────── */
-[data-color-mode="light"] {
-  color-scheme: light;
-  --nec-navy: #f8f5ff;
-  --nec-dark: #ede8f5;
-  --nec-card: #ffffff;
-  --nec-text: #1a1030;
-  --nec-muted: #554466;
-  --nec-border: #d0c4e0;
-  --nec-cyan: #0f766e;
-  --nec-cyan-dim: #0d6560;
-  --nec-pink: #9333ea;
-  --nec-pink-dim: #7e22ce;
-  --nec-purple: #6d28d9;
-  --nec-purple-dim: #5b21b6;
-  --nec-orange: #c45a10;
-  --nec-gold: #92400e;
-  --background: 270 30% 97%;
-  --foreground: 265 35% 13%;
-  --card: 0 0% 100%;
-  --card-foreground: 265 35% 13%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 265 35% 13%;
-  --primary: 271 81% 56%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 270 15% 92%;
-  --secondary-foreground: 265 35% 13%;
-  --muted: 270 15% 92%;
-  --muted-foreground: 270 15% 40%;
-  --accent: 173 58% 26%;
-  --accent-foreground: 0 0% 100%;
-  --border: 270 15% 82%;
-  --input: 270 15% 82%;
-  --ring: 271 81% 56%;
+/* ══════════════════════════════════════════════
+   TEXT UTILITY OVERRIDES — Light-First Defaults
+   Since parchment is the default bg, Tailwind's
+   text-white / text-gray-* need warm overrides.
+   Dark mode restores original values.
+   ══════════════════════════════════════════════ */
+
+/* text-white → warm dark brown on parchment (except inside buttons) */
+.text-white {
+  color: var(--nec-text) !important;
 }
-[data-color-mode="light"] body {
-  background-color: #f8f5ff;
-  color: #1a1030;
-  background-image: none;
+.hover\:text-white:hover {
+  color: var(--nec-text) !important;
 }
-/* Override all Tailwind text-white / text-gray-* in light mode */
-[data-color-mode="light"] .text-white {
-  color: #1a1030 !important;
+.group\/link:hover .group-hover\/link\:text-white {
+  color: var(--nec-text) !important;
 }
-[data-color-mode="light"] .hover\:text-white:hover {
-  color: #1a1030 !important;
+.group\/card:hover .group-hover\/card\:text-white {
+  color: var(--nec-text) !important;
 }
-[data-color-mode="light"] .group\/link:hover .group-hover\/link\:text-white {
-  color: #1a1030 !important;
-}
-[data-color-mode="light"] .group\/card:hover .group-hover\/card\:text-white {
-  color: #1a1030 !important;
-}
-[data-color-mode="light"] .text-gray-200,
-[data-color-mode="light"] .text-gray-300 {
-  color: #2a1840 !important;
-}
-[data-color-mode="light"] .text-gray-400 {
-  color: #554466 !important;
-}
-/* gray-500 placeholder text in light mode */
-[data-color-mode="light"] .text-gray-500 {
-  color: #4a3d5c !important;
-}
-[data-color-mode="light"] .text-gray-600 {
-  color: #554466 !important;
-}
-[data-color-mode="light"] .text-gray-700 {
-  color: #665577 !important;
-}
-/* Cards */
-[data-color-mode="light"] .nec-card {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04) !important;
-}
-[data-color-mode="light"] .nec-card:hover {
-  border-color: #6d28d9 !important;
-  box-shadow: 0 0 0 1px rgba(109,40,217,0.12), 0 4px 16px rgba(0,0,0,0.08) !important;
-}
-/* Headings */
-[data-color-mode="light"] .section-heading {
-  color: #1a1030;
-  text-shadow: none !important;
-}
-[data-color-mode="light"] h1, [data-color-mode="light"] h2,
-[data-color-mode="light"] h3, [data-color-mode="light"] h4 {
-  color: #1a1030;
-  text-shadow: none !important;
-}
-/* Badges */
-[data-color-mode="light"] .section-badge {
-  background: rgba(109,40,217,0.1);
-  color: #6d28d9;
-  border-color: rgba(109,40,217,0.3);
-}
-/* Buttons */
-[data-color-mode="light"] .btn-primary {
-  background: linear-gradient(135deg, #6d28d9 0%, #9333ea 100%) !important;
+/* Preserve white text inside buttons & on colored backgrounds */
+.btn-primary, .btn-secondary, .btn-alanon, .btn-alateen,
+.btn-primary *, .btn-secondary *, .btn-alanon *, .btn-alateen * {
   color: #fff !important;
-  box-shadow: 0 2px 8px rgba(109,40,217,0.25) !important;
 }
-[data-color-mode="light"] .btn-primary:hover {
-  background: linear-gradient(135deg, #5b21b6 0%, #7e22ce 100%) !important;
-  box-shadow: 0 4px 16px rgba(109,40,217,0.35) !important;
+.btn-ghost, .btn-ghost * { color: var(--nec-text) !important; }
+.btn-ghost:hover, .btn-ghost:hover * { color: var(--nec-purple) !important; }
+
+/* Gray text → warm brown tones */
+.text-gray-200, .text-gray-300 {
+  color: var(--nec-text) !important;
 }
-[data-color-mode="light"] .btn-secondary {
-  background: linear-gradient(135deg, #b8860b 0%, #92400e 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 2px 8px rgba(146,64,14,0.2) !important;
+.text-gray-400 {
+  color: var(--nec-muted) !important;
 }
-[data-color-mode="light"] .btn-secondary:hover {
-  background: linear-gradient(135deg, #a07710 0%, #7c3510 100%) !important;
-  box-shadow: 0 4px 16px rgba(146,64,14,0.3) !important;
+.text-gray-500 {
+  color: var(--nec-muted) !important;
 }
-[data-color-mode="light"] .btn-ghost {
-  border-color: #d0c4e0 !important;
-  color: #1a1030 !important;
+.text-gray-600 {
+  color: var(--nec-muted) !important;
 }
-[data-color-mode="light"] .btn-ghost:hover {
-  border-color: #6d28d9 !important;
-  color: #6d28d9 !important;
+.text-gray-700 {
+  color: var(--nec-muted) !important;
 }
-/* Glows — toned down for light mode */
-[data-color-mode="light"] .glow-cyan { text-shadow: none; }
-[data-color-mode="light"] .glow-pink { text-shadow: none; }
-[data-color-mode="light"] .glow-gold { text-shadow: none; }
-/* Fact pills */
-[data-color-mode="light"] .fact-pill {
-  background: rgba(109,40,217,0.04) !important;
-  border-color: #d0c4e0 !important;
+
+/* Dark mode: restore text-white and gray shades */
+[data-color-mode="dark"] .text-white {
+  color: #ffffff !important;
 }
-[data-color-mode="light"] .fact-pill-interactive:hover,
-[data-color-mode="light"] .fact-pill-interactive:focus-within {
-  border-color: rgba(109,40,217,0.40) !important;
-  box-shadow: 0 0 0 1px rgba(109,40,217,0.12), 0 4px 16px rgba(0,0,0,0.08) !important;
+[data-color-mode="dark"] .hover\:text-white:hover {
+  color: #ffffff !important;
 }
-/* Zoom link */
-[data-color-mode="light"] .zoom-link {
-  background: rgba(109,40,217,0.08) !important;
-  border-color: rgba(109,40,217,0.25) !important;
-  color: #6d28d9 !important;
+[data-color-mode="dark"] .group\/link:hover .group-hover\/link\:text-white {
+  color: #ffffff !important;
 }
-[data-color-mode="light"] .zoom-link:hover,
-[data-color-mode="light"] .zoom-link:focus-visible {
-  background: rgba(109,40,217,0.18) !important;
-  box-shadow: 0 2px 12px rgba(109,40,217,0.15) !important;
+[data-color-mode="dark"] .group\/card:hover .group-hover\/card\:text-white {
+  color: #ffffff !important;
 }
-/* Selection */
-[data-color-mode="light"] ::selection {
-  background: rgba(109,40,217,0.25);
-  color: #1a1030;
+[data-color-mode="dark"] .text-gray-200,
+[data-color-mode="dark"] .text-gray-300 {
+  color: var(--nec-text) !important;
 }
-/* Header, dropdown & drawer backgrounds */
-[data-color-mode="light"] header[role="banner"],
-[data-color-mode="light"] .nec-header {
-  background: rgba(248,245,255,0.97) !important;
-  border-bottom-color: #d0c4e0 !important;
+[data-color-mode="dark"] .text-gray-400 {
+  color: var(--nec-muted) !important;
 }
-[data-color-mode="light"] .nec-dropdown-panel {
-  background: rgba(255,255,255,0.98) !important;
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(109,40,217,0.06) !important;
-  backdrop-filter: blur(16px) !important;
+[data-color-mode="dark"] .text-gray-500 {
+  color: var(--nec-muted) !important;
 }
-[data-color-mode="light"] .nec-mobile-drawer {
-  background: #f8f5ff !important;
-  border-bottom-color: #d0c4e0 !important;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.1) !important;
-}
-/* Section badge shimmer — use darker sweep in light mode */
-[data-color-mode="light"] .section-badge-shimmer {
+
+/* ── Header & navigation — uses CSS vars now ── */
+.section-badge-shimmer {
   background-image: linear-gradient(
     110deg,
     transparent 0%,
     transparent 40%,
-    rgba(109,40,217,0.10) 50%,
+    rgba(var(--nec-purple-rgb), 0.08) 50%,
     transparent 60%,
     transparent 100%
   );
 }
-/* Footer link underline — use dark color in light mode */
-[data-color-mode="light"] .footer-link::after {
-  background: #1a1030;
+.footer-link::after {
+  background: var(--nec-text);
 }
-/* Card lift shadow in light mode */
-[data-color-mode="light"] .nec-card-lift:hover {
-  box-shadow: 0 6px 24px rgba(0,0,0,0.10), 0 0 0 1px rgba(109,40,217,0.08) !important;
+footer {
+  background: linear-gradient(180deg, var(--nec-dark) 0%, var(--nec-navy) 100%) !important;
 }
-[data-color-mode="light"] footer {
-  background: linear-gradient(180deg, #ede8f5 0%, #e0dae8 100%) !important;
-}
-[data-color-mode="light"] footer .border-t {
-  border-color: #d0c4e0 !important;
-}
-/* Focus ring for light mode — use darker purple */
-[data-color-mode="light"] :focus-visible {
-  outline-color: #6d28d9;
-}
-/* Mad Realm art layer — light mode: reduce opacity further */
-[data-color-mode="light"] .mad-realm-particles {
+
+/* ── Mad Realm art layers — default is light ── */
+.mad-realm-particles {
   opacity: 0.5;
 }
-[data-color-mode="light"] #mad-realm-maze rect,
-[data-color-mode="light"] #mad-realm-maze line,
-[data-color-mode="light"] #mad-realm-maze circle,
-[data-color-mode="light"] #mad-realm-maze polygon {
+#mad-realm-maze rect,
+#mad-realm-maze line,
+#mad-realm-maze circle,
+#mad-realm-maze polygon {
   opacity: 0.015 !important;
 }
-/* Mad Realm art layer — high contrast: hide particles, keep maze very faint */
+[data-color-mode="dark"] .mad-realm-particles {
+  opacity: 1;
+}
+[data-color-mode="dark"] #mad-realm-maze rect,
+[data-color-mode="dark"] #mad-realm-maze line,
+[data-color-mode="dark"] #mad-realm-maze circle,
+[data-color-mode="dark"] #mad-realm-maze polygon {
+  opacity: 0.04 !important;
+}
 .a11y-high-contrast .mad-realm-particles {
   display: none !important;
 }
-/* Mad Realm ornate divider — light mode & high contrast */
-[data-color-mode="light"] .mad-realm-divider-line {
+.mad-realm-divider-line {
   opacity: 0.4 !important;
+}
+[data-color-mode="dark"] .mad-realm-divider-line {
+  opacity: 0.7 !important;
 }
 .a11y-high-contrast .mad-realm-divider-line {
   opacity: 0.6 !important;
 }
 
-/* Backgrounds using rgba white overlays */
-[data-color-mode="light"] .bg-black\/60,
-[data-color-mode="light"] .bg-black\/90 {
-  background-color: rgba(0,0,0,0.4) !important;
+/* ── Hover states using bg opacity ─────────── */
+.hover\:bg-white\/5:hover {
+  background-color: rgba(0,0,0,0.04) !important;
 }
-/* Hover states using white opacity */
-[data-color-mode="light"] .hover\:bg-white\/5:hover {
-  background-color: rgba(0,0,0,0.05) !important;
+.hover\:bg-white\/\[0\.03\]:hover {
+  background-color: rgba(0,0,0,0.02) !important;
 }
-[data-color-mode="light"] .hover\:bg-white\/\[0\.03\]:hover {
-  background-color: rgba(0,0,0,0.03) !important;
+[data-color-mode="dark"] .hover\:bg-white\/5:hover {
+  background-color: rgba(255,255,255,0.05) !important;
 }
-/* Meeting cards (mobile) */
-[data-color-mode="light"] .nec-meeting-card {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04) !important;
+[data-color-mode="dark"] .hover\:bg-white\/\[0\.03\]:hover {
+  background-color: rgba(255,255,255,0.03) !important;
 }
-/* Meetings table (desktop) */
-[data-color-mode="light"] .nec-meetings-table {
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-meetings-thead {
-  background: linear-gradient(135deg, #ede8f5 0%, #e0dae8 100%) !important;
-  border-bottom-color: #d0c4e0 !important;
-}
-/* Event preview cards */
-[data-color-mode="light"] .nec-event-card {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-}
-/* YPAA narrative explainer card */
-[data-color-mode="light"] .nec-narrative-card {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-  backdrop-filter: none !important;
-}
-/* Al-Anon accordion items */
-[data-color-mode="light"] .nec-alanon-item {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: rgba(0,147,208,0.18) !important;
-}
-/* Al-Anon logo backdrop — light mode */
-[data-color-mode="light"] .alanon-logo-backdrop {
-  background: linear-gradient(135deg, #edf6fc 0%, #f8fbff 50%, #e8f4fa 100%) !important;
-  border-color: rgba(0,147,208,0.25) !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-}
-/* Al-Anon badge — light mode */
-[data-color-mode="light"] .section-badge-alanon {
-  background: rgba(0,147,208,0.08) !important;
-  border-color: rgba(0,147,208,0.30) !important;
-  color: var(--alanon-blue-dim) !important;
-}
-/* Al-Anon cards — light mode */
-[data-color-mode="light"] .nec-alanon-card {
-  background: rgba(0,147,208,0.03) !important;
-  border-color: rgba(0,147,208,0.15) !important;
-}
-/* Al-Anon CTA button — light mode */
-[data-color-mode="light"] .btn-alanon {
-  background: linear-gradient(135deg, var(--alanon-blue) 0%, var(--alanon-blue-dim) 100%) !important;
-}
-/* Al-Anon state grid cards — light mode */
-[data-color-mode="light"] .nec-alanon-state-card {
-  background: rgba(255,255,255,0.88) !important;
-  border-color: rgba(0,147,208,0.15) !important;
-}
-[data-color-mode="light"] .nec-alateen-state-card {
-  background: rgba(255,255,255,0.88) !important;
-  border-color: rgba(180,140,210,0.18) !important;
-}
-/* Al-Anon quiz banner — light mode */
-[data-color-mode="light"] .nec-alanon-quiz {
-  background: linear-gradient(135deg, rgba(0,147,208,0.08) 0%, rgba(0,123,181,0.04) 100%) !important;
-  border-color: rgba(0,147,208,0.20) !important;
-}
-[data-color-mode="light"] .nec-alanon-quiz p { color: #1a1030 !important; }
-[data-color-mode="light"] .nec-alanon-quiz .text-2xl,
-[data-color-mode="light"] .nec-alanon-quiz .text-3xl { color: var(--alanon-blue-dim) !important; text-shadow: none !important; }
-/* Al-Anon meeting finder — light mode */
-[data-color-mode="light"] .nec-alanon-finder {
-  background: rgba(0,147,208,0.04) !important;
-  border-color: rgba(0,147,208,0.15) !important;
-}
-[data-color-mode="light"] .nec-alanon-finder h2 { color: var(--alanon-blue-dim) !important; text-shadow: none !important; }
-/* Al-Anon program teaser — light mode */
-[data-color-mode="light"] .nec-alanon-program {
-  background: linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(255,255,255,0.6) 50%, rgba(0,147,208,0.03) 100%) !important;
-  border-color: rgba(124,58,237,0.12) !important;
-}
-[data-color-mode="light"] .nec-alanon-program h2 { color: #1a1030 !important; text-shadow: none !important; }
-/* Alateen paperwork — light mode */
-[data-color-mode="light"] .nec-alateen-paperwork {
-  background: rgba(255,255,255,0.80) !important;
-  border-color: rgba(180,140,210,0.20) !important;
-}
-[data-color-mode="light"] .nec-alateen-paperwork h2 { color: #1a1030 !important; text-shadow: none !important; }
-/* Alateen quiz banner — light mode */
-[data-color-mode="light"] .nec-alateen-quiz {
-  background: linear-gradient(135deg, rgba(180,140,210,0.10) 0%, rgba(164,120,192,0.05) 100%) !important;
-  border-color: rgba(180,140,210,0.25) !important;
-}
-[data-color-mode="light"] .nec-alateen-quiz p { color: #1a1030 !important; }
-[data-color-mode="light"] .nec-alateen-quiz .text-2xl,
-[data-color-mode="light"] .nec-alateen-quiz .text-xl { color: #7a5a8e !important; text-shadow: none !important; }
-/* Alateen CTA button — light mode */
-[data-color-mode="light"] .btn-alateen {
-  background: linear-gradient(135deg, #a478ba 0%, #8e5ca0 100%) !important;
-}
-/* Al-Anon logo adaptive rendering — fixes visibility in light mode */
-[data-color-mode="light"] .alanon-logo {
-  content: url('/images/Al-anon-eng-logo.svg'); /* Black text for light backgrounds */
-}
-
-[data-color-mode="dark"] .alanon-logo {
-  content: url('/images/Al-anon-eng-logo-dark.svg'); /* White text for dark backgrounds */
-}
-
-/* High contrast mode — ensure logo has sufficient contrast */
-.a11y-high-contrast[data-color-mode="light"] .alanon-logo {
+/* ── Al-Anon / Alateen — light-first defaults ── */
+/* Al-Anon logo: light bg default (black text), dark mode override */
+.alanon-logo {
   content: url('/images/Al-anon-eng-logo.svg');
+}
+[data-color-mode="dark"] .alanon-logo {
+  content: url('/images/Al-anon-eng-logo-dark.svg');
+}
+.a11y-high-contrast .alanon-logo {
   filter: contrast(1.2);
 }
-
 .a11y-high-contrast[data-color-mode="dark"] .alanon-logo {
   content: url('/images/Al-anon-eng-logo-dark.svg');
   filter: contrast(1.2);
@@ -1285,26 +1202,7 @@
 .a11y-high-contrast .btn-alateen {
   border: 2px solid #fff !important;
 }
-/* Meeting directory cards — light mode */
-[data-color-mode="light"] .nec-meeting-dir-card {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-meeting-dir-card h3 {
-  color: #1a1030 !important;
-}
-/* Meeting directory container — light mode */
-[data-color-mode="light"] .nec-meeting-directory {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: #d0c4e0 !important;
-}
-[data-color-mode="light"] .nec-meeting-directory select,
-[data-color-mode="light"] .nec-meeting-directory input {
-  background: rgba(255,255,255,0.95) !important;
-  border-color: #d0c4e0 !important;
-  color: #1a1030 !important;
-}
+/* Meeting directory — light-first defaults (no overrides needed) */
 /* High contrast — meeting directory */
 .a11y-high-contrast .nec-meeting-dir-card {
   border-width: 2px !important;
@@ -1324,88 +1222,28 @@
 .a11y-reduce-motion .nec-meeting-dir-card:hover { box-shadow: none !important; }
 .a11y-reduce-motion .nec-meeting-badge { transition: none !important; }
 
-/* Mobile CTA bar */
-[data-color-mode="light"] .sticky-cta-bar {
-  background: rgba(248,245,255,0.98) !important;
-  border-top-color: #d0c4e0 !important;
-  box-shadow: 0 -2px 12px rgba(0,0,0,0.08) !important;
-}
-/* Form inputs with hardcoded dark backgrounds */
-[data-color-mode="light"] .bg-\[rgba\(15\,10\,30\,0\.8\)\] {
-  background-color: rgba(255,255,255,0.9) !important;
-  color: #1a1030 !important;
-}
-[data-color-mode="light"] .bg-\[rgba\(26\,16\,48\,0\.6\)\] {
-  background-color: rgba(255,255,255,0.85) !important;
-}
-[data-color-mode="light"] .bg-\[rgba\(26\,16\,48\,0\.9\)\] {
-  background-color: rgba(255,255,255,0.92) !important;
-}
-[data-color-mode="light"] .bg-\[rgba\(45\,31\,78\,0\.6\)\] {
-  background-color: rgba(109,40,217,0.08) !important;
-}
-[data-color-mode="light"] .bg-\[rgba\(45\,31\,78\,0\.8\)\] {
-  background-color: rgba(109,40,217,0.15) !important;
-}
-/* Callout cards (purpose section first-timer, etc.) */
-[data-color-mode="light"] .nec-callout-card {
-  background: rgba(255,255,255,0.88) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-  backdrop-filter: none !important;
-}
-/* CTA cards (register, hotel) */
-[data-color-mode="light"] .nec-cta-card {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-  backdrop-filter: none !important;
-}
-/* FAQ accordion items */
-[data-color-mode="light"] .nec-faq-item {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: #d0c4e0 !important;
-}
-/* Content warning component (--nec-bg-alt fallback) */
-[data-color-mode="light"] .content-warning {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: #d0c4e0 !important;
-}
-/* Breakfast option cards/buttons */
-[data-color-mode="light"] .nec-breakfast-option {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: #d0c4e0 !important;
-}
-[data-color-mode="light"] .nec-breakfast-option[aria-pressed="true"] {
-  background: rgba(249,115,22,0.06) !important;
-  border-color: rgba(249,115,22,0.4) !important;
-}
-/* Info/help cards */
-[data-color-mode="light"] .nec-info-card {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important;
-}
+/* Light mode overrides removed for: sticky-cta-bar, form inputs,
+   callout cards, CTA cards, FAQ items, content warnings, breakfast options,
+   info cards. Light IS the default — base styles use CSS variables. */
 .a11y-high-contrast .nec-cta-card-purple,
 .a11y-high-contrast .nec-cta-card-gold,
 .a11y-high-contrast .nec-info-card {
   border-width: 2px !important;
   border-color: #999 !important;
 }
-/* Mobile nav border divider */
-[data-color-mode="light"] .border-gray-700\/50 {
-  border-color: #d0c4e0 !important;
+/* Mobile nav border divider — uses CSS variables now */
+.border-gray-700\/50 {
+  border-color: var(--nec-border) !important;
+}
+[data-color-mode="dark"] .border-gray-700\/50 {
+  border-color: rgba(255,255,255,0.15) !important;
 }
 
 /* ── Share Menu ──────────────────────────────── */
 .share-sheet-enter { transition: transform 0.2s ease, opacity 0.2s ease; }
 .a11y-reduce-motion .share-sheet-enter { transition: none !important; }
 
-[data-color-mode="light"] .nec-share-sheet {
-  background: rgba(255,255,255,0.98) !important;
-  border-color: #d0c4e0 !important;
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.12) !important;
-}
+/* Share sheet — light-first default (no override needed) */
 .a11y-high-contrast .nec-share-sheet {
   border-width: 2px !important;
   border-color: #999 !important;
@@ -1423,7 +1261,7 @@
   position: absolute;
   inset: -2px;
   border-radius: inherit;
-  background: linear-gradient(135deg, var(--nec-purple) 0%, var(--nec-pink) 50%, var(--nec-gold) 100%);
+  background: var(--nec-purple);
   opacity: 0;
   z-index: -1;
   transition: opacity 0.4s ease;
@@ -1431,7 +1269,7 @@
 }
 .btn-primary:hover::before,
 .btn-primary:focus-visible::before {
-  opacity: 0.35;
+  opacity: 0.15;
 }
 
 .btn-secondary {
@@ -1443,7 +1281,7 @@
   position: absolute;
   inset: -2px;
   border-radius: inherit;
-  background: linear-gradient(135deg, var(--nec-gold) 0%, #92400e 100%);
+  background: var(--nec-gold);
   opacity: 0;
   z-index: -1;
   transition: opacity 0.4s ease;
@@ -1451,23 +1289,23 @@
 }
 .btn-secondary:hover::before,
 .btn-secondary:focus-visible::before {
-  opacity: 0.30;
+  opacity: 0.15;
 }
 
-/* Hero price badge — subtle inner glow pulse */
+/* Hero price badge — subtle warm hover */
 .hero-price-badge {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .hero-price-badge:hover {
-  border-color: rgba(124,58,237,0.50);
-  box-shadow: 0 4px 32px rgba(124,58,237,0.15), 0 4px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.08);
+  border-color: rgba(var(--nec-purple-rgb), 0.30);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* Section dividers — organic gradient line with steampunk warmth */
+/* Section dividers — organic gradient line with warmth */
 .nec-divider-organic {
   height: 1px;
   border: none;
-  background: linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb), 0.20) 20%, rgba(var(--nec-pink-rgb), 0.15) 50%, rgba(var(--nec-gold-rgb), 0.20) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--nec-purple-rgb), 0.15) 20%, rgba(var(--nec-gold-rgb), 0.12) 50%, rgba(var(--nec-cyan-rgb), 0.15) 80%, transparent 100%);
 }
 
 /* Fact pill spotlight interaction enhancement */
@@ -1494,7 +1332,8 @@
 /* ── Grain overlay a11y overrides ──────────────── */
 .a11y-reduce-motion #mad-realm-grain { display: none !important; }
 .a11y-high-contrast [filter="url(#mad-realm-grain)"] { display: none !important; }
-[data-color-mode="light"] .fixed[aria-hidden="true"]:has(#mad-realm-grain) { opacity: 0.015 !important; }
+.fixed[aria-hidden="true"]:has(#mad-realm-grain) { opacity: 0.015 !important; }
+[data-color-mode="dark"] .fixed[aria-hidden="true"]:has(#mad-realm-grain) { opacity: 0.04 !important; }
 
 /* ── Aurora background a11y overrides ──────────── */
 .a11y-reduce-motion .aurora-blob { animation: none !important; }
@@ -1507,25 +1346,7 @@
 /* ── Tilt card a11y overrides ──────────────────── */
 .a11y-reduce-motion [style*="perspective"] { transform: none !important; }
 
-/* ── Light mode overrides for new components ───── */
-[data-color-mode="light"] .hero-price-badge {
-  background: linear-gradient(135deg, rgba(109,40,217,0.08) 0%, rgba(192,38,211,0.04) 100%) !important;
-  border-color: rgba(109,40,217,0.25) !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5) !important;
-}
-[data-color-mode="light"] .hero-price-badge:hover {
-  border-color: rgba(109,40,217,0.40) !important;
-  box-shadow: 0 4px 24px rgba(109,40,217,0.12), inset 0 1px 0 rgba(255,255,255,0.6) !important;
-}
-[data-color-mode="light"] .btn-primary::before {
-  background: linear-gradient(135deg, #6d28d9 0%, #9333ea 50%, #d4a017 100%);
-}
-[data-color-mode="light"] .btn-secondary::before {
-  background: linear-gradient(135deg, #d4a017 0%, #92400e 100%);
-}
-[data-color-mode="light"] .nec-divider-organic {
-  background: linear-gradient(90deg, transparent 0%, rgba(109,40,217,0.15) 20%, rgba(192,38,211,0.10) 50%, rgba(109,40,217,0.15) 80%, transparent 100%);
-}
+/* Light mode is default — no overrides needed for hero-price-badge, buttons, dividers */
 
 /* ── High contrast overrides for new components ── */
 .a11y-high-contrast .hero-price-badge {
@@ -1546,215 +1367,132 @@
 
 /* ── Registration content card (main form wrapper) ── */
 .nec-reg-card {
-  background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+  background: var(--nec-card);
   border: 1px solid var(--nec-border);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
-  @apply rounded-2xl backdrop-blur-sm;
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
 }
 
 /* ── Registration accent card (hotel CTA, cross-sell) — purple accent ── */
 .nec-reg-accent-purple {
-  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 100%);
-  border: 1px solid rgba(124,58,237,0.18);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
-  @apply rounded-2xl backdrop-blur-sm;
+  background: rgba(var(--nec-purple-rgb), 0.04);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.18);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
 }
 
 /* ── Registration accent card — orange accent (breakfast cross-sell) ── */
 .nec-reg-accent-orange {
-  background: linear-gradient(135deg, rgba(234,88,12,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(212,160,23,0.05) 100%);
-  border: 1px solid rgba(234,88,12,0.20);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
-  @apply rounded-2xl backdrop-blur-sm;
+  background: rgba(var(--nec-orange), 0.04);
+  border: 1px solid rgba(234,88,12,0.18);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
 }
 
 /* ── Success page hero card — purple variant ── */
 .nec-success-card-purple {
-  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(192,38,211,0.05) 100%);
-  border: 1px solid rgba(124,58,237,0.20);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
-  @apply rounded-2xl backdrop-blur-sm;
+  background: rgba(var(--nec-purple-rgb), 0.04);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.20);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
 }
 
 /* ── Success page hero card — orange variant (breakfast) ── */
 .nec-success-card-orange {
-  background: linear-gradient(135deg, rgba(249,115,22,0.08) 0%, rgba(26,16,48,0.7) 50%, rgba(234,179,8,0.05) 100%);
-  border: 1px solid rgba(249,115,22,0.20);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
-  @apply rounded-2xl backdrop-blur-sm;
+  background: rgba(249,115,22,0.04);
+  border: 1px solid rgba(249,115,22,0.18);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
 }
 
 /* ── Success icon ring — purple ── */
 .nec-success-icon-purple {
-  background: rgba(124,58,237,0.10);
-  border: 2px solid rgba(124,58,237,0.35);
-  box-shadow: 0 0 24px rgba(124,58,237,0.15), 0 4px 16px rgba(0,0,0,0.3);
+  background: rgba(var(--nec-purple-rgb), 0.08);
+  border: 2px solid rgba(var(--nec-purple-rgb), 0.25);
+  box-shadow: var(--shadow-glow-purple);
 }
 
 /* ── Success icon ring — orange ── */
 .nec-success-icon-orange {
-  background: rgba(249,115,22,0.10);
-  border: 2px solid rgba(249,115,22,0.35);
-  box-shadow: 0 0 24px rgba(249,115,22,0.15), 0 4px 16px rgba(0,0,0,0.3);
+  background: rgba(249,115,22,0.08);
+  border: 2px solid rgba(249,115,22,0.25);
+  box-shadow: 0 2px 16px rgba(249,115,22,0.10);
 }
 
 /* ── Help/info card (small, bottom of success pages) ── */
 .nec-reg-help-card {
-  background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+  background: var(--nec-card);
   border: 1px solid var(--nec-border);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-card);
 }
 
 /* ── Step number badge — purple (reg success) ── */
 .nec-step-badge-purple {
-  background: rgba(124,58,237,0.12);
+  background: rgba(var(--nec-purple-rgb), 0.08);
   color: var(--nec-purple);
-  border: 1px solid rgba(124,58,237,0.25);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.20);
+  box-shadow: var(--shadow-card);
 }
 
 /* ── Step number badge — orange (breakfast success) ── */
 .nec-step-badge-orange {
-  background: rgba(249,115,22,0.12);
+  background: rgba(249,115,22,0.08);
   color: var(--nec-orange);
-  border: 1px solid rgba(249,115,22,0.25);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  border: 1px solid rgba(249,115,22,0.18);
+  box-shadow: var(--shadow-card);
 }
 
 /* ── Step indicator bubble — active ── */
 .nec-step-active {
   background: var(--nec-pink);
   color: white;
-  border: 1px solid rgba(192,38,211,0.5);
-  box-shadow: 0 0 12px rgba(192,38,211,0.2);
+  border: 1px solid rgba(var(--nec-pink-rgb), 0.4);
+  box-shadow: 0 0 8px rgba(var(--nec-pink-rgb), 0.15);
 }
 
 /* ── Step indicator bubble — inactive ── */
 .nec-step-inactive {
-  background: rgba(45,31,78,0.8);
+  background: rgba(var(--nec-purple-rgb), 0.06);
   color: var(--nec-muted);
   border: 1px solid var(--nec-border);
 }
 
 /* ── Breakfast info box ── */
 .nec-breakfast-info {
-  background: rgba(26,16,48,0.7);
+  background: var(--nec-card);
   border: 1px solid var(--nec-border);
   color: var(--nec-muted);
 }
 
-/* ── Stripe embed wrapper — smooth transition from dark to white ── */
+/* ── Stripe embed wrapper ── */
 .nec-stripe-embed {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.95) 12%, #fff 20%);
+  background: #fff;
   border: 1px solid var(--nec-border);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-card);
   @apply rounded-xl overflow-hidden;
 }
 
 /* ── Registration sub-card (summary, scholarship, add-ons) ── */
 .nec-reg-subcard {
-  background: rgba(26,16,48,0.6);
+  background: rgba(var(--nec-dark-rgb), 0.4);
   border: 1px solid var(--nec-border);
 }
 
 /* ── Registration accent bar (top of success pages) ── */
 .nec-accent-bar {
-  box-shadow: 0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15);
+  box-shadow: 0 0 8px rgba(var(--nec-purple-rgb), 0.15);
 }
 
 /* ── Registration page heading text-shadow ── */
 .nec-heading-shadow {
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-shadow: var(--shadow-text);
 }
 .nec-heading-shadow-sm {
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 3px rgba(44, 24, 16, 0.10);
 }
 
-/* ══════════════════════════════════════════════
-   REGISTRATION — Light Mode Overrides
-   ══════════════════════════════════════════════ */
-[data-color-mode="light"] .nec-reg-card {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: var(--nec-border) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5) !important;
-}
-[data-color-mode="light"] .nec-reg-accent-purple {
-  background: linear-gradient(135deg, rgba(109,40,217,0.06) 0%, rgba(255,255,255,0.85) 100%) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-reg-accent-orange {
-  background: linear-gradient(135deg, rgba(234,88,12,0.06) 0%, rgba(255,255,255,0.85) 50%, rgba(212,160,23,0.04) 100%) !important;
-  border-color: rgba(234,88,12,0.18) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-success-card-purple {
-  background: linear-gradient(135deg, rgba(109,40,217,0.06) 0%, rgba(255,255,255,0.90) 50%, rgba(147,51,234,0.04) 100%) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
-}
-[data-color-mode="light"] .nec-success-card-orange {
-  background: linear-gradient(135deg, rgba(249,115,22,0.06) 0%, rgba(255,255,255,0.90) 50%, rgba(234,179,8,0.04) 100%) !important;
-  border-color: rgba(249,115,22,0.18) !important;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
-}
-[data-color-mode="light"] .nec-success-icon-purple {
-  background: rgba(109,40,217,0.08) !important;
-  border-color: rgba(109,40,217,0.25) !important;
-  box-shadow: 0 2px 12px rgba(109,40,217,0.10) !important;
-}
-[data-color-mode="light"] .nec-success-icon-orange {
-  background: rgba(249,115,22,0.08) !important;
-  border-color: rgba(249,115,22,0.25) !important;
-  box-shadow: 0 2px 12px rgba(249,115,22,0.10) !important;
-}
-[data-color-mode="light"] .nec-reg-help-card {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: var(--nec-border) !important;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-step-badge-purple {
-  background: rgba(109,40,217,0.08) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-step-badge-orange {
-  background: rgba(249,115,22,0.08) !important;
-  border-color: rgba(249,115,22,0.18) !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
-}
-[data-color-mode="light"] .nec-step-active {
-  background: var(--nec-pink) !important;
-  color: white !important;
-  border-color: rgba(147,51,234,0.4) !important;
-  box-shadow: 0 0 8px rgba(147,51,234,0.15) !important;
-}
-[data-color-mode="light"] .nec-step-inactive {
-  background: rgba(109,40,217,0.06) !important;
-  color: var(--nec-muted) !important;
-  border-color: var(--nec-border) !important;
-}
-[data-color-mode="light"] .nec-breakfast-info {
-  background: rgba(255,255,255,0.88) !important;
-  border-color: var(--nec-border) !important;
-  color: var(--nec-muted) !important;
-}
-[data-color-mode="light"] .nec-stripe-embed {
-  background: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(255,255,255,0.98) 8%, #fff 16%) !important;
-  border-color: var(--nec-border) !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
-}
-[data-color-mode="light"] .nec-reg-subcard {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: var(--nec-border) !important;
-}
-[data-color-mode="light"] .nec-accent-bar {
-  box-shadow: 0 0 8px rgba(109,40,217,0.15), 0 0 16px rgba(147,51,234,0.08) !important;
-}
-[data-color-mode="light"] .nec-heading-shadow,
-[data-color-mode="light"] .nec-heading-shadow-sm {
-  text-shadow: none !important;
-}
+/* Registration light mode overrides removed — light IS the default now.
+   Base styles above already use CSS variables that resolve correctly. */
 
 /* ══════════════════════════════════════════════
    REGISTRATION — High Contrast Overrides
@@ -1813,124 +1551,76 @@
 
 /* ── Featured / highlighted card (events, service MAL) ── */
 .nec-featured-card {
-  background: linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.9) 50%, rgba(26,16,48,0.85) 100%);
-  border: 1px solid rgba(124,58,237,0.15);
+  background: var(--nec-card);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.15);
 }
 
 /* ── Icon badge (small icon container) ── */
 .nec-icon-badge {
-  background: rgba(124,58,237,0.12);
-  border: 1px solid rgba(124,58,237,0.25);
+  background: rgba(var(--nec-purple-rgb), 0.08);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.18);
 }
 .nec-icon-badge-pink {
-  background: rgba(192,38,211,0.12);
-  border: 1px solid rgba(192,38,211,0.25);
+  background: rgba(var(--nec-pink-rgb), 0.08);
+  border: 1px solid rgba(var(--nec-pink-rgb), 0.18);
 }
 .nec-icon-badge-gold {
-  background: rgba(234,179,8,0.12);
-  border: 1px solid rgba(234,179,8,0.25);
+  background: rgba(var(--nec-gold-rgb), 0.08);
+  border: 1px solid rgba(var(--nec-gold-rgb), 0.18);
 }
 
 /* ── Schedule / info pill ── */
 .nec-pill {
-  background: rgba(124,58,237,0.10);
-  border: 1px solid rgba(124,58,237,0.25);
+  background: rgba(var(--nec-purple-rgb), 0.06);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.15);
 }
 .nec-pill-subtle {
-  background: rgba(124,58,237,0.06);
-  border: 1px solid rgba(124,58,237,0.12);
+  background: rgba(var(--nec-purple-rgb), 0.04);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.10);
 }
 .nec-pill-pink {
-  background: rgba(192,38,211,0.06);
-  border: 1px solid rgba(192,38,211,0.15);
+  background: rgba(var(--nec-pink-rgb), 0.04);
+  border: 1px solid rgba(var(--nec-pink-rgb), 0.10);
 }
 
 /* ── Ghost CTA with accent glow ── */
 .nec-cta-accent {
-  background: rgba(124,58,237,0.12);
-  border: 1px solid rgba(124,58,237,0.30);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04);
+  background: rgba(var(--nec-purple-rgb), 0.08);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.22);
+  box-shadow: var(--shadow-card);
 }
 
 /* ── Gradient card (accommodation, callout) ── */
 .nec-gradient-card {
-  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.7) 100%);
-  border: 1px solid rgba(124,58,237,0.18);
+  background: rgba(var(--nec-purple-rgb), 0.03);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.15);
 }
 
 /* ── Muted statement card ── */
 .nec-statement-card {
-  background: rgba(26,16,48,0.4);
+  background: rgba(var(--nec-dark-rgb), 0.3);
   border: 1px solid var(--nec-border);
 }
 
 /* ── Error page icon ring ── */
 .nec-error-icon {
-  background: rgba(124,58,237,0.15);
-  border: 2px solid rgba(124,58,237,0.4);
+  background: rgba(var(--nec-purple-rgb), 0.08);
+  border: 2px solid rgba(var(--nec-purple-rgb), 0.25);
 }
 
-/* ── Section label glow ── */
+/* ── Section label emphasis ── */
 .nec-section-label {
-  text-shadow: 0 0 16px rgba(124,58,237,0.2);
+  color: var(--nec-purple);
 }
 
-/* ── Decorative glow blobs (for light mode suppression) ── */
+/* ── Decorative glow blobs ── */
 .nec-glow-blob {
   pointer-events: none;
+  opacity: 0.03;
 }
 
-/* ══════════════════════════════════════════════
-   SITE-WIDE — Light Mode Overrides
-   ══════════════════════════════════════════════ */
-[data-color-mode="light"] .nec-featured-card {
-  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,245,255,0.98) 50%, rgba(255,255,255,0.95) 100%) !important;
-  border-color: rgba(124,58,237,0.2) !important;
-}
-[data-color-mode="light"] .nec-icon-badge {
-  background: rgba(124,58,237,0.08) !important;
-  border-color: rgba(124,58,237,0.18) !important;
-}
-[data-color-mode="light"] .nec-icon-badge-pink {
-  background: rgba(192,38,211,0.08) !important;
-  border-color: rgba(192,38,211,0.18) !important;
-}
-[data-color-mode="light"] .nec-icon-badge-gold {
-  background: rgba(234,179,8,0.08) !important;
-  border-color: rgba(234,179,8,0.18) !important;
-}
-[data-color-mode="light"] .nec-pill,
-[data-color-mode="light"] .nec-pill-subtle {
-  background: rgba(124,58,237,0.06) !important;
-  border-color: rgba(124,58,237,0.15) !important;
-}
-[data-color-mode="light"] .nec-pill-pink {
-  background: rgba(192,38,211,0.04) !important;
-  border-color: rgba(192,38,211,0.10) !important;
-}
-[data-color-mode="light"] .nec-cta-accent {
-  background: rgba(124,58,237,0.08) !important;
-  border-color: rgba(124,58,237,0.22) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
-}
-[data-color-mode="light"] .nec-gradient-card {
-  background: linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(248,245,255,0.95) 100%) !important;
-  border-color: rgba(124,58,237,0.15) !important;
-}
-[data-color-mode="light"] .nec-statement-card {
-  background: rgba(248,245,255,0.8) !important;
-  border-color: var(--nec-border) !important;
-}
-[data-color-mode="light"] .nec-error-icon {
-  background: rgba(124,58,237,0.08) !important;
-  border-color: rgba(124,58,237,0.25) !important;
-}
-[data-color-mode="light"] .nec-section-label {
-  text-shadow: none !important;
-}
-[data-color-mode="light"] .nec-glow-blob {
-  opacity: 0.03 !important;
-}
+/* Site-wide light mode overrides removed — light IS the default now.
+   Base styles above already use CSS variables that resolve correctly. */
 
 /* ══════════════════════════════════════════════
    SITE-WIDE — High Contrast Overrides

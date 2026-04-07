@@ -432,7 +432,7 @@ export default function NecypaaRegionMap({
           aria-hidden="true"
         >
           Selected:{" "}
-          <span className="text-white">{activeStateName}</span>
+          <span className="text-[var(--nec-text)]">{activeStateName}</span>
         </div>
       )}
     </div>

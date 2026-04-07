@@ -262,9 +262,9 @@ export default function YpaaNarrativeSection() {
           <div
             className="absolute inset-0 rounded-[inherit]"
             style={{
-              background: "linear-gradient(135deg, rgba(26,16,48,0.85) 0%, rgba(15,10,30,0.95) 100%)",
-              border: "1px solid rgba(124,58,237,0.25)",
-              boxShadow: "0 4px 40px rgba(0,0,0,0.4), 0 0 80px rgba(124,58,237,0.06)",
+              background: "var(--nec-card)",
+              border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
+              boxShadow: "var(--shadow-card),0 0 80px rgba(var(--nec-purple-rgb),0.04)",
               borderRadius: "inherit",
             }}
           />
@@ -406,7 +406,7 @@ export default function YpaaNarrativeSection() {
         {/* Section header */}
         <div className="text-center mb-12">
           <h2
-            className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight text-white"
+            className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight text-[var(--nec-text)]"
             style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
           >
             A YPAA Convention goes{" "}

@@ -131,7 +131,7 @@ export default function AlAnonPage() {
                     aria-hidden="true"
                   />
                   <p
-                    className="text-lg sm:text-xl md:text-2xl font-black text-white mb-2"
+                    className="text-lg sm:text-xl md:text-2xl font-black text-[var(--nec-text)] mb-2"
                     style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
                   >
                     Is Al-Anon for Me?
@@ -163,7 +163,7 @@ export default function AlAnonPage() {
                     aria-hidden="true"
                   />
                   <p
-                    className="text-lg sm:text-xl md:text-2xl font-black text-white mb-2"
+                    className="text-lg sm:text-xl md:text-2xl font-black text-[var(--nec-text)] mb-2"
                     style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
                   >
                     Is Alateen for Me?
@@ -182,7 +182,7 @@ export default function AlAnonPage() {
             <section
               className="nec-alanon-program rounded-xl p-6 md:p-8 mb-10"
               style={{
-                background: "linear-gradient(135deg, rgba(124,58,237,0.06) 0%, rgba(15,10,30,0.5) 50%, rgba(0,147,208,0.04) 100%)",
+                background: "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.04) 0%, rgba(var(--nec-card-rgb),0.5) 50%, rgba(0,147,208,0.04) 100%)",
                 border: "1px solid rgba(124,58,237,0.15)",
               }}
               aria-label="Al-Anon and Alateen at NECYPAA XXXVI"
@@ -190,7 +190,7 @@ export default function AlAnonPage() {
               <div className="text-center space-y-4">
                 <Sparkles className="w-8 h-8 mx-auto" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
                 <h2
-                  className="text-xl md:text-2xl font-black text-white"
+                  className="text-xl md:text-2xl font-black text-[var(--nec-text)]"
                   style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
                 >
                   Al-Anon & Alateen at NECYPAA XXXVI
@@ -225,14 +225,14 @@ export default function AlAnonPage() {
             <section
               className="nec-alateen-paperwork rounded-xl p-6 md:p-8 mb-10 text-center"
               style={{
-                background: "rgba(15,10,30,0.45)",
+                background: "rgba(var(--nec-card-rgb),0.45)",
                 border: "1px dashed rgba(180,140,210,0.25)",
               }}
               aria-label="Alateen paperwork information"
             >
               <FileText className="w-8 h-8 mx-auto mb-3" style={{ color: "#c4a5d6" }} aria-hidden="true" />
               <h2
-                className="text-lg font-bold text-white mb-2"
+                className="text-lg font-bold text-[var(--nec-text)] mb-2"
                 style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}
               >
                 Alateen Paperwork
@@ -247,11 +247,11 @@ export default function AlAnonPage() {
             <section
               className="nec-alanon-finder rounded-xl p-6 md:p-8 mb-10 text-center"
               style={{
-                background: "linear-gradient(135deg, rgba(0,147,208,0.06) 0%, rgba(15,10,30,0.5) 100%)",
+                background: "linear-gradient(135deg, rgba(0,147,208,0.06) 0%, rgba(var(--nec-card-rgb),0.5) 100%)",
                 border: "1px solid rgba(0,147,208,0.15)",
               }}
             >
-              <h2 className="text-xl font-bold text-white mb-2">Find an Al-Anon Meeting</h2>
+              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">Find an Al-Anon Meeting</h2>
               <p className="text-sm mb-4" style={{ color: "var(--nec-muted)" }}>
                 Search for Al-Anon meetings near you or anywhere in the world.
               </p>
@@ -292,7 +292,7 @@ export default function AlAnonPage() {
                     rel="noopener noreferrer"
                     className="nec-alanon-state-card nec-state-card group rounded-lg sm:rounded-xl p-3 sm:p-4 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--alanon-blue)]"
                     style={{
-                      background: "rgba(15,10,30,0.4)",
+                      background: "rgba(var(--nec-card-rgb),0.4)",
                       border: "1px solid rgba(0,147,208,0.10)",
                     }}
                     aria-label={`${state.name} Al-Anon resources (opens in new tab)`}
@@ -341,7 +341,7 @@ export default function AlAnonPage() {
                       rel="noopener noreferrer"
                       className="nec-alateen-state-card nec-state-card group rounded-lg sm:rounded-xl p-3 sm:p-4 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c4a5d6]"
                       style={{
-                        background: "rgba(15,10,30,0.4)",
+                        background: "rgba(var(--nec-card-rgb),0.4)",
                         border: "1px solid rgba(180,140,210,0.10)",
                       }}
                       aria-label={`${state.name} Alateen resources (opens in new tab)`}

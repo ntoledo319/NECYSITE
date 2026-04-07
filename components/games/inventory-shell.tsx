@@ -158,7 +158,7 @@ export default function InventoryShell({
                         </svg>
                       </div>
 
-                      <h2 className="text-xl font-bold text-white mb-2">
+                      <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">
                         The committee is working on this&hellip;
                       </h2>
                       <p
@@ -181,7 +181,7 @@ export default function InventoryShell({
                         }}
                         className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-lg uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-4"
                         style={{
-                          background: `linear-gradient(135deg, rgba(${char.accentRgb},0.2) 0%, rgba(15,10,30,0.9) 50%, rgba(${char.accentRgb},0.15) 100%)`,
+                          background: `linear-gradient(135deg, rgba(${char.accentRgb},0.2) 0%, rgba(var(--nec-dark-rgb),0.9) 50%, rgba(${char.accentRgb},0.15) 100%)`,
                           border: `2px solid rgba(${char.accentRgb},0.4)`,
                           boxShadow: `0 4px 24px rgba(0,0,0,0.4), 0 0 40px rgba(${char.accentRgb},0.1)`,
                           color: "white",
@@ -229,7 +229,7 @@ export default function InventoryShell({
                     <>
                       {/* Game header */}
                       <div className="mb-6">
-                        <h2 className="text-lg font-bold text-white mb-1">
+                        <h2 className="text-lg font-bold text-[var(--nec-text)] mb-1">
                           {gameName}
                         </h2>
                         <p

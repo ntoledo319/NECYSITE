@@ -48,7 +48,7 @@ export default function BreakfastSuccessPage() {
 
           {/* Heading */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-black text-white nec-heading-shadow">
+            <h1 className="text-3xl font-black text-[var(--nec-text)] nec-heading-shadow">
               Breakfast Tickets Confirmed!
             </h1>
             <p className="text-base font-semibold text-[var(--nec-gold)]">
@@ -77,7 +77,7 @@ export default function BreakfastSuccessPage() {
                 1
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Register for the convention</p>
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Register for the convention</p>
                 <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   If you haven&apos;t already, secure your spot at NECYPAA XXXVI for just $40.
                 </p>
@@ -89,7 +89,7 @@ export default function BreakfastSuccessPage() {
                 2
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Book your hotel room</p>
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Book your hotel room</p>
                 <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   Secure your room at the Hartford Marriott Downtown at our special group rate
                   before the block fills up.
@@ -102,7 +102,7 @@ export default function BreakfastSuccessPage() {
                 3
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Save the dates</p>
+                <p className="text-sm font-semibold text-[var(--nec-text)]">Save the dates</p>
                 <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
                   {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                 </p>

@@ -54,7 +54,7 @@ export default function PurposeSection() {
             className="nec-card p-5 space-y-3 transition-all duration-200 hover:-translate-y-0.5"
           >
             <span className="text-3xl" role="img" aria-hidden="true">{p.icon}</span>
-            <h3 className="font-bold text-white text-base" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>{p.title}</h3>
+            <h3 className="font-bold text-[var(--nec-text)] text-base" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>{p.title}</h3>
             <p className="text-sm text-[var(--nec-muted)] leading-relaxed">{p.body}</p>
           </motion.div>
         ))}
@@ -65,14 +65,14 @@ export default function PurposeSection() {
       <div
         className="nec-callout-card rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm"
         style={{
-          background: "linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(26,16,48,0.6) 50%, rgba(192,38,211,0.05) 100%)",
+          background: "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.06) 0%, rgba(var(--nec-card-rgb),0.6) 50%, rgba(var(--nec-pink-rgb),0.04) 100%)",
           border: "1px solid rgba(124,58,237,0.22)",
           boxShadow: "0 4px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.04)",
         }}
       >
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
           <div className="flex-1 space-y-2">
-            <h3 className="text-lg font-bold text-white" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>First time at NECYPAA?</h3>
+            <h3 className="text-lg font-bold text-[var(--nec-text)]" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>First time at NECYPAA?</h3>
             <p className="text-sm text-[var(--nec-muted)] leading-relaxed max-w-xl">
               NECYPAA is for the young and young at heart — the only requirement is an honest desire
               to stop drinking. If you&apos;re in AA, you belong here. We&apos;ll have

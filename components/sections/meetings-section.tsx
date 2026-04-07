@@ -26,7 +26,7 @@ export default function MeetingsSection() {
       <div className="nec-meetings-table hidden md:block overflow-x-auto rounded-2xl" style={{ border: "1px solid var(--nec-border)", boxShadow: "0 4px 24px rgba(0,0,0,0.25)" }}>
         <table className="w-full border-collapse">
           <thead>
-            <tr className="nec-meetings-thead" style={{ background: "linear-gradient(135deg, rgba(26,16,48,0.95) 0%, rgba(15,10,30,1) 100%)", borderBottom: "1px solid var(--nec-border)" }}>
+            <tr className="nec-meetings-thead" style={{ background: "var(--nec-dark)", borderBottom: "1px solid var(--nec-border)" }}>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-[var(--nec-muted)]">Day</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-[var(--nec-muted)]">Time</th>
               <th className="p-3 text-left text-xs font-bold uppercase tracking-widest text-[var(--nec-muted)]">Meeting</th>
@@ -69,7 +69,7 @@ export default function MeetingsSection() {
         style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)" }}
       >
         <div className="flex-1">
-          <h3 className="font-bold text-white mb-1" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Add Your Meeting</h3>
+          <h3 className="font-bold text-[var(--nec-text)] mb-1" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>Add Your Meeting</h3>
           <p className="text-sm text-[var(--nec-muted)]">
             Know of a young people&apos;s meeting that&apos;s not on our list? Send us the details and we&apos;ll
             get it added.

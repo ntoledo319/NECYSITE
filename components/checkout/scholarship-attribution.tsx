@@ -21,7 +21,7 @@ export default function ScholarshipAttribution({
 }: ScholarshipAttributionProps) {
   return (
     <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
-      <h3 className="text-lg font-semibold text-white">Optional Scholarship Attribution</h3>
+      <h3 className="text-lg font-semibold text-[var(--nec-text)]">Optional Scholarship Attribution</h3>
       <div>
         <label htmlFor="aaEntity" className="block text-sm text-[var(--nec-muted)] mb-1">
           YPAA Committee, Meeting, District, Area, or State (optional)
@@ -32,7 +32,7 @@ export default function ScholarshipAttribution({
           value={aaEntity}
           onChange={(e) => onAaEntityChange(e.target.value)}
           placeholder="Example: CT Bid for ICYPAA, District 5, CT Area 11, New Haven YP Meeting"
-          className="w-full rounded-xl border border-[var(--nec-border)] bg-[rgba(15,10,30,0.8)] text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full rounded-xl border border-[var(--nec-border)] bg-[var(--nec-card)] text-[var(--nec-text)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
         />
       </div>
 
@@ -47,7 +47,7 @@ export default function ScholarshipAttribution({
             placeholder="John S, Middletown USA"
             aria-labelledby="reserved-for-label"
             aria-label={`Reserved for person ${index + 1}`}
-            className="w-full rounded-xl border border-[var(--nec-border)] bg-[rgba(15,10,30,0.8)] text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full rounded-xl border border-[var(--nec-border)] bg-[var(--nec-card)] text-[var(--nec-text)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
           />
         ))}
         {effectiveScholarshipQuantity > 1 && (
@@ -56,7 +56,7 @@ export default function ScholarshipAttribution({
               type="button"
               onClick={onAddReservedPerson}
               disabled={reservedForPeople.length >= effectiveScholarshipQuantity}
-              className="inline-flex items-center justify-center w-8 h-8 rounded-md text-white font-bold disabled:opacity-50 bg-[var(--nec-pink)]"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-md text-[var(--nec-text)] font-bold disabled:opacity-50 bg-[var(--nec-pink)]"
               aria-label="Add another name"
               title="Add another name"
             >
@@ -66,7 +66,7 @@ export default function ScholarshipAttribution({
               type="button"
               onClick={onRemoveReservedPerson}
               disabled={reservedForPeople.length <= 1}
-              className="inline-flex items-center justify-center w-8 h-8 rounded-md text-white font-bold disabled:opacity-50 bg-[rgba(45,31,78,0.8)]"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-md text-[var(--nec-text)] font-bold disabled:opacity-50 bg-[rgba(var(--nec-purple-rgb),0.10)]"
               aria-label="Remove last name"
               title="Remove last name"
             >

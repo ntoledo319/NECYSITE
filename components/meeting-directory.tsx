@@ -139,7 +139,7 @@ export default function MeetingDirectory({
     <section
       className="nec-meeting-directory rounded-3xl overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, rgba(${t.accentRgb},0.04) 0%, rgba(26,16,48,0.85) 40%, rgba(15,10,30,0.95) 100%)`,
+        background: `linear-gradient(135deg, rgba(${t.accentRgb},0.04) 0%, rgba(var(--nec-card-rgb),0.85) 40%, rgba(var(--nec-dark-rgb),0.95) 100%)`,
         border: `1px solid rgba(${t.accentRgb},0.15)`,
         boxShadow: `0 4px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03)`,
       }}

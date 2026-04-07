@@ -34,7 +34,7 @@ export default function AccessibilityPage() {
 
             {/* Commitment statement */}
             <section className="nec-card p-6 md:p-8 mb-8">
-              <h2 className="text-xl font-bold text-white mb-3">Our Commitment</h2>
+              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Our Commitment</h2>
               <p className="text-sm leading-relaxed mb-3 text-[var(--nec-text)]">
                 Every person deserves equal access to recovery resources and fellowship events. Our
                 accessibility guidelines are developed in partnership with the NECYPAA XXXVI
@@ -140,7 +140,7 @@ export default function AccessibilityPage() {
               className="nec-gradient-card rounded-xl p-6 md:p-8 mb-10 text-center"
             >
               <Ear className="w-8 h-8 mx-auto mb-3 text-[var(--nec-cyan)]" />
-              <h2 className="text-xl font-bold text-white mb-2">Need Accommodations?</h2>
+              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">Need Accommodations?</h2>
               <p className="text-sm mb-4 max-w-md mx-auto text-[var(--nec-muted)]">
                 If you need any accommodations — ASL interpretation, dietary needs, mobility
                 assistance, or anything else — please let us know. We want to help.
@@ -155,7 +155,7 @@ export default function AccessibilityPage() {
 
             {/* Report a problem */}
             <section className="nec-card p-6 md:p-8 mb-10">
-              <h2 className="text-xl font-bold text-white mb-3">Report an Accessibility Problem</h2>
+              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Report an Accessibility Problem</h2>
               <p className="text-sm leading-relaxed mb-4 text-[var(--nec-text)]">
                 Found something on this site that isn&apos;t accessible? We want to fix it. You can
                 report issues by email, and anonymous reports are welcome.
@@ -172,7 +172,7 @@ export default function AccessibilityPage() {
 
             {/* Anonymous feedback form */}
             <section className="nec-card p-6 md:p-8 mb-10">
-              <h2 className="text-xl font-bold text-white mb-3">Anonymous Feedback</h2>
+              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-3">Anonymous Feedback</h2>
               <p className="text-sm leading-relaxed mb-4 text-[var(--nec-text)]">
                 Want to share feedback without identifying yourself? Use this form. No email
                 address or name is required.
@@ -184,7 +184,7 @@ export default function AccessibilityPage() {
             <section
               className="nec-statement-card rounded-xl p-5 text-xs leading-relaxed text-[var(--nec-muted)]"
             >
-              <h3 className="text-sm font-bold text-white mb-2">Accessibility Statement</h3>
+              <h3 className="text-sm font-bold text-[var(--nec-text)] mb-2">Accessibility Statement</h3>
               <p className="mb-2">
                 NECYPAA XXXVI is committed to ensuring digital accessibility for people of all
                 abilities. We continually improve the user experience for everyone and apply relevant
@@ -225,7 +225,7 @@ function FeatureCard({
     <div className="nec-card p-5">
       <div className="flex items-center gap-2 mb-3">
         <span className="text-[var(--nec-cyan)]">{icon}</span>
-        <h3 className="text-sm font-bold text-white">{title}</h3>
+        <h3 className="text-sm font-bold text-[var(--nec-text)]">{title}</h3>
       </div>
       <ul className="space-y-1.5 text-xs text-[var(--nec-text)]">
         {items.map((item) => (
