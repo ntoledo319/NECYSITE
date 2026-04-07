@@ -7,14 +7,14 @@ import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL, CONTACT_EMAIL } from "@/lib/co
 import { Mail, ExternalLink } from "lucide-react"
 import { Sparkle, Hex } from "@/components/art/graffiti-elements"
 import { Gear } from "@/components/art/steampunk-elements"
-import { SPRING_GENTLE, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
+import { staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 export default function SiteFooter() {
   const shouldReduce = useReducedMotion()
 
   return (
     <footer
-      className="mt-24 relative overflow-hidden nec-footer"
+      className="relative mt-16 overflow-hidden nec-footer md:mt-20"
     >
       {/* Top accent bar */}
       <motion.div
@@ -60,8 +60,8 @@ export default function SiteFooter() {
       </div>
 
       <div
-        className="container mx-auto px-4 py-12 pb-24 md:pb-12 relative z-10"
-        style={{ paddingBottom: "max(6rem, calc(1.5rem + env(safe-area-inset-bottom)))" }}
+        className="container relative z-10 mx-auto px-4 py-10 pb-20 md:py-11 md:pb-10"
+        style={{ paddingBottom: "max(5rem, calc(1.25rem + env(safe-area-inset-bottom)))" }}
       >
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10"

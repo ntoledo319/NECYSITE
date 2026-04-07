@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-first refinement pass with selective functionality-alignment checks against `main`.
+**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-first refinement pass with selective functionality-alignment checks against `main` plus spacing / hierarchy normalization.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -122,6 +122,21 @@ This pass explicitly audited `main` to confirm the branch still communicates the
 - keep approved page copy intact
 - restore route discoverability and practical navigation cues where `main` still communicated product intent better
 
+### 8. YPAA + Spacing Normalization Pass
+
+This pass stayed visual-only and focused on two specific issues raised in review.
+
+**What changed in this pass:**
+- `components/sections/ypaa-narrative-section.tsx` was adjusted to recover more of the original `What is a YPAA?` energy while keeping it aligned with the newer light-first system
+- shared page-bottom rhythm was normalized through `globals.css`, `site-footer.tsx`, and repeated page wrappers so shorter and mid-length routes stop accumulating oversized dead space before the footer
+- `page.tsx`, `hero-section.tsx`, `states/page.tsx`, `accessibility/page.tsx`, and `service/page.tsx` were tightened so section transitions feel more intentional and less padded-by-default
+- `events/page.tsx`, `page-shell.tsx`, `inventory-shell.tsx`, `journey/page.tsx`, `blog/page.tsx`, `blog/[slug]/page.tsx`, and `alanon/page.tsx` were brought onto the same page-frame rhythm to reduce blank-space drift across the branch
+
+**Intent of this pass:**
+- keep the stronger redesign language
+- restore a better emotional anchor for the homepage YPAA explanation
+- make spacing feel systemic instead of page-by-page accidental
+
 ---
 
 ## Features: Current Status
@@ -141,6 +156,7 @@ This pass explicitly audited `main` to confirm the branch still communicates the
 - Blog index and article presentation
 - Shared homepage section system
 - Primary route discoverability layer
+- Shared page-spacing rhythm
 
 ### Present but Still Needing Final Content / Visual-Only Follow-Up
 - Program
@@ -178,6 +194,7 @@ See `docs/tech-debt-and-gaps.md` for the broader backlog.
 ## Recent Commits On Branch
 
 ```
+5922e67 Restore main route discoverability on redesign
 1e8140f Refine remaining visual-only destination pages
 73419b0 Differentiate unfinished routes visually
 b9bd286 Update handoff after copy rollback

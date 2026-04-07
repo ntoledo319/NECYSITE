@@ -631,7 +631,7 @@ export default function InventoryShell({
         dividerVariant={themeStyle.divider}
       />
 
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Page content">
+      <div className="page-frame" role="region" aria-label="Page content">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className={`grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center ${theme === "prayer" ? "lg:min-h-[22rem]" : ""}`}>
@@ -651,7 +651,7 @@ export default function InventoryShell({
               <ThemeHeroArt theme={theme} char={char} />
             </div>
 
-            <div className="mt-10 relative">
+            <div className="relative mt-8 md:mt-10">
               <div
                 className="absolute inset-x-[10%] top-6 h-56 pointer-events-none"
                 aria-hidden="true"

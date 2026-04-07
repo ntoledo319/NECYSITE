@@ -223,7 +223,7 @@ export default function YpaaNarrativeSection() {
       {/* ═══════════════════════════════════════════
           PART 1: "What is a YPAA?"
           ═══════════════════════════════════════════ */}
-      <div className="mb-20">
+      <div className="mb-16 md:mb-18">
         {/* Section header */}
         <motion.div
           className="mb-10 text-center"
@@ -233,11 +233,30 @@ export default function YpaaNarrativeSection() {
           transition={SPRING_GENTLE}
         >
           <span className="section-badge mb-4 inline-block">About YPAA</span>
-          <h2 className="section-heading mt-3">What is a YPAA?</h2>
+          <h2 className="section-heading mt-3">
+            What is a{" "}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 45%, var(--nec-gold) 100%)",
+              }}
+            >
+              YPAA?
+            </span>
+          </h2>
         </motion.div>
 
         {/* Main explainer card */}
-        <div className="nec-card relative overflow-hidden rounded-[1.85rem] p-6 sm:p-8 md:p-10">
+        <div className="nec-card relative overflow-hidden rounded-[1.95rem] p-6 sm:p-8 md:p-10">
+          <div
+            className="absolute inset-x-0 top-0 h-[3px]"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0) 0%, rgba(var(--nec-purple-rgb),0.42) 26%, rgba(var(--nec-pink-rgb),0.42) 62%, rgba(var(--nec-gold-rgb),0.38) 100%)",
+            }}
+          />
           <div
             className="absolute inset-0 rounded-[inherit]"
             style={{
@@ -247,9 +266,25 @@ export default function YpaaNarrativeSection() {
               borderRadius: "inherit",
             }}
           />
+          <div
+            className="pointer-events-none absolute -right-12 top-10 h-40 w-40 rounded-full"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 72%)",
+            }}
+          />
+          <div
+            className="pointer-events-none absolute -bottom-16 left-8 h-32 w-32 rounded-full"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(var(--nec-gold-rgb),0.08) 0%, transparent 76%)",
+            }}
+          />
 
           <div className="relative z-10">
-            <div className="grid gap-8 xl:grid-cols-[minmax(0,1.12fr)_minmax(280px,0.88fr)] xl:items-start">
+            <div className="grid gap-7 xl:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.92fr)] xl:items-start xl:gap-9">
               <div>
                 {/* Lede paragraph */}
                 <p className="mb-6 text-base leading-relaxed text-[var(--nec-text)] sm:text-lg md:text-xl">
@@ -284,7 +319,7 @@ export default function YpaaNarrativeSection() {
                       <motion.div
                         key={h.text}
                         variants={staggerChild}
-                        className="rounded-[1.2rem] border px-4 py-3"
+                        className="rounded-[1.25rem] border px-4 py-3.5"
                         style={{
                           background: "rgba(var(--nec-card-rgb),0.68)",
                           borderColor: `rgba(${h.accentRgb},0.15)`,
@@ -304,9 +339,9 @@ export default function YpaaNarrativeSection() {
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-5 md:space-y-6">
                 {/* Graphic: Dancing figures */}
-                <div className="rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5">
+                <div className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.05),rgba(var(--nec-card-rgb),0.8))] p-5">
                   <div className="mx-auto max-w-md opacity-80">
                     <DancingFigures />
                   </div>
@@ -383,12 +418,21 @@ export default function YpaaNarrativeSection() {
         {/* Section header */}
         <div className="mb-12 text-center">
           <h2 className="text-2xl font-black leading-tight text-[var(--nec-text)] sm:text-3xl md:text-4xl">
-            A YPAA Convention goes something like this.
+            A YPAA Convention goes{" "}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, var(--nec-cyan) 0%, var(--nec-purple) 100%)",
+              }}
+            >
+              something like this.
+            </span>
           </h2>
         </div>
 
         {/* Timeline */}
-        <div className="relative mx-auto max-w-2xl rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.52)] px-5 py-8 sm:px-7 md:px-10">
+        <div className="relative mx-auto max-w-3xl rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.52)] px-5 py-8 sm:px-7 md:px-10">
           {/* Vertical timeline line */}
           <motion.div
             className="absolute left-4 md:left-6 top-0 bottom-0 w-px"
@@ -402,7 +446,7 @@ export default function YpaaNarrativeSection() {
             transition={shouldReduce ? { duration: 0 } : { ...SPRING_SLOW, duration: 2 }}
           />
 
-          <div className="space-y-6">
+          <div className="space-y-5 md:space-y-6">
             {narrativeSteps.map((step, i) => (
               <motion.div
                 key={i}
@@ -423,7 +467,7 @@ export default function YpaaNarrativeSection() {
                 />
 
                 <p
-                  className={`rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.66)] px-4 py-3 leading-relaxed shadow-[0_10px_22px_rgba(44,24,16,0.04)] ${
+                  className={`rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.72)] px-4 py-3 leading-relaxed shadow-[0_10px_22px_rgba(44,24,16,0.04)] ${
                     step.emphasis
                       ? "text-lg sm:text-xl md:text-2xl font-bold"
                       : "text-base sm:text-lg"
@@ -439,7 +483,7 @@ export default function YpaaNarrativeSection() {
           </div>
 
           {/* ── Welcome Home ── */}
-          <div className="relative mt-12 pt-8">
+          <div className="relative mt-10 pt-6">
             <div
               className="absolute left-4 md:left-6 -top-0 w-px h-8"
               aria-hidden="true"

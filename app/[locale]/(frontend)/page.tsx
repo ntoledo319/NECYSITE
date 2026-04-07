@@ -27,8 +27,8 @@ export default function HomePage() {
       <div className="relative z-10 flex-1">
         <HeroSection />
 
-        <div className="container mx-auto px-4 pb-20 md:pb-12">
-          <div className="space-y-16 md:space-y-20">
+        <div className="container mx-auto px-4 pb-16 md:pb-10">
+          <div className="page-stack-roomy">
             <QuickFactsStrip />
 
             <CTASection />
@@ -39,7 +39,7 @@ export default function HomePage() {
 
             <YpaaNarrativeSection />
 
-            <div className="grid gap-10 xl:grid-cols-[0.86fr_1.14fr] xl:items-start">
+            <div className="grid gap-8 xl:grid-cols-[0.86fr_1.14fr] xl:items-start md:gap-10">
               <BusinessMeetingSection />
               <EventsPreviewSection />
             </div>

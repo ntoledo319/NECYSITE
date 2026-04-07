@@ -34,9 +34,9 @@ export default function ServicePage() {
         dividerVariant="potion"
       />
 
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10" role="region" aria-label="Service opportunities content">
+      <div className="page-frame" role="region" aria-label="Service opportunities content">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
+          <div className="mx-auto max-w-6xl page-stack">
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
               <div className="max-w-3xl">
                 <span className="section-badge mb-4 inline-block">Service</span>
@@ -89,8 +89,8 @@ export default function ServicePage() {
               </div>
             </div>
 
-            <div className="mt-10 grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
-              <div className="space-y-6 lg:sticky lg:top-28">
+            <div className="grid gap-6 md:gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+              <div className="space-y-5 lg:sticky lg:top-28 md:space-y-6">
                 <section aria-label="Members-at-Large">
                   <div
                     className="relative rounded-[2rem] overflow-hidden border border-[rgba(var(--nec-pink-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-pink-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-6 md:p-8 shadow-[0_20px_48px_rgba(44,24,16,0.08)]"
@@ -208,7 +208,7 @@ export default function ServicePage() {
                 </section>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-5 md:space-y-6">
                 <section aria-label="Open service opportunities">
                   <div
                     className="rounded-[1.85rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-6 md:p-8 shadow-[0_20px_48px_rgba(44,24,16,0.08)]"

@@ -315,6 +315,19 @@
     letter-spacing: -0.025em;
   }
 
+  /* ── Shared page rhythm ────────────────────── */
+  .page-frame {
+    @apply relative z-10 flex-1 pt-24 pb-14 md:pb-10;
+  }
+
+  .page-stack {
+    @apply space-y-8 md:space-y-10;
+  }
+
+  .page-stack-roomy {
+    @apply space-y-12 md:space-y-14;
+  }
+
   /* ── Accent gradient heading ────────────────── */
   .heading-cyan {
     @apply bg-clip-text text-transparent;

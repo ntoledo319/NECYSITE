@@ -55,7 +55,7 @@ export default function AlAnonPage() {
         }}
       />
 
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
 

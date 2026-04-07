@@ -33,7 +33,7 @@ export default function BlogPage() {
     >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
 
-      <div className="flex-1 pt-24 pb-20 md:pb-12 relative z-10">
+      <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid gap-8 lg:grid-cols-[0.94fr_1.06fr] lg:items-start">

@@ -53,11 +53,11 @@ export default function PageShell({ badge, title, subtitle, children, character 
 
   return (
     <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
-      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
+      <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl">
             <motion.div
-              className="mb-10 text-center"
+              className="mb-8 text-center md:mb-10"
               initial={shouldReduce ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}

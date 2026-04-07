@@ -19,9 +19,9 @@ export default function EventsPage() {
     <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="gear" />
 
-      <div className="relative z-10 flex-1 pb-20 pt-24 md:pb-12">
+      <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-5xl space-y-10">
+          <div className="mx-auto max-w-5xl page-stack">
             <header className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-6 py-8 shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8 md:py-10">
               <div
                 className="absolute inset-x-0 top-0 h-[3px]"

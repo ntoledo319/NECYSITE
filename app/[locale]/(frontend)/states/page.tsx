@@ -128,14 +128,12 @@ export default function StatesPage() {
         />
       </div>
 
-      <div
-        className="flex-1 pt-24 pb-20 md:pb-12 relative z-10"
-      >
+      <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             {/* ── Hero Header ──────────────────────── */}
             <motion.header
-              className="relative mb-12 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8 md:py-10"
+              className="relative mb-10 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:mb-12 md:px-8 md:py-10"
               initial={shouldReduce ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
@@ -182,7 +180,7 @@ export default function StatesPage() {
 
             {/* ── Luxury Stats Strip ─────────────────── */}
             <motion.div
-              className="mb-12 grid grid-cols-2 gap-3 md:gap-4 sm:grid-cols-4"
+              className="mb-10 grid grid-cols-2 gap-3 md:mb-12 md:gap-4 sm:grid-cols-4"
               role="group"
               aria-label="Region statistics"
               variants={shouldReduce ? undefined : staggerContainer}
@@ -227,7 +225,7 @@ export default function StatesPage() {
 
             {/* ── Interactive Map Section ─────────────── */}
             <section
-              className="states-map-section mb-12 overflow-hidden rounded-[2rem]"
+              className="states-map-section mb-10 overflow-hidden rounded-[2rem] md:mb-12"
               style={{
                 background: "rgba(var(--nec-card-rgb),0.86)",
                 border: "1px solid rgba(var(--nec-purple-rgb),0.12)",

@@ -31,7 +31,7 @@ export default function HeroSection() {
   return (
     <section
       aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
-      className="relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12 lg:pb-16 lg:pt-14"
+      className="relative overflow-hidden pb-8 pt-8 md:pb-12 md:pt-12 lg:pb-14 lg:pt-14"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[78%]"
