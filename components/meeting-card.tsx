@@ -19,14 +19,14 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
       style={{
         background: "var(--nec-card)",
         border: "1px solid var(--nec-border)",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       <div
         className="text-[var(--nec-text)] font-bold py-2 px-4 rounded-xl mb-3 text-sm uppercase tracking-wider"
         style={{
-          background: "rgba(124,58,237,0.12)",
-          border: "1px solid rgba(124,58,237,0.25)",
+          background: "rgba(var(--nec-purple-rgb),0.08)",
+          border: "1px solid rgba(var(--nec-purple-rgb),0.18)",
         }}
       >
         {day}

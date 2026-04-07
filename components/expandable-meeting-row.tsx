@@ -24,7 +24,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
       <tr
         className="border-b transition-colors duration-150"
         style={{ borderColor: "var(--nec-border)" }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(124,58,237,0.04)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(var(--nec-purple-rgb),0.04)" }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "transparent" }}
       >
         <td className="p-3 text-[var(--nec-muted)]">{meeting.day}</td>
@@ -55,7 +55,7 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         </td>
       </tr>
       {isExpanded && (
-        <tr id={detailsId} style={{ background: "rgba(124,58,237,0.04)", borderBottom: "1px solid var(--nec-border)" }}>
+        <tr id={detailsId} style={{ background: "rgba(var(--nec-purple-rgb),0.04)", borderBottom: "1px solid var(--nec-border)" }}>
           <td colSpan={7} className="p-4">
             <div className="grid grid-cols-2 gap-4">
               <div>

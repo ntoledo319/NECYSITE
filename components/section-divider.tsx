@@ -11,7 +11,7 @@ export default function SectionDivider({
     glow: {
       height: "2px",
       background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 20%, var(--nec-pink) 50%, var(--nec-gold) 80%, transparent 100%)",
-      boxShadow: "0 0 16px rgba(124,58,237,0.4), 0 0 32px rgba(192,38,211,0.2)",
+      boxShadow: "0 0 16px rgba(var(--nec-purple-rgb),0.20), 0 0 32px rgba(var(--nec-pink-rgb),0.10)",
     },
     subtle: {
       height: "1px",
@@ -21,7 +21,7 @@ export default function SectionDivider({
     accent: {
       height: "2px",
       background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 15%, var(--nec-pink) 50%, var(--nec-gold) 85%, transparent 100%)",
-      boxShadow: "0 0 10px rgba(124,58,237,0.25)",
+      boxShadow: "0 0 10px rgba(var(--nec-purple-rgb),0.12)",
     },
   }
 

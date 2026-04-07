@@ -21,19 +21,19 @@ const CHARACTER_DATA = {
     portal: "/images/mad-hatter-portal.jpg",
     alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-purple)",
-    accentRgb: "124,58,237",
+    accentRgb: "var(--nec-purple-rgb)",
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.jpg",
     alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-pink)",
-    accentRgb: "192,38,211",
+    accentRgb: "var(--nec-pink-rgb)",
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.jpg",
     alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-gold)",
-    accentRgb: "234,179,8",
+    accentRgb: "var(--nec-gold-rgb)",
   },
 }
 
@@ -78,7 +78,7 @@ export default function InventoryShell({
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none"
                 aria-hidden="true"
                 style={{
-                  background: `radial-gradient(ellipse 70% 60% at 50% 45%, rgba(${char.accentRgb},0.18) 0%, rgba(124,58,237,0.06) 40%, transparent 70%)`,
+                  background: `radial-gradient(ellipse 70% 60% at 50% 45%, rgba(${char.accentRgb},0.18) 0%, rgba(var(--nec-purple-rgb),0.06) 40%, transparent 70%)`,
                   filter: "blur(60px)",
                 }}
               />
@@ -86,7 +86,7 @@ export default function InventoryShell({
               <div
                 className="relative nec-card overflow-hidden"
                 style={{
-                  boxShadow: `0 8px 48px rgba(0,0,0,0.4), 0 0 80px rgba(${char.accentRgb},0.08)`,
+                  boxShadow: "var(--shadow-card-hover)",
                 }}
               >
                 {/* Top accent bar */}
@@ -95,7 +95,7 @@ export default function InventoryShell({
                   aria-hidden="true"
                   style={{
                     background:
-                      "linear-gradient(90deg, rgba(124,58,237,0.6) 0%, rgba(192,38,211,0.5) 50%, rgba(234,179,8,0.5) 100%)",
+                      "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40) 0%, rgba(var(--nec-pink-rgb),0.30) 50%, rgba(var(--nec-gold-rgb),0.30) 100%)",
                   }}
                 />
 
@@ -122,7 +122,7 @@ export default function InventoryShell({
                           width={300}
                           height={450}
                           sizes="(min-width: 768px) 256px, 192px"
-                          className="relative z-10 w-full h-full object-cover rounded-2xl drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
+                          className="relative z-10 w-full h-full object-cover rounded-2xl drop-shadow-[0_4px_30px_rgba(var(--nec-purple-rgb),0.25)]"
                         />
                       </div>
 
@@ -183,7 +183,7 @@ export default function InventoryShell({
                         style={{
                           background: `linear-gradient(135deg, rgba(${char.accentRgb},0.2) 0%, rgba(var(--nec-dark-rgb),0.9) 50%, rgba(${char.accentRgb},0.15) 100%)`,
                           border: `2px solid rgba(${char.accentRgb},0.4)`,
-                          boxShadow: `0 4px 24px rgba(0,0,0,0.4), 0 0 40px rgba(${char.accentRgb},0.1)`,
+                          boxShadow: `var(--shadow-card), 0 0 40px rgba(${char.accentRgb},0.1)`,
                           color: "white",
                           outlineColor: char.accent,
                         }}

@@ -37,7 +37,7 @@ export default function BreakfastTicketSelector({
 
       {/* Friday - New Year's Day callout */}
       {fridayProduct && (
-        <div className="rounded-xl border p-4" style={{ background: "rgba(212,160,23,0.06)", borderColor: "rgba(212,160,23,0.25)" }}>
+        <div className="rounded-xl border p-4" style={{ background: "rgba(var(--nec-gold-rgb),0.06)", borderColor: "rgba(var(--nec-gold-rgb),0.25)" }}>
           <div className="flex items-start gap-3">
             <Checkbox
               id={fridayProduct.id}

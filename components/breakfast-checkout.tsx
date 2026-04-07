@@ -190,8 +190,8 @@ export default function BreakfastCheckout() {
             aria-pressed={breakfastSelections[fridayProduct.id] || false}
             className="w-full text-left rounded-xl px-4 py-3 transition-colors border"
             style={{
-              background: breakfastSelections[fridayProduct.id] ? "rgba(212,160,23,0.12)" : "rgba(212,160,23,0.04)",
-              borderColor: breakfastSelections[fridayProduct.id] ? "rgba(212,160,23,0.5)" : "rgba(212,160,23,0.15)",
+              background: breakfastSelections[fridayProduct.id] ? "rgba(var(--nec-gold-rgb),0.12)" : "rgba(var(--nec-gold-rgb),0.04)",
+              borderColor: breakfastSelections[fridayProduct.id] ? "rgba(var(--nec-gold-rgb),0.5)" : "rgba(var(--nec-gold-rgb),0.15)",
             }}
           >
             <div className="flex items-start gap-3">
@@ -225,7 +225,7 @@ export default function BreakfastCheckout() {
               className="nec-breakfast-option w-full text-left rounded-xl px-3 py-2.5 transition-colors border"
               style={{
                 background: breakfastSelections[bp.id] ? "rgba(var(--nec-purple-rgb),0.08)" : "var(--nec-card)",
-                borderColor: breakfastSelections[bp.id] ? "rgba(212,160,23,0.5)" : "var(--nec-border)",
+                borderColor: breakfastSelections[bp.id] ? "rgba(var(--nec-gold-rgb),0.5)" : "var(--nec-border)",
               }}
             >
               <div className="flex items-center gap-2.5">
@@ -277,7 +277,7 @@ export default function BreakfastCheckout() {
         <Button
           onClick={proceedToPayment}
           disabled={!isFormValid}
-          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
+          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
         >
           Proceed to Payment{isFormValid ? ` - $${totalAmount.toFixed(2)}` : ""}
         </Button>

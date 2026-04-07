@@ -9,7 +9,7 @@ export default function CTState({ className }: { className?: string }) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(124,58,237,0.20) 0%, rgba(192,38,211,0.10) 50%, transparent 75%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(var(--nec-purple-rgb),0.12) 0%, rgba(var(--nec-pink-rgb),0.06) 50%, transparent 75%)",
           filter: "blur(12px)",
         }}
       />
@@ -74,16 +74,14 @@ export default function CTState({ className }: { className?: string }) {
         <path
           d={path}
           fill="none"
-          stroke="rgba(124,58,237,0.35)"
           strokeWidth="14"
-          style={{ filter: "blur(10px)" }}
+          style={{ stroke: "rgba(var(--nec-purple-rgb),0.25)", filter: "blur(10px)" }}
         />
         <path
           d={path}
           fill="none"
-          stroke="rgba(192,38,211,0.25)"
           strokeWidth="20"
-          style={{ filter: "blur(18px)" }}
+          style={{ stroke: "rgba(var(--nec-pink-rgb),0.15)", filter: "blur(18px)" }}
         />
 
         {/* Dark background fill */}

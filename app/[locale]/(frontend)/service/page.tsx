@@ -50,7 +50,7 @@ export default function ServicePage() {
               className="nec-card p-6 md:p-8"
               style={{
                 boxShadow:
-                  "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+                  "var(--shadow-card)",
               }}
             >
               <div className="flex items-center gap-3 mb-4">
@@ -82,7 +82,7 @@ export default function ServicePage() {
               className="relative rounded-2xl overflow-hidden"
               style={{
                 boxShadow:
-                  "0 8px 40px rgba(0,0,0,0.35), 0 0 60px rgba(124,58,237,0.08)",
+                  "var(--shadow-card-hover)",
               }}
             >
               {/* Glow */}
@@ -91,7 +91,7 @@ export default function ServicePage() {
                 aria-hidden="true"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)",
+                    "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 70%)",
                 }}
               />
               <div
@@ -99,7 +99,7 @@ export default function ServicePage() {
                 aria-hidden="true"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(192,38,211,0.14) 0%, transparent 70%)",
+                    "radial-gradient(circle, rgba(var(--nec-pink-rgb),0.08) 0%, transparent 70%)",
                 }}
               />
               <div
@@ -107,7 +107,7 @@ export default function ServicePage() {
                 aria-hidden="true"
                 style={{
                   background:
-                    "linear-gradient(90deg, rgba(124,58,237,0.6) 0%, rgba(192,38,211,0.5) 50%, rgba(124,58,237,0.6) 100%)",
+                    "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40) 0%, rgba(var(--nec-pink-rgb),0.30) 50%, rgba(var(--nec-purple-rgb),0.40) 100%)",
                 }}
               />
 
@@ -161,7 +161,7 @@ export default function ServicePage() {
               className="nec-card p-6 md:p-8"
               style={{
                 boxShadow:
-                  "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+                  "var(--shadow-card)",
               }}
             >
               <div className="flex items-center gap-3 mb-5">
@@ -202,7 +202,7 @@ export default function ServicePage() {
               className="nec-card p-6 md:p-8 relative overflow-hidden"
               style={{
                 boxShadow:
-                  "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+                  "var(--shadow-card)",
               }}
             >
               {/* Steampunk gear accent */}

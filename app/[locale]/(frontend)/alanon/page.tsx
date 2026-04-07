@@ -24,7 +24,7 @@ export default function AlAnonPage() {
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse 80% 120% at 50% -20%, rgba(124,58,237,0.18) 0%, rgba(192,38,211,0.08) 40%, transparent 100%)",
+            "radial-gradient(ellipse 80% 120% at 50% -20%, rgba(var(--nec-purple-rgb),0.12) 0%, rgba(var(--nec-pink-rgb),0.05) 40%, transparent 100%)",
         }}
       />
       {/* ── Mad Realm edge bleed: left ───────────────────────────── */}
@@ -33,7 +33,7 @@ export default function AlAnonPage() {
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to right, rgba(124,58,237,0.10) 0%, rgba(192,38,211,0.04) 40%, transparent 100%)",
+            "linear-gradient(to right, rgba(var(--nec-purple-rgb),0.08) 0%, rgba(var(--nec-pink-rgb),0.03) 40%, transparent 100%)",
         }}
       />
       {/* ── Mad Realm edge bleed: right ──────────────────────────── */}
@@ -42,7 +42,7 @@ export default function AlAnonPage() {
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to left, rgba(124,58,237,0.10) 0%, rgba(192,38,211,0.04) 40%, transparent 100%)",
+            "linear-gradient(to left, rgba(var(--nec-purple-rgb),0.08) 0%, rgba(var(--nec-pink-rgb),0.03) 40%, transparent 100%)",
         }}
       />
       {/* ── Mad Realm edge bleed: bottom ─────────────────────────── */}
@@ -51,7 +51,7 @@ export default function AlAnonPage() {
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse 80% 120% at 50% 120%, rgba(124,58,237,0.14) 0%, rgba(192,38,211,0.06) 40%, transparent 100%)",
+            "radial-gradient(ellipse 80% 120% at 50% 120%, rgba(var(--nec-purple-rgb),0.10) 0%, rgba(var(--nec-pink-rgb),0.04) 40%, transparent 100%)",
         }}
       />
 
@@ -132,8 +132,7 @@ export default function AlAnonPage() {
                   />
                   <p
                     className="text-lg sm:text-xl md:text-2xl font-black text-[var(--nec-text)] mb-2"
-                    style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-                  >
+                    >
                     Is Al-Anon for Me?
                   </p>
                   <p className="text-xs sm:text-sm mb-4 leading-relaxed" style={{ color: "var(--nec-muted)" }}>
@@ -164,8 +163,7 @@ export default function AlAnonPage() {
                   />
                   <p
                     className="text-lg sm:text-xl md:text-2xl font-black text-[var(--nec-text)] mb-2"
-                    style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-                  >
+                    >
                     Is Alateen for Me?
                   </p>
                   <p className="text-xs sm:text-sm mb-4 leading-relaxed" style={{ color: "var(--nec-muted)" }}>
@@ -183,7 +181,7 @@ export default function AlAnonPage() {
               className="nec-alanon-program rounded-xl p-6 md:p-8 mb-10"
               style={{
                 background: "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.04) 0%, rgba(var(--nec-card-rgb),0.5) 50%, rgba(0,147,208,0.04) 100%)",
-                border: "1px solid rgba(124,58,237,0.15)",
+                border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
               }}
               aria-label="Al-Anon and Alateen at NECYPAA XXXVI"
             >
@@ -191,8 +189,7 @@ export default function AlAnonPage() {
                 <Sparkles className="w-8 h-8 mx-auto" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
                 <h2
                   className="text-xl md:text-2xl font-black text-[var(--nec-text)]"
-                  style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
-                >
+                  >
                   Al-Anon & Alateen at NECYPAA XXXVI
                 </h2>
                 <p className="text-sm leading-relaxed max-w-xl mx-auto" style={{ color: "var(--nec-text)" }}>
@@ -233,8 +230,7 @@ export default function AlAnonPage() {
               <FileText className="w-8 h-8 mx-auto mb-3" style={{ color: "#c4a5d6" }} aria-hidden="true" />
               <h2
                 className="text-lg font-bold text-[var(--nec-text)] mb-2"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}
-              >
+                >
                 Alateen Paperwork
               </h2>
               <p className="text-sm max-w-md mx-auto" style={{ color: "var(--nec-muted)" }}>

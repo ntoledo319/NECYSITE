@@ -307,7 +307,7 @@ export default function RegistrationCheckout({ registrationData, policyAgreement
       {!checkoutReady ? (
         <Button
           onClick={proceedToPayment}
-          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(192,38,211,0.3)]"
+          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
         >
           Proceed to Payment - ${totalAmount.toFixed(2)}
         </Button>

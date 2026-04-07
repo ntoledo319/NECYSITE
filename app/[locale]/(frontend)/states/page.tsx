@@ -66,25 +66,25 @@ export default function StatesPage() {
       value: "13",
       label: "States + D.C.",
       color: "var(--nec-cyan)",
-      bgRgb: "20,184,166",
+      bgRgb: "var(--nec-cyan-rgb)",
     },
     {
       value: String(YPAA_MEETING_COUNT),
       label: "YPAA Meetings",
       color: "var(--nec-pink)",
-      bgRgb: "192,38,211",
+      bgRgb: "var(--nec-pink-rgb)",
     },
     {
       value: String(ypaaCount),
       label: "YPAA Committees",
       color: "var(--nec-purple)",
-      bgRgb: "124,58,237",
+      bgRgb: "var(--nec-purple-rgb)",
     },
     {
       value: String(totalIntergroups),
       label: "Intergroups",
       color: "var(--nec-gold)",
-      bgRgb: "212,160,23",
+      bgRgb: "var(--nec-gold-rgb)",
     },
   ]
 
@@ -116,14 +116,14 @@ export default function StatesPage() {
           className="absolute inset-0 opacity-[0.04]"
           style={{
             background:
-              "linear-gradient(180deg, rgba(124,58,237,0.3) 0%, transparent 30%, transparent 70%, rgba(20,184,166,0.2) 100%)",
+              "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.20) 0%, transparent 30%, transparent 70%, rgba(var(--nec-cyan-rgb),0.12) 100%)",
           }}
         />
         <div
           className="absolute top-0 left-0 right-0 h-px"
           style={{
             background:
-              "linear-gradient(90deg, transparent 10%, rgba(124,58,237,0.15) 50%, transparent 90%)",
+              "linear-gradient(90deg, transparent 10%, rgba(var(--nec-purple-rgb),0.10) 50%, transparent 90%)",
           }}
         />
       </div>
@@ -186,7 +186,7 @@ export default function StatesPage() {
                   style={{
                     background: `linear-gradient(135deg, rgba(${stat.bgRgb},0.08) 0%, rgba(var(--nec-card-rgb),0.8) 100%)`,
                     border: `1px solid rgba(${stat.bgRgb},0.18)`,
-                    boxShadow: `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)`,
+                    boxShadow: "var(--shadow-card)",
                   }}
                 >
                   {/* Top accent line */}
@@ -220,8 +220,7 @@ export default function StatesPage() {
                 background:
                   "var(--nec-card)",
                 border: "1px solid var(--nec-border)",
-                boxShadow:
-                  "0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)",
+                boxShadow: "var(--shadow-card-hover)",
               }}
               aria-label="Interactive region map"
             >
@@ -263,7 +262,7 @@ export default function StatesPage() {
                     style={{
                       background:
                         viewMode === "map"
-                          ? "rgba(124,58,237,0.2)"
+                          ? "rgba(var(--nec-purple-rgb),0.12)"
                           : "transparent",
                       color:
                         viewMode === "map"
@@ -283,7 +282,7 @@ export default function StatesPage() {
                     style={{
                       background:
                         viewMode === "list"
-                          ? "rgba(124,58,237,0.2)"
+                          ? "rgba(var(--nec-purple-rgb),0.12)"
                           : "transparent",
                       color:
                         viewMode === "list"
@@ -326,7 +325,7 @@ export default function StatesPage() {
                     {NECYPAA_STATES.map((state) => {
                       const isActive = selectedState === state.abbreviation
                       const isNE = state.region === "new-england"
-                      const rgb = isNE ? "20,184,166" : "124,58,237"
+                      const rgb = isNE ? "var(--nec-cyan-rgb)" : "var(--nec-purple-rgb)"
 
                       return (
                         <button
@@ -398,13 +397,13 @@ export default function StatesPage() {
                   className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
                   style={{
                     background: activeTab === "resources"
-                      ? "rgba(124,58,237,0.15)"
+                      ? "rgba(var(--nec-purple-rgb),0.10)"
                       : "transparent",
                     color: activeTab === "resources"
-                      ? "white"
+                      ? "var(--nec-text)"
                       : "var(--nec-muted)",
                     boxShadow: activeTab === "resources"
-                      ? "0 0 16px rgba(124,58,237,0.1)"
+                      ? "var(--shadow-glow-purple)"
                       : "none",
                   }}
                 >
@@ -414,7 +413,7 @@ export default function StatesPage() {
                     className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
                     style={{
                       background: activeTab === "resources"
-                        ? "rgba(20,184,166,0.15)"
+                        ? "rgba(var(--nec-cyan-rgb),0.10)"
                         : "rgba(var(--nec-purple-rgb),0.06)",
                       color: activeTab === "resources"
                         ? "var(--nec-cyan)"
@@ -434,13 +433,13 @@ export default function StatesPage() {
                   className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
                   style={{
                     background: activeTab === "meetings"
-                      ? "rgba(192,38,211,0.15)"
+                      ? "rgba(var(--nec-pink-rgb),0.10)"
                       : "transparent",
                     color: activeTab === "meetings"
-                      ? "white"
+                      ? "var(--nec-text)"
                       : "var(--nec-muted)",
                     boxShadow: activeTab === "meetings"
-                      ? "0 0 16px rgba(192,38,211,0.1)"
+                      ? "var(--shadow-glow-pink)"
                       : "none",
                   }}
                 >
@@ -450,7 +449,7 @@ export default function StatesPage() {
                     className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
                     style={{
                       background: activeTab === "meetings"
-                        ? "rgba(192,38,211,0.15)"
+                        ? "rgba(var(--nec-pink-rgb),0.10)"
                         : "rgba(var(--nec-purple-rgb),0.06)",
                       color: activeTab === "meetings"
                         ? "var(--nec-pink)"
@@ -512,13 +511,13 @@ export default function StatesPage() {
                           className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
                           style={{
                             background: isActive
-                              ? "rgba(124,58,237,0.15)"
+                              ? "rgba(var(--nec-purple-rgb),0.10)"
                               : "transparent",
                             color: isActive
                               ? "var(--nec-purple)"
                               : "var(--nec-muted)",
                             boxShadow: isActive
-                              ? "0 0 12px rgba(124,58,237,0.08)"
+                              ? "var(--shadow-glow-purple)"
                               : "none",
                           }}
                         >
@@ -527,7 +526,7 @@ export default function StatesPage() {
                             className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
                             style={{
                               background: isActive
-                                ? "rgba(124,58,237,0.2)"
+                                ? "rgba(var(--nec-purple-rgb),0.12)"
                                 : "rgba(var(--nec-purple-rgb),0.06)",
                               color: isActive
                                 ? "var(--nec-purple)"
@@ -573,14 +572,14 @@ export default function StatesPage() {
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.06) 0%, rgba(var(--nec-card-rgb),0.6) 100%)",
-                    border: "1px solid rgba(124,58,237,0.15)",
+                    border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
                   }}
                 >
                   <div
                     className="absolute top-0 left-0 right-0 h-[2px]"
                     style={{
                       background:
-                        "linear-gradient(90deg, transparent, rgba(124,58,237,0.5), rgba(192,38,211,0.5), transparent)",
+                        "linear-gradient(90deg, transparent, rgba(var(--nec-purple-rgb),0.30), rgba(var(--nec-pink-rgb),0.30), transparent)",
                     }}
                     aria-hidden="true"
                   />

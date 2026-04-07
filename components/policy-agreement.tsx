@@ -305,7 +305,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
         <Button
           onClick={() => onComplete(agreements)}
           disabled={!allAgreed}
-          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
+          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(var(--nec-pink-rgb),0.15)]"
         >
           Continue to Payment
         </Button>

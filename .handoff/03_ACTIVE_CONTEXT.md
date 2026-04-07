@@ -55,6 +55,26 @@ Replaced generic SaaS sans-serifs with warm editorial serifs:
 - **Display**: Bangers kept (fits Mad Realm whimsy)
 - Updated `layout.tsx`, `tailwind.config.js`, `globals.css`, `critical.css` font-family fallbacks.
 
+### Wave 1C: Neon RGBA → CSS Variable Sweep (Complete)
+
+Systematic replacement of all hardcoded neon `rgba(124,58,237,...)`, `rgba(192,38,211,...)`, `rgba(20,184,166,...)`, `rgba(234,179,8,...)`, `rgba(212,160,23,...)`, `rgba(168,130,255,...)` values with CSS variable-based `rgba(var(--nec-*-rgb), alpha)` equivalents across all components and pages.
+
+**Files modified:**
+- `states/page.tsx`, `alanon/page.tsx`, `service/page.tsx`, `blog/page.tsx`, `not-found.tsx`
+- `registration-form.tsx`, `registration-checkout.tsx`, `registration-confirmation.tsx`
+- `breakfast-checkout.tsx`, `breakfast-add-ons.tsx`, `breakfast-ticket-selector.tsx`
+- `access-code-checkout.tsx`, `policy-agreement.tsx`, `state-card.tsx`
+- `necypaa-region-map.tsx`, `ct-state.tsx`, `inventory-shell.tsx`
+- `expandable-meeting-row.tsx`, `meeting-card.tsx`, `purpose-section.tsx`
+- `anonymous-feedback-form.tsx`, `section-divider.tsx`, `page-shell.tsx`
+- `scroll-progress.tsx`, `motion-primitives.tsx`
+
+**Key decisions:**
+- SVG `fill`/`stroke`/`floodColor` attributes moved to `style` props (SVG attributes don't resolve CSS `var()`)
+- Canvas 2D game code (`pong.tsx`, `snake.tsx`, `memory.tsx`, `tetris.tsx`) left with hardcoded values — Canvas API can't use CSS variables
+- Added `--alanon-blue-rgb` and `--nec-orange-rgb` CSS variables to `globals.css`
+- Shadow tokens (`--shadow-card`, `--shadow-glow-*`) used where appropriate instead of inline box-shadows
+
 ### Wave 1D: Remove AuroraBackground & AmbientBlobs (Complete)
 
 - Removed `AuroraBackground` from `hero-section.tsx` (framer-motion animated blobs — AI slop)

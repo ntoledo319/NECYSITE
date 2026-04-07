@@ -33,7 +33,7 @@ export default function ScrollProgress() {
         transform: `scaleX(${progress})`,
         background:
           "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 50%, var(--nec-gold) 100%)",
-        boxShadow: "0 0 8px rgba(124,58,237,0.4), 0 0 16px rgba(192,38,211,0.2)",
+        boxShadow: "0 0 8px rgba(var(--nec-purple-rgb),0.20), 0 0 16px rgba(var(--nec-pink-rgb),0.10)",
       }}
       aria-hidden="true"
     />

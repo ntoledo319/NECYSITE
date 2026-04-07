@@ -22,7 +22,7 @@ const CHARACTER_DATA = {
     alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm, with psychedelic swirl background and steampunk gears",
     standaloneAlt: "The Mad Hatter character in purple coat and orange vest with top hat",
     accent: "var(--nec-purple)",
-    accentRgb: "124,58,237",
+    accentRgb: "var(--nec-purple-rgb)",
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.jpg",
@@ -30,7 +30,7 @@ const CHARACTER_DATA = {
     alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm, grinning with psychedelic swirl background and steampunk gears",
     standaloneAlt: "The Cheshire Cat character in pink and purple stripes with a wide grin",
     accent: "var(--nec-pink)",
-    accentRgb: "192,38,211",
+    accentRgb: "var(--nec-pink-rgb)",
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.jpg",
@@ -38,7 +38,7 @@ const CHARACTER_DATA = {
     alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm, wearing a brown coat and fedora with steampunk gears",
     standaloneAlt: "The Caterpillar character in brown coat and fedora hat",
     accent: "var(--nec-gold)",
-    accentRgb: "234,179,8",
+    accentRgb: "var(--nec-gold-rgb)",
   },
 }
 
@@ -83,7 +83,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none"
                   aria-hidden="true"
                   style={{
-                    background: `radial-gradient(ellipse 70% 60% at 50% 45%, rgba(${char.accentRgb},0.20) 0%, rgba(124,58,237,0.08) 40%, transparent 70%)`,
+                    background: `radial-gradient(ellipse 70% 60% at 50% 45%, rgba(${char.accentRgb},0.12) 0%, rgba(var(--nec-purple-rgb),0.05) 40%, transparent 70%)`,
                     filter: "blur(60px)",
                   }}
                 />
@@ -91,7 +91,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                 <div
                   className="relative nec-card overflow-hidden"
                   style={{
-                    boxShadow: `0 8px 48px rgba(0,0,0,0.4), 0 0 80px rgba(${char.accentRgb},0.08)`,
+                    boxShadow: "var(--shadow-card-hover)",
                   }}
                 >
                   {/* Top accent bar */}
@@ -99,7 +99,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     className="h-1 w-full"
                     aria-hidden="true"
                     style={{
-                      background: "linear-gradient(90deg, rgba(124,58,237,0.6) 0%, rgba(192,38,211,0.5) 50%, rgba(234,179,8,0.5) 100%)",
+                      background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40) 0%, rgba(var(--nec-pink-rgb),0.30) 50%, rgba(var(--nec-gold-rgb),0.30) 100%)",
                     }}
                   />
 
@@ -111,7 +111,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                         className="absolute inset-0 scale-[1.3] rounded-full"
                         aria-hidden="true"
                         style={{
-                          background: `radial-gradient(circle, rgba(${char.accentRgb},0.25) 0%, transparent 65%)`,
+                          background: `radial-gradient(circle, rgba(${char.accentRgb},0.15) 0%, transparent 65%)`,
                           filter: "blur(30px)",
                         }}
                       />
@@ -121,7 +121,8 @@ export default function PageShell({ badge, title, subtitle, children, character 
                         width={300}
                         height={450}
                         sizes="(min-width: 768px) 256px, (min-width: 640px) 224px, 192px"
-                        className="relative z-10 w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
+                        className="relative z-10 w-full h-full object-contain"
+                        style={{ filter: "drop-shadow(0 4px 30px rgba(var(--nec-purple-rgb),0.20))" }}
                       />
                     </div>
                     </FloatingElement>
@@ -178,10 +179,10 @@ export default function PageShell({ badge, title, subtitle, children, character 
                       href="/"
                       className="inline-flex items-center gap-2 font-bold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 uppercase tracking-wide"
                       style={{
-                        background: `rgba(${char.accentRgb},0.12)`,
-                        border: `1px solid rgba(${char.accentRgb},0.30)`,
+                        background: `rgba(${char.accentRgb},0.08)`,
+                        border: `1px solid rgba(${char.accentRgb},0.20)`,
                         color: char.accent,
-                        boxShadow: "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
+                        boxShadow: "var(--shadow-card)",
                       }}
                     >
                       Back to the Portal

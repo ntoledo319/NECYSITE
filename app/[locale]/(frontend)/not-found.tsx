@@ -37,7 +37,7 @@ export default function NotFound() {
               alt=""
               width={128}
               height={128}
-              className="w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(124,58,237,0.35)]"
+              className="w-full h-full object-contain drop-shadow-[0_4px_30px_rgba(var(--nec-purple-rgb),0.25)]"
               aria-hidden="true"
             />
           </div>

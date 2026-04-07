@@ -29,7 +29,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
 
   const isNewEngland = state.region === "new-england"
   const accentColor = isNewEngland ? "var(--nec-cyan)" : "var(--nec-purple)"
-  const accentRgb = isNewEngland ? "20,184,166" : "124,58,237"
+  const accentRgb = isNewEngland ? "var(--nec-cyan-rgb)" : "var(--nec-purple-rgb)"
 
   const stateMeetings = getYPAAMeetingsByState(state.abbreviation)
   const meetingCount = stateMeetings.length
@@ -127,9 +127,9 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
               <span
                 className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
                 style={{
-                  background: "rgba(192,38,211,0.12)",
+                  background: "rgba(var(--nec-pink-rgb),0.08)",
                   color: "var(--nec-pink)",
-                  border: "1px solid rgba(192,38,211,0.2)",
+                  border: "1px solid rgba(var(--nec-pink-rgb),0.15)",
                 }}
               >
                 YPAA
@@ -194,8 +194,8 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                   <span
                     className="w-6 h-6 rounded-lg flex items-center justify-center"
                     style={{
-                      background: "rgba(20,184,166,0.12)",
-                      border: "1px solid rgba(20,184,166,0.2)",
+                      background: "rgba(var(--nec-cyan-rgb),0.08)",
+                      border: "1px solid rgba(var(--nec-cyan-rgb),0.15)",
                     }}
                   >
                     <MapPin
@@ -224,7 +224,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.background =
-                            "rgba(20,184,166,0.04)"
+                            "rgba(var(--nec-cyan-rgb),0.04)"
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.background = "transparent"
@@ -265,8 +265,8 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                     <span
                       className="w-6 h-6 rounded-lg flex items-center justify-center"
                       style={{
-                        background: "rgba(192,38,211,0.12)",
-                        border: "1px solid rgba(192,38,211,0.2)",
+                        background: "rgba(var(--nec-pink-rgb),0.08)",
+                        border: "1px solid rgba(var(--nec-pink-rgb),0.15)",
                       }}
                     >
                       <Users
@@ -282,9 +282,9 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       <span
                         className="text-[10px] font-bold px-1.5 py-0.5 rounded-md"
                         style={{
-                          background: "rgba(192,38,211,0.12)",
+                          background: "rgba(var(--nec-pink-rgb),0.08)",
                           color: "var(--nec-pink)",
-                          border: "1px solid rgba(192,38,211,0.25)",
+                          border: "1px solid rgba(var(--nec-pink-rgb),0.18)",
                         }}
                       >
                         {meetingCount} meeting{meetingCount !== 1 ? "s" : ""}
@@ -299,7 +299,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background =
-                          "rgba(192,38,211,0.04)"
+                          "rgba(var(--nec-pink-rgb),0.04)"
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = "transparent"
@@ -330,8 +330,8 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                           key={`${m.name}-${m.day}-${i}`}
                           className="rounded-lg p-2"
                           style={{
-                            background: "rgba(192,38,211,0.03)",
-                            border: "1px solid rgba(192,38,211,0.08)",
+                            background: "rgba(var(--nec-pink-rgb),0.03)",
+                            border: "1px solid rgba(var(--nec-pink-rgb),0.06)",
                           }}
                         >
                           <span className="block text-xs font-bold text-[var(--nec-text)] leading-tight">
@@ -347,7 +347,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                             <span
                               className="ml-1 text-[9px] font-bold uppercase px-1 py-px rounded"
                               style={{
-                                background: m.format === "online" ? "rgba(124,58,237,0.12)" : m.format === "hybrid" ? "rgba(192,38,211,0.12)" : "rgba(20,184,166,0.12)",
+                                background: m.format === "online" ? "rgba(var(--nec-purple-rgb),0.08)" : m.format === "hybrid" ? "rgba(var(--nec-pink-rgb),0.08)" : "rgba(var(--nec-cyan-rgb),0.08)",
                                 color: m.format === "online" ? "var(--nec-purple)" : m.format === "hybrid" ? "var(--nec-pink)" : "var(--nec-cyan)",
                               }}
                             >
@@ -385,8 +385,8 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                   <span
                     className="w-6 h-6 rounded-lg flex items-center justify-center"
                     style={{
-                      background: "rgba(212,160,23,0.12)",
-                      border: "1px solid rgba(212,160,23,0.2)",
+                      background: "rgba(var(--nec-gold-rgb),0.08)",
+                      border: "1px solid rgba(var(--nec-gold-rgb),0.15)",
                     }}
                   >
                     <Heart
@@ -411,7 +411,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                       className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background =
-                          "rgba(212,160,23,0.04)"
+                          "rgba(var(--nec-gold-rgb),0.04)"
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = "transparent"
@@ -440,7 +440,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         className="group/link flex items-center gap-2 rounded-xl p-2.5 -mx-1 transition-all duration-200"
                         onMouseEnter={(e) => {
                           e.currentTarget.style.background =
-                            "rgba(212,160,23,0.04)"
+                            "rgba(var(--nec-gold-rgb),0.04)"
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.background = "transparent"

@@ -39,7 +39,7 @@ export default function BlogPage() {
                 background:
                   "linear-gradient(90deg, var(--nec-purple), var(--nec-pink), var(--nec-gold))",
                 boxShadow:
-                  "0 0 12px rgba(124,58,237,0.3), 0 0 24px rgba(192,38,211,0.15)",
+                  "0 0 12px rgba(var(--nec-purple-rgb),0.15), 0 0 24px rgba(var(--nec-pink-rgb),0.08)",
               }}
             />
 

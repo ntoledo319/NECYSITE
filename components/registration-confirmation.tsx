@@ -38,7 +38,7 @@ export default function RegistrationConfirmation({
   if (isComplete) {
     return (
       <div className="text-center space-y-6 py-8" role="status" aria-live="polite">
-        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto bg-[rgba(124,58,237,0.12)]">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto bg-[rgba(var(--nec-purple-rgb),0.08)]">
           <svg
             className="w-8 h-8 text-[var(--nec-cyan)]"
             fill="none"
@@ -196,7 +196,7 @@ export default function RegistrationConfirmation({
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(192,38,211,0.25)]"
+          className="flex-1 text-[var(--nec-text)] font-bold bg-[var(--nec-pink)] shadow-[0_2px_12px_rgba(var(--nec-pink-rgb),0.15)]"
         >
           {isSubmitting ? "Submitting..." : "Complete Registration"}
         </Button>

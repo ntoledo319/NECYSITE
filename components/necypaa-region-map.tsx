@@ -178,17 +178,17 @@ export default function NecypaaRegionMap({
 
       if (isActive) {
         return isNE
-          ? "rgba(20,184,166,0.40)"
-          : "rgba(124,58,237,0.40)"
+          ? "rgba(var(--nec-cyan-rgb),0.40)"
+          : "rgba(var(--nec-purple-rgb),0.40)"
       }
       if (isHovered) {
         return isNE
-          ? "rgba(20,184,166,0.22)"
-          : "rgba(124,58,237,0.22)"
+          ? "rgba(var(--nec-cyan-rgb),0.22)"
+          : "rgba(var(--nec-purple-rgb),0.22)"
       }
       return isNE
-        ? "rgba(20,184,166,0.07)"
-        : "rgba(124,58,237,0.07)"
+        ? "rgba(var(--nec-cyan-rgb),0.07)"
+        : "rgba(var(--nec-purple-rgb),0.07)"
     },
     [activeState, hoveredState],
   )
@@ -201,15 +201,15 @@ export default function NecypaaRegionMap({
 
       if (isActive) {
         return isNE
-          ? "rgba(20,184,166,0.85)"
-          : "rgba(168,130,255,0.85)"
+          ? "rgba(var(--nec-cyan-rgb),0.85)"
+          : "rgba(var(--nec-purple-rgb),0.85)"
       }
       if (isHovered) {
         return isNE
-          ? "rgba(20,184,166,0.50)"
-          : "rgba(168,130,255,0.50)"
+          ? "rgba(var(--nec-cyan-rgb),0.50)"
+          : "rgba(var(--nec-purple-rgb),0.50)"
       }
-      return "rgba(100,80,140,0.30)"
+      return "rgba(var(--nec-purple-rgb),0.25)"
     },
     [activeState, hoveredState],
   )
@@ -245,7 +245,7 @@ export default function NecypaaRegionMap({
           {/* Refined glow for active state — soft, not blobby */}
           <filter id={`${filterId}-active`} x="-10%" y="-10%" width="120%" height="120%">
             <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
-            <feFlood floodColor="rgba(168,130,255,0.3)" result="color" />
+            <feFlood result="color" style={{ floodColor: "rgba(var(--nec-purple-rgb),0.3)" }} />
             <feComposite in="color" in2="blur" operator="in" result="glow" />
             <feMerge>
               <feMergeNode in="glow" />
@@ -255,7 +255,7 @@ export default function NecypaaRegionMap({
           {/* Subtle border shimmer for NE active */}
           <filter id={`${filterId}-active-ne`} x="-10%" y="-10%" width="120%" height="120%">
             <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
-            <feFlood floodColor="rgba(20,184,166,0.3)" result="color" />
+            <feFlood result="color" style={{ floodColor: "rgba(var(--nec-cyan-rgb),0.3)" }} />
             <feComposite in="color" in2="blur" operator="in" result="glow" />
             <feMerge>
               <feMergeNode in="glow" />
@@ -281,12 +281,12 @@ export default function NecypaaRegionMap({
             <g key={state.abbreviation}>
               <path
                 d={state.d}
-                fill={getStateFill(state.abbreviation, state.region)}
-                stroke={getStrokeColor(state.abbreviation, state.region)}
-                strokeWidth={isActive ? 1.8 : isHovered ? 1.2 : 0.6}
                 strokeLinejoin="round"
                 className="necypaa-map-state"
                 style={{
+                  fill: getStateFill(state.abbreviation, state.region),
+                  stroke: getStrokeColor(state.abbreviation, state.region),
+                  strokeWidth: isActive ? 1.8 : isHovered ? 1.2 : 0.6,
                   cursor: "pointer",
                   transition: "fill 0.2s ease, stroke 0.2s ease, stroke-width 0.15s ease",
                   filter: isActive
@@ -351,9 +351,11 @@ export default function NecypaaRegionMap({
                     width={10}
                     height={6}
                     rx={3}
-                    fill="rgba(192,38,211,0.85)"
-                    stroke="rgba(192,38,211,0.4)"
                     strokeWidth={0.3}
+                    style={{
+                      fill: "rgba(var(--nec-pink-rgb),0.85)",
+                      stroke: "rgba(var(--nec-pink-rgb),0.4)",
+                    }}
                   />
                   <text
                     x={label.x}
@@ -383,9 +385,11 @@ export default function NecypaaRegionMap({
             width="5"
             height="5"
             rx="1"
-            fill="rgba(20,184,166,0.25)"
-            stroke="rgba(20,184,166,0.5)"
             strokeWidth="0.5"
+            style={{
+              fill: "rgba(var(--nec-cyan-rgb),0.25)",
+              stroke: "rgba(var(--nec-cyan-rgb),0.5)",
+            }}
           />
           <text
             x="8"
@@ -405,9 +409,11 @@ export default function NecypaaRegionMap({
             width="5"
             height="5"
             rx="1"
-            fill="rgba(124,58,237,0.25)"
-            stroke="rgba(168,130,255,0.5)"
             strokeWidth="0.5"
+            style={{
+              fill: "rgba(var(--nec-purple-rgb),0.25)",
+              stroke: "rgba(var(--nec-purple-rgb),0.5)",
+            }}
           />
           <text
             x="66"

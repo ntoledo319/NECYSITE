@@ -96,7 +96,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         {enableScholarship && !hasAccessCode && (
-          <div className="rounded-xl border border-[var(--nec-border)] p-3 bg-[rgba(124,58,237,0.05)]">
+          <div className="rounded-xl border border-[var(--nec-border)] p-3 bg-[rgba(var(--nec-purple-rgb),0.04)]">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-[var(--nec-muted)] text-center sm:text-left">Buying registration for someone else?</p>
               <Button
@@ -257,7 +257,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
 
       {/* Registration Access Code */}
       <div
-        className="rounded-xl border border-[var(--nec-border)] p-3 bg-[rgba(124,58,237,0.05)]"
+        className="rounded-xl border border-[var(--nec-border)] p-3 bg-[rgba(var(--nec-purple-rgb),0.04)]"
       >
         <button
           type="button"
