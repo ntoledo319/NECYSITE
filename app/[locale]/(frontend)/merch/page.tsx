@@ -16,6 +16,7 @@ export default function MerchPage() {
       title="Merchandise"
       subtitle="Official NECYPAA XXXVI gear is on the way. All proceeds support the convention."
       character="mad-hatter"
+      theme="merch"
       gameName="Wall of Denial"
       gameDescription="Break through the Wall of Denial. Mouse/touch or ← → to move the paddle. Space or click to launch."
     >

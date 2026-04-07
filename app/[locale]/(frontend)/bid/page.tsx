@@ -16,6 +16,7 @@ export default function BidPage() {
       title="How to Start a Bid"
       subtitle="Interested in hosting a future NECYPAA? Here's everything you need to know about the bidding process."
       character="mad-hatter"
+      theme="bid"
       gameName="Defect Invaders"
       gameDescription="The AA triangle fires spiritual principles at character defects. Arrow keys to move, Space to fire."
     >

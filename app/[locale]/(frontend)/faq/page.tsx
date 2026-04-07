@@ -17,6 +17,7 @@ export default function FAQPage() {
       title="Frequently Asked Questions"
       subtitle="Answers to everything you need to know about NECYPAA XXXVI. This page is being assembled by the host committee."
       character="cheshire-cat"
+      theme="faq"
       gameName="Matching Principles"
       gameDescription="Match each AA principle to its step. Arrow keys to navigate, Enter or Space to flip. Find all 8 pairs."
     >

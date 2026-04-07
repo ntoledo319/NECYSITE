@@ -16,6 +16,7 @@ export default function ProgramPage() {
       title="Convention Program"
       subtitle="Four days of speakers, workshops, meetings, and fellowship. The full schedule will be posted here as the convention approaches."
       character="cheshire-cat"
+      theme="program"
       gameName="Recovery Blocks"
       gameDescription="Build your program one block at a time. Each piece carries a recovery slogan. ← → move, ↑ rotate, Space hard drop."
     >

@@ -7,7 +7,7 @@
 
 ## Current Project State
 
-**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, but the recent page-sweep copy rewrites have been rolled back because committee-approved wording must remain untouched.
+**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current pass is re-differentiating unfinished routes using layout/art direction only.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -65,6 +65,20 @@ This means the branch no longer includes the copy-heavy versions of:
 
 Any future sweep on those pages should be visual-only unless content approval is explicit.
 
+### 4. Visual-Only Route Differentiation Pass
+
+This pass resumed work on unfinished routes without changing committee-approved wording.
+
+**What changed in this pass:**
+- `components/games/inventory-shell.tsx` now supports visual themes for unfinished routes while preserving the exact route copy
+- `faq`, `program`, `merch`, `prayer`, `asl`, and `bid` now share the same approved words but no longer share the same presentation
+- `service/page.tsx` was recomposed into a more structured two-column layout with stronger visual hierarchy, while keeping the existing text intact
+
+**Design intent of this pass:**
+- differentiate pages through composition, framing, imagery, and panel language
+- avoid further editorialization of route copy
+- keep future work inside the “visual-only unless approved” rule
+
 ---
 
 ## Features: Current Status
@@ -88,7 +102,7 @@ Any future sweep on those pages should be visual-only unless content approval is
 - Service
 - Blog presentation pages
 
-These routes should be treated as design surfaces only unless approved copy is supplied or explicitly cleared for change.
+These routes should be treated as design surfaces only unless approved copy is supplied or explicitly cleared for change. Several of them now have stronger visual identities, but they still need final real content.
 
 ---
 
@@ -115,11 +129,12 @@ See `docs/tech-debt-and-gaps.md` for the broader backlog.
 ## Recent Commits On Branch
 
 ```
+b9bd286 Update handoff after copy rollback
+f499b88 Revert unapproved copy changes from page sweep
 1fbca97 Polish NECYPAA UI across core flows
 1b217e6 fix(deps): remove package-lock.json, enforce pnpm as sole package manager
 a871bfb style(theme): replace hardcoded neon rgba values with CSS variable equivalents
 4c0117d feat(events): populate past events + redesign homepage section
-3bf7aa5 fix(meta): use badge image for social sharing preview
 ```
 
 ---

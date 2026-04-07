@@ -16,6 +16,7 @@ export default function PrayerPage() {
       title="Prayer"
       subtitle="Spiritual resources and reflections. Content from the Prayer Chair coming soon."
       character="caterpillar"
+      theme="prayer"
       gameName="The Journey"
       gameDescription="Collect serenity tokens one day at a time. Arrow keys to move. Don't cross your own path."
     >
