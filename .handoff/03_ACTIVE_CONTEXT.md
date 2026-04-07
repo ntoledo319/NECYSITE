@@ -1,166 +1,132 @@
 # Active Context — NECYPAA XXXVI Website
 
-> **Last Updated:** 2026-04-05
+> **Last Updated:** 2026-04-07
 > **Purpose:** Snapshot of exactly where this project stands right now. Updated before every push.
 
 ---
 
 ## Current Project State
 
-**Phase:** Aesthetic overhaul (Wave 1–2 complete, Wave 3–4 pending). Convention is Dec 31, 2026.
+**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, but the recent page-sweep copy rewrites have been rolled back because committee-approved wording must remain untouched.
 
-**Branch:** `wave2/light-first-component-surgery` (branched from `main` — main is untouched)
-**Build status:** Passing (production build green, all routes compile)
-**Deployment:** Not yet merged to main. Vercel auto-deploys from main only.
-
----
-
-## Latest Changes (This Session — Aesthetic Redo Wave 1)
-
-### Wave 1A: Color Token Overhaul — Light-First Warm Parchment (Complete)
-
-Complete replacement of the dark-first neon SaaS palette with a warm, parchment-based light-first design system derived from the original Mad Realm poster art.
-
-**What changed:**
-
-1. **`:root` tokens** — Replaced all color variables with warm palette:
-   - `--nec-navy` → warm parchment `#F5F0E8` (was dark purple `#0a0612`)
-   - `--nec-text` → dark walnut `#2C1810` (was white)
-   - `--nec-muted` → warm gray `#6B5B4F` (was cold gray)
-   - `--nec-purple` → aged plum `#6B3060` (was neon `#7c3aed`)
-   - `--nec-cyan` → teal patina `#2D6B5E` (was electric cyan)
-   - `--nec-gold` → antique gold `#7A5B0D` (was bright yellow)
-   - `--nec-pink` → raspberry `#8B2252` (was neon magenta)
-   - Added `--nec-card`, `--shadow-card`, `--shadow-text` tokens
-   - Added RGB triplet variables for `rgba()` usage
-
-2. **`[data-color-mode="dark"]` block** — New warm navy palette (navy `#0F1A2B`, cream text `#E8E0D4`) with corresponding shadow/card tokens.
-
-3. **Removed ~300 lines of `[data-color-mode="light"]` overrides** — Since light is now the default, these were all redundant. Base styles use CSS variables that resolve correctly in both modes.
-
-4. **Component base styles** — All registration cards, site-wide surfaces, badges, pills, buttons, etc. now use `var(--nec-*)` and `rgba(var(--nec-*-rgb), opacity)` instead of hardcoded `rgba(26,16,48,...)`.
-
-5. **High contrast** — Updated for both light (max contrast warm colors on parchment) and dark (bright warm tones on navy) modes.
-
-6. **Focus rings** — Plum (`--nec-purple`) on light, teal (`--nec-cyan`) on dark. Both exceed 3:1 contrast on their backgrounds.
-
-7. **A11yProvider** — Default `colorMode` changed from `"dark"` to `"light"`. OS preference detection still works. Tests updated.
-
-### Wave 1B: Typography Swap (Complete)
-
-Replaced generic SaaS sans-serifs with warm editorial serifs:
-
-- **Body**: Plus Jakarta Sans → **Source Serif 4** (excellent readability, warm, WCAG AAA compliant)
-- **Headings**: Outfit → **Playfair Display** (editorial high-contrast serif, evokes storybook/letterpress)
-- **Display**: Bangers kept (fits Mad Realm whimsy)
-- Updated `layout.tsx`, `tailwind.config.js`, `globals.css`, `critical.css` font-family fallbacks.
-
-### Wave 1C: Neon RGBA → CSS Variable Sweep (Complete)
-
-Systematic replacement of all hardcoded neon `rgba(124,58,237,...)`, `rgba(192,38,211,...)`, `rgba(20,184,166,...)`, `rgba(234,179,8,...)`, `rgba(212,160,23,...)`, `rgba(168,130,255,...)` values with CSS variable-based `rgba(var(--nec-*-rgb), alpha)` equivalents across all components and pages.
-
-**Files modified:**
-- `states/page.tsx`, `alanon/page.tsx`, `service/page.tsx`, `blog/page.tsx`, `not-found.tsx`
-- `registration-form.tsx`, `registration-checkout.tsx`, `registration-confirmation.tsx`
-- `breakfast-checkout.tsx`, `breakfast-add-ons.tsx`, `breakfast-ticket-selector.tsx`
-- `access-code-checkout.tsx`, `policy-agreement.tsx`, `state-card.tsx`
-- `necypaa-region-map.tsx`, `ct-state.tsx`, `inventory-shell.tsx`
-- `expandable-meeting-row.tsx`, `meeting-card.tsx`, `purpose-section.tsx`
-- `anonymous-feedback-form.tsx`, `section-divider.tsx`, `page-shell.tsx`
-- `scroll-progress.tsx`, `motion-primitives.tsx`
-
-**Key decisions:**
-- SVG `fill`/`stroke`/`floodColor` attributes moved to `style` props (SVG attributes don't resolve CSS `var()`)
-- Canvas 2D game code (`pong.tsx`, `snake.tsx`, `memory.tsx`, `tetris.tsx`) left with hardcoded values — Canvas API can't use CSS variables
-- Added `--alanon-blue-rgb` and `--nec-orange-rgb` CSS variables to `globals.css`
-- Shadow tokens (`--shadow-card`, `--shadow-glow-*`) used where appropriate instead of inline box-shadows
-
-### Wave 1D: Remove AuroraBackground & AmbientBlobs (Complete)
-
-- Removed `AuroraBackground` from `hero-section.tsx` (framer-motion animated blobs — AI slop)
-- Removed `AmbientBlobs` from `page.tsx` (CSS animated glow blobs — unnecessary with warm parchment body)
-- Component files left in place as dead code (can be deleted in cleanup pass)
-- Home page First Load JS dropped ~1kB
-
-**Build:** Passing. All tests pass. Zero lint errors.
+**Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
+**Deployment:** Not merged to `main`. Vercel production still follows `main`.
+**Verification status:** The branch is expected to lint clean on staged TS/TSX files during commit. `pnpm exec tsc --noEmit` is still blocked by the same two pre-existing test files:
+- `lib/__tests__/accessibility-context.test.ts`
+- `lib/__tests__/issuer-client.test.ts`
 
 ---
 
-## Recent Commits (Pre-Session)
+## Latest Changes
+
+### 1. Shared Visual System Overhaul Remains
+
+The branch still contains the broader visual redesign work that moved the site away from the older dark neon treatment:
+- light-first warm color tokens
+- calmer shared surfaces and controls
+- typography overhaul
+- reduced glow/blob noise
+- stronger homepage and core-flow presentation
+- cleaner navigation and shared interaction chrome
+
+### 2. Core Flow Polish Remains
+
+The branch still includes the earlier visual polish across major surfaces, including:
+- homepage sections
+- meetings browser and cards
+- events preview treatment
+- share sheet and utility controls
+- registration and breakfast flow polish
+
+### 3. Copy-Rollback Correction
+
+The recent page-by-page sweep introduced user-facing copy changes on multiple routes. Those wording changes were not approved content changes, so they have been rolled back.
+
+**Rollback intent:**
+- preserve committee-approved copy
+- remove unapproved rewritten text
+- keep the branch aligned with visual design work rather than content authoring
+
+This means the branch no longer includes the copy-heavy versions of:
+- FAQ
+- Program
+- Merch
+- Prayer
+- ASL
+- Bid
+- Blog index/detail
+- Journey
+- Service
+- Accessibility
+- Cash registration
+- Registration success
+- Breakfast success
+- Error / not-found rewrite
+
+Any future sweep on those pages should be visual-only unless content approval is explicit.
+
+---
+
+## Features: Current Status
+
+### Strong / Review-Ready
+- Homepage
+- Registration flow
+- Breakfast sales flow
+- Events page
+- States directory
+- Al-Anon page
+- Accessibility panel and public accessibility page
+- Meetings browser
+
+### Present but Still Needing Final Content / Visual-Only Follow-Up
+- Program
+- Merch
+- Prayer / meditation
+- ASL
+- Bid information
+- Service
+- Blog presentation pages
+
+These routes should be treated as design surfaces only unless approved copy is supplied or explicitly cleared for change.
+
+---
+
+## Known Bugs / Technical Constraints
+
+### Active Known Constraint
+
+`pnpm exec tsc --noEmit` is not fully green because of existing top-level `await` usage in:
+- `lib/__tests__/accessibility-context.test.ts`
+- `lib/__tests__/issuer-client.test.ts`
+
+This is not introduced by the visual design work on this branch.
+
+### High-Priority Product Gaps Still Unrelated to This Visual Pass
+
+1. No Stripe webhook handler for authoritative post-payment reconciliation.
+2. No persistent registration storage beyond Stripe metadata.
+3. Rate limiting is still in-memory and not durable across production instances.
+
+See `docs/tech-debt-and-gaps.md` for the broader backlog.
+
+---
+
+## Recent Commits On Branch
 
 ```
+1fbca97 Polish NECYPAA UI across core flows
+1b217e6 fix(deps): remove package-lock.json, enforce pnpm as sole package manager
+a871bfb style(theme): replace hardcoded neon rgba values with CSS variable equivalents
 4c0117d feat(events): populate past events + redesign homepage section
 3bf7aa5 fix(meta): use badge image for social sharing preview
-fdf3e5c refactor(states): tabbed layout to prevent resource burial
-861bc77 fix(meetings): replace unicode escape sequences with actual characters
-dabf354 fix(meetings): handle empty city/day/time in meeting cards gracefully
-9d64cbf feat(meetings): integrate YPAA + Young Persons Al-Anon meeting directories
-22a4200 style: comprehensive UX/UI design overhaul
 ```
 
 ---
 
-## Features: Complete vs In-Progress vs Placeholder
+## What a New Developer Should Know Immediately
 
-### Complete (Real Content + Functionality)
-- Homepage (hero, quick facts, CTA, YPAA narrative, events preview, meetings)
-- Registration (3-step flow: info → policy → Stripe checkout)
-- Breakfast tickets (standalone Stripe checkout)
-- Free/cash registration (Stripe customer record)
-- Access code redemption (issuer service integration)
-- FAQ page (CMS-backed)
-- Events page (upcoming + past events)
-- Blog (index + detail pages — uses static data, CMS integration pending)
-- States/meeting directory (interactive map + 13 states + DC)
-- Al-Anon resources page
-- Accessibility statement + 6-mode panel
-- Bilingual support (EN/ES with next-intl routing)
-- Anonymous feedback form
-
-### Placeholder Pages (PageShell "Coming Soon")
-- `/bid` — How to bid for next convention
-- `/program` — Convention program/schedule
-- `/merch` — Merchandise
-- `/prayer` — Prayer/meditation
-- `/asl` — ASL resources
-- `/service` — Service committee opportunities
-
----
-
-## Known Critical Bugs
-
-**None currently.** Last bug fix was `4c0117d` (past events rendering).
-
----
-
-## Known Critical Gaps (P0 — Fix Before Launch)
-
-1. **No Stripe webhook handler** — If a user closes browser mid-checkout, payment succeeds on Stripe but the site has no record. Need `app/api/webhooks/stripe/route.ts`.
-
-2. **No persistent registration storage** — Registrations exist only as Stripe customer metadata. Need a `Registrations` Payload CMS collection.
-
-3. **Rate limiter is per-instance** — In-memory `Map` resets on Vercel cold starts. Replace with Vercel KV for production.
-
-See `docs/tech-debt-and-gaps.md` for the full prioritized list (20 items, P0–P3).
-
----
-
-## Active Dependencies on External Systems
-
-| System | Status | Notes |
-|--------|--------|-------|
-| **Stripe** | Active (test mode for dev, live for prod) | Keys in Vercel env vars |
-| **Issuer Service** | Optional | Only needed for access code flow |
-| **Vercel** | Active | Auto-deploy on `main` |
-| **Google Fonts** | Active | Loaded via `<link>` in layout |
-
----
-
-## What a New Developer Should Do First
-
-1. Read `AA_TRADITIONS_GUARDRAILS.md` — The rules about anonymity and tone are non-negotiable.
-2. Read `ACCESSIBILITY_GUIDELINES.md` — Every component must be WCAG 2.1 AA minimum.
-3. Follow `docs/onboarding.md` for environment setup.
-4. Read `docs/architecture.md` for how the system fits together.
-5. Run `pnpm dev`, `pnpm test`, `pnpm build` to verify your setup.
-6. Check `docs/tech-debt-and-gaps.md` for the highest-priority work items.
+1. `main` is not the visual reference for the redesign branch.
+2. Committee-approved wording is constrained. Do not rewrite user-facing copy unless the change is explicitly requested and approved.
+3. The next design passes on unfinished routes should focus on layout, composition, hierarchy, art direction, and interaction without changing text.
+4. Before pushing again, keep this file current. The pre-push hook expects it.
