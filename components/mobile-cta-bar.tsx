@@ -32,14 +32,19 @@ export default function MobileCtaBar() {
             boxShadow: "0 -4px 24px rgba(0,0,0,0.06)",
             paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
           }}
-          initial={shouldReduce ? false : { y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 80, opacity: 0 }}
+          initial={shouldReduce ? false : { y: 80 }}
+          animate={{ y: 0 }}
+          exit={{ y: 80 }}
           transition={shouldReduce ? { duration: 0 } : SPRING_SNAPPY}
         >
           <Link
             href="/register"
             className="btn-primary flex-1 !py-2.5 !text-sm"
+            style={{
+              backgroundColor: "#6B3060",
+              borderColor: "rgba(107,48,96,0.34)",
+              color: "#fff",
+            }}
           >
             Register — $40
           </Link>
@@ -48,6 +53,11 @@ export default function MobileCtaBar() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary flex-1 !py-2.5 !text-sm"
+            style={{
+              backgroundColor: "#7A5B0D",
+              borderColor: "rgba(122,91,13,0.34)",
+              color: "#fdf8ee",
+            }}
           >
             Book Hotel<span className="sr-only"> (opens in new tab)</span>
           </a>

@@ -135,19 +135,20 @@ export default function BusinessMeetingSection() {
                 key={detail.label}
                 className="grid gap-3 rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] p-4"
               >
-                <div
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl border"
-                  style={{
-                    background: `rgba(${detail.accentRgb},0.06)`,
-                    borderColor: `rgba(${detail.accentRgb},0.14)`,
-                  }}
-                >
-                  <Icon className="h-5 w-5" style={{ color: detail.accent }} aria-hidden="true" />
-                </div>
-                <div>
-                  <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
-                  <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
-                </div>
+                <dt className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                  <span
+                    className="flex h-11 w-11 items-center justify-center rounded-2xl border"
+                    style={{
+                      background: `rgba(${detail.accentRgb},0.06)`,
+                      borderColor: `rgba(${detail.accentRgb},0.14)`,
+                    }}
+                    aria-hidden="true"
+                  >
+                    <Icon className="h-5 w-5" style={{ color: detail.accent }} aria-hidden="true" />
+                  </span>
+                  {detail.label}
+                </dt>
+                <dd className="text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
               </div>
             )
           })}

@@ -11,7 +11,7 @@
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
-**Verification status:** The branch is expected to lint clean on staged TS/TSX files during commit. `pnpm exec tsc --noEmit` is still blocked by the same two pre-existing test files:
+**Verification status:** The branch now passes the end-to-end accessibility suite via `pnpm exec playwright test e2e/accessibility.spec.ts --workers=1` (`80` tests passed). The branch is expected to lint clean on staged TS/TSX files during commit. `pnpm exec tsc --noEmit` is still blocked by the same two pre-existing test files:
 - `lib/__tests__/accessibility-context.test.ts`
 - `lib/__tests__/issuer-client.test.ts`
 
@@ -136,6 +136,24 @@ This pass stayed visual-only and focused on two specific issues raised in review
 - keep the stronger redesign language
 - restore a better emotional anchor for the homepage YPAA explanation
 - make spacing feel systemic instead of page-by-page accidental
+
+### 9. Accessibility Alignment Pass
+
+This pass focused on bringing the branch back into line with the repo's own enforced accessibility floor rather than adding new visual scope.
+
+**What changed in this pass:**
+- `components/sections/business-meeting-section.tsx` now uses valid description-list structure so homepage meeting details no longer trip axe semantics errors
+- `components/sections/events-preview-section.tsx` was adjusted so the homepage archive labels clear AA color contrast while preserving the section's visual direction
+- `app/[locale]/(frontend)/layout.tsx` now makes `main#main-content` programmatically focusable, which restores reliable skip-link behavior for keyboard users
+- `app/[locale]/(frontend)/alanon/page.tsx` now uses stronger, mode-safe heading and focus colors for the Al-Anon / Alateen state sections
+- `components/breakfast-checkout.tsx` and `components/registration-checkout.tsx` now use semantic destructive text treatment for error states instead of low-contrast red utility text
+- `components/mobile-cta-bar.tsx` now uses explicit high-contrast mobile CTA styling and a no-fade entrance so the fixed CTA bar does not dip into low-contrast intermediate states during fast page loads
+- `e2e/accessibility.spec.ts` now includes `/blog`, `/journey`, and all blog detail routes in the enforced AA sweep so content routes already on the branch are covered by the suite
+
+**Verification completed in this pass:**
+- `pnpm exec playwright test e2e/accessibility.spec.ts --workers=1`
+- result: `80 passed`
+- remaining contrast notes surfaced during the run are AAA-only warnings on a few pages and do not fail the branch under current project policy
 
 ---
 

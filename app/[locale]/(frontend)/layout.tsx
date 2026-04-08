@@ -116,7 +116,7 @@ export default async function RootLayout({
             <ScrollProgress />
             <GrainOverlayWrapper />
             <SiteHeader />
-            <main id="main-content" className="pt-16">
+            <main id="main-content" tabIndex={-1} className="pt-16">
               <PageTransition>
                 {children}
               </PageTransition>

@@ -52,6 +52,7 @@
   /* Al-Anon brand colors (from official SVG) */
   --alanon-blue:     #0093D0;
   --alanon-blue-dim: #007BB5;
+  --alanon-blue-text: #005F87;
   --alanon-blue-rgb: 0, 147, 208;
   --alanon-white:    #FFFFFF;
   --nec-alateen:     #7D5A8E;
@@ -115,6 +116,7 @@
   --nec-navy-rgb:   13, 27, 42;
   --nec-card-rgb:   29, 45, 62;
   --nec-dark-rgb:   22, 35, 54;
+  --alanon-blue-text: #6BC9ED;
   --alanon-blue-rgb: 0, 147, 208;
   --nec-orange-rgb:  212, 154, 106;
 

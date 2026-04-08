@@ -87,7 +87,7 @@ export default function BreakfastCheckout() {
     return (
       <div className="nec-reg-subcard rounded-2xl p-4 min-h-[300px] flex items-center justify-center" role="alert" aria-live="assertive">
         <div className="text-center space-y-2">
-          <p className="text-red-400 font-semibold">Hmm, something went wrong</p>
+          <p className="font-semibold text-[hsl(var(--destructive))]">Hmm, something went wrong</p>
           <p className="text-[var(--nec-muted)]">{error}</p>
         </div>
       </div>

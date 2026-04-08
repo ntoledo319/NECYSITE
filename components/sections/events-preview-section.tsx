@@ -99,9 +99,18 @@ export default function EventsPreviewSection() {
 
       {pastEvents.length > 0 && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-cyan)]">Recent Events</h3>
-            <Link href="/events" className="text-sm font-semibold text-[var(--nec-cyan)] hover:opacity-80">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--nec-text)]">
+              <span
+                className="h-2 w-2 rounded-full bg-[var(--nec-cyan)]"
+                aria-hidden="true"
+              />
+              Recent Events
+            </h3>
+            <Link
+              href="/events"
+              className="text-sm font-semibold text-[var(--nec-text)] underline decoration-[rgba(var(--nec-cyan-rgb),0.45)] underline-offset-4 transition-colors hover:text-[var(--nec-purple)]"
+            >
               Browse Archive
             </Link>
           </div>

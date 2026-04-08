@@ -169,7 +169,7 @@ export default function AlAnonPage() {
                   href="https://al-anon.org/newcomers/self-quiz/teen-quiz/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="nec-alateen-quiz nec-quiz-card group relative block overflow-hidden rounded-[1.7rem] p-5 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c4a5d6] sm:p-6"
+                  className="nec-alateen-quiz nec-quiz-card group relative block overflow-hidden rounded-[1.7rem] p-5 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-alateen)] sm:p-6"
                   style={{
                     background: "linear-gradient(135deg, rgba(180,140,210,0.12) 0%, rgba(164,120,192,0.06) 100%)",
                     border: "1px solid rgba(180,140,210,0.25)",
@@ -306,7 +306,7 @@ export default function AlAnonPage() {
               <h2
                 id="alanon-state-heading"
                 className="text-base sm:text-lg font-bold uppercase tracking-widest mb-2 pl-1"
-                style={{ color: "var(--alanon-blue)", textShadow: "0 0 12px rgba(0,147,208,0.15)" }}
+                style={{ color: "var(--alanon-blue-text)", textShadow: "0 0 12px rgba(0,147,208,0.12)" }}
               >
                 Al-Anon by State
               </h2>
@@ -360,7 +360,7 @@ export default function AlAnonPage() {
               <h2
                 id="alateen-state-heading"
                 className="text-base sm:text-lg font-bold uppercase tracking-widest mb-2 pl-1"
-                style={{ color: "#c4a5d6", textShadow: "0 0 12px rgba(180,140,210,0.12)" }}
+                style={{ color: "var(--nec-alateen)", textShadow: "0 0 12px rgba(180,140,210,0.10)" }}
               >
                 Alateen by State
               </h2>
@@ -377,7 +377,7 @@ export default function AlAnonPage() {
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="nec-alateen-state-card nec-state-card group rounded-[1.1rem] p-3 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c4a5d6] sm:p-4"
+                      className="nec-alateen-state-card nec-state-card group rounded-[1.1rem] p-3 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-alateen)] sm:p-4"
                       style={{
                         background: "rgba(var(--nec-card-rgb),0.54)",
                         border: "1px solid rgba(180,140,210,0.10)",
@@ -385,7 +385,7 @@ export default function AlAnonPage() {
                       aria-label={`${state.name} Alateen resources (opens in new tab)`}
                     >
                       <span
-                        className="block text-xl sm:text-2xl font-black mb-0.5 sm:mb-1 group-hover:text-[#c4a5d6] transition-colors"
+                        className="block text-xl sm:text-2xl font-black mb-0.5 sm:mb-1 group-hover:text-[var(--nec-alateen)] transition-colors"
                         style={{ color: "var(--nec-text)" }}
                         aria-hidden="true"
                       >
@@ -396,7 +396,7 @@ export default function AlAnonPage() {
                       </span>
                       <ExternalLink
                         className="w-3 h-3 mx-auto mt-1 sm:mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                        style={{ color: "#c4a5d6" }}
+                        style={{ color: "var(--nec-alateen)" }}
                         aria-hidden="true"
                       />
                     </a>

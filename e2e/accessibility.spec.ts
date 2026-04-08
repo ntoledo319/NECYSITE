@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test"
 import AxeBuilder from "@axe-core/playwright"
+import { BLOG_POSTS } from "../lib/data/blog-posts"
 
 /**
  * Automated accessibility tests for all pages with real content.
@@ -21,6 +22,8 @@ const PAGES_WITH_CONTENT = [
   { path: "/states", name: "Member States" },
   { path: "/events", name: "Events" },
   { path: "/service", name: "Service" },
+  { path: "/journey", name: "Journey" },
+  { path: "/blog", name: "Blog" },
 ]
 
 const PLACEHOLDER_PAGES = [
@@ -29,8 +32,12 @@ const PLACEHOLDER_PAGES = [
   { path: "/merch", name: "Merch" },
   { path: "/prayer", name: "Prayer" },
   { path: "/asl", name: "ASL" },
-  { path: "/blog", name: "Blog" },
 ]
+
+const BLOG_POST_PAGES = BLOG_POSTS.map((post) => ({
+  path: `/blog/${post.slug}`,
+  name: `Blog Post: ${post.slug}`,
+}))
 
 for (const page of PAGES_WITH_CONTENT) {
   test(`${page.name} (${page.path}) — WCAG 2.1 AA`, async ({ page: browserPage }) => {
@@ -80,6 +87,18 @@ for (const page of PAGES_WITH_CONTENT) {
 
 for (const page of PLACEHOLDER_PAGES) {
   test(`${page.name} placeholder (${page.path}) — WCAG 2.1 AA`, async ({ page: browserPage }) => {
+    await browserPage.goto(page.path, { waitUntil: "networkidle" })
+
+    const results = await new AxeBuilder({ page: browserPage })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+}
+
+for (const page of BLOG_POST_PAGES) {
+  test(`${page.name} (${page.path}) — WCAG 2.1 AA`, async ({ page: browserPage }) => {
     await browserPage.goto(page.path, { waitUntil: "networkidle" })
 
     const results = await new AxeBuilder({ page: browserPage })
