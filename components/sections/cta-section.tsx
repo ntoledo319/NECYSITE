@@ -60,21 +60,9 @@ export default function CTASection() {
                 Secure your spot before the holiday weekend gets crowded.
               </h3>
               <p className="mt-4 max-w-xl text-base leading-7 text-[var(--nec-muted)]">
-                Pre-registration is $40 for NECYPAA XXXVI. If someone lands on this page unsure what
+                Pre-registration is open for NECYPAA XXXVI. If someone lands on this page unsure what
                 to do next, the answer should be immediate.
               </p>
-            </div>
-
-            <div className="grid gap-4 rounded-[1.65rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5 md:grid-cols-[auto_1fr] md:items-center">
-              <div className="rounded-[1.25rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)] px-4 py-3 text-center">
-                <div className="text-4xl font-semibold text-[var(--nec-gold)]">$40</div>
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm font-semibold text-[var(--nec-text)]">Pre-registration price</p>
-                <p className="text-sm leading-6 text-[var(--nec-muted)]">
-                  The fastest way to get from “I should go” to “I’m in.”
-                </p>
-              </div>
             </div>
 
             <ul className="grid gap-3 md:grid-cols-3">

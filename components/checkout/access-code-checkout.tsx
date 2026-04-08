@@ -36,7 +36,7 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
       }
 
       setAccessCodeSuccess(true)
-      router.push("/register/success")
+      router.push("/register/success?flow=access-code")
     } catch {
       setAccessCodeError("Something went wrong. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.")
     } finally {

@@ -1,12 +1,14 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { Calendar, MapPin } from "lucide-react"
+import { Calendar, CalendarPlus, MapPin } from "lucide-react"
 import { pastEvents, upcomingEvent } from "@/lib/data/events"
+import { getGoogleCalendarUrl } from "@/lib/calendar"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import FlyerWithModal from "@/components/flyer-with-modal"
 import PageArtAccents from "@/components/art/page-art-accents"
 import ShareMenu from "@/components/share-menu"
+import { generateEventJsonLd } from "@/lib/event-jsonld"
 
 export const metadata: Metadata = {
   title: "Events — NECYPAA XXXVI",
@@ -15,8 +17,20 @@ export const metadata: Metadata = {
 }
 
 export default function EventsPage() {
+  const allEvents = [upcomingEvent, ...pastEvents]
+  const jsonLdItems = allEvents
+    .map(generateEventJsonLd)
+    .filter((ld): ld is Record<string, unknown> => ld !== null)
+
   return (
     <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+      {jsonLdItems.map((ld, i) => (
+        <script
+          key={allEvents[i].id}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" dividerVariant="gear" />
 
       <div className="page-frame">
@@ -66,11 +80,11 @@ export default function EventsPage() {
               <div className="max-w-2xl">
                 <span className="section-badge">Coming Up Next</span>
                 <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                  The featured event should do the heavy lifting.
+                  What&apos;s next on the road to Hartford.
                 </h2>
                 <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                  One large, readable card. Flyer first, logistics second, no decorative fog between the
-                  visitor and the actual information.
+                  Everything you need to know about our next event — what it is, when and where,
+                  and how to be there.
                 </p>
               </div>
 
@@ -112,6 +126,22 @@ export default function EventsPage() {
 
                     <p className="text-base leading-7 text-[var(--nec-muted)]">{upcomingEvent.description}</p>
 
+                    {(() => {
+                      const calUrl = getGoogleCalendarUrl(upcomingEvent)
+                      return calUrl ? (
+                        <a
+                          href={calUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-ghost inline-flex items-center gap-2 self-start"
+                        >
+                          <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+                          Add to Calendar
+                          <span className="sr-only"> (opens Google Calendar in new tab)</span>
+                        </a>
+                      ) : null
+                    })()}
+
                     {upcomingEvent.schedule.length > 0 && (
                       <div className="grid gap-2 sm:grid-cols-2">
                         {upcomingEvent.schedule.map((slot) => (
@@ -148,10 +178,11 @@ export default function EventsPage() {
               <div className="max-w-2xl">
                 <span className="section-badge">Archive</span>
                 <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                  Past events should still be easy to scan.
+                  Where we&apos;ve been.
                 </h2>
                 <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                  The archive works better as a clean grid of readable summaries than a stack of over-decorated cards.
+                  A look back at the events and fundraisers that brought us here. Every one of these
+                  brought people together and moved us closer to Hartford.
                 </p>
               </div>
 

@@ -68,6 +68,9 @@ export default function BreakfastSuccessPage() {
                       Breakfast will be served at the Hartford Marriott Downtown — no need to print anything,
                       just check in with your name at the door.
                     </p>
+                    <p className="text-sm leading-relaxed text-[var(--nec-muted)] italic">
+                      Nothing beats starting the new year with good food and even better fellowship.
+                    </p>
                   </div>
 
                   <div className="rounded-[1.6rem] border border-[rgba(var(--nec-orange-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.70)] p-6 text-left">
@@ -81,7 +84,7 @@ export default function BreakfastSuccessPage() {
                         <div>
                           <p className="text-sm font-semibold text-[var(--nec-text)]">Register for the convention</p>
                           <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
-                            If you haven&apos;t already, secure your spot at NECYPAA XXXVI for just $40.
+                            If you haven&apos;t already, secure your spot at NECYPAA XXXVI.
                           </p>
                         </div>
                       </div>

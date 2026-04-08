@@ -1,9 +1,13 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { Mail } from "lucide-react"
+import { CONTACT_EMAIL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
+
+const AUTO_RETRY_SECONDS = 10
 
 export default function Error({
   error,
@@ -12,9 +16,26 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const [countdown, setCountdown] = useState(AUTO_RETRY_SECONDS)
+  const [autoRetryActive, setAutoRetryActive] = useState(true)
+
+  const cancelAutoRetry = useCallback(() => {
+    setAutoRetryActive(false)
+  }, [])
+
   useEffect(() => {
     console.error("Page error:", error)
   }, [error])
+
+  useEffect(() => {
+    if (!autoRetryActive) return
+    if (countdown <= 0) {
+      reset()
+      return
+    }
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [countdown, autoRetryActive, reset])
 
   return (
     <div
@@ -59,6 +80,23 @@ export default function Error({
                 homepage.
               </p>
 
+              {autoRetryActive && (
+                <p
+                  className="mt-5 text-sm text-[var(--nec-muted)]"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  Retrying in {countdown}…{" "}
+                  <button
+                    type="button"
+                    onClick={cancelAutoRetry}
+                    className="underline hover:text-[var(--nec-text)] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </p>
+              )}
+
               <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
                 <button
                   onClick={reset}
@@ -71,8 +109,18 @@ export default function Error({
                 </Link>
               </div>
 
+              <div className="mt-6 pt-4 border-t border-[var(--nec-border)]">
+                <a
+                  href={`mailto:${CONTACT_EMAIL}?subject=Site%20Error${error.digest ? `%20(${error.digest})` : ''}`}
+                  className="inline-flex items-center gap-1.5 text-xs text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors"
+                >
+                  <Mail className="w-3 h-3" aria-hidden="true" />
+                  Still having trouble? Let us know — {CONTACT_EMAIL}
+                </a>
+              </div>
+
               {error.digest && (
-                <p className="text-xs text-[var(--nec-muted)] mt-6">
+                <p className="text-xs text-[var(--nec-muted)] mt-3">
                   Error reference: {error.digest}
                 </p>
               )}

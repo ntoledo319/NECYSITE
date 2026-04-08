@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL, CONTACT_EMAIL } from "@/lib/constants"
-import { Mail, ExternalLink } from "lucide-react"
+import { Mail, ExternalLink, Rss } from "lucide-react"
 import { Sparkle, Hex } from "@/components/art/graffiti-elements"
 import { Gear } from "@/components/art/steampunk-elements"
 import { staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
@@ -100,7 +100,7 @@ export default function SiteFooter() {
             <ul className="space-y-2" aria-label="Convention links">
               <li>
                 <Link href="/register" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
-                  Pre-Register — $40
+                  Pre-Register
                 </Link>
               </li>
               <li>
@@ -200,6 +200,15 @@ export default function SiteFooter() {
                   Accessibility
                 </Link>
               </li>
+              <li>
+                <a
+                  href="/feed.xml"
+                  className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link inline-flex items-center gap-1"
+                >
+                  <Rss className="w-3 h-3" aria-hidden="true" />
+                  RSS Feed
+                </a>
+              </li>
             </ul>
           </motion.div>
 
@@ -250,6 +259,9 @@ export default function SiteFooter() {
           </p>
           <p className="text-center">
             Northeast Convention of Young People in Alcoholics Anonymous
+          </p>
+          <p className="text-center italic hidden sm:block">
+            Built with love by people who get it.
           </p>
         </div>
 

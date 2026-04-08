@@ -30,8 +30,6 @@ export function EventJsonLd() {
     offers: {
       "@type": "Offer",
       url: "https://www.necypaact.com/register",
-      price: "40.00",
-      priceCurrency: "USD",
       availability: "https://schema.org/InStock",
       validFrom: "2025-01-01",
     },

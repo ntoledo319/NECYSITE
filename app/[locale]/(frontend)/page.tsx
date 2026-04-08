@@ -15,7 +15,7 @@ const EventsPreviewSection = dynamic(() => import("@/components/sections/events-
 export const metadata: Metadata = {
   title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT · Dec 31, 2026 – Jan 3, 2027",
   description:
-    "Pre-register for $40 — the 36th Northeast Convention of Young People in AA. Hartford Marriott Downtown, Dec 31, 2026 – Jan 3, 2027. Speakers, workshops, fellowship, and more.",
+    "The 36th Northeast Convention of Young People in AA. Hartford Marriott Downtown, Dec 31, 2026 – Jan 3, 2027. Speakers, workshops, fellowship, and more.",
 }
 
 export default function HomePage() {

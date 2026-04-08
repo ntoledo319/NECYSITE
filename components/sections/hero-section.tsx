@@ -134,7 +134,7 @@ export default function HeroSection() {
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <Link href="/register" className="btn-primary">
-                    Register for $40
+                    Register Now
                   </Link>
                   <a href={HOTEL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary">
                     Book the Hotel
@@ -186,16 +186,7 @@ export default function HeroSection() {
 
               <div className="absolute -bottom-5 left-4 right-4 sm:left-auto sm:right-6 sm:w-[260px]">
                 <div className="rounded-[1.6rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.95)] p-4 shadow-[0_18px_40px_rgba(44,24,16,0.12)]">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Pre-registration</p>
-                      <p className="mt-2 text-3xl font-semibold text-[var(--nec-gold)]">$40</p>
-                    </div>
-                    <div
-                      className="mt-1 h-10 w-10 rounded-full border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.06)]"
-                      aria-hidden="true"
-                    />
-                  </div>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-gold)]">Pre-registration Open</p>
                   <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">
                     Lock in your spot early, reserve your room, and arrive with the weekend already
                     mapped out.
@@ -208,7 +199,7 @@ export default function HeroSection() {
 
         <p className="sr-only">
           NECYPAA XXXVI — Escaping the Mad Realm. Hartford, Connecticut. December 31, 2026 through
-          January 3, 2027. Pre-registration is $40 at the Hartford Marriott Downtown.
+          January 3, 2027. Pre-registration is open at the Hartford Marriott Downtown.
         </p>
       </div>
     </section>

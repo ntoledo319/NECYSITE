@@ -1,13 +1,13 @@
 # Active Context — NECYPAA XXXVI Website
 
-> **Last Updated:** 2026-04-07
+> **Last Updated:** 2026-04-07 (late evening)
 > **Purpose:** Snapshot of exactly where this project stands right now. Updated before every push.
 
 ---
 
 ## Current Project State
 
-**Phase:** Side-branch visual overhaul in progress. Core design-system and major shared-surface improvements remain on the branch, the recent page-sweep copy rewrites have been rolled back, and the current work is continuing as a visual-first refinement pass with selective functionality-alignment checks against `main` plus spacing / hierarchy normalization.
+**Phase:** Side-branch visual overhaul and micro-enhancement pass complete. Core design-system, shared-surface improvements, and a final round of UX polish (blog badges, 404 navigation, success-page warmth, footer additions, error-page contact, copy-fix sweep) are all on the branch. Ready for review/merge consideration.
 
 **Branch:** `wave2/light-first-component-surgery` (branched from `main`; `main` still reflects the older visual design)
 **Deployment:** Not merged to `main`. Vercel production still follows `main`.
@@ -137,7 +137,31 @@ This pass stayed visual-only and focused on two specific issues raised in review
 - restore a better emotional anchor for the homepage YPAA explanation
 - make spacing feel systemic instead of page-by-page accidental
 
-### 9. Accessibility Alignment Pass
+### 9. Design & UX Audit Implementation Pass
+
+This pass implemented infrastructure and UX improvements identified by a comprehensive design and accessibility audit, filtered strictly through AA Traditions and WCAG guidelines. No content was fabricated. No promotional elements were added.
+
+**What changed in this pass:**
+- `breakfast/page.tsx` — **Bug fix:** Added missing `SiteFooter` and `MobileCtaBar`. The page was previously missing the accessibility statement and report-a-problem link required by `ACCESSIBILITY_GUIDELINES.md` Section 8.
+- `register/page.tsx` — **Registration progress bar:** Added a `role="progressbar"` element at the top of the form card showing step progress visually with ARIA attributes for screen readers.
+- `lib/calendar.ts` — **New utility:** Generates Google Calendar URLs from event data by parsing human-readable dates.
+- `events/page.tsx` + `events-preview-section.tsx` — **Add-to-Calendar:** "Add to Calendar" button added to upcoming event cards, linking to Google Calendar with factual event data.
+- `lib/event-jsonld.ts` — **New utility:** Generates schema.org Event JSON-LD from event data. Per `AA_TRADITIONS_GUARDRAILS.md` Section 5.1, structured data describing events factually is explicitly allowed.
+- `events/page.tsx` — **Event JSON-LD:** All events now emit `<script type="application/ld+json">` structured data.
+- `lib/reading-time.ts` — **New utility:** Estimates reading time at 200 WPM, returns "X min read" strings.
+- `blog-card.tsx` — **Reading time:** Each blog card now shows a clock icon + reading time estimate next to the publication date.
+- `app/robots.ts` — **New file:** robots.txt via Next.js Metadata API. Allows all crawlers, disallows `/admin/` and `/api/`.
+- `app/feed.xml/route.ts` — **New route:** RSS 2.0 feed for blog posts, available at `/feed.xml`.
+- `journey/page.tsx` — **Year grouping:** Events are now grouped by year with section headings (`h2`) and proper heading hierarchy (`h3` for event titles within groups).
+
+**Items explicitly rejected in this pass (AA Traditions compliance):**
+- Countdown component — promotional urgency mechanic (T11: attraction, not promotion)
+- Email capture section — marketing tactic (T11)
+- Testimonials section — `AA_TRADITIONS_GUARDRAILS.md` Section 5.2 explicitly bans testimonials/reviews
+- Closing CTA section — redundant with existing CTA, would be obnoxious per user directive
+- FAQ/program content fabrication — content requires committee approval
+
+### 10. Accessibility Alignment Pass
 
 This pass focused on bringing the branch back into line with the repo's own enforced accessibility floor rather than adding new visual scope.
 
@@ -154,6 +178,64 @@ This pass focused on bringing the branch back into line with the repo's own enfo
 - `pnpm exec playwright test e2e/accessibility.spec.ts --workers=1`
 - result: `80 passed`
 - remaining contrast notes surfaced during the run are AAA-only warnings on a few pages and do not fail the branch under current project policy
+
+### 11. Micro-Enhancement & Copy-Fix Pass
+
+This pass added small UX improvements and corrected leftover design-note copy that had leaked into user-facing pages. No new dependencies were added — all changes use existing Lucide icons and CSS variables.
+
+**What changed in this pass:**
+
+- `components/blog-card.tsx` — **"New" badge:** An `isRecentPost()` helper flags posts published within the last 14 days. Those cards render a cyan "New" badge with `aria-label="Recently published"`.
+- `app/[locale]/(frontend)/not-found.tsx` — **Helpful navigation:** Added a `<nav aria-label="Helpful links">` with links to Blog, Events, FAQ, Get Involved, and Program, plus primary CTAs ("Back to the Portal" + "Register") and a contact-email fallback.
+- `app/[locale]/(frontend)/register/success/page.tsx` — **Warm sign-off:** Added italic message "We can't wait to welcome you to Hartford. This is going to be special."
+- `app/[locale]/(frontend)/breakfast/success/page.tsx` — **Warm sign-off:** Added italic message "Nothing beats starting the new year with good food and even better fellowship."
+- `components/site-footer.tsx` — **RSS link + sign-off:** Added RSS Feed link (with `Rss` icon) in the Community column; added warm closing line "Built with love by people who get it."
+- `app/[locale]/(frontend)/error.tsx` — **Contact link:** Added `mailto:` link with error digest in subject line so users can report issues directly.
+- `app/[locale]/(frontend)/events/page.tsx` — **Copy fix:** Replaced leaked design-note headings ("The featured event should do the heavy lifting" → "What's next on the road to Hartford"; "Past events should still be easy to scan" → "Where we've been").
+- `app/[locale]/(frontend)/register/page.tsx` — **Copy fix:** Replaced leaked design-note subtitle ("The registration flow should feel guided, calm, and obvious" → "Secure your spot at NECYPAA XXXVI in Hartford. A few quick steps and you're in.").
+
+**Constraints maintained in this pass:**
+- no new npm dependencies
+- all new interactive elements are keyboard-accessible with proper ARIA attributes
+- color contrast meets AA minimum (cyan badge on dark background verified)
+- AA Traditions respected — no promotional urgency, no testimonials, no countdown mechanics
+- person-first language maintained throughout
+
+### 12. Detail Polish Pass
+
+This pass extended the micro-enhancement work into blog detail pages, blog card date display, error recovery UX, and the journey archive closing.
+
+**What changed in this pass:**
+
+- `app/[locale]/(frontend)/blog/[slug]/page.tsx` — **"New" badge on detail page:** Added the same `isRecentPost()` helper and cyan "New" badge to individual blog post headers, matching the grid card treatment.
+- `components/blog-card.tsx` — **Relative dates:** Added `formatRelativeDate()` helper. Posts less than 7 days old show "Today", "Yesterday", or "X days ago" instead of the full date. The absolute date remains accessible as a `title` attribute on hover.
+- `app/[locale]/(frontend)/error.tsx` — **Auto-retry countdown:** Error page now counts down from 10 seconds and auto-retries via `reset()`. Countdown is announced to screen readers via `aria-live="polite"`. Users can cancel with an inline button.
+- `app/[locale]/(frontend)/journey/page.tsx` — **Warm closing line:** Added "Every event on this timeline brought people together. That's the whole point." above the existing "More events to come" closer.
+
+**Constraints maintained in this pass:**
+- no new npm dependencies
+- auto-retry countdown is functional error recovery, not promotional urgency
+- relative dates preserve absolute date via `title` attribute for accessibility
+- warm closing line is factual (events bring people together) without making recovery-outcome claims
+
+### 13. Registration Payment Verification
+
+This pass closed a critical security and UX gap: the registration success page was purely cosmetic. It rendered "You're Registered!" unconditionally — the `session_id` query parameter from Stripe was completely ignored, and anyone could visit `/register/success` directly without having paid.
+
+**What changed in this pass:**
+
+- `app/[locale]/(frontend)/register/success/page.tsx` — **Rewritten as a server component.** Now reads `session_id` from `searchParams`, calls `stripe.checkout.sessions.retrieve()` with `expand: ['line_items']`, and verifies `payment_status === 'paid'` and `session.status === 'complete'` before rendering the success UI. Three unverified states are handled: `unpaid` (payment pending), `error` (Stripe API unreachable), and `missing` (no session_id / direct navigation). Each state has its own clear messaging, a "Back to Registration" link, and a contact email fallback.
+- `app/[locale]/(frontend)/register/success/registration-confirmed.tsx` — **New client component** extracted from the old `page.tsx`. Contains all the animated success UI (framer-motion) but now accepts a `VerifiedRegistration` prop with real data: customer name, email, line items with amounts, and total paid. Displays a "Payment Verified" or "Access Code Accepted" badge, a real order summary with line items and total, and personalizes the heading with the registrant's name.
+- `components/checkout/access-code-checkout.tsx` — Redirect changed from `/register/success` to `/register/success?flow=access-code` so the success page can distinguish a legitimate access-code registration from unauthenticated direct navigation.
+
+**Verification states:**
+- **Verified (paid):** Shows personalized "You're in, [Name]!" heading, ShieldCheck icon, "Payment Verified" badge, real order summary with line items and total, receipt email confirmation, full next-steps content.
+- **Verified (access code):** Shows KeyRound icon, "Access Code Accepted" badge, no payment details, same next-steps content.
+- **Unpaid:** Clock icon, "Payment not yet confirmed", guidance to refresh or check bank statement.
+- **Error:** AlertCircle icon, "Verification temporarily unavailable", guidance to check email for Stripe receipt.
+- **Missing:** AlertCircle icon, "We couldn't verify your registration", guidance to check email or re-register.
+
+**Security improvement:** Direct navigation to `/register/success` without a valid `session_id` or `flow=access-code` no longer shows a false "You're Registered!" confirmation.
 
 ---
 
@@ -212,15 +294,17 @@ See `docs/tech-debt-and-gaps.md` for the broader backlog.
 ## Recent Commits On Branch
 
 ```
+bedaf59 Align redesign branch with accessibility standards
+f25b2bd Refine YPAA section and spacing rhythm
 5922e67 Restore main route discoverability on redesign
 1e8140f Refine remaining visual-only destination pages
+4a8020d Extend visual-only page differentiation
 73419b0 Differentiate unfinished routes visually
 b9bd286 Update handoff after copy rollback
 f499b88 Revert unapproved copy changes from page sweep
 1fbca97 Polish NECYPAA UI across core flows
 1b217e6 fix(deps): remove package-lock.json, enforce pnpm as sole package manager
 a871bfb style(theme): replace hardcoded neon rgba values with CSS variable equivalents
-4c0117d feat(events): populate past events + redesign homepage section
 ```
 
 ---
@@ -230,4 +314,5 @@ a871bfb style(theme): replace hardcoded neon rgba values with CSS variable equiv
 1. `main` is not the visual reference for the redesign branch.
 2. Committee-approved wording is constrained. Do not rewrite user-facing copy unless the change is explicitly requested and approved.
 3. The next design passes on unfinished routes should focus on layout, composition, hierarchy, art direction, and interaction without changing text.
-4. Before pushing again, keep this file current. The pre-push hook expects it.
+4. The blog "New" badge (`isRecentPost()` in `blog-card.tsx`) uses a 14-day window with `Date.now()` — it will work correctly once CMS data is live via Payload.
+5. Before pushing again, keep this file current. The pre-push hook expects it.

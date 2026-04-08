@@ -1,6 +1,6 @@
 # System Architecture — NECYPAA XXXVI Website
 
-> **Last Updated:** 2026-03-23
+> **Last Updated:** 2026-04-07
 > **Maintainer:** Solo engineer (Bus Factor 1 — this document IS the contingency)
 > **Live Site:** https://www.necypaact.com
 > **Repository:** https://github.com/ntoledo319/NECYPASITE
@@ -174,7 +174,13 @@ The site handles event information, online registration with Stripe payments, an
 | `actions/free-registration.ts` | Free/cash registration | Critical |
 | `lib/issuer-client.ts` | Access code redemption client | High |
 | `lib/accessibility-context.tsx` | 6-mode a11y settings provider | High |
-| `lib/constants.ts` | URLs, event slug, convention dates | High |
+| `lib/constants.ts` | URLs, event slug, convention dates, start date, site URL | High |
+| `lib/calendar.ts` | Google Calendar link generation from event data | Medium |
+| `lib/event-jsonld.ts` | schema.org Event JSON-LD generation | Medium |
+| `lib/reading-time.ts` | Blog post reading time estimate utility | Low |
+| `app/robots.ts` | robots.txt generation (Next.js Metadata API) | Medium |
+| `app/sitemap.ts` | XML sitemap generation (Next.js Metadata API) | Medium |
+| `app/feed.xml/route.ts` | RSS 2.0 feed for blog posts | Low |
 | `lib/types.ts` | Shared TypeScript interfaces | High |
 | `AA_TRADITIONS_GUARDRAILS.md` | AA anonymity compliance rules | Non-negotiable |
 | `ACCESSIBILITY_GUIDELINES.md` | WCAG 2.1 AAA requirements | Non-negotiable |

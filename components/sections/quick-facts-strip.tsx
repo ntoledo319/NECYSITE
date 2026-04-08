@@ -25,7 +25,7 @@ const facts = [
   },
   {
     label: "Register",
-    value: "$40 pre-registration",
+    value: "Pre-registration open",
     copy: "Secure your badge before the holiday rush.",
     icon: Ticket,
     accent: "var(--nec-pink)",

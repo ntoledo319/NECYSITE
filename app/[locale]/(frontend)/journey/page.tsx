@@ -86,7 +86,23 @@ export default function JourneyPage() {
               />
 
               <div className="space-y-8">
-                {pastEvents.map((event) => (
+                {(() => {
+                  const grouped = new Map<string, typeof pastEvents>()
+                  for (const ev of pastEvents) {
+                    const year = getEventYear(ev.date)
+                    if (!grouped.has(year)) grouped.set(year, [])
+                    grouped.get(year)!.push(ev)
+                  }
+                  const years = [...grouped.keys()].sort((a, b) => Number(b) - Number(a))
+                  return years.map((year) => (
+                    <div key={year} className="space-y-6">
+                      <h2 className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.22)] bg-[rgba(var(--nec-gold-rgb),0.08)] text-xs">
+                          {year}
+                        </span>
+                        <span className="h-px flex-1 bg-[linear-gradient(90deg,rgba(var(--nec-gold-rgb),0.18),transparent)]" aria-hidden="true" />
+                      </h2>
+                      {grouped.get(year)!.map((event) => (
                   <article
                     key={event.id}
                     className="relative grid gap-5 overflow-hidden rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.90)] p-5 shadow-[0_18px_42px_rgba(44,24,16,0.08)] md:grid-cols-[4.5rem_14rem_minmax(0,1fr)] md:p-6"
@@ -106,9 +122,9 @@ export default function JourneyPage() {
                     </div>
 
                     <div className="space-y-4">
-                      <h2 className="text-xl md:text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                      <h3 className="text-xl md:text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
                         {event.title}
-                      </h2>
+                      </h3>
 
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-[var(--nec-muted)]">
                         <span className="inline-flex items-center gap-1.5">
@@ -156,11 +172,17 @@ export default function JourneyPage() {
                       )}
                     </div>
                   </article>
-                ))}
+                      ))}
+                    </div>
+                  ))
+                })()}
               </div>
             </div>
 
-            <div className="mt-12 text-center">
+            <div className="mt-12 text-center space-y-2">
+              <p className="text-base text-[var(--nec-text)] italic">
+                Every event on this timeline brought people together. That&apos;s the whole point.
+              </p>
               <p className="text-sm text-[var(--nec-muted)]">
                 More events to come. The journey continues.
               </p>

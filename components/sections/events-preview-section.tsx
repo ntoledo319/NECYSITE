@@ -1,8 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Calendar, MapPin } from "lucide-react"
+import { ArrowRight, Calendar, CalendarPlus, MapPin } from "lucide-react"
 import { upcomingEvent, pastEvents } from "@/lib/data/events"
+import { getGoogleCalendarUrl } from "@/lib/calendar"
 import FlyerWithModal from "@/components/flyer-with-modal"
 
 export default function EventsPreviewSection() {
@@ -65,6 +66,22 @@ export default function EventsPreviewSection() {
             </div>
 
             <p className="text-base leading-7 text-[var(--nec-muted)]">{upcomingEvent.description}</p>
+
+            {(() => {
+              const calUrl = getGoogleCalendarUrl(upcomingEvent)
+              return calUrl ? (
+                <a
+                  href={calUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-ghost inline-flex items-center gap-2 self-start"
+                >
+                  <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+                  Add to Calendar
+                  <span className="sr-only"> (opens Google Calendar in new tab)</span>
+                </a>
+              ) : null
+            })()}
 
             {upcomingEvent.schedule.length > 0 && (
               <div className="grid gap-2 sm:grid-cols-2">

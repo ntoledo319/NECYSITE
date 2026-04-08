@@ -5,6 +5,8 @@ import Image from "next/image"
 import { motion, useReducedMotion } from "framer-motion"
 import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 import PageArtAccents from "@/components/art/page-art-accents"
+import { CONTACT_EMAIL } from "@/lib/constants"
+import { Mail, ArrowRight } from "lucide-react"
 
 export default function NotFound() {
   const shouldReduce = useReducedMotion()
@@ -58,17 +60,59 @@ export default function NotFound() {
               Lost in the Mad Realm
             </h1>
 
-            <p className="text-base md:text-lg leading-relaxed mb-8 text-[var(--nec-muted)]">
+            <p className="text-base md:text-lg leading-relaxed mb-6 text-[var(--nec-muted)]">
               This page doesn&apos;t exist — or perhaps the Cheshire Cat hid it.
               Either way, let&apos;s get you back to familiar ground.
             </p>
 
-            <Link
-              href="/"
-              className="nec-cta-accent inline-flex items-center gap-2 font-bold text-sm rounded-xl px-6 py-3 transition-colors text-[var(--nec-text)]"
-            >
-              Back to the Portal
-            </Link>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap mb-8">
+              <Link
+                href="/"
+                className="btn-primary"
+              >
+                Back to the Portal
+              </Link>
+              <Link
+                href="/register"
+                className="btn-ghost"
+              >
+                Register
+              </Link>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nec-muted)]">
+                Or try one of these
+              </p>
+              <nav aria-label="Helpful links">
+                <ul className="flex flex-wrap gap-x-4 gap-y-1">
+                  {[
+                    { href: "/blog", label: "Blog" },
+                    { href: "/events", label: "Events" },
+                    { href: "/faq", label: "FAQ" },
+                    { href: "/service", label: "Get Involved" },
+                    { href: "/program", label: "Program" },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors inline-flex items-center gap-1"
+                      >
+                        <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="inline-flex items-center gap-1.5 text-xs text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors mt-2"
+              >
+                <Mail className="w-3 h-3" aria-hidden="true" />
+                Still stuck? Reach out — {CONTACT_EMAIL}
+              </a>
+            </div>
           </div>
         </div>
       </motion.div>

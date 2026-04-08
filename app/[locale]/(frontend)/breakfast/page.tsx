@@ -2,12 +2,14 @@
 
 import BreakfastCheckout from "@/components/breakfast-checkout"
 import PageArtAccents from "@/components/art/page-art-accents"
+import SiteFooter from "@/components/site-footer"
+import MobileCtaBar from "@/components/mobile-cta-bar"
 
 export default function BreakfastPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe relative bg-[var(--nec-navy)]">
+    <div className="min-h-screen min-h-screen-safe relative flex flex-col bg-[var(--nec-navy)]">
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" variant="subtle" dividerVariant="compass" />
-      <div className="container mx-auto px-4 pt-24 pb-12 relative z-10">
+      <div className="container mx-auto px-4 pt-24 pb-12 relative z-10 flex-1">
         <div className="max-w-3xl mx-auto">
           <div
             className="relative mb-8 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8"
@@ -42,6 +44,8 @@ export default function BreakfastPage() {
           <BreakfastCheckout />
         </div>
       </div>
+      <SiteFooter />
+      <MobileCtaBar />
     </div>
   )
 }

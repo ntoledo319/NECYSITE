@@ -103,8 +103,7 @@ export default function RegisterPage() {
               Register for NECYPAA XXXVI.
             </h1>
             <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
-              The registration flow should feel guided, calm, and obvious. One decision at a time,
-              with the important context always in view.
+              Secure your spot at NECYPAA XXXVI in Hartford. A few quick steps and you&apos;re in.
             </p>
           </header>
 
@@ -174,7 +173,25 @@ export default function RegisterPage() {
               </div>
             </aside>
 
-            <section className="nec-reg-card overflow-hidden p-6 md:p-8 lg:p-10" aria-label="Registration form and checkout">
+            <section className="nec-reg-card overflow-hidden" aria-label="Registration form and checkout">
+              <div
+                className="h-1 w-full"
+                role="progressbar"
+                aria-valuenow={steps.findIndex((s) => s.key === currentStep) + 1}
+                aria-valuemin={1}
+                aria-valuemax={steps.length}
+                aria-label={`Step ${steps.findIndex((s) => s.key === currentStep) + 1} of ${steps.length}`}
+              >
+                <div
+                  className="h-full transition-[width] duration-500 ease-out"
+                  style={{
+                    width: `${((steps.findIndex((s) => s.key === currentStep) + 1) / steps.length) * 100}%`,
+                    background:
+                      "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.5), rgba(var(--nec-pink-rgb),0.5))",
+                  }}
+                />
+              </div>
+              <div className="p-6 md:p-8 lg:p-10">
               <div className="mb-8 border-b border-[rgba(var(--nec-purple-rgb),0.10)] pb-6">
                 <p className="form-section-label">{activeStepMeta.eyebrow}</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
@@ -217,6 +234,7 @@ export default function RegisterPage() {
                   )}
                 </motion.div>
               </AnimatePresence>
+              </div>
             </section>
           </div>
         </div>

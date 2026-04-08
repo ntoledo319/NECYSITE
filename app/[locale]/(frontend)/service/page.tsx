@@ -201,7 +201,7 @@ export default function ServicePage() {
                         href="/register"
                         className="btn-primary !py-2.5 !px-5 !text-sm text-center"
                       >
-                        Register for NECYPAA — $40
+                        Register for NECYPAA
                       </Link>
                     </div>
                   </div>

@@ -12,3 +12,7 @@ export const EVENT_SLUG = "necypaa-xxxvi"
 export const CONVENTION_DATES = "Dec 31, 2026 – Jan 3, 2027"
 
 export const CONVENTION_VENUE = "Hartford Marriott Downtown"
+
+export const CONVENTION_START_DATE = "2026-12-31T18:00:00-05:00"
+
+export const SITE_URL = "https://www.necypaact.com"

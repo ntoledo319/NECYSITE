@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useRef, useId, useCallback } from "react"
-import { ChevronDown, BookOpen } from "lucide-react"
+import { ChevronDown, BookOpen, Clock } from "lucide-react"
 import type { BlogPost } from "@/lib/data/blog-posts"
+import { getReadingTime } from "@/lib/reading-time"
 
 const CATEGORY_STYLES: Record<
   string,
@@ -25,6 +26,23 @@ function formatDate(dateStr: string): string {
     day: "numeric",
     year: "numeric",
   })
+}
+
+function isRecentPost(dateStr: string, daysThreshold = 14): boolean {
+  const published = new Date(dateStr + "T12:00:00")
+  const now = new Date()
+  const diffMs = now.getTime() - published.getTime()
+  return diffMs >= 0 && diffMs < daysThreshold * 24 * 60 * 60 * 1000
+}
+
+function formatRelativeDate(dateStr: string): string | null {
+  const published = new Date(dateStr + "T12:00:00")
+  const now = new Date()
+  const diffDays = Math.floor((now.getTime() - published.getTime()) / (24 * 60 * 60 * 1000))
+  if (diffDays < 0 || diffDays >= 7) return null
+  if (diffDays === 0) return "Today"
+  if (diffDays === 1) return "Yesterday"
+  return `${diffDays} days ago`
 }
 
 interface BlogCardProps {
@@ -109,9 +127,31 @@ export default function BlogCard({ post, index }: BlogCardProps) {
             dateTime={post.publishedAt}
             className="text-xs font-medium"
             style={{ color: "var(--nec-muted)" }}
+            title={formatDate(post.publishedAt)}
           >
-            {formatDate(post.publishedAt)}
+            {formatRelativeDate(post.publishedAt) ?? formatDate(post.publishedAt)}
           </time>
+          <span
+            className="inline-flex items-center gap-1 text-xs font-medium"
+            style={{ color: "var(--nec-muted)" }}
+            aria-label={getReadingTime(post.body)}
+          >
+            <Clock className="h-3 w-3" aria-hidden="true" />
+            {getReadingTime(post.body)}
+          </span>
+          {isRecentPost(post.publishedAt) && (
+            <span
+              className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest"
+              style={{
+                background: "rgba(var(--nec-cyan-rgb), 0.12)",
+                border: "1px solid rgba(var(--nec-cyan-rgb), 0.24)",
+                color: "var(--nec-cyan)",
+              }}
+              aria-label="Recently published"
+            >
+              New
+            </span>
+          )}
         </div>
 
         <h3 className="text-xl sm:text-[1.7rem] font-semibold tracking-[-0.03em] text-[var(--nec-text)] mb-3 leading-tight">

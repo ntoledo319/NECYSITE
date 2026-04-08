@@ -50,11 +50,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.necypaact.com"),
   title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT · Dec 31, 2026 – Jan 3, 2027",
   description:
-    "NECYPAA XXXVI: Escaping the Mad Realm. The Northeast Convention of Young People in Alcoholics Anonymous. Hartford Marriott Downtown, Hartford, CT. New Year's Eve 2026 – Jan 3, 2027. Pre-register for $40.",
+    "NECYPAA XXXVI: Escaping the Mad Realm. The Northeast Convention of Young People in Alcoholics Anonymous. Hartford Marriott Downtown, Hartford, CT. New Year's Eve 2026 – Jan 3, 2027.",
   openGraph: {
     title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT",
     description:
-      "Escaping the Mad Realm — Join us at the Northeast Convention of Young People in AA. 4 days of fellowship, speakers, and celebration. Hartford Marriott Downtown · Dec 31, 2026 – Jan 3, 2027 · Pre-reg $40.",
+      "Escaping the Mad Realm — Join us at the Northeast Convention of Young People in AA. 4 days of fellowship, speakers, and celebration. Hartford Marriott Downtown · Dec 31, 2026 – Jan 3, 2027.",
     url: "https://www.necypaact.com",
     siteName: "NECYPAA XXXVI CT Host",
     locale: "en_US",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT",
-    description: "Escaping the Mad Realm — Northeast Convention of Young People in AA · New Year's Eve 2026 · Pre-reg $40",
+    description: "Escaping the Mad Realm — Northeast Convention of Young People in AA · New Year's Eve 2026 · Hartford, CT",
     images: ["/images/necypaa-xxxvi-badge.webp"],
   },
   robots: {
@@ -99,6 +99,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <head>
         <meta name="color-scheme" content="light dark" />
+        <link rel="alternate" type="application/rss+xml" title="NECYPAA XXXVI Blog" href="/feed.xml" />
       </head>
       <body className={`${sourceSerif.variable} ${playfair.variable} ${cormorant.variable} ${sourceSerif.className}`}>
         <WebVitalsReporter />

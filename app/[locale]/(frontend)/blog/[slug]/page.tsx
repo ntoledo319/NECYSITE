@@ -23,6 +23,13 @@ function formatDate(dateStr: string): string {
   })
 }
 
+function isRecentPost(dateStr: string, daysThreshold = 14): boolean {
+  const published = new Date(dateStr + "T12:00:00")
+  const now = new Date()
+  const diffMs = now.getTime() - published.getTime()
+  return diffMs >= 0 && diffMs < daysThreshold * 24 * 60 * 60 * 1000
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -112,6 +119,19 @@ export default async function BlogPostPage({
                     >
                       {formatDate(post.publishedAt)}
                     </time>
+                    {isRecentPost(post.publishedAt) && (
+                      <span
+                        className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest"
+                        style={{
+                          background: "rgba(var(--nec-cyan-rgb), 0.12)",
+                          border: "1px solid rgba(var(--nec-cyan-rgb), 0.24)",
+                          color: "var(--nec-cyan)",
+                        }}
+                        aria-label="Recently published"
+                      >
+                        New
+                      </span>
+                    )}
                   </div>
 
                   <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-[-0.045em] text-[var(--nec-text)] leading-tight">

@@ -46,7 +46,7 @@ export default function MobileCtaBar() {
               color: "#fff",
             }}
           >
-            Register — $40
+            Register
           </Link>
           <a
             href={HOTEL_BOOKING_URL}

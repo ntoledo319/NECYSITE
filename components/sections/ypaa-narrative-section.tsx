@@ -527,7 +527,7 @@ export default function YpaaNarrativeSection() {
                     href="/register"
                     className="btn-primary text-center justify-center"
                   >
-                    Register — $40
+                    Register Now
                   </Link>
                   <Link
                     href="/faq"
