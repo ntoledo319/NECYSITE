@@ -31,7 +31,7 @@ export default function HeroSection() {
   return (
     <section
       aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
-      className="relative overflow-hidden pb-8 pt-8 md:pb-12 md:pt-12 lg:pb-14 lg:pt-14"
+      className="relative overflow-hidden pb-12 pt-8 md:pb-16 md:pt-12 lg:pb-20 lg:pt-16"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[78%]"
@@ -51,9 +51,9 @@ export default function HeroSection() {
       />
 
       <div className="container mx-auto px-4 relative">
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] lg:gap-12">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] lg:gap-14">
           <div className="relative max-w-3xl">
-            <div className="nec-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10">
+            <div className="nec-card relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-11">
               <div
                 className="absolute inset-x-0 top-0 h-[3px]"
                 aria-hidden="true"
@@ -184,7 +184,7 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              <div className="absolute -bottom-5 left-4 right-4 sm:left-auto sm:right-6 sm:w-[260px]">
+              <div className="absolute bottom-4 left-4 right-4 sm:-bottom-5 sm:left-auto sm:right-6 sm:w-[260px]">
                 <div className="rounded-[1.6rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.95)] p-4 shadow-[0_18px_40px_rgba(44,24,16,0.12)]">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-gold)]">Pre-registration Open</p>
                   <p className="mt-3 text-sm leading-6 text-[var(--nec-muted)]">

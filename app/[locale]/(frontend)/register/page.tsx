@@ -86,7 +86,7 @@ export default function RegisterPage() {
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="key" />
       <div className="absolute left-1/2 top-20 z-0 hidden h-[32rem] w-[26rem] -translate-x-1/2 opacity-[0.05] lg:block" aria-hidden="true">
         <Image
-          src="/images/mad-hatter-portal.jpg"
+          src="/images/mad-hatter-portal.webp"
           alt=""
           width={416}
           height={624}

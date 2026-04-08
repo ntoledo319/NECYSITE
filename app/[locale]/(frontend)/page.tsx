@@ -27,25 +27,31 @@ export default function HomePage() {
       <div className="relative z-10 flex-1">
         <HeroSection />
 
-        <div className="container mx-auto px-4 pb-16 md:pb-10">
-          <div className="page-stack-roomy">
+        <div className="container mx-auto px-4">
+          <div className="relative pb-14 md:pb-16">
             <QuickFactsStrip />
+          </div>
 
+          <div className="relative pb-16 md:pb-20">
             <CTASection />
+          </div>
 
-            <div className="px-2">
-              <OrnateDivider variant="key" color="var(--nec-purple)" />
-            </div>
+          <div className="mx-auto max-w-5xl px-2 pb-10 md:pb-12">
+            <OrnateDivider variant="key" color="var(--nec-purple)" />
+          </div>
 
+          <div className="relative pb-20 md:pb-24">
             <YpaaNarrativeSection />
+          </div>
 
-            <div className="grid gap-8 xl:grid-cols-[0.86fr_1.14fr] xl:items-start md:gap-10">
+          <div className="mx-auto max-w-5xl px-2 pb-10 md:pb-12">
+            <OrnateDivider variant="compass" color="var(--nec-gold)" />
+          </div>
+
+          <div className="relative pb-16 md:pb-20">
+            <div className="grid gap-10 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] xl:items-start xl:gap-12">
               <BusinessMeetingSection />
               <EventsPreviewSection />
-            </div>
-
-            <div className="px-2">
-              <OrnateDivider variant="compass" color="var(--nec-gold)" />
             </div>
           </div>
         </div>

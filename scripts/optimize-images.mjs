@@ -10,7 +10,7 @@ import { readdir, rename, stat } from 'fs/promises';
 import { join, extname, basename } from 'path';
 
 const IMAGE_DIR = './public/images';
-const MIN_SIZE_MB = 0.5; // Only convert images larger than 500KB
+const MIN_SIZE_MB = 0.0; // Only convert images larger than 500KB
 const WEBP_QUALITY = 85; // High quality WebP
 
 async function getFileSizeMB(filePath) {
@@ -40,7 +40,7 @@ async function optimizeImages() {
   console.log('🎨 Starting image optimization...\n');
 
   const files = await readdir(IMAGE_DIR);
-  const pngFiles = files.filter(f => extname(f).toLowerCase() === '.png');
+  const pngFiles = files.filter(f => ['.png', '.jpg', '.jpeg'].includes(extname(f).toLowerCase()));
 
   let totalOriginal = 0;
   let totalWebP = 0;
@@ -57,7 +57,7 @@ async function optimizeImages() {
     }
 
     // Check if WebP version already exists
-    const webpFile = file.replace(/\.png$/i, '.webp');
+    const webpFile = file.replace(/\.(png|jpg|jpeg)$/i, '.webp');
     const outputPath = join(IMAGE_DIR, webpFile);
     const webpExists = files.includes(webpFile);
 

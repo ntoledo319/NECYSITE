@@ -13,8 +13,8 @@ const registrationHighlights = [
 
 export default function CTASection() {
   return (
-    <section aria-label="Plan your convention weekend" className="space-y-6">
-      <div className="max-w-2xl">
+    <section aria-label="Plan your convention weekend" className="space-y-8 md:space-y-10">
+      <div className="max-w-[42rem]">
         <span className="section-badge">Plan Your Weekend</span>
         <h2 className="section-heading mt-5">Start with the two decisions that matter most.</h2>
         <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
@@ -23,8 +23,8 @@ export default function CTASection() {
         </p>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
-        <article className="nec-card relative overflow-hidden p-8 md:p-10">
+      <div className="grid gap-7 md:gap-8 xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
+        <article className="nec-card relative overflow-hidden p-7 md:p-9 lg:p-10">
           <div
             className="absolute inset-y-0 right-0 hidden w-40 md:block"
             aria-hidden="true"
@@ -51,7 +51,7 @@ export default function CTASection() {
             />
           </div>
 
-          <div className="relative z-10 max-w-2xl space-y-6">
+          <div className="relative z-10 max-w-2xl space-y-7">
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-purple)]">
                 Registration Open
@@ -65,7 +65,7 @@ export default function CTASection() {
               </p>
             </div>
 
-            <ul className="grid gap-3 md:grid-cols-3">
+            <ul className="grid gap-4 md:grid-cols-3">
               {registrationHighlights.map((item) => (
                 <li
                   key={item}
@@ -88,8 +88,8 @@ export default function CTASection() {
           </div>
         </article>
 
-        <div className="grid gap-6">
-          <article className="nec-card relative overflow-hidden p-7">
+        <div className="grid gap-5 md:gap-6">
+          <article className="nec-card relative overflow-hidden p-6 md:p-7">
             <div
               className="absolute inset-x-0 top-0 h-[3px]"
               aria-hidden="true"
@@ -120,7 +120,7 @@ export default function CTASection() {
             </div>
           </article>
 
-          <article className="nec-card relative overflow-hidden p-7">
+          <article className="nec-card relative overflow-hidden p-6 md:p-7">
             <div
               className="absolute inset-x-0 top-0 h-[3px]"
               aria-hidden="true"

@@ -15,7 +15,6 @@ module.exports = {
         sans: ['var(--font-sans)', 'Source Serif 4', 'Georgia', 'serif'],
         heading: ['var(--font-heading)', 'Playfair Display', 'Georgia', 'serif'],
         display: ['var(--font-display)', 'Bangers', 'cursive'],
-        script: ['var(--font-script)', 'Pacifico', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",

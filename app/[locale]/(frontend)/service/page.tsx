@@ -76,7 +76,7 @@ export default function ServicePage() {
                   <div className="relative min-h-[18rem] overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(var(--nec-purple-rgb),0.12),transparent)]" aria-hidden="true" />
                     <Image
-                      src="/images/mad-hatter-portal.jpg"
+                      src="/images/mad-hatter-portal.webp"
                       alt=""
                       width={900}
                       height={1200}

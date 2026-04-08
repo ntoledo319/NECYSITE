@@ -10,9 +10,10 @@ interface FlyerWithModalProps {
   alt: string
   title?: string
   className?: string
+  sizes?: string
 }
 
-export default function FlyerWithModal({ src, alt, title, className = "" }: FlyerWithModalProps) {
+export default function FlyerWithModal({ src, alt, title, className = "", sizes }: FlyerWithModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const modalRef = useFocusTrap<HTMLDivElement>(isOpen)
 
@@ -44,7 +45,8 @@ export default function FlyerWithModal({ src, alt, title, className = "" }: Flye
           alt={alt}
           width={400}
           height={600}
-          sizes="(min-width: 768px) 400px, 100vw"
+          sizes={sizes || "(min-width: 768px) 400px, 100vw"}
+          loading="lazy"
           className="h-full w-full object-contain rounded-[1.1rem]"
         />
         <span

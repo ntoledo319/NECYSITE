@@ -64,7 +64,7 @@ export const pastEvents: EventData[] = [
       { label: "Presented by", value: "CT NECYPAA Bid Committee" },
     ],
     description: "",
-    flyerSrc: "/images/game-night.jpeg",
+    flyerSrc: "/images/game-night.webp",
     flyerAlt: "Game Night, Pajama Party and Half-Assed Rave — April 11th 2025 at Pathfinders Club, 102 Norman St, Manchester CT",
   },
   {
@@ -82,7 +82,7 @@ export const pastEvents: EventData[] = [
       { label: "Presented by", value: "NECYPAA XXXVI Host and the Bay State Bid for NECYPAA" },
     ],
     description: "",
-    flyerSrc: "/images/zombie-prom-flyer.jpeg",
+    flyerSrc: "/images/zombie-prom-flyer.webp",
     flyerAlt: "Zombie Prom — Dance and meeting, February 13th 2026 at Enfield United Church of Christ, 1295 Enfield St, Enfield CT",
   },
   {
@@ -95,7 +95,7 @@ export const pastEvents: EventData[] = [
       { label: "Presented by", value: "NECYPAA XXXVI Host Committee" },
     ],
     description: "Ring in the New Year sober with fellowship, a bonfire, and good vibes. One year closer to NECYPAA XXXVI.",
-    flyerSrc: "/images/nye-event.jpg",
+    flyerSrc: "/images/nye-event.webp",
     flyerAlt: "New Year's Eve Bonfire and Fellowship — sober celebration with bonfire, music, and friends ringing in 2026",
   },
   {
@@ -115,7 +115,7 @@ export const pastEvents: EventData[] = [
       { label: "Presented by", value: "CT Bid for NECYPAA" },
     ],
     description: "One night of fright was never enough.",
-    flyerSrc: "/images/rave-halloween.jpeg",
+    flyerSrc: "/images/rave-halloween.webp",
     flyerAlt: "Rave Halloween 2.0 — Dance, games, arts and crafts, November 7th 2024 at Bristol Recovery Club, 67 West St, Bristol CT",
   },
 ]

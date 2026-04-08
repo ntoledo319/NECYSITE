@@ -1305,6 +1305,8 @@ footer {
   z-index: -1;
   transition: opacity 0.4s ease;
   filter: blur(12px);
+  will-change: filter, transform;
+  transform: translateZ(0);
 }
 .btn-primary:hover::before,
 .btn-primary:focus-visible::before {
@@ -1325,6 +1327,8 @@ footer {
   z-index: -1;
   transition: opacity 0.4s ease;
   filter: blur(12px);
+  will-change: filter, transform;
+  transform: translateZ(0);
 }
 .btn-secondary:hover::before,
 .btn-secondary:focus-visible::before {

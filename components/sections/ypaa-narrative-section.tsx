@@ -223,10 +223,10 @@ export default function YpaaNarrativeSection() {
       {/* ═══════════════════════════════════════════
           PART 1: "What is a YPAA?"
           ═══════════════════════════════════════════ */}
-      <div className="mb-16 md:mb-18">
+      <div className="mb-20 md:mb-24">
         {/* Section header */}
         <motion.div
-          className="mb-10 text-center"
+          className="mb-12 text-center"
           initial={shouldReduce ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -248,7 +248,7 @@ export default function YpaaNarrativeSection() {
         </motion.div>
 
         {/* Main explainer card */}
-        <div className="nec-card relative overflow-hidden rounded-[1.95rem] p-6 sm:p-8 md:p-10">
+        <div className="nec-card relative overflow-hidden rounded-[1.95rem] p-7 sm:p-9 md:p-11">
           <div
             className="absolute inset-x-0 top-0 h-[3px]"
             aria-hidden="true"
@@ -284,7 +284,7 @@ export default function YpaaNarrativeSection() {
           />
 
           <div className="relative z-10">
-            <div className="grid gap-7 xl:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.92fr)] xl:items-start xl:gap-9">
+            <div className="grid gap-8 xl:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.92fr)] xl:items-start xl:gap-12">
               <div>
                 {/* Lede paragraph */}
                 <p className="mb-6 text-base leading-relaxed text-[var(--nec-text)] sm:text-lg md:text-xl">
@@ -339,7 +339,7 @@ export default function YpaaNarrativeSection() {
                 </div>
               </div>
 
-              <div className="space-y-5 md:space-y-6">
+              <div className="space-y-6 md:space-y-7">
                 {/* Graphic: Dancing figures */}
                 <div className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.05),rgba(var(--nec-card-rgb),0.8))] p-5">
                   <div className="mx-auto max-w-md opacity-80">
@@ -416,7 +416,7 @@ export default function YpaaNarrativeSection() {
           ═══════════════════════════════════════════ */}
       <div>
         {/* Section header */}
-        <div className="mb-12 text-center">
+        <div className="mb-14 text-center">
           <h2 className="text-2xl font-black leading-tight text-[var(--nec-text)] sm:text-3xl md:text-4xl">
             A YPAA Convention goes{" "}
             <span
@@ -432,7 +432,7 @@ export default function YpaaNarrativeSection() {
         </div>
 
         {/* Timeline */}
-        <div className="relative mx-auto max-w-3xl rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.52)] px-5 py-8 sm:px-7 md:px-10">
+        <div className="relative mx-auto max-w-3xl rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.52)] px-5 py-9 sm:px-8 md:px-12 md:py-10">
           {/* Vertical timeline line */}
           <motion.div
             className="absolute left-4 md:left-6 top-0 bottom-0 w-px"
@@ -446,7 +446,7 @@ export default function YpaaNarrativeSection() {
             transition={shouldReduce ? { duration: 0 } : { ...SPRING_SLOW, duration: 2 }}
           />
 
-          <div className="space-y-5 md:space-y-6">
+          <div className="space-y-6 md:space-y-7">
             {narrativeSteps.map((step, i) => (
               <motion.div
                 key={i}
@@ -483,7 +483,7 @@ export default function YpaaNarrativeSection() {
           </div>
 
           {/* ── Welcome Home ── */}
-          <div className="relative mt-10 pt-6">
+          <div className="relative mt-12 pt-6">
             <div
               className="absolute left-4 md:left-6 -top-0 w-px h-8"
               aria-hidden="true"

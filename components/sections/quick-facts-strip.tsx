@@ -72,14 +72,14 @@ export default function QuickFactsStrip() {
 
             const content = (
               <article
-                className={`flex h-full flex-col gap-5 p-6 transition-[background-color,transform] duration-200 md:p-7 ${itemBorderClass}`}
+                className={`flex h-full flex-col gap-4 p-5 transition-[background-color,transform] duration-200 md:p-6 ${itemBorderClass}`}
                 style={{
                   borderColor: "rgba(var(--nec-purple-rgb),0.08)",
                   background: index % 2 === 0 ? "rgba(var(--nec-card-rgb),0.24)" : "rgba(var(--nec-purple-rgb),0.02)",
                 }}
               >
                 <div
-                  className="flex h-11 w-11 items-center justify-center rounded-[1rem] border"
+                  className="flex h-10 w-10 items-center justify-center rounded-[0.9rem] border"
                   style={{
                     color: fact.accent,
                     background: `rgba(${fact.accentRgb},0.06)`,
@@ -90,7 +90,7 @@ export default function QuickFactsStrip() {
                 </div>
                 <div className="space-y-2">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{fact.label}</p>
-                  <p className="max-w-[18rem] text-lg font-semibold leading-tight text-[var(--nec-text)]">{fact.value}</p>
+                  <p className="max-w-[18rem] text-base font-semibold leading-tight text-[var(--nec-text)] md:text-lg">{fact.value}</p>
                   <p className="text-sm leading-6 text-[var(--nec-muted)]">{fact.copy}</p>
                 </div>
               </article>

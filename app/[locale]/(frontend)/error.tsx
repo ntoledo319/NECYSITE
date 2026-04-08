@@ -53,7 +53,7 @@ export default function Error({
             </div>
             <div className="relative overflow-hidden rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
               <Image
-                src="/images/mad-hatter-portal.jpg"
+                src="/images/mad-hatter-portal.webp"
                 alt=""
                 width={900}
                 height={1200}

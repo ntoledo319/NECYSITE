@@ -204,6 +204,7 @@ export default function EventsPage() {
                           alt={event.flyerAlt}
                           title={event.title}
                           className="rounded-2xl"
+                          sizes="96px"
                         />
                       </div>
 
