@@ -77,7 +77,7 @@ export default function HeroSection() {
                   <span className="hidden h-px flex-1 bg-[linear-gradient(90deg,rgba(var(--nec-purple-rgb),0.16),rgba(var(--nec-gold-rgb),0.04))] sm:block" aria-hidden="true" />
                 </div>
 
-                <div className="mt-6 grid gap-7 xl:grid-cols-[auto_1fr] xl:items-end">
+                <div className="mt-6 flex flex-col gap-7">
                   <Image
                     src="/images/mad-realm-logo-no-bg.webp"
                     alt="Escaping the Mad Realm — NECYPAA XXXVI theme logo"
@@ -156,8 +156,8 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="lg:justify-self-end">
-            <div className="relative mx-auto max-w-[520px]">
+          <div className="lg:flex lg:justify-center lg:items-center xl:justify-end">
+            <div className="relative mx-auto w-full max-w-[520px] xl:max-w-[580px]">
               <div
                 className="pointer-events-none absolute inset-5 rounded-[2rem] border border-[rgba(var(--nec-gold-rgb),0.14)]"
                 aria-hidden="true"
