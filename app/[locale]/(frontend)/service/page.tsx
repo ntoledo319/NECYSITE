@@ -50,41 +50,16 @@ export default function ServicePage() {
                 </p>
               </div>
 
-              <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-                <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-                  <div className="absolute left-6 top-6 h-20 w-20 rounded-full border border-[rgba(var(--nec-purple-rgb),0.16)]" />
-                  <div className="absolute right-6 top-8 h-12 w-24 rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.16)]" />
-                  <div className="absolute bottom-6 left-8 h-14 w-28 rounded-[1.1rem] border border-[rgba(var(--nec-gold-rgb),0.16)]" />
-                </div>
-
-                <div className="relative grid gap-4 sm:grid-cols-[1fr_0.92fr] sm:items-end">
-                  <div className="grid gap-3">
-                    {[0, 1, 2].map((item) => (
-                      <div
-                        key={item}
-                        className={`rounded-[1.1rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] px-4 py-4 ${
-                          item === 1 ? "translate-x-5" : item === 2 ? "-translate-x-1" : ""
-                        }`}
-                      >
-                        <div className="h-2 w-16 rounded-full bg-[rgba(var(--nec-purple-rgb),0.20)]" />
-                        <div className="mt-3 h-2 w-full rounded-full bg-[rgba(var(--nec-purple-rgb),0.12)]" />
-                        <div className="mt-2 h-2 w-4/5 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.10)]" />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="relative min-h-[18rem] overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(var(--nec-purple-rgb),0.12),transparent)]" aria-hidden="true" />
-                    <Image
-                      src="/images/mad-hatter-portal.webp"
-                      alt=""
-                      width={900}
-                      height={1200}
-                      sizes="(min-width: 640px) 320px, 100vw"
-                      className="h-full w-full rounded-[1.1rem] object-cover"
-                      aria-hidden="true"
-                    />
-                  </div>
+              <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.06),rgba(var(--nec-card-rgb),0.92))] p-4 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
+                <div className="overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
+                  <Image
+                    src="/images/mad-hatter-portal.webp"
+                    alt="The Mad Hatter escaping through ornate portal doors from the Mad Realm"
+                    width={900}
+                    height={1200}
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="h-auto w-full rounded-[1.15rem] object-cover"
+                  />
                 </div>
               </div>
             </div>

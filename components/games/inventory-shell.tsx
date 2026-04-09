@@ -199,407 +199,62 @@ const RELATED_LINKS: Record<InventoryTheme, Array<{ href: string; label: string 
 }
 
 function ThemeHeroArt({
-  theme,
   char,
 }: {
   theme: InventoryTheme
   char: (typeof CHARACTER_DATA)[Character]
 }) {
-  if (theme === "program") {
-    return (
-      <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-70"
-          aria-hidden="true"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(45,107,94,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(45,107,94,0.08) 1px, transparent 1px)",
-            backgroundSize: "100% 4.75rem, 4.75rem 100%",
-          }}
-        />
-        <div className="relative grid gap-3">
-          <div className="grid gap-3 sm:grid-cols-[1fr_14rem]">
-            <div className="space-y-3">
-              {[0, 1, 2].map((row) => (
-                <div
-                  key={row}
-                  className="rounded-[1rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-4"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="h-3 w-3 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.26)]" />
-                    <div className="h-2 w-24 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.18)]" />
-                  </div>
-                  <div className="mt-3 h-2 w-full rounded-full bg-[rgba(var(--nec-cyan-rgb),0.12)]" />
-                </div>
-              ))}
-            </div>
-            <div className="relative min-h-[17rem] overflow-hidden rounded-[1.4rem] border border-[rgba(var(--nec-cyan-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
-            <Image
-              src={char.portal}
-              alt=""
-              width={600}
-              height={900}
-              sizes="(min-width: 640px) 224px, 100vw"
-              className="h-full w-full rounded-[1rem] object-cover"
-              aria-hidden="true"
-            />
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "merch") {
-    return (
-      <div className="relative min-h-[21rem] overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute left-5 top-5 h-20 w-16 rounded-[1rem] border border-dashed border-[rgba(var(--nec-purple-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.72)] rotate-[-8deg]" />
-          <div className="absolute right-8 top-8 h-24 w-20 rounded-[1rem] border border-dashed border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.70)] rotate-[7deg]" />
-          <div className="absolute bottom-5 left-10 h-16 w-24 rounded-[1rem] border border-dashed border-[rgba(var(--nec-pink-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.70)] rotate-[5deg]" />
-        </div>
-        <div className="relative grid h-full gap-4 sm:grid-cols-[1.1fr_0.9fr] sm:items-end">
-          <div className="relative overflow-hidden rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2 shadow-[0_18px_32px_rgba(44,24,16,0.10)] rotate-[-3deg] sm:ml-5">
-            <div className="pointer-events-none absolute inset-x-4 top-4 h-6 border-b border-dashed border-[rgba(var(--nec-purple-rgb),0.16)]" aria-hidden="true" />
-            <Image
-              src={char.portal}
-              alt=""
-              width={600}
-              height={900}
-              sizes="(min-width: 640px) 360px, 100vw"
-              className="h-full w-full rounded-[1.15rem] object-cover"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="relative hidden sm:block">
-            <Image
-              src={char.standalone}
-              alt=""
-              width={220}
-              height={300}
-              sizes="220px"
-              className="ml-auto h-56 w-auto object-contain opacity-90"
-              aria-hidden="true"
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "prayer") {
-    return (
-      <div className="relative flex min-h-[21rem] items-center justify-center overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)]" />
-          <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(var(--nec-gold-rgb),0.12)]" />
-          <div className="absolute left-1/2 top-1/2 h-84 w-84 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(var(--nec-gold-rgb),0.08)]" />
-        </div>
-        <div className="relative flex flex-col items-center gap-5">
-          <div className="relative overflow-hidden rounded-[999px] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.84)] p-3">
-            <Image
-              src={char.portal}
-              alt=""
-              width={540}
-              height={540}
-              sizes="220px"
-              className="h-52 w-52 rounded-[999px] object-cover"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="flex gap-3" aria-hidden="true">
-            <div className="h-2.5 w-2.5 rounded-full bg-[rgba(var(--nec-gold-rgb),0.28)]" />
-            <div className="h-2.5 w-2.5 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.22)]" />
-            <div className="h-2.5 w-2.5 rounded-full bg-[rgba(var(--nec-purple-rgb),0.18)]" />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "asl") {
-    return (
-      <div className="relative overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-cyan-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.09),rgba(var(--nec-card-rgb),0.94))] p-4 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-        <div className="grid gap-4 sm:grid-cols-[0.92fr_1.08fr]">
-          <div className="relative min-h-[17rem] overflow-hidden rounded-[1rem] border border-[rgba(var(--nec-cyan-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
-            <div className="pointer-events-none absolute inset-y-0 left-4 w-px bg-[rgba(var(--nec-cyan-rgb),0.14)]" aria-hidden="true" />
-            <Image
-              src={char.portal}
-              alt=""
-              width={600}
-              height={900}
-              sizes="(min-width: 640px) 380px, 100vw"
-              className="h-full w-full rounded-[0.75rem] object-cover"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="grid gap-3">
-            {[0, 1, 2].map((row) => (
-              <div
-                key={row}
-                className="rounded-[0.95rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] px-4 py-4"
-              >
-                <div className="h-2 w-20 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.22)]" />
-                <div className="mt-3 h-2 w-full rounded-full bg-[rgba(var(--nec-cyan-rgb),0.12)]" />
-                <div className="mt-2 h-2 w-3/4 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.12)]" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "bid") {
-    return (
-      <div className="relative overflow-hidden rounded-[1.75rem] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.06),rgba(var(--nec-card-rgb),0.94))] p-5 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-70"
-          aria-hidden="true"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(122,91,13,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(122,91,13,0.08) 1px, transparent 1px)",
-            backgroundSize: "1.5rem 1.5rem",
-          }}
-        />
-        <div className="relative grid gap-4 sm:grid-cols-[1fr_0.96fr]">
-          <div className="relative min-h-[17rem] overflow-hidden rounded-[1.1rem] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2">
-            <div className="pointer-events-none absolute inset-3 border border-[rgba(var(--nec-gold-rgb),0.14)]" aria-hidden="true" />
-            <Image
-              src={char.portal}
-              alt=""
-              width={600}
-              height={900}
-              sizes="(min-width: 640px) 340px, 100vw"
-              className="h-full w-full rounded-[0.8rem] object-cover"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="flex items-center justify-center rounded-[1.1rem] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.82)] p-4">
-            <div className="relative h-44 w-full max-w-[14rem]">
-              <div className="absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-[58%] rotate-45 border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.06)]" />
-              <div className="absolute inset-x-5 top-7 h-px bg-[rgba(var(--nec-gold-rgb),0.16)]" />
-              <div className="absolute inset-x-5 bottom-7 h-px bg-[rgba(var(--nec-gold-rgb),0.16)]" />
-              <div className="absolute inset-y-7 left-5 w-px bg-[rgba(var(--nec-gold-rgb),0.16)]" />
-              <div className="absolute inset-y-7 right-5 w-px bg-[rgba(var(--nec-gold-rgb),0.16)]" />
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-pink-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-pink-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_20px_48px_rgba(44,24,16,0.08)]">
-      <div className="grid gap-4 sm:grid-cols-[1fr_0.94fr]">
-        <div className="relative min-h-[17rem] rounded-[1.25rem] border border-[rgba(var(--nec-pink-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] p-2 rotate-[-2deg]">
-          <div className="pointer-events-none absolute left-4 top-4 h-4 w-4 rounded-full bg-[rgba(var(--nec-pink-rgb),0.18)]" aria-hidden="true" />
-          <div className="pointer-events-none absolute right-4 top-4 h-4 w-4 rounded-full bg-[rgba(var(--nec-gold-rgb),0.18)]" aria-hidden="true" />
-          <Image
-            src={char.portal}
-            alt=""
-            width={600}
-            height={900}
-            sizes="(min-width: 640px) 360px, 100vw"
-            className="h-full w-full rounded-[0.95rem] object-cover"
-            aria-hidden="true"
-          />
-        </div>
-        <div className="grid gap-3 sm:pt-6">
-          {[0, 1, 2].map((row) => (
-            <div
-              key={row}
-              className={`rounded-[1rem] border border-[rgba(var(--nec-pink-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.88)] px-4 py-4 ${
-                row === 1 ? "translate-x-4" : row === 2 ? "-translate-x-2" : ""
-              }`}
-            >
-              <div className="h-2 w-16 rounded-full bg-[rgba(var(--nec-pink-rgb),0.22)]" />
-              <div className="mt-3 h-2 w-full rounded-full bg-[rgba(var(--nec-pink-rgb),0.12)]" />
-              <div className="mt-2 h-2 w-4/5 rounded-full bg-[rgba(var(--nec-gold-rgb),0.10)]" />
-            </div>
-          ))}
-        </div>
+    <div
+      className="relative overflow-hidden rounded-[2rem] border p-4 shadow-[0_20px_48px_rgba(44,24,16,0.08)]"
+      style={{
+        borderColor: `rgba(${char.accentRgb},0.16)`,
+        background: `linear-gradient(145deg, rgba(${char.accentRgb},0.06), rgba(var(--nec-card-rgb),0.92))`,
+      }}
+    >
+      <div
+        className="overflow-hidden rounded-[1.5rem] border p-2"
+        style={{
+          borderColor: `rgba(${char.accentRgb},0.12)`,
+          background: "rgba(var(--nec-card-rgb),0.88)",
+        }}
+      >
+        <Image
+          src={char.portal}
+          alt={char.alt}
+          width={900}
+          height={1200}
+          sizes="(max-width: 1024px) 100vw, 40vw"
+          className="h-auto w-full rounded-[1.15rem] object-cover"
+        />
       </div>
     </div>
   )
 }
 
 function ThemeMotif({
-  theme,
   char,
 }: {
   theme: InventoryTheme
   char: (typeof CHARACTER_DATA)[Character]
 }) {
-  if (theme === "prayer") {
-    return (
-      <div className="relative flex min-h-[19rem] items-center justify-center overflow-hidden rounded-[1.75rem] border border-[rgba(var(--nec-gold-rgb),0.14)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.06),rgba(var(--nec-card-rgb),0.86))] p-5">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(var(--nec-gold-rgb),0.16)]" />
-          <div className="absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(var(--nec-gold-rgb),0.10)]" />
-        </div>
-        <Image
-          src={char.standalone}
-          alt=""
-          width={220}
-          height={300}
-          sizes="220px"
-          className="relative h-52 w-auto object-contain opacity-90"
-          aria-hidden="true"
-        />
-      </div>
-    )
-  }
-
-  if (theme === "asl") {
-    return (
-      <div className="relative min-h-[19rem] overflow-hidden rounded-[1.1rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.86)] p-4">
-        <div className="pointer-events-none absolute inset-y-4 left-4 w-px bg-[rgba(var(--nec-cyan-rgb),0.14)]" aria-hidden="true" />
-        <div className="relative grid h-full gap-3">
-          <div className="rounded-[0.95rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[rgba(var(--nec-cyan-rgb),0.06)] p-2">
-            <Image
-              src={char.portal}
-              alt=""
-              width={600}
-              height={900}
-              sizes="(min-width: 1024px) 28vw, 100vw"
-              className="h-44 w-full rounded-[0.7rem] object-cover"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {[0, 1].map((item) => (
-              <div
-                key={item}
-                className="rounded-[0.95rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] px-3 py-3"
-              >
-                <div className="h-2 w-12 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.20)]" />
-                <div className="mt-2 h-2 w-full rounded-full bg-[rgba(var(--nec-cyan-rgb),0.10)]" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "bid") {
-    return (
-      <div className="relative min-h-[19rem] overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-gold-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.84)] p-4">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-60"
-          aria-hidden="true"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(122,91,13,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(122,91,13,0.08) 1px, transparent 1px)",
-            backgroundSize: "1.25rem 1.25rem",
-          }}
-        />
-        <div className="relative flex h-full items-center justify-center rounded-[1.1rem] border border-[rgba(var(--nec-gold-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)]">
-          <Image
-            src={char.standalone}
-            alt=""
-            width={220}
-            height={300}
-            sizes="220px"
-            className="h-52 w-auto object-contain opacity-85"
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "merch") {
-    return (
-      <div className="relative min-h-[19rem] overflow-hidden rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.84)] p-4">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute left-4 top-4 h-12 w-12 rounded-[1rem] border border-dashed border-[rgba(var(--nec-purple-rgb),0.16)]" />
-          <div className="absolute right-5 bottom-5 h-10 w-20 rounded-[0.95rem] border border-dashed border-[rgba(var(--nec-gold-rgb),0.16)]" />
-        </div>
-        <div className="relative grid h-full items-end gap-3 sm:grid-cols-[1fr_0.78fr]">
-          <div className="overflow-hidden rounded-[1.1rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.90)] p-2">
-            <Image
-              src={char.portal}
-              alt={char.alt}
-              width={600}
-              height={900}
-              sizes="(min-width: 1024px) 28vw, 100vw"
-              className="h-44 w-full rounded-[0.8rem] object-cover"
-            />
-          </div>
-          <Image
-            src={char.standalone}
-            alt=""
-            width={180}
-            height={240}
-            sizes="180px"
-            className="ml-auto h-40 w-auto object-contain opacity-88"
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-    )
-  }
-
-  if (theme === "program") {
-    return (
-      <div className="relative min-h-[19rem] overflow-hidden rounded-[1.6rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.86)] p-4">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-60"
-          aria-hidden="true"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(45,107,94,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(45,107,94,0.08) 1px, transparent 1px)",
-            backgroundSize: "100% 3.8rem, 3.8rem 100%",
-          }}
-        />
-        <div className="relative space-y-3">
-          {[0, 1, 2].map((item) => (
-            <div
-              key={item}
-              className="rounded-[1rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.90)] px-4 py-4"
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full border border-[rgba(var(--nec-cyan-rgb),0.18)] bg-[rgba(var(--nec-cyan-rgb),0.08)]" />
-                <div className="flex-1">
-                  <div className="h-2 w-24 rounded-full bg-[rgba(var(--nec-cyan-rgb),0.18)]" />
-                  <div className="mt-2 h-2 w-full rounded-full bg-[rgba(var(--nec-cyan-rgb),0.10)]" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="relative min-h-[19rem] overflow-hidden rounded-[1.6rem] border border-[rgba(var(--nec-pink-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.86)] p-4">
-      <div className="relative grid gap-3">
-        {[0, 1, 2].map((item) => (
-          <div
-            key={item}
-            className={`rounded-[1rem] border border-[rgba(var(--nec-pink-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.90)] px-4 py-4 ${
-              item === 1 ? "translate-x-4" : item === 2 ? "-translate-x-2" : ""
-            }`}
-          >
-            <div className="h-2 w-16 rounded-full bg-[rgba(var(--nec-pink-rgb),0.20)]" />
-            <div className="mt-2 h-2 w-full rounded-full bg-[rgba(var(--nec-pink-rgb),0.10)]" />
-          </div>
-        ))}
-      </div>
-      <div className="pointer-events-none absolute bottom-4 right-4" aria-hidden="true">
-        <Image
-          src={char.standalone}
-          alt=""
-          width={140}
-          height={180}
-          sizes="140px"
-          className="h-32 w-auto object-contain opacity-12"
-          aria-hidden="true"
-        />
-      </div>
+    <div
+      className="relative flex min-h-[19rem] items-center justify-center overflow-hidden rounded-[1.6rem] border p-5"
+      style={{
+        borderColor: `rgba(${char.accentRgb},0.14)`,
+        background: `linear-gradient(145deg, rgba(${char.accentRgb},0.05), rgba(var(--nec-card-rgb),0.86))`,
+      }}
+    >
+      <Image
+        src={char.standalone}
+        alt=""
+        width={220}
+        height={300}
+        sizes="220px"
+        className="relative h-52 w-auto object-contain opacity-90"
+        aria-hidden="true"
+      />
     </div>
   )
 }
