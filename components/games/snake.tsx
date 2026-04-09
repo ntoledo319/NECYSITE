@@ -15,20 +15,22 @@ const GRID = 18
 const COLS = Math.floor(CANVAS_W / GRID)
 const ROWS = Math.floor(CANVAS_H / GRID)
 
-const PURPLE = "#7c3aed"
-const PINK = "#c026d3"
-const GOLD = "#eab308"
-const CYAN = "#22d3ee"
-const NAVY = "#0f0a1e"
-const TEAL = "#14b8a6"
+const PURPLE = "#C08ABF"
+const PINK = "#D4748E"
+const GOLD = "#D4A84B"
+const CYAN = "#5DBAA8"
+const NAVY = "#0D1B2A"
+const TEAL = "#5DBAA8"
 
 const TOKENS = [
   { label: "☮", name: "SERENITY", color: CYAN },
   { label: "♥", name: "COURAGE", color: PINK },
-  { label: "✦", name: "WISDOM", color: GOLD },
   { label: "△", name: "UNITY", color: PURPLE },
   { label: "◇", name: "SERVICE", color: TEAL },
-  { label: "★", name: "HOPE", color: "#f97316" },
+  { label: "★", name: "RECOVERY", color: GOLD },
+  { label: "✦", name: "HOPE", color: "#f97316" },
+  { label: "●", name: "FAITH", color: "#a855f7" },
+  { label: "◆", name: "GRATITUDE", color: "#ec4899" },
 ]
 
 interface Pos { x: number; y: number }

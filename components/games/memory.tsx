@@ -12,18 +12,18 @@ import { useRef, useEffect, useState, useCallback } from "react"
 const CANVAS_W = 360
 const CANVAS_H = 360
 
-const PURPLE = "#7c3aed"
-const PINK = "#c026d3"
-const GOLD = "#eab308"
-const CYAN = "#22d3ee"
-const NAVY = "#0f0a1e"
-const TEAL = "#14b8a6"
+const PURPLE = "#C08ABF"
+const PINK = "#D4748E"
+const GOLD = "#D4A84B"
+const CYAN = "#5DBAA8"
+const NAVY = "#0D1B2A"
+const TEAL = "#5DBAA8"
 
-const COLS = 4
+const COLS = 6
 const ROWS = 4
-const CARD_W = 78
+const CARD_W = 52
 const CARD_H = 78
-const PAD = 6
+const PAD = 5
 const OFFSET_X = (CANVAS_W - COLS * (CARD_W + PAD) + PAD) / 2
 const OFFSET_Y = (CANVAS_H - ROWS * (CARD_H + PAD) + PAD) / 2
 
@@ -36,6 +36,10 @@ const PAIRS: [string, string, string][] = [
   ["WILLINGNESS", "Step 6", "#f97316"],
   ["HUMILITY", "Step 7", "#a855f7"],
   ["LOVE", "Step 8", "#ec4899"],
+  ["DISCIPLINE", "Step 9", PURPLE],
+  ["PERSEVERANCE", "Step 10", CYAN],
+  ["AWARENESS", "Step 11", GOLD],
+  ["SERVICE", "Step 12", PINK],
 ]
 
 interface Card {

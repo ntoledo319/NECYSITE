@@ -14,12 +14,12 @@ const CELL = 22
 const CANVAS_W = COLS * CELL
 const CANVAS_H = ROWS * CELL
 
-const PURPLE = "#7c3aed"
-const PINK = "#c026d3"
-const GOLD = "#eab308"
-const CYAN = "#22d3ee"
-const NAVY = "#0f0a1e"
-const TEAL = "#14b8a6"
+const PURPLE = "#C08ABF"
+const PINK = "#D4748E"
+const GOLD = "#D4A84B"
+const CYAN = "#5DBAA8"
+const NAVY = "#0D1B2A"
+const TEAL = "#5DBAA8"
 const ORANGE = "#f97316"
 
 const COLORS = [PURPLE, PINK, GOLD, CYAN, TEAL, ORANGE, "#ef4444"]
@@ -27,7 +27,8 @@ const COLORS = [PURPLE, PINK, GOLD, CYAN, TEAL, ORANGE, "#ef4444"]
 const SLOGANS = [
   "ODAAT", "LET GO", "EASY", "THINK", "LISTEN",
   "TRUST", "HOW", "HALT", "HOPE", "FAITH",
-  "STEP 1", "STEP 2", "STEP 3", "UNITY", "SERVICE",
+  "UNITY", "SERVICE", "RECOVERY", "COURAGE",
+  "ACCEPT", "CHANGE", "SUIT UP", "SHOW UP",
 ]
 
 // Standard tetromino shapes

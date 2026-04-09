@@ -20,17 +20,20 @@ const ENEMY_H = 24
 const ENEMY_PAD = 12
 
 const DEFECTS = [
-  "FEAR", "ANGER", "SELF", "ENVY", "PRIDE",
-  "GREED", "SLOTH", "DOUBT", "SHAME", "DENY",
-  "BLAME", "LIES", "EGO", "GUILT", "WORRY",
-  "SPITE", "LUST", "WRATH", "DREAD", "GLOOM",
+  // Big Book page 64: selfishness, dishonesty, resentment, fear
+  "SELF", "LIES", "RESENT", "FEAR",
+  // Seven deadly sins
+  "PRIDE", "GREED", "LUST", "ENVY", "GLUT", "WRATH", "SLOTH",
+  // Common AA shortcomings
+  "EGO", "ANGER", "SHAME", "DENY", "BLAME",
+  "GUILT", "DOUBT", "SPITE", "DREAD",
 ]
 
-const PURPLE = "#7c3aed"
-const PINK = "#c026d3"
-const GOLD = "#eab308"
-const CYAN = "#22d3ee"
-const NAVY = "#0f0a1e"
+const PURPLE = "#C08ABF"
+const PINK = "#D4748E"
+const GOLD = "#D4A84B"
+const CYAN = "#5DBAA8"
+const NAVY = "#0D1B2A"
 
 interface Bullet { x: number; y: number }
 interface Enemy { x: number; y: number; alive: boolean; label: string; color: string }

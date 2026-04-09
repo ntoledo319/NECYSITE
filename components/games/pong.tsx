@@ -23,13 +23,14 @@ const PADDLE_SPEED = 5
 const AI_SPEED = 3.2
 const WIN_SCORE = 7
 
-const PURPLE = "#7c3aed"
-const PINK = "#c026d3"
-const GOLD = "#eab308"
-const CYAN = "#22d3ee"
-const NAVY = "#0f0a1e"
+const PURPLE = "#C08ABF"
+const PINK = "#D4748E"
+const GOLD = "#D4A84B"
+const CYAN = "#5DBAA8"
+const NAVY = "#0D1B2A"
 
 const SLOGANS = [
+  // Classic AA slogans
   "CARRY THE MESSAGE",
   "KEEP COMING BACK",
   "IT WORKS IF YOU WORK IT",
@@ -40,6 +41,17 @@ const SLOGANS = [
   "THINK THINK THINK",
   "HOW: HONEST OPEN WILLING",
   "LIVE AND LET LIVE",
+  "THIS TOO SHALL PASS",
+  "BUT FOR THE GRACE OF GOD",
+  // Meeting closers
+  "MEETING MAKERS MAKE IT",
+  "KEEP COMING BACK IT WORKS",
+  // YPAA energy
+  "DON'T LEAVE BEFORE THE MIRACLE",
+  "SUIT UP AND SHOW UP",
+  "PROGRESS NOT PERFECTION",
+  "PRINCIPLES BEFORE PERSONALITIES",
+  "WE ARE NOT A GLUM LOT",
 ]
 
 function DPadButton({ label, ariaLabel, onDown, onUp, color = PURPLE }: { label: string; ariaLabel: string; onDown: () => void; onUp: () => void; color?: string }) {

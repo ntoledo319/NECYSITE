@@ -21,12 +21,12 @@ const BRICK_H = 20
 const BRICK_PAD = 6
 const PADDLE_SPEED = 6
 
-const PURPLE = "#7c3aed"
-const PINK = "#c026d3"
-const GOLD = "#eab308"
-const CYAN = "#22d3ee"
-const NAVY = "#0f0a1e"
-const TEAL = "#14b8a6"
+const PURPLE = "#C08ABF"
+const PINK = "#D4748E"
+const GOLD = "#D4A84B"
+const CYAN = "#5DBAA8"
+const NAVY = "#0D1B2A"
+const TEAL = "#5DBAA8"
 
 const DENIAL_WORDS = [
   "DENIAL", "FEAR", "PRIDE", "ANGER", "SELF",

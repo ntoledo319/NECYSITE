@@ -19,7 +19,7 @@ export default function FAQPage() {
       character="cheshire-cat"
       theme="faq"
       gameName="Matching Principles"
-      gameDescription="Match each AA principle to its step. Arrow keys to navigate, Enter or Space to flip. Find all 8 pairs."
+      gameDescription="Match each AA principle to its step — all 12. Arrow keys to navigate, Enter or Space to flip."
     >
       <MemoryGame />
     </InventoryShell>
