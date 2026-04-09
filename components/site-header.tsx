@@ -316,8 +316,8 @@ export default function SiteHeader() {
                 className="h-11 w-auto group-hover:opacity-90 transition-opacity"
                 priority
               />
-              <div className="hidden min-w-0 sm:block">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Hartford, Connecticut</p>
+              <div className="min-w-0">
+                <p className="hidden sm:block text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Hartford, Connecticut</p>
                 <p className="truncate text-sm font-semibold tracking-[0.01em] text-[var(--nec-text)]">
                   NECYPAA XXXVI
                 </p>
@@ -405,12 +405,17 @@ export default function SiteHeader() {
           <motion.nav
             ref={drawerRef}
             aria-label="Mobile navigation"
-            className="fixed left-0 right-0 top-[4.5rem] z-40 md:hidden flex max-h-[calc(100dvh-4.5rem)] flex-col gap-1 overflow-y-auto p-4 nec-mobile-drawer"
+            className="fixed left-0 right-0 z-50 md:hidden flex flex-col gap-1 overflow-y-auto p-4 nec-mobile-drawer"
+            style={{
+              top: "calc(4.5rem + env(safe-area-inset-top, 0px))",
+              maxHeight: "calc(100dvh - 4.5rem - env(safe-area-inset-top, 0px))",
+              backdropFilter: "blur(14px) saturate(1.05)",
+              WebkitBackdropFilter: "blur(14px) saturate(1.05)",
+            }}
             initial={shouldReduce ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={shouldReduce ? { duration: 0 } : SPRING_SNAPPY}
-            style={{ backdropFilter: "blur(14px) saturate(1.05)", WebkitBackdropFilter: "blur(14px) saturate(1.05)" }}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
         {navItems.map((item) =>
