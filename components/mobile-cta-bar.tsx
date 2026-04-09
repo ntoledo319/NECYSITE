@@ -23,7 +23,7 @@ export default function MobileCtaBar() {
       {!hidden && (
         <motion.nav
           aria-label="Quick actions"
-          className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-2 px-3 pt-3"
+          className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-3 px-3 pt-3"
           style={{
             background: "rgba(var(--nec-navy-rgb),0.96)",
             backdropFilter: "blur(16px)",
@@ -39,7 +39,7 @@ export default function MobileCtaBar() {
         >
           <Link
             href="/register"
-            className="btn-primary flex-1 !py-2.5 !text-sm"
+            className="btn-primary flex-1 !py-3 !text-sm"
             style={{
               backgroundColor: "#6B3060",
               borderColor: "rgba(107,48,96,0.34)",
@@ -52,7 +52,7 @@ export default function MobileCtaBar() {
             href={HOTEL_BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary flex-1 !py-2.5 !text-sm"
+            className="btn-secondary flex-1 !py-3 !text-sm"
             style={{
               backgroundColor: "#7A5B0D",
               borderColor: "rgba(122,91,13,0.34)",

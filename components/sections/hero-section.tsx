@@ -46,7 +46,7 @@ export default function HeroSection() {
       />
 
       {/* ── Content — materializes from the art ── */}
-      <div className="relative z-10 flex w-full flex-col items-center px-5 pb-24 pt-24 text-center sm:px-6">
+      <div className="relative z-10 flex w-full flex-col items-center px-5 pb-12 pt-20 text-center sm:px-6 sm:pb-16 sm:pt-24 md:pb-24">
 
         {/* Theme logo with breathing glow + dark halo for separation — stagger 1 */}
         <div className="hero-logo-glow hero-enter-1 relative">
@@ -66,7 +66,7 @@ export default function HeroSection() {
             height={340}
             priority
             sizes="(max-width: 640px) 60vw, (max-width: 1024px) 280px, 340px"
-            className="relative z-10 h-auto w-full max-w-[220px] sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px]"
+            className="relative z-10 h-auto w-full max-w-[160px] sm:max-w-[220px] md:max-w-[280px] lg:max-w-[340px]"
             style={{
               filter:
                 "drop-shadow(0 4px 32px rgba(124,58,237,0.50)) drop-shadow(0 2px 14px rgba(192,38,211,0.30))",
@@ -76,7 +76,7 @@ export default function HeroSection() {
 
         {/* Convention title — stagger 2 */}
         <h1
-          className="hero-enter-2 mt-5 text-2xl font-black uppercase tracking-wide sm:text-3xl md:mt-6 md:text-4xl lg:text-5xl"
+          className="hero-enter-2 mt-4 text-xl font-black uppercase tracking-wide sm:mt-5 sm:text-2xl md:mt-6 md:text-3xl lg:text-4xl xl:text-5xl"
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             background:
@@ -92,7 +92,7 @@ export default function HeroSection() {
 
         {/* Location — stagger 3 */}
         <h2
-          className="hero-enter-3 mt-1 text-lg font-black uppercase tracking-wide sm:text-xl md:mt-2 md:text-2xl lg:text-3xl"
+          className="hero-enter-3 mt-1 text-base font-black uppercase tracking-wide sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             color: "#D4A84B",
@@ -116,14 +116,14 @@ export default function HeroSection() {
 
         {/* Dates + Venue — stagger 4, frosted pill for legibility over the poster */}
         <div
-          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-6 py-3 backdrop-blur-sm md:mt-5 md:px-8 md:py-4"
+          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-4 py-2.5 backdrop-blur-sm sm:px-6 sm:py-3 md:mt-5 md:px-8 md:py-4"
           style={{
             background: "rgba(0,0,0,0.35)",
             border: "1px solid rgba(232,223,208,0.08)",
           }}
         >
           <p
-            className="text-base font-bold uppercase tracking-widest sm:text-lg md:text-xl"
+            className="text-sm font-bold uppercase tracking-widest sm:text-base md:text-lg lg:text-xl"
             style={{
               color: "#5DBAA8",
               textShadow: "0 0 20px rgba(93,186,168,0.40)",
@@ -132,7 +132,7 @@ export default function HeroSection() {
             Dec 31, 2026 &ndash; Jan 3, 2027
           </p>
           <p
-            className="text-sm font-medium tracking-wide sm:text-base"
+            className="text-xs font-medium tracking-wide sm:text-sm md:text-base"
             style={{
               color: "rgba(232,223,208,0.90)",
               textShadow: "0 1px 4px rgba(0,0,0,0.5)",

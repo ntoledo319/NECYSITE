@@ -40,7 +40,7 @@ export default function MeetingsSection() {
         </div>
       </div>
 
-      <div className="nec-meetings-table hidden overflow-hidden rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] shadow-[0_20px_44px_rgba(44,24,16,0.08)] md:block">
+      <div className="nec-meetings-table hidden overflow-x-auto rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.86)] shadow-[0_20px_44px_rgba(44,24,16,0.08)] md:block">
         <div className="flex items-center justify-between gap-4 border-b border-[rgba(var(--nec-purple-rgb),0.08)] px-5 py-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
