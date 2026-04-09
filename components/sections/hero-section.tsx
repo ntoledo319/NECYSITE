@@ -26,6 +26,7 @@ export default function HeroSection() {
       {/*
         Two-layer overlay system:
         1. Theme-safe darkening (always black — works in light AND dark mode)
+           Mobile gets slightly heavier overlay for text legibility at small sizes
         2. Bottom fade to page background color (var(--nec-navy) for seamless transition)
       */}
       <div
@@ -33,7 +34,7 @@ export default function HeroSection() {
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 30%, rgba(0,0,0,0.28) 45%, rgba(0,0,0,0.38) 65%, rgba(0,0,0,0.70) 88%, rgba(0,0,0,0.88) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.40) 28%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.42) 65%, rgba(0,0,0,0.72) 86%, rgba(0,0,0,0.90) 100%)",
         }}
       />
       <div
@@ -46,17 +47,17 @@ export default function HeroSection() {
       />
 
       {/* ── Content — materializes from the art ── */}
-      <div className="relative z-10 flex w-full flex-col items-center px-5 pb-12 pt-20 text-center sm:px-6 sm:pb-16 sm:pt-24 md:pb-24">
+      <div className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-14 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24">
 
         {/* Theme logo with breathing glow + dark halo for separation — stagger 1 */}
-        <div className="hero-logo-glow hero-enter-1 relative">
+        <div className="hero-logo-glow hero-enter-1 relative mb-5 sm:mb-6 md:mb-7">
           {/* Dark halo — separates the logo from the poster's similar palette */}
           <div
-            className="pointer-events-none absolute inset-[-18%] rounded-full"
+            className="pointer-events-none absolute inset-[-22%] rounded-full sm:inset-[-18%]"
             aria-hidden="true"
             style={{
               background:
-                "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.20) 55%, transparent 75%)",
+                "radial-gradient(ellipse 52% 52% at 50% 50%, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.24) 50%, transparent 72%)",
             }}
           />
           <Image
@@ -65,8 +66,8 @@ export default function HeroSection() {
             width={340}
             height={340}
             priority
-            sizes="(max-width: 640px) 60vw, (max-width: 1024px) 280px, 340px"
-            className="relative z-10 h-auto w-full max-w-[160px] sm:max-w-[220px] md:max-w-[280px] lg:max-w-[340px]"
+            sizes="(max-width: 640px) 52vw, (max-width: 1024px) 260px, 340px"
+            className="relative z-10 h-auto w-full max-w-[180px] sm:max-w-[230px] md:max-w-[280px] lg:max-w-[340px]"
             style={{
               filter:
                 "drop-shadow(0 4px 32px rgba(124,58,237,0.50)) drop-shadow(0 2px 14px rgba(192,38,211,0.30))",
@@ -75,12 +76,17 @@ export default function HeroSection() {
         </div>
 
         {/* Convention title — stagger 2 */}
+        {/*
+          Gradient text has no text-shadow support (background-clip: text).
+          On mobile, we add a stronger dark halo behind the text via a pseudo-
+          element in CSS, and use brighter gradient stops for small screens.
+        */}
         <h1
-          className="hero-enter-2 mt-4 text-xl font-black uppercase tracking-wide sm:mt-5 sm:text-2xl md:mt-6 md:text-3xl lg:text-4xl xl:text-5xl"
+          className="hero-enter-2 hero-title-glow text-[1.35rem] font-black uppercase leading-tight tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             background:
-              "linear-gradient(90deg, #C08ABF 0%, #D4748E 35%, #D4A84B 65%, #C08ABF 100%)",
+              "linear-gradient(90deg, #d4a8d2 0%, #e8899e 30%, #e8c45a 60%, #d4a8d2 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -92,41 +98,41 @@ export default function HeroSection() {
 
         {/* Location — stagger 3 */}
         <h2
-          className="hero-enter-3 mt-1 text-base font-black uppercase tracking-wide sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
+          className="hero-enter-3 mt-1 text-[0.95rem] font-black uppercase tracking-wide sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
-            color: "#D4A84B",
+            color: "#e8c45a",
             textShadow:
-              "0 0 28px rgba(212,168,75,0.40), 0 2px 6px rgba(0,0,0,0.7)",
+              "0 0 24px rgba(232,196,90,0.50), 0 1px 3px rgba(0,0,0,0.8), 0 0 60px rgba(212,168,75,0.20)",
             letterSpacing: "0.08em",
           }}
         >
           Hartford, Connecticut
         </h2>
 
-        {/* Decorative rule — echoes the poster's golden border details */}
+        {/* Decorative rule */}
         <div
-          className="hero-enter-3 mx-auto mt-4 h-px w-32 sm:w-40 md:mt-5 md:w-48"
+          className="hero-enter-3 mx-auto mt-4 h-px w-28 sm:w-40 md:mt-5 md:w-48"
           aria-hidden="true"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(212,168,75,0.50) 30%, rgba(192,138,191,0.45) 70%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgba(232,196,90,0.50) 30%, rgba(212,168,210,0.45) 70%, transparent 100%)",
           }}
         />
 
-        {/* Dates + Venue — stagger 4, frosted pill for legibility over the poster */}
+        {/* Dates + Venue — stagger 4, frosted pill for legibility */}
         <div
-          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-4 py-2.5 backdrop-blur-sm sm:px-6 sm:py-3 md:mt-5 md:px-8 md:py-4"
+          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-5 py-3 backdrop-blur-sm sm:px-6 sm:py-3 md:mt-5 md:px-8 md:py-4"
           style={{
-            background: "rgba(0,0,0,0.35)",
-            border: "1px solid rgba(232,223,208,0.08)",
+            background: "rgba(0,0,0,0.40)",
+            border: "1px solid rgba(232,223,208,0.10)",
           }}
         >
           <p
-            className="text-sm font-bold uppercase tracking-widest sm:text-base md:text-lg lg:text-xl"
+            className="text-[0.8rem] font-bold uppercase tracking-[0.14em] sm:text-base sm:tracking-widest md:text-lg lg:text-xl"
             style={{
-              color: "#5DBAA8",
-              textShadow: "0 0 20px rgba(93,186,168,0.40)",
+              color: "#7cd4c0",
+              textShadow: "0 0 16px rgba(124,212,192,0.35)",
             }}
           >
             Dec 31, 2026 &ndash; Jan 3, 2027
@@ -134,8 +140,8 @@ export default function HeroSection() {
           <p
             className="text-xs font-medium tracking-wide sm:text-sm md:text-base"
             style={{
-              color: "rgba(232,223,208,0.90)",
-              textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+              color: "rgba(232,223,208,0.92)",
+              textShadow: "0 1px 3px rgba(0,0,0,0.6)",
             }}
           >
             Hartford Marriott Downtown
@@ -143,8 +149,8 @@ export default function HeroSection() {
         </div>
 
         {/* CTAs — stagger 5 */}
-        <div className="hero-enter-5 mt-7 flex flex-col items-center gap-4 md:mt-9">
-          <div className="flex w-full max-w-sm flex-col justify-center gap-3 sm:flex-row">
+        <div className="hero-enter-5 mt-6 flex w-full flex-col items-center gap-4 sm:mt-7 md:mt-9">
+          <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-sm sm:flex-row">
             <Link
               href="/register"
               className="btn-primary justify-center text-center"
@@ -168,11 +174,11 @@ export default function HeroSection() {
 
       {/* ── Scroll indicator — minimal line + chevron ── */}
       <div
-        className="hero-scroll-hint absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1"
+        className="hero-scroll-hint absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 sm:bottom-8"
         aria-hidden="true"
       >
         <div
-          className="h-8 w-px"
+          className="h-6 w-px sm:h-8"
           style={{ background: "linear-gradient(to bottom, transparent, rgba(232,223,208,0.4))" }}
         />
         <svg width="12" height="8" viewBox="0 0 12 8" fill="none">

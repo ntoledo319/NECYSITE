@@ -783,6 +783,26 @@
   transition: none !important;
 }
 
+/* ── Hero title dark backing — makes gradient text pop on mobile ── */
+.hero-title-glow {
+  position: relative;
+}
+.hero-title-glow::before {
+  content: '';
+  position: absolute;
+  inset: -8px -16px;
+  border-radius: 12px;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 60%, transparent 80%);
+  z-index: -1;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .hero-title-glow::before {
+    inset: -10px -24px;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.08) 60%, transparent 80%);
+  }
+}
+
 /* ── Hero logo breathing glow ───────────────── */
 @keyframes heroGlowBreathe {
   0%, 100% { opacity: 0.18; transform: scale(1.01); }
