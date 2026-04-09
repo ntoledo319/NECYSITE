@@ -51,7 +51,7 @@ export default function MeetingsSection() {
             </p>
           </div>
         </div>
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse" aria-label="Young People's AA meetings in Connecticut">
           <thead>
             <tr className="nec-meetings-thead border-b border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-purple-rgb),0.03)]">
               <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Day</th>

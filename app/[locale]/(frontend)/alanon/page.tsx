@@ -75,7 +75,7 @@ export default function AlAnonPage() {
                     "linear-gradient(90deg, rgba(0,147,208,0) 0%, rgba(0,147,208,0.45) 36%, rgba(180,140,210,0.45) 100%)",
                 }}
               />
-              <span className="section-badge-alanon mb-6 inline-block" role="doc-subtitle">Al-Anon & Alateen</span>
+              <span className="section-badge-alanon mb-6 inline-block page-enter-1" role="doc-subtitle">Al-Anon & Alateen</span>
               {/* Conference-approved Al-Anon Family Groups logo (adaptive for light/dark modes) */}
               <div className="mb-6 flex justify-center md:mb-8">
                 <Image
@@ -88,12 +88,12 @@ export default function AlAnonPage() {
                 />
               </div>
               <h1
-                className="text-xl sm:text-2xl md:text-3xl font-bold mb-3"
+                className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 page-enter-2"
                 style={{ color: "var(--alanon-blue)" }}
               >
                 Resources &amp; Support
               </h1>
-              <p className="mx-auto max-w-2xl px-4 text-sm sm:text-base md:text-lg" style={{ color: "var(--nec-muted)" }}>
+              <p className="mx-auto max-w-2xl px-4 text-sm sm:text-base md:text-lg page-enter-3" style={{ color: "var(--nec-muted)" }}>
                 For friends and family members affected by someone else&apos;s drinking.
               </p>
             </header>
@@ -117,12 +117,7 @@ export default function AlAnonPage() {
               </p>
             </aside>
 
-            {/* ── Info Accordion (What Is / Who Are / Spouse) ────── */}
-            <section className="mb-10" aria-label="About Al-Anon and Alateen">
-              <AlAnonInfoAccordion />
-            </section>
-
-            {/* ── Quiz Banners (Dual Pattern: Adults & Teens) ─────── */}
+            {/* ── Quiz Banners — meet them where they are, before the explanation ── */}
             <section className="mb-8 md:mb-10" aria-label="Self-assessment quizzes">
               <h2 className="sr-only">Is Al-Anon or Alateen Right for You?</h2>
               <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -204,9 +199,14 @@ export default function AlAnonPage() {
               </div>
             </section>
 
+            {/* ── Info Accordion (What Is / Who Are / Spouse) ────── */}
+            <section className="mb-10 section-atmosphere-purple" aria-label="About Al-Anon and Alateen">
+              <AlAnonInfoAccordion />
+            </section>
+
             {/* ── NECYPAA Program Teaser ─────────────────────────── */}
             <section
-              className="nec-alanon-program mb-10 rounded-[1.8rem] p-6 md:p-8"
+              className="nec-alanon-program mb-10 rounded-[1.8rem] p-6 md:p-8 section-atmosphere-cyan"
               style={{
                 background: "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.04) 0%, rgba(var(--nec-card-rgb),0.5) 50%, rgba(0,147,208,0.04) 100%)",
                 border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
@@ -246,24 +246,44 @@ export default function AlAnonPage() {
               </div>
             </section>
 
-            {/* ── Alateen Paperwork Placeholder ──────────────────── */}
+            {/* ── Alateen Resources — real help, not a placeholder ── */}
             <section
-              className="nec-alateen-paperwork mb-10 rounded-[1.7rem] p-6 text-center md:p-8"
+              className="nec-alateen-paperwork mb-10 rounded-[1.7rem] p-6 md:p-8"
               style={{
-                background: "rgba(var(--nec-card-rgb),0.45)",
-                border: "1px dashed rgba(180,140,210,0.25)",
+                background: "linear-gradient(135deg, rgba(180,140,210,0.06) 0%, rgba(var(--nec-card-rgb),0.5) 100%)",
+                border: "1px solid rgba(180,140,210,0.18)",
               }}
-              aria-label="Alateen paperwork information"
+              aria-label="Alateen resources and support"
             >
-              <FileText className="w-8 h-8 mx-auto mb-3" style={{ color: "#c4a5d6" }} aria-hidden="true" />
-              <h2
-                className="text-lg font-bold text-[var(--nec-text)] mb-2"
-                >
-                Alateen Paperwork
+              <Heart className="w-8 h-8 mx-auto mb-3" style={{ color: "#c4a5d6" }} aria-hidden="true" />
+              <h2 className="text-lg font-bold text-[var(--nec-text)] mb-2">
+                Alateen Resources
               </h2>
-              <p className="text-sm max-w-md mx-auto" style={{ color: "var(--nec-muted)" }}>
-                The portal is opening soon. Alateen participation forms and
-                information are on their way — stay tuned for details.
+              <p className="text-sm max-w-lg mx-auto mb-5" style={{ color: "var(--nec-muted)" }}>
+                If you&apos;re a teenager affected by someone else&apos;s drinking, you&apos;re not
+                alone. Alateen is a fellowship of young people whose lives have been affected by
+                someone else&apos;s drinking.
+              </p>
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                <a
+                  href="tel:1-888-425-2666"
+                  className="btn-alateen inline-flex items-center gap-2 text-sm"
+                >
+                  Call 1-888-4AL-ANON
+                </a>
+                <a
+                  href="https://al-anon.org/newcomers/teen-corner-alateen/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-ghost inline-flex items-center gap-2 text-sm"
+                  style={{ color: "var(--nec-alateen, #c4a5d6)" }}
+                >
+                  Alateen Teen Corner
+                  <span className="sr-only"> (opens al-anon.org in new tab)</span>
+                </a>
+              </div>
+              <p className="mt-4 text-xs max-w-md mx-auto" style={{ color: "var(--nec-muted)", opacity: 0.8 }}>
+                Alateen participation forms for NECYPAA XXXVI are being finalized and will be available here.
               </p>
             </section>
 

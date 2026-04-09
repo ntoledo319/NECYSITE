@@ -31,13 +31,13 @@ export default function SiteFooter() {
 
       {/* Background character silhouettes — enhanced visibility */}
       <div className="absolute bottom-0 left-8 w-24 h-32 opacity-[0.12] pointer-events-none" aria-hidden="true">
-        <Image src="/images/mad-hatter-character.png" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/mad-hatter-character.webp" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
       <div className="absolute bottom-0 right-8 w-20 h-28 opacity-[0.10] pointer-events-none" aria-hidden="true">
-        <Image src="/images/cheshire-cat-character.png" alt="" width={80} height={112} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/cheshire-cat-character.webp" alt="" width={80} height={112} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-16 h-24 opacity-[0.07] pointer-events-none hidden md:block" aria-hidden="true">
-        <Image src="/images/caterpillar-character.png" alt="" width={64} height={96} sizes="64px" className="w-full h-full object-contain" aria-hidden="true" />
+        <Image src="/images/caterpillar-character.webp" alt="" width={64} height={96} sizes="64px" className="w-full h-full object-contain" aria-hidden="true" />
       </div>
 
       {/* Steampunk gear accents */}

@@ -25,11 +25,11 @@ export default function AccessibilityPage() {
               <div className="max-w-3xl">
               {/* Caterpillar accent */}
                 <div className="hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                <Image src="/images/caterpillar-character.png" alt="" width={80} height={128} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+                <Image src="/images/caterpillar-character.webp" alt="" width={80} height={128} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
                 </div>
-                <span className="section-badge mb-4 inline-block">Accessibility</span>
-                <h1 className="section-heading mb-3">Accessibility &amp; Inclusion</h1>
-                <p className="text-lg max-w-2xl text-[var(--nec-muted)]">
+                <span className="section-badge mb-4 inline-block page-enter-1">Accessibility</span>
+                <h1 className="section-heading mb-3 page-enter-2">Accessibility &amp; Inclusion</h1>
+                <p className="text-lg max-w-2xl text-[var(--nec-muted)] page-enter-3">
                 We&apos;re committed to making NECYPAA XXXVI accessible to everyone — online and in
                 person. If you need accommodations, we want to hear from you.
                 </p>
@@ -58,7 +58,7 @@ export default function AccessibilityPage() {
             </div>
 
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-              <div className="space-y-6 md:space-y-8">
+              <div className="space-y-6 md:space-y-8 section-atmosphere-cyan">
                 <section className="nec-card p-6 md:p-8">
                   <h2 className="mb-3 text-xl font-bold text-[var(--nec-text)]">Our Commitment</h2>
                   <p className="mb-3 text-sm leading-relaxed text-[var(--nec-text)]">
@@ -128,7 +128,7 @@ export default function AccessibilityPage() {
                 </div>
               </div>
 
-              <div className="space-y-6 md:space-y-8">
+              <div className="space-y-6 md:space-y-8 section-atmosphere-pink">
                 <div>
                   <h2
                     className="nec-section-label mb-4 pl-1 text-lg font-bold uppercase tracking-widest text-[var(--nec-pink)]"

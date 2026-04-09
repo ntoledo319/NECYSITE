@@ -38,8 +38,8 @@ export default function BlogPage() {
           <div className="max-w-6xl mx-auto">
             <div className="grid gap-8 lg:grid-cols-[0.94fr_1.06fr] lg:items-start">
               <MotionHeader className="max-w-3xl">
-                <span className="section-badge mb-4 inline-block">NECYBLOG</span>
-                <h1 className="section-heading mb-2">
+                <span className="section-badge mb-4 inline-block page-enter-1">NECYBLOG</span>
+                <h1 className="section-heading mb-2 page-enter-2">
                   NECYBLOG{" "}
                   <span className="block text-lg sm:text-xl font-bold mt-1 text-[var(--nec-pink)]">
                     aka BLOGYPAA
@@ -57,25 +57,15 @@ export default function BlogPage() {
                   }}
                 />
 
-                <div className="space-y-4 text-base sm:text-lg leading-relaxed text-[var(--nec-muted)]">
+                <div className="space-y-4 text-base sm:text-lg leading-relaxed text-[var(--nec-muted)] page-enter-3">
                   <p>
-                    It is our hope for this to be a place where everyone involved in
-                    the creation of this convention gets a few opportunities to
-                    anonymously share their experience, strength, and hope as it
-                    relates to happenings with this service structure.
+                    Experience, strength, and hope from everyone on host committee —
+                    anonymous, unfiltered, so help us HP.
                   </p>
                   <p
                     className="font-semibold text-[var(--nec-text)] italic"
                   >
                     Take what works, vibe with the rest.
-                  </p>
-                  <p>
-                    We do take the liberty of scrubbing any accidental tradition
-                    violations from the content.
-                  </p>
-                  <p>
-                    Aside from that, here you&apos;ll get everyone on
-                    host&apos;s raw, unfiltered takes, so help us HP.
                   </p>
                 </div>
               </MotionHeader>
@@ -114,7 +104,7 @@ export default function BlogPage() {
               </div>
             </div>
 
-            <div className="mt-16">
+            <div className="mt-16 section-atmosphere-gold">
               <BlogGrid />
             </div>
           </div>

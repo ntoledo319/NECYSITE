@@ -199,7 +199,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               onChange={(e) => updateField("name", e.target.value)}
               placeholder={formData.isScholarship ? "Who is making this purchase?" : "Your full name"}
             />
-            {errors.name && <p id="name-error" role="alert" className="text-sm text-[var(--nec-pink)]">{errors.name}</p>}
+            {errors.name && <p id="name-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.name}</p>}
           </div>
 
           <div className="space-y-2">
@@ -217,7 +217,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               onChange={(e) => updateField("email", e.target.value)}
               placeholder="name@email.com"
             />
-            {errors.email && <p id="email-error" role="alert" className="text-sm text-[var(--nec-pink)]">{errors.email}</p>}
+            {errors.email && <p id="email-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.email}</p>}
           </div>
 
           <div className="space-y-2">
@@ -241,7 +241,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
                 </option>
               ))}
             </select>
-            {errors.state && <p id="state-error" role="alert" className="text-sm text-[var(--nec-pink)]">{errors.state}</p>}
+            {errors.state && <p id="state-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.state}</p>}
           </div>
 
           <div className="space-y-2">
@@ -259,7 +259,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               onChange={(e) => updateField("homegroup", e.target.value)}
               placeholder="Homegroup, committee, or service body"
             />
-            {errors.homegroup && <p id="homegroup-error" role="alert" className="text-sm text-[var(--nec-pink)]">{errors.homegroup}</p>}
+            {errors.homegroup && <p id="homegroup-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.homegroup}</p>}
           </div>
         </div>
       </section>
@@ -289,7 +289,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
                 placeholder="Who is this registration for?"
               />
               {errors.scholarshipRecipientName && (
-                <p id="recipient-name-error" role="alert" className="text-sm text-[var(--nec-pink)]">
+                <p id="recipient-name-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
                   {errors.scholarshipRecipientName}
                 </p>
               )}
@@ -309,7 +309,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
                 placeholder="Add an email if you have it"
               />
               {errors.scholarshipRecipientEmail ? (
-                <p id="recipient-email-error" role="alert" className="text-sm text-[var(--nec-pink)]">
+                <p id="recipient-email-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
                   {errors.scholarshipRecipientEmail}
                 </p>
               ) : (

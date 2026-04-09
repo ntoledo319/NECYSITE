@@ -180,7 +180,7 @@ export default function StatesPage() {
 
             {/* ── Luxury Stats Strip ─────────────────── */}
             <motion.div
-              className="mb-10 grid grid-cols-2 gap-3 md:mb-12 md:gap-4 sm:grid-cols-4"
+              className="section-atmosphere-cyan relative mb-10 grid grid-cols-2 gap-3 md:mb-12 md:gap-4 sm:grid-cols-4"
               role="group"
               aria-label="Region statistics"
               variants={shouldReduce ? undefined : staggerContainer}

@@ -557,6 +557,13 @@
   transition: box-shadow 0.3s ease;
 }
 
+/* ── Events card: Light Mode ─────────────── */
+[data-color-mode="light"] .nec-event-card {
+  background: rgba(255,255,255,0.92) !important;
+  border-color: rgba(109,40,217,0.20) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+}
+
 /* ── States Page: Light Mode ─────────────── */
 [data-color-mode="light"] .state-card-luxury {
   background: rgba(255,255,255,0.85) !important;
@@ -756,6 +763,124 @@
 .hero-glow-breathe {
   animation: heroGlowBreathe 10s ease-in-out infinite;
 }
+.hero-logo-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse 55% 50% at 50% 48%, rgba(124,58,237,0.35) 0%, rgba(192,38,211,0.12) 45%, transparent 72%);
+  filter: blur(40px);
+  animation: heroGlowBreathe 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Hero staggered entrance — content materializes from the art ── */
+@keyframes heroMaterialize {
+  from { opacity: 0; transform: translateY(18px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+.hero-enter-1 { animation: heroMaterialize 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+.hero-enter-2 { animation: heroMaterialize 0.9s cubic-bezier(0.16,1,0.3,1) 0.45s both; }
+.hero-enter-3 { animation: heroMaterialize 0.9s cubic-bezier(0.16,1,0.3,1) 0.65s both; }
+.hero-enter-4 { animation: heroMaterialize 0.9s cubic-bezier(0.16,1,0.3,1) 0.85s both; }
+.hero-enter-5 { animation: heroMaterialize 0.9s cubic-bezier(0.16,1,0.3,1) 1.05s both; }
+
+/* ── Hero poster living scale — the vortex breathes ── */
+@keyframes heroPosterBreathe {
+  0%, 100% { transform: scale(1.0); }
+  50%      { transform: scale(1.015); }
+}
+.hero-poster-alive {
+  animation: heroPosterBreathe 20s ease-in-out infinite;
+}
+
+/* ── Hero scroll indicator — thin line pulse ── */
+@keyframes heroScrollPulse {
+  0%, 100% { opacity: 0.25; transform: translateY(0); }
+  50%      { opacity: 0.55; transform: translateY(4px); }
+}
+.hero-scroll-hint {
+  animation: heroScrollPulse 3s ease-in-out infinite;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+/* ── Section atmosphere — art palette radiates into sections ── */
+.section-atmosphere-purple {
+  position: relative;
+}
+.section-atmosphere-purple::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(124,58,237,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-atmosphere-gold {
+  position: relative;
+}
+.section-atmosphere-gold::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(212,168,75,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-atmosphere-cyan {
+  position: relative;
+}
+.section-atmosphere-cyan::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(93,186,168,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-atmosphere-pink {
+  position: relative;
+}
+.section-atmosphere-pink::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(212,116,142,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Page-level entrance — reusable stagger for any page header ── */
+@keyframes pageMaterialize {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter-1 { animation: pageMaterialize 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+.page-enter-2 { animation: pageMaterialize 0.7s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
+.page-enter-3 { animation: pageMaterialize 0.7s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
+.page-enter-4 { animation: pageMaterialize 0.7s cubic-bezier(0.16,1,0.3,1) 0.55s both; }
 
 /* ── Section badge shimmer ──────────────────── */
 @keyframes badgeShimmer {
@@ -887,6 +1012,18 @@
   transition: none !important;
 }
 .a11y-reduce-motion .hero-glow-breathe { animation: none !important; }
+.a11y-reduce-motion .hero-logo-glow::before { animation: none !important; }
+.a11y-reduce-motion .hero-enter-1,
+.a11y-reduce-motion .hero-enter-2,
+.a11y-reduce-motion .hero-enter-3,
+.a11y-reduce-motion .hero-enter-4,
+.a11y-reduce-motion .hero-enter-5 { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+.a11y-reduce-motion .hero-poster-alive { animation: none !important; }
+.a11y-reduce-motion .hero-scroll-hint { animation: none !important; opacity: 0.4 !important; }
+.a11y-reduce-motion .page-enter-1,
+.a11y-reduce-motion .page-enter-2,
+.a11y-reduce-motion .page-enter-3,
+.a11y-reduce-motion .page-enter-4 { animation: none !important; opacity: 1 !important; transform: none !important; }
 .a11y-reduce-motion .section-badge-shimmer { animation: none !important; background-image: none !important; }
 .a11y-reduce-motion .character-float,
 .a11y-reduce-motion .character-float-flip { animation: none !important; }

@@ -25,21 +25,21 @@ interface InventoryShellProps {
 const CHARACTER_DATA = {
   "mad-hatter": {
     portal: "/images/mad-hatter-portal.webp",
-    standalone: "/images/mad-hatter-character.png",
+    standalone: "/images/mad-hatter-character.webp",
     alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-purple)",
     accentRgb: "var(--nec-purple-rgb)",
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.webp",
-    standalone: "/images/cheshire-cat-character.png",
+    standalone: "/images/cheshire-cat-character.webp",
     alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-pink)",
     accentRgb: "var(--nec-pink-rgb)",
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.webp",
-    standalone: "/images/caterpillar-character.png",
+    standalone: "/images/caterpillar-character.webp",
     alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-gold)",
     accentRgb: "var(--nec-gold-rgb)",

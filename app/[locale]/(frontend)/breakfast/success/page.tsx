@@ -53,7 +53,7 @@ export default function BreakfastSuccessPage() {
 
                     <div className="space-y-2">
                       <h1 className="text-3xl font-black text-[var(--nec-text)] nec-heading-shadow">
-                        Breakfast Tickets Confirmed!
+                        You&apos;re at the table.
                       </h1>
                       <p className="text-base font-semibold text-[var(--nec-gold)]">
                         NECYPAA XXXVI · Hartford, CT
@@ -64,9 +64,8 @@ export default function BreakfastSuccessPage() {
                     </div>
 
                     <p className="text-sm leading-relaxed text-[var(--nec-text)]">
-                      Your breakfast tickets are confirmed. A receipt was sent to the email you provided.
-                      Breakfast will be served at the Hartford Marriott Downtown — no need to print anything,
-                      just check in with your name at the door.
+                      A receipt was sent to the email you provided.
+                      Breakfast is at the Hartford Marriott Downtown — just check in with your name at the door.
                     </p>
                     <p className="text-sm leading-relaxed text-[var(--nec-muted)] italic">
                       Nothing beats starting the new year with good food and even better fellowship.

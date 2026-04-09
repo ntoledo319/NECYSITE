@@ -14,7 +14,7 @@ export default function BidPage() {
     <InventoryShell
       badge="Bidding"
       title="How to Start a Bid"
-      subtitle="Interested in hosting a future NECYPAA? Here's everything you need to know about the bidding process."
+      subtitle="Interested in hosting a future NECYPAA? The bidding guide is being put together by the host committee."
       character="mad-hatter"
       theme="bid"
       gameName="Defect Invaders"

@@ -41,10 +41,10 @@ export default function FreeRegPage() {
           <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
             <aside className="space-y-6 lg:sticky lg:top-28">
               <div className="max-w-3xl">
-                <h1 className="text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-2 nec-heading-shadow">
+                <h1 className="page-enter-1 text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-2 nec-heading-shadow">
                   NECYPAA XXXVI Registration
                 </h1>
-                <p className="text-lg font-bold text-[var(--nec-gold)]">
+                <p className="page-enter-2 text-lg font-bold text-[var(--nec-gold)]">
                   The Archway of Freedom
                 </p>
               </div>

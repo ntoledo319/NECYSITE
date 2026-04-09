@@ -132,7 +132,7 @@ export default function BreakfastCheckout() {
                     aria-describedby={errors.firstName ? "firstName-error" : undefined}
                     className="text-[var(--nec-text)]"
                   />
-                  {errors.firstName && <p id="firstName-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.firstName}</p>}
+                  {errors.firstName && <p id="firstName-error" role="alert" aria-live="assertive" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.firstName}</p>}
                 </div>
                 <div>
                   <Label htmlFor="lastName" className="text-[var(--nec-text)]">
@@ -153,7 +153,7 @@ export default function BreakfastCheckout() {
                     aria-describedby={errors.lastName ? "lastName-error" : undefined}
                     className="text-[var(--nec-text)]"
                   />
-                  {errors.lastName && <p id="lastName-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.lastName}</p>}
+                  {errors.lastName && <p id="lastName-error" role="alert" aria-live="assertive" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.lastName}</p>}
                 </div>
               </div>
               <div>
@@ -176,7 +176,7 @@ export default function BreakfastCheckout() {
                   aria-describedby={errors.email ? "email-error" : undefined}
                   className="text-[var(--nec-text)]"
                 />
-                {errors.email && <p id="email-error" role="alert" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.email}</p>}
+                {errors.email && <p id="email-error" role="alert" aria-live="assertive" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.email}</p>}
               </div>
             </div>
 

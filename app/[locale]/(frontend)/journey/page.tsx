@@ -28,14 +28,14 @@ export default function JourneyPage() {
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
               <div className="relative max-w-3xl">
                 <div className="hidden lg:block absolute -left-10 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.09] pointer-events-none" aria-hidden="true">
-                  <Image src="/images/caterpillar-character.png" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
+                  <Image src="/images/caterpillar-character.webp" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
                 </div>
                 <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                  <Image src="/images/mad-hatter-character.png" alt="" width={80} height={120} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+                  <Image src="/images/mad-hatter-character.webp" alt="" width={80} height={120} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
                 </div>
-                <span className="section-badge mb-4 inline-block">Archive</span>
-                <h1 className="section-heading mb-3">The Journey Comes First</h1>
-                <p className="text-lg max-w-2xl text-[var(--nec-muted)]">
+                <span className="section-badge mb-4 inline-block page-enter-1">Archive</span>
+                <h1 className="section-heading mb-3 page-enter-2">The Journey Comes First</h1>
+                <p className="text-lg max-w-2xl text-[var(--nec-muted)] page-enter-3">
                   A look back at the events, fundraisers, and fellowship that brought us to Hartford. The
                   journey is the point.
                 </p>
@@ -79,7 +79,7 @@ export default function JourneyPage() {
               </div>
             </div>
 
-            <div className="mt-12 relative">
+            <div className="mt-12 relative section-atmosphere-purple">
               <div
                 className="pointer-events-none absolute left-6 top-0 bottom-0 hidden w-px bg-[linear-gradient(180deg,rgba(var(--nec-gold-rgb),0.18),rgba(var(--nec-purple-rgb),0.12),transparent)] md:block"
                 aria-hidden="true"
@@ -179,7 +179,7 @@ export default function JourneyPage() {
               </div>
             </div>
 
-            <div className="mt-12 text-center space-y-2">
+            <div className="mt-12 text-center space-y-2 section-atmosphere-gold">
               <p className="text-base text-[var(--nec-text)] italic">
                 Every event on this timeline brought people together. That&apos;s the whole point.
               </p>

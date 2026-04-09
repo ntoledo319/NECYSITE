@@ -29,9 +29,9 @@ interface PageArtAccentsProps {
 }
 
 const CHARACTER_IMAGES: Record<Character, string> = {
-  "mad-hatter": "/images/mad-hatter-character.png",
-  "cheshire-cat": "/images/cheshire-cat-character.png",
-  caterpillar: "/images/caterpillar-character.png",
+  "mad-hatter": "/images/mad-hatter-character.webp",
+  "cheshire-cat": "/images/cheshire-cat-character.webp",
+  caterpillar: "/images/caterpillar-character.webp",
 }
 
 const CHARACTER_ACCENT: Record<Character, string> = {

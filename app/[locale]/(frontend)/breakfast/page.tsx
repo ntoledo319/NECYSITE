@@ -26,10 +26,10 @@ export default function BreakfastPage() {
                   "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0) 0%, rgba(var(--nec-gold-rgb),0.5) 45%, rgba(var(--nec-purple-rgb),0.45) 100%)",
               }}
             />
-            <h1 className="nec-heading-shadow mb-2 text-3xl font-black text-[var(--nec-text)] md:text-4xl">
+            <h1 className="page-enter-1 nec-heading-shadow mb-2 text-3xl font-black text-[var(--nec-text)] md:text-4xl">
               Breakfast Ticket Checkout
             </h1>
-            <p className="text-lg font-bold text-[var(--nec-gold)]">NECYPAA XXXVI</p>
+            <p className="page-enter-2 text-lg font-bold text-[var(--nec-gold)]">NECYPAA XXXVI</p>
           </div>
 
           <div className="nec-breakfast-info mb-6 rounded-[1.6rem] p-5 text-sm leading-relaxed">

@@ -39,9 +39,9 @@ export default function ServicePage() {
           <div className="mx-auto max-w-6xl page-stack">
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
               <div className="max-w-3xl">
-                <span className="section-badge mb-4 inline-block">Service</span>
-                <h1 className="section-heading mb-4">Service Opportunities</h1>
-                <p className="text-lg leading-relaxed max-w-2xl text-[var(--nec-muted)]">
+                <span className="section-badge page-enter-1 mb-4 inline-block">Service</span>
+                <h1 className="section-heading page-enter-2 mb-4">Service Opportunities</h1>
+                <p className="page-enter-3 text-lg leading-relaxed max-w-2xl text-[var(--nec-muted)]">
                   NECYPAA is always looking for trusted servants to help carry the
                   work forward. Whether you are interested in a specific position or
                   just want to get involved as a Member-at-Large, there is a place
@@ -133,7 +133,7 @@ export default function ServicePage() {
 
                     <div className="hidden md:block absolute -bottom-5 -right-5 w-36 h-36 opacity-[0.12] pointer-events-none z-0" aria-hidden="true">
                       <Image
-                        src="/images/cheshire-cat-character.png"
+                        src="/images/cheshire-cat-character.webp"
                         alt=""
                         width={150}
                         height={225}

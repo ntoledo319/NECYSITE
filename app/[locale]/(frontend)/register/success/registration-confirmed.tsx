@@ -61,7 +61,7 @@ export default function RegistrationConfirmed({ registration }: Props) {
   const name = registration?.customerName
   const email = registration?.customerEmail
 
-  const heading = name ? `You\u2019re in, ${name}!` : "You\u2019re Registered!"
+  const heading = name ? `You\u2019re in, ${name}.` : "You\u2019re in."
 
   return (
     <div className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden bg-[var(--nec-navy)]">
@@ -133,7 +133,7 @@ export default function RegistrationConfirmed({ registration }: Props) {
                         border: "1px solid rgba(var(--nec-cyan-rgb), 0.24)",
                         color: "var(--nec-cyan)",
                       }}
-                      role="status"
+                      role="status" aria-live="polite"
                     >
                       {isPaid ? (
                         <>

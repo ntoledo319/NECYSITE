@@ -98,12 +98,16 @@ export default function RegisterPage() {
       <div className="container relative z-10 mx-auto px-4 pb-12 pt-24">
         <div className="mx-auto max-w-6xl">
           <header className="max-w-3xl">
-            <span className="section-badge">Registration</span>
-            <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
+            <span className="section-badge page-enter-1">Registration</span>
+            <h1 className="page-enter-2 mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
               Register for NECYPAA XXXVI.
             </h1>
-            <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
+            <p className="page-enter-3 mt-4 text-lg leading-8 text-[var(--nec-muted)]">
               Secure your spot at NECYPAA XXXVI in Hartford. A few quick steps and you&apos;re in.
+            </p>
+            <p className="page-enter-4 mt-5 max-w-xl text-base italic leading-7 text-[var(--nec-muted)]" style={{ opacity: 0.85 }}>
+              &ldquo;You end up dancing even though &lsquo;you&rsquo;re not a dancer&rsquo; and the
+              two hours goes by as if it was 30 minutes.&rdquo;
             </p>
           </header>
 

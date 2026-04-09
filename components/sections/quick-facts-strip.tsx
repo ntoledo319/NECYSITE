@@ -1,130 +1,140 @@
 "use client"
 
 import Link from "next/link"
-import { CalendarDays, Handshake, Hotel, Ticket } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
+import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 const facts = [
   {
-    label: "When",
-    value: "December 31 to January 3",
-    copy: "New Year's Eve weekend, 2026 into 2027.",
-    icon: CalendarDays,
-    accent: "var(--nec-purple)",
-    accentRgb: "var(--nec-purple-rgb)",
+    icon: "📅",
+    label: "Dates",
+    value: "Dec 31 – Jan 3",
+    sub: "New Year's Eve 2026",
+    color: "var(--nec-gold)",
+    spotlightColor: "rgba(212,160,23,0.10)",
   },
   {
-    label: "Stay",
-    value: "Hartford Marriott Downtown",
-    copy: "The host hotel and weekend headquarters.",
-    icon: Hotel,
-    accent: "var(--nec-gold)",
-    accentRgb: "var(--nec-gold-rgb)",
-    href: HOTEL_BOOKING_URL,
-    external: true,
+    icon: "📍",
+    label: "Location",
+    value: "Hartford, CT",
+    sub: "Hartford Marriott Downtown",
+    color: "var(--nec-cyan)",
+    spotlightColor: "rgba(20,184,166,0.10)",
   },
   {
-    label: "Register",
-    value: "Pre-registration open",
-    copy: "Secure your badge before the holiday rush.",
-    icon: Ticket,
-    accent: "var(--nec-pink)",
-    accentRgb: "var(--nec-pink-rgb)",
+    icon: "🎟️",
+    label: "Pre-Registration",
+    value: "Open Now",
+    sub: "Lock in your spot",
+    color: "var(--nec-pink)",
     href: "/register",
     external: false,
+    spotlightColor: "rgba(192,38,211,0.10)",
   },
   {
-    label: "Service",
-    value: "Join the committee work",
-    copy: "Business meetings, outreach, hospitality, and more.",
-    icon: Handshake,
-    accent: "var(--nec-cyan)",
-    accentRgb: "var(--nec-cyan-rgb)",
+    icon: "🏨",
+    label: "Hotel Block",
+    value: "Book Now",
+    sub: "Special NECYPAA rate",
+    color: "var(--nec-cyan)",
+    href: HOTEL_BOOKING_URL,
+    external: true,
+    spotlightColor: "rgba(20,184,166,0.10)",
+  },
+  {
+    icon: "🎉",
+    label: "Convention",
+    value: "4-Day YPAA",
+    sub: "Young & young at heart",
+    color: "var(--nec-orange)",
+    spotlightColor: "rgba(234,88,12,0.10)",
+  },
+  {
+    icon: "🤝",
+    label: "Get Involved",
+    value: "Join a Committee",
+    sub: "Service opportunities",
+    color: "var(--nec-purple)",
     href: "/service",
     external: false,
+    spotlightColor: "rgba(124,58,237,0.10)",
   },
 ]
 
 export default function QuickFactsStrip() {
+  const shouldReduce = useReducedMotion()
+
   return (
-    <section aria-label="Key convention details">
-      <div className="overflow-hidden rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] shadow-[0_18px_44px_rgba(44,24,16,0.07)]">
-        <div
-          className="h-[3px]"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0.36) 0%, rgba(var(--nec-gold-rgb),0.46) 40%, rgba(var(--nec-pink-rgb),0.46) 72%, rgba(var(--nec-purple-rgb),0.36) 100%)",
-          }}
-        />
-        <div className="grid md:grid-cols-2 xl:grid-cols-4">
-          {facts.map((fact, index) => {
-            const Icon = fact.icon
-            const itemBorderClass = [
-              index < facts.length - 1 ? "border-b" : "",
-              index % 2 === 0 ? "md:border-r" : "",
-              index < facts.length - 2 ? "md:border-b" : "",
-              index < facts.length - 1 ? "xl:border-r" : "",
-              "xl:border-b-0",
-            ]
-              .filter(Boolean)
-              .join(" ")
-
-            const content = (
-              <article
-                className={`flex h-full flex-col gap-4 p-5 transition-[background-color,transform] duration-200 md:p-6 ${itemBorderClass}`}
-                style={{
-                  borderColor: "rgba(var(--nec-purple-rgb),0.08)",
-                  background: index % 2 === 0 ? "rgba(var(--nec-card-rgb),0.24)" : "rgba(var(--nec-purple-rgb),0.02)",
-                }}
+    <section aria-label="Quick facts" className="px-4 md:px-0">
+      <motion.div
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+        variants={shouldReduce ? undefined : staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+      >
+        {facts.map((fact) => {
+          const inner = (
+            <SpotlightCard
+              className="fact-pill group fact-pill-interactive rounded-xl"
+              spotlightColor={fact.spotlightColor}
+              spotlightSize={200}
+            >
+              <div
+                className="flex flex-col items-center gap-1 p-4 text-center"
+                style={{ cursor: fact.href ? "pointer" : undefined }}
               >
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-[0.9rem] border"
-                  style={{
-                    color: fact.accent,
-                    background: `rgba(${fact.accentRgb},0.06)`,
-                    borderColor: `rgba(${fact.accentRgb},0.14)`,
-                  }}
+                <span className="text-2xl" aria-hidden="true">{fact.icon}</span>
+                <span
+                  className="text-xs font-bold uppercase tracking-widest"
+                  style={{ color: "var(--nec-muted)" }}
                 >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </div>
-                <div className="space-y-2">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{fact.label}</p>
-                  <p className="max-w-[18rem] text-base font-semibold leading-tight text-[var(--nec-text)] md:text-lg">{fact.value}</p>
-                  <p className="text-sm leading-6 text-[var(--nec-muted)]">{fact.copy}</p>
-                </div>
-              </article>
-            )
+                  {fact.label}
+                </span>
+                <span
+                  className="text-sm font-black leading-tight"
+                  style={{ color: fact.color, textShadow: `0 0 12px ${fact.color}30` }}
+                >
+                  {fact.value}
+                </span>
+                <span className="text-xs text-[var(--nec-muted)] leading-tight">{fact.sub}</span>
+              </div>
+            </SpotlightCard>
+          )
 
-            if (!fact.href) return <div key={fact.label}>{content}</div>
-
+          if (fact.href) {
             if (fact.external) {
               return (
-                <a
+                <motion.a
                   key={fact.label}
                   href={fact.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-[background-color,transform] duration-200 hover:bg-[rgba(var(--nec-purple-rgb),0.03)] hover:[&_article]:-translate-y-0.5"
+                  className="no-underline"
+                  variants={shouldReduce ? undefined : staggerChild}
                 >
-                  {content}
+                  {inner}
                   <span className="sr-only"> (opens in new tab)</span>
-                </a>
+                </motion.a>
               )
             }
-
             return (
-              <Link
-                key={fact.label}
-                href={fact.href}
-                className="transition-[background-color,transform] duration-200 hover:bg-[rgba(var(--nec-purple-rgb),0.03)] hover:[&_article]:-translate-y-0.5"
-              >
-                {content}
-              </Link>
+              <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
+                <Link href={fact.href} className="no-underline block">
+                  {inner}
+                </Link>
+              </motion.div>
             )
-          })}
-        </div>
-      </div>
+          }
+
+          return (
+            <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
+              {inner}
+            </motion.div>
+          )
+        })}
+      </motion.div>
     </section>
   )
 }

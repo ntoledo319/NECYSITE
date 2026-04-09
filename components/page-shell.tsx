@@ -18,24 +18,27 @@ interface PageShellProps {
 const CHARACTER_DATA = {
   "mad-hatter": {
     portal: "/images/mad-hatter-portal.webp",
-    standalone: "/images/mad-hatter-character.png",
+    standalone: "/images/mad-hatter-character.webp",
     alt: "The Mad Hatter character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-purple)",
     accentRgb: "var(--nec-purple-rgb)",
+    atmosphere: "section-atmosphere-purple",
   },
   "cheshire-cat": {
     portal: "/images/cheshire-cat-portal.webp",
-    standalone: "/images/cheshire-cat-character.png",
+    standalone: "/images/cheshire-cat-character.webp",
     alt: "The Cheshire Cat character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-pink)",
     accentRgb: "var(--nec-pink-rgb)",
+    atmosphere: "section-atmosphere-pink",
   },
   caterpillar: {
     portal: "/images/caterpillar-portal.webp",
-    standalone: "/images/caterpillar-character.png",
+    standalone: "/images/caterpillar-character.webp",
     alt: "The Caterpillar character escaping through ornate portal doors from the Mad Realm",
     accent: "var(--nec-gold)",
     accentRgb: "var(--nec-gold-rgb)",
+    atmosphere: "section-atmosphere-gold",
   },
 }
 
@@ -56,6 +59,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
       <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl">
+            {/* Page header with staggered entrance */}
             <motion.div
               className="mb-8 text-center md:mb-10"
               initial={shouldReduce ? false : { opacity: 0, y: 24 }}
@@ -73,7 +77,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
 
             {children || (
               <motion.div
-                className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]"
+                className={`relative grid gap-8 lg:grid-cols-[0.95fr_1.05fr] ${char.atmosphere}`}
                 initial={shouldReduce ? false : { opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={shouldReduce ? { duration: 0 } : { ...SPRING_GENTLE, delay: 0.08 }}
@@ -108,15 +112,16 @@ export default function PageShell({ badge, title, subtitle, children, character 
                         <p className="text-sm font-semibold text-[var(--nec-text)]">See the road to Hartford</p>
                         <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Follow fundraisers, fellowship nights, and updates.</p>
                       </Link>
-                      <Link href="/faq" className="rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-cyan-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-cyan-rgb),0.05)]">
-                        <p className="text-sm font-semibold text-[var(--nec-text)]">Read the FAQ</p>
-                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Find answers without leaving the site guessing.</p>
+                      <Link href="/service" className="rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-cyan-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-cyan-rgb),0.05)]">
+                        <p className="text-sm font-semibold text-[var(--nec-text)]">Get involved in service</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Business meetings, outreach, and committee work.</p>
                       </Link>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid gap-6">
+                  {/* Portal art — the character's doorway into the Mad Realm */}
                   <div className="nec-card overflow-hidden p-4">
                     <div className="overflow-hidden rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)]">
                       <Image
@@ -130,6 +135,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     </div>
                   </div>
 
+                  {/* Status card with character */}
                   <div className="rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.76)] p-6">
                     <div className="flex items-center gap-4">
                       <div className="overflow-hidden rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-2">
@@ -140,6 +146,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                           height={120}
                           sizes="90px"
                           className="h-20 w-auto object-contain"
+                          aria-hidden="true"
                         />
                       </div>
                       <div>

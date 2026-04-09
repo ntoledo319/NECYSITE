@@ -47,7 +47,7 @@ export default function EventsPage() {
               />
               <div className="absolute right-6 top-6 hidden opacity-[0.08] lg:block" aria-hidden="true">
                 <Image
-                  src="/images/mad-hatter-character.png"
+                  src="/images/mad-hatter-character.webp"
                   alt=""
                   width={120}
                   height={180}
@@ -57,15 +57,14 @@ export default function EventsPage() {
               </div>
 
               <div className="max-w-3xl">
-                <span className="section-badge">Events</span>
-                <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
+                <span className="section-badge page-enter-1">Events</span>
+                <h1 className="page-enter-2 mt-5 text-4xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-5xl">
                   The road to Hartford.
                 </h1>
-                <p className="mt-4 text-lg leading-8 text-[var(--nec-muted)]">
+                <p className="page-enter-3 mt-4 text-lg leading-8 text-[var(--nec-muted)]">
                   Fundraisers, fellowship nights, and committee momentum all lead toward NECYPAA XXXVI.
-                  This page should make the path legible at a glance.
                 </p>
-                <div className="mt-6">
+                <div className="page-enter-4 mt-6">
                   <ShareMenu
                     text="Check out the events leading up to NECYPAA XXXVI — Escaping the Mad Realm!"
                     url="https://www.necypaact.com/events"
@@ -76,15 +75,14 @@ export default function EventsPage() {
               </div>
             </header>
 
-            <section aria-label="Upcoming event" className="space-y-5">
+            <section aria-label="Upcoming event" className="section-atmosphere-pink relative space-y-5">
               <div className="max-w-2xl">
                 <span className="section-badge">Coming Up Next</span>
                 <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
                   What&apos;s next on the road to Hartford.
                 </h2>
                 <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                  Everything you need to know about our next event — what it is, when and where,
-                  and how to be there.
+                  Here&apos;s what&apos;s coming.
                 </p>
               </div>
 

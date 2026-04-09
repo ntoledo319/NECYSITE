@@ -41,7 +41,7 @@ export default function NotFound() {
                 }}
               />
               <Image
-                src="/images/cheshire-cat-portal.png"
+                src="/images/cheshire-cat-portal.webp"
                 alt=""
                 width={220}
                 height={220}

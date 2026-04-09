@@ -12,17 +12,17 @@ interface CharacterDividerProps {
 
 const CHARACTERS = {
   "mad-hatter": {
-    src: "/images/mad-hatter-character.png",
+    src: "/images/mad-hatter-character.webp",
     alt: "The Mad Hatter character in purple coat and orange vest with top hat",
     accentRgb: "124,58,237",
   },
   "cheshire-cat": {
-    src: "/images/cheshire-cat-character.png",
+    src: "/images/cheshire-cat-character.webp",
     alt: "The Cheshire Cat character in pink and purple stripes with a wide grin",
     accentRgb: "192,38,211",
   },
   caterpillar: {
-    src: "/images/caterpillar-character.png",
+    src: "/images/caterpillar-character.webp",
     alt: "The Caterpillar character in brown coat and fedora hat",
     accentRgb: "234,179,8",
   },

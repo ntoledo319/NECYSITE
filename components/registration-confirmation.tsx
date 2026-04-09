@@ -177,7 +177,7 @@ export default function RegistrationConfirmation({
 
       <div aria-live="assertive">
         {error && (
-          <div className="bg-red-900/30 border border-red-700 text-red-300 text-sm rounded-lg p-3 text-center" role="alert">
+          <div className="bg-red-900/30 border border-red-700 text-red-300 text-sm rounded-lg p-3 text-center" role="alert" aria-live="assertive">
             {error}
           </div>
         )}
