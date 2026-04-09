@@ -48,8 +48,17 @@ export default function HeroSection() {
       {/* ── Content — materializes from the art ── */}
       <div className="relative z-10 flex w-full flex-col items-center px-5 pb-24 pt-24 text-center sm:px-6">
 
-        {/* Theme logo with breathing glow — stagger 1 */}
+        {/* Theme logo with breathing glow + dark halo for separation — stagger 1 */}
         <div className="hero-logo-glow hero-enter-1 relative">
+          {/* Dark halo — separates the logo from the poster's similar palette */}
+          <div
+            className="pointer-events-none absolute inset-[-18%] rounded-full"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.20) 55%, transparent 75%)",
+            }}
+          />
           <Image
             src="/images/mad-realm-logo-no-bg.webp"
             alt="Escaping the Mad Realm — NECYPAA XXXVI theme logo"
@@ -60,7 +69,7 @@ export default function HeroSection() {
             className="relative z-10 h-auto w-full max-w-[220px] sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px]"
             style={{
               filter:
-                "drop-shadow(0 4px 32px rgba(124,58,237,0.45)) drop-shadow(0 2px 12px rgba(192,38,211,0.25))",
+                "drop-shadow(0 4px 32px rgba(124,58,237,0.50)) drop-shadow(0 2px 14px rgba(192,38,211,0.30))",
             }}
           />
         </div>
