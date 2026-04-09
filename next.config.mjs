@@ -19,13 +19,18 @@ const nextConfig = {
       "@radix-ui/react-accordion",
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-select",
       "@radix-ui/react-tabs",
       "@radix-ui/react-tooltip",
       "recharts",
+      "date-fns",
+      "sonner",
     ],
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
   },
   async headers() {
     return [

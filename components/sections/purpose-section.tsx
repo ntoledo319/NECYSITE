@@ -1,10 +1,9 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { motion } from "framer-motion"
 import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 export default function PurposeSection() {
-  const shouldReduce = useReducedMotion()
   const pillars = [
     {
       icon: "🤝",

@@ -1,8 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
-import type { ReactNode } from "react"
-import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
+import { useEffect, useRef, type ReactNode } from "react"
 
 interface ScrollRevealProps {
   children: ReactNode
@@ -11,25 +9,46 @@ interface ScrollRevealProps {
   as?: "div" | "section"
 }
 
-const delayMap = { 0: 0, 1: 0.1, 2: 0.2, 3: 0.3 }
-
+/**
+ * Lightweight scroll-triggered reveal — CSS transitions + IntersectionObserver.
+ * Zero animation library dependency. Respects prefers-reduced-motion.
+ * Replaces the framer-motion version with identical visual behavior.
+ */
 export default function ScrollReveal({
   children,
   className = "",
   delay = 0,
-  as = "div",
+  as: Tag = "div",
 }: ScrollRevealProps) {
-  const shouldReduce = useReducedMotion()
-  const Tag = motion[as]
+  const ref = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("sr-revealed")
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("sr-revealed")
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "-60px", threshold: 0 },
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const delayClass = delay > 0 ? ` sr-delay-${delay}` : ""
 
   return (
-    <Tag
-      className={className}
-      initial={shouldReduce ? false : { opacity: 0, y: 28, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ ...SPRING_GENTLE, delay: delayMap[delay] }}
-    >
+    <Tag ref={ref as React.RefObject<never>} className={`sr-reveal${delayClass} ${className}`}>
       {children}
     </Tag>
   )
