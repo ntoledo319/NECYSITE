@@ -11,12 +11,13 @@ import SiteHeader from "@/components/site-header"
 import { A11yProvider } from "@/lib/accessibility-context"
 import AccessibilityPanel from "@/components/accessibility-panel"
 import MadRealmArtLayer from "@/components/art/mad-realm-art-layer"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const GrainOverlayWrapper = dynamic(() => import("@/components/ui/grain-overlay-wrapper"))
 const PageTransition = dynamic(() => import("@/components/ui/page-transition"))
 const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress"))
 const BackToTop = dynamic(() => import("@/components/ui/back-to-top"))
-const WebVitalsReporter = dynamic(() => import("@/app/web-vitals-reporter").then(m => ({ default: m.WebVitalsReporter })))
 
 const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
@@ -102,7 +103,8 @@ export default async function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="NECYPAA XXXVI Blog" href="/feed.xml" />
       </head>
       <body className={`${sourceSerif.variable} ${playfair.variable} ${cormorant.variable} ${sourceSerif.className}`}>
-        <WebVitalsReporter />
+        <Analytics />
+        <SpeedInsights />
         <NextIntlClientProvider messages={messages}>
           <A11yProvider>
             <MadRealmArtLayer />
