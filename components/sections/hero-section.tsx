@@ -105,23 +105,28 @@ export default function HeroSection() {
           }}
         />
 
-        {/* Dates + Venue — stagger 4 */}
-        <div className="hero-enter-4 mt-4 flex flex-col items-center gap-1 md:mt-5">
+        {/* Dates + Venue — stagger 4, frosted pill for legibility over the poster */}
+        <div
+          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-6 py-3 backdrop-blur-sm md:mt-5 md:px-8 md:py-4"
+          style={{
+            background: "rgba(0,0,0,0.35)",
+            border: "1px solid rgba(232,223,208,0.08)",
+          }}
+        >
           <p
-            className="text-sm font-bold uppercase tracking-widest sm:text-base md:text-lg"
+            className="text-base font-bold uppercase tracking-widest sm:text-lg md:text-xl"
             style={{
               color: "#5DBAA8",
-              textShadow:
-                "0 0 18px rgba(93,186,168,0.35), 0 1px 4px rgba(0,0,0,0.6)",
+              textShadow: "0 0 20px rgba(93,186,168,0.40)",
             }}
           >
             Dec 31, 2026 &ndash; Jan 3, 2027
           </p>
           <p
-            className="text-xs font-medium tracking-wide sm:text-sm"
+            className="text-sm font-medium tracking-wide sm:text-base"
             style={{
-              color: "rgba(232,223,208,0.75)",
-              textShadow: "0 1px 4px rgba(0,0,0,0.6)",
+              color: "rgba(232,223,208,0.90)",
+              textShadow: "0 1px 4px rgba(0,0,0,0.5)",
             }}
           >
             Hartford Marriott Downtown
