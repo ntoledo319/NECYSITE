@@ -216,26 +216,6 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
           )
         })}
 
-        {/* Subscribe icons — inline, right-aligned */}
-        <div className="flex items-center gap-1.5 ml-auto">
-          {[
-            { href: SUBSCRIBE_GOOGLE, icon: Monitor, label: t("addToGoogle"), color: "var(--nec-purple)" },
-            { href: SUBSCRIBE_WEBCAL, icon: Smartphone, label: t("addToApple"), color: "var(--nec-pink)" },
-            { href: SUBSCRIBE_ICAL, icon: CalendarPlus, label: t("subscribeiCal"), color: "var(--nec-cyan)" },
-          ].map(({ href, icon: Icon, label, color }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("webcal") ? undefined : "_blank"}
-              rel={href.startsWith("webcal") ? undefined : "noopener noreferrer"}
-              className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.08)]"
-              aria-label={label}
-              style={{ color }}
-            >
-              <Icon className="w-3.5 h-3.5" />
-            </a>
-          ))}
-        </div>
       </div>
 
       {/* ── SR live region ────────────────────────────────── */}
@@ -348,6 +328,43 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ── Subscribe to calendar ─────────────────────────── */}
+      {hasEvents && (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 border-t border-[rgba(var(--nec-purple-rgb),0.08)]">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--nec-muted)]">
+            Sync to your phone
+          </span>
+          <a
+            href={SUBSCRIBE_GOOGLE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-opacity hover:opacity-75 py-1 min-h-[2.75rem]"
+            style={{ color: "var(--nec-purple)" }}
+          >
+            <Monitor className="w-3 h-3" aria-hidden="true" />
+            Google
+          </a>
+          <a
+            href={SUBSCRIBE_WEBCAL}
+            className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-opacity hover:opacity-75 py-1 min-h-[2.75rem]"
+            style={{ color: "var(--nec-pink)" }}
+          >
+            <Smartphone className="w-3 h-3" aria-hidden="true" />
+            Apple
+          </a>
+          <a
+            href={SUBSCRIBE_ICAL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-opacity hover:opacity-75 py-1 min-h-[2.75rem]"
+            style={{ color: "var(--nec-cyan)" }}
+          >
+            <CalendarPlus className="w-3 h-3" aria-hidden="true" />
+            Outlook / iCal
+          </a>
         </div>
       )}
 

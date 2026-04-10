@@ -65,7 +65,7 @@ export default function ServicePage() {
 
       {/* ── Mad Hatter portal ghost — atmospheric backdrop ── */}
       <div
-        className="pointer-events-none absolute top-0 right-0 w-[50vw] max-w-[600px] h-[70vh] opacity-[0.04] z-0 hidden lg:block"
+        className="pointer-events-none absolute top-0 right-0 w-[50vw] max-w-[600px] h-[70vh] opacity-[0.12] z-0 hidden lg:block"
         aria-hidden="true"
       >
         <Image
@@ -84,12 +84,12 @@ export default function ServicePage() {
       <div
         className="pointer-events-none absolute top-[10%] left-[10%] w-[500px] h-[500px] rounded-full z-0"
         aria-hidden="true"
-        style={{ background: "radial-gradient(ellipse, rgba(var(--nec-purple-rgb), 0.04) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse, rgba(var(--nec-purple-rgb), 0.10) 0%, transparent 70%)" }}
       />
       <div
         className="pointer-events-none absolute top-[40%] right-[5%] w-[400px] h-[400px] rounded-full z-0"
         aria-hidden="true"
-        style={{ background: "radial-gradient(ellipse, rgba(var(--nec-pink-rgb), 0.03) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse, rgba(var(--nec-pink-rgb), 0.08) 0%, transparent 70%)" }}
       />
 
       <div className="page-frame relative z-10" role="region" aria-label="Service opportunities content">
@@ -175,7 +175,7 @@ export default function ServicePage() {
                       </p>
 
                       {/* Cheshire Cat — visible on all screens */}
-                      <div className="absolute -bottom-3 -right-3 w-32 h-32 opacity-[0.18] pointer-events-none z-0" aria-hidden="true">
+                      <div className="absolute -bottom-2 -right-2 w-36 h-36 opacity-[0.25] pointer-events-none z-0" aria-hidden="true">
                         <Image
                           src="/images/cheshire-cat-character.webp"
                           alt=""
@@ -243,7 +243,7 @@ export default function ServicePage() {
 
             <div className="grid gap-4 md:gap-5 md:grid-cols-2 section-atmosphere-gold relative">
               {/* Caterpillar ghost — bottom section atmosphere */}
-              <div className="pointer-events-none absolute -bottom-8 -left-8 w-28 h-28 opacity-[0.08] z-0 hidden md:block" aria-hidden="true">
+              <div className="pointer-events-none absolute -bottom-6 -left-6 w-32 h-32 opacity-[0.14] z-0 hidden md:block" aria-hidden="true">
                 <Image
                   src="/images/caterpillar-character.webp"
                   alt=""
