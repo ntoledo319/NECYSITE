@@ -16,3 +16,6 @@ export const CONVENTION_VENUE = "Hartford Marriott Downtown"
 export const CONVENTION_START_DATE = "2026-12-31T18:00:00-05:00"
 
 export const SITE_URL = "https://www.necypaact.com"
+
+export const GOOGLE_CALENDAR_ID =
+  "533cfe9d22310e576cbb58198f5d403bfdd2fc6c07a548839184e9bb6342f036@group.calendar.google.com"
