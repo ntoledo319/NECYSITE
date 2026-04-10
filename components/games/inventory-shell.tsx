@@ -407,7 +407,7 @@ export default function InventoryShell({
                                   ? "1.35rem"
                                   : "1.25rem",
                             boxShadow: `var(--shadow-card), 0 0 34px rgba(${char.accentRgb},0.08)`,
-                            color: "white",
+                            color: "var(--nec-text)",
                             outlineColor: char.accent,
                           }}
                           aria-expanded={showGame}
