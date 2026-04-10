@@ -16,9 +16,10 @@ import EventDetailModal from "./event-detail-modal"
 
 // ─── Calendar subscription URLs ───────────────────────────────────
 
-const SUBSCRIBE_GOOGLE = `https://calendar.google.com/calendar/render?cid=${GOOGLE_CALENDAR_ID}`
+const ICS_FEED = `https://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`
+const SUBSCRIBE_GOOGLE = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(`webcal://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`)}`
 const SUBSCRIBE_WEBCAL = `webcal://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`
-const SUBSCRIBE_ICAL = `https://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`
+const SUBSCRIBE_ICAL = ICS_FEED
 
 // ─── Category styling ─────────────────────────────────────────────
 

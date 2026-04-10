@@ -49,6 +49,8 @@ export async function fetchCalendarEvents(): Promise<CalendarEvent[]> {
 
   const allItems: GoogleCalendarEvent[] = []
   let pageToken: string | undefined
+  let pages = 0
+  const MAX_PAGES = 20
 
   try {
     do {
@@ -63,19 +65,40 @@ export async function fetchCalendarEvents(): Promise<CalendarEvent[]> {
       if (pageToken) params.set("pageToken", pageToken)
 
       const url = `${API_BASE}/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/events?${params}`
-      const res = await fetch(url, { next: { revalidate: 300 } })
+      const res = await fetch(url, {
+        next: { revalidate: 300 },
+        signal: AbortSignal.timeout(10_000),
+      })
 
       if (!res.ok) {
-        console.error(`[calendar] Google API error: ${res.status} ${res.statusText}`)
+        const msg =
+          `[calendar] Google API ${res.status} ${res.statusText}` +
+          (res.status === 401 || res.status === 403
+            ? " — check GOOGLE_CALENDAR_API_KEY restrictions"
+            : "")
+        if (res.status >= 500) {
+          console.warn(msg)
+        } else {
+          console.error(msg)
+        }
         return []
       }
 
       const data: GoogleCalendarResponse = await res.json()
       if (data.items) allItems.push(...data.items)
       pageToken = data.nextPageToken
-    } while (pageToken)
+      pages++
+    } while (pageToken && pages < MAX_PAGES)
+
+    if (pages >= MAX_PAGES) {
+      console.warn("[calendar] Pagination limit reached — some events may be missing")
+    }
   } catch (err) {
-    console.error("[calendar] Failed to fetch events:", err)
+    if (err instanceof DOMException && err.name === "TimeoutError") {
+      console.error("[calendar] Google API request timed out (10s)")
+    } else {
+      console.error("[calendar] Failed to fetch events:", err)
+    }
     return []
   }
 
