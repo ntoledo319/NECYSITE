@@ -18,6 +18,7 @@ import { CONTACT_EMAIL, ZOOM_MEETING_URL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
 import CalendarSection from "@/components/calendar/calendar-section"
 import { BLOG_POSTS } from "@/lib/data/blog-posts"
+import { fetchCalendarEvents } from "@/lib/calendar/fetch"
 
 export const metadata: Metadata = {
   title: "Service Opportunities — NECYPAA XXXVI",
@@ -180,7 +181,19 @@ function TrackAction({ href, label, external }: { href: string; label: string; e
 
 /* ── Page ─────────────────────────────────────────────── */
 
-export default function ServicePage() {
+export default async function ServicePage() {
+  const events = await fetchCalendarEvents()
+  const now = new Date()
+  const nextBizMeeting = events.find(
+    (e) => e.category === "host-business" && new Date(e.start) >= now
+  )
+  const nextMeetingLabel = nextBizMeeting
+    ? `Next meeting ${new Date(nextBizMeeting.start).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        timeZone: "America/New_York",
+      })}`
+    : "Browse the Calendar"
   return (
     <div
       className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
@@ -278,7 +291,7 @@ export default function ServicePage() {
                   </a>
                   <a href="#committee-calendar" className="btn-ghost inline-flex items-center justify-center gap-2">
                     <CalendarDays className="h-4 w-4" aria-hidden="true" />
-                    Browse the Calendar
+                    {nextMeetingLabel}
                   </a>
                 </div>
               </div>
@@ -300,13 +313,20 @@ export default function ServicePage() {
                   }}
                 />
 
-                <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <span className="section-badge">Committee Rhythm</span>
                     <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] sm:text-3xl">
                       What&rsquo;s coming up.
                     </h2>
                   </div>
+                  <p
+                    className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl"
+                    style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--nec-purple)", opacity: 0.25 }}
+                    aria-hidden="true"
+                  >
+                    {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                  </p>
                 </div>
 
                 <Suspense fallback={<CalendarSkeleton />}>

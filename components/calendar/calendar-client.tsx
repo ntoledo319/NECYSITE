@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useCallback } from "react"
 import {
-  MapPin,
   ChevronDown,
   CalendarPlus,
   Smartphone,
@@ -113,26 +112,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
 
   // Show first 6 events inline, rest behind expander
   const INLINE_COUNT = 6
-  const visibleEvents = useMemo(() => {
-    if (timeframe === "past") return [...filteredEvents].reverse().slice(0, INLINE_COUNT)
-    return filteredEvents.slice(0, INLINE_COUNT)
-  }, [filteredEvents, timeframe])
   const remainingCount = Math.max(0, filteredEvents.length - INLINE_COUNT)
-
-  const browseByMonth = useMemo(() => {
-    const eventsToGroup = timeframe === "past" ? [...filteredEvents].reverse() : filteredEvents
-    const groups: { month: string; events: CalendarEvent[] }[] = []
-    for (const event of eventsToGroup) {
-      const key = getMonthKey(event.start)
-      const last = groups[groups.length - 1]
-      if (last && last.month === key) {
-        last.events.push(event)
-      } else {
-        groups.push({ month: key, events: [event] })
-      }
-    }
-    return groups
-  }, [filteredEvents, timeframe])
 
   const toggleCategory = useCallback((cat: EventCategory) => {
     setActiveCategories((prev) => {
@@ -225,41 +205,68 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
           : "No events match current filters"}
       </div>
 
-      {/* ── Event list (up to 6 inline) ────────────────── */}
-      {visibleEvents.length > 0 && (
+      {/* ── Event list with month headers ─────────────── */}
+      {hasFilteredEvents && (
         <div className="-mx-1">
-          {visibleEvents.map((event) => {
-            const meta = CATEGORY_META[event.category]
-            const { day } = formatBrowseDate(event.start)
-            return (
-              <button
-                key={event.id}
-                type="button"
-                onClick={() => setSelectedEvent(event)}
-                className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] min-h-[2.75rem]"
-                aria-label={`${t("viewDetails")}: ${event.title}`}
-              >
-                <span className="w-6 text-right text-xs font-bold tabular-nums flex-shrink-0 text-[var(--nec-muted)]">
-                  {day}
-                </span>
-                <span
-                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: `var(${meta.colorVar})` }}
-                  aria-hidden="true"
-                />
-                <span className="text-sm text-[var(--nec-text)] truncate flex-1">
-                  {event.title}
-                </span>
-                <span className="text-[11px] text-[var(--nec-muted)] flex-shrink-0 tabular-nums">
-                  {isAllDay(event.start) ? formatCardDate(event.start).split(", ")[0] : formatCardTime(event.start)}
-                </span>
-              </button>
-            )
-          })}
+          {(() => {
+            const eventsToShow = timeframe === "past"
+              ? [...filteredEvents].reverse().slice(0, expanded ? undefined : INLINE_COUNT)
+              : filteredEvents.slice(0, expanded ? undefined : INLINE_COUNT)
+            let lastMonth = ""
+            return eventsToShow.map((event) => {
+              const meta = CATEGORY_META[event.category]
+              const { day } = formatBrowseDate(event.start)
+              const monthKey = getMonthKey(event.start)
+              const showMonthHeader = monthKey !== lastMonth
+              lastMonth = monthKey
+              return (
+                <div key={event.id}>
+                  {showMonthHeader && (
+                    <div
+                      className="mt-3 first:mt-0 mb-1.5 flex items-center gap-2 px-2"
+                    >
+                      <h4
+                        className="text-xs font-bold uppercase tracking-[0.14em]"
+                        style={{ color: "var(--nec-purple)" }}
+                      >
+                        {monthKey}
+                      </h4>
+                      <div
+                        className="h-px flex-1"
+                        style={{ background: "rgba(var(--nec-purple-rgb), 0.10)" }}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEvent(event)}
+                    className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] min-h-[2.75rem]"
+                    aria-label={`${t("viewDetails")}: ${event.title}`}
+                  >
+                    <span className="w-7 text-right text-sm font-bold tabular-nums flex-shrink-0 text-[var(--nec-text)]">
+                      {day}
+                    </span>
+                    <span
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: `var(${meta.colorVar})` }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-sm font-medium text-[var(--nec-text)] truncate flex-1">
+                      {event.title}
+                    </span>
+                    <span className="text-[11px] text-[var(--nec-muted)] flex-shrink-0 tabular-nums">
+                      {isAllDay(event.start) ? formatCardDate(event.start).split(", ")[0] : formatCardTime(event.start)}
+                    </span>
+                  </button>
+                </div>
+              )
+            })
+          })()}
         </div>
       )}
 
-      {/* ── Expand / collapse full calendar ──────────────── */}
+      {/* ── Expand / collapse ────────────────────────────── */}
       {hasFilteredEvents && filteredEvents.length > INLINE_COUNT && (
         <button
           type="button"
@@ -274,61 +281,6 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
           />
           {expanded ? "Collapse" : `${remainingCount} more — view full calendar`}
         </button>
-      )}
-
-      {/* ── Full browse list (collapsed by default) ──────── */}
-      {expanded && browseByMonth.length > 0 && (
-        <div className="space-y-3 pt-2 border-t border-[rgba(var(--nec-purple-rgb),0.08)]">
-          {browseByMonth.map((group) => (
-            <div key={group.month}>
-              <h4
-                className="text-[10px] font-bold uppercase tracking-widest mb-2 pb-1.5 border-b"
-                style={{
-                  color: "var(--nec-muted)",
-                  borderColor: "rgba(var(--nec-purple-rgb), 0.08)",
-                }}
-              >
-                {group.month}
-              </h4>
-              <div className="space-y-0.5">
-                {group.events.map((event) => {
-                  const meta = CATEGORY_META[event.category]
-                  const { day } = formatBrowseDate(event.start)
-                  return (
-                    <button
-                      key={event.id}
-                      type="button"
-                      onClick={() => setSelectedEvent(event)}
-                      className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] min-h-[2.75rem]"
-                      aria-label={`${t("viewDetails")}: ${event.title}`}
-                    >
-                      <span className="w-6 text-right text-xs font-bold tabular-nums flex-shrink-0 text-[var(--nec-muted)]">
-                        {day}
-                      </span>
-                      <span
-                        className="w-2 h-2 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: `var(${meta.colorVar})` }}
-                        aria-hidden="true"
-                      />
-                      <span className="text-sm text-[var(--nec-text)] truncate flex-1">
-                        {event.title}
-                      </span>
-                      {event.location && (
-                        <span className="hidden md:flex items-center gap-1 text-[11px] text-[var(--nec-muted)] truncate max-w-[10rem]">
-                          <MapPin className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
-                          <span className="truncate">{event.location}</span>
-                        </span>
-                      )}
-                      <span className="text-[11px] text-[var(--nec-muted)] flex-shrink-0 tabular-nums">
-                        {isAllDay(event.start) ? t("allDay") : formatCardTime(event.start)}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
       )}
 
       {/* ── Subscribe to calendar ─────────────────────────── */}
