@@ -19,7 +19,7 @@ export default function HeroSection() {
         fill
         priority
         sizes="100vw"
-        className="hero-poster-alive object-cover object-center"
+        className="hero-poster-alive object-cover object-[center_38%] sm:object-center"
         aria-hidden="true"
       />
 
@@ -49,15 +49,16 @@ export default function HeroSection() {
       {/* ── Content — materializes from the art ── */}
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-14 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24">
 
-        {/* Theme logo with breathing glow + dark halo for separation — stagger 1 */}
-        <div className="hero-logo-glow hero-enter-1 relative mb-5 sm:mb-6 md:mb-7">
-          {/* Dark halo — separates the logo from the poster's similar palette */}
+        {/* Theme logo — fluid sizing, breathes wider on mobile ── stagger 1 */}
+        <div className="hero-logo-glow hero-enter-1 relative mb-3 sm:mb-5 md:mb-7">
+          {/* Ambient separation — soft blur on mobile, tighter halo on desktop */}
           <div
-            className="pointer-events-none absolute inset-[-22%] rounded-full sm:inset-[-18%]"
+            className="pointer-events-none absolute inset-[-12%] rounded-full sm:inset-[-18%]"
             aria-hidden="true"
             style={{
               background:
-                "radial-gradient(ellipse 52% 52% at 50% 50%, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.24) 50%, transparent 72%)",
+                "radial-gradient(ellipse 60% 58% at 50% 50%, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.18) 55%, transparent 78%)",
+              filter: "blur(8px)",
             }}
           />
           <Image
@@ -66,9 +67,10 @@ export default function HeroSection() {
             width={340}
             height={340}
             priority
-            sizes="(max-width: 640px) 52vw, (max-width: 1024px) 260px, 340px"
-            className="relative z-10 h-auto w-full max-w-[180px] sm:max-w-[230px] md:max-w-[280px] lg:max-w-[340px]"
+            sizes="(max-width: 640px) 58vw, (max-width: 1024px) 260px, 340px"
+            className="relative z-10 h-auto w-full sm:max-w-[230px] md:max-w-[280px] lg:max-w-[340px]"
             style={{
+              width: "clamp(210px, 56vw, 340px)",
               filter:
                 "drop-shadow(0 4px 32px rgba(124,58,237,0.50)) drop-shadow(0 2px 14px rgba(192,38,211,0.30))",
             }}
@@ -76,13 +78,8 @@ export default function HeroSection() {
         </div>
 
         {/* Convention title — stagger 2 */}
-        {/*
-          Gradient text has no text-shadow support (background-clip: text).
-          On mobile, we add a stronger dark halo behind the text via a pseudo-
-          element in CSS, and use brighter gradient stops for small screens.
-        */}
         <h1
-          className="hero-enter-2 hero-title-glow text-[1.35rem] font-black uppercase leading-tight tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+          className="hero-enter-2 hero-title-glow text-lg font-black uppercase leading-tight tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             background:
@@ -98,7 +95,7 @@ export default function HeroSection() {
 
         {/* Location — stagger 3 */}
         <h2
-          className="hero-enter-3 mt-1 text-[0.95rem] font-black uppercase tracking-wide sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
+          className="hero-enter-3 mt-0.5 text-[0.9rem] font-black uppercase tracking-wide sm:mt-1 sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
           style={{
             fontFamily: "var(--font-display), 'Bangers', cursive",
             color: "#e8c45a",
