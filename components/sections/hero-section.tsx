@@ -12,7 +12,7 @@ export default function HeroSection() {
       className="relative -mt-16 flex min-h-screen flex-col items-center justify-center overflow-hidden"
       style={{ minHeight: "100dvh" }}
     >
-      {/* ── Poster as atmosphere — the vortex breathes ── */}
+      {/* ── Poster background — the vortex breathes ── */}
       <Image
         src="/images/mad-realm-poster-full.webp"
         alt=""
@@ -23,19 +23,27 @@ export default function HeroSection() {
         aria-hidden="true"
       />
 
-      {/*
-        Two-layer overlay:
-        1. Theme-safe darkening — heavier on mobile for text over busy poster
-        2. Bottom fade to page background
-      */}
+      {/* Mobile overlay — heavier, lets text read by contrast alone */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 sm:hidden"
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.44) 28%, rgba(0,0,0,0.36) 44%, rgba(0,0,0,0.44) 64%, rgba(0,0,0,0.74) 86%, rgba(0,0,0,0.92) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.54) 30%, rgba(0,0,0,0.50) 50%, rgba(0,0,0,0.58) 68%, rgba(0,0,0,0.80) 88%, rgba(0,0,0,0.94) 100%)",
         }}
       />
+
+      {/* Desktop overlay — lighter, lets the vortex art show through */}
+      <div
+        className="pointer-events-none absolute inset-0 hidden sm:block"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.34) 30%, rgba(0,0,0,0.28) 45%, rgba(0,0,0,0.38) 65%, rgba(0,0,0,0.70) 88%, rgba(0,0,0,0.88) 100%)",
+        }}
+      />
+
+      {/* Bottom fade to page background */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[28%]"
         aria-hidden="true"
@@ -48,66 +56,45 @@ export default function HeroSection() {
       {/* ── Content ── */}
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-14 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24">
 
-        {/* Theme logo — fluid, centered over the AA triangle */}
-        <div className="hero-logo-glow hero-enter-1 relative mb-3 sm:mb-5 md:mb-7">
-          <div
-            className="pointer-events-none absolute inset-[-14%] rounded-full sm:inset-[-18%]"
-            aria-hidden="true"
-            style={{
-              background:
-                "radial-gradient(ellipse 58% 56% at 50% 50%, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.16) 56%, transparent 76%)",
-              filter: "blur(6px)",
-            }}
-          />
+        {/* Logo — large on mobile, the calligraphy IS the hero */}
+        <div className="hero-logo-glow hero-enter-1 relative mb-4 sm:mb-6 md:mb-7">
           <Image
             src="/images/mad-realm-logo-no-bg.webp"
             alt="Escaping the Mad Realm — NECYPAA XXXVI theme logo"
             width={340}
             height={340}
             priority
-            sizes="(max-width: 640px) 58vw, (max-width: 1024px) 260px, 340px"
-            className="relative z-10 h-auto w-full sm:max-w-[230px] md:max-w-[280px] lg:max-w-[340px]"
+            sizes="(max-width: 640px) 62vw, (max-width: 1024px) 260px, 340px"
+            className="relative z-10 h-auto w-full"
             style={{
-              width: "clamp(210px, 56vw, 340px)",
+              width: "clamp(220px, 60vw, 340px)",
               filter:
-                "drop-shadow(0 4px 32px rgba(124,58,237,0.50)) drop-shadow(0 2px 14px rgba(192,38,211,0.30))",
+                "drop-shadow(0 6px 36px rgba(124,58,237,0.55)) drop-shadow(0 2px 16px rgba(192,38,211,0.35))",
             }}
           />
         </div>
 
-        {/* Convention title + location — frosted backing on mobile for legibility */}
-        <div
-          className="hero-enter-2 rounded-xl px-5 py-2 backdrop-blur-[3px] sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none"
+        {/* Title — solid readable text on mobile, gradient on desktop (via CSS class) */}
+        <h1
+          className="hero-enter-2 hero-title text-2xl font-black uppercase leading-none tracking-wide sm:text-3xl md:text-4xl lg:text-5xl"
           style={{
-            background: "rgba(0,0,0,0.30)",
+            fontFamily: "var(--font-display), 'Bangers', cursive",
+            letterSpacing: "0.08em",
           }}
         >
-          <h1
-            className="text-xl font-black uppercase leading-tight tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
-            style={{
-              fontFamily: "var(--font-display), 'Bangers', cursive",
-              color: "#f0d0ee",
-              textShadow:
-                "0 0 30px rgba(192,138,191,0.50), 0 1px 2px rgba(0,0,0,0.9), 0 0 60px rgba(124,58,237,0.25)",
-              letterSpacing: "0.08em",
-            }}
-          >
-            NECYPAA XXXVI
-          </h1>
+          NECYPAA XXXVI
+        </h1>
 
-          <h2
-            className="hero-enter-3 mt-0.5 text-base font-black uppercase tracking-wide sm:mt-1 sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
-            style={{
-              fontFamily: "var(--font-display), 'Bangers', cursive",
-              color: "#f0d47a",
-              textShadow:
-                "0 0 24px rgba(240,212,122,0.50), 0 1px 2px rgba(0,0,0,0.9), 0 0 60px rgba(212,168,75,0.20)",
-              letterSpacing: "0.08em",
-            }}
-          >
-            Hartford, Connecticut
-          </h2>
-        </div>
+        {/* Location */}
+        <h2
+          className="hero-enter-3 hero-subtitle mt-1 text-lg font-black uppercase tracking-wide sm:text-xl md:mt-2 md:text-2xl lg:text-3xl"
+          style={{
+            fontFamily: "var(--font-display), 'Bangers', cursive",
+            letterSpacing: "0.08em",
+          }}
+        >
+          Hartford, Connecticut
+        </h2>
 
         {/* Decorative rule */}
         <div
@@ -115,20 +102,20 @@ export default function HeroSection() {
           aria-hidden="true"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(240,212,122,0.50) 30%, rgba(212,168,210,0.45) 70%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgba(242,218,130,0.50) 30%, rgba(212,168,210,0.45) 70%, transparent 100%)",
           }}
         />
 
-        {/* Dates + Venue — frosted pill */}
+        {/* Dates + Venue */}
         <div
-          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-5 py-3 backdrop-blur-sm sm:px-6 sm:py-3 md:mt-5 md:px-8 md:py-4"
+          className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-5 py-3 backdrop-blur-sm sm:px-6 md:mt-5 md:px-8 md:py-4"
           style={{
-            background: "rgba(0,0,0,0.40)",
-            border: "1px solid rgba(232,223,208,0.10)",
+            background: "rgba(0,0,0,0.35)",
+            border: "1px solid rgba(232,223,208,0.08)",
           }}
         >
           <p
-            className="text-[0.8rem] font-bold uppercase tracking-[0.14em] sm:text-base sm:tracking-widest md:text-lg lg:text-xl"
+            className="text-sm font-bold uppercase tracking-[0.12em] sm:text-base sm:tracking-widest md:text-lg lg:text-xl"
             style={{
               color: "#7cd4c0",
               textShadow: "0 0 16px rgba(124,212,192,0.35)",
