@@ -509,7 +509,7 @@ export default async function ServicePage() {
 
                 {/* Mad Hatter — bookends with caterpillar in hero */}
                 <div
-                  className="pointer-events-none absolute -right-6 bottom-0 w-32 opacity-[0.18] sm:w-40 sm:opacity-[0.22] lg:-right-4 lg:w-52 lg:opacity-[0.28]"
+                  className="pointer-events-none absolute -right-4 bottom-0 w-24 opacity-[0.12] sm:w-32 sm:opacity-[0.18] lg:-right-10 lg:w-64 lg:opacity-[0.30]"
                   aria-hidden="true"
                 >
                   <Image
@@ -517,7 +517,7 @@ export default async function ServicePage() {
                     alt=""
                     width={842}
                     height={1264}
-                    sizes="(max-width: 640px) 128px, (max-width: 1024px) 160px, 208px"
+                    sizes="(max-width: 640px) 96px, (max-width: 1024px) 128px, 256px"
                     className="h-auto w-full drop-shadow-[0_18px_36px_rgba(44,24,16,0.30)]"
                     aria-hidden="true"
                   />
