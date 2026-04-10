@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback } from "react"
 import {
   MapPin,
   ChevronDown,
-  ChevronRight,
   CalendarPlus,
   Smartphone,
   Monitor,
@@ -112,13 +111,13 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
     })
   }, [events, activeCategories, timeframe, now])
 
-  // Featured: next upcoming event. Preview: 2 more after that.
-  const featuredEvent = timeframe === "upcoming" ? filteredEvents[0] : filteredEvents[filteredEvents.length - 1]
-  const previewEvents = useMemo(() => {
-    if (timeframe === "upcoming") return filteredEvents.slice(1, 4)
-    return filteredEvents.slice(-4, -1).reverse()
+  // Show first 6 events inline, rest behind expander
+  const INLINE_COUNT = 6
+  const visibleEvents = useMemo(() => {
+    if (timeframe === "past") return [...filteredEvents].reverse().slice(0, INLINE_COUNT)
+    return filteredEvents.slice(0, INLINE_COUNT)
   }, [filteredEvents, timeframe])
-  const remainingCount = Math.max(0, filteredEvents.length - 4)
+  const remainingCount = Math.max(0, filteredEvents.length - INLINE_COUNT)
 
   const browseByMonth = useMemo(() => {
     const eventsToGroup = timeframe === "past" ? [...filteredEvents].reverse() : filteredEvents
@@ -153,7 +152,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
   const hasFilteredEvents = filteredEvents.length > 0
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       {/* ── Compact controls row ─────────────────────────── */}
       <div className="flex flex-wrap items-center gap-2">
         {/* Time toggle — compact */}
@@ -246,89 +245,10 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
           : "No events match current filters"}
       </div>
 
-      {/* ── Featured next event ──────────────────────────── */}
-      {featuredEvent && (() => {
-        const meta = CATEGORY_META[featuredEvent.category]
-        const { month, day } = formatBrowseDate(featuredEvent.start)
-        return (
-          <button
-            type="button"
-            onClick={() => setSelectedEvent(featuredEvent)}
-            className="group relative w-full text-left rounded-[1.85rem] overflow-hidden border p-5 md:p-6 transition-all duration-200 hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] focus-visible:ring-offset-2"
-            style={{
-              borderColor: `rgba(var(${meta.rgbVar}), 0.18)`,
-              backgroundImage: `linear-gradient(145deg, rgba(var(${meta.rgbVar}), 0.08), rgba(var(--nec-card-rgb), 0.92))`,
-            }}
-            aria-label={`${t("viewDetails")}: ${featuredEvent.title}`}
-          >
-            {/* Top gradient accent */}
-            <div
-              className="absolute inset-x-0 top-0 h-[3px]"
-              aria-hidden="true"
-              style={{
-                background: `linear-gradient(90deg, rgba(var(${meta.rgbVar}), 0.35), var(${meta.colorVar}), rgba(var(${meta.rgbVar}), 0.35))`,
-              }}
-            />
-
-            <div className="flex gap-4 items-center">
-              {/* Date block */}
-              <div
-                className="flex flex-col items-center justify-center w-14 h-14 flex-shrink-0 rounded-xl"
-                style={{
-                  backgroundColor: `rgba(var(${meta.rgbVar}), 0.10)`,
-                  border: `1px solid rgba(var(${meta.rgbVar}), 0.18)`,
-                }}
-                aria-hidden="true"
-              >
-                <span
-                  className="text-[10px] font-bold uppercase tracking-widest"
-                  style={{ color: `var(${meta.colorVar})` }}
-                >
-                  {month}
-                </span>
-                <span
-                  className="text-2xl font-bold leading-none"
-                  style={{ color: `var(${meta.colorVar})` }}
-                >
-                  {day}
-                </span>
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <span
-                  className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider mb-1"
-                  style={{
-                    backgroundColor: `rgba(var(${meta.rgbVar}), 0.10)`,
-                    color: `var(${meta.colorVar})`,
-                  }}
-                >
-                  {t(meta.labelKey)}
-                </span>
-                <h3 className="text-base font-bold leading-snug text-[var(--nec-text)] group-hover:underline decoration-1 underline-offset-2">
-                  {featuredEvent.title}
-                </h3>
-                <p className="text-xs text-[var(--nec-muted)] mt-0.5">
-                  {formatCardDate(featuredEvent.start)}
-                  {!isAllDay(featuredEvent.start) && ` · ${formatCardTime(featuredEvent.start)}`}
-                  {featuredEvent.location && ` · ${featuredEvent.location}`}
-                </p>
-              </div>
-
-              <ChevronRight
-                className="w-4 h-4 flex-shrink-0 opacity-30 group-hover:opacity-60 transition-opacity"
-                style={{ color: `var(${meta.colorVar})` }}
-                aria-hidden="true"
-              />
-            </div>
-          </button>
-        )
-      })()}
-
-      {/* ── Preview rows (2-3 compact events) ────────────── */}
-      {previewEvents.length > 0 && (
-        <div className="space-y-1">
-          {previewEvents.map((event) => {
+      {/* ── Event list (up to 6 inline) ────────────────── */}
+      {visibleEvents.length > 0 && (
+        <div className="-mx-1">
+          {visibleEvents.map((event) => {
             const meta = CATEGORY_META[event.category]
             const { day } = formatBrowseDate(event.start)
             return (
@@ -336,14 +256,14 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
                 key={event.id}
                 type="button"
                 onClick={() => setSelectedEvent(event)}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] min-h-[2.75rem]"
+                className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] min-h-[2.75rem]"
                 aria-label={`${t("viewDetails")}: ${event.title}`}
               >
                 <span className="w-6 text-right text-xs font-bold tabular-nums flex-shrink-0 text-[var(--nec-muted)]">
                   {day}
                 </span>
                 <span
-                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                   style={{ backgroundColor: `var(${meta.colorVar})` }}
                   aria-hidden="true"
                 />
@@ -351,7 +271,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
                   {event.title}
                 </span>
                 <span className="text-[11px] text-[var(--nec-muted)] flex-shrink-0 tabular-nums">
-                  {isAllDay(event.start) ? t("allDay") : formatCardTime(event.start)}
+                  {isAllDay(event.start) ? formatCardDate(event.start).split(", ")[0] : formatCardTime(event.start)}
                 </span>
               </button>
             )
@@ -360,7 +280,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
       )}
 
       {/* ── Expand / collapse full calendar ──────────────── */}
-      {hasFilteredEvents && filteredEvents.length > 4 && (
+      {hasFilteredEvents && filteredEvents.length > INLINE_COUNT && (
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
@@ -378,7 +298,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
 
       {/* ── Full browse list (collapsed by default) ──────── */}
       {expanded && browseByMonth.length > 0 && (
-        <div className="space-y-5 pt-2 border-t border-[rgba(var(--nec-purple-rgb),0.08)]">
+        <div className="space-y-3 pt-2 border-t border-[rgba(var(--nec-purple-rgb),0.08)]">
           {browseByMonth.map((group) => (
             <div key={group.month}>
               <h4
@@ -433,7 +353,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
 
       {/* ── Empty states ──────────────────────────────────── */}
       {hasEvents && !hasFilteredEvents && (
-        <div className="text-center py-8 space-y-3">
+        <div className="text-center py-4 space-y-2">
           <p className="text-sm italic text-[var(--nec-muted)]">
             Curiouser and curiouser&hellip; nothing matches those filters.
           </p>
@@ -444,7 +364,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
       )}
 
       {!hasEvents && (
-        <div className="text-center py-8">
+        <div className="text-center py-4">
           <p className="text-sm italic text-[var(--nec-muted)]">
             The calendar is quiet for now. Check back soon.
           </p>

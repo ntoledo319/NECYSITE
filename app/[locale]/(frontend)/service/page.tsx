@@ -63,40 +63,64 @@ export default function ServicePage() {
         dividerVariant="potion"
       />
 
-      <div className="page-frame" role="region" aria-label="Service opportunities content">
+      {/* ── Mad Hatter portal ghost — atmospheric backdrop ── */}
+      <div
+        className="pointer-events-none absolute top-0 right-0 w-[50vw] max-w-[600px] h-[70vh] opacity-[0.04] z-0 hidden lg:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/mad-hatter-portal.webp"
+          alt=""
+          width={900}
+          height={1200}
+          sizes="50vw"
+          className="w-full h-full object-cover object-top"
+          style={{ maskImage: "linear-gradient(to bottom, black 30%, transparent 90%)" }}
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* ── Atmospheric radial glows ── */}
+      <div
+        className="pointer-events-none absolute top-[10%] left-[10%] w-[500px] h-[500px] rounded-full z-0"
+        aria-hidden="true"
+        style={{ background: "radial-gradient(ellipse, rgba(var(--nec-purple-rgb), 0.04) 0%, transparent 70%)" }}
+      />
+      <div
+        className="pointer-events-none absolute top-[40%] right-[5%] w-[400px] h-[400px] rounded-full z-0"
+        aria-hidden="true"
+        style={{ background: "radial-gradient(ellipse, rgba(var(--nec-pink-rgb), 0.03) 0%, transparent 70%)" }}
+      />
+
+      <div className="page-frame relative z-10" role="region" aria-label="Service opportunities content">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-6xl page-stack">
+          <div className="mx-auto max-w-6xl space-y-4 md:space-y-5">
 
-            {/* ═══════════════════════════════════════════════
-                HERO — two-column: copy+calendar left, MAL right
-                Everything important visible within 1 scroll
-                ═══════════════════════════════════════════════ */}
-            <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+            {/* ═══ HERO — copy + calendar left, MAL right ═══ */}
+            <div className="grid gap-5 lg:gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-start">
 
-              {/* Left column: hero copy + compact calendar */}
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div>
-                  <span className="section-badge page-enter-1 mb-3 inline-block">Service</span>
-                  <h1 className="section-heading page-enter-2 mb-3">
+                  <span className="section-badge page-enter-1 mb-2 inline-block">Service</span>
+                  <h1 className="section-heading page-enter-2 mb-2">
                     Service Opportunities
                   </h1>
-                  <p className="page-enter-3 text-base leading-relaxed max-w-xl text-[var(--nec-muted)]">
+                  <p className="page-enter-3 text-sm leading-relaxed max-w-xl text-[var(--nec-muted)]">
                     NECYPAA is always looking for trusted servants to help carry the
                     work forward. Whether you want a specific position or just want
                     to show up and help — there is a place for you.
                   </p>
                 </div>
 
-                {/* Calendar — compact, inline with hero */}
                 <section aria-label="Committee calendar" className="page-enter-4">
-                  <div className="flex items-center gap-2.5 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
                     <div
-                      className="nec-icon-badge w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                      className="nec-icon-badge w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
                       aria-hidden="true"
                     >
-                      <Calendar className="w-4 h-4 text-[var(--nec-purple)]" />
+                      <Calendar className="w-3.5 h-3.5 text-[var(--nec-purple)]" />
                     </div>
-                    <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--nec-purple)]">
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--nec-purple)]">
                       What&rsquo;s Coming Up
                     </h2>
                   </div>
@@ -108,12 +132,11 @@ export default function ServicePage() {
                 </section>
               </div>
 
-              {/* Right column: MAL + How to Get Involved (sticky on desktop) */}
-              <div className="space-y-5 lg:sticky lg:top-28">
+              <div className="space-y-4 lg:sticky lg:top-24">
                 <ScrollReveal>
                   <section aria-label="Members-at-Large" className="section-atmosphere-pink">
                     <div
-                      className="relative rounded-[2rem] overflow-hidden border border-[rgba(var(--nec-pink-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-pink-rgb),0.10),rgba(var(--nec-card-rgb),0.92))] p-6 md:p-8 shadow-[var(--shadow-card)]"
+                      className="relative rounded-[1.85rem] overflow-hidden border border-[rgba(var(--nec-pink-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-pink-rgb),0.10),rgba(var(--nec-card-rgb),0.92))] p-5 md:p-6 shadow-[var(--shadow-card)]"
                     >
                       {/* Accent bar — thicker, more visible */}
                       <div
@@ -125,28 +148,27 @@ export default function ServicePage() {
                         }}
                       />
 
-                      <div className="flex items-center gap-3 mb-4">
+                      <div className="flex items-center gap-2.5 mb-3">
                         <div
-                          className="nec-icon-badge-pink w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                          className="nec-icon-badge-pink w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                           aria-hidden="true"
                         >
-                          <Users className="w-5 h-5 text-[var(--nec-pink)]" />
+                          <Users className="w-4 h-4 text-[var(--nec-pink)]" />
                         </div>
-                        <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                        <h2 className="text-lg font-bold text-[var(--nec-text)]">
                           Members-at-Large
                         </h2>
                       </div>
 
-                      <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
+                      <p className="text-sm leading-relaxed mb-2 text-[var(--nec-muted)]">
                         Not ready for a position yet? We also always need
                         Members-at-Large.
                       </p>
-                      <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
+                      <p className="text-sm leading-relaxed mb-2 text-[var(--nec-muted)]">
                         Members-at-Large are the life and soul that keeps NECYPAA
                         moving. They help support committee work, do stuff at events,
                         bring ideas, pitch in where needed, and stay connected to the
-                        larger effort. You do not need to hold a specific title to be
-                        useful here. There is no time requirement.
+                        larger effort. No title or time requirement needed.
                       </p>
                       <p className="text-sm font-semibold leading-relaxed text-[var(--nec-cyan)]">
                         Showing up consistently and being willing to help matters.
@@ -171,23 +193,23 @@ export default function ServicePage() {
                 <ScrollReveal delay={1}>
                   <section aria-label="How to get involved">
                     <div
-                      className="relative overflow-hidden rounded-[1.85rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-6 md:p-8 shadow-[var(--shadow-card)]"
+                      className="relative overflow-hidden rounded-[1.85rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-5 md:p-6 shadow-[var(--shadow-card)]"
                     >
                       <GearCluster className="absolute -bottom-2 -right-2 opacity-55" />
 
-                      <div className="flex items-center gap-3 mb-4">
+                      <div className="flex items-center gap-2.5 mb-3">
                         <div
-                          className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                          className="nec-icon-badge w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                           aria-hidden="true"
                         >
-                          <Video className="w-5 h-5 text-[var(--nec-cyan)]" />
+                          <Video className="w-4 h-4 text-[var(--nec-cyan)]" />
                         </div>
-                        <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                        <h2 className="text-lg font-bold text-[var(--nec-text)]">
                           How to Get Involved
                         </h2>
                       </div>
 
-                      <p className="text-sm leading-relaxed mb-5 text-[var(--nec-muted)]">
+                      <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
                         Show up to a business or committee meeting on Zoom. That&rsquo;s it.
                       </p>
 
@@ -217,29 +239,38 @@ export default function ServicePage() {
             {/* ═══════════════════════════════════════════════
                 DIVIDER — ornate steampunk, Mad Realm energy
                 ═══════════════════════════════════════════════ */}
-            <OrnateDivider variant="potion" color="var(--nec-purple)" className="my-2 md:my-4" />
+            <OrnateDivider variant="gear" color="var(--nec-purple)" className="-my-1" />
 
-            {/* ═══════════════════════════════════════════════
-                SERVICE DETAILS — two cards, atmospheric glow
-                ═══════════════════════════════════════════════ */}
-            <div className="grid gap-6 md:gap-8 md:grid-cols-2 section-atmosphere-gold">
+            <div className="grid gap-4 md:gap-5 md:grid-cols-2 section-atmosphere-gold relative">
+              {/* Caterpillar ghost — bottom section atmosphere */}
+              <div className="pointer-events-none absolute -bottom-8 -left-8 w-28 h-28 opacity-[0.08] z-0 hidden md:block" aria-hidden="true">
+                <Image
+                  src="/images/caterpillar-character.webp"
+                  alt=""
+                  width={100}
+                  height={150}
+                  sizes="100px"
+                  className="w-full h-full object-contain"
+                  aria-hidden="true"
+                />
+              </div>
               <ScrollReveal>
                 <section aria-label="Open service opportunities">
                   <div
-                    className="h-full rounded-[1.85rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-6 md:p-8 shadow-[var(--shadow-card)]"
+                    className="h-full rounded-[1.85rem] border border-[rgba(var(--nec-cyan-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-cyan-rgb),0.07),rgba(var(--nec-card-rgb),0.92))] p-5 md:p-6 shadow-[var(--shadow-card)]"
                   >
-                    <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center gap-2.5 mb-3">
                       <div
-                        className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                        className="nec-icon-badge w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                         aria-hidden="true"
                       >
-                        <Sparkles className="w-5 h-5 text-[var(--nec-cyan)]" />
+                        <Sparkles className="w-4 h-4 text-[var(--nec-cyan)]" />
                       </div>
-                      <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                      <h2 className="text-lg font-bold text-[var(--nec-text)]">
                         Open Opportunities
                       </h2>
                     </div>
-                    <p className="text-sm leading-relaxed mb-3 text-[var(--nec-muted)]">
+                    <p className="text-sm leading-relaxed mb-2 text-[var(--nec-muted)]">
                       NECYPAA regularly has positions to fill across committees and
                       service areas. Openings may include elected, appointed, or other
                       roles depending on current needs.
@@ -255,16 +286,16 @@ export default function ServicePage() {
               <ScrollReveal delay={1}>
                 <section aria-label="Why get involved">
                   <div
-                    className="h-full rounded-[1.85rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.06),rgba(var(--nec-card-rgb),0.92))] p-6 md:p-8 shadow-[var(--shadow-card)]"
+                    className="h-full rounded-[1.85rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.06),rgba(var(--nec-card-rgb),0.92))] p-5 md:p-6 shadow-[var(--shadow-card)]"
                   >
-                    <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center gap-2.5 mb-3">
                       <div
-                        className="nec-icon-badge-gold w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                        className="nec-icon-badge-gold w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                         aria-hidden="true"
                       >
-                        <Heart className="w-5 h-5 text-[var(--nec-gold)]" />
+                        <Heart className="w-4 h-4 text-[var(--nec-gold)]" />
                       </div>
-                      <h2 className="text-xl font-bold text-[var(--nec-text)]">
+                      <h2 className="text-lg font-bold text-[var(--nec-text)]">
                         Why Get Involved?
                       </h2>
                     </div>
