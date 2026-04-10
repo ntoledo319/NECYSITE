@@ -3,21 +3,29 @@ import Image from "next/image"
 import Link from "next/link"
 import { Suspense } from "react"
 import type { LucideIcon } from "lucide-react"
-import { ArrowRight, BadgeCheck, CalendarDays, Clock3, Mail, Sparkles, Users, Video } from "lucide-react"
+import {
+  ArrowRight,
+  CalendarDays,
+  Sparkles,
+  Users,
+  Video,
+} from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import ScrollReveal from "@/components/scroll-reveal"
 import OrnateDivider from "@/components/art/ornate-divider"
 import { CONTACT_EMAIL, ZOOM_MEETING_URL } from "@/lib/constants"
-import { GearCluster } from "@/components/art/steampunk-gears"
 import PageArtAccents from "@/components/art/page-art-accents"
 import CalendarSection from "@/components/calendar/calendar-section"
+import { BLOG_POSTS } from "@/lib/data/blog-posts"
 
 export const metadata: Metadata = {
   title: "Service Opportunities — NECYPAA XXXVI",
   description:
     "Get involved with NECYPAA XXXVI. Committee calendar, open service positions, Members-at-Large opportunities, and ways to support the convention.",
 }
+
+/* ── Data ─────────────────────────────────────────────── */
 
 type AccentKey = "purple" | "pink" | "gold" | "cyan"
 
@@ -38,9 +46,8 @@ const SERVICE_TRACKS: ServiceTrack[] = [
     description:
       "The easiest way in. Show up, stay available, and help wherever the committee needs an extra pair of hands.",
     details: ["No election required", "Flexible commitment", "Best first step for most people"],
-    actionLabel: "Join on Zoom",
-    actionHref: ZOOM_MEETING_URL,
-    actionExternal: true,
+    actionLabel: "See the Calendar",
+    actionHref: "#committee-calendar",
     accent: "pink",
     icon: Users,
   },
@@ -67,10 +74,10 @@ const SERVICE_TRACKS: ServiceTrack[] = [
 ]
 
 const FIRST_MEETING_STEPS = [
-  "You hop on Zoom and hear where the committee is at right now.",
-  "You listen for the pieces that need help, energy, or ideas.",
-  "You speak up during the meeting or stay after and ask where you can plug in.",
-  "You leave with names, dates, and a way back into the work.",
+  "Hop on Zoom. Hear where the committee stands right now.",
+  "Listen for the pieces that need help, energy, or ideas.",
+  "Speak up or stay after — ask where you can plug in.",
+  "Leave with names, dates, and a way back into the work.",
 ]
 
 const SERVICE_BENEFITS = [
@@ -80,13 +87,27 @@ const SERVICE_BENEFITS = [
   "Practice reliability, accountability, and showing up for something bigger than yourself.",
 ]
 
+const COMMITTEE_FUNCTIONS = [
+  "Hospitality",
+  "Outreach",
+  "Events & Fundraising",
+  "Registration",
+  "Program",
+  "Merch",
+  "Website & Tech",
+  "Treasury",
+]
+
+const SERVICE_STORY = BLOG_POSTS.find((post) => post.slug === "ypaa-saved-my-life")
+
+/* ── Helpers ──────────────────────────────────────────── */
+
 function CalendarSkeleton() {
   return (
     <div className="animate-pulse space-y-3" aria-label="Loading calendar">
       <div className="flex gap-2">
         <div className="h-7 w-32 rounded-lg bg-[rgba(var(--nec-purple-rgb),0.06)]" />
         <div className="h-7 w-20 rounded-full bg-[rgba(var(--nec-purple-rgb),0.06)]" />
-        <div className="h-7 w-16 rounded-full bg-[rgba(var(--nec-purple-rgb),0.06)]" />
       </div>
       {[1, 2, 3, 4].map((i) => (
         <div key={i} className="flex gap-2.5 px-2 py-1.5">
@@ -100,44 +121,42 @@ function CalendarSkeleton() {
 }
 
 function getAccentStyles(accent: AccentKey) {
-  switch (accent) {
-    case "pink":
-      return {
-        border: "border-[rgba(var(--nec-pink-rgb),0.12)]",
-        surface: "bg-[rgba(var(--nec-pink-rgb),0.03)]",
-        icon: "nec-icon-badge-pink",
-        text: "text-[var(--nec-pink)]",
-        line: "rgba(var(--nec-pink-rgb),0.42)",
-      }
-    case "gold":
-      return {
-        border: "border-[rgba(var(--nec-gold-rgb),0.14)]",
-        surface: "bg-[rgba(var(--nec-gold-rgb),0.04)]",
-        icon: "nec-icon-badge-gold",
-        text: "text-[var(--nec-gold)]",
-        line: "rgba(var(--nec-gold-rgb),0.38)",
-      }
-    case "cyan":
-      return {
-        border: "border-[rgba(var(--nec-cyan-rgb),0.14)]",
-        surface: "bg-[rgba(var(--nec-cyan-rgb),0.04)]",
-        icon: "nec-icon-badge",
-        text: "text-[var(--nec-cyan)]",
-        line: "rgba(var(--nec-cyan-rgb),0.42)",
-      }
-    default:
-      return {
-        border: "border-[rgba(var(--nec-purple-rgb),0.12)]",
-        surface: "bg-[rgba(var(--nec-purple-rgb),0.03)]",
-        icon: "nec-icon-badge",
-        text: "text-[var(--nec-purple)]",
-        line: "rgba(var(--nec-purple-rgb),0.42)",
-      }
+  const map = {
+    pink: {
+      border: "border-[rgba(var(--nec-pink-rgb),0.12)]",
+      surface: "bg-[rgba(var(--nec-pink-rgb),0.03)]",
+      icon: "nec-icon-badge-pink",
+      text: "text-[var(--nec-pink)]",
+      line: "rgba(var(--nec-pink-rgb),0.42)",
+    },
+    gold: {
+      border: "border-[rgba(var(--nec-gold-rgb),0.14)]",
+      surface: "bg-[rgba(var(--nec-gold-rgb),0.04)]",
+      icon: "nec-icon-badge-gold",
+      text: "text-[var(--nec-gold)]",
+      line: "rgba(var(--nec-gold-rgb),0.38)",
+    },
+    cyan: {
+      border: "border-[rgba(var(--nec-cyan-rgb),0.14)]",
+      surface: "bg-[rgba(var(--nec-cyan-rgb),0.04)]",
+      icon: "nec-icon-badge",
+      text: "text-[var(--nec-cyan)]",
+      line: "rgba(var(--nec-cyan-rgb),0.42)",
+    },
+    purple: {
+      border: "border-[rgba(var(--nec-purple-rgb),0.12)]",
+      surface: "bg-[rgba(var(--nec-purple-rgb),0.03)]",
+      icon: "nec-icon-badge",
+      text: "text-[var(--nec-purple)]",
+      line: "rgba(var(--nec-purple-rgb),0.42)",
+    },
   }
+  return map[accent] || map.purple
 }
 
 function TrackAction({ href, label, external }: { href: string; label: string; external?: boolean }) {
-  if (external || href.startsWith("mailto:")) {
+  const isMailto = href.startsWith("mailto:")
+  if (external || isMailto) {
     return (
       <a
         href={href}
@@ -151,7 +170,6 @@ function TrackAction({ href, label, external }: { href: string; label: string; e
       </a>
     )
   }
-
   return (
     <a href={href} className="btn-ghost inline-flex items-center gap-2 self-start">
       {label}
@@ -159,6 +177,8 @@ function TrackAction({ href, label, external }: { href: string; label: string; e
     </a>
   )
 }
+
+/* ── Page ─────────────────────────────────────────────── */
 
 export default function ServicePage() {
   return (
@@ -171,49 +191,325 @@ export default function ServicePage() {
       <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="page-stack-roomy mx-auto flex max-w-6xl flex-col">
-            <header className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[linear-gradient(135deg,rgba(var(--nec-card-rgb),0.96)_0%,rgba(var(--nec-card-rgb),0.88)_54%,rgba(var(--nec-gold-rgb),0.05)_100%)] px-6 py-8 shadow-[0_24px_56px_rgba(44,24,16,0.10)] md:px-8 md:py-10 lg:px-10">
+
+            {/* ── 1. IMMERSIVE HERO ─────────────────────────────── */}
+            <header className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] shadow-[0_24px_56px_rgba(44,24,16,0.10)]" role="banner">
+              {/* Surface — warm card gradient, BELOW the texture */}
               <div
-                className="absolute inset-x-0 top-0 h-[3px]"
+                className="absolute inset-0"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(var(--nec-card-rgb),0.98) 0%, rgba(var(--nec-card-rgb),0.92) 54%, rgba(var(--nec-gold-rgb),0.08) 100%)",
+                }}
+              />
+              {/* Atmospheric texture — sits ON TOP of surface, blends through */}
+              <div
+                className="absolute inset-0 opacity-[0.05]"
+                aria-hidden="true"
+                style={{
+                  backgroundImage: "url(/images/mad-realm-textures-sheet.webp)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center 30%",
+                  mixBlendMode: "multiply",
+                }}
+              />
+              <div
+                className="absolute inset-x-0 top-0 z-10 h-[3px] rounded-t-[2.2rem]"
                 aria-hidden="true"
                 style={{
                   background:
                     "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0) 0%, rgba(var(--nec-gold-rgb),0.42) 24%, rgba(var(--nec-purple-rgb),0.52) 64%, rgba(var(--nec-cyan-rgb),0.32) 100%)",
                 }}
               />
+
+              {/* Character art — bleeds off right on desktop, subtle on mobile */}
               <div
-                className="pointer-events-none absolute -right-24 top-0 hidden h-full w-[28rem] rounded-full lg:block"
+                className="pointer-events-none absolute -bottom-4 right-2 w-28 opacity-[0.16] sm:w-36 sm:opacity-[0.22] lg:-right-8 lg:bottom-0 lg:w-[22rem] lg:opacity-[0.38]"
                 aria-hidden="true"
-                style={{
-                  background:
-                    "radial-gradient(circle at center, rgba(var(--nec-gold-rgb),0.10) 0%, rgba(var(--nec-purple-rgb),0.06) 42%, transparent 72%)",
-                }}
-              />
+              >
+                <Image
+                  src="/images/caterpillar-character.webp"
+                  alt=""
+                  width={842}
+                  height={1264}
+                  sizes="22rem"
+                  className="h-auto w-full drop-shadow-[0_18px_40px_rgba(44,24,16,0.30)]"
+                  aria-hidden="true"
+                />
+              </div>
 
-              <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-                <div className="relative z-10 max-w-3xl">
-                  <span className="section-badge page-enter-1">Service</span>
-                  <h1 className="page-enter-2 mt-5 text-4xl font-semibold tracking-[-0.05em] text-[var(--nec-text)] sm:text-5xl lg:text-[3.6rem]">
-                    The committee only gets built if people show up.
-                  </h1>
-                  <p className="page-enter-3 mt-5 max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
-                    NECYPAA XXXVI needs trusted servants, not perfect résumés. If you want to help, there is already a
-                    place for you. Start with a meeting, learn the rhythm, and plug into the work that keeps Hartford
-                    moving closer.
+              {/* Hero content — directly on atmosphere, not in a sub-card */}
+              <div className="relative z-10 px-6 py-8 md:px-8 md:py-10 lg:max-w-[65%] lg:px-10 lg:py-12">
+                <span className="section-badge page-enter-1">Service</span>
+                <h1 className="page-enter-2 mt-5 text-4xl font-semibold tracking-[-0.05em] text-[var(--nec-text)] sm:text-5xl lg:text-[3.6rem] lg:leading-[1.06]">
+                  The committee only gets built if people show&nbsp;up.
+                </h1>
+                <p className="page-enter-3 mt-5 max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
+                  NECYPAA XXXVI needs trusted servants, not perfect résumés. If you want to help, there
+                  is already a place for you. Start with a meeting, learn the rhythm, and plug into the
+                  work that keeps Hartford moving closer.
+                </p>
+
+                <div className="page-enter-4 mt-7 flex flex-wrap gap-2.5">
+                  {["First & Third Sundays", "2:00 PM Eastern", "No title required", "All are welcome"].map(
+                    (item) => (
+                      <span
+                        key={item}
+                        className="inline-flex min-h-[2.5rem] items-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.82)] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--nec-muted)]"
+                      >
+                        {item}
+                      </span>
+                    ),
+                  )}
+                </div>
+
+                {/* Two CTAs only — hero + bottom. That's it. */}
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={ZOOM_MEETING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary inline-flex items-center justify-center gap-2"
+                  >
+                    <Video className="h-4 w-4" aria-hidden="true" />
+                    Join on Zoom
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                  <a href="#committee-calendar" className="btn-ghost inline-flex items-center justify-center gap-2">
+                    <CalendarDays className="h-4 w-4" aria-hidden="true" />
+                    Browse the Calendar
+                  </a>
+                </div>
+              </div>
+            </header>
+
+            {/* ── 2. CALENDAR — promoted, the most actionable element ── */}
+            <section
+              id="committee-calendar"
+              aria-label="Committee calendar"
+              className="section-atmosphere-cyan relative"
+            >
+              <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.80)] p-5 shadow-[0_24px_56px_rgba(44,24,16,0.08)] md:p-7">
+                <div
+                  className="absolute inset-x-0 top-0 h-[3px]"
+                  aria-hidden="true"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0.45) 0%, rgba(var(--nec-purple-rgb),0.42) 55%, rgba(var(--nec-gold-rgb),0.26) 100%)",
+                  }}
+                />
+
+                <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <span className="section-badge">Committee Rhythm</span>
+                    <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] sm:text-3xl">
+                      What&rsquo;s coming up.
+                    </h2>
+                  </div>
+                </div>
+
+                <Suspense fallback={<CalendarSkeleton />}>
+                  {/* @ts-expect-error Async Server Component */}
+                  <CalendarSection />
+                </Suspense>
+              </div>
+            </section>
+
+            {/* ── 3. PULL-QUOTE — typography moment, no card ─────── */}
+            {SERVICE_STORY && (
+              <section
+                aria-label="Service story"
+                className="relative py-6 md:py-10 lg:py-14"
+              >
+                <div className="mx-auto max-w-3xl text-center">
+                  <blockquote
+                    className="text-xl italic leading-9 tracking-[-0.01em] text-[var(--nec-text)] sm:text-2xl sm:leading-10 md:text-[1.7rem] md:leading-[2.4rem]"
+                    style={{ fontFamily: "var(--font-display), Georgia, serif" }}
+                  >
+                    &ldquo;{SERVICE_STORY.excerpt}&rdquo;
+                  </blockquote>
+                  <div className="mx-auto mt-5 h-px w-16" aria-hidden="true" style={{
+                    background: "linear-gradient(90deg, transparent, rgba(var(--nec-gold-rgb),0.40), transparent)",
+                  }} />
+                  <Link
+                    href={`/blog/${SERVICE_STORY.slug}`}
+                    className="mt-4 inline-block text-sm font-medium text-[var(--nec-purple)] underline decoration-[rgba(var(--nec-purple-rgb),0.30)] underline-offset-4 transition-colors hover:text-[var(--nec-pink)]"
+                  >
+                    Read the full story
+                  </Link>
+                </div>
+              </section>
+            )}
+
+            <OrnateDivider variant="gear" color="var(--nec-gold)" />
+
+            {/* ── 4. SERVICE TRACKS ─────────────────────────────── */}
+            <ScrollReveal>
+              <section aria-label="Ways to plug in" className="section-atmosphere-purple relative">
+                <div className="max-w-3xl">
+                  <span className="section-badge">Ways In</span>
+                  <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-4xl">
+                    Three clean ways to plug into the committee.
+                  </h2>
+                  <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+                    Start where you can reliably show up, then let the committee show you the next right
+                    responsibility.
                   </p>
+                </div>
 
-                  <div className="page-enter-4 mt-7 flex flex-wrap gap-3">
-                    {["First & Third Sundays", "2:00 PM Eastern", "No title required", "All are welcome"].map(
-                      (item) => (
-                        <span
-                          key={item}
-                          className="inline-flex min-h-[2.75rem] items-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.82)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--nec-muted)]"
-                        >
-                          {item}
-                        </span>
-                      ),
-                    )}
+                <div className="mt-8 grid gap-5 lg:grid-cols-3">
+                  {SERVICE_TRACKS.map((track) => {
+                    const accent = getAccentStyles(track.accent)
+                    const Icon = track.icon
+                    return (
+                      <article key={track.title} className="nec-card nec-interactive-card relative h-full overflow-hidden p-6 md:p-7">
+                        <div
+                          className="absolute inset-x-0 top-0 h-[3px]"
+                          aria-hidden="true"
+                          style={{
+                            background: `linear-gradient(90deg, transparent 0%, ${accent.line} 35%, ${accent.line} 100%)`,
+                          }}
+                        />
+                        <div className="flex h-full flex-col">
+                          <div className="flex items-start gap-3">
+                            <div className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl ${accent.icon}`} aria-hidden="true">
+                              <Icon className={`h-5 w-5 ${accent.text}`} />
+                            </div>
+                            <div>
+                              <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.text}`}>Service Track</p>
+                              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">{track.title}</h3>
+                            </div>
+                          </div>
+                          <p className="mt-5 text-sm leading-7 text-[var(--nec-muted)]">{track.description}</p>
+                          <ul className="mt-5 grid gap-3">
+                            {track.details.map((detail) => (
+                              <li key={detail} className={`rounded-[1.1rem] border px-4 py-3 text-sm leading-6 text-[var(--nec-text)] ${accent.border} ${accent.surface}`}>
+                                {detail}
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="mt-auto pt-6">
+                            <TrackAction href={track.actionHref} label={track.actionLabel} external={track.actionExternal} />
+                          </div>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+              </section>
+            </ScrollReveal>
+
+            {/* ── 5. FIRST MEETING + WHAT THE COMMITTEE DOES ───── */}
+            <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+              <ScrollReveal className="h-full">
+                <section aria-label="What your first meeting looks like">
+                  <div className="nec-card relative h-full overflow-hidden p-6 md:p-8">
+                    <div
+                      className="absolute inset-x-0 top-0 h-[3px]"
+                      aria-hidden="true"
+                      style={{
+                        background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.20) 0%, rgba(var(--nec-cyan-rgb),0.42) 50%, rgba(var(--nec-cyan-rgb),0.12) 100%)",
+                      }}
+                    />
+                    <span className="section-badge">First Meeting</span>
+                    <h2 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] sm:text-3xl">
+                      What it feels like to walk in.
+                    </h2>
+                    <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
+                      Most people start by listening, asking a question, and finding where they can help.
+                    </p>
+                    <ol className="mt-6 space-y-3">
+                      {FIRST_MEETING_STEPS.map((step, i) => (
+                        <li key={step} className="flex items-start gap-3 rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3">
+                          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(var(--nec-purple-rgb),0.10)] text-sm font-semibold text-[var(--nec-purple)]">
+                            {i + 1}
+                          </div>
+                          <p className="pt-0.5 text-sm leading-6 text-[var(--nec-muted)]">{step}</p>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </section>
+              </ScrollReveal>
+
+              {/* Right column — Why It Matters, NO card wrapper (editorial break) */}
+              <ScrollReveal className="h-full">
+                <section aria-label="Why people stay in service" className="relative h-full rounded-[1.5rem] bg-[rgba(var(--nec-card-rgb),0.40)] p-5 md:rounded-none md:bg-transparent md:p-0 md:py-4 lg:pl-4">
+                  <div className="max-w-xl">
+                    <span className="section-badge">Why It Matters</span>
+                    <h2 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] sm:text-3xl">
+                      Why people keep coming back to this work.
+                    </h2>
                   </div>
 
+                  <ul className="mt-6 grid gap-4">
+                    {SERVICE_BENEFITS.map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <div className="mt-0.5 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--nec-gold)]" aria-hidden="true" />
+                        <p className="text-sm leading-7 text-[var(--nec-muted)]">{item}</p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Committee functions — helps newcomers self-identify */}
+                  <div className="mt-8">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                      Where You Might Fit
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
+                      The committee runs on these functions. Most people gravitate toward one.
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {COMMITTEE_FUNCTIONS.map((fn) => (
+                        <span
+                          key={fn}
+                          className="inline-flex items-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-3 py-1.5 text-[11px] font-medium text-[var(--nec-text)]"
+                        >
+                          {fn}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              </ScrollReveal>
+            </div>
+
+            {/* ── 6. BOTTOM CTA — framed with ornate border art ── */}
+            <section aria-label="Ready to join the committee" className="relative">
+              {/* Ornate border frame — the art was DESIGNED to hold content */}
+              <div className="pointer-events-none absolute -inset-3 hidden opacity-[0.08] lg:block" aria-hidden="true">
+                <Image
+                  src="/images/mad-realm-border-steampunk.webp"
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-contain"
+                  aria-hidden="true"
+                />
+              </div>
+
+              <div className="relative overflow-hidden rounded-[2.1rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-purple-rgb),0.06)_0%,rgba(var(--nec-card-rgb),0.95)_48%,rgba(var(--nec-gold-rgb),0.05)_100%)] px-6 py-8 shadow-[0_24px_56px_rgba(44,24,16,0.10)] md:px-8 md:py-10">
+                <div
+                  className="absolute inset-x-0 top-0 h-[3px]"
+                  aria-hidden="true"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.50) 0%, rgba(var(--nec-gold-rgb),0.40) 100%)",
+                  }}
+                />
+
+                <div className="relative z-10 max-w-3xl">
+                  <span className="section-badge">Ready When You Are</span>
+                  <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-4xl">
+                    You do not need the perfect introduction. You just need to show&nbsp;up.
+                  </h2>
+                  <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
+                    Join the next meeting, tell someone you want to help, and let the work get more specific from
+                    there. NECYPAA grows because people keep raising their hand.
+                  </p>
+
+                  {/* Two CTAs — hero had the first pair, this is the second and last */}
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a
                       href={ZOOM_MEETING_URL}
@@ -225,353 +521,25 @@ export default function ServicePage() {
                       Join on Zoom
                       <span className="sr-only"> (opens in new tab)</span>
                     </a>
-                    <a href="#committee-calendar" className="btn-ghost inline-flex items-center justify-center gap-2">
-                      <CalendarDays className="h-4 w-4" aria-hidden="true" />
-                      Browse the Calendar
+                    <Link href="/register" className="btn-secondary inline-flex items-center justify-center gap-2">
+                      Register for NECYPAA
+                    </Link>
+                  </div>
+
+                  {/* Email as inline text, not a third button */}
+                  <p className="mt-4 text-sm text-[var(--nec-muted)]">
+                    Questions?{" "}
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}?subject=NECYPAA%20Service%20Questions`}
+                      className="font-medium text-[var(--nec-purple)] underline decoration-[rgba(var(--nec-purple-rgb),0.30)] underline-offset-4 transition-colors hover:text-[var(--nec-pink)]"
+                    >
+                      {CONTACT_EMAIL}
                     </a>
-                  </div>
-                </div>
-
-                <div className="relative z-10">
-                  <div className="relative mx-auto max-w-[24rem]">
-                    <div
-                      className="absolute -inset-6 rounded-[2rem]"
-                      aria-hidden="true"
-                      style={{
-                        background:
-                          "radial-gradient(circle, rgba(var(--nec-gold-rgb),0.18) 0%, rgba(var(--nec-purple-rgb),0.09) 45%, transparent 74%)",
-                        filter: "blur(22px)",
-                      }}
-                    />
-                    <div className="relative rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.78)] p-3 shadow-[0_22px_48px_rgba(44,24,16,0.12)]">
-                      <div className="overflow-hidden rounded-[1.5rem] border border-[rgba(var(--nec-gold-rgb),0.16)] bg-[rgba(var(--nec-gold-rgb),0.04)]">
-                        <Image
-                          src="/images/caterpillar-portal.webp"
-                          alt=""
-                          width={900}
-                          height={1200}
-                          sizes="(max-width: 1024px) 100vw, 28rem"
-                          className="h-auto w-full object-cover"
-                          aria-hidden="true"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="absolute -left-3 top-6 rounded-[1.15rem] border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-card-rgb),0.92)] px-4 py-3 shadow-[0_16px_34px_rgba(44,24,16,0.10)]">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-gold)]">
-                        Start Here
-                      </p>
-                      <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">
-                        Members-at-Large is the easiest way into the work.
-                      </p>
-                    </div>
-
-                    <div className="absolute -bottom-4 right-2 rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.94)] px-4 py-3 shadow-[0_16px_34px_rgba(44,24,16,0.10)]">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-                        Service Rhythm
-                      </p>
-                      <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">
-                        Show up. Stay available. Keep coming back.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </header>
-
-            <ScrollReveal>
-              <section aria-label="Ways to plug in" className="section-atmosphere-purple relative">
-                <div className="max-w-3xl">
-                  <span className="section-badge">Ways In</span>
-                  <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-4xl">
-                    Three clean ways to plug into the committee.
-                  </h2>
-                  <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                    If the whole thing feels big from the outside, reduce it to this: start where you can reliably show
-                    up, then let the committee show you the next right responsibility.
                   </p>
                 </div>
+              </div>
+            </section>
 
-                <div className="mt-8 grid gap-5 lg:grid-cols-3">
-                  {SERVICE_TRACKS.map((track, index) => {
-                    const accent = getAccentStyles(track.accent)
-                    const Icon = track.icon
-
-                    return (
-                      <ScrollReveal key={track.title} delay={(index + 1) as 1 | 2 | 3} className="h-full">
-                        <article className="nec-card nec-interactive-card relative h-full overflow-hidden p-6 md:p-7">
-                          <div
-                            className="absolute inset-x-0 top-0 h-[3px]"
-                            aria-hidden="true"
-                            style={{
-                              background: `linear-gradient(90deg, transparent 0%, ${accent.line} 35%, ${accent.line} 100%)`,
-                            }}
-                          />
-                          <div className="flex h-full flex-col">
-                            <div className="flex items-start gap-3">
-                              <div
-                                className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl ${accent.icon}`}
-                                aria-hidden="true"
-                              >
-                                <Icon className={`h-5 w-5 ${accent.text}`} />
-                              </div>
-                              <div>
-                                <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.text}`}>
-                                  Service Track
-                                </p>
-                                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                                  {track.title}
-                                </h3>
-                              </div>
-                            </div>
-
-                            <p className="mt-5 text-sm leading-7 text-[var(--nec-muted)]">{track.description}</p>
-
-                            <ul className="mt-5 grid gap-3">
-                              {track.details.map((detail) => (
-                                <li
-                                  key={detail}
-                                  className={`rounded-[1.1rem] border px-4 py-3 text-sm leading-6 text-[var(--nec-text)] ${accent.border} ${accent.surface}`}
-                                >
-                                  {detail}
-                                </li>
-                              ))}
-                            </ul>
-
-                            <div className="mt-6">
-                              <TrackAction
-                                href={track.actionHref}
-                                label={track.actionLabel}
-                                external={track.actionExternal}
-                              />
-                            </div>
-                          </div>
-                        </article>
-                      </ScrollReveal>
-                    )
-                  })}
-                </div>
-              </section>
-            </ScrollReveal>
-
-            <ScrollReveal delay={1}>
-              <section
-                id="committee-calendar"
-                aria-label="Committee calendar"
-                className="section-atmosphere-cyan relative"
-              >
-                <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.80)] p-6 shadow-[0_24px_56px_rgba(44,24,16,0.08)] md:p-8">
-                  <div
-                    className="absolute inset-x-0 top-0 h-[3px]"
-                    aria-hidden="true"
-                    style={{
-                      background:
-                        "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0.45) 0%, rgba(var(--nec-purple-rgb),0.42) 55%, rgba(var(--nec-gold-rgb),0.26) 100%)",
-                    }}
-                  />
-                  <GearCluster className="absolute -right-2 top-3 hidden opacity-45 lg:block" />
-
-                  <div className="grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-start">
-                    <div className="space-y-5">
-                      <div>
-                        <span className="section-badge">Committee Rhythm</span>
-                        <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)]">
-                          Keep up with the work in real time.
-                        </h2>
-                        <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                          The calendar is the cleanest way to follow committee movement. Use it to see business
-                          meetings, host events, and the rest of the road to Hartford without guessing where the action
-                          is.
-                        </p>
-                      </div>
-
-                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                        <div className="rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-4">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-                            What You’ll See
-                          </p>
-                          <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-                            Host business, host events, and outside commitments are all filterable from one place.
-                          </p>
-                        </div>
-                        <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-cyan-rgb),0.03)] px-4 py-4">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-cyan)]">
-                            Best Practice
-                          </p>
-                          <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-                            If you want to be useful, know the calendar. It tells you where to show up next.
-                          </p>
-                        </div>
-                      </div>
-
-                      <a
-                        href={ZOOM_MEETING_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-secondary inline-flex items-center gap-2"
-                      >
-                        <Video className="h-4 w-4" aria-hidden="true" />
-                        Join the Next Meeting
-                        <span className="sr-only"> (opens in new tab)</span>
-                      </a>
-                    </div>
-
-                    <div className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.92)] p-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)] md:p-5">
-                      <Suspense fallback={<CalendarSkeleton />}>
-                        {/* @ts-expect-error Async Server Component */}
-                        <CalendarSection />
-                      </Suspense>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </ScrollReveal>
-
-            <OrnateDivider variant="gear" color="var(--nec-gold)" />
-
-            <div className="grid gap-5 lg:grid-cols-[1.02fr_0.98fr]">
-              <ScrollReveal className="h-full">
-                <section aria-label="What your first meeting looks like">
-                  <div className="nec-card relative h-full overflow-hidden p-6 md:p-8">
-                    <div
-                      className="absolute inset-x-0 top-0 h-[3px]"
-                      aria-hidden="true"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.20) 0%, rgba(var(--nec-cyan-rgb),0.42) 50%, rgba(var(--nec-cyan-rgb),0.12) 100%)",
-                      }}
-                    />
-                    <div className="max-w-2xl">
-                      <span className="section-badge">First Meeting</span>
-                      <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)]">
-                        What it usually feels like to walk in.
-                      </h2>
-                      <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                        The first meeting does not need to be dramatic. Most people start by listening, asking one or
-                        two questions, and finding the next place they can be helpful.
-                      </p>
-                    </div>
-
-                    <ol className="mt-8 space-y-4">
-                      {FIRST_MEETING_STEPS.map((step, index) => (
-                        <li
-                          key={step}
-                          className="flex items-start gap-4 rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-4"
-                        >
-                          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(var(--nec-purple-rgb),0.10)] text-sm font-semibold text-[var(--nec-purple)]">
-                            {index + 1}
-                          </div>
-                          <p className="pt-1 text-sm leading-7 text-[var(--nec-muted)]">{step}</p>
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </section>
-              </ScrollReveal>
-
-              <ScrollReveal delay={1} className="h-full">
-                <section aria-label="Why people stay in service">
-                  <div className="relative h-full overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-gold-rgb),0.14)] bg-[linear-gradient(145deg,rgba(var(--nec-gold-rgb),0.05),rgba(var(--nec-card-rgb),0.92))] p-6 shadow-[0_20px_44px_rgba(44,24,16,0.08)] md:p-8">
-                    <div
-                      className="absolute inset-x-0 top-0 h-[3px]"
-                      aria-hidden="true"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, rgba(var(--nec-gold-rgb),0.45) 0%, rgba(var(--nec-pink-rgb),0.34) 100%)",
-                      }}
-                    />
-                    <div className="max-w-xl">
-                      <span className="section-badge">Why It Matters</span>
-                      <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)]">
-                        Why people keep coming back to this work.
-                      </h2>
-                    </div>
-
-                    <ul className="mt-8 grid gap-4">
-                      {SERVICE_BENEFITS.map((item) => (
-                        <li key={item} className="flex items-start gap-3">
-                          <div className="nec-icon-badge-gold mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl">
-                            <BadgeCheck className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
-                          </div>
-                          <p className="text-sm leading-7 text-[var(--nec-muted)]">{item}</p>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-8 rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.80)] px-5 py-5">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-                        Keep It Practical
-                      </p>
-                      <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
-                        Open opportunities shift throughout the year. The fastest way to hear what needs help is still
-                        the simplest one: show up to the meeting, ask where the gaps are, and stay reachable.
-                      </p>
-                    </div>
-                  </div>
-                </section>
-              </ScrollReveal>
-            </div>
-
-            <ScrollReveal delay={2}>
-              <section aria-label="Ready to join the committee">
-                <div className="relative overflow-hidden rounded-[2.1rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-purple-rgb),0.07)_0%,rgba(var(--nec-card-rgb),0.94)_48%,rgba(var(--nec-gold-rgb),0.06)_100%)] px-6 py-8 shadow-[0_24px_56px_rgba(44,24,16,0.10)] md:px-8 md:py-10">
-                  <div
-                    className="absolute inset-x-0 top-0 h-[3px]"
-                    aria-hidden="true"
-                    style={{
-                      background:
-                        "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.50) 0%, rgba(var(--nec-gold-rgb),0.40) 100%)",
-                    }}
-                  />
-                  <div className="absolute bottom-0 right-4 hidden opacity-[0.12] md:block" aria-hidden="true">
-                    <Image
-                      src="/images/mad-hatter-character.webp"
-                      alt=""
-                      width={160}
-                      height={240}
-                      sizes="160px"
-                      className="h-auto w-32 lg:w-36"
-                      aria-hidden="true"
-                    />
-                  </div>
-
-                  <div className="max-w-3xl">
-                    <span className="section-badge">Ready When You Are</span>
-                    <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-4xl">
-                      You do not need the perfect introduction. You just need to show up.
-                    </h2>
-                    <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                      Join the next meeting, tell someone you want to help, and let the work get more specific from
-                      there. NECYPAA grows because people keep raising their hand.
-                    </p>
-
-                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                      <a
-                        href={ZOOM_MEETING_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary inline-flex items-center justify-center gap-2"
-                      >
-                        <Video className="h-4 w-4" aria-hidden="true" />
-                        Join on Zoom
-                        <span className="sr-only"> (opens in new tab)</span>
-                      </a>
-                      <a
-                        href={`mailto:${CONTACT_EMAIL}?subject=NECYPAA%20Service%20Questions`}
-                        className="btn-ghost inline-flex items-center justify-center gap-2"
-                      >
-                        <Mail className="h-4 w-4" aria-hidden="true" />
-                        Email {CONTACT_EMAIL}
-                      </a>
-                      <Link href="/register" className="btn-secondary inline-flex items-center justify-center gap-2">
-                        <Clock3 className="h-4 w-4" aria-hidden="true" />
-                        Register for NECYPAA
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </ScrollReveal>
           </div>
         </div>
       </div>
