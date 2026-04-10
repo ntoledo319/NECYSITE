@@ -495,20 +495,8 @@ export default async function ServicePage() {
               </ScrollReveal>
             </div>
 
-            {/* ── 6. BOTTOM CTA — framed with ornate border art ── */}
+            {/* ── 6. BOTTOM CTA ────────────────────────────── */}
             <section aria-label="Ready to join the committee" className="relative">
-              {/* Ornate border frame — the art was DESIGNED to hold content */}
-              <div className="pointer-events-none absolute -inset-3 hidden opacity-[0.08] lg:block" aria-hidden="true">
-                <Image
-                  src="/images/mad-realm-border-steampunk.webp"
-                  alt=""
-                  fill
-                  sizes="100vw"
-                  className="object-contain"
-                  aria-hidden="true"
-                />
-              </div>
-
               <div className="relative overflow-hidden rounded-[2.1rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-purple-rgb),0.06)_0%,rgba(var(--nec-card-rgb),0.95)_48%,rgba(var(--nec-gold-rgb),0.05)_100%)] px-6 py-8 shadow-[0_24px_56px_rgba(44,24,16,0.10)] md:px-8 md:py-10">
                 <div
                   className="absolute inset-x-0 top-0 h-[3px]"
@@ -519,7 +507,23 @@ export default async function ServicePage() {
                   }}
                 />
 
-                <div className="relative z-10 max-w-3xl">
+                {/* Mad Hatter — bookends with caterpillar in hero */}
+                <div
+                  className="pointer-events-none absolute -right-6 bottom-0 w-32 opacity-[0.18] sm:w-40 sm:opacity-[0.22] lg:-right-4 lg:w-52 lg:opacity-[0.28]"
+                  aria-hidden="true"
+                >
+                  <Image
+                    src="/images/mad-hatter-character.webp"
+                    alt=""
+                    width={842}
+                    height={1264}
+                    sizes="(max-width: 640px) 128px, (max-width: 1024px) 160px, 208px"
+                    className="h-auto w-full drop-shadow-[0_18px_36px_rgba(44,24,16,0.30)]"
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <div className="relative z-10 max-w-3xl lg:max-w-[70%]">
                   <span className="section-badge">Ready When You Are</span>
                   <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)] sm:text-4xl">
                     You do not need the perfect introduction. You just need to show&nbsp;up.

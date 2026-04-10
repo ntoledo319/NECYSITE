@@ -46,3 +46,5 @@ payload-types.ts
 /openart-download/
 .env*.local
 *.whitebg.bak
+.claude/worktrees/
+.claude/agent-memory/
