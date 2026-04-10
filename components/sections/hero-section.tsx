@@ -19,22 +19,21 @@ export default function HeroSection() {
         fill
         priority
         sizes="100vw"
-        className="hero-poster-alive object-cover object-[center_38%] sm:object-center"
+        className="hero-poster-alive object-cover object-[center_28%] sm:object-center"
         aria-hidden="true"
       />
 
       {/*
-        Two-layer overlay system:
-        1. Theme-safe darkening (always black — works in light AND dark mode)
-           Mobile gets slightly heavier overlay for text legibility at small sizes
-        2. Bottom fade to page background color (var(--nec-navy) for seamless transition)
+        Two-layer overlay:
+        1. Theme-safe darkening — heavier on mobile for text over busy poster
+        2. Bottom fade to page background
       */}
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.40) 28%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.42) 65%, rgba(0,0,0,0.72) 86%, rgba(0,0,0,0.90) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.44) 28%, rgba(0,0,0,0.36) 44%, rgba(0,0,0,0.44) 64%, rgba(0,0,0,0.74) 86%, rgba(0,0,0,0.92) 100%)",
         }}
       />
       <div
@@ -46,19 +45,18 @@ export default function HeroSection() {
         }}
       />
 
-      {/* ── Content — materializes from the art ── */}
+      {/* ── Content ── */}
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-14 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24">
 
-        {/* Theme logo — fluid sizing, breathes wider on mobile ── stagger 1 */}
+        {/* Theme logo — fluid, centered over the AA triangle */}
         <div className="hero-logo-glow hero-enter-1 relative mb-3 sm:mb-5 md:mb-7">
-          {/* Ambient separation — soft blur on mobile, tighter halo on desktop */}
           <div
-            className="pointer-events-none absolute inset-[-12%] rounded-full sm:inset-[-18%]"
+            className="pointer-events-none absolute inset-[-14%] rounded-full sm:inset-[-18%]"
             aria-hidden="true"
             style={{
               background:
-                "radial-gradient(ellipse 60% 58% at 50% 50%, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.18) 55%, transparent 78%)",
-              filter: "blur(8px)",
+                "radial-gradient(ellipse 58% 56% at 50% 50%, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.16) 56%, transparent 76%)",
+              filter: "blur(6px)",
             }}
           />
           <Image
@@ -77,35 +75,39 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* Convention title — stagger 2 */}
-        <h1
-          className="hero-enter-2 hero-title-glow text-lg font-black uppercase leading-tight tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+        {/* Convention title + location — frosted backing on mobile for legibility */}
+        <div
+          className="hero-enter-2 rounded-xl px-5 py-2 backdrop-blur-[3px] sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none"
           style={{
-            fontFamily: "var(--font-display), 'Bangers', cursive",
-            background:
-              "linear-gradient(90deg, #d4a8d2 0%, #e8899e 30%, #e8c45a 60%, #d4a8d2 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            letterSpacing: "0.08em",
+            background: "rgba(0,0,0,0.30)",
           }}
         >
-          NECYPAA XXXVI
-        </h1>
+          <h1
+            className="text-xl font-black uppercase leading-tight tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl"
+            style={{
+              fontFamily: "var(--font-display), 'Bangers', cursive",
+              color: "#f0d0ee",
+              textShadow:
+                "0 0 30px rgba(192,138,191,0.50), 0 1px 2px rgba(0,0,0,0.9), 0 0 60px rgba(124,58,237,0.25)",
+              letterSpacing: "0.08em",
+            }}
+          >
+            NECYPAA XXXVI
+          </h1>
 
-        {/* Location — stagger 3 */}
-        <h2
-          className="hero-enter-3 mt-0.5 text-[0.9rem] font-black uppercase tracking-wide sm:mt-1 sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
-          style={{
-            fontFamily: "var(--font-display), 'Bangers', cursive",
-            color: "#e8c45a",
-            textShadow:
-              "0 0 24px rgba(232,196,90,0.50), 0 1px 3px rgba(0,0,0,0.8), 0 0 60px rgba(212,168,75,0.20)",
-            letterSpacing: "0.08em",
-          }}
-        >
-          Hartford, Connecticut
-        </h2>
+          <h2
+            className="hero-enter-3 mt-0.5 text-base font-black uppercase tracking-wide sm:mt-1 sm:text-lg md:mt-2 md:text-xl lg:text-2xl xl:text-3xl"
+            style={{
+              fontFamily: "var(--font-display), 'Bangers', cursive",
+              color: "#f0d47a",
+              textShadow:
+                "0 0 24px rgba(240,212,122,0.50), 0 1px 2px rgba(0,0,0,0.9), 0 0 60px rgba(212,168,75,0.20)",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Hartford, Connecticut
+          </h2>
+        </div>
 
         {/* Decorative rule */}
         <div
@@ -113,11 +115,11 @@ export default function HeroSection() {
           aria-hidden="true"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(232,196,90,0.50) 30%, rgba(212,168,210,0.45) 70%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgba(240,212,122,0.50) 30%, rgba(212,168,210,0.45) 70%, transparent 100%)",
           }}
         />
 
-        {/* Dates + Venue — stagger 4, frosted pill for legibility */}
+        {/* Dates + Venue — frosted pill */}
         <div
           className="hero-enter-4 mt-4 flex flex-col items-center gap-1.5 rounded-2xl px-5 py-3 backdrop-blur-sm sm:px-6 sm:py-3 md:mt-5 md:px-8 md:py-4"
           style={{
@@ -145,7 +147,7 @@ export default function HeroSection() {
           </p>
         </div>
 
-        {/* CTAs — stagger 5 */}
+        {/* CTAs */}
         <div className="hero-enter-5 mt-6 flex w-full flex-col items-center gap-4 sm:mt-7 md:mt-9">
           <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-sm sm:flex-row">
             <Link
@@ -164,12 +166,11 @@ export default function HeroSection() {
               <span className="sr-only"> (opens in new tab)</span>
             </a>
           </div>
-
           <AddToCalendar variant="inline" className="mt-1" />
         </div>
       </div>
 
-      {/* ── Scroll indicator — minimal line + chevron ── */}
+      {/* Scroll indicator */}
       <div
         className="hero-scroll-hint absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 sm:bottom-8"
         aria-hidden="true"
