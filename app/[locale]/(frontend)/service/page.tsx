@@ -78,11 +78,11 @@ export default function ServicePage() {
               {/* ─── Left: Calendar ──────────────────────────── */}
               <section
                 aria-label="Committee calendar"
-                className="section-atmosphere-purple rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.04),rgba(var(--nec-card-rgb),0.88))] p-4 md:p-5"
+                className="relative overflow-hidden rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.04),rgba(var(--nec-card-rgb),0.88))] p-4 md:p-5"
               >
                 {/* Top accent bar */}
                 <div
-                  className="absolute inset-x-0 top-0 h-[2px] rounded-t-[1.85rem] pointer-events-none"
+                  className="absolute inset-x-0 top-0 h-[2px] pointer-events-none"
                   aria-hidden="true"
                   style={{
                     background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.50), rgba(var(--nec-pink-rgb),0.35), rgba(var(--nec-cyan-rgb),0.30))",
@@ -105,22 +105,36 @@ export default function ServicePage() {
               {/* ─── Right: Service cards ────────────────────── */}
               <div className="space-y-4 lg:sticky lg:top-24">
 
-                {/* Members-at-Large — with Cheshire Cat as proper portrait */}
+                {/* Members-at-Large — featured treatment: dark card with atmospheric glow */}
                 <ScrollReveal>
                   <section aria-label="Members-at-Large">
                     <div
-                      className="relative rounded-[1.85rem] overflow-hidden border border-[rgba(var(--nec-pink-rgb),0.18)] bg-[linear-gradient(145deg,rgba(var(--nec-pink-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-5 md:p-6 shadow-[var(--shadow-card)]"
+                      className="relative rounded-[1.85rem] overflow-hidden p-5 md:p-6"
+                      style={{
+                        background: "linear-gradient(135deg, rgba(var(--nec-pink-rgb),0.12) 0%, rgba(var(--nec-card-rgb),0.94) 40%, rgba(var(--nec-card-rgb),0.90) 100%)",
+                        border: "1px solid rgba(var(--nec-pink-rgb),0.20)",
+                        boxShadow: "var(--shadow-card), 0 0 40px rgba(var(--nec-pink-rgb),0.06)",
+                      }}
                     >
+                      {/* Accent bar */}
                       <div
                         className="pointer-events-none absolute inset-x-0 top-0 h-[3px]"
                         aria-hidden="true"
                         style={{
-                          background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.40), rgba(var(--nec-pink-rgb),0.50), rgba(var(--nec-purple-rgb),0.40))",
+                          background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.50), rgba(var(--nec-pink-rgb),0.60), rgba(var(--nec-purple-rgb),0.50))",
                         }}
                       />
 
-                      <div className="flex gap-4">
-                        {/* Content */}
+                      {/* Atmospheric glow blob — top-left warmth */}
+                      <div
+                        className="pointer-events-none absolute -top-16 -left-16 w-48 h-48 rounded-full"
+                        aria-hidden="true"
+                        style={{
+                          background: "radial-gradient(circle, rgba(var(--nec-pink-rgb),0.12) 0%, transparent 70%)",
+                        }}
+                      />
+
+                      <div className="relative flex gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2.5 mb-3">
                             <div className="nec-icon-badge-pink w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" aria-hidden="true">
@@ -139,27 +153,36 @@ export default function ServicePage() {
                           </p>
                         </div>
 
-                        {/* Cheshire Cat — framed portrait, intentional placement */}
-                        <div
-                          className="hidden sm:flex flex-shrink-0 w-20 items-center justify-center rounded-xl overflow-hidden"
-                          style={{
-                            backgroundColor: "rgba(var(--nec-pink-rgb), 0.05)",
-                            border: "1px solid rgba(var(--nec-pink-rgb), 0.12)",
-                          }}
-                          aria-hidden="true"
-                        >
-                          <Image
-                            src="/images/cheshire-cat-character.webp"
-                            alt=""
-                            width={90}
-                            height={135}
-                            sizes="90px"
-                            className="w-full h-auto object-contain opacity-60"
+                        {/* Cheshire Cat — portrait with glow halo */}
+                        <div className="hidden sm:block flex-shrink-0 w-20 relative" aria-hidden="true">
+                          {/* Glow behind character */}
+                          <div
+                            className="absolute inset-0 rounded-xl"
                             style={{
-                              filter: "drop-shadow(0 2px 8px rgba(var(--nec-pink-rgb), 0.25))",
+                              background: "radial-gradient(circle at center, rgba(var(--nec-pink-rgb),0.15) 0%, transparent 70%)",
+                              filter: "blur(8px)",
                             }}
-                            aria-hidden="true"
                           />
+                          <div
+                            className="relative rounded-xl overflow-hidden flex items-center justify-center h-full"
+                            style={{
+                              backgroundColor: "rgba(var(--nec-pink-rgb), 0.04)",
+                              border: "1px solid rgba(var(--nec-pink-rgb), 0.14)",
+                            }}
+                          >
+                            <Image
+                              src="/images/cheshire-cat-character.webp"
+                              alt=""
+                              width={90}
+                              height={135}
+                              sizes="90px"
+                              className="w-full h-auto object-contain opacity-70"
+                              style={{
+                                filter: "drop-shadow(0 2px 12px rgba(var(--nec-pink-rgb), 0.30))",
+                              }}
+                              aria-hidden="true"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
