@@ -44,3 +44,5 @@ payload-types.ts
 
 # raw source assets
 /openart-download/
+.env*.local
+*.whitebg.bak
