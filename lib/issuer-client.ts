@@ -1,7 +1,5 @@
 import "server-only"
 
-// ─── Types ───────────────────────────────────────────────────
-
 export interface RedemptionRequest {
   code: string
   eventSlug: string
@@ -26,8 +24,6 @@ export interface RedemptionFailure {
 }
 
 export type RedeemResult = RedemptionSuccess | RedemptionFailure
-
-// ─── Redeem a registration access code ───────────────────────
 
 export async function redeemRegistrationCode(
   request: RedemptionRequest,
@@ -88,8 +84,6 @@ export async function redeemRegistrationCode(
     }
   }
 }
-
-// ─── Mask code for audit storage ─────────────────────────────
 
 export function maskAccessCode(code: string): string {
   if (code.length <= 4) return "****"

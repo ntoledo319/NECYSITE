@@ -1,8 +1,5 @@
 import type { CalendarEvent } from "./types"
 
-/**
- * Format a Date to ICS YYYYMMDDTHHMMSS format in UTC.
- */
 function formatIcsDateUTC(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0")
   return (
@@ -11,9 +8,6 @@ function formatIcsDateUTC(date: Date): string {
   )
 }
 
-/**
- * Escape special characters in ICS text values per RFC 5545.
- */
 function escapeIcs(text: string): string {
   return text
     .replace(/\\/g, "\\\\")
@@ -22,9 +16,6 @@ function escapeIcs(text: string): string {
     .replace(/\n/g, "\\n")
 }
 
-/**
- * Fold a line at 75 octets per RFC 5545.
- */
 function foldLine(line: string): string {
   if (line.length <= 75) return line
   const parts: string[] = [line.slice(0, 75)]
@@ -36,18 +27,10 @@ function foldLine(line: string): string {
   return parts.join("\r\n")
 }
 
-/**
- * Format a date-only string (YYYY-MM-DD) to ICS VALUE=DATE format (YYYYMMDD).
- */
 function formatIcsDateOnly(dateStr: string): string {
   return dateStr.replace(/-/g, "")
 }
 
-/**
- * Generate an ICS (iCalendar) string for a single CalendarEvent.
- * Strips HTML tags from description. Uses VALUE=DATE for all-day events,
- * UTC times for timed events.
- */
 export function generateEventIcs(event: CalendarEvent): string {
   const now = new Date()
   const isAllDay = !event.start.includes("T")

@@ -1,9 +1,5 @@
 import type { EventData } from "@/lib/data/events"
 
-/**
- * Parse a human-readable event date string like "Saturday, April 25th, 2026"
- * and an optional time like "2:00 PM" into a Date object.
- */
 function parseEventDate(dateStr: string, timeStr?: string): Date | null {
   // Remove day name prefix and ordinal suffixes
   const cleaned = dateStr
@@ -15,9 +11,6 @@ function parseEventDate(dateStr: string, timeStr?: string): Date | null {
   return isNaN(base.getTime()) ? null : base
 }
 
-/**
- * Format a Date to Google Calendar's required YYYYMMDDTHHMMSS format (local time).
- */
 function formatGCalDate(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0")
   return (
@@ -26,11 +19,6 @@ function formatGCalDate(date: Date): string {
   )
 }
 
-/**
- * Generate a Google Calendar URL from an EventData object.
- * Uses the first schedule item's time as the start time.
- * Defaults to a 3-hour event duration.
- */
 export function getGoogleCalendarUrl(event: EventData): string | null {
   const startTime = event.schedule.length > 0 ? event.schedule[0].time : undefined
   const start = parseEventDate(event.date, startTime)

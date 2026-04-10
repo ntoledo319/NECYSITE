@@ -10,9 +10,6 @@ export interface EventData {
   flyerAlt: string
 }
 
-/** @deprecated Use EventData instead */
-export type PastEvent = EventData
-
 export const upcomingEvent: EventData = {
   id: "ultimate-cool-down-2026",
   title: "The Ultimate Cool Down",

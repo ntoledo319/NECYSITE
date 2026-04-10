@@ -26,8 +26,6 @@ export const metadata: Metadata = {
     "Get involved with NECYPAA XXXVI. Committee calendar, open service positions, Members-at-Large opportunities, and ways to support the convention.",
 }
 
-/* ── Data ─────────────────────────────────────────────── */
-
 type AccentKey = "purple" | "pink" | "gold" | "cyan"
 
 type ServiceTrack = {
@@ -41,38 +39,40 @@ type ServiceTrack = {
   icon: LucideIcon
 }
 
-const SERVICE_TRACKS: ServiceTrack[] = [
-  {
-    title: "Members-at-Large",
-    description:
-      "The easiest way in. Show up, stay available, and help wherever the committee needs an extra pair of hands.",
-    details: ["No election required", "Flexible commitment", "Best first step for most people"],
-    actionLabel: "See the Calendar",
-    actionHref: "#committee-calendar",
-    accent: "pink",
-    icon: Users,
-  },
-  {
-    title: "Business Meetings",
-    description:
-      "Hear updates, learn where the work is moving, and find the committee or project that makes sense for you.",
-    details: ["First and third Sundays", "2:00 PM Eastern", "All are welcome"],
-    actionLabel: "See the Calendar",
-    actionHref: "#committee-calendar",
-    accent: "purple",
-    icon: CalendarDays,
-  },
-  {
-    title: "Open Positions",
-    description:
-      "Roles shift as the committee grows. Some are elected, some are appointed, and some simply need someone willing.",
-    details: ["Openings change over time", "Ask at a meeting", "Email if you want to be considered"],
-    actionLabel: "Email the Committee",
-    actionHref: `mailto:${CONTACT_EMAIL}?subject=NECYPAA%20Service%20Opportunities`,
-    accent: "gold",
-    icon: Sparkles,
-  },
-]
+function buildServiceTracks(bizMeetingDetails: string[]): ServiceTrack[] {
+  return [
+    {
+      title: "Members-at-Large",
+      description:
+        "The easiest way in. Show up, stay available, and help wherever the committee needs an extra pair of hands.",
+      details: ["No election required", "Flexible commitment", "Best first step for most people"],
+      actionLabel: "See the Calendar",
+      actionHref: "#committee-calendar",
+      accent: "pink",
+      icon: Users,
+    },
+    {
+      title: "Host Committee Business Meetings",
+      description:
+        "Hear updates on NECYPAA XXXVI planning, learn where the work is moving, and find the committee or project that makes sense for you.",
+      details: bizMeetingDetails,
+      actionLabel: "See the Calendar",
+      actionHref: "#committee-calendar",
+      accent: "purple",
+      icon: CalendarDays,
+    },
+    {
+      title: "Open Positions",
+      description:
+        "Roles shift as the committee grows. Some are elected, some are appointed, and some simply need someone willing.",
+      details: ["Openings change over time", "Ask at a meeting", "Email if you want to be considered"],
+      actionLabel: "Email the Committee",
+      actionHref: `mailto:${CONTACT_EMAIL}?subject=NECYPAA%20Service%20Opportunities`,
+      accent: "gold",
+      icon: Sparkles,
+    },
+  ]
+}
 
 const FIRST_MEETING_STEPS = [
   "Hop on Zoom. Hear where the committee stands right now.",
@@ -100,8 +100,6 @@ const COMMITTEE_FUNCTIONS = [
 ]
 
 const SERVICE_STORY = BLOG_POSTS.find((post) => post.slug === "ypaa-saved-my-life")
-
-/* ── Helpers ──────────────────────────────────────────── */
 
 function CalendarSkeleton() {
   return (
@@ -179,21 +177,63 @@ function TrackAction({ href, label, external }: { href: string; label: string; e
   )
 }
 
-/* ── Page ─────────────────────────────────────────────── */
-
 export default async function ServicePage() {
   const events = await fetchCalendarEvents()
   const now = new Date()
-  const nextBizMeeting = events.find(
-    (e) => e.category === "host-business" && new Date(e.start) >= now
+
+  // Pull the next upcoming host-business meetings from the live calendar
+  const upcomingBizMeetings = events.filter(
+    (e) => e.category === "host-business" && new Date(e.start) >= now,
   )
+  const nextBizMeeting = upcomingBizMeetings[0]
+
+  // Derive display strings from the actual calendar data
   const nextMeetingLabel = nextBizMeeting
-    ? `Next meeting ${new Date(nextBizMeeting.start).toLocaleDateString("en-US", {
+    ? `Next Business Meeting — ${new Date(nextBizMeeting.start).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
         timeZone: "America/New_York",
       })}`
     : "Browse the Calendar"
+
+  const nextMeetingTime = nextBizMeeting?.start.includes("T")
+    ? new Date(nextBizMeeting.start).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        timeZone: "America/New_York",
+        timeZoneName: "short",
+      })
+    : null
+
+  // Build hero chips from live calendar data instead of hardcoding
+  const heroChips = [
+    nextBizMeeting
+      ? new Date(nextBizMeeting.start).toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "short",
+          day: "numeric",
+          timeZone: "America/New_York",
+        })
+      : "See calendar for dates",
+    nextMeetingTime ?? "See calendar for time",
+    "No title required",
+    "All are welcome",
+  ]
+
+  // Build business meeting track details from calendar
+  const bizMeetingDetails = [
+    nextBizMeeting
+      ? `Next: ${new Date(nextBizMeeting.start).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          timeZone: "America/New_York",
+        })}`
+      : "See calendar for dates",
+    nextMeetingTime ?? "See calendar for time",
+    "All are welcome",
+  ]
+
+  const SERVICE_TRACKS = buildServiceTracks(bizMeetingDetails)
   return (
     <div
       className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
@@ -265,7 +305,7 @@ export default async function ServicePage() {
                 </p>
 
                 <div className="page-enter-4 mt-7 flex flex-wrap gap-2.5">
-                  {["First & Third Sundays", "2:00 PM Eastern", "No title required", "All are welcome"].map(
+                  {heroChips.map(
                     (item) => (
                       <span
                         key={item}

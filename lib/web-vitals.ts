@@ -1,8 +1,3 @@
-/**
- * Web Vitals Performance Monitoring
- * Tracks Core Web Vitals and reports to analytics
- */
-
 import { onCLS, onINP, onFCP, onLCP, onTTFB, type Metric } from 'web-vitals';
 
 declare global {

@@ -16,16 +16,6 @@ import { redeemRegistrationCode, maskAccessCode } from "@/lib/issuer-client"
 import { EVENT_SLUG } from "@/lib/constants"
 import type { RegistrationData, PolicyAgreements, PurchaseAttribution } from "@/lib/types"
 
-/**
- * Creates a Stripe Checkout session for convention registration.
- *
- * Supports self-registration, scholarship purchases, and combined orders
- * with optional breakfast tickets. Validates all inputs via Zod, enforces
- * per-email rate limiting, and calculates the processing fee gross-up.
- *
- * @returns The Stripe client secret for embedded checkout.
- * @throws {Error} If validation fails, rate limit is exceeded, or Stripe session creation fails.
- */
 export async function startRegistrationCheckout(
   productId: string,
   registrationData: RegistrationData,
@@ -34,7 +24,6 @@ export async function startRegistrationCheckout(
   breakfastIds: string[] = [],
   attribution?: PurchaseAttribution,
 ) {
-  // ── Validate all inputs ──────────────────────────────────────
   const validatedProductId = productIdSchema.parse(productId)
   const dataResult = registrationDataSchema.safeParse(registrationData)
   if (!dataResult.success) {
@@ -46,7 +35,6 @@ export async function startRegistrationCheckout(
   const validatedAttribution = purchaseAttributionSchema.parse(attribution)
   const validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
 
-  // ── Rate limit by email ──────────────────────────────────────
   const rl = rateLimitCheckout(validatedData.email)
   if (!rl.success) {
     throw new Error("Too many checkout attempts. Please wait a moment and try again.")
@@ -61,11 +49,9 @@ export async function startRegistrationCheckout(
     throw new Error("We need you to review and accept the policy agreement before continuing. You can find it on the previous step.")
   }
 
-
-  const sanitizedScholarshipQuantity = validatedScholarshipQty
   const selfRegistrationQuantity = validatedData.isScholarship ? 0 : 1
   const finalScholarshipQuantity =
-    validatedData.isScholarship && sanitizedScholarshipQuantity === 0 ? 1 : sanitizedScholarshipQuantity
+    validatedData.isScholarship && validatedScholarshipQty === 0 ? 1 : validatedScholarshipQty
   const totalRegistrationQuantity = selfRegistrationQuantity + finalScholarshipQuantity
   const selectedBreakfasts = validatedBreakfastIds
     .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
@@ -171,12 +157,9 @@ export async function startRegistrationCheckout(
         },
       ],
       mode: "payment",
-      metadata: metadata,
-      payment_intent_data: {
-        metadata: metadata,
-      },
+      metadata,
+      payment_intent_data: { metadata },
     })
-
 
     if (!session.client_secret) {
       throw new Error("We had trouble connecting to our payment system. Please try again in a moment.")
@@ -189,19 +172,10 @@ export async function startRegistrationCheckout(
   }
 }
 
-// ─── Access Code Registration ────────────────────────────────
-
-/**
- * Registers an attendee using a pre-issued access code (cash/scholarship flow).
- *
- * Redeems the code via the issuer service, then persists the registration
- * as a Stripe customer record with full metadata for reporting.
- */
 export async function submitAccessCodeRegistration(
   registrationData: RegistrationData,
   policyAgreements: PolicyAgreements,
 ): Promise<{ success: true } | { success: false; error: string }> {
-  // ── Validate all inputs ──────────────────────────────────────
   const dataResult = registrationDataSchema.safeParse(registrationData)
   if (!dataResult.success) {
     return { success: false, error: "Invalid registration data. Please check your information and try again." }
@@ -213,19 +187,16 @@ export async function submitAccessCodeRegistration(
     return { success: false, error: "A registration access code is required." }
   }
 
-  // ── Rate limit by email ──────────────────────────────────────
   const rl = rateLimitCodeRedemption(validatedData.email)
   if (!rl.success) {
     return { success: false, error: "Too many attempts. Please wait a moment and try again." }
   }
 
-  // ── Generate stable idempotency key ──────────────────────────
   const idempotencyKey = createHash("sha256")
     .update(`${validatedData.email.toLowerCase()}-${validatedData.accessCode}`)
     .digest("hex")
     .slice(0, 36)
 
-  // ── Redeem code via issuer service ───────────────────────────
   const result = await redeemRegistrationCode({
     code: validatedData.accessCode,
     eventSlug: EVENT_SLUG,
@@ -239,7 +210,6 @@ export async function submitAccessCodeRegistration(
     return { success: false, error: result.error }
   }
 
-  // ── Build metadata ───────────────────────────────────────────
   const metadata: Record<string, string> = {
     purchase_type: result.grantType,
     attendee_name: validatedData.name,
@@ -264,7 +234,6 @@ export async function submitAccessCodeRegistration(
     policy_signature_agreement: validatedPolicy.signatureAgreement.toString(),
   }
 
-  // ── Persist to Stripe as customer record ──────────────────────
   try {
     const existingCustomers = await stripe.customers.list({
       email: validatedData.email,

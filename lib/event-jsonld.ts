@@ -1,10 +1,6 @@
 import type { EventData } from "@/lib/data/events"
 import { SITE_URL } from "@/lib/constants"
 
-/**
- * Parse a human-readable event date string like "Saturday, April 25th, 2026"
- * and an optional time like "2:00 PM" into an ISO 8601 string.
- */
 function parseToISO(dateStr: string, timeStr?: string): string | null {
   const cleaned = dateStr
     .replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s*/i, "")
@@ -15,12 +11,6 @@ function parseToISO(dateStr: string, timeStr?: string): string | null {
   return isNaN(base.getTime()) ? null : base.toISOString()
 }
 
-/**
- * Generate schema.org Event JSON-LD from an EventData object.
- * Only includes factual, verifiable data from the event object.
- * Per AA_TRADITIONS_GUARDRAILS Section 5.1: structured data describing
- * events factually (time, format, location, accessibility notes) is allowed.
- */
 export function generateEventJsonLd(event: EventData): Record<string, unknown> | null {
   const startTime = event.schedule.length > 0 ? event.schedule[0].time : undefined
   const startDate = parseToISO(event.date, startTime)
@@ -51,7 +41,6 @@ export function generateEventJsonLd(event: EventData): Record<string, unknown> |
     }
   }
 
-  // Find suggested contribution/donation from details
   const costDetail = event.details.find(
     (d) =>
       d.label.toLowerCase().includes("contribution") ||
@@ -71,6 +60,5 @@ export function generateEventJsonLd(event: EventData): Record<string, unknown> |
     }
   }
 
-  // Remove undefined values
   return JSON.parse(JSON.stringify(jsonLd))
 }

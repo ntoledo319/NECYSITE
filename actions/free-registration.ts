@@ -5,19 +5,10 @@ import { rateLimitFreeRegistration } from "@/lib/rate-limit"
 import { registrationDataSchema, policyAgreementsSchema } from "@/lib/validation"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 
-/**
- * Submits a free (cash-at-door) registration.
- *
- * Creates or updates a Stripe customer record with registration metadata
- * so the attendee appears in reporting alongside paid registrations.
- *
- * @throws {Error} If validation fails, rate limit is exceeded, or Stripe API call fails.
- */
 export async function submitFreeRegistration(
   registrationData: RegistrationData,
   policyAgreements: PolicyAgreements,
 ) {
-  // ── Validate inputs ────────────────────────────────────────────
   const dataResult = registrationDataSchema.safeParse(registrationData)
   if (!dataResult.success) {
     throw new Error("Invalid registration data. Please check your information and try again.")
@@ -25,7 +16,6 @@ export async function submitFreeRegistration(
   const validatedData = dataResult.data
   const validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
 
-  // ── Rate limit by email ────────────────────────────────────────
   const rl = rateLimitFreeRegistration(validatedData.email)
   if (!rl.success) {
     throw new Error("Too many registration attempts. Please wait a moment and try again.")
@@ -51,20 +41,17 @@ export async function submitFreeRegistration(
   }
 
   try {
-    // Search for existing customer by email
     const existingCustomers = await stripe.customers.list({
       email: validatedData.email,
       limit: 1,
     })
 
     if (existingCustomers.data.length > 0) {
-      // Update existing customer with latest info
       await stripe.customers.update(existingCustomers.data[0].id, {
         name: validatedData.name,
         metadata,
       })
     } else {
-      // Create new Stripe customer with all registration data as metadata
       await stripe.customers.create({
         name: validatedData.name,
         email: validatedData.email,

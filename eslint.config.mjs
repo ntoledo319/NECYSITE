@@ -12,6 +12,7 @@ const eslintConfig = [
       ".next/**",
       "node_modules/**",
       "claude-skills/**",
+      ".claude/**",
       "*.config.{js,mjs}",
       "app/(payload)/admin/importMap.js",
     ],

@@ -1,17 +1,3 @@
-/**
- * Young Persons Al-Anon Meeting Directory
- *
- * Al-Anon meetings specifically for young adults (typically 18–35)
- * who have been affected by someone else's drinking.
- *
- * IMPORTANT: These are NOT Alateen meetings.
- * Alateen is a separate program for teens (13–18).
- * Young Persons Al-Anon is for adults in the Al-Anon program.
- *
- * Per Al-Anon Traditions: no member names, no attendance data.
- * These are resource listings, not affiliations.
- */
-
 import type { MeetingFormat } from "./ypaa-meetings"
 
 export interface YoungPersonsAlAnonMeeting {
@@ -82,17 +68,6 @@ export const YOUNG_PERSONS_ALANON_MEETINGS: YoungPersonsAlAnonMeeting[] = [
   },
 ]
 
-// ─── Helpers ────────────────────────────────────────────────────────
-
-/** Get meetings for a specific state */
-export function getYPAlAnonMeetingsByState(state: string): YoungPersonsAlAnonMeeting[] {
-  return YOUNG_PERSONS_ALANON_MEETINGS.filter((m) => m.state === state)
-}
-
-/** Get all unique states that have meetings */
 export function getYPAlAnonStatesWithMeetings(): string[] {
   return [...new Set(YOUNG_PERSONS_ALANON_MEETINGS.map((m) => m.state))].sort()
 }
-
-/** Total meeting count */
-export const YP_ALANON_MEETING_COUNT = YOUNG_PERSONS_ALANON_MEETINGS.length

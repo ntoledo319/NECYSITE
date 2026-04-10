@@ -1,11 +1,3 @@
-/**
- * Zod validation schemas for all server action inputs.
- *
- * Every form submission passes through these schemas before
- * hitting Stripe or any other external service. This is the
- * single source of truth for input validation and sanitization.
- */
-
 import { z } from "zod"
 
 /** Strip HTML tags and trim whitespace */
@@ -15,8 +7,6 @@ function sanitize(val: string): string {
 
 const sanitizedString = (maxLength = 500) =>
   z.string().max(maxLength).transform(sanitize)
-
-// ─── Registration ─────────────────────────────────────────────
 
 export const registrationDataSchema = z.object({
   name: sanitizedString(200).pipe(z.string().min(1, "Name is required")),
@@ -38,8 +28,6 @@ export const registrationDataSchema = z.object({
 
 export type ValidatedRegistrationData = z.infer<typeof registrationDataSchema>
 
-// ─── Policy Agreements ────────────────────────────────────────
-
 export const policyAgreementsSchema = z.object({
   readPolicy: z.literal(true, { errorMap: () => ({ message: "Must agree to policy" }) }),
   understandQuestions: z.literal(true),
@@ -52,14 +40,10 @@ export const policyAgreementsSchema = z.object({
 
 export type ValidatedPolicyAgreements = z.infer<typeof policyAgreementsSchema>
 
-// ─── Purchase Attribution ─────────────────────────────────────
-
 export const purchaseAttributionSchema = z.object({
   aaEntity: sanitizedString(200).optional(),
   reservedForPerson: sanitizedString(200).optional(),
 }).optional()
-
-// ─── Breakfast Attendee ───────────────────────────────────────
 
 export const breakfastAttendeeSchema = z.object({
   firstName: sanitizedString(100).pipe(z.string().min(1, "First name is required")),
@@ -69,14 +53,8 @@ export const breakfastAttendeeSchema = z.object({
 
 export type ValidatedBreakfastAttendee = z.infer<typeof breakfastAttendeeSchema>
 
-// ─── Breakfast IDs ────────────────────────────────────────────
-
 export const breakfastIdsSchema = z.array(z.string().max(50)).max(20)
 
-// ─── Product ID ───────────────────────────────────────────────
-
 export const productIdSchema = z.string().max(50).min(1, "Product ID is required")
-
-// ─── Scholarship Quantity ─────────────────────────────────────
 
 export const scholarshipQuantitySchema = z.number().int().min(0).max(50).default(0)

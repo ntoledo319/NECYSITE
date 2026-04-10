@@ -1,21 +1,3 @@
-/**
- * NECYPAA Member States Data
- *
- * 12 states + Washington, D.C. — the full NECYPAA region as of the 2025 expansion.
- * Original New England (6) + Expansion states (6 + DC).
- *
- * Data includes:
- * - AA intergroup/central office links
- * - Area service committee links
- * - YPAA committee links (where they exist)
- * - Al-Anon and Alateen state website URLs
- * - AA meeting finder links
- * - State flag SVG asset references (to be collected — public domain)
- *
- * Per AA Traditions: no member names, no attendance data, no endorsements.
- * These are outbound resource links, not affiliations.
- */
-
 export interface Intergroup {
   name: string
   url: string
@@ -46,8 +28,6 @@ export interface StateResource {
 }
 
 export const NECYPAA_STATES: StateResource[] = [
-  // ─── Original New England ────────────────────────────────────────
-
   {
     name: "Connecticut",
     abbreviation: "CT",
@@ -194,8 +174,6 @@ export const NECYPAA_STATES: StateResource[] = [
     },
     meetingFinderUrl: "https://www.aa.org/find-aa?query=Vermont",
   },
-
-  // ─── 2025 Expansion States ──────────────────────────────────────
 
   {
     name: "New York",
@@ -368,11 +346,3 @@ export const NECYPAA_STATES: StateResource[] = [
   },
 ]
 
-/** Helper: get only New England states */
-export const NEW_ENGLAND_STATES = NECYPAA_STATES.filter((s) => s.region === "new-england")
-
-/** Helper: get only expansion states */
-export const EXPANSION_STATES = NECYPAA_STATES.filter((s) => s.region === "expansion")
-
-/** Helper: get states with YPAA committees */
-export const STATES_WITH_YPAA = NECYPAA_STATES.filter((s) => s.ypaaCommittee !== undefined)

@@ -27,13 +27,6 @@ function resolveDateTime(dt?: { dateTime?: string; date?: string }): string | nu
   return dt.dateTime ?? (dt.date ? `${dt.date}` : null)
 }
 
-/**
- * Fetch events from Google Calendar API.
- * Returns normalized CalendarEvent[] sorted by start time ascending.
- *
- * Fetch window: 6 months past → 12 months future.
- * Recurring events are expanded to individual instances.
- */
 export async function fetchCalendarEvents(): Promise<CalendarEvent[]> {
   const apiKey = process.env.GOOGLE_CALENDAR_API_KEY
   if (!apiKey) {

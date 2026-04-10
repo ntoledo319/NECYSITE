@@ -39,17 +39,9 @@ export const BREAKFAST_PRODUCTS: RegistrationProduct[] = [
   },
 ]
 
-/**
- * Calculates the processing fee line item using a gross-up formula
- * so the fee itself also covers Stripe's percentage on that amount.
- *
- * Formula: fee = (amount + 30) / (1 − 0.029) − amount, rounded to nearest cent.
- */
+/** Gross-up fee: covers Stripe's 2.9% + $0.30 on the fee itself. */
 export function calculateProcessingFee(amountInCents: number): number {
-  // Gross-up so the added fee also covers Stripe's fee on that fee line item.
-  // Stripe fee model: fee = 2.9% * total_charge + $0.30
-  // Solve for total_charge = amount + fee => fee = (amount + 30)/(1-0.029) - amount
-  const fixedFee = 30 // $0.30 in cents
+  const fixedFee = 30
   const percentageRate = 0.029
   return Math.round((amountInCents + fixedFee) / (1 - percentageRate) - amountInCents)
 }

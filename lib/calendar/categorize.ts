@@ -1,23 +1,9 @@
 import type { EventCategory } from "./types"
 
 /**
- * Parse a Google Calendar event title to determine its category
- * and return a cleaned display title.
- *
- * The calendar uses two naming conventions (both supported):
- *
- * Bracket prefixes (current):
- *   [BIZ]  → host-business
- *   [SUB]  → host-business
- *   [AREA] → host-business
- *   [HOST] → host-event
- *
- * Asterisk wrapping (legacy):
- *   *Title*    (single)  → host-business
- *   **Title**  (double)  → host-event
- *   ***Title*** (triple) → host-event
- *
- * Plain title → external
+ * Bracket prefixes: [BIZ]/[SUB]/[AREA] → host-business, [HOST] → host-event.
+ * Asterisk wrapping (legacy): single → host-business, double/triple → host-event.
+ * Plain title → external.
  */
 export function categorizeEvent(rawTitle: string): {
   category: EventCategory

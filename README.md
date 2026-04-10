@@ -28,7 +28,7 @@ Convention website for the 36th Northeast Convention of Young People in Alcoholi
 ### Prerequisites
 
 - Node.js 20+
-- pnpm 9+
+- pnpm 10+
 - A Stripe account (test keys for development)
 
 ### Setup
@@ -55,7 +55,7 @@ pnpm dev          # Start dev server at http://localhost:3000
 pnpm build        # Production build (must pass clean)
 pnpm lint         # ESLint
 pnpm format       # Prettier
-pnpm test         # Vitest unit tests (30 tests)
+pnpm test         # Vitest unit tests (45 tests)
 pnpm test:a11y    # Playwright accessibility tests
 ```
 
@@ -127,6 +127,7 @@ public/                     Static assets (images, fonts)
 | `STRIPE_SECRET_KEY` | Yes | Stripe secret key (server-side) |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Yes | Stripe publishable key (client-side) |
 | `NEXT_PUBLIC_BASE_URL` | Yes | Base URL for callback URLs |
+| `GOOGLE_CALENDAR_API_KEY` | No | Google Calendar API key (for live calendar) |
 | `ISSUER_SERVICE_BASE_URL` | No | Access code redemption service URL |
 | `ISSUER_SERVICE_API_KEY` | No | Access code redemption service API key |
 

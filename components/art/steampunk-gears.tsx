@@ -1,11 +1,3 @@
-/**
- * Steampunk gear SVG elements derived from the Mad Realm portal art.
- * Visual language: interlocking cog wheels, brass/purple/pink tones.
- * Used as subtle decorative accents across pages.
- *
- * Server components - no client-side JavaScript needed for static SVGs
- */
-
 interface GearProps {
   size?: number
   teeth?: number
@@ -14,7 +6,7 @@ interface GearProps {
   opacity?: number
 }
 
-export function Gear({
+function Gear({
   size = 60,
   teeth = 8,
   className = "",
@@ -74,30 +66,3 @@ export function GearCluster({
   )
 }
 
-export function MazePattern({
-  className = "",
-  opacity = 0.03,
-}: {
-  className?: string
-  opacity?: number
-}) {
-  return (
-    <svg
-      viewBox="0 0 200 200"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <rect x="10" y="10" width="180" height="180" stroke="rgb(168,85,247)" strokeWidth="2" opacity={opacity} />
-      <rect x="30" y="30" width="140" height="140" stroke="rgb(192,38,211)" strokeWidth="1.5" opacity={opacity} />
-      <rect x="50" y="50" width="100" height="100" stroke="rgb(168,85,247)" strokeWidth="1.5" opacity={opacity} />
-      <rect x="70" y="70" width="60" height="60" stroke="rgb(234,179,8)" strokeWidth="1" opacity={opacity} />
-      <line x1="10" y1="100" x2="50" y2="100" stroke="rgb(168,85,247)" strokeWidth="1.5" opacity={opacity} />
-      <line x1="150" y1="100" x2="190" y2="100" stroke="rgb(168,85,247)" strokeWidth="1.5" opacity={opacity} />
-      <line x1="100" y1="10" x2="100" y2="50" stroke="rgb(192,38,211)" strokeWidth="1.5" opacity={opacity} />
-      <line x1="100" y1="150" x2="100" y2="190" stroke="rgb(192,38,211)" strokeWidth="1.5" opacity={opacity} />
-      <line x1="30" y1="60" x2="50" y2="60" stroke="rgb(234,179,8)" strokeWidth="1" opacity={opacity * 0.8} />
-      <line x1="150" y1="140" x2="170" y2="140" stroke="rgb(234,179,8)" strokeWidth="1" opacity={opacity * 0.8} />
-    </svg>
-  )
-}

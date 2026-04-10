@@ -69,9 +69,9 @@ describe("BREAKFAST_PRODUCTS", () => {
     expect(BREAKFAST_PRODUCTS.length).toBe(3)
   })
 
-  it("all products are $20", () => {
+  it("all products are $25", () => {
     for (const bp of BREAKFAST_PRODUCTS) {
-      expect(bp.priceInCents).toBe(2000)
+      expect(bp.priceInCents).toBe(2500)
     }
   })
 })

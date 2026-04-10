@@ -48,3 +48,7 @@ payload-types.ts
 *.whitebg.bak
 .claude/worktrees/
 .claude/agent-memory/
+
+# OS files
+.DS_Store
+Thumbs.db
