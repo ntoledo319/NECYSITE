@@ -2,7 +2,12 @@
 
 import { createHash } from "node:crypto"
 import { stripe } from "@/lib/stripe"
-import { BREAKFAST_PRODUCTS, REGISTRATION_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
+import {
+  BREAKFAST_PRODUCTS,
+  REGISTRATION_PRODUCTS,
+  calculateProcessingFee,
+  formatUsdFromCents,
+} from "@/lib/registration-products"
 import { rateLimitCheckout, rateLimitCodeRedemption } from "@/lib/rate-limit"
 import {
   registrationDataSchema,
@@ -10,6 +15,7 @@ import {
   purchaseAttributionSchema,
   productIdSchema,
   scholarshipQuantitySchema,
+  scholarshipUnitAmountCentsSchema,
   breakfastIdsSchema,
 } from "@/lib/validation"
 import { redeemRegistrationCode, maskAccessCode } from "@/lib/issuer-client"
@@ -23,6 +29,7 @@ export async function startRegistrationCheckout(
   scholarshipQuantity = 0,
   breakfastIds: string[] = [],
   attribution?: PurchaseAttribution,
+  scholarshipUnitAmountInCents?: number,
 ) {
   const validatedProductId = productIdSchema.parse(productId)
   const dataResult = registrationDataSchema.safeParse(registrationData)
@@ -31,6 +38,7 @@ export async function startRegistrationCheckout(
   }
   const validatedData = dataResult.data
   const validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
+  const validatedScholarshipUnitAmount = scholarshipUnitAmountCentsSchema.parse(scholarshipUnitAmountInCents)
   const validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
   const validatedAttribution = purchaseAttributionSchema.parse(attribution)
   const validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
@@ -52,12 +60,21 @@ export async function startRegistrationCheckout(
   const selfRegistrationQuantity = validatedData.isScholarship ? 0 : 1
   const finalScholarshipQuantity =
     validatedData.isScholarship && validatedScholarshipQty === 0 ? 1 : validatedScholarshipQty
-  const totalRegistrationQuantity = selfRegistrationQuantity + finalScholarshipQuantity
+  const scholarshipUnitAmountInUse =
+    finalScholarshipQuantity > 0 ? validatedScholarshipUnitAmount ?? product.priceInCents : product.priceInCents
+  const scholarshipAmountSource =
+    finalScholarshipQuantity === 0
+      ? "not_applicable"
+      : validatedScholarshipUnitAmount != null
+        ? "custom"
+        : "default_pre_registration"
   const selectedBreakfasts = validatedBreakfastIds
     .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
     .filter((bp): bp is (typeof BREAKFAST_PRODUCTS)[number] => Boolean(bp))
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
-  const subtotalInCents = product.priceInCents * totalRegistrationQuantity + breakfastTotalCents
+  const registrationSubtotalInCents =
+    product.priceInCents * selfRegistrationQuantity + scholarshipUnitAmountInUse * finalScholarshipQuantity
+  const subtotalInCents = registrationSubtotalInCents + breakfastTotalCents
   const processingFee = calculateProcessingFee(subtotalInCents)
 
   const metadata = {
@@ -69,6 +86,11 @@ export async function startRegistrationCheckout(
           : "self",
     self_registration_quantity: selfRegistrationQuantity.toString(),
     scholarship_quantity: finalScholarshipQuantity.toString(),
+    scholarship_unit_amount_cents: finalScholarshipQuantity > 0 ? scholarshipUnitAmountInUse.toString() : "not_applicable",
+    scholarship_unit_amount_display: finalScholarshipQuantity > 0 ? formatUsdFromCents(scholarshipUnitAmountInUse) : "not_applicable",
+    scholarship_total_cents: finalScholarshipQuantity > 0 ? (scholarshipUnitAmountInUse * finalScholarshipQuantity).toString() : "0",
+    scholarship_default_price_cents: product.priceInCents.toString(),
+    scholarship_amount_source: scholarshipAmountSource,
     attendee_name: validatedData.name || "Not provided",
     attendee_state: validatedData.state || "Not provided",
     attendee_email: validatedData.email || "Not provided",
@@ -125,9 +147,12 @@ export async function startRegistrationCheckout(
                   currency: "usd",
                   product_data: {
                     name: "Scholarship Registration",
-                    description: "Sponsored NECYPAA XXXVI registration",
+                    description:
+                      scholarshipAmountSource === "custom"
+                        ? "Sponsored NECYPAA XXXVI registration (custom amount)"
+                        : "Sponsored NECYPAA XXXVI registration",
                   },
-                  unit_amount: product.priceInCents,
+                  unit_amount: scholarshipUnitAmountInUse,
                 },
                 quantity: finalScholarshipQuantity,
               },

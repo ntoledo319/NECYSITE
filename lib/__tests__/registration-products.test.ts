@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest"
-import { calculateProcessingFee, REGISTRATION_PRODUCTS, BREAKFAST_PRODUCTS } from "../registration-products"
+import {
+  calculateProcessingFee,
+  REGISTRATION_PRODUCTS,
+  BREAKFAST_PRODUCTS,
+  parseUsdInputToCents,
+  formatUsdFromCents,
+} from "../registration-products"
 
 describe("calculateProcessingFee", () => {
   it("calculates correctly for a single $40 registration", () => {
@@ -46,6 +52,29 @@ describe("calculateProcessingFee", () => {
     const stripeActualFee = Math.round(totalCharge * 0.029 + 30)
     // The fee should be >= Stripe's actual fee
     expect(fee).toBeGreaterThanOrEqual(stripeActualFee)
+  })
+})
+
+describe("parseUsdInputToCents", () => {
+  it("parses whole-dollar amounts", () => {
+    expect(parseUsdInputToCents("40")).toBe(4000)
+  })
+
+  it("parses decimal amounts", () => {
+    expect(parseUsdInputToCents("40.50")).toBe(4050)
+  })
+
+  it("rejects invalid or empty input", () => {
+    expect(parseUsdInputToCents("")).toBeNull()
+    expect(parseUsdInputToCents("abc")).toBeNull()
+    expect(parseUsdInputToCents("0")).toBeNull()
+  })
+})
+
+describe("formatUsdFromCents", () => {
+  it("formats cents as two-decimal USD strings", () => {
+    expect(formatUsdFromCents(4000)).toBe("40.00")
+    expect(formatUsdFromCents(4050)).toBe("40.50")
   })
 })
 

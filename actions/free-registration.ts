@@ -1,13 +1,21 @@
 "use server"
 
 import { stripe } from "@/lib/stripe"
+import { REGISTRATION_PRODUCTS, formatUsdFromCents } from "@/lib/registration-products"
 import { rateLimitFreeRegistration } from "@/lib/rate-limit"
-import { registrationDataSchema, policyAgreementsSchema } from "@/lib/validation"
+import {
+  registrationDataSchema,
+  policyAgreementsSchema,
+  scholarshipQuantitySchema,
+  scholarshipUnitAmountCentsSchema,
+} from "@/lib/validation"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 
 export async function submitFreeRegistration(
   registrationData: RegistrationData,
   policyAgreements: PolicyAgreements,
+  scholarshipQuantity = 0,
+  scholarshipUnitAmountInCents?: number,
 ) {
   const dataResult = registrationDataSchema.safeParse(registrationData)
   if (!dataResult.success) {
@@ -15,17 +23,44 @@ export async function submitFreeRegistration(
   }
   const validatedData = dataResult.data
   const validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
+  const validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
+  const validatedScholarshipUnitAmount = scholarshipUnitAmountCentsSchema.parse(scholarshipUnitAmountInCents)
 
   const rl = rateLimitFreeRegistration(validatedData.email)
   if (!rl.success) {
     throw new Error("Too many registration attempts. Please wait a moment and try again.")
   }
 
+  const registrationProduct = REGISTRATION_PRODUCTS.find((product) => product.id === "necypaa-xxxvi-registration")
+  const defaultScholarshipUnitAmount = registrationProduct?.priceInCents ?? 0
+  const finalScholarshipQuantity =
+    validatedData.isScholarship && validatedScholarshipQty === 0 ? 1 : validatedData.isScholarship ? validatedScholarshipQty : 0
+  const scholarshipUnitAmountInUse =
+    finalScholarshipQuantity > 0
+      ? validatedScholarshipUnitAmount ?? defaultScholarshipUnitAmount
+      : defaultScholarshipUnitAmount
+  const scholarshipAmountSource =
+    finalScholarshipQuantity === 0
+      ? "not_applicable"
+      : validatedScholarshipUnitAmount != null
+        ? "custom"
+        : "default_pre_registration"
+  const scholarshipTotalCents = scholarshipUnitAmountInUse * finalScholarshipQuantity
+
   const metadata: Record<string, string> = {
-    registration_type: "free",
+    registration_type: validatedData.isScholarship ? "cash_scholarship" : "free",
+    purchase_type: validatedData.isScholarship ? "cash_scholarship" : "cash_registration",
     attendee_name: validatedData.name,
     attendee_state: validatedData.state,
     attendee_email: validatedData.email,
+    scholarship_recipient_name: validatedData.scholarshipRecipientName || "None",
+    scholarship_recipient_email: validatedData.scholarshipRecipientEmail || "None",
+    scholarship_quantity: finalScholarshipQuantity.toString(),
+    scholarship_unit_amount_cents: finalScholarshipQuantity > 0 ? scholarshipUnitAmountInUse.toString() : "not_applicable",
+    scholarship_unit_amount_display: finalScholarshipQuantity > 0 ? formatUsdFromCents(scholarshipUnitAmountInUse) : "not_applicable",
+    scholarship_total_cents: scholarshipTotalCents.toString(),
+    scholarship_default_price_cents: defaultScholarshipUnitAmount.toString(),
+    scholarship_amount_source: scholarshipAmountSource,
     accommodations: validatedData.accommodations || "None",
     interpretation_needed: validatedData.interpretationNeeded.toString(),
     mobility_accessibility: validatedData.mobilityAccessibility.toString(),

@@ -42,7 +42,7 @@ export default function RegisterPage() {
     setRegistrationData(data)
     directionRef.current = 1
 
-    if (data.isScholarship || (data.accessCode ?? "").trim().length > 0) {
+    if (data.isScholarship) {
       setPolicyAgreements(null)
       setCurrentStep("payment")
       return
@@ -62,11 +62,10 @@ export default function RegisterPage() {
   }, [currentStep])
 
   const isScholarshipFlow = registrationData?.isScholarship === true
-  const hasAccessCode = (registrationData?.accessCode ?? "").trim().length > 0
 
   const steps = useMemo(
     () =>
-      isScholarshipFlow || hasAccessCode
+      isScholarshipFlow
         ? [
             { key: "info" as const, label: "Information", number: 1 },
             { key: "payment" as const, label: "Payment", number: 2 },
@@ -76,7 +75,7 @@ export default function RegisterPage() {
             { key: "policy" as const, label: "Policy", number: 2 },
             { key: "payment" as const, label: "Payment", number: 3 },
           ],
-    [hasAccessCode, isScholarshipFlow],
+    [isScholarshipFlow],
   )
 
   const activeStepMeta = STEP_COPY[currentStep]
@@ -232,7 +231,7 @@ export default function RegisterPage() {
                       policyAgreements={policyAgreements}
                       onBack={() => {
                         directionRef.current = -1
-                        setCurrentStep(isScholarshipFlow || hasAccessCode ? "info" : "policy")
+                        setCurrentStep(isScholarshipFlow ? "info" : "policy")
                       }}
                     />
                   )}

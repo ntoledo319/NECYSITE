@@ -6,6 +6,7 @@ import {
   breakfastIdsSchema,
   productIdSchema,
   scholarshipQuantitySchema,
+  scholarshipUnitAmountCentsSchema,
 } from "../validation"
 
 describe("registrationDataSchema", () => {
@@ -137,5 +138,19 @@ describe("scholarshipQuantitySchema", () => {
 
   it("rejects non-integers", () => {
     expect(scholarshipQuantitySchema.safeParse(1.5).success).toBe(false)
+  })
+})
+
+describe("scholarshipUnitAmountCentsSchema", () => {
+  it("accepts valid cent amounts", () => {
+    expect(scholarshipUnitAmountCentsSchema.safeParse(4000).success).toBe(true)
+  })
+
+  it("accepts undefined for default pricing", () => {
+    expect(scholarshipUnitAmountCentsSchema.safeParse(undefined).success).toBe(true)
+  })
+
+  it("rejects values below one dollar", () => {
+    expect(scholarshipUnitAmountCentsSchema.safeParse(99).success).toBe(false)
   })
 })

@@ -96,13 +96,19 @@ export default function FreeRegPage() {
 
             <div className="nec-reg-card p-6 md:p-8">
               {currentStep === "info" && (
-                <RegistrationForm onComplete={handleInfoComplete} />
+                <RegistrationForm
+                  onComplete={handleInfoComplete}
+                  enableScholarship
+                  checkoutMode="offline"
+                  showAccessCode={false}
+                />
               )}
 
               {currentStep === "policy" && (
                 <PolicyAgreement
                   onComplete={handlePolicyComplete}
                   onBack={() => setCurrentStep("info")}
+                  continueLabel="Continue to Confirmation"
                 />
               )}
 

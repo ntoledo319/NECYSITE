@@ -39,6 +39,22 @@ export const BREAKFAST_PRODUCTS: RegistrationProduct[] = [
   },
 ]
 
+/** Format USD cents for compact UI display (e.g. 4000 -> "40.00"). */
+export function formatUsdFromCents(amountInCents: number): string {
+  return (amountInCents / 100).toFixed(2)
+}
+
+/** Parse a user-entered USD amount into cents, or return null when invalid. */
+export function parseUsdInputToCents(input: string): number | null {
+  const normalized = input.trim().replace(/[$,\s]/g, "")
+  if (!normalized || !/^\d+(\.\d{0,2})?$/.test(normalized)) return null
+
+  const amount = Number(normalized)
+  if (!Number.isFinite(amount) || amount <= 0) return null
+
+  return Math.round(amount * 100)
+}
+
 /** Gross-up fee: covers Stripe's 2.9% + $0.30 on the fee itself. */
 export function calculateProcessingFee(amountInCents: number): number {
   const fixedFee = 30

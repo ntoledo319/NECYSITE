@@ -9,9 +9,14 @@ import type { PolicyAgreements } from "@/lib/types"
 interface PolicyAgreementProps {
   onComplete: (agreements: PolicyAgreements) => void
   onBack: () => void
+  continueLabel?: string
 }
 
-export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementProps) {
+export default function PolicyAgreement({
+  onComplete,
+  onBack,
+  continueLabel = "Continue to Payment",
+}: PolicyAgreementProps) {
   const [agreements, setAgreements] = useState<PolicyAgreements>({
     readPolicy: false,
     understandQuestions: false,
@@ -313,7 +318,7 @@ export default function PolicyAgreement({ onComplete, onBack }: PolicyAgreementP
           disabled={!allAgreed}
           className="flex-1"
         >
-          Continue to Payment
+          {continueLabel}
         </Button>
       </div>
     </div>

@@ -14,6 +14,8 @@ import type { RegistrationData } from "@/lib/types"
 interface RegistrationFormProps {
   onComplete: (data: RegistrationData) => void
   enableScholarship?: boolean
+  checkoutMode?: "payment" | "offline"
+  showAccessCode?: boolean
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -37,7 +39,12 @@ const preferenceOptions = [
   },
 ] as const
 
-export default function RegistrationForm({ onComplete, enableScholarship = false }: RegistrationFormProps) {
+export default function RegistrationForm({
+  onComplete,
+  enableScholarship = false,
+  checkoutMode = "payment",
+  showAccessCode = checkoutMode === "payment",
+}: RegistrationFormProps) {
   const [formData, setFormData] = useState<RegistrationData>({
     name: "",
     state: "",
@@ -52,7 +59,7 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
     scholarshipRecipientEmail: "",
     accessCode: "",
   })
-  const [showAccessCode, setShowAccessCode] = useState(false)
+  const [showAccessCodeField, setShowAccessCodeField] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const hasAccessCode = (formData.accessCode ?? "").trim().length > 0
@@ -142,7 +149,9 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
           <div className="space-y-2">
             <p className="form-section-label">Choose Your Path</p>
             <p className="form-support-text">
-              Register for yourself, or sponsor someone else and continue straight to payment.
+              {checkoutMode === "payment"
+                ? "Register for yourself, or sponsor someone else and continue into checkout."
+                : "Record a standard cash registration, or log a scholarship that was handled offline."}
             </p>
           </div>
 
@@ -151,12 +160,18 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               type="button"
               className="form-option-card rounded-[1.5rem] p-5 text-left"
               data-active={!formData.isScholarship ? "true" : "false"}
-              onClick={() => updateField("isScholarship", false)}
+              aria-pressed={!formData.isScholarship}
+              onClick={() => {
+                updateField("isScholarship", false)
+                updateField("accessCode", "")
+              }}
             >
               <p className="form-section-label">Standard Registration</p>
               <p className="mt-3 text-lg font-semibold text-[var(--nec-text)]">I’m registering myself.</p>
               <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-                Fill out attendee information, review the policy agreement, then continue to payment.
+                {checkoutMode === "payment"
+                  ? "Fill out attendee information, review the policy agreement, then continue to payment."
+                  : "Fill out attendee information, review the policy agreement, then confirm the offline registration."}
               </p>
             </button>
 
@@ -164,12 +179,18 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
               type="button"
               className="form-option-card rounded-[1.5rem] p-5 text-left"
               data-active={formData.isScholarship ? "true" : "false"}
-              onClick={() => updateField("isScholarship", true)}
+              aria-pressed={formData.isScholarship}
+              onClick={() => {
+                updateField("isScholarship", true)
+                updateField("accessCode", "")
+              }}
             >
               <p className="form-section-label">Scholarship Purchase</p>
               <p className="mt-3 text-lg font-semibold text-[var(--nec-text)]">I’m sponsoring someone else.</p>
               <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-                We’ll collect purchaser details here, then take you straight to payment for the sponsored registration.
+                {checkoutMode === "payment"
+                  ? "We’ll collect purchaser details here, then let you set the scholarship amount before checkout."
+                  : "We’ll collect purchaser details here, then let you confirm the scholarship amount before saving it."}
               </p>
             </button>
           </div>
@@ -270,7 +291,8 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
             <p className="form-section-label">Sponsored Registration</p>
             <p className="form-support-text">
               Tell us who this scholarship registration is intended for. If you don&apos;t know the email yet,
-              you can leave it blank.
+              you can leave it blank. The amount defaults to the current pre-registration price on the next step,
+              and you can override it there if needed.
             </p>
           </div>
 
@@ -345,47 +367,49 @@ export default function RegistrationForm({ onComplete, enableScholarship = false
         </section>
       )}
 
-      <section className="space-y-4 rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="form-section-label">Access Code</p>
-            <p className="text-sm leading-6 text-[var(--nec-muted)]">
-              Using a cash or scholarship code instead of standard checkout?
-            </p>
+      {showAccessCode && !formData.isScholarship && (
+        <section className="space-y-4 rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="form-section-label">Access Code</p>
+              <p className="text-sm leading-6 text-[var(--nec-muted)]">
+                Using a cash or scholarship code instead of standard checkout?
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAccessCodeField((prev) => !prev)}
+              aria-expanded={showAccessCodeField}
+              aria-controls="access-code-section"
+              className="btn-ghost self-start !min-h-0 !px-4 !py-2 sm:self-auto"
+            >
+              {showAccessCodeField ? "Hide Code Field" : "Enter Access Code"}
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowAccessCode((prev) => !prev)}
-            aria-expanded={showAccessCode}
-            aria-controls="access-code-section"
-            className="btn-ghost self-start !min-h-0 !px-4 !py-2 sm:self-auto"
-          >
-            {showAccessCode ? "Hide Code Field" : "Enter Access Code"}
-          </button>
-        </div>
 
-        {showAccessCode && (
-          <div id="access-code-section" className="space-y-2">
-            <Label htmlFor="accessCode" className="text-[var(--nec-text)]">
-              Registration access code
-            </Label>
-            <Input
-              id="accessCode"
-              type="text"
-              value={formData.accessCode}
-              onChange={(e) => updateField("accessCode", e.target.value)}
-              placeholder="Enter your code"
-              autoComplete="off"
-            />
-            <p className="text-sm leading-6 text-[var(--nec-muted)]">
-              Leave this blank for normal paid registration.
-            </p>
-          </div>
-        )}
-      </section>
+          {showAccessCodeField && (
+            <div id="access-code-section" className="space-y-2">
+              <Label htmlFor="accessCode" className="text-[var(--nec-text)]">
+                Registration access code
+              </Label>
+              <Input
+                id="accessCode"
+                type="text"
+                value={formData.accessCode}
+                onChange={(e) => updateField("accessCode", e.target.value)}
+                placeholder="Enter your code"
+                autoComplete="off"
+              />
+              <p className="text-sm leading-6 text-[var(--nec-muted)]">
+                Leave this blank for normal paid registration.
+              </p>
+            </div>
+          )}
+        </section>
+      )}
 
       <Button type="submit" className="w-full">
-        {formData.isScholarship || hasAccessCode ? "Continue to Payment" : "Continue to Policy Agreement"}
+        {formData.isScholarship && checkoutMode === "payment" ? "Continue to Payment" : "Continue to Policy Agreement"}
       </Button>
     </form>
   )

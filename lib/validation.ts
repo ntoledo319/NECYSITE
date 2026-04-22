@@ -58,3 +58,5 @@ export const breakfastIdsSchema = z.array(z.string().max(50)).max(20)
 export const productIdSchema = z.string().max(50).min(1, "Product ID is required")
 
 export const scholarshipQuantitySchema = z.number().int().min(0).max(50).default(0)
+
+export const scholarshipUnitAmountCentsSchema = z.number().int().min(100).max(1_000_000).optional()
