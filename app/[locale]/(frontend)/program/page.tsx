@@ -19,6 +19,22 @@ export default function ProgramPage() {
       theme="program"
       gameName="Recovery Blocks"
       gameDescription="Build your program one block at a time. Each piece carries a recovery slogan. ← → move, ↑ rotate, Space hard drop."
+      pageContent={
+        <div className="space-y-4 mb-8 text-[var(--nec-muted)] leading-relaxed">
+          <p>
+            <strong className="text-[var(--nec-text)]">Status:</strong> We are currently building the schedule for NECYPAA XXXVI. Expect a full weekend of speakers, panels, marathon meetings, and entertainment.
+          </p>
+          <p>
+            <strong className="text-[var(--nec-text)]">Attendees:</strong> We anticipate 500+ young people in AA from across the Northeast.
+          </p>
+          <p>
+            <strong className="text-[var(--nec-text)]">Last Updated:</strong> April 2026
+          </p>
+          <p>
+            Got a question or want to get involved with programming? <a href="mailto:info@necypaa.org" className="underline text-[var(--nec-text)] font-semibold">Contact the committee</a>.
+          </p>
+        </div>
+      }
     >
       <TetrisGame />
     </InventoryShell>

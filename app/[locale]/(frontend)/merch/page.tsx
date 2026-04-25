@@ -19,6 +19,19 @@ export default function MerchPage() {
       theme="merch"
       gameName="Wall of Denial"
       gameDescription="Break through the Wall of Denial. Mouse/touch or ← → to move the paddle. Space or click to launch."
+      pageContent={
+        <div className="space-y-4 mb-8 text-[var(--nec-muted)] leading-relaxed">
+          <p>
+            <strong className="text-[var(--nec-text)]">Status:</strong> Pre-convention merch is available at our live events. An online store for pre-orders is coming soon.
+          </p>
+          <p>
+            <strong className="text-[var(--nec-text)]">Logistics:</strong> Pre-ordered merch will be available for pickup at the convention registration desk. Shipping options may be added later.
+          </p>
+          <p>
+            <strong className="text-[var(--nec-text)]">Last Updated:</strong> April 2026
+          </p>
+        </div>
+      }
     >
       <BreakoutGame />
     </InventoryShell>

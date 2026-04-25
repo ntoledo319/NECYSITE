@@ -376,16 +376,20 @@ export default function InventoryShell({
                           </svg>
                         </div>
 
-                        <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">
-                          The committee is working on this&hellip;
-                        </h2>
-                        <p
-                          className="text-sm max-w-md mb-8"
-                          style={{ color: "var(--nec-muted)" }}
-                        >
-                          This page is being put together by the host committee.
-                          In the meantime, why not get to work on that fourth step?
-                        </p>
+                        {pageContent || (
+                          <>
+                            <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">
+                              The committee is working on this&hellip;
+                            </h2>
+                            <p
+                              className="text-sm max-w-md mb-8"
+                              style={{ color: "var(--nec-muted)" }}
+                            >
+                              This page is being put together by the host committee.
+                              In the meantime, why not get to work on that fourth step?
+                            </p>
+                          </>
+                        )}
 
                         <button
                           type="button"

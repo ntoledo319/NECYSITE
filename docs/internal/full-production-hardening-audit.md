@@ -149,3 +149,8 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - Created `lib/data/fetch-utils.ts` to dynamically fetch events and blog posts from Payload CMS, gracefully falling back to static data if the database is unpopulated or wiped.
 - Added event date validation and dynamic upcoming/past categorization heuristics based on the parsed dates.
 - Updated all frontend components (`blog/page.tsx`, `events/page.tsx`, `blog/[slug]/page.tsx`, `service/page.tsx`, `feed.xml`) to use the new typed fetch utilities instead of static imports.
+
+### [Date: Phase 6 Completed]
+- Refactored `InventoryShell` component to accept a `pageContent` prop that replaces the default "coming soon" placeholder text.
+- Kept the retro games accessible via the "Inventory in Progress" button as an easter egg.
+- Updated `/program`, `/asl`, `/merch`, `/bid`, and `/prayer` pages with concrete, useful information regarding current status, logistics, and contact paths.

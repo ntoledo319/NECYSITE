@@ -19,6 +19,22 @@ export default function ASLPage() {
       theme="asl"
       gameName="Carry the Message"
       gameDescription="Keep the message going back and forth. ↑ ↓ or mouse to move your paddle. First to 7 wins."
+      pageContent={
+        <div className="space-y-4 mb-8 text-[var(--nec-muted)] leading-relaxed">
+          <p>
+            <strong className="text-[var(--nec-text)]">Status:</strong> We are actively coordinating ASL interpretation for main speakers and key events.
+          </p>
+          <p>
+            Our commitment is clear: NECYPAA XXXVI must be accessible to all members. We are working with qualified interpreters to ensure full access.
+          </p>
+          <p>
+            <strong className="text-[var(--nec-text)]">Request Accommodations:</strong> If you need ASL interpretation or have specific accessibility needs, please indicate this during registration or <a href="mailto:info@necypaa.org" className="underline text-[var(--nec-text)] font-semibold">contact us directly</a>.
+          </p>
+          <p>
+            <strong className="text-[var(--nec-text)]">Last Updated:</strong> April 2026
+          </p>
+        </div>
+      }
     >
       <PongGame />
     </InventoryShell>
