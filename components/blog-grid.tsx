@@ -2,14 +2,18 @@
 
 import { useState } from "react"
 import { motion, useReducedMotion } from "framer-motion"
-import { BLOG_POSTS } from "@/lib/data/blog-posts"
+import type { BlogPost } from "@/lib/data/blog-posts"
 import BlogCard from "@/components/blog-card"
 import { Newspaper } from "lucide-react"
 import { staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
-export default function BlogGrid() {
+interface BlogGridProps {
+  posts: BlogPost[]
+}
+
+export default function BlogGrid({ posts }: BlogGridProps) {
   const [visibleCount, setVisibleCount] = useState(6)
-  const sorted = [...BLOG_POSTS].sort(
+  const sorted = [...posts].sort(
     (a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   )

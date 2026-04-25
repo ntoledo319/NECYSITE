@@ -1,4 +1,4 @@
-import { BLOG_POSTS } from "@/lib/data/blog-posts"
+import { getBlogPosts } from "@/lib/data/fetch-utils"
 import { SITE_URL } from "@/lib/constants"
 
 function escapeXml(str: string): string {
@@ -11,7 +11,8 @@ function escapeXml(str: string): string {
 }
 
 export async function GET() {
-  const sorted = [...BLOG_POSTS].sort(
+  const posts = await getBlogPosts()
+  const sorted = [...posts].sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   )
 

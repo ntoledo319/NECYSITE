@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { BLOG_POSTS } from "@/lib/data/blog-posts"
+
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import PageArtAccents from "@/components/art/page-art-accents"
@@ -36,7 +36,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = BLOG_POSTS.find((p) => p.slug === slug)
+  const post = await getBlogPostBySlug(slug)
   if (!post) {
     return { title: "Post Not Found — NECYPAA XXXVI" }
   }
@@ -46,8 +46,9 @@ export async function generateMetadata({
   }
 }
 
-export function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({ slug: post.slug }))
+export async function generateStaticParams() {
+  const posts = await getBlogPosts()
+  return posts.map((post) => ({ slug: post.slug }))
 }
 
 export default async function BlogPostPage({
@@ -56,7 +57,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = BLOG_POSTS.find((p) => p.slug === slug)
+  const post = await getBlogPostBySlug(slug)
 
   if (!post) {
     notFound()

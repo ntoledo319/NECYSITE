@@ -143,3 +143,9 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - Added `admin`, `editor`, `registration`, and `viewer` roles to `Users`.
 - Removed `image/svg+xml` from `Media` allowed mime types to prevent malicious SVG uploads.
 - Documented the Vercel ephemeral storage limitation in `01_SYSTEM_ARCHITECTURE.md`, recommending Turso (libSQL) via `DATABASE_URI` for persistent production SQLite.
+
+### [Date: Phase 5 Completed]
+- Kept strongly-typed static files (`lib/data/blog-posts.ts`, `lib/data/events.ts`) to act as safe fallbacks.
+- Created `lib/data/fetch-utils.ts` to dynamically fetch events and blog posts from Payload CMS, gracefully falling back to static data if the database is unpopulated or wiped.
+- Added event date validation and dynamic upcoming/past categorization heuristics based on the parsed dates.
+- Updated all frontend components (`blog/page.tsx`, `events/page.tsx`, `blog/[slug]/page.tsx`, `service/page.tsx`, `feed.xml`) to use the new typed fetch utilities instead of static imports.

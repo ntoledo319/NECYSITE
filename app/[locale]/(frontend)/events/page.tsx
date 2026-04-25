@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import { Calendar, CalendarPlus, MapPin } from "lucide-react"
-import { pastEvents, upcomingEvent } from "@/lib/data/events"
+import { getEvents } from "@/lib/data/fetch-utils"
 import { getGoogleCalendarUrl } from "@/lib/calendar"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
@@ -16,8 +16,9 @@ export const metadata: Metadata = {
     "Fundraisers, pre-convention events, and activities hosted by the NECYPAA XXXVI CT Host Committee. Come build the road to Hartford with us.",
 }
 
-export default function EventsPage() {
-  const allEvents = [upcomingEvent, ...pastEvents]
+export default async function EventsPage() {
+  const { upcoming: upcomingEvent, past: pastEvents } = await getEvents()
+  const allEvents = [...(upcomingEvent ? [upcomingEvent] : []), ...pastEvents]
   const jsonLdItems = allEvents
     .map(generateEventJsonLd)
     .filter((ld): ld is Record<string, unknown> => ld !== null)

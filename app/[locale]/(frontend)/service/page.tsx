@@ -17,7 +17,7 @@ import OrnateDivider from "@/components/art/ornate-divider"
 import { CONTACT_EMAIL, ZOOM_MEETING_URL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
 import CalendarSection from "@/components/calendar/calendar-section"
-import { BLOG_POSTS } from "@/lib/data/blog-posts"
+
 import { fetchCalendarEvents } from "@/lib/calendar/fetch"
 
 export const metadata: Metadata = {
@@ -99,8 +99,6 @@ const COMMITTEE_FUNCTIONS = [
   "Treasury",
 ]
 
-const SERVICE_STORY = BLOG_POSTS.find((post) => post.slug === "ypaa-saved-my-life")
-
 function CalendarSkeleton() {
   return (
     <div className="animate-pulse space-y-3" aria-label="Loading calendar">
@@ -178,6 +176,7 @@ function TrackAction({ href, label, external }: { href: string; label: string; e
 }
 
 export default async function ServicePage() {
+  const SERVICE_STORY = await getBlogPostBySlug("ypaa-saved-my-life")
   const events = await fetchCalendarEvents()
   const now = new Date()
 

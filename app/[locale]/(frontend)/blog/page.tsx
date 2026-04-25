@@ -4,7 +4,7 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 import BlogGrid from "@/components/blog-grid"
 import PageArtAccents from "@/components/art/page-art-accents"
 import MotionHeader from "@/components/ui/motion-header"
-import { BLOG_POSTS } from "@/lib/data/blog-posts"
+import { getBlogPosts } from "@/lib/data/fetch-utils"
 
 export const metadata: Metadata = {
   title: "NECYBLOG aka BLOGYPAA — NECYPAA XXXVI",
@@ -21,8 +21,9 @@ function formatDate(dateStr: string): string {
   })
 }
 
-export default function BlogPage() {
-  const latestPosts = [...BLOG_POSTS]
+export default async function BlogPage() {
+  const allPosts = await getBlogPosts()
+  const latestPosts = [...allPosts]
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .slice(0, 3)
 
@@ -105,7 +106,7 @@ export default function BlogPage() {
             </div>
 
             <div className="mt-16 section-atmosphere-gold">
-              <BlogGrid />
+              <BlogGrid posts={allPosts} />
             </div>
           </div>
         </div>
