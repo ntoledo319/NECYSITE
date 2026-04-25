@@ -40,10 +40,10 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - [x] Document env vars.
 
 ### Phase 4 — Payload CMS hardening
-- [ ] Make access control explicit (public can read published, admin can edit).
-- [ ] Add missing roles (admin, editor, registration, viewer).
-- [ ] Restrict unsafe Media uploads (SVG handling).
-- [ ] Confirm and document production DB behavior/requirements.
+- [x] Make access control explicit (public can read published, admin can edit).
+- [x] Add missing roles (admin, editor, registration, viewer).
+- [x] Restrict unsafe Media uploads (SVG handling).
+- [x] Confirm and document production DB behavior/requirements.
 
 ### Phase 5 — Static data versus CMS consolidation
 - [ ] Identify duplicated content sources (static files vs Payload).
@@ -121,15 +121,25 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - `hardening/full-production-audit-fix` branch created.
 - Audit document initialized.
 
+### [Date: Phase 1 Completed]
+- Created `Registrations` Payload CMS collection.
+- Updated server actions to insert initial records.
+- Implemented Stripe webhook at `app/api/webhooks/stripe/route.ts` to reconcile checkout completion.
+- Added Vitest tests for webhook logic.
+
 ### [Date: Phase 2 Completed]
 - Removed `/cash` local route completely as the cash registration system was moved to a separate repository (`necypaa-ras`).
 - Cleaned up obsolete local tests, actions (`free-registration.ts`), and sitemap entries.
 - Validated that the remaining `submitAccessCodeRegistration` is protected by the external issuer service and properly rate-limited.
- reconcile checkout completion.
-- Added Vitest tests for webhook logic.
-@upstash/redis` backed implementation in `lib/rate-limit.ts`.
+
+### [Date: Phase 3 Completed]
+- Replaced in-memory rate limiting with `@upstash/redis` backed implementation in `lib/rate-limit.ts`.
 - Retained the in-memory method as a graceful fallback when Redis credentials aren't provided.
 - Refactored calling code to handle the asynchronous API.
 - Updated documentation with new `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` environment variables.
- reconcile checkout completion.
-- Added Vitest tests for webhook logic.
+
+### [Date: Phase 4 Completed]
+- Added explicit read/create/update/delete access controls to all Payload collections (`Users`, `Media`, `Events`, `BlogPosts`, `FAQ`, `Registrations`).
+- Added `admin`, `editor`, `registration`, and `viewer` roles to `Users`.
+- Removed `image/svg+xml` from `Media` allowed mime types to prevent malicious SVG uploads.
+- Documented the Vercel ephemeral storage limitation in `01_SYSTEM_ARCHITECTURE.md`, recommending Turso (libSQL) via `DATABASE_URI` for persistent production SQLite.

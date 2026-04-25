@@ -8,6 +8,12 @@ export const FAQ: CollectionConfig = {
     description:
       "Frequently Asked Questions for NECYPAA XXXVI. Grouped by category. Keep language warm and welcoming per accessibility guidelines.",
   },
+  access: {
+    read: () => true,
+    create: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+    update: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+    delete: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+  },
   fields: [
     {
       name: "question",

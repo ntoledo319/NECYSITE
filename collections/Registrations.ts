@@ -8,10 +8,10 @@ export const Registrations: CollectionConfig = {
     description: "Attendee registrations and scholarship purchases.",
   },
   access: {
-    read: ({ req: { user } }) => Boolean(user),
+    read: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "registration"),
     create: () => true, // Allows server actions to create using local API if needed, though local API bypasses access control anyway
-    update: ({ req: { user } }) => Boolean(user),
-    delete: ({ req: { user } }) => Boolean(user),
+    update: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "registration"),
+    delete: ({ req: { user } }) => Boolean(user?.role === "admin"),
   },
   fields: [
     {

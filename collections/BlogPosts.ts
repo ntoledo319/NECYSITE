@@ -11,6 +11,12 @@ export const BlogPosts: CollectionConfig = {
   versions: {
     drafts: true,
   },
+  access: {
+    read: () => true,
+    create: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+    update: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+    delete: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+  },
   fields: [
     {
       name: "title",

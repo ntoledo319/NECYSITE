@@ -92,7 +92,10 @@ The site handles event information, online registration with Stripe payments, an
 | **FAQ** | Frequently asked questions | question, answer (richText), category, sortOrder, Spanish translations |
 | **Media** | Uploaded files | filename, alt (required), url, mimeType, width, height |
 
-**Storage:** Single SQLite file at `payload.db` in project root. No external database server needed.
+**Storage:** By default, Payload is configured to use a local SQLite file (`file:./payload.db`). 
+
+**CRITICAL PRODUCTION REQUIREMENT:** Vercel serverless functions are ephemeral. A local `payload.db` file will be wiped on every deployment and reset during cold starts. For production deployment, you **must** supply a persistent `DATABASE_URI`. 
+- **Recommended Solution:** Use Turso (libSQL) and set `DATABASE_URI="libsql://.../?authToken=..."`. The Payload SQLite adapter natively supports this.
 
 ---
 

@@ -7,6 +7,12 @@ export const Events: CollectionConfig = {
     defaultColumns: ["title", "date", "location"],
     description: "Fundraisers, pre-convention events, and activities hosted by the NECYPAA XXXVI CT Host Committee.",
   },
+  access: {
+    read: () => true,
+    create: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+    update: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+    delete: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "editor"),
+  },
   fields: [
     {
       name: "title",
