@@ -1,6 +1,7 @@
 "use client"
 
 import BreakfastCheckout from "@/components/breakfast-checkout"
+import ErrorBoundary from "@/components/ui/error-boundary"
 import PageArtAccents from "@/components/art/page-art-accents"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
@@ -41,7 +42,20 @@ export default function BreakfastPage() {
             </p>
           </div>
 
-          <BreakfastCheckout />
+          <ErrorBoundary
+            fallback={
+              <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.20)] bg-[rgba(var(--nec-card-rgb),0.90)] p-6 text-center">
+                <p className="text-[var(--nec-text)] font-semibold mb-2">
+                  We had trouble loading the payment form.
+                </p>
+                <p className="text-sm text-[var(--nec-muted)]">
+                  Please refresh the page or try again in a moment.
+                </p>
+              </div>
+            }
+          >
+            <BreakfastCheckout />
+          </ErrorBoundary>
         </div>
       </div>
       <SiteFooter />

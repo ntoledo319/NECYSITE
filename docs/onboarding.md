@@ -78,7 +78,6 @@ app/[locale]/(frontend)/    ← All user-facing pages
 actions/                    ← Server actions (mutations)
   registration.ts           ← Stripe checkout + access code redemption
   breakfast.ts              ← Breakfast checkout
-  free-registration.ts      ← Cash/free registration
 
 components/                 ← React components
   sections/                 ← Homepage section components
@@ -150,7 +149,7 @@ Run these before every PR:
 pnpm lint          # Must pass (zero new warnings)
 pnpm format:check  # Must pass
 pnpm build         # Must pass clean
-pnpm test          # 30 unit tests must pass
+pnpm test          # 58 unit tests must pass
 ```
 
 ### Pre-commit Hook
@@ -180,7 +179,7 @@ Edit `lib/data/ypaa-meetings.ts`. Add the meeting to the appropriate state's arr
 
 ### "I need to add a new event"
 
-Edit `lib/data/events.ts`. Add an `EventData` object to either `upcomingEvents` or `pastEvents`.
+Add the event via the Payload CMS admin at `/admin` (Events collection). The static fallback in `lib/data/events.ts` is only used if the CMS is empty.
 
 ### "I need to update the FAQ"
 
@@ -188,7 +187,7 @@ FAQs can be managed via the Payload CMS admin at `/admin`. The `FAQ` collection 
 
 ### "I need to add a new blog post"
 
-Use the Payload CMS admin at `/admin`. The `BlogPosts` collection supports rich text (Lexical editor), featured images, drafts, and versioning.
+Add the post via the Payload CMS admin at `/admin` (BlogPosts collection). The static fallback in `lib/data/blog-posts.ts` is only used if the CMS is empty.
 
 ## Architecture Docs
 

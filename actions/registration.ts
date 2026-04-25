@@ -240,7 +240,7 @@ export async function submitAccessCodeRegistration(
     return { success: false, error: "A registration access code is required." }
   }
 
-  const rl = rateLimitCodeRedemption(validatedData.email)
+  const rl = await rateLimitCodeRedemption(validatedData.email)
   if (!rl.success) {
     return { success: false, error: "Too many attempts. Please wait a moment and try again." }
   }

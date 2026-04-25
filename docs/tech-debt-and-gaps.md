@@ -17,29 +17,20 @@
 
 ## P0 — Critical (Fix Before Launch)
 
-### 1. No Stripe Webhook Handler
+### 1. No Stripe Webhook Handler ✅ FIXED
 **Size: L** | Security, Data Integrity
 
-There is no webhook endpoint to receive Stripe events (`payment_intent.succeeded`, `checkout.session.completed`, etc.). The site relies entirely on the client-side redirect to the success page. If a user closes the browser mid-checkout, the payment succeeds on Stripe but the site has no record of it.
+~There is no webhook endpoint to receive Stripe events.~ **Fixed:** `app/api/webhooks/stripe/route.ts` now handles `checkout.session.completed`, `checkout.session.expired`, `payment_intent.payment_failed`, and `charge.refunded` with signature verification and idempotent updates to the `Registrations` collection.
 
-**Impact:** Lost registrations, payment reconciliation failures, refund disputes.
-**Fix:** Create `app/api/webhooks/stripe/route.ts` with signature verification, idempotent event processing, and a persistent record (Payload CMS collection or external DB).
-
-### 2. No Persistent Registration Storage
+### 2. No Persistent Registration Storage ✅ FIXED
 **Size: L** | Data Integrity
 
-Registrations are stored only as Stripe customer metadata. There is no first-party database table for registrations. If Stripe metadata is lost or the Stripe account changes, all registration data is gone.
+~Registrations are stored only as Stripe customer metadata.~ **Fixed:** The `Registrations` Payload CMS collection now stores all registration records with lifecycle statuses (`pending`, `paid`, `failed`, `refunded`, `comped`, `cash`, `canceled`). Webhook and server actions both write to this collection.
 
-**Impact:** No queryable attendee list, no export capability, no audit trail.
-**Fix:** Add a `Registrations` Payload CMS collection and write to it from webhook/server action.
-
-### 3. Rate Limiter is Per-Instance / In-Memory
+### 3. Rate Limiter is Per-Instance / In-Memory ✅ FIXED
 **Size: M** | Security
 
-`lib/rate-limit.ts` uses an in-memory `Map`. On Vercel serverless, each cold start gets a fresh store. A determined attacker can bypass rate limits by triggering new function instances.
-
-**Impact:** Rate limiting is ineffective against distributed abuse.
-**Fix:** Replace with Vercel KV (Upstash Redis) or Vercel Edge Config for shared state. The current implementation is fine for casual abuse prevention.
+~`lib/rate-limit.ts` uses an in-memory `Map`.~ **Fixed:** `lib/rate-limit.ts` now uses `@upstash/redis` when `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` are present, falling back to the in-memory implementation for local development.
 
 ---
 
@@ -72,13 +63,10 @@ Next.js server actions have built-in origin checking, but there is no explicit C
 **Impact:** Type safety bypass at a security boundary.
 **Fix:** Parse the response through a Zod schema before returning.
 
-### 8. Blog Posts Are Hardcoded
+### 8. Blog Posts Are Hardcoded ✅ FIXED
 **Size: M** | Content
 
-`lib/data/blog-posts.ts` contains 4 placeholder blog posts. The Payload CMS `BlogPosts` collection exists but the frontend reads from the static file, not the CMS API.
-
-**Impact:** Blog content cannot be managed by non-developers.
-**Fix:** Wire the blog index and `[slug]` pages to query Payload's REST API or use `getPayload()` server-side.
+~`lib/data/blog-posts.ts` contains 4 placeholder blog posts.~ **Fixed:** `lib/data/fetch-utils.ts` queries the Payload CMS `blog-posts` and `events` collections at runtime, gracefully falling back to the typed static files if the CMS is empty or unreachable. All frontend pages (`blog`, `events`, `blog/[slug]`, `service`, `feed.xml`) now use these fetch utilities.
 
 ---
 
@@ -100,13 +88,10 @@ The Stripe `EmbeddedCheckout` components in `breakfast-checkout.tsx` and `regist
 **Impact:** Intermittent code redemption failures.
 **Fix:** Add a single retry with exponential backoff (e.g. 1s delay).
 
-### 11. Several Placeholder Pages Still Empty
+### 11. Several Placeholder Pages Still Empty ✅ FIXED
 **Size: M** | Content
 
-Pages at `/bid`, `/program`, `/merch`, `/prayer`, `/asl` use the `PageShell` placeholder component with "Coming Soon" content.
-
-**Impact:** Incomplete user experience, dead-end navigation.
-**Fix:** Populate with real content or remove from navigation until ready.
+~Pages at `/bid`, `/program`, `/merch`, `/prayer`, `/asl` use the `PageShell` placeholder component with "Coming Soon" content.~ **Fixed:** The `InventoryShell` component now accepts a `pageContent` prop, and all five pages display concrete status, logistics, and contact information. Retro games remain accessible as secondary easter eggs.
 
 ### 12. Missing `robots.txt`
 **Size: XS** | SEO
@@ -139,10 +124,10 @@ Settings are stored in `localStorage`, which is per-origin but each tab reads on
 ### 15. No Integration Tests for Server Actions
 **Size: L** | Quality
 
-Server actions (`actions/registration.ts`, `actions/breakfast.ts`, `actions/free-registration.ts`) have no integration tests. Unit tests cover validation and rate limiting but not the full action flow with mocked Stripe.
+Server actions (`actions/registration.ts`, `actions/breakfast.ts`) have no integration tests covering the full action flow with mocked Stripe. The Stripe webhook handler has unit tests; server actions themselves are tested only via validation and rate-limiting utilities.
 
 **Impact:** Regressions in checkout flows may not be caught.
-**Fix:** Add integration tests with mocked Stripe client.
+**Fix:** Add integration tests with mocked Stripe client for `startRegistrationCheckout` and `startBreakfastCheckout`.
 
 ### 16. Games Lack Tests
 **Size: M** | Quality

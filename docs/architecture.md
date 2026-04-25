@@ -50,20 +50,19 @@
 
 All user-facing pages live under the `[locale]` dynamic segment, enabling next-intl locale routing (`/en/register`, `/es/register`). The `(frontend)` route group applies a shared layout with the header, footer, accessibility provider, and skip-to-content link.
 
-**19 routes:** Homepage, Register, Breakfast, Cash (free reg), FAQ, Events, Blog, States, Al-Anon, ASL, Bid, Program, Merch, Prayer, Service, Journey, Accessibility, plus success confirmation pages.
+**18 routes:** Homepage, Register, Breakfast, FAQ, Events, Blog, States, Al-Anon, ASL, Bid, Program, Merch, Prayer, Service, Journey, Accessibility, plus success confirmation pages.
 
 Pages are server-rendered by default. Client components are used only where interactivity is required (forms, checkout, accessibility panel, games).
 
 ### 2. Server Actions — `actions/`
 
-Three server action modules handle all mutating operations:
+Two server action modules handle all mutating operations:
 
 | Action | File | Purpose |
 |--------|------|---------|
 | `startRegistrationCheckout` | `registration.ts` | Creates Stripe Checkout session for paid registration |
 | `submitAccessCodeRegistration` | `registration.ts` | Redeems access code + creates Stripe customer record |
 | `startBreakfastCheckout` | `breakfast.ts` | Creates Stripe Checkout session for breakfast tickets |
-| `submitFreeRegistration` | `free-registration.ts` | Creates Stripe customer record for cash-at-door registration |
 
 All actions follow the same pattern:
 1. Validate inputs via Zod schemas (`lib/validation.ts`)
@@ -90,7 +89,7 @@ Payload CMS runs as an embedded Next.js plugin (not a separate server). The admi
 | Module | Responsibility |
 |--------|---------------|
 | `validation.ts` | 13 Zod schemas — HTML sanitization, email validation, input bounds |
-| `rate-limit.ts` | Sliding-window rate limiter (in-memory, per-instance) |
+| `rate-limit.ts` | Sliding-window rate limiter (Upstash Redis in production, in-memory fallback locally) |
 | `registration-products.ts` | Product catalog + processing fee gross-up calculation |
 | `stripe.ts` | Stripe client singleton (server-only) |
 | `issuer-client.ts` | Access code redemption client (external service) |
@@ -107,9 +106,10 @@ Several features use static TypeScript data files rather than the CMS:
 - **Meetings** (`ypaa-meetings.ts`, 48KB) — YPAA meetings across 13 states
 - **States** (`states.ts`) — Member state info, intergroups, committees
 - **Events** (`events.ts`) — Convention events (upcoming + past)
-- **Blog Posts** (`blog-posts.ts`) — Placeholder posts (CMS integration pending)
+- **Blog Posts** (`blog-posts.ts`) — Safe fallback posts if CMS is empty
+- **Events** (`events.ts`) — Safe fallback events if CMS is empty
 
-This is a deliberate trade-off: meeting/state data changes infrequently and doesn't need CMS overhead. Blog posts are the exception — they should migrate to CMS queries.
+This is a deliberate trade-off: meeting/state data changes infrequently and doesn't need CMS overhead. Blog posts and events are now primarily served from the CMS via `lib/data/fetch-utils.ts`, with static files as intentional fallbacks.
 
 ## Data Flows
 
@@ -143,17 +143,7 @@ User enters code + form → RegistrationForm (client)
   → Client shows confirmation
 ```
 
-### Registration (Free / Cash)
 
-```
-User fills form → Cash registration page (client)
-  → Calls submitFreeRegistration() server action
-    → Zod validation
-    → Rate limit check
-    → Create/update Stripe customer with registration metadata
-    → Returns { success: true }
-  → Client shows confirmation
-```
 
 ## Security Architecture
 

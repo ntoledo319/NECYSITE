@@ -9,6 +9,7 @@ import OrnateDivider from "@/components/art/ornate-divider"
 import ScrollReveal from "@/components/scroll-reveal"
 import { EventJsonLd, OrganizationJsonLd } from "@/components/json-ld"
 import { fetchCalendarEvents } from "@/lib/calendar/fetch"
+import { getEvents } from "@/lib/data/fetch-utils"
 
 const YpaaNarrativeSection = dynamic(() => import("@/components/sections/ypaa-narrative-section"))
 const EventsPreviewSection = dynamic(() => import("@/components/sections/events-preview-section"))
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
+  const hostEvents = await getEvents()
   const events = await fetchCalendarEvents()
   const now = new Date()
   const nextBusinessMeeting = events.find(
@@ -62,7 +64,7 @@ export default async function HomePage() {
         </div>
 
         <ScrollReveal className="relative container mx-auto px-4 mb-6 pb-20 md:pb-6">
-          <EventsPreviewSection />
+          <EventsPreviewSection upcomingEvent={hostEvents.upcoming} pastEvents={hostEvents.past} />
         </ScrollReveal>
 
         <div className="container mx-auto px-4">

@@ -1,5 +1,7 @@
 "use server"
 
+import { getPayload } from "payload"
+import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
 import { rateLimitCheckout } from "@/lib/rate-limit"

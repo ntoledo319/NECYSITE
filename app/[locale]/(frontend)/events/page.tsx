@@ -87,90 +87,96 @@ export default async function EventsPage() {
                 </p>
               </div>
 
-              <article className="nec-card relative overflow-hidden p-6 md:p-8">
-                <div
-                  className="absolute inset-x-0 top-0 h-[3px]"
-                  aria-hidden="true"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, rgba(var(--nec-pink-rgb),0) 0%, rgba(var(--nec-pink-rgb),0.46) 34%, rgba(var(--nec-cyan-rgb),0.46) 100%)",
-                  }}
-                />
-                <div className="grid gap-6 md:grid-cols-[260px_1fr] md:gap-8">
-                  <div className="overflow-hidden rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
-                    <FlyerWithModal
-                      src={upcomingEvent.flyerSrc}
-                      alt={upcomingEvent.flyerAlt}
-                      title={upcomingEvent.title}
-                      className="rounded-[1.1rem]"
-                    />
-                  </div>
-
-                  <div className="space-y-4">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-pink)]">Featured Event</p>
-                    <h3 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                      {upcomingEvent.title}
-                    </h3>
-
-                    <div className="flex flex-col gap-3 text-sm text-[var(--nec-muted)] sm:flex-row sm:flex-wrap">
-                      <span className="inline-flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-[var(--nec-cyan)]" aria-hidden="true" />
-                        {upcomingEvent.date}
-                      </span>
-                      <span className="inline-flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
-                        {upcomingEvent.location}
-                      </span>
+              {upcomingEvent ? (
+                <article className="nec-card relative overflow-hidden p-6 md:p-8">
+                  <div
+                    className="absolute inset-x-0 top-0 h-[3px]"
+                    aria-hidden="true"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, rgba(var(--nec-pink-rgb),0) 0%, rgba(var(--nec-pink-rgb),0.46) 34%, rgba(var(--nec-cyan-rgb),0.46) 100%)",
+                    }}
+                  />
+                  <div className="grid gap-6 md:grid-cols-[260px_1fr] md:gap-8">
+                    <div className="overflow-hidden rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.04)] p-2">
+                      <FlyerWithModal
+                        src={upcomingEvent.flyerSrc}
+                        alt={upcomingEvent.flyerAlt}
+                        title={upcomingEvent.title}
+                        className="rounded-[1.1rem]"
+                      />
                     </div>
 
-                    <p className="text-base leading-7 text-[var(--nec-muted)]">{upcomingEvent.description}</p>
+                    <div className="space-y-4">
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-pink)]">Featured Event</p>
+                      <h3 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                        {upcomingEvent.title}
+                      </h3>
 
-                    {(() => {
-                      const calUrl = getGoogleCalendarUrl(upcomingEvent)
-                      return calUrl ? (
-                        <a
-                          href={calUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-ghost inline-flex items-center gap-2 self-start"
-                        >
-                          <CalendarPlus className="h-4 w-4" aria-hidden="true" />
-                          Add to Calendar
-                          <span className="sr-only"> (opens Google Calendar in new tab)</span>
-                        </a>
-                      ) : null
-                    })()}
-
-                    {upcomingEvent.schedule.length > 0 && (
-                      <div className="grid gap-2 sm:grid-cols-2">
-                        {upcomingEvent.schedule.map((slot) => (
-                          <div
-                            key={slot.label}
-                            className="rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
-                          >
-                            <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
-                            <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
-                          </div>
-                        ))}
+                      <div className="flex flex-col gap-3 text-sm text-[var(--nec-muted)] sm:flex-row sm:flex-wrap">
+                        <span className="inline-flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-[var(--nec-cyan)]" aria-hidden="true" />
+                          {upcomingEvent.date}
+                        </span>
+                        <span className="inline-flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-[var(--nec-gold)]" aria-hidden="true" />
+                          {upcomingEvent.location}
+                        </span>
                       </div>
-                    )}
 
-                    {upcomingEvent.details.length > 0 && (
-                      <dl className="grid gap-4 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-5 sm:grid-cols-2">
-                        {upcomingEvent.details.map((detail) => (
-                          <div
-                            key={detail.label}
-                            className="rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.56)] px-4 py-3"
+                      <p className="text-base leading-7 text-[var(--nec-muted)]">{upcomingEvent.description}</p>
+
+                      {(() => {
+                        const calUrl = getGoogleCalendarUrl(upcomingEvent)
+                        return calUrl ? (
+                          <a
+                            href={calUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-ghost inline-flex items-center gap-2 self-start"
                           >
-                            <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
-                            <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    )}
+                            <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+                            Add to Calendar
+                            <span className="sr-only"> (opens Google Calendar in new tab)</span>
+                          </a>
+                        ) : null
+                      })()}
+
+                      {upcomingEvent.schedule.length > 0 && (
+                        <div className="grid gap-2 sm:grid-cols-2">
+                          {upcomingEvent.schedule.map((slot) => (
+                            <div
+                              key={slot.label}
+                              className="rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
+                            >
+                              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
+                              <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {upcomingEvent.details.length > 0 && (
+                        <dl className="grid gap-4 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-5 sm:grid-cols-2">
+                          {upcomingEvent.details.map((detail) => (
+                            <div
+                              key={detail.label}
+                              className="rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.56)] px-4 py-3"
+                            >
+                              <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
+                              <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      )}
+                    </div>
                   </div>
+                </article>
+              ) : (
+                <div className="text-center py-12 rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.02)]">
+                  <p className="text-[var(--nec-muted)] text-lg">No upcoming events scheduled at this time.</p>
                 </div>
-              </article>
+              )}
             </section>
 
             <section aria-label="Past events archive" className="space-y-5">

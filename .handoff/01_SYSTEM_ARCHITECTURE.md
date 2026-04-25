@@ -29,7 +29,7 @@ The site handles event information, online registration with Stripe payments, an
 | **Payments** | Stripe | 20.0.0 | Embedded Checkout (not redirect) |
 | **i18n** | next-intl | 4.8.3 | Middleware-based locale routing |
 | **Validation** | Zod | 3.24.1 | 13 schemas, HTML sanitization built-in |
-| **Testing** | Vitest + Playwright | 4.1.0 / 1.58.2 | 45 unit tests + WCAG e2e tests |
+| **Testing** | Vitest + Playwright | 4.1.0 / 1.58.2 | 58 unit tests + WCAG e2e tests |
 | **Linting** | ESLint 9 + Prettier | 9 / 3.8.1 | jsx-a11y strict mode |
 | **Package Manager** | pnpm | 9+ | Lockfile: `pnpm-lock.yaml` |
 | **Hosting** | Vercel | — | Auto-deploy on push to `main` |
@@ -108,7 +108,7 @@ The site handles event information, online registration with Stripe payments, an
 - **Products:** Defined in `lib/registration-products.ts` (not Stripe Dashboard)
 - **Fee calculation:** Gross-up formula in `calculateProcessingFee()` so the fee line item covers Stripe's 2.9% + $0.30 on itself
 - **Metadata:** Full registration data stored on Stripe session + payment intent
-- **CRITICAL GAP:** No webhook handler exists. See `docs/tech-debt-and-gaps.md` P0 #1.
+- **Webhook:** `app/api/webhooks/stripe/route.ts` handles `checkout.session.completed`, `checkout.session.expired`, `payment_intent.payment_failed`, and `charge.refunded` with signature verification and idempotent Payload updates.
 
 ### Issuer Service (Access Codes)
 - **Purpose:** Redeem pre-issued registration codes (cash/scholarship flow)
@@ -153,7 +153,7 @@ The site handles event information, online registration with Stripe payments, an
 | Layer | Implementation |
 |-------|---------------|
 | **Input validation** | Zod schemas strip HTML tags, enforce max lengths, validate email format |
-| **Rate limiting** | Sliding window per email — 5/min checkout, 3/min free reg & code redemption |
+| **Rate limiting** | Sliding window per email — 5/min checkout, 3/min access-code redemption |
 | **CSP** | Strict Content-Security-Policy allowing only Stripe + Vercel domains |
 | **HSTS** | `max-age=63072000; includeSubDomains; preload` |
 | **Frame protection** | `X-Frame-Options: DENY` + `frame-ancestors: 'none'` |
@@ -177,7 +177,7 @@ The site handles event information, online registration with Stripe payments, an
 | `lib/registration-products.ts` | Product catalog + fee calculation | Critical |
 | `actions/registration.ts` | Main registration + access code checkout | Critical |
 | `actions/breakfast.ts` | Breakfast ticket checkout | Critical |
-| `actions/free-registration.ts` | Free/cash registration | Critical |
+
 | `lib/issuer-client.ts` | Access code redemption client | High |
 | `lib/accessibility-context.tsx` | 6-mode a11y settings provider | High |
 | `lib/constants.ts` | URLs, event slug, convention dates, start date, site URL | High |

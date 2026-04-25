@@ -19,9 +19,10 @@ export async function POST(req: Request) {
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret)
-  } catch (err: any) {
-    console.error(`Webhook Error: ${err.message}`)
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown webhook error"
+    console.error(`Webhook Error: ${message}`)
+    return new NextResponse(`Webhook Error: ${message}`, { status: 400 })
   }
 
   const payload = await getPayload({ config: configPromise })

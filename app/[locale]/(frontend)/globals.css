@@ -291,7 +291,7 @@
   }
   .nec-quiz-card:hover {
     transform: translateY(-2px) scale(1.01);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
   .nec-quiz-card:active {
     transform: translateY(0) scale(0.99);
@@ -302,8 +302,8 @@
     @apply transition-all duration-200;
   }
   .nec-state-card:hover {
-    border-color: rgba(var(--nec-purple-rgb), 0.25) !important;
-    background: rgba(var(--nec-dark-rgb), 0.6) !important;
+    border-color: rgba(var(--nec-purple-rgb), 0.25);
+    background: rgba(var(--nec-dark-rgb), 0.6);
     box-shadow: var(--shadow-card-hover);
   }
   .nec-state-card:active {
@@ -477,8 +477,8 @@
   /* ── Zoom / ghost-style link hover ────────────── */
   .zoom-link:hover,
   .zoom-link:focus-visible {
-    background: rgba(var(--nec-purple-rgb), 0.08) !important;
-    box-shadow: var(--shadow-card) !important;
+    background: rgba(var(--nec-purple-rgb), 0.08);
+    box-shadow: var(--shadow-card);
   }
 
   /* ── Splatter accent (CSS-only pseudo decoration) */
@@ -540,7 +540,7 @@
 }
 .states-stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover) !important;
+  box-shadow: var(--shadow-card-hover);
 }
 .a11y-reduce-motion .states-stat-card {
   transition: none !important;
@@ -559,30 +559,30 @@
 
 /* ── Events card: Light Mode ─────────────── */
 [data-color-mode="light"] .nec-event-card {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(109,40,217,0.20) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+  background: rgba(255,255,255,0.92);
+  border-color: rgba(109,40,217,0.20);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
 }
 
 /* ── States Page: Light Mode ─────────────── */
 [data-color-mode="light"] .state-card-luxury {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: var(--nec-border) !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04) !important;
-  backdrop-filter: none !important;
+  background: rgba(255,255,255,0.85);
+  border-color: var(--nec-border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04);
+  backdrop-filter: none;
 }
 [data-color-mode="light"] .states-stat-card {
-  background: rgba(255,255,255,0.8) !important;
-  border-color: var(--nec-border) !important;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important;
+  background: rgba(255,255,255,0.8);
+  border-color: var(--nec-border);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
 }
 [data-color-mode="light"] .states-map-section {
-  background: rgba(255,255,255,0.85) !important;
-  border-color: var(--nec-border) !important;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+  background: rgba(255,255,255,0.85);
+  border-color: var(--nec-border);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
 }
 [data-color-mode="light"] .necypaa-map-state {
-  stroke: rgba(109,40,217,0.25) !important;
+  stroke: rgba(109,40,217,0.25);
 }
 
 /* ── States Page: High Contrast ──────────── */
@@ -637,8 +637,8 @@
 
 /* Blog: Light Mode */
 [data-color-mode="light"] .blog-card-toggle {
-  background: rgba(109,40,217,0.06) !important;
-  border-color: rgba(109,40,217,0.18) !important;
+  background: rgba(109,40,217,0.06);
+  border-color: rgba(109,40,217,0.18);
 }
 
 /* Blog: High Contrast */
@@ -1133,12 +1133,12 @@
   }
   .fade-up { animation: none; opacity: 1; transform: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .btn-primary:hover, .btn-secondary:hover, .btn-alanon:hover, .btn-alateen:hover, .states-stat-card:hover { transform: none !important; }
-  .nec-card-lift:hover { transform: none !important; }
-  .fact-pill-interactive:hover { transform: none !important; }
-  .nec-quiz-card:hover, .nec-quiz-card:active { transform: none !important; }
-  .nec-state-card:hover, .nec-state-card:active { transform: none !important; }
-  .footer-link::after { transition: none !important; }
+  .btn-primary:hover, .btn-secondary:hover, .btn-alanon:hover, .btn-alateen:hover, .states-stat-card:hover { transform: none; }
+  .nec-card-lift:hover { transform: none; }
+  .fact-pill-interactive:hover { transform: none; }
+  .nec-quiz-card:hover, .nec-quiz-card:active { transform: none; }
+  .nec-state-card:hover, .nec-state-card:active { transform: none; }
+  .footer-link::after { transition: none; }
 }
 
 /* ── Focus visible outline for keyboard nav ── */
@@ -1278,64 +1278,64 @@
 
 /* text-white → warm dark brown on parchment (except inside buttons) */
 .text-white {
-  color: var(--nec-text) !important;
+  color: var(--nec-text);
 }
 .hover\:text-white:hover {
-  color: var(--nec-text) !important;
+  color: var(--nec-text);
 }
 .group\/link:hover .group-hover\/link\:text-white {
-  color: var(--nec-text) !important;
+  color: var(--nec-text);
 }
 .group\/card:hover .group-hover\/card\:text-white {
-  color: var(--nec-text) !important;
+  color: var(--nec-text);
 }
 /* Preserve white text inside buttons & on colored backgrounds */
 .btn-primary, .btn-secondary, .btn-alanon, .btn-alateen,
 .btn-primary *, .btn-secondary *, .btn-alanon *, .btn-alateen * {
-  color: #fff !important;
+  color: #fff;
 }
-.btn-ghost, .btn-ghost * { color: var(--nec-text) !important; }
-.btn-ghost:hover, .btn-ghost:hover * { color: var(--nec-purple) !important; }
+.btn-ghost, .btn-ghost * { color: var(--nec-text); }
+.btn-ghost:hover, .btn-ghost:hover * { color: var(--nec-purple); }
 
 /* Gray text → warm brown tones */
 .text-gray-200, .text-gray-300 {
-  color: var(--nec-text) !important;
+  color: var(--nec-text);
 }
 .text-gray-400 {
-  color: var(--nec-muted) !important;
+  color: var(--nec-muted);
 }
 .text-gray-500 {
-  color: var(--nec-muted) !important;
+  color: var(--nec-muted);
 }
 .text-gray-600 {
-  color: var(--nec-muted) !important;
+  color: var(--nec-muted);
 }
 .text-gray-700 {
-  color: var(--nec-muted) !important;
+  color: var(--nec-muted);
 }
 
 /* Dark mode: restore text-white and gray shades */
 [data-color-mode="dark"] .text-white {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 [data-color-mode="dark"] .hover\:text-white:hover {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 [data-color-mode="dark"] .group\/link:hover .group-hover\/link\:text-white {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 [data-color-mode="dark"] .group\/card:hover .group-hover\/card\:text-white {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 [data-color-mode="dark"] .text-gray-200,
 [data-color-mode="dark"] .text-gray-300 {
-  color: var(--nec-text) !important;
+  color: var(--nec-text);
 }
 [data-color-mode="dark"] .text-gray-400 {
-  color: var(--nec-muted) !important;
+  color: var(--nec-muted);
 }
 [data-color-mode="dark"] .text-gray-500 {
-  color: var(--nec-muted) !important;
+  color: var(--nec-muted);
 }
 
 /* ── Header & navigation — uses CSS vars now ── */
@@ -1353,7 +1353,7 @@
   background: var(--nec-text);
 }
 footer {
-  background: linear-gradient(180deg, var(--nec-dark) 0%, var(--nec-navy) 100%) !important;
+  background: linear-gradient(180deg, var(--nec-dark) 0%, var(--nec-navy) 100%);
 }
 
 /* ── Mad Realm art layers — default is light ── */
@@ -1364,7 +1364,7 @@ footer {
 #mad-realm-maze line,
 #mad-realm-maze circle,
 #mad-realm-maze polygon {
-  opacity: 0.015 !important;
+  opacity: 0.015;
 }
 [data-color-mode="dark"] .mad-realm-particles {
   opacity: 1;
@@ -1373,16 +1373,16 @@ footer {
 [data-color-mode="dark"] #mad-realm-maze line,
 [data-color-mode="dark"] #mad-realm-maze circle,
 [data-color-mode="dark"] #mad-realm-maze polygon {
-  opacity: 0.04 !important;
+  opacity: 0.04;
 }
 .a11y-high-contrast .mad-realm-particles {
   display: none !important;
 }
 .mad-realm-divider-line {
-  opacity: 0.4 !important;
+  opacity: 0.4;
 }
 [data-color-mode="dark"] .mad-realm-divider-line {
-  opacity: 0.7 !important;
+  opacity: 0.7;
 }
 .a11y-high-contrast .mad-realm-divider-line {
   opacity: 0.6 !important;
@@ -1390,16 +1390,16 @@ footer {
 
 /* ── Hover states using bg opacity ─────────── */
 .hover\:bg-white\/5:hover {
-  background-color: rgba(0,0,0,0.04) !important;
+  background-color: rgba(0,0,0,0.04);
 }
 .hover\:bg-white\/\[0\.03\]:hover {
-  background-color: rgba(0,0,0,0.02) !important;
+  background-color: rgba(0,0,0,0.02);
 }
 [data-color-mode="dark"] .hover\:bg-white\/5:hover {
-  background-color: rgba(255,255,255,0.05) !important;
+  background-color: rgba(255,255,255,0.05);
 }
 [data-color-mode="dark"] .hover\:bg-white\/\[0\.03\]:hover {
-  background-color: rgba(255,255,255,0.03) !important;
+  background-color: rgba(255,255,255,0.03);
 }
 /* ── Al-Anon / Alateen — light-first defaults ── */
 /* Al-Anon logo: light bg default (black text), dark mode override */
@@ -1471,10 +1471,10 @@ footer {
 }
 /* Mobile nav border divider — uses CSS variables now */
 .border-gray-700\/50 {
-  border-color: var(--nec-border) !important;
+  border-color: var(--nec-border);
 }
 [data-color-mode="dark"] .border-gray-700\/50 {
-  border-color: rgba(255,255,255,0.15) !important;
+  border-color: rgba(255,255,255,0.15);
 }
 
 /* ── Share Menu ──────────────────────────────── */
@@ -1939,9 +1939,9 @@ footer {
 @media print {
   /* White background, dark text */
   html, body {
-    background: #fff !important;
-    color: #111 !important;
-    font-size: 12pt !important;
+    background: #fff;
+    color: #111;
+    font-size: 12pt;
   }
 
   /* Hide decorative/interactive layers */
@@ -1962,13 +1962,13 @@ footer {
 
   /* Ensure readable text */
   h1, h2, h3, h4, h5, h6 {
-    color: #111 !important;
-    text-shadow: none !important;
+    color: #111;
+    text-shadow: none;
     break-after: avoid;
   }
   p, li, span, a, td, th, label {
-    color: #333 !important;
-    text-shadow: none !important;
+    color: #333;
+    text-shadow: none;
   }
 
   /* Show link URLs */
@@ -1984,32 +1984,32 @@ footer {
 
   /* Remove backgrounds, shadows, gradients */
   * {
-    background: transparent !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
   }
 
   /* Ensure images print */
   img {
-    max-width: 100% !important;
+    max-width: 100%;
     page-break-inside: avoid;
   }
 
   /* Remove fixed/sticky positioning */
   .fixed, .sticky, [style*="position: fixed"] {
-    position: static !important;
+    position: static;
   }
 
   /* Ensure page content takes full width */
   main {
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
+    padding: 0;
+    margin: 0;
+    width: 100%;
   }
 
   /* Remove min-height constraints */
   .min-h-screen, .min-h-screen-safe {
-    min-height: auto !important;
+    min-height: auto;
   }
 
   /* Page break controls */

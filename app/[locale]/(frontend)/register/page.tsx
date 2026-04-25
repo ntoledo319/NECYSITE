@@ -6,6 +6,7 @@ import Image from "next/image"
 import RegistrationForm from "@/components/registration-form"
 import PolicyAgreement from "@/components/policy-agreement"
 import RegistrationCheckout from "@/components/registration-checkout"
+import ErrorBoundary from "@/components/ui/error-boundary"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 import { CONTACT_EMAIL, HOTEL_BOOKING_URL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
@@ -226,14 +227,27 @@ export default function RegisterPage() {
                   )}
 
                   {currentStep === "payment" && registrationData && (
-                    <RegistrationCheckout
-                      registrationData={registrationData}
-                      policyAgreements={policyAgreements}
-                      onBack={() => {
-                        directionRef.current = -1
-                        setCurrentStep(isScholarshipFlow ? "info" : "policy")
-                      }}
-                    />
+                    <ErrorBoundary
+                      fallback={
+                        <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.20)] bg-[rgba(var(--nec-card-rgb),0.90)] p-6 text-center">
+                          <p className="text-[var(--nec-text)] font-semibold mb-2">
+                            We had trouble loading the payment form.
+                          </p>
+                          <p className="text-sm text-[var(--nec-muted)]">
+                            Please refresh the page or try again in a moment.
+                          </p>
+                        </div>
+                      }
+                    >
+                      <RegistrationCheckout
+                        registrationData={registrationData}
+                        policyAgreements={policyAgreements}
+                        onBack={() => {
+                          directionRef.current = -1
+                          setCurrentStep(isScholarshipFlow ? "info" : "policy")
+                        }}
+                      />
+                    </ErrorBoundary>
                   )}
                 </motion.div>
               </AnimatePresence>

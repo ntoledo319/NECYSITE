@@ -19,6 +19,7 @@ interface InventoryShellProps {
   theme?: InventoryTheme
   gameName: string
   gameDescription: string
+  pageContent?: React.ReactNode
   children: React.ReactNode
 }
 
@@ -267,6 +268,7 @@ export default function InventoryShell({
   theme = "faq",
   gameName,
   gameDescription,
+  pageContent,
   children,
 }: InventoryShellProps) {
   const [showGame, setShowGame] = useState(false)

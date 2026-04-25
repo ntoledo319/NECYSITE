@@ -19,6 +19,7 @@ import PageArtAccents from "@/components/art/page-art-accents"
 import CalendarSection from "@/components/calendar/calendar-section"
 
 import { fetchCalendarEvents } from "@/lib/calendar/fetch"
+import { getBlogPostBySlug } from "@/lib/data/fetch-utils"
 
 export const metadata: Metadata = {
   title: "Service Opportunities — NECYPAA XXXVI",
@@ -369,7 +370,7 @@ export default async function ServicePage() {
                 </div>
 
                 <Suspense fallback={<CalendarSkeleton />}>
-                  {/* @ts-expect-error Async Server Component */}
+                  {/* @ts-expect-error TypeScript JSX types do not yet support async Server Components in all contexts. This is valid Next.js 15 + React 19 RSC syntax. */}
                   <CalendarSection />
                 </Suspense>
               </div>

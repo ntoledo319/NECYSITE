@@ -18,20 +18,21 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 ## Phased Todo List & Progress
 
 ### Phase 1 — Payment and registration hardening
-- [ ] Create a durable first-party source of truth for registrations/orders (Payload Collection).
-- [ ] Implement Stripe webhook reconciliation (`app/api/webhooks/stripe/route.ts`).
-- [ ] Add lifecycle statuses (pending, paid, failed, refunded, comped, cash, canceled).
-- [ ] Validate and normalize all registration input server-side.
-- [ ] Normalize email casing.
-- [ ] Prevent duplicate paid records from repeated webhooks.
-- [ ] Improve success/cancel pages.
-- [ ] Add admin reconciliation support.
-- [ ] Add tests for webhook idempotency, validation, and product definitions.
+- [x] Create a durable first-party source of truth for registrations/orders (Payload Collection).
+- [x] Implement Stripe webhook reconciliation (`app/api/webhooks/stripe/route.ts`).
+- [x] Add lifecycle statuses (pending, paid, failed, refunded, comped, cash, canceled).
+- [x] Validate and normalize all registration input server-side.
+- [x] Normalize email casing.
+- [x] Prevent duplicate paid records from repeated webhooks.
+- [x] Improve success/cancel pages.
+- [x] Add admin reconciliation support (Payload admin panel + `Registrations` collection).
+- [x] Add tests for webhook idempotency, validation, and product definitions.
 
 ### Phase 2 — Cash/free/access-code security
-- [ ] Protect sensitive routes (Payload admin auth, or signed token).
-- [ ] Add audit logging for every free/cash/comp registration.
-- [ ] Add rate limiting for sensitive routes.
+- [x] Removed `/cash` public route completely (cash registration moved to separate `necypaa-ras` repository).
+- [x] `submitAccessCodeRegistration` is protected by external issuer service + rate limiting.
+- [x] Rate limiting applied to all public mutations (checkout, access-code redemption, contact forms).
+- [ ] Add audit logging for every free/cash/comp registration (deferred to external issuer system).
 
 ### Phase 3 — Production-safe rate limiting
 - [x] Replace in-memory-only rate limiting with production-safe storage (e.g., Upstash Redis/Vercel KV) with local fallback.
@@ -46,14 +47,14 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - [x] Confirm and document production DB behavior/requirements.
 
 ### Phase 5 — Static data versus CMS consolidation
-- [ ] Identify duplicated content sources (static files vs Payload).
-- [ ] Reduce duplication where safe.
-- [ ] Add event date validation.
-- [ ] Handle archived/past events intentionally.
+- [x] Identify duplicated content sources (static files vs Payload).
+- [x] Reduce duplication where safe — created typed `lib/data/fetch-utils.ts` with CMS-first + static fallback.
+- [x] Add event date validation (`isValidEventDate`, `isPastEvent` heuristics).
+- [x] Handle archived/past events intentionally (upcoming vs past categorization in `getEvents`).
 
 ### Phase 6 — Replace weak placeholder pages
-- [ ] Review `/program`, `/asl`, `/merch`, `/bid`, `/prayer`.
-- [ ] Ensure they are useful (current status, update date, contact path) and not just placeholders.
+- [x] Review `/program`, `/asl`, `/merch`, `/bid`, `/prayer`.
+- [x] Ensure they are useful (current status, update date, contact path) and not just placeholders.
 
 ### Phase 7 — Design system cleanup
 - [ ] Split giant CSS if appropriate.

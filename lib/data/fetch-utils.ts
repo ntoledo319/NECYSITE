@@ -3,13 +3,26 @@ import configPromise from "@payload-config"
 import { BLOG_POSTS, type BlogPost } from "./blog-posts"
 import { pastEvents, upcomingEvent, type EventData } from "./events"
 
+interface LexicalNode {
+  type?: string
+  text?: string
+  children?: LexicalNode[]
+}
+
+interface LexicalRoot {
+  root?: {
+    children?: LexicalNode[]
+  }
+}
+
 // Lexical AST to plaintext converter for simple paragraphs
-function extractTextFromLexical(lexicalData: any): string {
-  if (!lexicalData || !lexicalData.root) return ""
-  
+function extractTextFromLexical(lexicalData: unknown): string {
+  const data = lexicalData as LexicalRoot
+  if (!data?.root?.children) return ""
+
   const paragraphs: string[] = []
-  
-  for (const block of lexicalData.root.children) {
+
+  for (const block of data.root.children) {
     if (block.type === "paragraph" || block.type === "heading") {
       let text = ""
       for (const node of block.children || []) {
@@ -22,7 +35,7 @@ function extractTextFromLexical(lexicalData: any): string {
       }
     }
   }
-  
+
   return paragraphs.join("\n\n")
 }
 
@@ -39,14 +52,14 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     })
 
     if (docs.length > 0) {
-      return docs.map((doc: any) => ({
-        id: doc.id,
-        title: doc.title,
-        slug: doc.slug,
-        excerpt: doc.excerpt || "",
+      return docs.map((doc: Record<string, unknown>) => ({
+        id: String(doc.id),
+        title: String(doc.title),
+        slug: String(doc.slug),
+        excerpt: String(doc.excerpt || ""),
         body: typeof doc.body === "string" ? doc.body : extractTextFromLexical(doc.body),
-        category: doc.category as any,
-        publishedAt: doc.publishedAt ? new Date(doc.publishedAt).toISOString().split('T')[0] : "2026-01-01",
+        category: String(doc.category) as BlogPost["category"],
+        publishedAt: doc.publishedAt ? new Date(String(doc.publishedAt)).toISOString().split('T')[0] : "2026-01-01",
       }))
     }
   } catch (error) {
@@ -90,17 +103,26 @@ export async function getEvents(): Promise<{ upcoming: EventData | null; past: E
     })
 
     if (docs.length > 0) {
-      const mappedEvents: EventData[] = docs.map((doc: any) => ({
-        id: doc.id,
-        title: doc.title,
-        date: doc.date,
-        location: doc.location,
-        schedule: doc.schedule?.map((s: any) => ({ label: s.label, time: s.time })) || [],
-        details: doc.details?.map((d: any) => ({ label: d.label, value: d.value })) || [],
-        description: doc.description || "",
-        flyerSrc: doc.flyerImage?.url || "/images/placeholder.jpg",
-        flyerAlt: doc.flyerAlt || "Event flyer",
-      }))
+      const mappedEvents: EventData[] = docs.map((doc: Record<string, unknown>) => {
+        const schedule = Array.isArray(doc.schedule)
+          ? doc.schedule.map((s: Record<string, unknown>) => ({ label: String(s.label), time: String(s.time) }))
+          : []
+        const details = Array.isArray(doc.details)
+          ? doc.details.map((d: Record<string, unknown>) => ({ label: String(d.label), value: String(d.value) }))
+          : []
+        const flyerImage = doc.flyerImage as Record<string, unknown> | undefined
+        return {
+          id: String(doc.id),
+          title: String(doc.title),
+          date: String(doc.date),
+          location: String(doc.location || ""),
+          schedule,
+          details,
+          description: String(doc.description || ""),
+          flyerSrc: typeof flyerImage?.url === "string" ? flyerImage.url : "/images/placeholder.jpg",
+          flyerAlt: String(doc.flyerAlt || "Event flyer"),
+        }
+      })
 
       // Filter out invalid dates
       const validEvents = mappedEvents.filter(e => isValidEventDate(e.date))
