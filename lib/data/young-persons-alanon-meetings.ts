@@ -51,7 +51,8 @@ export const YOUNG_PERSONS_ALANON_MEETINGS: YoungPersonsAlAnonMeeting[] = [
     meetingId: "543-862-269 / Phone: +1 (872) 240-3212",
     ageRange: "18–40",
     contactUrl: "https://www.al-anon-8ny.org/online-meeting-schedule",
-    notes: "District 8 Capital District Al-Anon. In need of more attendees and support. Online so accessible to anyone in the Northeast.",
+    notes:
+      "District 8 Capital District Al-Anon. In need of more attendees and support. Online so accessible to anyone in the Northeast.",
   },
   {
     name: "Serenity Seekers AFG",
@@ -64,7 +65,8 @@ export const YOUNG_PERSONS_ALANON_MEETINGS: YoungPersonsAlAnonMeeting[] = [
     meetingId: "Zoom: 344 516 9083 (no password)",
     ageRange: "Young Adults",
     contactUrl: "https://www.ocalanon.org/meeting-directory/",
-    notes: "Open meeting with young adult focus. Based in California but Zoom-accessible to anyone. Time not confirmed — contact OC AIS.",
+    notes:
+      "Open meeting with young adult focus. Based in California but Zoom-accessible to anyone. Time not confirmed — contact OC AIS.",
   },
 ]
 

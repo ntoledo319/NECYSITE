@@ -17,23 +17,23 @@ The site handles event information, online registration with Stripe payments, an
 
 ## Tech Stack
 
-| Layer | Technology | Version | Notes |
-|-------|-----------|---------|-------|
-| **Framework** | Next.js (App Router) | 15.4.11 | Server-first rendering, React Server Components |
-| **Language** | TypeScript | 5.7.3 | Strict mode, zero `any` types |
-| **React** | React + ReactDOM | 19.2.4 | React 19 with Server Components |
-| **Styling** | Tailwind CSS | 3.4.17 | Custom design tokens in `globals.css` |
-| **UI Library** | Radix UI + shadcn/ui | Various | 30+ Radix primitives, 6 shadcn components |
-| **CMS** | Payload CMS | 3.79.1 | Embedded in Next.js, admin at `/admin` |
-| **Database** | SQLite | Embedded | File: `payload.db` — no external DB needed |
-| **Payments** | Stripe | 20.0.0 | Embedded Checkout (not redirect) |
-| **i18n** | next-intl | 4.8.3 | Middleware-based locale routing |
-| **Validation** | Zod | 3.24.1 | 13 schemas, HTML sanitization built-in |
-| **Testing** | Vitest + Playwright | 4.1.0 / 1.58.2 | 58 unit tests + WCAG e2e tests |
-| **Linting** | ESLint 9 + Prettier | 9 / 3.8.1 | jsx-a11y strict mode |
-| **Package Manager** | pnpm | 9+ | Lockfile: `pnpm-lock.yaml` |
-| **Hosting** | Vercel | — | Auto-deploy on push to `main` |
-| **Analytics** | Vercel Analytics + Web Vitals | — | Core Web Vitals tracking |
+| Layer               | Technology                    | Version        | Notes                                           |
+| ------------------- | ----------------------------- | -------------- | ----------------------------------------------- |
+| **Framework**       | Next.js (App Router)          | 15.4.11        | Server-first rendering, React Server Components |
+| **Language**        | TypeScript                    | 5.7.3          | Strict mode, zero `any` types                   |
+| **React**           | React + ReactDOM              | 19.2.4         | React 19 with Server Components                 |
+| **Styling**         | Tailwind CSS                  | 3.4.17         | Custom design tokens in `globals.css`           |
+| **UI Library**      | Radix UI + shadcn/ui          | Various        | 30+ Radix primitives, 6 shadcn components       |
+| **CMS**             | Payload CMS                   | 3.79.1         | Embedded in Next.js, admin at `/admin`          |
+| **Database**        | SQLite                        | Embedded       | File: `payload.db` — no external DB needed      |
+| **Payments**        | Stripe                        | 20.0.0         | Embedded Checkout (not redirect)                |
+| **i18n**            | next-intl                     | 4.8.3          | Middleware-based locale routing                 |
+| **Validation**      | Zod                           | 3.24.1         | 13 schemas, HTML sanitization built-in          |
+| **Testing**         | Vitest + Playwright           | 4.1.0 / 1.58.2 | 58 unit tests + WCAG e2e tests                  |
+| **Linting**         | ESLint 9 + Prettier           | 9 / 3.8.1      | jsx-a11y strict mode                            |
+| **Package Manager** | pnpm                          | 9+             | Lockfile: `pnpm-lock.yaml`                      |
+| **Hosting**         | Vercel                        | —              | Auto-deploy on push to `main`                   |
+| **Analytics**       | Vercel Analytics + Web Vitals | —              | Core Web Vitals tracking                        |
 
 ---
 
@@ -83,18 +83,19 @@ The site handles event information, online registration with Stripe payments, an
 
 ## Database Schema (Payload CMS Collections)
 
-| Collection | Purpose | Key Fields |
-|-----------|---------|-----------|
-| **Users** | CMS admin auth | email, password, name, role (admin/editor) |
-| **Registrations** | First-party order record | email, name, status, type, stripeSessionId, amountTotalCents |
-| **Events** | Convention events | title, date, location, description, schedule[], details[], flyer (Media) |
-| **BlogPosts** | Blog articles | title, slug (unique), category, excerpt, body (richText/Lexical), featuredImage, publishedAt, status (draft/published), Spanish translations |
-| **FAQ** | Frequently asked questions | question, answer (richText), category, sortOrder, Spanish translations |
-| **Media** | Uploaded files | filename, alt (required), url, mimeType, width, height |
+| Collection        | Purpose                    | Key Fields                                                                                                                                   |
+| ----------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Users**         | CMS admin auth             | email, password, name, role (admin/editor)                                                                                                   |
+| **Registrations** | First-party order record   | email, name, status, type, stripeSessionId, amountTotalCents                                                                                 |
+| **Events**        | Convention events          | title, date, location, description, schedule[], details[], flyer (Media)                                                                     |
+| **BlogPosts**     | Blog articles              | title, slug (unique), category, excerpt, body (richText/Lexical), featuredImage, publishedAt, status (draft/published), Spanish translations |
+| **FAQ**           | Frequently asked questions | question, answer (richText), category, sortOrder, Spanish translations                                                                       |
+| **Media**         | Uploaded files             | filename, alt (required), url, mimeType, width, height                                                                                       |
 
-**Storage:** By default, Payload is configured to use a local SQLite file (`file:./payload.db`). 
+**Storage:** By default, Payload is configured to use a local SQLite file (`file:./payload.db`).
 
-**CRITICAL PRODUCTION REQUIREMENT:** Vercel serverless functions are ephemeral. A local `payload.db` file will be wiped on every deployment and reset during cold starts. For production deployment, you **must** supply a persistent `DATABASE_URI`. 
+**CRITICAL PRODUCTION REQUIREMENT:** Vercel serverless functions are ephemeral. A local `payload.db` file will be wiped on every deployment and reset during cold starts. For production deployment, you **must** supply a persistent `DATABASE_URI`.
+
 - **Recommended Solution:** Use Turso (libSQL) and set `DATABASE_URI="libsql://.../?authToken=..."`. The Payload SQLite adapter natively supports this.
 
 ---
@@ -102,6 +103,7 @@ The site handles event information, online registration with Stripe payments, an
 ## Third-Party Integrations
 
 ### Stripe (Payments)
+
 - **Purpose:** Convention registration ($40), breakfast tickets ($20 each), scholarship purchases
 - **Mode:** Embedded Checkout (UI rendered inside the page, not a redirect)
 - **Server module:** `lib/stripe.ts` — singleton client with `server-only` guard
@@ -111,6 +113,7 @@ The site handles event information, online registration with Stripe payments, an
 - **Webhook:** `app/api/webhooks/stripe/route.ts` handles `checkout.session.completed`, `checkout.session.expired`, `payment_intent.payment_failed`, and `charge.refunded` with signature verification and idempotent Payload updates.
 
 ### Issuer Service (Access Codes)
+
 - **Purpose:** Redeem pre-issued registration codes (cash/scholarship flow)
 - **Client:** `lib/issuer-client.ts`
 - **Endpoint:** `POST {ISSUER_SERVICE_BASE_URL}/api/internal/redeem-registration-code`
@@ -119,6 +122,7 @@ The site handles event information, online registration with Stripe payments, an
 - **Error codes:** `INVALID_CODE`, `EXPIRED_CODE`, `ALREADY_REDEEMED`, `SERVICE_ERROR`
 
 ### Vercel (Hosting + Analytics)
+
 - **Deployment:** Auto-deploy on push to `main`
 - **Analytics:** `@vercel/analytics` + `web-vitals` reporting
 - **Edge:** Middleware runs at edge for i18n routing
@@ -129,54 +133,54 @@ The site handles event information, online registration with Stripe payments, an
 
 ### Required (site will not function without these)
 
-| Variable | Where Used | Example |
-|----------|-----------|---------|
-| `PAYLOAD_SECRET` | `payload.config.ts` | Any random string (32+ chars for prod) |
-| `STRIPE_SECRET_KEY` | `lib/stripe.ts` | `sk_test_...` or `sk_live_...` |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Client-side checkout components | `pk_test_...` or `pk_live_...` |
-| `NEXT_PUBLIC_BASE_URL` | Stripe success/return URLs | `https://www.necypaact.com` |
+| Variable                             | Where Used                      | Example                                |
+| ------------------------------------ | ------------------------------- | -------------------------------------- |
+| `PAYLOAD_SECRET`                     | `payload.config.ts`             | Any random string (32+ chars for prod) |
+| `STRIPE_SECRET_KEY`                  | `lib/stripe.ts`                 | `sk_test_...` or `sk_live_...`         |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Client-side checkout components | `pk_test_...` or `pk_live_...`         |
+| `NEXT_PUBLIC_BASE_URL`               | Stripe success/return URLs      | `https://www.necypaact.com`            |
 
 ### Optional (features degrade gracefully)
 
-| Variable | Where Used | Example |
-|----------|-----------|---------|
-| `ISSUER_SERVICE_BASE_URL` | `lib/issuer-client.ts` | `https://issuer.example.com` |
-| `ISSUER_SERVICE_API_KEY` | `lib/issuer-client.ts` | Bearer token string |
-| `DATABASE_URI` | `payload.config.ts` | `file:./payload.db` (default) |
-| `UPSTASH_REDIS_REST_URL` | `lib/rate-limit.ts` | `https://...upstash.io` |
-| `UPSTASH_REDIS_REST_TOKEN` | `lib/rate-limit.ts` | `...` |
+| Variable                   | Where Used             | Example                       |
+| -------------------------- | ---------------------- | ----------------------------- |
+| `ISSUER_SERVICE_BASE_URL`  | `lib/issuer-client.ts` | `https://issuer.example.com`  |
+| `ISSUER_SERVICE_API_KEY`   | `lib/issuer-client.ts` | Bearer token string           |
+| `DATABASE_URI`             | `payload.config.ts`    | `file:./payload.db` (default) |
+| `UPSTASH_REDIS_REST_URL`   | `lib/rate-limit.ts`    | `https://...upstash.io`       |
+| `UPSTASH_REDIS_REST_TOKEN` | `lib/rate-limit.ts`    | `...`                         |
 
 ---
 
 ## Security Architecture
 
-| Layer | Implementation |
-|-------|---------------|
-| **Input validation** | Zod schemas strip HTML tags, enforce max lengths, validate email format |
-| **Rate limiting** | Sliding window per email — 5/min checkout, 3/min access-code redemption |
-| **CSP** | Strict Content-Security-Policy allowing only Stripe + Vercel domains |
-| **HSTS** | `max-age=63072000; includeSubDomains; preload` |
-| **Frame protection** | `X-Frame-Options: DENY` + `frame-ancestors: 'none'` |
-| **Type safety** | TypeScript strict mode, zero `any` types in codebase |
+| Layer                | Implementation                                                               |
+| -------------------- | ---------------------------------------------------------------------------- |
+| **Input validation** | Zod schemas strip HTML tags, enforce max lengths, validate email format      |
+| **Rate limiting**    | Sliding window per email — 5/min checkout, 3/min access-code redemption      |
+| **CSP**              | Strict Content-Security-Policy allowing only Stripe + Vercel domains         |
+| **HSTS**             | `max-age=63072000; includeSubDomains; preload`                               |
+| **Frame protection** | `X-Frame-Options: DENY` + `frame-ancestors: 'none'`                          |
+| **Type safety**      | TypeScript strict mode, zero `any` types in codebase                         |
 | **Server isolation** | Stripe key guarded by `server-only` package — cannot be imported client-side |
-| **CMS auth** | Payload admin requires authenticated user |
-| **Permissions** | `camera=(), microphone=(), geolocation=()` |
+| **CMS auth**         | Payload admin requires authenticated user                                    |
+| **Permissions**      | `camera=(), microphone=(), geolocation=()`                                   |
 
 ---
 
 ## Key File Reference
 
-| File | What It Does | Criticality |
-|------|-------------|-------------|
-| `payload.config.ts` | CMS + database configuration | Critical |
-| `next.config.mjs` | Security headers, image formats, plugins | Critical |
-| `middleware.ts` | i18n locale routing | Critical |
-| `lib/stripe.ts` | Stripe client singleton | Critical |
-| `lib/validation.ts` | All 13 Zod input validation schemas | Critical |
-| `lib/rate-limit.ts` | Rate limiting for all server actions | Critical |
-| `lib/registration-products.ts` | Product catalog + fee calculation | Critical |
-| `actions/registration.ts` | Main registration + access code checkout | Critical |
-| `actions/breakfast.ts` | Breakfast ticket checkout | Critical |
+| File                           | What It Does                             | Criticality |
+| ------------------------------ | ---------------------------------------- | ----------- |
+| `payload.config.ts`            | CMS + database configuration             | Critical    |
+| `next.config.mjs`              | Security headers, image formats, plugins | Critical    |
+| `middleware.ts`                | i18n locale routing                      | Critical    |
+| `lib/stripe.ts`                | Stripe client singleton                  | Critical    |
+| `lib/validation.ts`            | All 13 Zod input validation schemas      | Critical    |
+| `lib/rate-limit.ts`            | Rate limiting for all server actions     | Critical    |
+| `lib/registration-products.ts` | Product catalog + fee calculation        | Critical    |
+| `actions/registration.ts`      | Main registration + access code checkout | Critical    |
+| `actions/breakfast.ts`         | Breakfast ticket checkout                | Critical    |
 
 | `lib/issuer-client.ts` | Access code redemption client | High |
 | `lib/accessibility-context.tsx` | 6-mode a11y settings provider | High |

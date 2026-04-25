@@ -46,10 +46,7 @@ const eslintConfig = [
       "no-var": "error",
 
       // TypeScript
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
 
       // React
       "react/no-unescaped-entities": "off",

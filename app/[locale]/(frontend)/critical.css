@@ -19,9 +19,9 @@
   --nec-border: #2d1f4e;
   --nec-text: #e8e0f0;
   --nec-muted: #b4a5d0;
-  --alanon-blue: #0093D0;
-  --alanon-blue-dim: #007BB5;
-  --alanon-white: #FFFFFF;
+  --alanon-blue: #0093d0;
+  --alanon-blue-dim: #007bb5;
+  --alanon-white: #ffffff;
   --radius: 0.75rem;
   --background: 260 40% 8%;
   --foreground: 270 25% 92%;
@@ -45,77 +45,93 @@
 }
 
 @layer base {
-  *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--nec-navy);
     color: var(--nec-text);
-    font-family: var(--font-sans), 'Source Serif 4', Georgia, serif;
+    font-family: var(--font-sans), "Source Serif 4", Georgia, serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     background-image:
-      radial-gradient(ellipse at 20% 80%, rgba(122,91,13,0.03) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(107,48,96,0.02) 0%, transparent 60%);
+      radial-gradient(ellipse at 20% 80%, rgba(122, 91, 13, 0.03) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(107, 48, 96, 0.02) 0%, transparent 60%);
   }
   ::selection {
-    background: rgba(107,48,96,0.20);
+    background: rgba(107, 48, 96, 0.2);
     color: var(--nec-text);
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), 'Playfair Display', Georgia, serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading), "Playfair Display", Georgia, serif;
     letter-spacing: -0.01em;
   }
-  [id] { scroll-margin-top: 80px; }
+  [id] {
+    scroll-margin-top: 80px;
+  }
 }
 
 @layer components {
   .section-badge {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest;
-    background: rgba(124,58,237,0.15);
-    border: 1px solid rgba(124,58,237,0.40);
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest;
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(124, 58, 237, 0.4);
     color: var(--nec-purple);
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-black leading-tight;
+    @apply text-3xl font-black leading-tight md:text-4xl;
     color: #fff;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 font-black text-base uppercase tracking-wide
-           text-white rounded-xl px-7 py-3 transition-all duration-200 shadow-lg;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-base font-black uppercase tracking-wide text-white shadow-lg transition-all duration-200;
     background: linear-gradient(135deg, var(--nec-purple) 0%, var(--nec-pink) 100%);
-    box-shadow: 0 4px 20px rgba(124,58,237,0.35);
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
   }
   .btn-primary:hover {
     background: linear-gradient(135deg, var(--nec-purple-dim) 0%, var(--nec-pink-dim) 100%);
-    box-shadow: 0 6px 28px rgba(124,58,237,0.55);
+    box-shadow: 0 6px 28px rgba(124, 58, 237, 0.55);
     transform: translateY(-1px);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 font-bold text-base uppercase tracking-wide
-           rounded-xl px-7 py-3 transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-base font-bold uppercase tracking-wide transition-all duration-200;
     color: var(--nec-navy);
     background: linear-gradient(135deg, var(--nec-gold) 0%, #b8860b 100%);
-    box-shadow: 0 4px 20px rgba(212,160,23,0.30);
+    box-shadow: 0 4px 20px rgba(212, 160, 23, 0.3);
   }
   .btn-secondary:hover {
     background: linear-gradient(135deg, #c49515 0%, #a07710 100%);
-    box-shadow: 0 6px 28px rgba(212,160,23,0.50);
+    box-shadow: 0 6px 28px rgba(212, 160, 23, 0.5);
     transform: translateY(-1px);
   }
 
   .nec-card {
-    background: linear-gradient(135deg, rgba(26,16,48,0.9) 0%, rgba(15,10,30,0.95) 100%);
+    background: linear-gradient(135deg, rgba(26, 16, 48, 0.9) 0%, rgba(15, 10, 30, 0.95) 100%);
     border: 1px solid var(--nec-border);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow:
+      0 2px 12px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
     @apply rounded-2xl;
   }
   .nec-card:hover {
-    border-color: rgba(124,58,237,0.40);
-    box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 8px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.05);
+    border-color: rgba(124, 58, 237, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(124, 58, 237, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 }
 

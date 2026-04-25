@@ -1,12 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback } from "react"
-import {
-  ChevronDown,
-  CalendarPlus,
-  Smartphone,
-  Monitor,
-} from "lucide-react"
+import { ChevronDown, CalendarPlus, Smartphone, Monitor } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { GOOGLE_CALENDAR_ID } from "@/lib/constants"
 import type { CalendarEvent, EventCategory } from "@/lib/calendar/types"
@@ -21,10 +16,7 @@ const SUBSCRIBE_ICAL = ICS_FEED
 
 // ─── Category styling ─────────────────────────────────────────────
 
-const CATEGORY_META: Record<
-  EventCategory,
-  { colorVar: string; rgbVar: string; labelKey: string }
-> = {
+const CATEGORY_META: Record<EventCategory, { colorVar: string; rgbVar: string; labelKey: string }> = {
   "host-business": {
     colorVar: "--nec-purple",
     rgbVar: "--nec-purple-rgb",
@@ -93,9 +85,7 @@ function formatBrowseDate(iso: string): { month: string; day: string } {
 export default function CalendarClient({ events }: { events: CalendarEvent[] }) {
   const t = useTranslations("calendar")
 
-  const [activeCategories, setActiveCategories] = useState<Set<EventCategory>>(
-    new Set(["host-business", "host-event"])
-  )
+  const [activeCategories, setActiveCategories] = useState<Set<EventCategory>>(new Set(["host-business", "host-event"]))
   const [timeframe, setTimeframe] = useState<"upcoming" | "past">("upcoming")
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const [expanded, setExpanded] = useState(false)
@@ -137,7 +127,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
       <div className="flex flex-wrap items-center gap-2">
         {/* Time toggle — compact */}
         <div
-          className="inline-flex rounded-lg p-0.5 flex-shrink-0"
+          className="inline-flex flex-shrink-0 rounded-lg p-0.5"
           style={{
             backgroundColor: "rgba(var(--nec-purple-rgb), 0.06)",
             border: "1px solid rgba(var(--nec-purple-rgb), 0.12)",
@@ -152,7 +142,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
               role="radio"
               aria-checked={timeframe === tf}
               onClick={() => setTimeframe(tf)}
-              className="px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200"
+              className="rounded-md px-3 py-1.5 text-xs font-semibold transition-all duration-200"
               style={
                 timeframe === tf
                   ? { backgroundColor: "var(--nec-purple)", color: "white" }
@@ -175,7 +165,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
               role="switch"
               aria-checked={active}
               onClick={() => toggleCategory(cat)}
-              className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-200 min-h-[2.75rem]"
+              className="min-h-[2.75rem] rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-200"
               style={
                 active
                   ? {
@@ -195,23 +185,21 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
             </button>
           )
         })}
-
       </div>
 
       {/* ── SR live region ────────────────────────────────── */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {hasFilteredEvents
-          ? `${filteredEvents.length} events shown`
-          : "No events match current filters"}
+        {hasFilteredEvents ? `${filteredEvents.length} events shown` : "No events match current filters"}
       </div>
 
       {/* ── Event list with month headers ─────────────── */}
       {hasFilteredEvents && (
         <div className="-mx-1">
           {(() => {
-            const eventsToShow = timeframe === "past"
-              ? [...filteredEvents].reverse().slice(0, expanded ? undefined : INLINE_COUNT)
-              : filteredEvents.slice(0, expanded ? undefined : INLINE_COUNT)
+            const eventsToShow =
+              timeframe === "past"
+                ? [...filteredEvents].reverse().slice(0, expanded ? undefined : INLINE_COUNT)
+                : filteredEvents.slice(0, expanded ? undefined : INLINE_COUNT)
             let lastMonth = ""
             return eventsToShow.map((event) => {
               const meta = CATEGORY_META[event.category]
@@ -222,9 +210,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
               return (
                 <div key={event.id}>
                   {showMonthHeader && (
-                    <div
-                      className="mt-3 first:mt-0 mb-1.5 flex items-center gap-2 px-2"
-                    >
+                    <div className="mb-1.5 mt-3 flex items-center gap-2 px-2 first:mt-0">
                       <h4
                         className="text-xs font-bold uppercase tracking-[0.14em]"
                         style={{ color: "var(--nec-purple)" }}
@@ -241,21 +227,19 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
                   <button
                     type="button"
                     onClick={() => setSelectedEvent(event)}
-                    className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)] min-h-[2.75rem]"
+                    className="flex min-h-[2.75rem] w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--nec-purple)]"
                     aria-label={`${t("viewDetails")}: ${event.title}`}
                   >
-                    <span className="w-7 text-right text-sm font-bold tabular-nums flex-shrink-0 text-[var(--nec-text)]">
+                    <span className="w-7 flex-shrink-0 text-right text-sm font-bold tabular-nums text-[var(--nec-text)]">
                       {day}
                     </span>
                     <span
-                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      className="h-2 w-2 flex-shrink-0 rounded-full"
                       style={{ backgroundColor: `var(${meta.colorVar})` }}
                       aria-hidden="true"
                     />
-                    <span className="text-sm font-medium text-[var(--nec-text)] truncate flex-1">
-                      {event.title}
-                    </span>
-                    <span className="text-[11px] text-[var(--nec-muted)] flex-shrink-0 tabular-nums">
+                    <span className="flex-1 truncate text-sm font-medium text-[var(--nec-text)]">{event.title}</span>
+                    <span className="flex-shrink-0 text-[11px] tabular-nums text-[var(--nec-muted)]">
                       {isAllDay(event.start) ? formatCardDate(event.start).split(", ")[0] : formatCardTime(event.start)}
                     </span>
                   </button>
@@ -271,12 +255,12 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
-          className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)] rounded-xl min-h-[2.75rem]"
+          className="flex min-h-[2.75rem] w-full items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.04)]"
           style={{ color: "var(--nec-purple)" }}
           aria-expanded={expanded}
         >
           <ChevronDown
-            className={`w-3.5 h-3.5 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+            className={`h-3.5 w-3.5 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
             aria-hidden="true"
           />
           {expanded ? "Collapse" : `${remainingCount} more — view full calendar`}
@@ -285,7 +269,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
 
       {/* ── Subscribe to calendar ─────────────────────────── */}
       {hasEvents && (
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 border-t border-[rgba(var(--nec-purple-rgb),0.08)]">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-[rgba(var(--nec-purple-rgb),0.08)] pt-1">
           <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--nec-muted)]">
             Sync to your phone
           </span>
@@ -293,28 +277,28 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
             href={SUBSCRIBE_GOOGLE}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-opacity hover:opacity-75 py-1 min-h-[2.75rem]"
+            className="inline-flex min-h-[2.75rem] items-center gap-1.5 py-1 text-[11px] font-semibold transition-opacity hover:opacity-75"
             style={{ color: "var(--nec-purple)" }}
           >
-            <Monitor className="w-3 h-3" aria-hidden="true" />
+            <Monitor className="h-3 w-3" aria-hidden="true" />
             Google
           </a>
           <a
             href={SUBSCRIBE_WEBCAL}
-            className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-opacity hover:opacity-75 py-1 min-h-[2.75rem]"
+            className="inline-flex min-h-[2.75rem] items-center gap-1.5 py-1 text-[11px] font-semibold transition-opacity hover:opacity-75"
             style={{ color: "var(--nec-pink)" }}
           >
-            <Smartphone className="w-3 h-3" aria-hidden="true" />
+            <Smartphone className="h-3 w-3" aria-hidden="true" />
             Apple
           </a>
           <a
             href={SUBSCRIBE_ICAL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-[11px] font-semibold transition-opacity hover:opacity-75 py-1 min-h-[2.75rem]"
+            className="inline-flex min-h-[2.75rem] items-center gap-1.5 py-1 text-[11px] font-semibold transition-opacity hover:opacity-75"
             style={{ color: "var(--nec-cyan)" }}
           >
-            <CalendarPlus className="w-3 h-3" aria-hidden="true" />
+            <CalendarPlus className="h-3 w-3" aria-hidden="true" />
             Outlook / iCal
           </a>
         </div>
@@ -322,7 +306,7 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
 
       {/* ── Empty states ──────────────────────────────────── */}
       {hasEvents && !hasFilteredEvents && (
-        <div className="text-center py-4 space-y-2">
+        <div className="space-y-2 py-4 text-center">
           <p className="text-sm italic text-[var(--nec-muted)]">
             Curiouser and curiouser&hellip; nothing matches those filters.
           </p>
@@ -333,20 +317,13 @@ export default function CalendarClient({ events }: { events: CalendarEvent[] }) 
       )}
 
       {!hasEvents && (
-        <div className="text-center py-4">
-          <p className="text-sm italic text-[var(--nec-muted)]">
-            The calendar is quiet for now. Check back soon.
-          </p>
+        <div className="py-4 text-center">
+          <p className="text-sm italic text-[var(--nec-muted)]">The calendar is quiet for now. Check back soon.</p>
         </div>
       )}
 
       {/* ── Modal ──────────────────────────────────────────── */}
-      {selectedEvent && (
-        <EventDetailModal
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-        />
-      )}
+      {selectedEvent && <EventDetailModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />}
     </div>
   )
 }

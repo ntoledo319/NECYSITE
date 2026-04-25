@@ -4,6 +4,7 @@ Each principle below was discovered through the Generate → Destroy loop.
 They represent this project's emergent taste DNA.
 
 ## Format
+
 - **Date**: When discovered
 - **Element**: What was being worked on
 - **Principle**: The synthesized insight

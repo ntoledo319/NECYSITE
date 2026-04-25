@@ -54,9 +54,7 @@ async function fetchWithRetry(
   throw lastError ?? new Error("Fetch failed after retries")
 }
 
-export async function redeemRegistrationCode(
-  request: RedemptionRequest,
-): Promise<RedeemResult> {
+export async function redeemRegistrationCode(request: RedemptionRequest): Promise<RedeemResult> {
   const baseUrl = process.env.ISSUER_SERVICE_BASE_URL
   const apiKey = process.env.ISSUER_SERVICE_API_KEY
 
@@ -64,7 +62,8 @@ export async function redeemRegistrationCode(
     console.error("Issuer service configuration missing: ISSUER_SERVICE_BASE_URL or ISSUER_SERVICE_API_KEY")
     return {
       success: false,
-      error: "Registration code service is not available at this time. Please try again later or contact us at info@necypaa.org.",
+      error:
+        "Registration code service is not available at this time. Please try again later or contact us at info@necypaa.org.",
       code: "SERVICE_ERROR",
     }
   }

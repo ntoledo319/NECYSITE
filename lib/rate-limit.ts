@@ -91,7 +91,7 @@ export async function rateLimit(key: string, options: RateLimitOptions): Promise
   pipeline.zcard(redisKey)
   pipeline.zadd(redisKey, { score: now, member: `${now}-${Math.random()}` })
   pipeline.expire(redisKey, windowSecs)
-  
+
   const results = await pipeline.exec()
   const count = results[1] as number
 

@@ -15,8 +15,9 @@ When updating `CHANGELOG.md`, follow these rules:
 ## Format
 
 Use [Keep a Changelog](https://keepachangelog.com/) format:
+
 - `### Added` — new features
-- `### Changed` — changes to existing functionality  
+- `### Changed` — changes to existing functionality
 - `### Fixed` — bug fixes
 - `### Removed` — removed features
 - `### Housekeeping` — cleanup, refactoring, tech debt
@@ -24,12 +25,15 @@ Use [Keep a Changelog](https://keepachangelog.com/) format:
 ## Examples
 
 **Good (inherited code):**
+
 > - Consolidated config files to `.mjs` format
 
 **Good (new code, my fault):**
+
 > - **Broke prod for 3 hours** — Forgot to set `STRIPE_SECRET_KEY`. We are professionals.
 
 **Bad (inherited code):**
+
 > - Fixed horrific spaghetti code that should never have shipped
 
 ## Remember

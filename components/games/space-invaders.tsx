@@ -21,12 +21,28 @@ const ENEMY_PAD = 12
 
 const DEFECTS = [
   // Big Book page 64: selfishness, dishonesty, resentment, fear
-  "SELF", "LIES", "RESENT", "FEAR",
+  "SELF",
+  "LIES",
+  "RESENT",
+  "FEAR",
   // Seven deadly sins
-  "PRIDE", "GREED", "LUST", "ENVY", "GLUT", "WRATH", "SLOTH",
+  "PRIDE",
+  "GREED",
+  "LUST",
+  "ENVY",
+  "GLUT",
+  "WRATH",
+  "SLOTH",
   // Common AA shortcomings
-  "EGO", "ANGER", "SHAME", "DENY", "BLAME",
-  "GUILT", "DOUBT", "SPITE", "DREAD",
+  "EGO",
+  "ANGER",
+  "SHAME",
+  "DENY",
+  "BLAME",
+  "GUILT",
+  "DOUBT",
+  "SPITE",
+  "DREAD",
 ]
 
 const PURPLE = "#C08ABF"
@@ -35,21 +51,45 @@ const GOLD = "#D4A84B"
 const CYAN = "#5DBAA8"
 const NAVY = "#0D1B2A"
 
-interface Bullet { x: number; y: number }
-interface Enemy { x: number; y: number; alive: boolean; label: string; color: string }
+interface Bullet {
+  x: number
+  y: number
+}
+interface Enemy {
+  x: number
+  y: number
+  alive: boolean
+  label: string
+  color: string
+}
 
-function TouchBtn({ label, ariaLabel, onPress, onRelease, color = PURPLE }: { label: string; ariaLabel: string; onPress: () => void; onRelease: () => void; color?: string }) {
+function TouchBtn({
+  label,
+  ariaLabel,
+  onPress,
+  onRelease,
+  color = PURPLE,
+}: {
+  label: string
+  ariaLabel: string
+  onPress: () => void
+  onRelease: () => void
+  color?: string
+}) {
   return (
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); onPress() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onPress()
+      }}
       onTouchEnd={onRelease}
       onTouchCancel={onRelease}
       onMouseDown={onPress}
       onMouseUp={onRelease}
       onMouseLeave={onRelease}
-      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-95 transition-transform"
+      className="flex select-none items-center justify-center rounded-xl text-lg font-bold transition-transform active:scale-95"
       style={{
         width: 64,
         height: 52,
@@ -132,7 +172,9 @@ export default function SpaceInvadersGame() {
         e.preventDefault()
       }
     }
-    const handleKeyUp = (e: KeyboardEvent) => { g.keys[e.key] = false }
+    const handleKeyUp = (e: KeyboardEvent) => {
+      g.keys[e.key] = false
+    }
 
     // Touch: drag left/right to move, tap to fire
     let touchX = 0
@@ -150,7 +192,7 @@ export default function SpaceInvadersGame() {
       e.preventDefault()
       const rect = canvas.getBoundingClientRect()
       const newX = e.touches[0].clientX
-      const dx = (newX - touchX) / rect.width * CANVAS_W
+      const dx = ((newX - touchX) / rect.width) * CANVAS_W
       g.shipX = Math.max(SHIP_SIZE / 2, Math.min(CANVAS_W - SHIP_SIZE / 2, g.shipX + dx))
       touchX = newX // update so next move is relative to current position
     }
@@ -223,7 +265,9 @@ export default function SpaceInvadersGame() {
 
       // Move bullets
       g.bullets = g.bullets.filter((b) => b.y > -10)
-      g.bullets.forEach((b) => { b.y -= BULLET_SPEED })
+      g.bullets.forEach((b) => {
+        b.y -= BULLET_SPEED
+      })
 
       // Move enemies
       let hitEdge = false
@@ -234,7 +278,9 @@ export default function SpaceInvadersGame() {
       })
       if (hitEdge) {
         g.enemyDir *= -1
-        g.enemies.forEach((e) => { e.y += 16 })
+        g.enemies.forEach((e) => {
+          e.y += 16
+        })
         g.enemySpeed = Math.min(g.enemySpeed + 0.05, 2)
       }
 
@@ -320,8 +366,12 @@ export default function SpaceInvadersGame() {
     }
   }, [initEnemies])
 
-  const pressKey = useCallback((key: string) => { gameRef.current.keys[key] = true }, [])
-  const releaseKey = useCallback((key: string) => { gameRef.current.keys[key] = false }, [])
+  const pressKey = useCallback((key: string) => {
+    gameRef.current.keys[key] = true
+  }, [])
+  const releaseKey = useCallback((key: string) => {
+    gameRef.current.keys[key] = false
+  }, [])
   const fire = useCallback(() => {
     const g = gameRef.current
     const now = Date.now()
@@ -347,21 +397,17 @@ export default function SpaceInvadersGame() {
           aria-label="Space Invaders game. Use arrow keys to move, space or up arrow to shoot. On mobile, drag to move and tap to fire. Destroy all character defects to win."
         />
         {gameOver && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
-            <p className="text-2xl font-black mb-2" style={{ color: won ? GOLD : PINK }}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/70">
+            <p className="mb-2 text-2xl font-black" style={{ color: won ? GOLD : PINK }}>
               {won ? "DEFECTS REMOVED!" : "GAME OVER"}
             </p>
             {won && (
-              <p className="text-sm text-[var(--nec-muted)] mb-3 text-center px-4">
+              <p className="mb-3 px-4 text-center text-sm text-[var(--nec-muted)]">
                 &ldquo;We were reborn.&rdquo; — Big Book, p. 63
               </p>
             )}
-            <p className="text-lg font-bold text-white mb-4">Score: {score}</p>
-            <button
-              onClick={resetGame}
-              className="btn-primary text-sm"
-              type="button"
-            >
+            <p className="mb-4 text-lg font-bold text-white">Score: {score}</p>
+            <button onClick={resetGame} className="btn-primary text-sm" type="button">
               Take Another Inventory
             </button>
           </div>
@@ -369,12 +415,24 @@ export default function SpaceInvadersGame() {
       </div>
       {/* Mobile touch controls */}
       <div className="flex items-center gap-4 md:hidden" aria-label="Game controls" role="group">
-        <TouchBtn label="←" ariaLabel="Move left" onPress={() => pressKey("ArrowLeft")} onRelease={() => releaseKey("ArrowLeft")} />
+        <TouchBtn
+          label="←"
+          ariaLabel="Move left"
+          onPress={() => pressKey("ArrowLeft")}
+          onRelease={() => releaseKey("ArrowLeft")}
+        />
         <TouchBtn label="FIRE" ariaLabel="Fire" onPress={fire} onRelease={() => {}} color={CYAN} />
-        <TouchBtn label="→" ariaLabel="Move right" onPress={() => pressKey("ArrowRight")} onRelease={() => releaseKey("ArrowRight")} />
+        <TouchBtn
+          label="→"
+          ariaLabel="Move right"
+          onPress={() => pressKey("ArrowRight")}
+          onRelease={() => releaseKey("ArrowRight")}
+        />
       </div>
-      <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        <span className="hidden md:inline">The AA triangle ship fires spiritual principles at character defects. Arrow keys to move, Space to fire.</span>
+      <p className="max-w-xs text-center text-xs" style={{ color: "var(--nec-muted)" }}>
+        <span className="hidden md:inline">
+          The AA triangle ship fires spiritual principles at character defects. Arrow keys to move, Space to fire.
+        </span>
         <span className="md:hidden">Drag to move, tap to fire. Use buttons below as an alternative.</span>
       </p>
     </div>

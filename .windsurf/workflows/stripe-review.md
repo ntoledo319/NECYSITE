@@ -51,6 +51,7 @@ stripe trigger invoice.payment_failed
 ```
 
 Test cards:
+
 - Success: `4242 4242 4242 4242`
 - Requires auth: `4000 0025 0000 3155`
 - Decline: `4000 0000 0000 9995`

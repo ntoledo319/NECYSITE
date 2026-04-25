@@ -72,7 +72,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT",
-    description: "Escaping the Mad Realm — Northeast Convention of Young People in AA · New Year's Eve 2026 · Hartford, CT",
+    description:
+      "Escaping the Mad Realm — Northeast Convention of Young People in AA · New Year's Eve 2026 · Hartford, CT",
     images: ["/images/necypaa-xxxvi-badge.webp"],
   },
   robots: {
@@ -111,7 +112,7 @@ export default async function RootLayout({
             {/* Skip-to-content link for keyboard/screen-reader users */}
             <a
               href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold focus:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[var(--nec-navy)]"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[var(--nec-navy)]"
               style={{ backgroundColor: "var(--nec-pink)" }}
             >
               Skip to main content
@@ -120,9 +121,7 @@ export default async function RootLayout({
             <GrainOverlayWrapper />
             <SiteHeader />
             <main id="main-content" tabIndex={-1} className="pt-16">
-              <PageTransition>
-                {children}
-              </PageTransition>
+              <PageTransition>{children}</PageTransition>
             </main>
             <BackToTop />
             <AccessibilityPanel />

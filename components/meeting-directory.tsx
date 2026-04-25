@@ -122,7 +122,7 @@ export default function MeetingDirectory({
         (meeting) =>
           meeting.name.toLowerCase().includes(q) ||
           meeting.city.toLowerCase().includes(q) ||
-          (meeting.location && meeting.location.toLowerCase().includes(q))
+          (meeting.location && meeting.location.toLowerCase().includes(q)),
       )
     }
 
@@ -183,9 +183,7 @@ export default function MeetingDirectory({
             >
               {heading}
             </h2>
-            <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--nec-muted)]">
-              {description}
-            </p>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--nec-muted)]">{description}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:min-w-[260px]">
@@ -197,7 +195,9 @@ export default function MeetingDirectory({
               }}
             >
               <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Visible</p>
-              <p className="mt-2 text-2xl font-semibold" style={{ color: t.accent }}>{filtered.length}</p>
+              <p className="mt-2 text-2xl font-semibold" style={{ color: t.accent }}>
+                {filtered.length}
+              </p>
             </div>
             <div
               className="rounded-[1.4rem] border px-4 py-3 shadow-[0_16px_32px_rgba(44,24,16,0.06)]"
@@ -226,7 +226,10 @@ export default function MeetingDirectory({
               Search
             </label>
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--nec-muted)]" aria-hidden="true" />
+              <Search
+                className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--nec-muted)]"
+                aria-hidden="true"
+              />
               <input
                 id={searchId}
                 type="search"
@@ -250,7 +253,7 @@ export default function MeetingDirectory({
               id={stateId}
               value={stateFilter}
               onChange={(e) => handleStateChange(e.target.value)}
-              className={`${filterControlClassName} appearance-none cursor-pointer pr-10`}
+              className={`${filterControlClassName} cursor-pointer appearance-none pr-10`}
               style={{
                 background: stateFilter ? t.filterActiveBg : "rgba(var(--nec-card-rgb),0.92)",
                 borderColor: stateFilter ? t.filterActiveBorder : "rgba(var(--nec-purple-rgb),0.14)",
@@ -274,7 +277,7 @@ export default function MeetingDirectory({
               id={dayId}
               value={dayFilter}
               onChange={(e) => setDayFilter(e.target.value)}
-              className={`${filterControlClassName} appearance-none cursor-pointer pr-10`}
+              className={`${filterControlClassName} cursor-pointer appearance-none pr-10`}
               style={{
                 background: dayFilter ? t.filterActiveBg : "rgba(var(--nec-card-rgb),0.92)",
                 borderColor: dayFilter ? t.filterActiveBorder : "rgba(var(--nec-purple-rgb),0.14)",
@@ -298,7 +301,7 @@ export default function MeetingDirectory({
               id={formatId}
               value={formatFilter}
               onChange={(e) => setFormatFilter(e.target.value as MeetingFormat | "")}
-              className={`${filterControlClassName} appearance-none cursor-pointer pr-10`}
+              className={`${filterControlClassName} cursor-pointer appearance-none pr-10`}
               style={{
                 background: formatFilter ? t.filterActiveBg : "rgba(var(--nec-card-rgb),0.92)",
                 borderColor: formatFilter ? t.filterActiveBorder : "rgba(var(--nec-purple-rgb),0.14)",

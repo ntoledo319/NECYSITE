@@ -6,7 +6,7 @@ export default function CTState({ className }: { className?: string }) {
     <div className={`relative ${className ?? ""}`}>
       {/* Outer ambient glow */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
             "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(var(--nec-purple-rgb),0.12) 0%, rgba(var(--nec-pink-rgb),0.06) 50%, transparent 75%)",
@@ -17,37 +17,23 @@ export default function CTState({ className }: { className?: string }) {
       <svg
         viewBox="0 0 400 270"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full relative z-10"
+        className="relative z-10 w-full"
         aria-label="Connecticut state outline — NECYPAA XXXVI, Dec 31 2026 – Jan 3 2027"
       >
         <defs>
           {/* Rainbow border gradient (cyan → magenta → yellow → cyan) */}
-          <linearGradient
-            id="ct-border"
-            x1="0"
-            y1="0"
-            x2="400"
-            y2="270"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0%"   stopColor="#7c3aed" />
-            <stop offset="20%"  stopColor="#a855f7" />
-            <stop offset="45%"  stopColor="#c026d3" />
-            <stop offset="65%"  stopColor="#e879f9" />
-            <stop offset="80%"  stopColor="#d4a017" />
+          <linearGradient id="ct-border" x1="0" y1="0" x2="400" y2="270" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#7c3aed" />
+            <stop offset="20%" stopColor="#a855f7" />
+            <stop offset="45%" stopColor="#c026d3" />
+            <stop offset="65%" stopColor="#e879f9" />
+            <stop offset="80%" stopColor="#d4a017" />
             <stop offset="100%" stopColor="#7c3aed" />
           </linearGradient>
 
           {/* Dark fill — very close to the flyer's interior */}
-          <linearGradient
-            id="ct-fill"
-            x1="0"
-            y1="0"
-            x2="0"
-            y2="270"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0%"   stopColor="#050510" />
+          <linearGradient id="ct-fill" x1="0" y1="0" x2="0" y2="270" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#050510" />
             <stop offset="100%" stopColor="#0a0a1e" />
           </linearGradient>
 
@@ -100,21 +86,31 @@ export default function CTState({ className }: { className?: string }) {
         {/* ── Interior decorations ──────────────── */}
 
         {/* Sparkle dots — top-left area */}
-        <circle cx="55"  cy="65"  r="2.5" fill="#a855f7" opacity="0.7" />
-        <circle cx="70"  cy="50"  r="1.5" fill="#c026d3" opacity="0.6" />
-        <circle cx="45"  cy="50"  r="1.8" fill="#d4a017" opacity="0.5" />
+        <circle cx="55" cy="65" r="2.5" fill="#a855f7" opacity="0.7" />
+        <circle cx="70" cy="50" r="1.5" fill="#c026d3" opacity="0.6" />
+        <circle cx="45" cy="50" r="1.8" fill="#d4a017" opacity="0.5" />
 
         {/* Sparkle dots — top-right */}
-        <circle cx="340" cy="58"  r="2.2" fill="#a855f7" opacity="0.6" />
-        <circle cx="358" cy="45"  r="1.5" fill="#c026d3" opacity="0.5" />
-        <circle cx="325" cy="44"  r="1.8" fill="#d4a017" opacity="0.4" />
+        <circle cx="340" cy="58" r="2.2" fill="#a855f7" opacity="0.6" />
+        <circle cx="358" cy="45" r="1.5" fill="#c026d3" opacity="0.5" />
+        <circle cx="325" cy="44" r="1.8" fill="#d4a017" opacity="0.4" />
 
         {/* ✦ sparkles */}
-        <text x="52"  y="88"  fontSize="12" fill="#a855f7" opacity="0.55" textAnchor="middle">✦</text>
-        <text x="348" y="82"  fontSize="9"  fill="#c026d3" opacity="0.55" textAnchor="middle">✦</text>
-        <text x="200" y="240" fontSize="7"  fill="#d4a017" opacity="0.45" textAnchor="middle">✦</text>
-        <text x="140" y="220" fontSize="6"  fill="#a855f7" opacity="0.4"  textAnchor="middle">✦</text>
-        <text x="270" y="225" fontSize="8"  fill="#c026d3" opacity="0.4"  textAnchor="middle">✦</text>
+        <text x="52" y="88" fontSize="12" fill="#a855f7" opacity="0.55" textAnchor="middle">
+          ✦
+        </text>
+        <text x="348" y="82" fontSize="9" fill="#c026d3" opacity="0.55" textAnchor="middle">
+          ✦
+        </text>
+        <text x="200" y="240" fontSize="7" fill="#d4a017" opacity="0.45" textAnchor="middle">
+          ✦
+        </text>
+        <text x="140" y="220" fontSize="6" fill="#a855f7" opacity="0.4" textAnchor="middle">
+          ✦
+        </text>
+        <text x="270" y="225" fontSize="8" fill="#c026d3" opacity="0.4" textAnchor="middle">
+          ✦
+        </text>
 
         {/* Main "NECYPAA XXXVI" heading */}
         <text
@@ -161,13 +157,7 @@ export default function CTState({ className }: { className?: string }) {
         </text>
 
         {/* Bottom neon glow line accent */}
-        <line
-          x1="120" y1="185"
-          x2="280" y2="185"
-          stroke="url(#ct-border)"
-          strokeWidth="1.5"
-          opacity="0.5"
-        />
+        <line x1="120" y1="185" x2="280" y2="185" stroke="url(#ct-border)" strokeWidth="1.5" opacity="0.5" />
 
         {/* "Hartford, CT" at the bottom */}
         <text

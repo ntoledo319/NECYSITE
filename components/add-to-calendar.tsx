@@ -61,7 +61,7 @@ export default function AddToCalendar({
       className={`${variant === "ghost" ? "btn-ghost" : "inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75"} ${className}`}
       style={variant === "inline" ? { color: "var(--nec-cyan)" } : undefined}
     >
-      <CalendarPlus className="w-4 h-4" aria-hidden="true" />
+      <CalendarPlus className="h-4 w-4" aria-hidden="true" />
       Add to Calendar
     </button>
   )

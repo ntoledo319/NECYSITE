@@ -136,7 +136,7 @@ export default function ShareMenu({
           })
       }
     },
-    [resolvedUrl, text, showToast]
+    [resolvedUrl, text, showToast],
   )
 
   const handleCopyLink = useCallback(() => {
@@ -154,7 +154,7 @@ export default function ShareMenu({
         className={`inline-flex items-center gap-1.5 ${triggerClassName}`}
         aria-label={`Share: ${triggerLabel}`}
       >
-        <Share2 className="w-4 h-4" aria-hidden="true" />
+        <Share2 className="h-4 w-4" aria-hidden="true" />
         {triggerLabel}
       </button>
 
@@ -162,7 +162,7 @@ export default function ShareMenu({
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss supplements Escape key */}
       <div
         className={`fixed inset-0 z-[60] transition-opacity duration-200 ${
-          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         style={{ background: "rgba(28,21,17,0.48)", backdropFilter: "blur(10px)" }}
         onClick={() => setOpen(false)}
@@ -174,8 +174,10 @@ export default function ShareMenu({
         role="dialog"
         aria-modal="true"
         aria-label="Share this page"
-        className={`fixed bottom-0 left-0 right-0 z-[61] px-2 transition-transform duration-200 md:bottom-auto md:top-1/2 md:left-1/2 md:right-auto md:max-w-lg md:w-full md:-translate-x-1/2 md:-translate-y-1/2 md:px-0 ${
-          open ? "translate-y-0 md:translate-y-[-50%]" : "translate-y-full md:translate-y-[calc(-50%+2rem)] md:opacity-0"
+        className={`fixed bottom-0 left-0 right-0 z-[61] px-2 transition-transform duration-200 md:bottom-auto md:left-1/2 md:right-auto md:top-1/2 md:w-full md:max-w-lg md:-translate-x-1/2 md:-translate-y-1/2 md:px-0 ${
+          open
+            ? "translate-y-0 md:translate-y-[-50%]"
+            : "translate-y-full md:translate-y-[calc(-50%+2rem)] md:opacity-0"
         } ${open ? "pointer-events-auto" : "pointer-events-none"}`}
       >
         <div
@@ -184,15 +186,11 @@ export default function ShareMenu({
             background: "rgba(var(--nec-card-rgb),0.98)",
           }}
         >
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-                Share
-              </p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Share</p>
               <h2 className="mt-2 text-lg font-semibold text-[var(--nec-text)]">Send this page</h2>
-              <p className="mt-1 text-sm text-[var(--nec-muted)]">
-                Choose a channel or copy the direct link below.
-              </p>
+              <p className="mt-1 text-sm text-[var(--nec-muted)]">Choose a channel or copy the direct link below.</p>
             </div>
             <button
               type="button"
@@ -213,12 +211,10 @@ export default function ShareMenu({
                 className="group flex flex-col items-center gap-2 rounded-2xl border border-transparent px-2 py-2.5 transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.12)] hover:bg-[rgba(var(--nec-purple-rgb),0.03)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
                 aria-label={`Share via ${platform.name}${platform.action === "clipboard" ? " (copies to clipboard)" : ""}`}
               >
-                <div
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-purple-rgb),0.06)] text-[var(--nec-purple)] transition-transform duration-200 group-hover:scale-[1.03]"
-                >
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-purple-rgb),0.06)] text-[var(--nec-purple)] transition-transform duration-200 group-hover:scale-[1.03]">
                   {platform.icon}
                 </div>
-                <span className="text-[11px] font-medium leading-tight text-center text-[var(--nec-muted)]">
+                <span className="text-center text-[11px] font-medium leading-tight text-[var(--nec-muted)]">
                   {platform.name}
                 </span>
               </button>
@@ -230,17 +226,11 @@ export default function ShareMenu({
             onClick={handleCopyLink}
             className="flex w-full items-center gap-3 rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.78)] p-3 transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.18)] hover:bg-[rgba(var(--nec-purple-rgb),0.03)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
           >
-            <div
-              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-purple-rgb),0.06)]"
-            >
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-purple-rgb),0.06)]">
               <Copy className="h-4 w-4 text-[var(--nec-purple)]" aria-hidden="true" />
             </div>
-            <span className="text-sm text-[var(--nec-muted)] font-medium truncate flex-1 text-left">
-              {resolvedUrl}
-            </span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-              Copy
-            </span>
+            <span className="flex-1 truncate text-left text-sm font-medium text-[var(--nec-muted)]">{resolvedUrl}</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Copy</span>
           </button>
         </div>
       </div>
@@ -249,8 +239,8 @@ export default function ShareMenu({
       <div
         aria-live="polite"
         aria-atomic="true"
-        className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-[70] transition-all duration-200 ${
-          toast ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+        className={`fixed bottom-24 left-1/2 z-[70] -translate-x-1/2 transition-all duration-200 ${
+          toast ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
         }`}
       >
         {toast && (
@@ -260,7 +250,7 @@ export default function ShareMenu({
               background: "rgba(var(--nec-card-rgb),0.98)",
             }}
           >
-            <Check className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
+            <Check className="h-4 w-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
             {toast}
           </div>
         )}

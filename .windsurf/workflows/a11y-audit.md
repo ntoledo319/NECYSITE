@@ -9,13 +9,15 @@ This workflow uses the `a11y-audit` skill from `claude-skills/engineering-team/a
 ## Phase 1: Scan
 
 1. Run the a11y scanner against the project source files:
-// turbo
+   // turbo
+
 ```bash
 python3 claude-skills/engineering-team/a11y-audit/scripts/a11y_scanner.py . --format table
 ```
 
 2. Run the contrast checker against CSS/Tailwind files:
-// turbo
+   // turbo
+
 ```bash
 python3 claude-skills/engineering-team/a11y-audit/scripts/contrast_checker.py --file app/globals.css
 ```
@@ -45,7 +47,8 @@ python3 claude-skills/engineering-team/a11y-audit/scripts/contrast_checker.py --
 ## Phase 3: Verify
 
 6. Re-run the scanner to confirm fixes:
-// turbo
+   // turbo
+
 ```bash
 python3 claude-skills/engineering-team/a11y-audit/scripts/a11y_scanner.py . --format table
 ```

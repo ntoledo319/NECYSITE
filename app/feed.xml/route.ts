@@ -12,9 +12,7 @@ function escapeXml(str: string): string {
 
 export async function GET() {
   const posts = await getBlogPosts()
-  const sorted = [...posts].sort(
-    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  )
+  const sorted = [...posts].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
 
   const items = sorted
     .map(
@@ -25,7 +23,7 @@ export async function GET() {
       <pubDate>${new Date(post.publishedAt + "T12:00:00").toUTCString()}</pubDate>
       <description>${escapeXml(post.excerpt)}</description>
       <category>${escapeXml(post.category)}</category>
-    </item>`
+    </item>`,
     )
     .join("\n")
 

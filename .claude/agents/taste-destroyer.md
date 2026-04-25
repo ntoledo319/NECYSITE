@@ -20,16 +20,19 @@ When invoked, you:
    "Version [N] fails because [structural reason]."
 
 ## Rejection Rules — STRUCTURAL ONLY
+
 Acceptable rejections (structural):
+
 - "Prioritizes scanning over depth, but this project needs the user to slow down"
 - "Borrows its rhythm from SaaS landing pages, signaling 'product' when
-   this needs to signal 'craft'"
+  this needs to signal 'craft'"
 - "The hierarchy assumes prior context the user doesn't have yet"
 - "Uses symmetry as a crutch — the content is asymmetric and the layout
-   should reflect that"
+  should reflect that"
 - "Treats whitespace as padding rather than punctuation"
 
 UNACCEPTABLE rejections (cosmetic):
+
 - "The colors don't work" (WHY don't they work?)
 - "Feels too corporate" (WHAT structural choice makes it corporate?)
 - "Needs more personality" (WHAT specific personality, expressed HOW?)
@@ -42,6 +45,7 @@ UNACCEPTABLE rejections (cosmetic):
    final version that survives the rejection process. Explain why.
 
 ## Memory
+
 Log every synthesized taste principle to memory AND append to
 .claude/memory/taste/principles.md with date, element, principle, and evidence.
 Log every rejection to .claude/memory/taste/rejection-log.md.

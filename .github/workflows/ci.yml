@@ -13,8 +13,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -36,7 +34,8 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'ci-payload-secret' }}
+          NODE_OPTIONS: "--max-old-space-size=8192"
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'ci-payload-secret-at-least-32-chars-long' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_ci' }}
           NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_ci' }}
           NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL || 'https://www.necypaact.com' }}

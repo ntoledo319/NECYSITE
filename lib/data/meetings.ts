@@ -233,7 +233,8 @@ export const meetingsByDay: MeetingsByDay = {
       location: "SHU Campus",
       city: "Fairfield",
       address: "5401 Park Ave",
-      types: "Discussion, English, Literature, Open, Speaker, Wheelchair Access, Wheelchair-Accessible Bathroom, Young People",
+      types:
+        "Discussion, English, Literature, Open, Speaker, Wheelchair Access, Wheelchair-Accessible Bathroom, Young People",
       url: "https://ct-aa.org/meetings/young-the-restless-shu/?tsml-day=any&tsml-distance=100&tsml-mode=location&tsml-query=06106&tsml-type=Y",
       attendance: "In-person",
     },

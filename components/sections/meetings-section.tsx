@@ -20,11 +20,12 @@ export default function MeetingsSection() {
           <span className="section-badge">Connecticut AA</span>
           <h2 className="section-heading mt-4">Young People&apos;s Meetings in Connecticut</h2>
           <p className="mt-3 text-base leading-7 text-[var(--nec-muted)]">
-            Keep the directory readable first. Surface the meeting list clearly, then let deeper details unfold when someone needs them.
+            Keep the directory readable first. Surface the meeting list clearly, then let deeper details unfold when
+            someone needs them.
           </p>
           <p className="mt-3 text-sm text-[var(--nec-muted)]">
-            Click any meeting name to view details on the CT-AA website. On desktop, click the arrow
-            to expand the full address and meeting types.
+            Click any meeting name to view details on the CT-AA website. On desktop, click the arrow to expand the full
+            address and meeting types.
           </p>
         </div>
 
@@ -46,21 +47,33 @@ export default function MeetingsSection() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
               Weekly Directory
             </p>
-            <p className="mt-1 text-sm text-[var(--nec-muted)]">
-              Expand a row for address and meeting-type details.
-            </p>
+            <p className="mt-1 text-sm text-[var(--nec-muted)]">Expand a row for address and meeting-type details.</p>
           </div>
         </div>
         <table className="w-full border-collapse" aria-label="Young People's AA meetings in Connecticut">
           <thead>
             <tr className="nec-meetings-thead border-b border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-purple-rgb),0.03)]">
-              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Day</th>
-              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Time</th>
-              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Meeting</th>
-              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Location</th>
-              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">City</th>
-              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Attendance</th>
-              <th className="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">Details</th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                Day
+              </th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                Time
+              </th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                Meeting
+              </th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                Location
+              </th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                City
+              </th>
+              <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                Attendance
+              </th>
+              <th className="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                Details
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -79,9 +92,7 @@ export default function MeetingsSection() {
         viewport={{ once: true, margin: "-40px" }}
       >
         <div className="rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-            Mobile View
-          </p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Mobile View</p>
           <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
             Browse by day, then follow the linked meeting name for the latest CT-AA details.
           </p>
@@ -101,20 +112,18 @@ export default function MeetingsSection() {
         transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       >
         <div className="flex-1">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
-            Missing One?
-          </p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Missing One?</p>
           <h3 className="mt-2 text-xl font-semibold text-[var(--nec-text)]">Add Your Meeting</h3>
           <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
-            Know of a young people&apos;s meeting that&apos;s not on our list? Send us the details and we&apos;ll
-            get it added.
+            Know of a young people&apos;s meeting that&apos;s not on our list? Send us the details and we&apos;ll get it
+            added.
           </p>
         </div>
         <a
           href={`mailto:${CONTACT_EMAIL}`}
           className="inline-flex flex-shrink-0 items-center gap-2 rounded-full border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[rgba(var(--nec-card-rgb),0.94)] px-4 py-2.5 text-sm font-semibold text-[var(--nec-purple)] shadow-[0_14px_30px_rgba(44,24,16,0.08)] transition-[border-color,background,transform] duration-200 hover:-translate-y-0.5 hover:border-[rgba(var(--nec-purple-rgb),0.24)] hover:bg-[rgba(var(--nec-purple-rgb),0.05)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
         >
-          <Mail className="w-4 h-4" aria-hidden="true" />
+          <Mail className="h-4 w-4" aria-hidden="true" />
           {CONTACT_EMAIL}
         </a>
       </motion.div>

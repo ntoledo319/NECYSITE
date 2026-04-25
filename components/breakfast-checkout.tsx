@@ -73,7 +73,11 @@ export default function BreakfastCheckout() {
         selectedBreakfastIds,
       )
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something didn't go as planned. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.")
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something didn't go as planned. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
+      )
       throw err
     }
   }, [email, firstName, lastName, selectedBreakfasts])
@@ -85,8 +89,12 @@ export default function BreakfastCheckout() {
 
   if (error) {
     return (
-      <div className="nec-reg-subcard rounded-2xl p-4 min-h-[300px] flex items-center justify-center" role="alert" aria-live="assertive">
-        <div className="text-center space-y-2">
+      <div
+        className="nec-reg-subcard flex min-h-[300px] items-center justify-center rounded-2xl p-4"
+        role="alert"
+        aria-live="assertive"
+      >
+        <div className="space-y-2 text-center">
           <p className="font-semibold text-[hsl(var(--destructive))]">Hmm, something went wrong</p>
           <p className="text-[var(--nec-muted)]">{error}</p>
         </div>
@@ -96,9 +104,16 @@ export default function BreakfastCheckout() {
 
   if (!stripePromise) {
     return (
-      <div className="nec-reg-subcard rounded-2xl p-4 min-h-[300px] flex items-center justify-center" role="status" aria-live="polite">
-        <div className="text-center space-y-3">
-          <div className="w-8 h-8 mx-auto border-2 border-[var(--nec-purple)] border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+      <div
+        className="nec-reg-subcard flex min-h-[300px] items-center justify-center rounded-2xl p-4"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="space-y-3 text-center">
+          <div
+            className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-[var(--nec-purple)] border-t-transparent"
+            aria-hidden="true"
+          />
           <p className="text-[var(--nec-muted)]">Loading payment form&hellip;</p>
         </div>
       </div>
@@ -110,7 +125,7 @@ export default function BreakfastCheckout() {
       {!checkoutReady ? (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
           <div className="space-y-6">
-            <div className="nec-reg-subcard rounded-[1.8rem] p-6 space-y-4">
+            <div className="nec-reg-subcard space-y-4 rounded-[1.8rem] p-6">
               <h3 className="text-lg font-semibold text-[var(--nec-text)]">Your Information</h3>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -123,7 +138,12 @@ export default function BreakfastCheckout() {
                     onChange={(e) => {
                       setFirstName(e.target.value)
                       setCheckoutReady(false)
-                      if (errors.firstName) setErrors((prev) => { const next = { ...prev }; delete next.firstName; return next })
+                      if (errors.firstName)
+                        setErrors((prev) => {
+                          const next = { ...prev }
+                          delete next.firstName
+                          return next
+                        })
                     }}
                     onBlur={() => validateField("firstName", firstName)}
                     required
@@ -132,7 +152,16 @@ export default function BreakfastCheckout() {
                     aria-describedby={errors.firstName ? "firstName-error" : undefined}
                     className="text-[var(--nec-text)]"
                   />
-                  {errors.firstName && <p id="firstName-error" role="alert" aria-live="assertive" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.firstName}</p>}
+                  {errors.firstName && (
+                    <p
+                      id="firstName-error"
+                      role="alert"
+                      aria-live="assertive"
+                      className="mt-1 text-xs text-[var(--nec-pink)]"
+                    >
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="lastName" className="text-[var(--nec-text)]">
@@ -144,7 +173,12 @@ export default function BreakfastCheckout() {
                     onChange={(e) => {
                       setLastName(e.target.value)
                       setCheckoutReady(false)
-                      if (errors.lastName) setErrors((prev) => { const next = { ...prev }; delete next.lastName; return next })
+                      if (errors.lastName)
+                        setErrors((prev) => {
+                          const next = { ...prev }
+                          delete next.lastName
+                          return next
+                        })
                     }}
                     onBlur={() => validateField("lastName", lastName)}
                     required
@@ -153,7 +187,16 @@ export default function BreakfastCheckout() {
                     aria-describedby={errors.lastName ? "lastName-error" : undefined}
                     className="text-[var(--nec-text)]"
                   />
-                  {errors.lastName && <p id="lastName-error" role="alert" aria-live="assertive" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.lastName}</p>}
+                  {errors.lastName && (
+                    <p
+                      id="lastName-error"
+                      role="alert"
+                      aria-live="assertive"
+                      className="mt-1 text-xs text-[var(--nec-pink)]"
+                    >
+                      {errors.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
               <div>
@@ -167,7 +210,12 @@ export default function BreakfastCheckout() {
                   onChange={(e) => {
                     setEmail(e.target.value)
                     setCheckoutReady(false)
-                    if (errors.email) setErrors((prev) => { const next = { ...prev }; delete next.email; return next })
+                    if (errors.email)
+                      setErrors((prev) => {
+                        const next = { ...prev }
+                        delete next.email
+                        return next
+                      })
                   }}
                   onBlur={() => validateField("email", email)}
                   required
@@ -176,11 +224,20 @@ export default function BreakfastCheckout() {
                   aria-describedby={errors.email ? "email-error" : undefined}
                   className="text-[var(--nec-text)]"
                 />
-                {errors.email && <p id="email-error" role="alert" aria-live="assertive" className="text-xs mt-1 text-[var(--nec-pink)]">{errors.email}</p>}
+                {errors.email && (
+                  <p
+                    id="email-error"
+                    role="alert"
+                    aria-live="assertive"
+                    className="mt-1 text-xs text-[var(--nec-pink)]"
+                  >
+                    {errors.email}
+                  </p>
+                )}
               </div>
             </div>
 
-            <div className="nec-reg-subcard rounded-[1.8rem] p-6 space-y-4">
+            <div className="nec-reg-subcard space-y-4 rounded-[1.8rem] p-6">
               <h3 className="text-lg font-semibold text-[var(--nec-text)]">New Years Day Breakfast!</h3>
               <p className="text-sm text-[var(--nec-muted)]">
                 Friday is especially recommended. Most local restaurants are closed on New Year&apos;s Day.
@@ -193,8 +250,12 @@ export default function BreakfastCheckout() {
                   aria-pressed={breakfastSelections[fridayProduct.id] || false}
                   className="w-full rounded-[1.45rem] border px-4 py-4 text-left transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5"
                   style={{
-                    background: breakfastSelections[fridayProduct.id] ? "rgba(var(--nec-gold-rgb),0.12)" : "rgba(var(--nec-gold-rgb),0.04)",
-                    borderColor: breakfastSelections[fridayProduct.id] ? "rgba(var(--nec-gold-rgb),0.5)" : "rgba(var(--nec-gold-rgb),0.15)",
+                    background: breakfastSelections[fridayProduct.id]
+                      ? "rgba(var(--nec-gold-rgb),0.12)"
+                      : "rgba(var(--nec-gold-rgb),0.04)",
+                    borderColor: breakfastSelections[fridayProduct.id]
+                      ? "rgba(var(--nec-gold-rgb),0.5)"
+                      : "rgba(var(--nec-gold-rgb),0.15)",
                   }}
                 >
                   <div className="flex items-start gap-3">
@@ -202,13 +263,20 @@ export default function BreakfastCheckout() {
                       id={fridayProduct.id}
                       checked={breakfastSelections[fridayProduct.id] || false}
                       onCheckedChange={(checked) => toggleBreakfast(fridayProduct.id, checked as boolean)}
-                      className="mt-1 border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)] data-[state=checked]:border-[var(--nec-gold)]"
+                      className="mt-1 border-[var(--nec-gold)] data-[state=checked]:border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)]"
                       onClick={(e) => e.stopPropagation()}
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-4">
-                        <Label htmlFor={fridayProduct.id} className="cursor-pointer text-sm font-semibold text-[var(--nec-text)]">Friday - New Year&apos;s Day</Label>
-                        <span className="rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.08)] px-3 py-1 text-sm font-semibold text-[var(--nec-text)]">$25</span>
+                        <Label
+                          htmlFor={fridayProduct.id}
+                          className="cursor-pointer text-sm font-semibold text-[var(--nec-text)]"
+                        >
+                          Friday - New Year&apos;s Day
+                        </Label>
+                        <span className="rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.08)] px-3 py-1 text-sm font-semibold text-[var(--nec-text)]">
+                          $25
+                        </span>
                       </div>
                       <p className="mt-2 text-xs text-[var(--nec-gold)]">
                         Start your day on-site with fellowship and no restaurant scramble.
@@ -227,7 +295,9 @@ export default function BreakfastCheckout() {
                     aria-pressed={breakfastSelections[bp.id] || false}
                     className="nec-breakfast-option w-full rounded-[1.35rem] border px-4 py-4 text-left transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5"
                     style={{
-                      background: breakfastSelections[bp.id] ? "rgba(var(--nec-purple-rgb),0.08)" : "rgba(var(--nec-card-rgb),0.9)",
+                      background: breakfastSelections[bp.id]
+                        ? "rgba(var(--nec-purple-rgb),0.08)"
+                        : "rgba(var(--nec-card-rgb),0.9)",
                       borderColor: breakfastSelections[bp.id] ? "rgba(var(--nec-gold-rgb),0.5)" : "var(--nec-border)",
                     }}
                   >
@@ -236,7 +306,7 @@ export default function BreakfastCheckout() {
                         id={bp.id}
                         checked={breakfastSelections[bp.id] || false}
                         onCheckedChange={(checked) => toggleBreakfast(bp.id, checked as boolean)}
-                        className="border-[var(--nec-border)] data-[state=checked]:bg-[var(--nec-gold)] data-[state=checked]:border-[var(--nec-gold)]"
+                        className="border-[var(--nec-border)] data-[state=checked]:border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)]"
                         onClick={(e) => e.stopPropagation()}
                       />
                       <div className="flex flex-1 items-center justify-between gap-4">
@@ -256,7 +326,9 @@ export default function BreakfastCheckout() {
             <div className="nec-reg-subcard rounded-[1.8rem] p-6">
               <h3 className="mb-4 text-lg font-semibold text-[var(--nec-text)]">Order Summary</h3>
               <div className="space-y-2 text-[var(--nec-muted)]">
-                {selectedBreakfasts.length === 0 && <p className="text-[var(--nec-muted)] text-sm">Select at least one breakfast.</p>}
+                {selectedBreakfasts.length === 0 && (
+                  <p className="text-sm text-[var(--nec-muted)]">Select at least one breakfast.</p>
+                )}
                 {selectedBreakfasts.map((bp) => (
                   <div key={bp.id} className="flex justify-between gap-4 text-sm">
                     <span>{bp.name}</span>

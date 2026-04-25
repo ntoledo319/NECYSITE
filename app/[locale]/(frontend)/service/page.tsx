@@ -3,13 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Suspense } from "react"
 import type { LucideIcon } from "lucide-react"
-import {
-  ArrowRight,
-  CalendarDays,
-  Sparkles,
-  Users,
-  Video,
-} from "lucide-react"
+import { ArrowRight, CalendarDays, Sparkles, Users, Video } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import ScrollReveal from "@/components/scroll-reveal"
@@ -182,9 +176,7 @@ export default async function ServicePage() {
   const now = new Date()
 
   // Pull the next upcoming host-business meetings from the live calendar
-  const upcomingBizMeetings = events.filter(
-    (e) => e.category === "host-business" && new Date(e.start) >= now,
-  )
+  const upcomingBizMeetings = events.filter((e) => e.category === "host-business" && new Date(e.start) >= now)
   const nextBizMeeting = upcomingBizMeetings[0]
 
   // Derive display strings from the actual calendar data
@@ -244,9 +236,11 @@ export default async function ServicePage() {
       <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="page-stack-roomy mx-auto flex max-w-6xl flex-col">
-
             {/* ── 1. IMMERSIVE HERO ─────────────────────────────── */}
-            <header className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] shadow-[0_24px_56px_rgba(44,24,16,0.10)]" role="banner">
+            <header
+              className="relative overflow-hidden rounded-[2.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] shadow-[0_24px_56px_rgba(44,24,16,0.10)]"
+              role="banner"
+            >
               {/* Surface — warm card gradient, BELOW the texture */}
               <div
                 className="absolute inset-0"
@@ -299,22 +293,20 @@ export default async function ServicePage() {
                   The committee only gets built if people show&nbsp;up.
                 </h1>
                 <p className="page-enter-3 mt-5 max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
-                  NECYPAA XXXVI needs trusted servants, not perfect résumés. If you want to help, there
-                  is already a place for you. Start with a meeting, learn the rhythm, and plug into the
-                  work that keeps Hartford moving closer.
+                  NECYPAA XXXVI needs trusted servants, not perfect résumés. If you want to help, there is already a
+                  place for you. Start with a meeting, learn the rhythm, and plug into the work that keeps Hartford
+                  moving closer.
                 </p>
 
                 <div className="page-enter-4 mt-7 flex flex-wrap gap-2.5">
-                  {heroChips.map(
-                    (item) => (
-                      <span
-                        key={item}
-                        className="inline-flex min-h-[2.5rem] items-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.82)] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--nec-muted)]"
-                      >
-                        {item}
-                      </span>
-                    ),
-                  )}
+                  {heroChips.map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex min-h-[2.5rem] items-center rounded-full border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.82)] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--nec-muted)]"
+                    >
+                      {item}
+                    </span>
+                  ))}
                 </div>
 
                 {/* Two CTAs only — hero + bottom. That's it. */}
@@ -362,7 +354,11 @@ export default async function ServicePage() {
                   </div>
                   <p
                     className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl"
-                    style={{ fontFamily: "var(--font-display), Georgia, serif", color: "var(--nec-purple)", opacity: 0.25 }}
+                    style={{
+                      fontFamily: "var(--font-display), Georgia, serif",
+                      color: "var(--nec-purple)",
+                      opacity: 0.25,
+                    }}
                     aria-hidden="true"
                   >
                     {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
@@ -378,10 +374,7 @@ export default async function ServicePage() {
 
             {/* ── 3. PULL-QUOTE — typography moment, no card ─────── */}
             {SERVICE_STORY && (
-              <section
-                aria-label="Service story"
-                className="relative py-6 md:py-10 lg:py-14"
-              >
+              <section aria-label="Service story" className="relative py-6 md:py-10 lg:py-14">
                 <div className="mx-auto max-w-3xl text-center">
                   <blockquote
                     className="text-xl italic leading-9 tracking-[-0.01em] text-[var(--nec-text)] sm:text-2xl sm:leading-10 md:text-[1.7rem] md:leading-[2.4rem]"
@@ -389,9 +382,13 @@ export default async function ServicePage() {
                   >
                     &ldquo;{SERVICE_STORY.excerpt}&rdquo;
                   </blockquote>
-                  <div className="mx-auto mt-5 h-px w-16" aria-hidden="true" style={{
-                    background: "linear-gradient(90deg, transparent, rgba(var(--nec-gold-rgb),0.40), transparent)",
-                  }} />
+                  <div
+                    className="mx-auto mt-5 h-px w-16"
+                    aria-hidden="true"
+                    style={{
+                      background: "linear-gradient(90deg, transparent, rgba(var(--nec-gold-rgb),0.40), transparent)",
+                    }}
+                  />
                   <Link
                     href={`/blog/${SERVICE_STORY.slug}`}
                     className="mt-4 inline-block text-sm font-medium text-[var(--nec-purple)] underline decoration-[rgba(var(--nec-purple-rgb),0.30)] underline-offset-4 transition-colors hover:text-[var(--nec-pink)]"
@@ -413,8 +410,7 @@ export default async function ServicePage() {
                     Three clean ways to plug into the committee.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                    Start where you can reliably show up, then let the committee show you the next right
-                    responsibility.
+                    Start where you can reliably show up, then let the committee show you the next right responsibility.
                   </p>
                 </div>
 
@@ -423,7 +419,10 @@ export default async function ServicePage() {
                     const accent = getAccentStyles(track.accent)
                     const Icon = track.icon
                     return (
-                      <article key={track.title} className="nec-card nec-interactive-card relative h-full overflow-hidden p-6 md:p-7">
+                      <article
+                        key={track.title}
+                        className="nec-card nec-interactive-card relative h-full overflow-hidden p-6 md:p-7"
+                      >
                         <div
                           className="absolute inset-x-0 top-0 h-[3px]"
                           aria-hidden="true"
@@ -433,24 +432,38 @@ export default async function ServicePage() {
                         />
                         <div className="flex h-full flex-col">
                           <div className="flex items-start gap-3">
-                            <div className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl ${accent.icon}`} aria-hidden="true">
+                            <div
+                              className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl ${accent.icon}`}
+                              aria-hidden="true"
+                            >
                               <Icon className={`h-5 w-5 ${accent.text}`} />
                             </div>
                             <div>
-                              <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.text}`}>Service Track</p>
-                              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">{track.title}</h3>
+                              <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.text}`}>
+                                Service Track
+                              </p>
+                              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                                {track.title}
+                              </h3>
                             </div>
                           </div>
                           <p className="mt-5 text-sm leading-7 text-[var(--nec-muted)]">{track.description}</p>
                           <ul className="mt-5 grid gap-3">
                             {track.details.map((detail) => (
-                              <li key={detail} className={`rounded-[1.1rem] border px-4 py-3 text-sm leading-6 text-[var(--nec-text)] ${accent.border} ${accent.surface}`}>
+                              <li
+                                key={detail}
+                                className={`rounded-[1.1rem] border px-4 py-3 text-sm leading-6 text-[var(--nec-text)] ${accent.border} ${accent.surface}`}
+                              >
                                 {detail}
                               </li>
                             ))}
                           </ul>
                           <div className="mt-auto pt-6">
-                            <TrackAction href={track.actionHref} label={track.actionLabel} external={track.actionExternal} />
+                            <TrackAction
+                              href={track.actionHref}
+                              label={track.actionLabel}
+                              external={track.actionExternal}
+                            />
                           </div>
                         </div>
                       </article>
@@ -469,7 +482,8 @@ export default async function ServicePage() {
                       className="absolute inset-x-0 top-0 h-[3px]"
                       aria-hidden="true"
                       style={{
-                        background: "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.20) 0%, rgba(var(--nec-cyan-rgb),0.42) 50%, rgba(var(--nec-cyan-rgb),0.12) 100%)",
+                        background:
+                          "linear-gradient(90deg, rgba(var(--nec-purple-rgb),0.20) 0%, rgba(var(--nec-cyan-rgb),0.42) 50%, rgba(var(--nec-cyan-rgb),0.12) 100%)",
                       }}
                     />
                     <span className="section-badge">First Meeting</span>
@@ -481,7 +495,10 @@ export default async function ServicePage() {
                     </p>
                     <ol className="mt-6 space-y-3">
                       {FIRST_MEETING_STEPS.map((step, i) => (
-                        <li key={step} className="flex items-start gap-3 rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3">
+                        <li
+                          key={step}
+                          className="flex items-start gap-3 rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
+                        >
                           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(var(--nec-purple-rgb),0.10)] text-sm font-semibold text-[var(--nec-purple)]">
                             {i + 1}
                           </div>
@@ -495,7 +512,10 @@ export default async function ServicePage() {
 
               {/* Right column — Why It Matters, NO card wrapper (editorial break) */}
               <ScrollReveal className="h-full">
-                <section aria-label="Why people stay in service" className="relative h-full rounded-[1.5rem] bg-[rgba(var(--nec-card-rgb),0.40)] p-5 md:rounded-none md:bg-transparent md:p-0 md:py-4 lg:pl-4">
+                <section
+                  aria-label="Why people stay in service"
+                  className="relative h-full rounded-[1.5rem] bg-[rgba(var(--nec-card-rgb),0.40)] p-5 md:rounded-none md:bg-transparent md:p-0 md:py-4 lg:pl-4"
+                >
                   <div className="max-w-xl">
                     <span className="section-badge">Why It Matters</span>
                     <h2 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] sm:text-3xl">
@@ -506,7 +526,10 @@ export default async function ServicePage() {
                   <ul className="mt-6 grid gap-4">
                     {SERVICE_BENEFITS.map((item) => (
                       <li key={item} className="flex items-start gap-3">
-                        <div className="mt-0.5 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--nec-gold)]" aria-hidden="true" />
+                        <div
+                          className="mt-0.5 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--nec-gold)]"
+                          aria-hidden="true"
+                        />
                         <p className="text-sm leading-7 text-[var(--nec-muted)]">{item}</p>
                       </li>
                     ))}
@@ -569,8 +592,8 @@ export default async function ServicePage() {
                     You do not need the perfect introduction. You just need to show&nbsp;up.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                    Join the next meeting, tell someone you want to help, and let the work get more specific from
-                    there. NECYPAA grows because people keep raising their hand.
+                    Join the next meeting, tell someone you want to help, and let the work get more specific from there.
+                    NECYPAA grows because people keep raising their hand.
                   </p>
 
                   {/* Two CTAs — hero had the first pair, this is the second and last */}
@@ -603,7 +626,6 @@ export default async function ServicePage() {
                 </div>
               </div>
             </section>
-
           </div>
         </div>
       </div>

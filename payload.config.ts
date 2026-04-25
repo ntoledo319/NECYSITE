@@ -25,7 +25,11 @@ export default buildConfig({
     },
   },
   collections: [Users, Events, BlogPosts, FAQ, Media, Registrations],
-  secret: process.env.PAYLOAD_SECRET ?? (() => { throw new Error("PAYLOAD_SECRET environment variable is required") })(),
+  secret:
+    process.env.PAYLOAD_SECRET ??
+    (() => {
+      throw new Error("PAYLOAD_SECRET environment variable is required")
+    })(),
   db: sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || "file:./payload.db",

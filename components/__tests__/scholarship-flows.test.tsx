@@ -23,7 +23,13 @@ vi.mock("@stripe/react-stripe-js", async () => {
 
   return {
     EmbeddedCheckout: () => <div data-testid="embedded-checkout">Embedded checkout</div>,
-    EmbeddedCheckoutProvider: ({ options, children }: { options: { fetchClientSecret?: () => Promise<string> }, children: React.ReactNode }) => {
+    EmbeddedCheckoutProvider: ({
+      options,
+      children,
+    }: {
+      options: { fetchClientSecret?: () => Promise<string> }
+      children: React.ReactNode
+    }) => {
       React.useEffect(() => {
         void options.fetchClientSecret?.()
       }, [options])
@@ -86,11 +92,7 @@ describe("scholarship flow integration", () => {
 
   it("lets a standard registration add and remove scholarship pricing in the paid UI", async () => {
     render(
-      <RegistrationCheckout
-        registrationData={selfRegistration}
-        policyAgreements={completePolicy}
-        onBack={() => {}}
-      />,
+      <RegistrationCheckout registrationData={selfRegistration} policyAgreements={completePolicy} onBack={() => {}} />,
     )
 
     expect(await screen.findByRole("button", { name: "Add Scholarship" })).toBeInTheDocument()
@@ -109,11 +111,7 @@ describe("scholarship flow integration", () => {
 
   it("keeps default scholarship pricing server-synced in paid checkout", async () => {
     render(
-      <RegistrationCheckout
-        registrationData={scholarshipRegistration}
-        policyAgreements={null}
-        onBack={() => {}}
-      />,
+      <RegistrationCheckout registrationData={scholarshipRegistration} policyAgreements={null} onBack={() => {}} />,
     )
 
     fireEvent.click(await screen.findByRole("button", { name: /proceed to payment/i }))
@@ -133,11 +131,7 @@ describe("scholarship flow integration", () => {
 
   it("sends the custom scholarship amount to Stripe checkout in cents", async () => {
     render(
-      <RegistrationCheckout
-        registrationData={scholarshipRegistration}
-        policyAgreements={null}
-        onBack={() => {}}
-      />,
+      <RegistrationCheckout registrationData={scholarshipRegistration} policyAgreements={null} onBack={() => {}} />,
     )
 
     fireEvent.click(await screen.findByRole("button", { name: /use custom amount/i }))

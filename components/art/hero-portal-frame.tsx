@@ -17,18 +17,28 @@ export default function HeroPortalFrame({ className = "" }: { className?: string
       {/* Outer arch */}
       <path
         d="M120 680 L120 260 C120 140 200 60 300 60 C400 60 480 140 480 260 L480 680"
-        stroke="url(#portalGrad)" strokeWidth="3" fill="none" opacity="0.12"
+        stroke="url(#portalGrad)"
+        strokeWidth="3"
+        fill="none"
+        opacity="0.12"
       />
       {/* Inner arch */}
       <path
         d="M155 680 L155 275 C155 170 215 100 300 100 C385 100 445 170 445 275 L445 680"
-        stroke="url(#portalGrad)" strokeWidth="2" fill="none" opacity="0.08"
+        stroke="url(#portalGrad)"
+        strokeWidth="2"
+        fill="none"
+        opacity="0.08"
       />
       {/* Keystone */}
       <path
         d="M275 62 L300 40 L325 62"
-        stroke="var(--nec-gold)" strokeWidth="2.5" fill="none" opacity="0.15"
-        strokeLinecap="round" strokeLinejoin="round"
+        stroke="var(--nec-gold)"
+        strokeWidth="2.5"
+        fill="none"
+        opacity="0.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       {/* Left door hinge details */}
       <circle cx="130" cy="300" r="6" stroke="var(--nec-gold)" strokeWidth="1.5" opacity="0.1" fill="none" />
@@ -48,7 +58,11 @@ export default function HeroPortalFrame({ className = "" }: { className?: string
         {[0, 60, 120, 180, 240, 300].map((a) => (
           <rect
             key={`lg${a}`}
-            x="97" y="555" width="6" height="10" rx="1.5"
+            x="97"
+            y="555"
+            width="6"
+            height="10"
+            rx="1.5"
             fill="var(--nec-gold)"
             transform={`rotate(${a} 100 580)`}
           />
@@ -61,7 +75,11 @@ export default function HeroPortalFrame({ className = "" }: { className?: string
         {[0, 60, 120, 180, 240, 300].map((a) => (
           <rect
             key={`rg${a}`}
-            x="497" y="539" width="6" height="9" rx="1.5"
+            x="497"
+            y="539"
+            width="6"
+            height="9"
+            rx="1.5"
             fill="var(--nec-purple)"
             transform={`rotate(${a} 500 560)`}
           />

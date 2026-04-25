@@ -163,9 +163,5 @@ export function A11yProvider({ children }: { children: ReactNode }) {
     announceChange("All accessibility settings reset to defaults")
   }
 
-  return (
-    <A11yContext.Provider value={{ settings, updateSettings, resetSettings }}>
-      {children}
-    </A11yContext.Provider>
-  )
+  return <A11yContext.Provider value={{ settings, updateSettings, resetSettings }}>{children}</A11yContext.Provider>
 }

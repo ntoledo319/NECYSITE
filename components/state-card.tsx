@@ -91,9 +91,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
               : `rgba(${accentRgb},0.06)`,
             color: accentColor,
             border: `1px solid rgba(${accentRgb},${expanded ? "0.35" : "0.15"})`,
-            boxShadow: expanded
-              ? `0 12px 22px rgba(44,24,16,0.08)`
-              : "none",
+            boxShadow: expanded ? `0 12px 22px rgba(44,24,16,0.08)` : "none",
           }}
         >
           {state.abbreviation}
@@ -114,10 +112,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
             {state.name}
           </span>
           <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span
-              className="text-xs font-medium"
-              style={{ color: "var(--nec-muted)" }}
-            >
+            <span className="text-xs font-medium" style={{ color: "var(--nec-muted)" }}>
               {state.intergroups.length} intergroup
               {state.intergroups.length !== 1 ? "s" : ""}
             </span>
@@ -146,15 +141,8 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
           </span>
           {state.notes && (
             <span className="mt-1.5 flex items-center gap-1">
-              <Sparkles
-                className="w-3 h-3 flex-shrink-0"
-                style={{ color: "var(--nec-gold)" }}
-                aria-hidden="true"
-              />
-              <span
-                className="text-xs font-semibold"
-                style={{ color: "var(--nec-gold)" }}
-              >
+              <Sparkles className="h-3 w-3 flex-shrink-0" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
+              <span className="text-xs font-semibold" style={{ color: "var(--nec-gold)" }}>
                 {state.notes}
               </span>
             </span>
@@ -163,7 +151,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
 
         {/* Expand chevron */}
         <ChevronDown
-          className="w-5 h-5 flex-shrink-0"
+          className="h-5 w-5 flex-shrink-0"
           style={{
             color: expanded ? accentColor : "var(--nec-muted)",
             transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
@@ -175,41 +163,24 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
 
       {/* Expandable panel */}
       {expanded && (
-        <div
-          id={panelId}
-          role="region"
-          aria-labelledby={cardId}
-          className="state-card-panel px-5 pb-6 pt-0 md:px-6"
-        >
-          <div
-            className="border-t pt-5"
-            style={{ borderColor: `rgba(${accentRgb},0.12)` }}
-          >
+        <div id={panelId} role="region" aria-labelledby={cardId} className="state-card-panel px-5 pb-6 pt-0 md:px-6">
+          <div className="border-t pt-5" style={{ borderColor: `rgba(${accentRgb},0.12)` }}>
             <div className="grid gap-5 sm:grid-cols-2">
               {/* AA Intergroups */}
               <section className="state-card-section">
-                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-3">
+                <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
                   <span
-                    className="w-6 h-6 rounded-lg flex items-center justify-center"
+                    className="flex h-6 w-6 items-center justify-center rounded-lg"
                     style={{
                       background: "rgba(var(--nec-cyan-rgb),0.08)",
                       border: "1px solid rgba(var(--nec-cyan-rgb),0.15)",
                     }}
                   >
-                    <MapPin
-                      className="w-3.5 h-3.5"
-                      style={{ color: "var(--nec-cyan)" }}
-                      aria-hidden="true"
-                    />
+                    <MapPin className="h-3.5 w-3.5" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
                   </span>
-                  <span style={{ color: "var(--nec-cyan)" }}>
-                    AA Intergroups
-                  </span>
+                  <span style={{ color: "var(--nec-cyan)" }}>AA Intergroups</span>
                 </h3>
-                <ul
-                  className="space-y-1"
-                  aria-label={`AA intergroups in ${state.name}`}
-                >
+                <ul className="space-y-1" aria-label={`AA intergroups in ${state.name}`}>
                   {state.intergroups.map((ig) => (
                     <li key={ig.url}>
                       <a
@@ -218,7 +189,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         rel="noopener noreferrer"
                         className="group/link -mx-1 flex items-start gap-2 rounded-[1rem] p-2.5 transition-[background-color,border-color] duration-200 hover:bg-[rgba(var(--nec-cyan-rgb),0.04)]"
                       >
-                        <span className="flex-1 min-w-0">
+                        <span className="min-w-0 flex-1">
                           <span
                             className="block text-sm font-semibold transition-colors group-hover/link:text-[var(--nec-text)]"
                             style={{ color: "var(--nec-text)" }}
@@ -226,16 +197,13 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                             {ig.name}
                           </span>
                           {ig.area && (
-                            <span
-                              className="block text-xs mt-0.5"
-                              style={{ color: "var(--nec-muted)" }}
-                            >
+                            <span className="mt-0.5 block text-xs" style={{ color: "var(--nec-muted)" }}>
                               {ig.area}
                             </span>
                           )}
                         </span>
                         <ExternalLink
-                          className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 opacity-40 group-hover/link:opacity-100 transition-opacity"
+                          className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 opacity-40 transition-opacity group-hover/link:opacity-100"
                           style={{ color: "var(--nec-cyan)" }}
                           aria-hidden="true"
                         />
@@ -249,26 +217,20 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
               {/* YPAA Committee */}
               {(state.ypaaCommittee || meetingCount > 0) && (
                 <section className="state-card-section">
-                  <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-3">
+                  <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
                     <span
-                      className="w-6 h-6 rounded-lg flex items-center justify-center"
+                      className="flex h-6 w-6 items-center justify-center rounded-lg"
                       style={{
                         background: "rgba(var(--nec-pink-rgb),0.08)",
                         border: "1px solid rgba(var(--nec-pink-rgb),0.15)",
                       }}
                     >
-                      <Users
-                        className="w-3.5 h-3.5"
-                        style={{ color: "var(--nec-pink)" }}
-                        aria-hidden="true"
-                      />
+                      <Users className="h-3.5 w-3.5" style={{ color: "var(--nec-pink)" }} aria-hidden="true" />
                     </span>
-                    <span style={{ color: "var(--nec-pink)" }}>
-                      Young People in AA
-                    </span>
+                    <span style={{ color: "var(--nec-pink)" }}>Young People in AA</span>
                     {meetingCount > 0 && (
                       <span
-                        className="text-[10px] font-bold px-1.5 py-0.5 rounded-md"
+                        className="rounded-md px-1.5 py-0.5 text-[10px] font-bold"
                         style={{
                           background: "rgba(var(--nec-pink-rgb),0.08)",
                           color: "var(--nec-pink)",
@@ -293,7 +255,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         {state.ypaaCommittee.name}
                       </span>
                       <ExternalLink
-                        className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover/link:opacity-100 transition-opacity"
+                        className="h-3.5 w-3.5 flex-shrink-0 opacity-40 transition-opacity group-hover/link:opacity-100"
                         style={{ color: "var(--nec-pink)" }}
                         aria-hidden="true"
                       />
@@ -302,10 +264,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                   )}
                   {/* Inline meeting preview */}
                   {previewMeetings.length > 0 && (
-                    <ul
-                      className="mt-2 space-y-1.5"
-                      aria-label={`YPAA meetings in ${state.name}`}
-                    >
+                    <ul className="mt-2 space-y-1.5" aria-label={`YPAA meetings in ${state.name}`}>
                       {previewMeetings.map((m, i) => (
                         <li
                           key={`${m.name}-${m.day}-${i}`}
@@ -315,29 +274,46 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                             border: "1px solid rgba(var(--nec-pink-rgb),0.06)",
                           }}
                         >
-                          <span className="block text-xs font-bold text-[var(--nec-text)] leading-tight">
-                            {m.name}
-                          </span>
-                          <span className="flex items-center gap-1 mt-0.5">
-                            <Clock className="w-2.5 h-2.5" style={{ color: "var(--nec-pink)" }} aria-hidden="true" />
+                          <span className="block text-xs font-bold leading-tight text-[var(--nec-text)]">{m.name}</span>
+                          <span className="mt-0.5 flex items-center gap-1">
+                            <Clock className="h-2.5 w-2.5" style={{ color: "var(--nec-pink)" }} aria-hidden="true" />
                             <span className="text-[11px]" style={{ color: "var(--nec-muted)" }}>
                               {m.day && m.time
                                 ? `${m.day} \u2022 ${m.time}`
                                 : m.day || m.time || "Contact for schedule"}
                             </span>
                             <span
-                              className="ml-1 text-[9px] font-bold uppercase px-1 py-px rounded"
+                              className="ml-1 rounded px-1 py-px text-[9px] font-bold uppercase"
                               style={{
-                                background: m.format === "online" ? "rgba(var(--nec-purple-rgb),0.08)" : m.format === "hybrid" ? "rgba(var(--nec-pink-rgb),0.08)" : "rgba(var(--nec-cyan-rgb),0.08)",
-                                color: m.format === "online" ? "var(--nec-purple)" : m.format === "hybrid" ? "var(--nec-pink)" : "var(--nec-cyan)",
+                                background:
+                                  m.format === "online"
+                                    ? "rgba(var(--nec-purple-rgb),0.08)"
+                                    : m.format === "hybrid"
+                                      ? "rgba(var(--nec-pink-rgb),0.08)"
+                                      : "rgba(var(--nec-cyan-rgb),0.08)",
+                                color:
+                                  m.format === "online"
+                                    ? "var(--nec-purple)"
+                                    : m.format === "hybrid"
+                                      ? "var(--nec-pink)"
+                                      : "var(--nec-cyan)",
                               }}
                             >
                               {m.format === "in-person" ? (
-                                <><MapPin className="w-2 h-2 inline -mt-px mr-0.5" aria-hidden="true" />In-Person</>
+                                <>
+                                  <MapPin className="-mt-px mr-0.5 inline h-2 w-2" aria-hidden="true" />
+                                  In-Person
+                                </>
                               ) : m.format === "online" ? (
-                                <><GlobeIcon className="w-2 h-2 inline -mt-px mr-0.5" aria-hidden="true" />Online</>
+                                <>
+                                  <GlobeIcon className="-mt-px mr-0.5 inline h-2 w-2" aria-hidden="true" />
+                                  Online
+                                </>
                               ) : (
-                                <><GlobeIcon className="w-2 h-2 inline -mt-px mr-0.5" aria-hidden="true" />Hybrid</>
+                                <>
+                                  <GlobeIcon className="-mt-px mr-0.5 inline h-2 w-2" aria-hidden="true" />
+                                  Hybrid
+                                </>
                               )}
                             </span>
                           </span>
@@ -348,7 +324,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                           <button
                             type="button"
                             onClick={() => onViewMeetings(state.abbreviation)}
-                            className="inline-flex items-center gap-1 text-xs font-semibold transition-colors hover:underline mt-1 bg-transparent border-none cursor-pointer p-0"
+                            className="mt-1 inline-flex cursor-pointer items-center gap-1 border-none bg-transparent p-0 text-xs font-semibold transition-colors hover:underline"
                             style={{ color: "var(--nec-pink)" }}
                           >
                             View all {meetingCount} meetings →
@@ -362,28 +338,19 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
 
               {/* Family Resources (Al-Anon / Alateen) */}
               <section className="state-card-section">
-                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-3">
+                <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
                   <span
-                    className="w-6 h-6 rounded-lg flex items-center justify-center"
+                    className="flex h-6 w-6 items-center justify-center rounded-lg"
                     style={{
                       background: "rgba(var(--nec-gold-rgb),0.08)",
                       border: "1px solid rgba(var(--nec-gold-rgb),0.15)",
                     }}
                   >
-                    <Heart
-                      className="w-3.5 h-3.5"
-                      style={{ color: "var(--nec-gold)" }}
-                      aria-hidden="true"
-                    />
+                    <Heart className="h-3.5 w-3.5" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
                   </span>
-                  <span style={{ color: "var(--nec-gold)" }}>
-                    Family Resources
-                  </span>
+                  <span style={{ color: "var(--nec-gold)" }}>Family Resources</span>
                 </h3>
-                <ul
-                  className="space-y-1"
-                  aria-label={`Family resources in ${state.name}`}
-                >
+                <ul className="space-y-1" aria-label={`Family resources in ${state.name}`}>
                   <li>
                     <a
                       href={state.alanon.url}
@@ -398,7 +365,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                         Al-Anon
                       </span>
                       <ExternalLink
-                        className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover/link:opacity-100 transition-opacity"
+                        className="h-3.5 w-3.5 flex-shrink-0 opacity-40 transition-opacity group-hover/link:opacity-100"
                         style={{ color: "var(--nec-gold)" }}
                         aria-hidden="true"
                       />
@@ -420,7 +387,7 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                           Alateen
                         </span>
                         <ExternalLink
-                          className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover/link:opacity-100 transition-opacity"
+                          className="h-3.5 w-3.5 flex-shrink-0 opacity-40 transition-opacity group-hover/link:opacity-100"
                           style={{ color: "var(--nec-gold)" }}
                           aria-hidden="true"
                         />
@@ -433,23 +400,17 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
 
               {/* Meeting Finder */}
               <section className="state-card-section">
-                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-3">
+                <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
                   <span
-                    className="w-6 h-6 rounded-lg flex items-center justify-center"
+                    className="flex h-6 w-6 items-center justify-center rounded-lg"
                     style={{
                       background: "rgba(234,88,12,0.12)",
                       border: "1px solid rgba(234,88,12,0.2)",
                     }}
                   >
-                    <Search
-                      className="w-3.5 h-3.5"
-                      style={{ color: "var(--nec-orange)" }}
-                      aria-hidden="true"
-                    />
+                    <Search className="h-3.5 w-3.5" style={{ color: "var(--nec-orange)" }} aria-hidden="true" />
                   </span>
-                  <span style={{ color: "var(--nec-orange)" }}>
-                    Find a Meeting
-                  </span>
+                  <span style={{ color: "var(--nec-orange)" }}>Find a Meeting</span>
                 </h3>
                 <a
                   href={state.meetingFinderUrl}
@@ -463,32 +424,28 @@ export default function StateCard({ state, isHighlighted, onViewMeetings }: Stat
                   }}
                 >
                   AA meetings in {state.name}
-                  <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                   <span className="sr-only"> (opens in new tab)</span>
                 </a>
               </section>
             </div>
 
             {/* Area Service — footer link */}
-            {state.areaServiceUrl &&
-              state.areaServiceUrl !== state.intergroups[0]?.url && (
-                <div
-                  className="mt-5 pt-4 border-t"
-                  style={{ borderColor: `rgba(${accentRgb},0.08)` }}
+            {state.areaServiceUrl && state.areaServiceUrl !== state.intergroups[0]?.url && (
+              <div className="mt-5 border-t pt-4" style={{ borderColor: `rgba(${accentRgb},0.08)` }}>
+                <a
+                  href={state.areaServiceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs transition-colors hover:text-[var(--nec-text)]"
+                  style={{ color: "var(--nec-muted)" }}
                 >
-                  <a
-                    href={state.areaServiceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs inline-flex items-center gap-1.5 transition-colors hover:text-[var(--nec-text)]"
-                    style={{ color: "var(--nec-muted)" }}
-                  >
-                    Area Service Committee
-                    <ExternalLink className="w-3 h-3" aria-hidden="true" />
-                    <span className="sr-only"> (opens in new tab)</span>
-                  </a>
-                </div>
-              )}
+                  Area Service Committee
+                  <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       )}

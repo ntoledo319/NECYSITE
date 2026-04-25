@@ -36,7 +36,7 @@ export default function AnonymousFeedbackForm() {
     // This approach requires no backend while still delivering the feedback
     const subject = encodeURIComponent(`Anonymous Feedback: ${CATEGORIES.find((c) => c.value === category)?.label}`)
     const body = encodeURIComponent(
-      `Category: ${CATEGORIES.find((c) => c.value === category)?.label}\n\n${message.trim()}\n\n---\nSubmitted anonymously via the NECYPAA XXXVI accessibility page.`
+      `Category: ${CATEGORIES.find((c) => c.value === category)?.label}\n\n${message.trim()}\n\n---\nSubmitted anonymously via the NECYPAA XXXVI accessibility page.`,
     )
 
     window.location.href = `mailto:info@necypaa.org?subject=${subject}&body=${body}`
@@ -59,8 +59,8 @@ export default function AnonymousFeedbackForm() {
           border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
         }}
       >
-        <CheckCircle className="w-8 h-8 mx-auto mb-3" style={{ color: "var(--nec-cyan)" }} />
-        <p className="text-sm font-medium text-[var(--nec-text)] mb-1">Your mail client should have opened.</p>
+        <CheckCircle className="mx-auto mb-3 h-8 w-8" style={{ color: "var(--nec-cyan)" }} />
+        <p className="mb-1 text-sm font-medium text-[var(--nec-text)]">Your mail client should have opened.</p>
         <p className="text-xs" style={{ color: "var(--nec-muted)" }}>
           If it didn&apos;t, you can email us directly at{" "}
           <a href="mailto:info@necypaa.org" className="underline" style={{ color: "var(--nec-cyan)" }}>
@@ -85,7 +85,7 @@ export default function AnonymousFeedbackForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="feedback-category" className="block text-xs font-medium text-[var(--nec-text)] mb-1.5">
+        <label htmlFor="feedback-category" className="mb-1.5 block text-xs font-medium text-[var(--nec-text)]">
           What kind of feedback?
         </label>
         <select
@@ -107,7 +107,7 @@ export default function AnonymousFeedbackForm() {
       </div>
 
       <div>
-        <label htmlFor="feedback-message" className="block text-xs font-medium text-[var(--nec-text)] mb-1.5">
+        <label htmlFor="feedback-message" className="mb-1.5 block text-xs font-medium text-[var(--nec-text)]">
           Your feedback
         </label>
         <textarea
@@ -117,7 +117,7 @@ export default function AnonymousFeedbackForm() {
           rows={4}
           required
           placeholder="Describe what you experienced or what could be improved..."
-          className="w-full rounded-lg px-3 py-2 text-sm text-[var(--nec-text)] placeholder:text-[var(--nec-muted)] resize-y"
+          className="w-full resize-y rounded-lg px-3 py-2 text-sm text-[var(--nec-text)] placeholder:text-[var(--nec-muted)]"
           style={{
             background: "var(--nec-bg-alt, #131b2e)",
             border: "1px solid var(--nec-border)",
@@ -126,21 +126,21 @@ export default function AnonymousFeedbackForm() {
       </div>
 
       <p className="text-xs leading-relaxed" style={{ color: "var(--nec-muted)" }}>
-        This form opens your default email client with your message pre-filled. Your email
-        address will be visible to us. To stay fully anonymous, use a throwaway email address
-        or send from an account that doesn&apos;t identify you.
+        This form opens your default email client with your message pre-filled. Your email address will be visible to
+        us. To stay fully anonymous, use a throwaway email address or send from an account that doesn&apos;t identify
+        you.
       </p>
 
       <button
         type="submit"
         disabled={!message.trim() || sending}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40"
         style={{
           background: "var(--nec-cyan)",
           color: "var(--nec-navy)",
         }}
       >
-        <Send className="w-4 h-4" aria-hidden="true" />
+        <Send className="h-4 w-4" aria-hidden="true" />
         {sending ? "Opening mail client..." : "Send Feedback"}
       </button>
     </form>

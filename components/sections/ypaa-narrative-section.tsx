@@ -2,12 +2,7 @@
 
 import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
-import {
-  SPRING_GENTLE,
-  SPRING_SLOW,
-  staggerContainer,
-  staggerChild,
-} from "@/components/ui/motion-primitives"
+import { SPRING_GENTLE, SPRING_SLOW, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 /* ── Inline SVG graphics for the narrative ── */
 
@@ -17,49 +12,246 @@ function DancingFigures() {
       viewBox="0 0 200 120"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-auto"
+      className="h-auto w-full"
       aria-hidden="true"
     >
       {/* Figure 1 - arms up dancing */}
       <circle cx="40" cy="20" r="8" fill="var(--nec-cyan)" opacity="0.8" />
-      <line x1="40" y1="28" x2="40" y2="60" stroke="var(--nec-cyan)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="40" y1="36" x2="26" y2="22" stroke="var(--nec-cyan)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="40" y1="36" x2="54" y2="22" stroke="var(--nec-cyan)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="40" y1="60" x2="30" y2="80" stroke="var(--nec-cyan)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="40" y1="60" x2="50" y2="80" stroke="var(--nec-cyan)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+      <line
+        x1="40"
+        y1="28"
+        x2="40"
+        y2="60"
+        stroke="var(--nec-cyan)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="40"
+        y1="36"
+        x2="26"
+        y2="22"
+        stroke="var(--nec-cyan)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="40"
+        y1="36"
+        x2="54"
+        y2="22"
+        stroke="var(--nec-cyan)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="40"
+        y1="60"
+        x2="30"
+        y2="80"
+        stroke="var(--nec-cyan)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="40"
+        y1="60"
+        x2="50"
+        y2="80"
+        stroke="var(--nec-cyan)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
 
       {/* Figure 2 - one arm up */}
       <circle cx="80" cy="24" r="8" fill="var(--nec-pink)" opacity="0.8" />
-      <line x1="80" y1="32" x2="80" y2="64" stroke="var(--nec-pink)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="80" y1="40" x2="66" y2="50" stroke="var(--nec-pink)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="80" y1="40" x2="96" y2="26" stroke="var(--nec-pink)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="80" y1="64" x2="70" y2="84" stroke="var(--nec-pink)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="80" y1="64" x2="90" y2="84" stroke="var(--nec-pink)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+      <line
+        x1="80"
+        y1="32"
+        x2="80"
+        y2="64"
+        stroke="var(--nec-pink)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="80"
+        y1="40"
+        x2="66"
+        y2="50"
+        stroke="var(--nec-pink)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="80"
+        y1="40"
+        x2="96"
+        y2="26"
+        stroke="var(--nec-pink)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="80"
+        y1="64"
+        x2="70"
+        y2="84"
+        stroke="var(--nec-pink)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="80"
+        y1="64"
+        x2="90"
+        y2="84"
+        stroke="var(--nec-pink)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
 
       {/* Figure 3 - both arms out */}
       <circle cx="120" cy="22" r="8" fill="var(--nec-gold)" opacity="0.8" />
-      <line x1="120" y1="30" x2="120" y2="62" stroke="var(--nec-gold)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="120" y1="38" x2="104" y2="30" stroke="var(--nec-gold)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="120" y1="38" x2="136" y2="30" stroke="var(--nec-gold)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="120" y1="62" x2="110" y2="82" stroke="var(--nec-gold)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="120" y1="62" x2="130" y2="82" stroke="var(--nec-gold)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+      <line
+        x1="120"
+        y1="30"
+        x2="120"
+        y2="62"
+        stroke="var(--nec-gold)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="120"
+        y1="38"
+        x2="104"
+        y2="30"
+        stroke="var(--nec-gold)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="120"
+        y1="38"
+        x2="136"
+        y2="30"
+        stroke="var(--nec-gold)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="120"
+        y1="62"
+        x2="110"
+        y2="82"
+        stroke="var(--nec-gold)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="120"
+        y1="62"
+        x2="130"
+        y2="82"
+        stroke="var(--nec-gold)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
 
       {/* Figure 4 - jumping */}
       <circle cx="160" cy="16" r="8" fill="var(--nec-purple)" opacity="0.8" />
-      <line x1="160" y1="24" x2="160" y2="52" stroke="var(--nec-purple)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="160" y1="32" x2="146" y2="20" stroke="var(--nec-purple)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="160" y1="32" x2="174" y2="20" stroke="var(--nec-purple)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="160" y1="52" x2="148" y2="68" stroke="var(--nec-purple)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-      <line x1="160" y1="52" x2="172" y2="68" stroke="var(--nec-purple)" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+      <line
+        x1="160"
+        y1="24"
+        x2="160"
+        y2="52"
+        stroke="var(--nec-purple)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="160"
+        y1="32"
+        x2="146"
+        y2="20"
+        stroke="var(--nec-purple)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="160"
+        y1="32"
+        x2="174"
+        y2="20"
+        stroke="var(--nec-purple)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="160"
+        y1="52"
+        x2="148"
+        y2="68"
+        stroke="var(--nec-purple)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="160"
+        y1="52"
+        x2="172"
+        y2="68"
+        stroke="var(--nec-purple)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
 
       {/* Music notes floating */}
-      <text x="55" y="14" fontSize="12" fill="var(--nec-cyan)" opacity="0.5">♪</text>
-      <text x="100" y="10" fontSize="14" fill="var(--nec-pink)" opacity="0.4">♫</text>
-      <text x="142" y="8" fontSize="11" fill="var(--nec-gold)" opacity="0.5">♪</text>
-      <text x="175" y="12" fontSize="13" fill="var(--nec-purple)" opacity="0.4">♫</text>
+      <text x="55" y="14" fontSize="12" fill="var(--nec-cyan)" opacity="0.5">
+        ♪
+      </text>
+      <text x="100" y="10" fontSize="14" fill="var(--nec-pink)" opacity="0.4">
+        ♫
+      </text>
+      <text x="142" y="8" fontSize="11" fill="var(--nec-gold)" opacity="0.5">
+        ♪
+      </text>
+      <text x="175" y="12" fontSize="13" fill="var(--nec-purple)" opacity="0.4">
+        ♫
+      </text>
 
       {/* Ground line */}
-      <line x1="10" y1="90" x2="190" y2="90" stroke="var(--nec-border)" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+      <line
+        x1="10"
+        y1="90"
+        x2="190"
+        y2="90"
+        stroke="var(--nec-border)"
+        strokeWidth="1"
+        strokeDasharray="4 4"
+        opacity="0.3"
+      />
     </svg>
   )
 }
@@ -70,7 +262,7 @@ function ConnectionWeb() {
       viewBox="0 0 200 200"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-auto"
+      className="h-auto w-full"
       aria-hidden="true"
     >
       {/* Connection lines */}
@@ -106,23 +298,71 @@ function SpeakerPodium() {
       viewBox="0 0 160 140"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-auto"
+      className="h-auto w-full"
       aria-hidden="true"
     >
       {/* Speaker figure */}
       <circle cx="80" cy="24" r="12" fill="var(--nec-gold)" opacity="0.8" />
-      <line x1="80" y1="36" x2="80" y2="72" stroke="var(--nec-gold)" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
-      <line x1="80" y1="46" x2="60" y2="58" stroke="var(--nec-gold)" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
-      <line x1="80" y1="46" x2="100" y2="58" stroke="var(--nec-gold)" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
+      <line
+        x1="80"
+        y1="36"
+        x2="80"
+        y2="72"
+        stroke="var(--nec-gold)"
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="80"
+        y1="46"
+        x2="60"
+        y2="58"
+        stroke="var(--nec-gold)"
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <line
+        x1="80"
+        y1="46"
+        x2="100"
+        y2="58"
+        stroke="var(--nec-gold)"
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
 
       {/* Podium */}
       <rect x="60" y="72" width="40" height="30" rx="4" fill="var(--nec-purple)" opacity="0.4" />
       <rect x="56" y="68" width="48" height="6" rx="2" fill="var(--nec-purple)" opacity="0.6" />
 
       {/* Sound/speech waves */}
-      <path d="M110 36 Q120 36 120 46" stroke="var(--nec-cyan)" strokeWidth="1.5" fill="none" opacity="0.4" strokeLinecap="round" />
-      <path d="M114 30 Q128 30 128 48" stroke="var(--nec-cyan)" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" />
-      <path d="M118 24 Q136 24 136 50" stroke="var(--nec-cyan)" strokeWidth="1.5" fill="none" opacity="0.2" strokeLinecap="round" />
+      <path
+        d="M110 36 Q120 36 120 46"
+        stroke="var(--nec-cyan)"
+        strokeWidth="1.5"
+        fill="none"
+        opacity="0.4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M114 30 Q128 30 128 48"
+        stroke="var(--nec-cyan)"
+        strokeWidth="1.5"
+        fill="none"
+        opacity="0.3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M118 24 Q136 24 136 50"
+        stroke="var(--nec-cyan)"
+        strokeWidth="1.5"
+        fill="none"
+        opacity="0.2"
+        strokeLinecap="round"
+      />
 
       {/* Audience dots */}
       <circle cx="30" cy="115" r="5" fill="var(--nec-pink)" opacity="0.4" />
@@ -207,9 +447,17 @@ const narrativeSteps = [
 
 /* ── Highlight chips for "What is a YPAA?" section ── */
 const highlights = [
-  { text: "Panels that discuss what isn\u2019t discussed enough", accent: "var(--nec-cyan)", accentRgb: "var(--nec-cyan-rgb)" },
+  {
+    text: "Panels that discuss what isn\u2019t discussed enough",
+    accent: "var(--nec-cyan)",
+    accentRgb: "var(--nec-cyan-rgb)",
+  },
   { text: "Workshops that expand your perspective", accent: "var(--nec-gold)", accentRgb: "var(--nec-gold-rgb)" },
-  { text: "Keynote speakers that change trajectories", accent: "var(--nec-purple)", accentRgb: "var(--nec-purple-rgb)" },
+  {
+    text: "Keynote speakers that change trajectories",
+    accent: "var(--nec-purple)",
+    accentRgb: "var(--nec-purple-rgb)",
+  },
   { text: "Community that crosses state lines", accent: "var(--nec-pink)", accentRgb: "var(--nec-pink-rgb)" },
   { text: "Dancing and laughing until 3 A.M.", accent: "var(--nec-cyan)", accentRgb: "var(--nec-cyan-rgb)" },
   { text: "Spiritual experiences, sober", accent: "var(--nec-gold)", accentRgb: "var(--nec-gold-rgb)" },
@@ -260,7 +508,8 @@ export default function YpaaNarrativeSection() {
           <div
             className="absolute inset-0 rounded-[inherit]"
             style={{
-              background: "linear-gradient(180deg, rgba(var(--nec-card-rgb),0.98) 0%, rgba(var(--nec-card-rgb),0.94) 100%)",
+              background:
+                "linear-gradient(180deg, rgba(var(--nec-card-rgb),0.98) 0%, rgba(var(--nec-card-rgb),0.94) 100%)",
               border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
               boxShadow: "0 22px 50px rgba(44, 24, 16, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)",
               borderRadius: "inherit",
@@ -270,16 +519,14 @@ export default function YpaaNarrativeSection() {
             className="pointer-events-none absolute -right-12 top-10 h-40 w-40 rounded-full"
             aria-hidden="true"
             style={{
-              background:
-                "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 72%)",
+              background: "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 72%)",
             }}
           />
           <div
             className="pointer-events-none absolute -bottom-16 left-8 h-32 w-32 rounded-full"
             aria-hidden="true"
             style={{
-              background:
-                "radial-gradient(circle, rgba(var(--nec-gold-rgb),0.08) 0%, transparent 76%)",
+              background: "radial-gradient(circle, rgba(var(--nec-gold-rgb),0.08) 0%, transparent 76%)",
             }}
           />
 
@@ -289,15 +536,14 @@ export default function YpaaNarrativeSection() {
                 {/* Lede paragraph */}
                 <p className="mb-6 text-base leading-relaxed text-[var(--nec-text)] sm:text-lg md:text-xl">
                   A Convention sounds inherently boring.{" "}
-                  <span style={{ color: "var(--nec-muted)" }}>We&apos;re right there with you.</span>{" "}
-                  But a YPAA Convention is so much more than the title &ldquo;Convention&rdquo; can convey.
+                  <span style={{ color: "var(--nec-muted)" }}>We&apos;re right there with you.</span> But a YPAA
+                  Convention is so much more than the title &ldquo;Convention&rdquo; can convey.
                 </p>
 
                 <p className="mb-8 text-base leading-relaxed text-[var(--nec-text)] sm:text-lg">
-                  It&apos;s being surrounded by hundreds — sometimes <em>thousands</em> — of
-                  young people passionate about their sobriety. It&apos;s hearing Keynote
-                  Speakers that change the trajectory of your recovery. It&apos;s dancing and
-                  laughing until 3&nbsp;A.M. It&apos;s having spiritual experiences sober while
+                  It&apos;s being surrounded by hundreds — sometimes <em>thousands</em> — of young people passionate
+                  about their sobriety. It&apos;s hearing Keynote Speakers that change the trajectory of your recovery.
+                  It&apos;s dancing and laughing until 3&nbsp;A.M. It&apos;s having spiritual experiences sober while
                   surrounded by the experience, strength, and hope that AA has to offer.
                 </p>
 
@@ -422,8 +668,7 @@ export default function YpaaNarrativeSection() {
             <span
               className="bg-clip-text text-transparent"
               style={{
-                backgroundImage:
-                  "linear-gradient(90deg, var(--nec-cyan) 0%, var(--nec-purple) 100%)",
+                backgroundImage: "linear-gradient(90deg, var(--nec-cyan) 0%, var(--nec-purple) 100%)",
               }}
             >
               something like this.
@@ -435,10 +680,11 @@ export default function YpaaNarrativeSection() {
         <div className="relative mx-auto max-w-3xl rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.52)] px-5 py-9 sm:px-8 md:px-12 md:py-10">
           {/* Vertical timeline line */}
           <motion.div
-            className="absolute left-4 md:left-6 top-0 bottom-0 w-px"
+            className="absolute bottom-0 left-4 top-0 w-px md:left-6"
             aria-hidden="true"
             style={{
-              background: "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.45) 0%, rgba(var(--nec-cyan-rgb),0.28) 100%)",
+              background:
+                "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.45) 0%, rgba(var(--nec-cyan-rgb),0.28) 100%)",
             }}
             initial={shouldReduce ? false : { scaleY: 0, originY: 0 }}
             whileInView={{ scaleY: 1 }}
@@ -458,7 +704,7 @@ export default function YpaaNarrativeSection() {
               >
                 {/* Timeline dot */}
                 <div
-                  className="absolute left-2.5 md:left-4 top-1.5 w-3 h-3 rounded-full"
+                  className="absolute left-2.5 top-1.5 h-3 w-3 rounded-full md:left-4"
                   aria-hidden="true"
                   style={{
                     background: step.color,
@@ -468,9 +714,7 @@ export default function YpaaNarrativeSection() {
 
                 <p
                   className={`rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.72)] px-4 py-3 leading-relaxed shadow-[0_10px_22px_rgba(44,24,16,0.04)] ${
-                    step.emphasis
-                      ? "text-lg sm:text-xl md:text-2xl font-bold"
-                      : "text-base sm:text-lg"
+                    step.emphasis ? "text-lg font-bold sm:text-xl md:text-2xl" : "text-base sm:text-lg"
                   }`}
                   style={{
                     color: "var(--nec-text)",
@@ -485,7 +729,7 @@ export default function YpaaNarrativeSection() {
           {/* ── Welcome Home ── */}
           <div className="relative mt-12 pt-6">
             <div
-              className="absolute left-4 md:left-6 -top-0 w-px h-8"
+              className="absolute -top-0 left-4 h-8 w-px md:left-6"
               aria-hidden="true"
               style={{
                 background: "linear-gradient(180deg, var(--nec-gold) 0%, transparent 100%)",
@@ -494,16 +738,18 @@ export default function YpaaNarrativeSection() {
             <div
               className="relative overflow-hidden rounded-2xl p-6 text-center sm:p-8"
               style={{
-                background: "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.05) 0%, rgba(var(--nec-card-rgb),0.96) 100%)",
+                background:
+                  "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.05) 0%, rgba(var(--nec-card-rgb),0.96) 100%)",
                 border: "1px solid rgba(var(--nec-purple-rgb),0.14)",
                 boxShadow: "0 22px 48px rgba(44, 24, 16, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)",
               }}
             >
               <div className="relative z-10">
                 <p
-                  className="text-2xl sm:text-3xl md:text-4xl font-black mb-2"
+                  className="mb-2 text-2xl font-black sm:text-3xl md:text-4xl"
                   style={{
-                    background: "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 40%, var(--nec-gold) 100%)",
+                    background:
+                      "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 40%, var(--nec-gold) 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -512,7 +758,7 @@ export default function YpaaNarrativeSection() {
                   Welcome to YPAA.
                 </p>
                 <p
-                  className="text-xl sm:text-2xl md:text-3xl font-black"
+                  className="text-xl font-black sm:text-2xl md:text-3xl"
                   style={{
                     color: "var(--nec-text)",
                     textShadow: "none",
@@ -522,17 +768,11 @@ export default function YpaaNarrativeSection() {
                 </p>
 
                 {/* CTA */}
-                <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link
-                    href="/register"
-                    className="btn-primary text-center justify-center"
-                  >
+                <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                  <Link href="/register" className="btn-primary justify-center text-center">
                     Register Now
                   </Link>
-                  <Link
-                    href="/faq"
-                    className="btn-ghost text-center justify-center"
-                  >
+                  <Link href="/faq" className="btn-ghost justify-center text-center">
                     Still have questions?
                   </Link>
                 </div>

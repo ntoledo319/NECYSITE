@@ -23,8 +23,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: "2",
     title: "A Life Beyond My Wildest Dreams",
     slug: "a-life-beyond-my-wildest-dreams",
-    excerpt:
-      "The amount of love and joy overflowing through all the hearts of this committee is top tier.",
+    excerpt: "The amount of love and joy overflowing through all the hearts of this committee is top tier.",
     body: `Being a part of this committee, from when we were a bid, to now being host\u2026 man\u2026 a life beyond my wildest dreams. The amount of love and joy overflowing through all the hearts of this committee is top tier. I\u2019m going to do my best to continue to spread that love to every corner I can because of the way they love me.\n\nThank you NECYPAA XXXVI HOST!`,
     category: "story",
     publishedAt: "2026-03-05",
@@ -33,8 +32,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: "3",
     title: "Placed Where I\u2019m Needed",
     slug: "placed-where-im-needed",
-    excerpt:
-      "At a recent young people\u2019s recovery event, I had a Higher Power moment that I will not forget.",
+    excerpt: "At a recent young people\u2019s recovery event, I had a Higher Power moment that I will not forget.",
     body: `At a recent young people\u2019s recovery event, I had a Higher Power moment that I will not forget.
 
 It was the end of a long weekend filled with meetings, fellowship, and constant reminders of the past. I had less than six hours of sleep total. I was physically exhausted and emotionally drained, and it felt like everything was trying to pull me down as far as possible. I was overwhelmed and just trying to hold myself together.

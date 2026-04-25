@@ -13,15 +13,24 @@ const mockLocalStorage = (() => {
   let store: Record<string, string> = {}
   return {
     getItem: vi.fn((key: string) => store[key] ?? null),
-    setItem: vi.fn((key: string, val: string) => { store[key] = val }),
-    removeItem: vi.fn((key: string) => { delete store[key] }),
-    clear: vi.fn(() => { store = {} }),
+    setItem: vi.fn((key: string, val: string) => {
+      store[key] = val
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key]
+    }),
+    clear: vi.fn(() => {
+      store = {}
+    }),
   }
 })()
 Object.defineProperty(globalThis, "localStorage", { value: mockLocalStorage, writable: true })
 
 // Mock requestAnimationFrame
-globalThis.requestAnimationFrame = vi.fn((cb) => { cb(0); return 0 })
+globalThis.requestAnimationFrame = vi.fn((cb) => {
+  cb(0)
+  return 0
+})
 
 const mod = await import("../accessibility-context")
 const { A11yProvider, useA11y } = mod

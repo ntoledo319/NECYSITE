@@ -13,8 +13,8 @@
 **The core problem in one sentence:**
 The committee's art is stunning — warm, handcrafted, ornate, alive — but the website wraps it in a cold dark-mode SaaS startup shell that contradicts everything the art is saying.
 
-The art says *"come sit by the fire in this magical workshop."*
-The website says *"welcome to our developer tool dashboard."*
+The art says _"come sit by the fire in this magical workshop."_
+The website says _"welcome to our developer tool dashboard."_
 
 ---
 
@@ -23,12 +23,14 @@ The website says *"welcome to our developer tool dashboard."*
 I studied every piece of committee art in detail. Here's what your artists were telling you:
 
 ### The Calligraphic Logo ("Escaping the Mad Realm")
+
 - Hand-lettered script flowing teal → magenta → amber/gold
 - Sits on a **warm grey stone texture** — not a dark void
 - Ornate flourishes, swashes, serifs — this is calligraphy, not code
-- The letterforms have *weight* and *warmth* — they feel carved, not typed
+- The letterforms have _weight_ and _warmth_ — they feel carved, not typed
 
 ### The Full Poster
+
 - A cosmic vortex, but grounded by **brass mechanical elements**
 - Recovery symbols (AA triangle, medallions) woven into steampunk machinery
 - Color story: deep navy-teal + aged brass + muted sage + plum purple + ethereal green glow
@@ -36,13 +38,15 @@ I studied every piece of committee art in detail. Here's what your artists were 
 - The vortex glow is ethereal green-purple — mystical, not neon
 
 ### The Border Frames (Ocean & Steampunk)
+
 - **CREAM/PARCHMENT backgrounds** — this is the art's native canvas
 - Incredibly detailed brass clockwork, gears, keys, compasses, potions
 - Warm weathered metal, aged wood, teal patina (oxidized copper)
 - The ocean variant: nautilus shells, coral, diving helmet, anglerfish — all in warm antiqued tones
-- These are *frame* designs — they're meant to hold content inside them
+- These are _frame_ designs — they're meant to hold content inside them
 
 ### The Texture Sheet
+
 - Stained glass arch: warm grey stone, soft blue glass, AA triangle
 - Gear collage: brass/copper gears, swirling teal-purple vortex, recovery chips
 - Maze labyrinth: warm sandstone, olive, muted teal — like an old treasure map
@@ -50,11 +54,13 @@ I studied every piece of committee art in detail. Here's what your artists were 
 - Phoenix damask: deep navy with teal-copper phoenix figures — a repeatable textile pattern
 
 ### The Characters
+
 - **Mad Hatter**: Purple coat, orange vest, teal hat brim, brown boots — WARM palette
 - **Cheshire Cat**: Rose-magenta stripes, teal-green vest — playful, warm pink not neon pink
 - **Caterpillar**: Olive green, brown leather suit, fedora — EARTH TONES, sophisticated
 
 ### What the art screams:
+
 **Warm. Handcrafted. Ornate. Aged. Textured. Lived-in. Victorian workshop. Not a tech dashboard.**
 
 ---
@@ -63,30 +69,31 @@ I studied every piece of committee art in detail. Here's what your artists were 
 
 ### Critical Violations (from anti-patterns.md)
 
-| # | Anti-Pattern | Where It Appears | Severity |
-|---|-------------|-------------------|----------|
-| 1 | **"Dark mode with neon accents" startup aesthetic** | The ENTIRE site. `--nec-navy: #0f0a1e` (cold purple-black) + neon purple/pink/cyan glows everywhere | 🔴 FATAL |
-| 2 | **Glassmorphism / frosted glass used decoratively** | Header, dropdowns, mobile drawer, hero price badge, multiple sections (`backdrop-blur` 7+ instances) | 🔴 CRITICAL |
-| 3 | **Excessive blur, glow, or shadow for "depth"** | `shadow-glow-purple`, `shadow-glow-pink`, `glow-cyan`, `glow-pink`, `glow-gold` text-shadow classes, `AuroraBackground`, drop-shadows on logo | 🔴 CRITICAL |
-| 4 | **Gradient mesh backgrounds** | `AuroraBackground` component, `AmbientBlobs` component, body `radial-gradient` background | 🟡 HIGH |
-| 5 | **Purple-to-blue/pink gradient** | `btn-primary`: `linear-gradient(135deg, var(--nec-purple), var(--nec-pink))` — the single most AI-generated gradient in existence | 🔴 CRITICAL |
-| 6 | **Rounded-xl everything** | `rounded-2xl` on every card, `rounded-xl` on everything else, uniform radius everywhere | 🟡 HIGH |
-| 7 | **Hero → Features → CTA → Footer (SaaS skeleton)** | Homepage: Hero → QuickFacts → CTA → Narrative → Meeting → Events → Footer | 🟡 HIGH |
-| 8 | **Inter/system sans with zero typographic identity** | Plus Jakarta Sans (body) + Outfit (headings) + Bangers (display) — competent but generic; zero connection to the ornate calligraphic art | 🟡 HIGH |
+| #   | Anti-Pattern                                         | Where It Appears                                                                                                                              | Severity    |
+| --- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1   | **"Dark mode with neon accents" startup aesthetic**  | The ENTIRE site. `--nec-navy: #0f0a1e` (cold purple-black) + neon purple/pink/cyan glows everywhere                                           | 🔴 FATAL    |
+| 2   | **Glassmorphism / frosted glass used decoratively**  | Header, dropdowns, mobile drawer, hero price badge, multiple sections (`backdrop-blur` 7+ instances)                                          | 🔴 CRITICAL |
+| 3   | **Excessive blur, glow, or shadow for "depth"**      | `shadow-glow-purple`, `shadow-glow-pink`, `glow-cyan`, `glow-pink`, `glow-gold` text-shadow classes, `AuroraBackground`, drop-shadows on logo | 🔴 CRITICAL |
+| 4   | **Gradient mesh backgrounds**                        | `AuroraBackground` component, `AmbientBlobs` component, body `radial-gradient` background                                                     | 🟡 HIGH     |
+| 5   | **Purple-to-blue/pink gradient**                     | `btn-primary`: `linear-gradient(135deg, var(--nec-purple), var(--nec-pink))` — the single most AI-generated gradient in existence             | 🔴 CRITICAL |
+| 6   | **Rounded-xl everything**                            | `rounded-2xl` on every card, `rounded-xl` on everything else, uniform radius everywhere                                                       | 🟡 HIGH     |
+| 7   | **Hero → Features → CTA → Footer (SaaS skeleton)**   | Homepage: Hero → QuickFacts → CTA → Narrative → Meeting → Events → Footer                                                                     | 🟡 HIGH     |
+| 8   | **Inter/system sans with zero typographic identity** | Plus Jakarta Sans (body) + Outfit (headings) + Bangers (display) — competent but generic; zero connection to the ornate calligraphic art      | 🟡 HIGH     |
 
 ### Specificity Test Results
 
-| Check | Result |
-|-------|--------|
-| Generic copy in site code | ✅ Clean — no SaaS copy patterns in actual page content |
-| Generic component names | ⚠️ `HeroSection`, `CTASection`, `QuickFactsStrip` |
-| Tailwind default aesthetic | 🔴 `backdrop-blur` in 7+ components flagged |
-| Framework default structure | ⚠️ `components/ui/` — framework default directory |
-| Generic file names | ✅ Clean |
+| Check                       | Result                                                  |
+| --------------------------- | ------------------------------------------------------- |
+| Generic copy in site code   | ✅ Clean — no SaaS copy patterns in actual page content |
+| Generic component names     | ⚠️ `HeroSection`, `CTASection`, `QuickFactsStrip`       |
+| Tailwind default aesthetic  | 🔴 `backdrop-blur` in 7+ components flagged             |
+| Framework default structure | ⚠️ `components/ui/` — framework default directory       |
+| Generic file names          | ✅ Clean                                                |
 
 ### The Color Problem — In Detail
 
 **Current palette (what the site uses):**
+
 ```
 --nec-navy:     #0f0a1e  ← Cold dead purple-black
 --nec-dark:     #150e28  ← More cold purple
@@ -98,6 +105,7 @@ I studied every piece of committee art in detail. Here's what your artists were 
 ```
 
 **What the art actually uses:**
+
 ```
 Background:    #F5F0E8 → #E8E0D5  (warm parchment/cream)
 Deep accent:   #0D1B2A → #1A2332  (rich dark navy, NOT purple)
@@ -114,11 +122,13 @@ The entire color system needs to be re-derived FROM THE ART, not from a Tailwind
 ### The Typography Problem
 
 **Current:**
+
 - `Plus Jakarta Sans` (body) — clean geometric sans. Fine but has zero warmth.
 - `Outfit` (headings) — another geometric sans. Could be any tech company.
 - `Bangers` (display) — comic book energy. Wrong genre entirely.
 
 **The art demands:**
+
 - The calligraphic logo is ornate, flowing, with serifs and flourishes
 - The poster text uses engraved/etched styling
 - The border plaques use vintage serif typography
@@ -131,32 +141,39 @@ None of the current fonts have ANY relationship to the art's typographic languag
 ## Part 4: Page-by-Page Audit
 
 ### Homepage — Score: 32/100
+
 - **What works**: The composition is thoughtful. Content density is good. The character dividers are a nice idea. The section flow tells a story.
-- **What fails**: AuroraBackground + AmbientBlobs + floating graffiti accents + magnetic buttons + spring physics = *developer playground*, not warm convention website. The hero has a purple glow crater behind the logo. The CTA section is a classic SaaS two-card layout. SVG stick figures for "Dancing Figures" when gorgeous illustrated characters exist.
+- **What fails**: AuroraBackground + AmbientBlobs + floating graffiti accents + magnetic buttons + spring physics = _developer playground_, not warm convention website. The hero has a purple glow crater behind the logo. The CTA section is a classic SaaS two-card layout. SVG stick figures for "Dancing Figures" when gorgeous illustrated characters exist.
 - **Swap test**: Replace "NECYPAA" with "DevConf 2026" — the layout and aesthetic still works. **FAIL.**
 
 ### Blog Page — Score: 38/100
+
 - **What works**: The intro copy has personality ("Take what works, vibe with the rest"). Content-first approach.
 - **What fails**: `section-badge` pill, purple-pink gradient divider, `MotionHeader` stagger animation — all SaaS patterns. The page structure is generic blog-grid.
 - **Swap test**: This could be any dark-mode blog.
 
 ### Journey Page — Score: 35/100
+
 - **What works**: Content is meaningful. Timeline approach is appropriate.
 - **What fails**: Every event card is identical `nec-card` with identical layout. The "Archive" badge is a SaaS pill. Characters at 7-9% opacity are invisible ghosts — why not use them prominently?
 - **Swap test**: This is a generic event archive.
 
 ### Prayer Page — Score: 45/100
+
 - **What works**: The Snake game is a genuinely creative touch — an actual DISTINCTIVE element.
 - **What fails**: It's a shell waiting for content. The `InventoryShell` wrapper is generic.
 
 ### Al-Anon Page — Score: 50/100 (highest)
+
 - **What works**: The intentional transition from Mad Realm to Al-Anon brand is thoughtful. The edge-bleed design intent is distinctive.
 - **What fails**: Still wrapped in the SaaS dark-mode shell.
 
 ### States Page — Score: 30/100
+
 - **What fails**: Interactive map + state cards are competent but could be any organization's directory page.
 
 ### Register, Breakfast, Merch, FAQ, etc. — Score: ~30/100
+
 - Functional but aesthetically generic across the board. Every page is `nec-card` on `nec-navy` with `section-badge` pills and purple glow accents.
 
 ---
@@ -173,6 +190,7 @@ None of the current fonts have ANY relationship to the art's typographic languag
 **Kill the neon. Derive everything from the poster, borders, and characters.**
 
 #### New Dark Mode (Primary)
+
 ```
 --realm-void:       #0D1B2A   (rich dark navy from poster depths)
 --realm-deep:       #152233   (deep background, warm navy)
@@ -189,6 +207,7 @@ None of the current fonts have ANY relationship to the art's typographic languag
 ```
 
 #### New Light Mode
+
 ```
 --realm-void:       #F5F0E8   (parchment — the art's natural canvas)
 --realm-deep:       #EDE5D8   (slightly darker parchment)
@@ -202,12 +221,12 @@ None of the current fonts have ANY relationship to the art's typographic languag
 
 **New font stack:**
 
-| Role | Current | Proposed | Why |
-|------|---------|----------|-----|
-| Display/Headlines | Bangers (comic) | **Playfair Display** or **Cormorant Garamond** | Ornate serif with the flourishes and elegance of the calligraphic logo |
-| Subheadings | Outfit (geometric) | **Libre Baskerville** or **Lora** | Warm editorial serif — Criterion Collection energy |
-| Body | Plus Jakarta Sans | **Source Serif 4** (body) + **Inter** or **DM Sans** (UI) | Warm readable serif for content-heavy pages; clean sans for UI elements |
-| Accent/Display | — | **Cinzel Decorative** or **Spectral SC** | For small-caps badges, labels — steampunk plaque energy |
+| Role              | Current            | Proposed                                                  | Why                                                                     |
+| ----------------- | ------------------ | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Display/Headlines | Bangers (comic)    | **Playfair Display** or **Cormorant Garamond**            | Ornate serif with the flourishes and elegance of the calligraphic logo  |
+| Subheadings       | Outfit (geometric) | **Libre Baskerville** or **Lora**                         | Warm editorial serif — Criterion Collection energy                      |
+| Body              | Plus Jakarta Sans  | **Source Serif 4** (body) + **Inter** or **DM Sans** (UI) | Warm readable serif for content-heavy pages; clean sans for UI elements |
+| Accent/Display    | —                  | **Cinzel Decorative** or **Spectral SC**                  | For small-caps badges, labels — steampunk plaque energy                 |
 
 The site should feel like reading a beautifully typeset book — warm serifs for content, ornate display type for headers, clean sans only for functional UI.
 
@@ -248,24 +267,25 @@ The art is FULL of textures. The website is flat. Fix:
 
 ### Phase 5: Component Overhaul
 
-| Current Component | Problem | New Direction |
-|---|---|---|
-| `btn-primary` (purple→pink gradient) | The most AI-generated button on earth | Solid aged brass/gold with embossed feel, or warm plum with no gradient |
-| `btn-secondary` (gold gradient) | Better, but still gradient-happy | Outlined brass with warm hover state |
-| `nec-card` (glass on void) | Glassmorphism on purple-black | Warm parchment surface, subtle brass-tinted border, NO blur |
-| `section-badge` (uppercase pill) | Pure SaaS | Small-caps serif with an ornate underline or bracket, not a pill |
-| `AuroraBackground` | Tech startup living gradient | Remove. Replace with art-based backgrounds (the poster glow, or nothing) |
-| `AmbientBlobs` | Gradient mesh orbs | Remove entirely |
-| `GearCluster`, `MazePattern` (SVG) | Code-generated SVG approximations | Use the actual art assets. You HAVE gorgeous gear art — use it |
-| `Sparkle`, `Splatter`, `Hex` (SVG) | Decorative SVG confetti | Replace with elements traced from the actual art |
-| `OrnateDivider` (SVG) | Better than most, but still code-drawn | Consider using cropped elements from the actual border art |
-| `CharacterDivider` | Characters at 7-12% opacity | Characters at 30-60% opacity. They're GREAT. Show them off. |
+| Current Component                    | Problem                                | New Direction                                                            |
+| ------------------------------------ | -------------------------------------- | ------------------------------------------------------------------------ |
+| `btn-primary` (purple→pink gradient) | The most AI-generated button on earth  | Solid aged brass/gold with embossed feel, or warm plum with no gradient  |
+| `btn-secondary` (gold gradient)      | Better, but still gradient-happy       | Outlined brass with warm hover state                                     |
+| `nec-card` (glass on void)           | Glassmorphism on purple-black          | Warm parchment surface, subtle brass-tinted border, NO blur              |
+| `section-badge` (uppercase pill)     | Pure SaaS                              | Small-caps serif with an ornate underline or bracket, not a pill         |
+| `AuroraBackground`                   | Tech startup living gradient           | Remove. Replace with art-based backgrounds (the poster glow, or nothing) |
+| `AmbientBlobs`                       | Gradient mesh orbs                     | Remove entirely                                                          |
+| `GearCluster`, `MazePattern` (SVG)   | Code-generated SVG approximations      | Use the actual art assets. You HAVE gorgeous gear art — use it           |
+| `Sparkle`, `Splatter`, `Hex` (SVG)   | Decorative SVG confetti                | Replace with elements traced from the actual art                         |
+| `OrnateDivider` (SVG)                | Better than most, but still code-drawn | Consider using cropped elements from the actual border art               |
+| `CharacterDivider`                   | Characters at 7-12% opacity            | Characters at 30-60% opacity. They're GREAT. Show them off.              |
 
 ### Phase 6: Motion & Interaction — "Earned, Not Performed"
 
 **Current problem**: Spring physics, magnetic buttons, aurora backgrounds, stagger animations — it's motion for motion's sake. A developer flex, not a design decision.
 
 **New rules**:
+
 - Motion only on meaningful state changes (open/close, enter/exit)
 - No spring-physics-driven entrance animations on every section
 - No magnetic pull on buttons — it's a novelty, not a UX improvement
@@ -302,24 +322,28 @@ The art is FULL of textures. The website is flat. Fix:
 ## Part 6: Execution Priority
 
 ### Wave 1 — Foundation (biggest visual impact)
+
 1. **Color tokens** — Replace entire CSS custom property palette
 2. **Typography** — Swap font stack
 3. **Body treatment** — Parchment background, warm grain
 4. **Kill AuroraBackground & AmbientBlobs** — immediate SaaS exorcism
 
 ### Wave 2 — Component Surgery
+
 5. **Buttons** — New solid brass/plum buttons
 6. **Cards** — Warm parchment surfaces, brass borders
 7. **Section badges** — Serif small-caps with ornate styling
 8. **Header & Footer** — Warm navy, brass accents, character art
 
 ### Wave 3 — Art Integration
+
 9. **Hero** — Full poster art integration, not glow crater
 10. **Page borders** — Use actual ornate border art
 11. **Character presence** — Characters visible and prominent
 12. **Section backgrounds** — Phoenix damask, maze, textures from art
 
 ### Wave 4 — Layout & Motion
+
 13. **Homepage editorial layout** — Break the SaaS skeleton
 14. **Interior page personalities** — Each page gets its own flavor
 15. **Motion reduction** — Kill novelty, keep meaningful
@@ -330,6 +354,7 @@ The art is FULL of textures. The website is flat. Fix:
 ## Part 7: Taste Brief Update
 
 ### After the overhaul, the site should feel like:
+
 - **Opening a beautifully illustrated storybook** set in a steampunk wonderland
 - **Walking into a warm, ornate workshop** where recovery artifacts line the shelves
 - **A Patagonia catalog** — earnest, text-dense, every word and image earned
@@ -337,10 +362,12 @@ The art is FULL of textures. The website is flat. Fix:
 - **A really good tattoo shop's website** — handcrafted feel, real art, personality in every corner
 
 ### After the overhaul, someone should be able to say:
-*"This website could ONLY be NECYPAA XXXVI. I can tell the art team made real art and the developers honored it."*
+
+_"This website could ONLY be NECYPAA XXXVI. I can tell the art team made real art and the developers honored it."_
 
 ### The Specificity Test should pass:
-*"Could this element exist in any other project without modification?"*
+
+_"Could this element exist in any other project without modification?"_
 **Answer: No. Every color is from the poster. Every border is from the art. Every character is from the illustrator. The typography echoes the calligraphic logo. This could only be Escaping the Mad Realm.**
 
 ---
@@ -348,6 +375,7 @@ The art is FULL of textures. The website is flat. Fix:
 ## Appendix: Reference Mood Board
 
 **Sites to study for feel (not to copy):**
+
 - **Patagonia.com** — Earned imagery, text-dense editorial, warm earth tones, zero corporate
 - **Criterion.com** — Serif-heavy, curated, intelligent audience assumption
 - **A24films.com** — Dark but warm, editorial, art-first

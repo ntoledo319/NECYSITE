@@ -20,13 +20,21 @@ export default function BreakfastSuccessPage() {
   const shouldReduce = useReducedMotion()
 
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden bg-[var(--nec-navy)]">
-      <PageArtAccents character="caterpillar" accentColor="var(--nec-orange)" variant="subtle" dividerVariant="potion" />
+    <div className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden bg-[var(--nec-navy)]">
+      <PageArtAccents
+        character="caterpillar"
+        accentColor="var(--nec-orange)"
+        variant="subtle"
+        dividerVariant="potion"
+      />
 
       <div
-        className="fixed top-0 left-0 right-0 h-[2px] z-50 nec-accent-bar"
+        className="nec-accent-bar fixed left-0 right-0 top-0 z-50 h-[2px]"
         aria-hidden="true"
-        style={{ background: "linear-gradient(90deg, transparent 0%, var(--nec-orange) 20%, var(--nec-gold) 50%, var(--nec-cyan) 80%, transparent 100%)" }}
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--nec-orange) 20%, var(--nec-gold) 50%, var(--nec-cyan) 80%, transparent 100%)",
+        }}
       />
 
       <div className="container relative z-10 mx-auto px-4 py-16 pt-24">
@@ -44,30 +52,28 @@ export default function BreakfastSuccessPage() {
             >
               <div className="nec-success-card-orange overflow-hidden p-8 md:p-10">
                 <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-                  <div className="text-center lg:text-left space-y-5">
+                  <div className="space-y-5 text-center lg:text-left">
                     <div className="flex justify-center lg:justify-start">
-                      <div className="w-20 h-20 rounded-full flex items-center justify-center nec-success-icon-orange">
-                        <CheckCircle className="w-10 h-10 text-[var(--nec-gold)]" aria-hidden="true" />
+                      <div className="nec-success-icon-orange flex h-20 w-20 items-center justify-center rounded-full">
+                        <CheckCircle className="h-10 w-10 text-[var(--nec-gold)]" aria-hidden="true" />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <h1 className="text-3xl font-black text-[var(--nec-text)] nec-heading-shadow">
+                      <h1 className="nec-heading-shadow text-3xl font-black text-[var(--nec-text)]">
                         You&apos;re at the table.
                       </h1>
-                      <p className="text-base font-semibold text-[var(--nec-gold)]">
-                        NECYPAA XXXVI · Hartford, CT
-                      </p>
+                      <p className="text-base font-semibold text-[var(--nec-gold)]">NECYPAA XXXVI · Hartford, CT</p>
                       <p className="text-sm text-[var(--nec-muted)]">
                         {CONVENTION_DATES} · {CONVENTION_VENUE}
                       </p>
                     </div>
 
                     <p className="text-sm leading-relaxed text-[var(--nec-text)]">
-                      A receipt was sent to the email you provided.
-                      Breakfast is at the Hartford Marriott Downtown — just check in with your name at the door.
+                      A receipt was sent to the email you provided. Breakfast is at the Hartford Marriott Downtown —
+                      just check in with your name at the door.
                     </p>
-                    <p className="text-sm leading-relaxed text-[var(--nec-muted)] italic">
+                    <p className="text-sm italic leading-relaxed text-[var(--nec-muted)]">
                       Nothing beats starting the new year with good food and even better fellowship.
                     </p>
                   </div>
@@ -77,37 +83,37 @@ export default function BreakfastSuccessPage() {
 
                     <div className="mt-4 space-y-4">
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-orange">
+                        <div className="nec-step-badge-orange mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold">
                           1
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[var(--nec-text)]">Register for the convention</p>
-                          <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
+                          <p className="mt-0.5 text-xs text-[var(--nec-muted)]">
                             If you haven&apos;t already, secure your spot at NECYPAA XXXVI.
                           </p>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-orange">
+                        <div className="nec-step-badge-orange mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold">
                           2
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[var(--nec-text)]">Book your hotel room</p>
-                          <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
-                            Secure your room at the Hartford Marriott Downtown at our special group rate
-                            before the block fills up.
+                          <p className="mt-0.5 text-xs text-[var(--nec-muted)]">
+                            Secure your room at the Hartford Marriott Downtown at our special group rate before the
+                            block fills up.
                           </p>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 nec-step-badge-orange">
+                        <div className="nec-step-badge-orange mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold">
                           3
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[var(--nec-text)]">Save the dates</p>
-                          <p className="text-xs mt-0.5 text-[var(--nec-muted)]">
+                          <p className="mt-0.5 text-xs text-[var(--nec-muted)]">
                             {CONVENTION_DATES}. Plan for travel on both ends — it&apos;s New Year&apos;s Eve!
                           </p>
                         </div>
@@ -123,14 +129,11 @@ export default function BreakfastSuccessPage() {
               variants={shouldReduce ? undefined : fadeUp}
               transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
             >
-              <div className="nec-reg-help-card rounded-[1.6rem] p-5 space-y-4">
-                <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
-                  <Link
-                    href="/register"
-                    className="btn-primary flex-1 !justify-center"
-                  >
+              <div className="nec-reg-help-card space-y-4 rounded-[1.6rem] p-5">
+                <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                  <Link href="/register" className="btn-primary flex-1 !justify-center">
                     Register for Convention
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                   <a
                     href={HOTEL_BOOKING_URL}
@@ -138,33 +141,30 @@ export default function BreakfastSuccessPage() {
                     rel="noopener noreferrer"
                     className="btn-secondary flex-1 !justify-center"
                   >
-                    <Hotel className="w-4 h-4" aria-hidden="true" />
+                    <Hotel className="h-4 w-4" aria-hidden="true" />
                     Book Hotel<span className="sr-only"> (opens in new tab)</span>
                   </a>
                 </div>
 
                 <div className="flex">
-                  <Link
-                    href="/"
-                    className="btn-ghost flex-1 !justify-center"
-                  >
-                    <Home className="w-4 h-4" aria-hidden="true" />
+                  <Link href="/" className="btn-ghost flex-1 !justify-center">
+                    <Home className="h-4 w-4" aria-hidden="true" />
                     Back to Home
                   </Link>
                 </div>
               </div>
 
               <motion.div
-                className="nec-reg-help-card rounded-[1.6rem] p-5 text-center space-y-2"
+                className="nec-reg-help-card space-y-2 rounded-[1.6rem] p-5 text-center"
                 variants={shouldReduce ? undefined : fadeUp}
                 transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
               >
                 <p className="text-xs text-[var(--nec-muted)]">Questions about your breakfast tickets?</p>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-75 text-[var(--nec-cyan)]"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--nec-cyan)] transition-opacity hover:opacity-75"
                 >
-                  <Mail className="w-3.5 h-3.5" aria-hidden="true" />
+                  <Mail className="h-3.5 w-3.5" aria-hidden="true" />
                   {CONTACT_EMAIL}
                 </a>
               </motion.div>
@@ -176,10 +176,10 @@ export default function BreakfastSuccessPage() {
               >
                 <Link
                   href="/breakfast"
-                  className="text-xs transition-colors inline-flex items-center gap-1 hover:opacity-80 text-[var(--nec-muted)]"
+                  className="inline-flex items-center gap-1 text-xs text-[var(--nec-muted)] transition-colors hover:opacity-80"
                 >
                   Buy more breakfast tickets
-                  <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                  <ArrowRight className="h-3 w-3" aria-hidden="true" />
                 </Link>
               </motion.div>
             </motion.aside>

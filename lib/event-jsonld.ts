@@ -45,7 +45,7 @@ export function generateEventJsonLd(event: EventData): Record<string, unknown> |
     (d) =>
       d.label.toLowerCase().includes("contribution") ||
       d.label.toLowerCase().includes("donation") ||
-      d.label.toLowerCase().includes("cost")
+      d.label.toLowerCase().includes("cost"),
   )
   if (costDetail) {
     const match = costDetail.value.match(/\$(\d+)/)

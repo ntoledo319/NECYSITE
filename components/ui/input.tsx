@@ -1,14 +1,14 @@
-import * as React from 'react'
+import * as React from "react"
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils"
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (
       <input
         type={type}
         className={cn(
-          'flex h-12 w-full rounded-xl border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.92)] px-4 py-3 text-base text-[var(--nec-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-[var(--nec-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:border-[rgba(var(--nec-purple-rgb),0.32)] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+          "flex h-12 w-full rounded-xl border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.92)] px-4 py-3 text-base text-[var(--nec-text)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-[var(--nec-muted)] focus-visible:border-[rgba(var(--nec-purple-rgb),0.32)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           className,
         )}
         ref={ref}
@@ -17,6 +17,6 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
     )
   },
 )
-Input.displayName = 'Input'
+Input.displayName = "Input"
 
 export { Input }

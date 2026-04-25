@@ -87,7 +87,11 @@ export default function ScholarshipConfigurator({
             </button>
 
             <div className="min-w-0 text-center">
-              <p className="text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)]" aria-live="polite" aria-atomic="true">
+              <p
+                className="text-3xl font-semibold tracking-[-0.04em] text-[var(--nec-text)]"
+                aria-live="polite"
+                aria-atomic="true"
+              >
                 {quantity}
               </p>
               <p className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--nec-muted)]">
@@ -122,7 +126,8 @@ export default function ScholarshipConfigurator({
           <div className="space-y-1">
             <p className="form-section-label">Amount</p>
             <p className="text-sm leading-6 text-[var(--nec-muted)]">
-              Keep the amount tied to the live pre-registration price, or switch to a custom amount for each scholarship.
+              Keep the amount tied to the live pre-registration price, or switch to a custom amount for each
+              scholarship.
             </p>
           </div>
 

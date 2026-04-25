@@ -199,12 +199,7 @@ const RELATED_LINKS: Record<InventoryTheme, Array<{ href: string; label: string 
   ],
 }
 
-function ThemeHeroArt({
-  char,
-}: {
-  theme: InventoryTheme
-  char: (typeof CHARACTER_DATA)[Character]
-}) {
+function ThemeHeroArt({ char }: { theme: InventoryTheme; char: (typeof CHARACTER_DATA)[Character] }) {
   return (
     <div
       className="relative overflow-hidden rounded-[2rem] border p-4 shadow-[0_20px_48px_rgba(44,24,16,0.08)]"
@@ -233,12 +228,7 @@ function ThemeHeroArt({
   )
 }
 
-function ThemeMotif({
-  char,
-}: {
-  theme: InventoryTheme
-  char: (typeof CHARACTER_DATA)[Character]
-}) {
+function ThemeMotif({ char }: { theme: InventoryTheme; char: (typeof CHARACTER_DATA)[Character] }) {
   return (
     <div
       className="relative flex min-h-[19rem] items-center justify-center overflow-hidden rounded-[1.6rem] border p-5"
@@ -278,7 +268,7 @@ export default function InventoryShell({
 
   return (
     <div
-      className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden"
+      className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents
@@ -290,14 +280,16 @@ export default function InventoryShell({
 
       <div className="page-frame" role="region" aria-label="Page content">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className={`grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center ${theme === "prayer" ? "lg:min-h-[22rem]" : ""}`}>
+          <div className="mx-auto max-w-6xl">
+            <div
+              className={`grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center ${theme === "prayer" ? "lg:min-h-[22rem]" : ""}`}
+            >
               <div className={themeStyle.textAlign}>
                 <span className="section-badge mb-4 inline-block">{badge}</span>
                 <h1 className="section-heading mb-3">{title}</h1>
                 {subtitle && (
                   <p
-                    className={`text-lg max-w-2xl ${theme === "prayer" ? "mx-auto lg:mx-0" : ""}`}
+                    className={`max-w-2xl text-lg ${theme === "prayer" ? "mx-auto lg:mx-0" : ""}`}
                     style={{ color: "var(--nec-muted)" }}
                   >
                     {subtitle}
@@ -310,7 +302,7 @@ export default function InventoryShell({
 
             <div className="relative mt-8 md:mt-10">
               <div
-                className="absolute inset-x-[10%] top-6 h-56 pointer-events-none"
+                className="pointer-events-none absolute inset-x-[10%] top-6 h-56"
                 aria-hidden="true"
                 style={{
                   background: `radial-gradient(ellipse 60% 65% at 50% 50%, rgba(${char.accentRgb},0.14) 0%, transparent 72%)`,
@@ -322,23 +314,13 @@ export default function InventoryShell({
                 className="relative overflow-hidden"
                 style={{
                   borderRadius:
-                    theme === "asl"
-                      ? "1.5rem"
-                      : theme === "merch"
-                        ? "2rem"
-                        : theme === "bid"
-                          ? "1.75rem"
-                          : "1.9rem",
+                    theme === "asl" ? "1.5rem" : theme === "merch" ? "2rem" : theme === "bid" ? "1.75rem" : "1.9rem",
                   border: `1px solid ${themeStyle.panelBorder}`,
                   background: themeStyle.panelBackground,
                   boxShadow: "var(--shadow-card-hover)",
                 }}
               >
-                <div
-                  className="h-1 w-full"
-                  aria-hidden="true"
-                  style={{ background: themeStyle.accentBar }}
-                />
+                <div className="h-1 w-full" aria-hidden="true" style={{ background: themeStyle.accentBar }} />
 
                 <div className="relative p-6 md:p-8">
                   <GearCluster className="absolute left-4 top-4 opacity-45" />
@@ -347,16 +329,9 @@ export default function InventoryShell({
                   {!showGame ? (
                     <div className={`grid gap-6 lg:items-center ${themeStyle.contentLayout}`}>
                       <div className="relative z-10">
-                        <div className="mx-auto mb-4 w-12 h-12" aria-hidden="true">
-                          <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
-                            <circle
-                              cx="50"
-                              cy="50"
-                              r="45"
-                              stroke={char.accent}
-                              strokeWidth="2"
-                              opacity="0.3"
-                            />
+                        <div className="mx-auto mb-4 h-12 w-12" aria-hidden="true">
+                          <svg viewBox="0 0 100 100" fill="none" className="h-full w-full">
+                            <circle cx="50" cy="50" r="45" stroke={char.accent} strokeWidth="2" opacity="0.3" />
                             <polygon
                               points="50,15 85,75 15,75"
                               stroke={char.accent}
@@ -380,15 +355,12 @@ export default function InventoryShell({
 
                         {pageContent || (
                           <>
-                            <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">
+                            <h2 className="mb-2 text-xl font-bold text-[var(--nec-text)]">
                               The committee is working on this&hellip;
                             </h2>
-                            <p
-                              className="text-sm max-w-md mb-8"
-                              style={{ color: "var(--nec-muted)" }}
-                            >
-                              This page is being put together by the host committee.
-                              In the meantime, why not get to work on that fourth step?
+                            <p className="mb-8 max-w-md text-sm" style={{ color: "var(--nec-muted)" }}>
+                              This page is being put together by the host committee. In the meantime, why not get to
+                              work on that fourth step?
                             </p>
                           </>
                         )}
@@ -402,16 +374,11 @@ export default function InventoryShell({
                               setShowGame(true)
                             }
                           }}
-                          className="group relative inline-flex items-center gap-3 px-8 py-4 font-black text-lg uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-4"
+                          className="group relative inline-flex items-center gap-3 px-8 py-4 text-lg font-black uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-4"
                           style={{
                             background: themeStyle.buttonBackground,
                             border: `2px solid ${themeStyle.buttonBorder}`,
-                            borderRadius:
-                              theme === "asl"
-                                ? "1rem"
-                                : theme === "merch"
-                                  ? "1.35rem"
-                                  : "1.25rem",
+                            borderRadius: theme === "asl" ? "1rem" : theme === "merch" ? "1.35rem" : "1.25rem",
                             boxShadow: `var(--shadow-card), 0 0 34px rgba(${char.accentRgb},0.08)`,
                             color: "var(--nec-text)",
                             outlineColor: char.accent,
@@ -421,11 +388,11 @@ export default function InventoryShell({
                         >
                           <span className="relative flex h-3 w-3" aria-hidden="true">
                             <span
-                              className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                              className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
                               style={{ backgroundColor: char.accent }}
                             />
                             <span
-                              className="relative inline-flex rounded-full h-3 w-3"
+                              className="relative inline-flex h-3 w-3 rounded-full"
                               style={{ backgroundColor: char.accent }}
                             />
                           </span>
@@ -438,17 +405,14 @@ export default function InventoryShell({
                             stroke="currentColor"
                             strokeWidth="2"
                             strokeLinecap="round"
-                            className="opacity-50 group-hover:opacity-100 transition-opacity"
+                            className="opacity-50 transition-opacity group-hover:opacity-100"
                             aria-hidden="true"
                           >
                             <polyline points="6 9 12 15 18 9" />
                           </svg>
                         </button>
 
-                        <p
-                          className="text-xs mt-4 italic"
-                          style={{ color: "var(--nec-muted)" }}
-                        >
+                        <p className="mt-4 text-xs italic" style={{ color: "var(--nec-muted)" }}>
                           &ldquo;Made a searching and fearless moral inventory&hellip;&rdquo; — Step 4
                         </p>
 
@@ -474,13 +438,8 @@ export default function InventoryShell({
                   ) : (
                     <>
                       <div className="mb-6 text-center">
-                        <h2 className="text-lg font-bold text-[var(--nec-text)] mb-1">
-                          {gameName}
-                        </h2>
-                        <p
-                          className="text-xs"
-                          style={{ color: "var(--nec-muted)" }}
-                        >
+                        <h2 className="mb-1 text-lg font-bold text-[var(--nec-text)]">{gameName}</h2>
+                        <p className="text-xs" style={{ color: "var(--nec-muted)" }}>
                           {gameDescription}
                         </p>
                       </div>
@@ -492,9 +451,7 @@ export default function InventoryShell({
                           background: themeStyle.gameFrameBackground,
                         }}
                       >
-                        <div aria-live="polite">
-                          {children}
-                        </div>
+                        <div aria-live="polite">{children}</div>
                       </div>
 
                       <button

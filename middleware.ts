@@ -10,7 +10,5 @@ export const config = {
   // - /_next (Next.js internals)
   // - /_vercel (Vercel internals)
   // - /images, /fonts, etc. (static files)
-  matcher: [
-    "/((?!api|admin|_next|_vercel|images|fonts|.*\\..*).*)",
-  ],
+  matcher: ["/((?!api|admin|_next|_vercel|images|fonts|.*\\..*).*)"],
 }

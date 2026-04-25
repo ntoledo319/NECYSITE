@@ -1,24 +1,11 @@
 "use client"
 
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion"
-import {
-  useRef,
-  useState,
-  useCallback,
-  type ReactNode,
-  type MouseEvent as ReactMouseEvent,
-} from "react"
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion, type Variants } from "framer-motion"
+import { useRef, useState, useCallback, type ReactNode, type MouseEvent as ReactMouseEvent } from "react"
 
 export const SPRING_GENTLE = { type: "spring" as const, stiffness: 120, damping: 14, mass: 0.8 }
 export const SPRING_SNAPPY = { type: "spring" as const, stiffness: 260, damping: 20, mass: 0.6 }
-export const SPRING_SLOW   = { type: "spring" as const, stiffness: 80, damping: 18, mass: 1.2 }
+export const SPRING_SLOW = { type: "spring" as const, stiffness: 80, damping: 18, mass: 1.2 }
 
 export const staggerContainer: Variants = {
   hidden: {},
@@ -58,14 +45,17 @@ export function SpotlightCard({
   const [isHovered, setIsHovered] = useState(false)
   const shouldReduce = useReducedMotion()
 
-  const handleMouseMove = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current || shouldReduce) return
-    const rect = containerRef.current.getBoundingClientRect()
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    })
-  }, [shouldReduce])
+  const handleMouseMove = useCallback(
+    (e: ReactMouseEvent<HTMLDivElement>) => {
+      if (!containerRef.current || shouldReduce) return
+      const rect = containerRef.current.getBoundingClientRect()
+      setMousePos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      })
+    },
+    [shouldReduce],
+  )
 
   return (
     <div
@@ -95,12 +85,7 @@ interface TiltCardProps {
   glareOpacity?: number
 }
 
-export function TiltCard({
-  children,
-  className = "",
-  tiltDegree = 6,
-  glareOpacity = 0.08,
-}: TiltCardProps) {
+export function TiltCard({ children, className = "", tiltDegree = 6, glareOpacity = 0.08 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const shouldReduce = useReducedMotion()
 
@@ -115,17 +100,19 @@ export function TiltCard({
   const glareY = useTransform(y, [-0.5, 0.5], [0, 100])
   const glareBackground = useTransform(
     [glareX, glareY],
-    ([gx, gy]) =>
-      `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,${glareOpacity}), transparent 60%)`
+    ([gx, gy]) => `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,${glareOpacity}), transparent 60%)`,
   )
   const [isHovered, setIsHovered] = useState(false)
 
-  const handleMouseMove = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
-    if (!ref.current || shouldReduce) return
-    const rect = ref.current.getBoundingClientRect()
-    x.set((e.clientX - rect.left) / rect.width - 0.5)
-    y.set((e.clientY - rect.top) / rect.height - 0.5)
-  }, [x, y, shouldReduce])
+  const handleMouseMove = useCallback(
+    (e: ReactMouseEvent<HTMLDivElement>) => {
+      if (!ref.current || shouldReduce) return
+      const rect = ref.current.getBoundingClientRect()
+      x.set((e.clientX - rect.left) / rect.width - 0.5)
+      y.set((e.clientY - rect.top) / rect.height - 0.5)
+    },
+    [x, y, shouldReduce],
+  )
 
   const handleMouseLeave = useCallback(() => {
     x.set(0)
@@ -153,7 +140,7 @@ export function TiltCard({
     >
       {children}
       <motion.div
-        className="pointer-events-none absolute inset-0 rounded-[inherit] z-20"
+        className="pointer-events-none absolute inset-0 z-20 rounded-[inherit]"
         style={{
           background: glareBackground,
           opacity: isHovered ? 1 : 0,
@@ -212,11 +199,7 @@ interface MagneticButtonProps {
   strength?: number
 }
 
-export function MagneticButton({
-  children,
-  className = "",
-  strength = 0.3,
-}: MagneticButtonProps) {
+export function MagneticButton({ children, className = "", strength = 0.3 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null)
   const shouldReduce = useReducedMotion()
 
@@ -225,14 +208,17 @@ export function MagneticButton({
   const springX = useSpring(x, SPRING_SNAPPY)
   const springY = useSpring(y, SPRING_SNAPPY)
 
-  const handleMouseMove = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
-    if (!ref.current || shouldReduce) return
-    const rect = ref.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    x.set((e.clientX - centerX) * strength)
-    y.set((e.clientY - centerY) * strength)
-  }, [x, y, strength, shouldReduce])
+  const handleMouseMove = useCallback(
+    (e: ReactMouseEvent<HTMLDivElement>) => {
+      if (!ref.current || shouldReduce) return
+      const rect = ref.current.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      x.set((e.clientX - centerX) * strength)
+      y.set((e.clientY - centerY) * strength)
+    },
+    [x, y, strength, shouldReduce],
+  )
 
   const handleMouseLeave = useCallback(() => {
     x.set(0)

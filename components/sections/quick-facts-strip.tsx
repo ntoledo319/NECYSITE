@@ -68,7 +68,7 @@ export default function QuickFactsStrip() {
   return (
     <section aria-label="Quick facts" className="px-4 md:px-0">
       <motion.div
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+        className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6"
         variants={shouldReduce ? undefined : staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -77,7 +77,7 @@ export default function QuickFactsStrip() {
         {facts.map((fact) => {
           const inner = (
             <SpotlightCard
-              className="fact-pill group fact-pill-interactive rounded-xl"
+              className="fact-pill fact-pill-interactive group rounded-xl"
               spotlightColor={fact.spotlightColor}
               spotlightSize={200}
             >
@@ -85,11 +85,10 @@ export default function QuickFactsStrip() {
                 className="flex flex-col items-center gap-1 p-4 text-center"
                 style={{ cursor: fact.href ? "pointer" : undefined }}
               >
-                <span className="text-2xl" aria-hidden="true">{fact.icon}</span>
-                <span
-                  className="text-xs font-bold uppercase tracking-widest"
-                  style={{ color: "var(--nec-muted)" }}
-                >
+                <span className="text-2xl" aria-hidden="true">
+                  {fact.icon}
+                </span>
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--nec-muted)" }}>
                   {fact.label}
                 </span>
                 <span
@@ -98,7 +97,7 @@ export default function QuickFactsStrip() {
                 >
                   {fact.value}
                 </span>
-                <span className="text-xs text-[var(--nec-muted)] leading-tight">{fact.sub}</span>
+                <span className="text-xs leading-tight text-[var(--nec-muted)]">{fact.sub}</span>
               </div>
             </SpotlightCard>
           )
@@ -121,7 +120,7 @@ export default function QuickFactsStrip() {
             }
             return (
               <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
-                <Link href={fact.href} className="no-underline block">
+                <Link href={fact.href} className="block no-underline">
                   {inner}
                 </Link>
               </motion.div>

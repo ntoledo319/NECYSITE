@@ -10,6 +10,7 @@ This workflow uses the `senior-security` skill from `claude-skills/engineering-t
 
 Scan for hardcoded secrets and credentials:
 // turbo
+
 ```bash
 python3 claude-skills/engineering-team/senior-security/scripts/secret_scanner.py .
 ```
@@ -17,6 +18,7 @@ python3 claude-skills/engineering-team/senior-security/scripts/secret_scanner.py
 ## Step 2: Threat Modeling (STRIDE)
 
 Run STRIDE threat analysis with DREAD risk scoring:
+
 ```bash
 python3 claude-skills/engineering-team/senior-security/scripts/threat_modeler.py .
 ```
@@ -40,18 +42,19 @@ Review these categories per the Security Code Review Checklist:
 
 Verify these headers are configured:
 
-| Header | Recommended Value |
-|--------|-------------------|
-| Content-Security-Policy | default-src 'self'; script-src 'self' |
-| X-Frame-Options | DENY |
-| X-Content-Type-Options | nosniff |
-| Strict-Transport-Security | max-age=31536000; includeSubDomains |
-| Referrer-Policy | strict-origin-when-cross-origin |
-| Permissions-Policy | geolocation=(), microphone=(), camera=() |
+| Header                    | Recommended Value                        |
+| ------------------------- | ---------------------------------------- |
+| Content-Security-Policy   | default-src 'self'; script-src 'self'    |
+| X-Frame-Options           | DENY                                     |
+| X-Content-Type-Options    | nosniff                                  |
+| Strict-Transport-Security | max-age=31536000; includeSubDomains      |
+| Referrer-Policy           | strict-origin-when-cross-origin          |
+| Permissions-Policy        | geolocation=(), microphone=(), camera=() |
 
 ## Step 5: Document Findings
 
 Classify findings by severity:
+
 - **Critical**: Immediate exploitation risk
 - **High**: Significant impact, easier to exploit
 - **Medium**: Moderate impact or difficulty

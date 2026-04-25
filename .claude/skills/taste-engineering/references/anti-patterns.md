@@ -1,6 +1,7 @@
 # Anti-Pattern Registry
 
 ## Visual Anti-Patterns
+
 - Purple-to-blue gradient on white/light backgrounds
 - 3-column card grids: icon → heading → body text
 - Glassmorphism / frosted glass used decoratively
@@ -15,9 +16,10 @@
 - Rounded-xl everything with ring-offset hover states (Tailwind default)
 
 ## Copy Anti-Patterns
+
 - "Unlock the power of..."
 - "Seamlessly integrate..."
-- "Take your ___ to the next level"
+- "Take your \_\_\_ to the next level"
 - "Whether you're a [A] or [B]..."
 - "Built for teams who..."
 - "The all-in-one platform for..."
@@ -30,6 +32,7 @@
 - "We believe that..." mission statements that say nothing
 
 ## Structural Anti-Patterns
+
 - Hero → Features (3 cards) → Testimonials → CTA → Footer (SaaS skeleton)
 - Pricing table with "Most Popular" badge on middle tier
 - FAQ accordion at bottom as afterthought
@@ -39,6 +42,7 @@
 - Login/signup forms identical to every OAuth starter
 
 ## Code Anti-Patterns (Taste-Specific)
+
 - File structure mirroring create-next-app / create-react-app defaults
 - Component names so generic they could be in any project (Card, Hero, Section)
 - CSS class names describing appearance not purpose (.blue-button, .large-text)

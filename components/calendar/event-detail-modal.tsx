@@ -62,13 +62,7 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").trim()
 }
 
-export default function EventDetailModal({
-  event,
-  onClose,
-}: {
-  event: CalendarEvent
-  onClose: () => void
-}) {
+export default function EventDetailModal({ event, onClose }: { event: CalendarEvent; onClose: () => void }) {
   const t = useTranslations("calendar")
   const containerRef = useFocusTrap<HTMLDivElement>(true)
   const colors = CATEGORY_COLORS[event.category]
@@ -82,9 +76,7 @@ export default function EventDetailModal({
 
   const allDay = isAllDay(event.start)
   const descriptionUrl = event.description ? extractFirstUrl(event.description) : null
-  const mapsUrl = event.location
-    ? `https://maps.google.com/?q=${encodeURIComponent(event.location)}`
-    : null
+  const mapsUrl = event.location ? `https://maps.google.com/?q=${encodeURIComponent(event.location)}` : null
 
   const handleDownloadIcs = useCallback(() => {
     const ics = generateEventIcs(event)
@@ -115,7 +107,7 @@ export default function EventDetailModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end md:items-center justify-center"
+      className="fixed inset-0 z-50 flex items-end justify-center md:items-center"
       role="dialog"
       aria-modal="true"
       aria-label={event.title}
@@ -130,7 +122,7 @@ export default function EventDetailModal({
       {/* Modal panel */}
       <div
         ref={containerRef}
-        className="relative z-10 w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-t-[1.85rem] md:rounded-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[var(--nec-card)] shadow-[0_20px_60px_rgba(0,0,0,0.2)] motion-safe:animate-[slideUp_250ms_ease-out] md:motion-safe:animate-[scaleIn_200ms_ease-out]"
+        className="relative z-10 max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-[1.85rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[var(--nec-card)] shadow-[0_20px_60px_rgba(0,0,0,0.2)] motion-safe:animate-[slideUp_250ms_ease-out] md:rounded-[1.85rem] md:motion-safe:animate-[scaleIn_200ms_ease-out]"
       >
         {/* Top gradient accent */}
         <div
@@ -143,24 +135,24 @@ export default function EventDetailModal({
 
         {/* Drag handle (mobile) */}
         <div className="flex justify-center pt-3 md:hidden" aria-hidden="true">
-          <div className="w-10 h-1 rounded-full bg-[var(--nec-border)]" />
+          <div className="h-1 w-10 rounded-full bg-[var(--nec-border)]" />
         </div>
 
         {/* Close button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 w-9 h-9 rounded-xl flex items-center justify-center transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.08)]"
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.08)]"
           aria-label={t("closeModal")}
           style={{ color: "var(--nec-muted)" }}
         >
-          <X className="w-5 h-5" />
+          <X className="h-5 w-5" />
         </button>
 
-        <div className="p-6 md:p-8 pt-4 md:pt-8 space-y-5">
+        <div className="space-y-5 p-6 pt-4 md:p-8 md:pt-8">
           {/* Category chip */}
           <span
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider"
             style={{
               backgroundColor: colors.bg,
               color: colors.text,
@@ -171,22 +163,18 @@ export default function EventDetailModal({
           </span>
 
           {/* Title */}
-          <h2 className="text-2xl font-bold leading-tight text-[var(--nec-text)] font-heading pr-8">
-            {event.title}
-          </h2>
+          <h2 className="pr-8 font-heading text-2xl font-bold leading-tight text-[var(--nec-text)]">{event.title}</h2>
 
           {/* Date/time */}
           <div className="flex items-start gap-3">
             <div
-              className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              className="nec-icon-badge flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
               aria-hidden="true"
             >
-              <Clock className="w-5 h-5" style={{ color: colors.text }} />
+              <Clock className="h-5 w-5" style={{ color: colors.text }} />
             </div>
             <div>
-              <p className="text-sm font-semibold text-[var(--nec-text)]">
-                {formatFullDate(event.start)}
-              </p>
+              <p className="text-sm font-semibold text-[var(--nec-text)]">{formatFullDate(event.start)}</p>
               <p className="text-sm text-[var(--nec-muted)]">
                 {allDay ? t("allDay") : `${formatTime(event.start)} — ${formatTime(event.end)}`}
               </p>
@@ -197,10 +185,10 @@ export default function EventDetailModal({
           {event.location && (
             <div className="flex items-start gap-3">
               <div
-                className="nec-icon-badge w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                className="nec-icon-badge flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
                 aria-hidden="true"
               >
-                <MapPin className="w-5 h-5" style={{ color: colors.text }} />
+                <MapPin className="h-5 w-5" style={{ color: colors.text }} />
               </div>
               <div>
                 <p className="text-sm text-[var(--nec-text)]">{event.location}</p>
@@ -209,10 +197,10 @@ export default function EventDetailModal({
                     href={mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-semibold mt-1 transition-opacity hover:opacity-75"
+                    className="mt-1 inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-75"
                     style={{ color: colors.text }}
                   >
-                    <MapPin className="w-3 h-3" aria-hidden="true" />
+                    <MapPin className="h-3 w-3" aria-hidden="true" />
                     {t("openInMaps")}
                     <span className="sr-only"> (opens in new tab)</span>
                   </a>
@@ -223,19 +211,19 @@ export default function EventDetailModal({
 
           {/* Description */}
           {event.description && (
-            <p className="text-sm leading-relaxed text-[var(--nec-muted)] whitespace-pre-line">
+            <p className="whitespace-pre-line text-sm leading-relaxed text-[var(--nec-muted)]">
               {stripHtml(event.description)}
             </p>
           )}
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <div className="flex flex-col gap-3 pt-2 sm:flex-row">
             <button
               type="button"
               onClick={handleDownloadIcs}
-              className="btn-primary !py-2.5 !px-5 !text-sm inline-flex items-center justify-center gap-2"
+              className="btn-primary inline-flex items-center justify-center gap-2 !px-5 !py-2.5 !text-sm"
             >
-              <CalendarPlus className="w-4 h-4" aria-hidden="true" />
+              <CalendarPlus className="h-4 w-4" aria-hidden="true" />
               {t("addToMyCalendar")}
             </button>
 
@@ -246,7 +234,7 @@ export default function EventDetailModal({
                 rel="noopener noreferrer"
                 className="btn-ghost inline-flex items-center justify-center gap-2"
               >
-                <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
                 {t("moreInfo")}
                 <span className="sr-only"> (opens in new tab)</span>
               </a>

@@ -11,22 +11,15 @@ interface OrnateDividerProps {
   color?: string
 }
 
-export default function OrnateDivider({
-  variant = "gear",
-  className = "",
-  color,
-}: OrnateDividerProps) {
+export default function OrnateDivider({ variant = "gear", className = "", color }: OrnateDividerProps) {
   const accentColor = color ?? "var(--nec-purple)"
 
   return (
-    <div
-      className={`relative flex items-center gap-0 w-full py-4 ${className}`}
-      aria-hidden="true"
-    >
+    <div className={`relative flex w-full items-center gap-0 py-4 ${className}`} aria-hidden="true">
       {/* Left flourish line */}
-      <div className="flex-1 flex items-center">
+      <div className="flex flex-1 items-center">
         <div
-          className="h-[1px] flex-1 mad-realm-divider-line"
+          className="mad-realm-divider-line h-[1px] flex-1"
           style={{
             background: `linear-gradient(90deg, transparent 0%, ${accentColor} 100%)`,
             opacity: 0.35,
@@ -44,10 +37,10 @@ export default function OrnateDivider({
       </div>
 
       {/* Right flourish line */}
-      <div className="flex-1 flex items-center">
+      <div className="flex flex-1 items-center">
         <RightFlourish color={accentColor} />
         <div
-          className="h-[1px] flex-1 mad-realm-divider-line"
+          className="mad-realm-divider-line h-[1px] flex-1"
           style={{
             background: `linear-gradient(90deg, ${accentColor} 0%, transparent 100%)`,
             opacity: 0.35,
@@ -63,7 +56,10 @@ function LeftFlourish({ color }: { color: string }) {
     <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="flex-shrink-0">
       <path
         d="M60 10 C55 10, 50 6, 44 6 C38 6, 35 10, 30 10 C25 10, 22 6, 16 6 C10 6, 6 10, 0 10"
-        stroke={color} strokeWidth="1" opacity="0.3" fill="none"
+        stroke={color}
+        strokeWidth="1"
+        opacity="0.3"
+        fill="none"
       />
       <circle cx="0" cy="10" r="2" fill={color} opacity="0.2" />
       <circle cx="30" cy="10" r="1.5" fill={color} opacity="0.15" />
@@ -76,7 +72,10 @@ function RightFlourish({ color }: { color: string }) {
     <svg width="60" height="20" viewBox="0 0 60 20" fill="none" className="flex-shrink-0">
       <path
         d="M0 10 C5 10, 10 6, 16 6 C22 6, 25 10, 30 10 C35 10, 38 6, 44 6 C50 6, 55 10, 60 10"
-        stroke={color} strokeWidth="1" opacity="0.3" fill="none"
+        stroke={color}
+        strokeWidth="1"
+        opacity="0.3"
+        fill="none"
       />
       <circle cx="60" cy="10" r="2" fill={color} opacity="0.2" />
       <circle cx="30" cy="10" r="1.5" fill={color} opacity="0.15" />
@@ -92,16 +91,18 @@ function GearMotif({ color }: { color: string }) {
       {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
         <rect
           key={angle}
-          x="47" y="20" width="6" height="10" rx="1.5"
-          fill={color} opacity="0.3"
+          x="47"
+          y="20"
+          width="6"
+          height="10"
+          rx="1.5"
+          fill={color}
+          opacity="0.3"
           transform={`rotate(${angle} 50 50)`}
         />
       ))}
       {/* Inner triangle — subtle AA nod */}
-      <polygon
-        points="50,38 58,56 42,56"
-        stroke={color} strokeWidth="1.5" fill="none" opacity="0.2"
-      />
+      <polygon points="50,38 58,56 42,56" stroke={color} strokeWidth="1.5" fill="none" opacity="0.2" />
     </svg>
   )
 }
@@ -127,7 +128,11 @@ function PotionMotif({ color }: { color: string }) {
       <rect x="30" y="10" width="20" height="10" rx="3" stroke={color} strokeWidth="2" opacity="0.35" />
       <path
         d="M30 20 L22 48 C18 58 20 72 28 80 C36 88 44 88 52 80 C60 72 62 58 58 48 L50 20"
-        stroke={color} strokeWidth="2" fill="none" opacity="0.35" strokeLinejoin="round"
+        stroke={color}
+        strokeWidth="2"
+        fill="none"
+        opacity="0.35"
+        strokeLinejoin="round"
       />
       <ellipse cx="40" cy="72" rx="10" ry="5" stroke={color} strokeWidth="1.5" opacity="0.2" />
       {/* Bubbles */}

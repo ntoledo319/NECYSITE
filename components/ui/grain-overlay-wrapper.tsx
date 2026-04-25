@@ -5,7 +5,7 @@
 export default function GrainOverlayWrapper() {
   return (
     <div
-      className="grain-overlay fixed inset-0 pointer-events-none z-[9999]"
+      className="grain-overlay pointer-events-none fixed inset-0 z-[9999]"
       style={{ opacity: 0.025, mixBlendMode: "overlay" }}
       aria-hidden="true"
     >

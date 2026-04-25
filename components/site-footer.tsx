@@ -13,14 +13,13 @@ export default function SiteFooter() {
   const shouldReduce = useReducedMotion()
 
   return (
-    <footer
-      className="relative mt-16 overflow-hidden nec-footer md:mt-20"
-    >
+    <footer className="nec-footer relative mt-16 overflow-hidden md:mt-20">
       {/* Top accent bar */}
       <motion.div
         className="h-[2px] w-full"
         style={{
-          background: "linear-gradient(90deg, transparent 0%, var(--nec-purple) 20%, var(--nec-pink) 50%, var(--nec-gold) 80%, transparent 100%)",
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--nec-purple) 20%, var(--nec-pink) 50%, var(--nec-gold) 80%, transparent 100%)",
           boxShadow: "0 0 8px rgba(var(--nec-purple-rgb),0.15), 0 0 16px rgba(var(--nec-pink-rgb),0.08)",
         }}
         initial={shouldReduce ? false : { scaleX: 0 }}
@@ -30,32 +29,59 @@ export default function SiteFooter() {
       />
 
       {/* Background character silhouettes — enhanced visibility */}
-      <div className="absolute bottom-0 left-8 w-24 h-32 opacity-[0.12] pointer-events-none" aria-hidden="true">
-        <Image src="/images/mad-hatter-character.webp" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-0 left-8 h-32 w-24 opacity-[0.12]" aria-hidden="true">
+        <Image
+          src="/images/mad-hatter-character.webp"
+          alt=""
+          width={96}
+          height={144}
+          sizes="96px"
+          className="h-full w-full object-contain"
+          aria-hidden="true"
+        />
       </div>
-      <div className="absolute bottom-0 right-8 w-20 h-28 opacity-[0.10] pointer-events-none" aria-hidden="true">
-        <Image src="/images/cheshire-cat-character.webp" alt="" width={80} height={112} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-0 right-8 h-28 w-20 opacity-[0.10]" aria-hidden="true">
+        <Image
+          src="/images/cheshire-cat-character.webp"
+          alt=""
+          width={80}
+          height={112}
+          sizes="80px"
+          className="h-full w-full object-contain"
+          aria-hidden="true"
+        />
       </div>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-16 h-24 opacity-[0.07] pointer-events-none hidden md:block" aria-hidden="true">
-        <Image src="/images/caterpillar-character.webp" alt="" width={64} height={96} sizes="64px" className="w-full h-full object-contain" aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute bottom-4 left-1/2 hidden h-24 w-16 -translate-x-1/2 opacity-[0.07] md:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/caterpillar-character.webp"
+          alt=""
+          width={64}
+          height={96}
+          sizes="64px"
+          className="h-full w-full object-contain"
+          aria-hidden="true"
+        />
       </div>
 
       {/* Steampunk gear accents */}
-      <div className="absolute top-16 left-4 pointer-events-none hidden md:block" aria-hidden="true">
+      <div className="pointer-events-none absolute left-4 top-16 hidden md:block" aria-hidden="true">
         <Gear size={40} opacity={0.06} color="var(--nec-gold)" />
       </div>
-      <div className="absolute top-20 right-6 pointer-events-none hidden md:block" aria-hidden="true">
+      <div className="pointer-events-none absolute right-6 top-20 hidden md:block" aria-hidden="true">
         <Gear size={32} opacity={0.05} color="var(--nec-purple)" />
       </div>
 
       {/* Sparkle accents */}
-      <div className="absolute top-10 left-[20%] pointer-events-none" aria-hidden="true">
+      <div className="pointer-events-none absolute left-[20%] top-10" aria-hidden="true">
         <Sparkle color="var(--nec-gold)" size={10} opacity={0.12} />
       </div>
-      <div className="absolute top-24 right-[25%] pointer-events-none" aria-hidden="true">
-        <Sparkle color="var(--nec-cyan)" size={8} opacity={0.10} />
+      <div className="pointer-events-none absolute right-[25%] top-24" aria-hidden="true">
+        <Sparkle color="var(--nec-cyan)" size={8} opacity={0.1} />
       </div>
-      <div className="absolute bottom-20 left-[40%] pointer-events-none hidden md:block" aria-hidden="true">
+      <div className="pointer-events-none absolute bottom-20 left-[40%] hidden md:block" aria-hidden="true">
         <Hex color="var(--nec-purple)" size={20} opacity={0.05} />
       </div>
 
@@ -64,7 +90,7 @@ export default function SiteFooter() {
         style={{ paddingBottom: "max(5rem, calc(1.25rem + env(safe-area-inset-bottom)))" }}
       >
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10"
+          className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -72,25 +98,21 @@ export default function SiteFooter() {
         >
           {/* Identity column */}
           <motion.div variants={staggerChild} className="space-y-3">
-            <div className="w-28 h-auto mb-2">
+            <div className="mb-2 h-auto w-28">
               <Image
                 src="/images/mad-realm-logo-no-bg.webp"
                 alt="Escaping the Mad Realm — NECYPAA XXXVI theme"
                 width={112}
                 height={112}
                 sizes="112px"
-                className="w-full h-auto"
+                className="h-auto w-full"
               />
             </div>
-            <h2
-              className="text-xl font-black uppercase tracking-tight text-[var(--nec-purple)]"
-            >
-              NECYPAA XXXVI
-            </h2>
-            <p className="text-sm font-semibold text-[var(--nec-muted)] uppercase tracking-widest">CT Host Committee</p>
-            <p className="text-sm text-[var(--nec-muted)] leading-relaxed max-w-xs">
-              The Northeast Convention of Young People in Alcoholics Anonymous — Hartford, Connecticut.
-              Dec 31, 2026 – Jan 3, 2027.
+            <h2 className="text-xl font-black uppercase tracking-tight text-[var(--nec-purple)]">NECYPAA XXXVI</h2>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[var(--nec-muted)]">CT Host Committee</p>
+            <p className="max-w-xs text-sm leading-relaxed text-[var(--nec-muted)]">
+              The Northeast Convention of Young People in Alcoholics Anonymous — Hartford, Connecticut. Dec 31, 2026 –
+              Jan 3, 2027.
             </p>
           </motion.div>
 
@@ -99,7 +121,10 @@ export default function SiteFooter() {
             <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--nec-cyan)]">Convention</h3>
             <ul className="space-y-2" aria-label="Convention links">
               <li>
-                <Link href="/register" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/register"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Pre-Register
                 </Link>
               </li>
@@ -108,33 +133,49 @@ export default function SiteFooter() {
                   href={HOTEL_BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link inline-flex items-center gap-1"
+                  className="footer-link inline-flex items-center gap-1 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                 >
-                  Book Hotel <ExternalLink className="w-3 h-3" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
+                  Book Hotel <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                  <span className="sr-only"> (opens in new tab)</span>
                 </a>
               </li>
               <li>
-                <Link href="/program" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/program"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Program
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/events"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Events
                 </Link>
               </li>
               <li>
-                <Link href="/merch" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/merch"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Merch
                 </Link>
               </li>
               <li>
-                <Link href="/breakfast" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/breakfast"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Breakfast
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/faq"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   FAQ
                 </Link>
               </li>
@@ -143,9 +184,10 @@ export default function SiteFooter() {
                   href={NECYPAA_ADVISORY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link inline-flex items-center gap-1"
+                  className="footer-link inline-flex items-center gap-1 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                 >
-                  Advisory Council <ExternalLink className="w-3 h-3" aria-hidden="true" /><span className="sr-only"> (opens in new tab)</span>
+                  Advisory Council <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                  <span className="sr-only"> (opens in new tab)</span>
                 </a>
               </li>
             </ul>
@@ -156,56 +198,83 @@ export default function SiteFooter() {
             <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--nec-pink)]">Community</h3>
             <ul className="space-y-2" aria-label="Community links">
               <li>
-                <Link href="/blog" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/blog"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/service" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/service"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Get Involved
                 </Link>
               </li>
               <li>
-                <Link href="/journey" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/journey"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Our Journey
                 </Link>
               </li>
               <li>
-                <Link href="/prayer" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/prayer"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Prayer
                 </Link>
               </li>
               <li>
-                <Link href="/asl" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/asl"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   ASL Resources
                 </Link>
               </li>
               <li>
-                <Link href="/states" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/states"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Find Your State
                 </Link>
               </li>
               <li>
-                <Link href="/bid" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/bid"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Start a Bid
                 </Link>
               </li>
               <li>
-                <Link href="/alanon" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/alanon"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Al-Anon / Alateen
                 </Link>
               </li>
               <li>
-                <Link href="/accessibility" className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link">
+                <Link
+                  href="/accessibility"
+                  className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                >
                   Accessibility
                 </Link>
               </li>
               <li>
                 <a
                   href="/feed.xml"
-                  className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors footer-link inline-flex items-center gap-1"
+                  className="footer-link inline-flex items-center gap-1 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                 >
-                  <Rss className="w-3 h-3" aria-hidden="true" />
+                  <Rss className="h-3 w-3" aria-hidden="true" />
                   RSS Feed
                 </a>
               </li>
@@ -217,12 +286,12 @@ export default function SiteFooter() {
             <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--nec-gold)]">Contact</h3>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="inline-flex items-center gap-2 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
             >
-              <Mail className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
+              <Mail className="h-4 w-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
               {CONTACT_EMAIL}
             </a>
-            <p className="text-sm text-[var(--nec-muted)] leading-relaxed max-w-xs pt-1">
+            <p className="max-w-xs pt-1 text-sm leading-relaxed text-[var(--nec-muted)]">
               Questions about registration, hotel, accessibility, or anything else — reach out any time.
             </p>
           </motion.div>
@@ -230,19 +299,23 @@ export default function SiteFooter() {
 
         {/* Accessibility statement */}
         <div
-          className="mt-10 pt-6 border-t text-xs text-[var(--nec-muted)] leading-relaxed"
+          className="mt-10 border-t pt-6 text-xs leading-relaxed text-[var(--nec-muted)]"
           style={{ borderColor: "var(--nec-border)" }}
         >
           <p className="max-w-2xl">
-            <strong className="text-[var(--nec-muted)]">Accessibility:</strong>{" "}
-            NECYPAA XXXVI is committed to digital accessibility for people of all abilities.
-            This site targets WCAG 2.1 Level AAA wherever achievable, with Level AA as our minimum.{" "}
-            <Link href="/accessibility" className="underline text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors">
+            <strong className="text-[var(--nec-muted)]">Accessibility:</strong> NECYPAA XXXVI is committed to digital
+            accessibility for people of all abilities. This site targets WCAG 2.1 Level AAA wherever achievable, with
+            Level AA as our minimum.{" "}
+            <Link
+              href="/accessibility"
+              className="text-[var(--nec-muted)] underline transition-colors hover:text-[var(--nec-text)]"
+            >
               Accessibility page
-            </Link>{" · "}
+            </Link>
+            {" · "}
             <a
               href="mailto:info@necypaa.org?subject=Accessibility%20Issue"
-              className="underline text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors"
+              className="text-[var(--nec-muted)] underline transition-colors hover:text-[var(--nec-text)]"
             >
               Report a problem
             </a>
@@ -251,23 +324,18 @@ export default function SiteFooter() {
 
         {/* Bottom bar */}
         <div
-          className="mt-4 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--nec-muted)]"
+          className="mt-4 flex flex-col items-center justify-between gap-3 border-t pt-4 text-xs text-[var(--nec-muted)] sm:flex-row"
           style={{ borderColor: "var(--nec-border)" }}
         >
-          <p>
-            © {new Date().getFullYear()} NECYPAA XXXVI CT Host Committee · All rights reserved.
-          </p>
-          <p className="text-center">
-            Northeast Convention of Young People in Alcoholics Anonymous
-          </p>
-          <p className="text-center italic hidden sm:block">
-            Built with love by people who get it.
-          </p>
+          <p>© {new Date().getFullYear()} NECYPAA XXXVI CT Host Committee · All rights reserved.</p>
+          <p className="text-center">Northeast Convention of Young People in Alcoholics Anonymous</p>
+          <p className="hidden text-center italic sm:block">Built with love by people who get it.</p>
         </div>
 
         {/* AA trademark acknowledgment (required per Tradition compliance) */}
-        <p className="mt-3 text-center text-xs text-[var(--nec-muted)] leading-relaxed">
-          Alcoholics Anonymous®, A.A.®, and The Big Book® are registered trademarks of Alcoholics Anonymous World Services, Inc.
+        <p className="mt-3 text-center text-xs leading-relaxed text-[var(--nec-muted)]">
+          Alcoholics Anonymous®, A.A.®, and The Big Book® are registered trademarks of Alcoholics Anonymous World
+          Services, Inc.
         </p>
       </div>
     </footer>

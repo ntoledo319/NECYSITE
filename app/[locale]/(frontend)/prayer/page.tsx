@@ -20,16 +20,16 @@ export default function PrayerPage() {
       gameName="The Journey"
       gameDescription="Collect serenity tokens one day at a time. Arrow keys to move. Don't cross your own path."
       pageContent={
-        <div className="space-y-4 mb-8 text-[var(--nec-muted)] leading-relaxed">
+        <div className="mb-8 space-y-4 leading-relaxed text-[var(--nec-muted)]">
           <p className="italic">
-            &ldquo;God, grant me the serenity to accept the things I cannot change, the courage to change the things I can, and the wisdom to know the difference.&rdquo;
+            &ldquo;God, grant me the serenity to accept the things I cannot change, the courage to change the things I
+            can, and the wisdom to know the difference.&rdquo;
           </p>
           <p>
-            <strong className="text-[var(--nec-text)]">Status:</strong> Our Prayer Chair is compiling spiritual resources, local meditation meetings, and spaces for quiet reflection during the convention.
+            <strong className="text-[var(--nec-text)]">Status:</strong> Our Prayer Chair is compiling spiritual
+            resources, local meditation meetings, and spaces for quiet reflection during the convention.
           </p>
-          <p>
-            The convention will feature dedicated spaces for prayer and meditation away from the main hustle.
-          </p>
+          <p>The convention will feature dedicated spaces for prayer and meditation away from the main hustle.</p>
         </div>
       }
     >

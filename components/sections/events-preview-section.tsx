@@ -5,12 +5,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import type { EventData } from "@/lib/data/events"
 import FlyerWithModal from "@/components/flyer-with-modal"
 import { Calendar, MapPin, ArrowRight, Sparkles } from "lucide-react"
-import {
-  SPRING_GENTLE,
-  SpotlightCard,
-  staggerContainer,
-  staggerChild,
-} from "@/components/ui/motion-primitives"
+import { SPRING_GENTLE, SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 interface EventsPreviewSectionProps {
   upcomingEvent: EventData | null
@@ -21,7 +16,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
   const shouldReduce = useReducedMotion()
 
   return (
-    <section id="events" aria-label="Events preview" className="px-4 md:px-0 space-y-10">
+    <section id="events" aria-label="Events preview" className="space-y-10 px-4 md:px-0">
       {/* ── Featured Upcoming Event ──────────────────────────── */}
       <div>
         <motion.div
@@ -35,19 +30,19 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
           <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
             Next Event
           </h2>
-          <p className="mt-2 text-base text-[var(--nec-muted)] max-w-xl">
+          <p className="mt-2 max-w-xl text-base text-[var(--nec-muted)]">
             Our next fundraiser is right around the corner. Come hang!
           </p>
         </motion.div>
 
         {upcomingEvent ? (
           <SpotlightCard
-            className="relative rounded-2xl overflow-hidden"
+            className="relative overflow-hidden rounded-2xl"
             spotlightColor="rgba(124,58,237,0.10)"
             spotlightSize={500}
           >
             <div
-              className="absolute inset-0 rounded-[inherit] z-0"
+              className="absolute inset-0 z-0 rounded-[inherit]"
               style={{
                 boxShadow:
                   "0 8px 40px rgba(0,0,0,0.35), 0 0 60px rgba(124,58,237,0.08), 0 0 120px rgba(192,38,211,0.05)",
@@ -55,7 +50,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
             />
             {/* Glow effects */}
             <div
-              className="pointer-events-none absolute -top-12 -left-12 w-64 h-64 z-0"
+              className="pointer-events-none absolute -left-12 -top-12 z-0 h-64 w-64"
               aria-hidden="true"
               style={{
                 background:
@@ -63,7 +58,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
               }}
             />
             <div
-              className="pointer-events-none absolute -bottom-12 -right-12 w-64 h-64 z-0"
+              className="pointer-events-none absolute -bottom-12 -right-12 z-0 h-64 w-64"
               aria-hidden="true"
               style={{
                 background:
@@ -71,7 +66,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
               }}
             />
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-1 z-20"
+              className="pointer-events-none absolute inset-x-0 top-0 z-20 h-1"
               aria-hidden="true"
               style={{
                 background:
@@ -87,11 +82,11 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
                 border: "1px solid rgba(124,58,237,0.15)",
               }}
             >
-              <div className="flex flex-col lg:flex-row gap-8 items-start">
+              <div className="flex flex-col items-start gap-8 lg:flex-row">
                 {/* Flyer */}
-                <div className="w-full lg:w-[340px] flex-shrink-0 relative">
+                <div className="relative w-full flex-shrink-0 lg:w-[340px]">
                   <div
-                    className="absolute -inset-3 rounded-2xl z-0"
+                    className="absolute -inset-3 z-0 rounded-2xl"
                     aria-hidden="true"
                     style={{
                       background:
@@ -100,57 +95,57 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
                     }}
                   />
                   <div
-                    className="relative z-10 rounded-xl overflow-hidden"
+                    className="relative z-10 overflow-hidden rounded-xl"
                     style={{
                       border: "2px solid rgba(124,58,237,0.30)",
-                      boxShadow:
-                        "0 4px 24px rgba(0,0,0,0.4), 0 0 20px rgba(124,58,237,0.12)",
+                      boxShadow: "0 4px 24px rgba(0,0,0,0.4), 0 0 20px rgba(124,58,237,0.12)",
                     }}
                   >
-                    <FlyerWithModal
-                      src={upcomingEvent.flyerSrc}
-                      alt={upcomingEvent.flyerAlt}
-                      className="rounded-xl"
-                    />
+                    <FlyerWithModal src={upcomingEvent.flyerSrc} alt={upcomingEvent.flyerAlt} className="rounded-xl" />
                   </div>
                 </div>
 
                 {/* Event info */}
-                <div className="flex-1 space-y-4 min-w-0">
+                <div className="min-w-0 flex-1 space-y-4">
                   <h3
-                    className="text-2xl md:text-3xl font-black text-white"
+                    className="text-2xl font-black text-white md:text-3xl"
                     style={{ textShadow: "0 2px 12px rgba(0,0,0,0.3)" }}
                   >
                     {upcomingEvent.title}
                   </h3>
 
-                  <div className="flex flex-col sm:flex-row gap-3 text-sm">
+                  <div className="flex flex-col gap-3 text-sm sm:flex-row">
                     <span className="inline-flex items-center gap-2 text-[var(--nec-muted)]">
-                      <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-cyan)" }} aria-hidden="true" />
+                      <Calendar
+                        className="h-4 w-4 flex-shrink-0"
+                        style={{ color: "var(--nec-cyan)" }}
+                        aria-hidden="true"
+                      />
                       {upcomingEvent.date}
                     </span>
                     <span className="inline-flex items-center gap-2 text-[var(--nec-muted)]">
-                      <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
+                      <MapPin
+                        className="h-4 w-4 flex-shrink-0"
+                        style={{ color: "var(--nec-gold)" }}
+                        aria-hidden="true"
+                      />
                       {upcomingEvent.location}
                     </span>
                   </div>
 
-                  <p
-                    className="text-sm leading-relaxed italic"
-                    style={{ color: "var(--nec-muted)" }}
-                  >
+                  <p className="text-sm italic leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                     {upcomingEvent.description}
                   </p>
 
                   <div
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg"
+                    className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-widest"
                     style={{
                       background: "rgba(124,58,237,0.10)",
                       border: "1px solid rgba(124,58,237,0.20)",
                       color: "var(--nec-purple)",
                     }}
                   >
-                    <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
                     See you there!
                   </div>
                 </div>
@@ -158,8 +153,8 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
             </div>
           </SpotlightCard>
         ) : (
-          <div className="p-8 rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.8)] shadow-sm text-center">
-            <h3 className="text-xl font-bold text-[var(--nec-text)] mb-2">No Upcoming Events</h3>
+          <div className="rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.8)] p-8 text-center shadow-sm">
+            <h3 className="mb-2 text-xl font-bold text-[var(--nec-text)]">No Upcoming Events</h3>
             <p className="text-[var(--nec-muted)]">The committee is planning the next big thing. Check back soon!</p>
           </div>
         )}
@@ -180,12 +175,12 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
               className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide transition-colors hover:opacity-80"
               style={{ color: "var(--nec-cyan)" }}
             >
-              View All <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+              View All <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>
 
           <motion.div
-            className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scrollbar-thin"
+            className="scrollbar-thin -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
             role="list"
             aria-label="Recent past events"
             style={{ scrollbarColor: "rgba(124,58,237,0.25) transparent" }}
@@ -198,24 +193,20 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
               <motion.div
                 key={event.id}
                 role="listitem"
-                className="flex-shrink-0 w-36 sm:w-40 snap-start group"
+                className="group w-36 flex-shrink-0 snap-start sm:w-40"
                 variants={staggerChild}
               >
                 <div
-                  className="w-full aspect-[3/4] rounded-xl overflow-hidden mb-2 transition-transform duration-200 group-hover:-translate-y-0.5"
+                  className="mb-2 aspect-[3/4] w-full overflow-hidden rounded-xl transition-transform duration-200 group-hover:-translate-y-0.5"
                   style={{
                     border: "1px solid var(--nec-border)",
                     boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
                   }}
                 >
-                  <FlyerWithModal
-                    src={event.flyerSrc}
-                    alt={event.flyerAlt}
-                    className="rounded-xl"
-                  />
+                  <FlyerWithModal src={event.flyerSrc} alt={event.flyerAlt} className="rounded-xl" />
                 </div>
                 <h3
-                  className="text-xs font-bold leading-tight mb-0.5 line-clamp-2"
+                  className="mb-0.5 line-clamp-2 text-xs font-bold leading-tight"
                   style={{ color: "var(--nec-text)" }}
                 >
                   {event.title}
@@ -229,23 +220,17 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
             {pastEvents.length > 4 && (
               <Link
                 href="/events"
-                className="flex-shrink-0 w-36 sm:w-40 snap-start flex flex-col items-center justify-center rounded-xl transition-all duration-200 hover:-translate-y-0.5"
+                className="flex w-36 flex-shrink-0 snap-start flex-col items-center justify-center rounded-xl transition-all duration-200 hover:-translate-y-0.5 sm:w-40"
                 style={{
                   background: "rgba(26,16,48,0.5)",
                   border: "1px dashed rgba(124,58,237,0.25)",
                   aspectRatio: "3/4",
                 }}
               >
-                <span
-                  className="text-lg font-black mb-1"
-                  style={{ color: "var(--nec-purple)" }}
-                >
+                <span className="mb-1 text-lg font-black" style={{ color: "var(--nec-purple)" }}>
                   +{pastEvents.length - 4}
                 </span>
-                <span
-                  className="text-[10px] font-bold uppercase tracking-widest"
-                  style={{ color: "var(--nec-muted)" }}
-                >
+                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--nec-muted)" }}>
                   More Events
                 </span>
               </Link>

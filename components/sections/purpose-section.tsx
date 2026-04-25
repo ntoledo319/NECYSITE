@@ -31,16 +31,16 @@ export default function PurposeSection() {
     <section id="purpose" aria-label="About NECYPAA" className="px-4 md:px-0">
       <div className="mb-8">
         <span className="section-badge mb-4">About NECYPAA</span>
-        <h2 className="section-heading mt-3" >What is NECYPAA?</h2>
-        <p className="mt-3 text-base text-[var(--nec-muted)] max-w-2xl leading-relaxed">
-          Founded in 1989, the Northeast Convention of Young People in Alcoholics Anonymous brings
-          together young people in recovery for an annual multi-day conference. NECYPAA has been a
-          cornerstone of AA service and fellowship across the Northeast for over three decades.
+        <h2 className="section-heading mt-3">What is NECYPAA?</h2>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-[var(--nec-muted)]">
+          Founded in 1989, the Northeast Convention of Young People in Alcoholics Anonymous brings together young people
+          in recovery for an annual multi-day conference. NECYPAA has been a cornerstone of AA service and fellowship
+          across the Northeast for over three decades.
         </p>
       </div>
 
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+        className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -50,52 +50,58 @@ export default function PurposeSection() {
           <motion.div
             key={p.title}
             variants={staggerChild}
-            className="nec-card p-5 space-y-3 transition-all duration-200 hover:-translate-y-0.5"
+            className="nec-card space-y-3 p-5 transition-all duration-200 hover:-translate-y-0.5"
           >
-            <span className="text-3xl" role="img" aria-hidden="true">{p.icon}</span>
-            <h3 className="font-bold text-[var(--nec-text)] text-base" >{p.title}</h3>
-            <p className="text-sm text-[var(--nec-muted)] leading-relaxed">{p.body}</p>
+            <span className="text-3xl" role="img" aria-hidden="true">
+              {p.icon}
+            </span>
+            <h3 className="text-base font-bold text-[var(--nec-text)]">{p.title}</h3>
+            <p className="text-sm leading-relaxed text-[var(--nec-muted)]">{p.body}</p>
           </motion.div>
         ))}
       </motion.div>
 
       {/* First-timer callout */}
       <SpotlightCard spotlightColor="rgba(var(--nec-purple-rgb),0.08)" spotlightSize={500}>
-      <div
-        className="nec-callout-card rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm"
-        style={{
-          background: "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.06) 0%, rgba(var(--nec-card-rgb),0.6) 50%, rgba(var(--nec-pink-rgb),0.04) 100%)",
-          border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
-          boxShadow: "var(--shadow-card)",
-        }}
-      >
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
-          <div className="flex-1 space-y-2">
-            <h3 className="text-lg font-bold text-[var(--nec-text)]" >First time at NECYPAA?</h3>
-            <p className="text-sm text-[var(--nec-muted)] leading-relaxed max-w-xl">
-              NECYPAA is for the young and young at heart — the only requirement is an honest desire
-              to stop drinking. If you&apos;re in AA, you belong here. We&apos;ll have
-              speaker meetings, workshops, dances, and a whole lot of fellowship from Dec 31 – Jan 3
-              at the Hartford Marriott Downtown.
-            </p>
-            <p className="text-sm font-semibold" style={{ color: "var(--nec-cyan)" }}>
-              Questions? Reach out at{" "}
-              <a
-                href="mailto:info@necypaa.org"
-                className="underline underline-offset-2 hover:opacity-80 transition-opacity"
-              >
-                info@necypaa.org
-              </a>
-            </p>
-          </div>
-          <div
-            className="hidden md:flex flex-shrink-0 w-16 h-16 rounded-2xl items-center justify-center text-3xl"
-            style={{ background: "rgba(var(--nec-purple-rgb),0.08)", border: "1px solid rgba(var(--nec-purple-rgb),0.18)", boxShadow: "var(--shadow-card)" }}
-          >
-            👋
+        <div
+          className="nec-callout-card relative overflow-hidden rounded-2xl p-6 backdrop-blur-sm md:p-8"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.06) 0%, rgba(var(--nec-card-rgb),0.6) 50%, rgba(var(--nec-pink-rgb),0.04) 100%)",
+            border: "1px solid rgba(var(--nec-purple-rgb),0.15)",
+            boxShadow: "var(--shadow-card)",
+          }}
+        >
+          <div className="relative z-10 flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-8">
+            <div className="flex-1 space-y-2">
+              <h3 className="text-lg font-bold text-[var(--nec-text)]">First time at NECYPAA?</h3>
+              <p className="max-w-xl text-sm leading-relaxed text-[var(--nec-muted)]">
+                NECYPAA is for the young and young at heart — the only requirement is an honest desire to stop drinking.
+                If you&apos;re in AA, you belong here. We&apos;ll have speaker meetings, workshops, dances, and a whole
+                lot of fellowship from Dec 31 – Jan 3 at the Hartford Marriott Downtown.
+              </p>
+              <p className="text-sm font-semibold" style={{ color: "var(--nec-cyan)" }}>
+                Questions? Reach out at{" "}
+                <a
+                  href="mailto:info@necypaa.org"
+                  className="underline underline-offset-2 transition-opacity hover:opacity-80"
+                >
+                  info@necypaa.org
+                </a>
+              </p>
+            </div>
+            <div
+              className="hidden h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl text-3xl md:flex"
+              style={{
+                background: "rgba(var(--nec-purple-rgb),0.08)",
+                border: "1px solid rgba(var(--nec-purple-rgb),0.18)",
+                boxShadow: "var(--shadow-card)",
+              }}
+            >
+              👋
+            </div>
           </div>
         </div>
-      </div>
       </SpotlightCard>
     </section>
   )

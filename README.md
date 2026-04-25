@@ -10,18 +10,18 @@ Convention website for the 36th Northeast Convention of Young People in Alcoholi
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 15 (App Router, React 19) |
-| Language | TypeScript 5.7 (strict mode) |
-| CMS | Payload CMS 3 (SQLite) |
-| Styling | Tailwind CSS 3.4 + custom design tokens |
-| Payments | Stripe (Embedded Checkout) |
-| i18n | next-intl (English + Spanish) |
-| UI | Radix UI primitives + shadcn/ui |
-| Validation | Zod |
-| Testing | Vitest (unit) + Playwright (e2e/a11y) |
-| Hosting | Vercel |
+| Layer      | Technology                              |
+| ---------- | --------------------------------------- |
+| Framework  | Next.js 15 (App Router, React 19)       |
+| Language   | TypeScript 5.7 (strict mode)            |
+| CMS        | Payload CMS 3 (SQLite)                  |
+| Styling    | Tailwind CSS 3.4 + custom design tokens |
+| Payments   | Stripe (Embedded Checkout)              |
+| i18n       | next-intl (English + Spanish)           |
+| UI         | Radix UI primitives + shadcn/ui         |
+| Validation | Zod                                     |
+| Testing    | Vitest (unit) + Playwright (e2e/a11y)   |
+| Hosting    | Vercel                                  |
 
 ## Getting Started
 
@@ -97,40 +97,40 @@ public/                     Static assets (images, fonts)
 
 ## Governing Documents
 
-| Document | Purpose |
-|----------|---------|
+| Document                      | Purpose                                         |
+| ----------------------------- | ----------------------------------------------- |
 | `AA_TRADITIONS_GUARDRAILS.md` | AA Traditions compliance rules (non-negotiable) |
-| `ACCESSIBILITY_GUIDELINES.md` | WCAG 2.1 AAA accessibility requirements |
-| `CONTRIBUTING.md` | Contribution rules for humans and AI agents |
-| `NECYPREAMBLE.md` | Project vision, architecture decisions, roadmap |
+| `ACCESSIBILITY_GUIDELINES.md` | WCAG 2.1 AAA accessibility requirements         |
+| `CONTRIBUTING.md`             | Contribution rules for humans and AI agents     |
+| `NECYPREAMBLE.md`             | Project vision, architecture decisions, roadmap |
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Production build |
-| `pnpm start` | Start production server |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Run ESLint with auto-fix |
-| `pnpm format` | Format with Prettier |
-| `pnpm format:check` | Check formatting |
-| `pnpm test` | Run unit tests |
-| `pnpm test:watch` | Run unit tests in watch mode |
-| `pnpm test:a11y` | Run Playwright accessibility tests |
+| Command             | Description                        |
+| ------------------- | ---------------------------------- |
+| `pnpm dev`          | Start development server           |
+| `pnpm build`        | Production build                   |
+| `pnpm start`        | Start production server            |
+| `pnpm lint`         | Run ESLint                         |
+| `pnpm lint:fix`     | Run ESLint with auto-fix           |
+| `pnpm format`       | Format with Prettier               |
+| `pnpm format:check` | Check formatting                   |
+| `pnpm test`         | Run unit tests                     |
+| `pnpm test:watch`   | Run unit tests in watch mode       |
+| `pnpm test:a11y`    | Run Playwright accessibility tests |
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `PAYLOAD_SECRET` | Yes | Secret for Payload CMS encryption |
-| `STRIPE_SECRET_KEY` | Yes | Stripe secret key (server-side) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Yes | Stripe publishable key (client-side) |
-| `NEXT_PUBLIC_BASE_URL` | Yes | Base URL for callback URLs |
-| `GOOGLE_CALENDAR_API_KEY` | No | Google Calendar API key (for live calendar) |
-| `ISSUER_SERVICE_BASE_URL` | No | Access code redemption service URL |
-| `ISSUER_SERVICE_API_KEY` | No | Access code redemption service API key |
+| Variable                             | Required | Description                                 |
+| ------------------------------------ | -------- | ------------------------------------------- |
+| `PAYLOAD_SECRET`                     | Yes      | Secret for Payload CMS encryption           |
+| `STRIPE_SECRET_KEY`                  | Yes      | Stripe secret key (server-side)             |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Yes      | Stripe publishable key (client-side)        |
+| `NEXT_PUBLIC_BASE_URL`               | Yes      | Base URL for callback URLs                  |
+| `GOOGLE_CALENDAR_API_KEY`            | No       | Google Calendar API key (for live calendar) |
+| `ISSUER_SERVICE_BASE_URL`            | No       | Access code redemption service URL          |
+| `ISSUER_SERVICE_API_KEY`             | No       | Access code redemption service API key      |
 
 ---
 
-*Alcoholics Anonymous, A.A., and The Big Book are registered trademarks of Alcoholics Anonymous World Services, Inc.*
+_Alcoholics Anonymous, A.A., and The Big Book are registered trademarks of Alcoholics Anonymous World Services, Inc._

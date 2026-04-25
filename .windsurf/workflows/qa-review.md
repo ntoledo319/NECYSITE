@@ -9,6 +9,7 @@ This workflow uses the `senior-qa` skill from `claude-skills/engineering-team/se
 ## Step 1: Scan for Untested Components
 
 // turbo
+
 ```bash
 python3 claude-skills/engineering-team/senior-qa/scripts/test_suite_generator.py components/ --scan-only
 ```
@@ -16,6 +17,7 @@ python3 claude-skills/engineering-team/senior-qa/scripts/test_suite_generator.py
 ## Step 2: Generate Test Stubs
 
 Generate Jest + React Testing Library test stubs with a11y tests:
+
 ```bash
 python3 claude-skills/engineering-team/senior-qa/scripts/test_suite_generator.py components/ --output __tests__/ --include-a11y
 ```
@@ -23,6 +25,7 @@ python3 claude-skills/engineering-team/senior-qa/scripts/test_suite_generator.py
 ## Step 3: Scaffold E2E Tests
 
 Generate Playwright E2E tests from Next.js App Router routes:
+
 ```bash
 python3 claude-skills/engineering-team/senior-qa/scripts/e2e_test_scaffolder.py app/ --output e2e/ --include-pom
 ```
@@ -43,9 +46,9 @@ python3 claude-skills/engineering-team/senior-qa/scripts/coverage_analyzer.py co
 
 ## Coverage Thresholds
 
-| Metric | Target |
-|--------|--------|
-| Branches | 80% |
-| Functions | 80% |
-| Lines | 80% |
-| Statements | 80% |
+| Metric     | Target |
+| ---------- | ------ |
+| Branches   | 80%    |
+| Functions  | 80%    |
+| Lines      | 80%    |
+| Statements | 80%    |

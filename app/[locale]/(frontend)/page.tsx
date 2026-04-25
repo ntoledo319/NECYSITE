@@ -24,13 +24,11 @@ export default async function HomePage() {
   const hostEvents = await getEvents()
   const events = await fetchCalendarEvents()
   const now = new Date()
-  const nextBusinessMeeting = events.find(
-    (e) => e.category === "host-business" && new Date(e.start) >= now,
-  )
+  const nextBusinessMeeting = events.find((e) => e.category === "host-business" && new Date(e.start) >= now)
 
   return (
     <div
-      className="relative flex min-h-screen min-h-screen-safe flex-col"
+      className="min-h-screen-safe relative flex min-h-screen flex-col"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <EventJsonLd />
@@ -39,31 +37,31 @@ export default async function HomePage() {
       <div className="relative z-10 flex-1">
         <HeroSection />
 
-        <ScrollReveal className="relative container mx-auto px-4 pt-10 mb-14 md:pt-14">
+        <ScrollReveal className="container relative mx-auto mb-14 px-4 pt-10 md:pt-14">
           <YpaaNarrativeSection />
         </ScrollReveal>
 
-        <div className="container mx-auto px-4 mb-12">
+        <div className="container mx-auto mb-12 px-4">
           <OrnateDivider variant="gear" color="var(--nec-purple)" />
         </div>
 
-        <ScrollReveal className="container mx-auto px-4 mb-14">
+        <ScrollReveal className="container mx-auto mb-14 px-4">
           <QuickFactsStrip />
         </ScrollReveal>
 
-        <div className="container mx-auto px-4 mb-12">
+        <div className="container mx-auto mb-12 px-4">
           <OrnateDivider variant="key" color="var(--nec-pink)" />
         </div>
 
-        <ScrollReveal className="section-atmosphere-gold relative container mx-auto px-4 mb-14">
+        <ScrollReveal className="section-atmosphere-gold container relative mx-auto mb-14 px-4">
           <BusinessMeetingSection nextMeeting={nextBusinessMeeting} />
         </ScrollReveal>
 
-        <div className="container mx-auto px-4 mb-12">
+        <div className="container mx-auto mb-12 px-4">
           <OrnateDivider variant="compass" color="var(--nec-gold)" />
         </div>
 
-        <ScrollReveal className="relative container mx-auto px-4 mb-6 pb-20 md:pb-6">
+        <ScrollReveal className="container relative mx-auto mb-6 px-4 pb-20 md:pb-6">
           <EventsPreviewSection upcomingEvent={hostEvents.upcoming} pastEvents={hostEvents.past} />
         </ScrollReveal>
 

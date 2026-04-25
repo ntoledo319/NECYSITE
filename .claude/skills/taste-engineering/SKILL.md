@@ -14,6 +14,7 @@ description: >
 ## When Activated
 
 ### For Taste Audits:
+
 1. Read `references/anti-patterns.md` for ban list.
 2. Invoke `@agent-taste-auditor` on the specified target.
 3. Run `scripts/specificity-test.sh` on the target directory.
@@ -21,6 +22,7 @@ description: >
 5. If score < 60%, recommend full facelift.
 
 ### For Taste Facelifts:
+
 1. Run `@agent-taste-auditor` first.
 2. For each flagged element, run `@agent-taste-destroyer`.
 3. Hand principles + flagged elements to `@agent-taste-rebuilder`.
@@ -28,12 +30,14 @@ description: >
 5. Run `scripts/specificity-test.sh` on modified files.
 
 ### For From-Scratch Builds:
+
 1. Check CLAUDE.md for Project Identity fields. If empty → STOP → run
    Taste Brief process first.
 2. Read `references/taste-brief.md` for identity anchors.
 3. Build with rebuilder principles. Critic reviews each component.
 
 ### For Taste Brief Generation:
+
 1. Interview user:
    a. What does this project believe that competitors don't?
    b. Name 3 generic products in this space. What DNA do they share?

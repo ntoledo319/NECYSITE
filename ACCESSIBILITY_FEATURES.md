@@ -19,20 +19,20 @@ This document maps every section of the Accessibilities Chair's questionnaire to
 
 ## 1. Visual & Sensory Accessibility
 
-*Maps to Chair's Guidelines: Section 1*
+_Maps to Chair's Guidelines: Section 1_
 
 ### User Customization Panel (All 6 Modes — Chair Requirement Met)
 
 Every visitor can personalize their experience via a floating **Accessibility Settings panel** (gear icon, bottom-right of every page). All preferences are saved locally on the user's device. No account is needed.
 
-| Setting | What It Does | Status |
-|---|---|---|
-| **Dark / Light Mode** | Switches between the default dark theme and a fully-designed light theme. Automatically detects the user's OS `prefers-color-scheme` preference on first visit. | ✅ |
-| **High Contrast** | Boosts all contrast ratios — brighter accent colors on dark backgrounds, darker accents on light backgrounds. Thicker borders (2px), underlined links, stronger focus indicators (3px). | ✅ |
-| **Text Size** | Adjustable from 100% to 200% in 25% increments (Default → Large → Extra Large → XX-Large → Maximum). Meets WCAG 1.4.4 (200% zoom). | ✅ |
-| **Dyslexia-Friendly Font** | Switches all text to OpenDyslexic, a typeface designed for readers with dyslexia. | ✅ |
-| **Reduce Motion** | Disables all animations, transitions, and scroll effects site-wide. Also automatically respects the user's OS-level `prefers-reduced-motion` preference on first visit. | ✅ |
-| **Grayscale** | Removes all color from the page for users who are sensitive to color or prefer a monochrome experience. | ✅ |
+| Setting                    | What It Does                                                                                                                                                                            | Status |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| **Dark / Light Mode**      | Switches between the default dark theme and a fully-designed light theme. Automatically detects the user's OS `prefers-color-scheme` preference on first visit.                         | ✅     |
+| **High Contrast**          | Boosts all contrast ratios — brighter accent colors on dark backgrounds, darker accents on light backgrounds. Thicker borders (2px), underlined links, stronger focus indicators (3px). | ✅     |
+| **Text Size**              | Adjustable from 100% to 200% in 25% increments (Default → Large → Extra Large → XX-Large → Maximum). Meets WCAG 1.4.4 (200% zoom).                                                      | ✅     |
+| **Dyslexia-Friendly Font** | Switches all text to OpenDyslexic, a typeface designed for readers with dyslexia.                                                                                                       | ✅     |
+| **Reduce Motion**          | Disables all animations, transitions, and scroll effects site-wide. Also automatically respects the user's OS-level `prefers-reduced-motion` preference on first visit.                 | ✅     |
+| **Grayscale**              | Removes all color from the page for users who are sensitive to color or prefer a monochrome experience.                                                                                 | ✅     |
 
 All six modes can be combined (e.g., light mode + high contrast + dyslexia font). Combined modes have dedicated CSS rules (e.g., light + high contrast uses darker borders and bolder accents).
 
@@ -72,7 +72,7 @@ When any setting is changed, an `aria-live="polite"` announcer tells screen read
 
 ## 2. Language & Tone
 
-*Maps to Chair's Guidelines: Section 2*
+_Maps to Chair's Guidelines: Section 2_
 
 ### Pronoun Rules
 
@@ -93,21 +93,21 @@ When any setting is changed, an `aria-live="polite"` announcer tells screen read
 
 Per the Chair's guidelines, the following terms are banned from all site copy, UI text, and AI-generated content:
 
-| Banned | Use Instead |
-|---|---|
-| "guys" | "everyone," "folks," "y'all" |
-| "ladies and gentlemen" | "everyone," "distinguished guests" |
-| "manpower" | "workforce," "staffing" |
-| "blacklist / whitelist" | "blocklist / allowlist" |
-| "grandfathered in" | "legacy," "pre-existing" |
-| "spirit animal" | "favorite," "kindred" |
-| "lame" | "ineffective," "unimpressive" |
-| "crazy" / "insane" | "wild," "unbelievable," "intense" |
-| "blind spot" | "gap," "oversight" |
-| "addict" (as a noun) | "person in recovery" |
-| "clean / dirty" (for sobriety) | "in recovery," "using" |
-| "substance abuser" | "person who uses substances" |
-| "suffering from addiction" | "living with a substance use disorder" |
+| Banned                         | Use Instead                            |
+| ------------------------------ | -------------------------------------- |
+| "guys"                         | "everyone," "folks," "y'all"           |
+| "ladies and gentlemen"         | "everyone," "distinguished guests"     |
+| "manpower"                     | "workforce," "staffing"                |
+| "blacklist / whitelist"        | "blocklist / allowlist"                |
+| "grandfathered in"             | "legacy," "pre-existing"               |
+| "spirit animal"                | "favorite," "kindred"                  |
+| "lame"                         | "ineffective," "unimpressive"          |
+| "crazy" / "insane"             | "wild," "unbelievable," "intense"      |
+| "blind spot"                   | "gap," "oversight"                     |
+| "addict" (as a noun)           | "person in recovery"                   |
+| "clean / dirty" (for sobriety) | "in recovery," "using"                 |
+| "substance abuser"             | "person who uses substances"           |
+| "suffering from addiction"     | "living with a substance use disorder" |
 
 ### Reading Level
 
@@ -145,7 +145,7 @@ Per the Chair's guidelines — warm and inviting, never condescending:
 
 ## 3. Imagery & Representation
 
-*Maps to Chair's Guidelines: Section 3*
+_Maps to Chair's Guidelines: Section 3_
 
 ### Diversity in Images
 
@@ -181,7 +181,7 @@ Per the Chair:
 
 ## 4. Forms & Identity
 
-*Maps to Chair's Guidelines: Section 4*
+_Maps to Chair's Guidelines: Section 4_
 
 ### Name Fields
 
@@ -216,7 +216,7 @@ Per the Chair: "Anything that could endanger someone if leaked must be optional.
 
 ## 5. AI & Automation
 
-*Maps to Chair's Guidelines: Section 5*
+_Maps to Chair's Guidelines: Section 5_
 
 ### AI Guardrails for Code Generation
 
@@ -258,7 +258,7 @@ If/when a chatbot is added:
 
 ## 6. Community & Events
 
-*Maps to Chair's Guidelines: Section 6*
+_Maps to Chair's Guidelines: Section 6_
 
 ### In-Person Event Accessibility
 
@@ -297,7 +297,7 @@ Per the Chair, when virtual events are held:
 
 ## 7. Emails & Outreach
 
-*Maps to Chair's Guidelines: Section 7*
+_Maps to Chair's Guidelines: Section 7_
 
 Per the Chair, all email communications must follow these rules:
 
@@ -319,7 +319,7 @@ Per the Chair, all email communications must follow these rules:
 
 ## 8. Privacy & Safety
 
-*Maps to Chair's Guidelines: Section 8*
+_Maps to Chair's Guidelines: Section 8_
 
 ### Data Protection
 
@@ -358,7 +358,7 @@ Per the Chair, the following are required on the site:
 
 ## 9. Recovery-Specific Inclusion
 
-*Maps to Chair's Guidelines: Section 9*
+_Maps to Chair's Guidelines: Section 9_
 
 ### Recovery Language
 
@@ -395,7 +395,7 @@ Per the Chair, these dedicated spaces are approved:
 
 ## 10. Feedback, Reporting & Governance
 
-*Maps to Chair's Guidelines: Sections 6, 8, 10*
+_Maps to Chair's Guidelines: Sections 6, 8, 10_
 
 ### User Problem Reporting (Per Chair — All Required)
 
@@ -447,14 +447,14 @@ Accessibility compliance is not just documented — it is **automatically enforc
 
 ### What This Means in Practice
 
-| Scenario | What Happens |
-|---|---|
-| Developer adds `<img>` without `alt` text | ESLint error — IDE shows red underline, commit is blocked |
+| Scenario                                                | What Happens                                                                      |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Developer adds `<img>` without `alt` text               | ESLint error — IDE shows red underline, commit is blocked                         |
 | Developer adds `<div onClick>` without keyboard handler | ESLint error — commit blocked until `role`, `tabIndex`, and `onKeyDown` are added |
-| Developer uses `tabindex="5"` | ESLint error — positive tabindex values are forbidden |
-| Developer adds a form `<input>` without a `<label>` | ESLint error — label association is required |
-| AI assistant generates inaccessible code | Windsurf rules intercept — the AI rewrites the code to be compliant |
-| Developer tries to commit on any branch | Pre-commit hook runs ESLint on staged files — violations block the commit |
+| Developer uses `tabindex="5"`                           | ESLint error — positive tabindex values are forbidden                             |
+| Developer adds a form `<input>` without a `<label>`     | ESLint error — label association is required                                      |
+| AI assistant generates inaccessible code                | Windsurf rules intercept — the AI rewrites the code to be compliant               |
+| Developer tries to commit on any branch                 | Pre-commit hook runs ESLint on staged files — violations block the commit         |
 
 ### Suppression Policy
 
@@ -467,52 +467,52 @@ Accessibility compliance is not just documented — it is **automatically enforc
 
 ## 12. Technical Implementation
 
-| Component / File | Purpose |
-|---|---|
-| `A11yProvider` (`lib/accessibility-context.tsx`) | Manages all 6 settings, persists to localStorage, detects OS preferences (`prefers-color-scheme`, `prefers-reduced-motion`), announces changes to screen readers via `aria-live` |
-| `AccessibilityPanel` (`components/accessibility-panel.tsx`) | Floating settings UI with focus trap, Escape key, ARIA dialog attributes, reset button |
-| `useFocusTrap` (`lib/use-focus-trap.ts`) | Reusable keyboard focus trap hook for any modal/overlay/drawer |
-| `ContentWarning` (`components/content-warning.tsx`) | Reusable sensitive content toggle with `aria-expanded` |
-| `AnonymousFeedbackForm` (`components/anonymous-feedback-form.tsx`) | Categorized feedback form with `aria-live` confirmation, labeled inputs |
-| `LanguageSwitcher` (`components/language-switcher.tsx`) | EN/ES language toggle with Escape key and click-outside-to-close |
-| `globals.css` a11y layers | CSS classes for reduce-motion, grayscale, high-contrast, dyslexia font, light mode, and all combinations (including light + high contrast) |
-| Skip-to-content link (`app/layout.tsx`) | In root layout, visible on focus, styled with high-contrast background |
-| `html lang="en"` (`app/layout.tsx`) | Document language set for screen readers |
-| `aria-live` announcer | Dynamically created status region for setting change announcements |
-| `eslint.config.mjs` | ESLint 9 flat config with `eslint-config-next` + 30 strict `jsx-a11y` rules |
-| `eslint-plugin-jsx-a11y` | Static analysis plugin enforcing ARIA, keyboard, and semantic HTML rules at error severity |
-| `.husky/pre-commit` | Git hook that runs lint-staged before every commit |
-| `lint-staged` (in `package.json`) | Runs ESLint on staged `.ts/.tsx` files — blocks commits with a11y errors |
-| `.windsurfrules` | AI assistant rules file enforcing a11y-first code generation |
-| `ExpandableMeetingRow` (`components/expandable-meeting-row.tsx`) | Collapsible meeting details with `aria-expanded` and labeled toggle button |
-| `ACCESSIBILITY_GUIDELINES.md` | Complete Accessibilities Chair questionnaire responses (authoritative source) |
-| `AA_TRADITIONS_GUARDRAILS.md` | AA Tradition compliance rules for digital anonymity |
+| Component / File                                                   | Purpose                                                                                                                                                                          |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `A11yProvider` (`lib/accessibility-context.tsx`)                   | Manages all 6 settings, persists to localStorage, detects OS preferences (`prefers-color-scheme`, `prefers-reduced-motion`), announces changes to screen readers via `aria-live` |
+| `AccessibilityPanel` (`components/accessibility-panel.tsx`)        | Floating settings UI with focus trap, Escape key, ARIA dialog attributes, reset button                                                                                           |
+| `useFocusTrap` (`lib/use-focus-trap.ts`)                           | Reusable keyboard focus trap hook for any modal/overlay/drawer                                                                                                                   |
+| `ContentWarning` (`components/content-warning.tsx`)                | Reusable sensitive content toggle with `aria-expanded`                                                                                                                           |
+| `AnonymousFeedbackForm` (`components/anonymous-feedback-form.tsx`) | Categorized feedback form with `aria-live` confirmation, labeled inputs                                                                                                          |
+| `LanguageSwitcher` (`components/language-switcher.tsx`)            | EN/ES language toggle with Escape key and click-outside-to-close                                                                                                                 |
+| `globals.css` a11y layers                                          | CSS classes for reduce-motion, grayscale, high-contrast, dyslexia font, light mode, and all combinations (including light + high contrast)                                       |
+| Skip-to-content link (`app/layout.tsx`)                            | In root layout, visible on focus, styled with high-contrast background                                                                                                           |
+| `html lang="en"` (`app/layout.tsx`)                                | Document language set for screen readers                                                                                                                                         |
+| `aria-live` announcer                                              | Dynamically created status region for setting change announcements                                                                                                               |
+| `eslint.config.mjs`                                                | ESLint 9 flat config with `eslint-config-next` + 30 strict `jsx-a11y` rules                                                                                                      |
+| `eslint-plugin-jsx-a11y`                                           | Static analysis plugin enforcing ARIA, keyboard, and semantic HTML rules at error severity                                                                                       |
+| `.husky/pre-commit`                                                | Git hook that runs lint-staged before every commit                                                                                                                               |
+| `lint-staged` (in `package.json`)                                  | Runs ESLint on staged `.ts/.tsx` files — blocks commits with a11y errors                                                                                                         |
+| `.windsurfrules`                                                   | AI assistant rules file enforcing a11y-first code generation                                                                                                                     |
+| `ExpandableMeetingRow` (`components/expandable-meeting-row.tsx`)   | Collapsible meeting details with `aria-expanded` and labeled toggle button                                                                                                       |
+| `ACCESSIBILITY_GUIDELINES.md`                                      | Complete Accessibilities Chair questionnaire responses (authoritative source)                                                                                                    |
+| `AA_TRADITIONS_GUARDRAILS.md`                                      | AA Tradition compliance rules for digital anonymity                                                                                                                              |
 
 ### ARIA Landmarks & Roles Used
 
-| Pattern | Where Used |
-|---|---|
-| `role="banner"` | Site header |
-| `role="dialog"` + `aria-modal="true"` + `aria-label` | Accessibility panel, image modals |
-| `role="switch"` + `aria-checked` | Toggle switches in accessibility panel |
-| `aria-label` on `<nav>` | "Main navigation," "Mobile navigation," footer quick links |
-| `aria-expanded` | Content warnings, mobile menu, collapsible sections, meeting row details |
-| `aria-pressed` | Color mode toggle buttons |
-| `aria-live="polite"` + `aria-atomic="true"` | Setting change announcements, form confirmations |
-| `aria-labelledby` / `aria-label` on inputs | All form fields (registration, feedback, checkout) |
+| Pattern                                              | Where Used                                                               |
+| ---------------------------------------------------- | ------------------------------------------------------------------------ |
+| `role="banner"`                                      | Site header                                                              |
+| `role="dialog"` + `aria-modal="true"` + `aria-label` | Accessibility panel, image modals                                        |
+| `role="switch"` + `aria-checked`                     | Toggle switches in accessibility panel                                   |
+| `aria-label` on `<nav>`                              | "Main navigation," "Mobile navigation," footer quick links               |
+| `aria-expanded`                                      | Content warnings, mobile menu, collapsible sections, meeting row details |
+| `aria-pressed`                                       | Color mode toggle buttons                                                |
+| `aria-live="polite"` + `aria-atomic="true"`          | Setting change announcements, form confirmations                         |
+| `aria-labelledby` / `aria-label` on inputs           | All form fields (registration, feedback, checkout)                       |
 
 ---
 
 ## 13. Standards & Compliance
 
-| Standard | Status |
-|---|---|
-| WCAG 2.1 Level AA | ✅ Met (minimum floor) |
-| WCAG 2.1 Level AAA | ✅ Met where achievable (our target) |
-| ADA Title III | ✅ Met |
-| CT State Accessibility Requirements | ✅ Met |
-| Section 508 | ✅ Met |
-| Automated a11y linting (0 errors) | ✅ Enforced via ESLint + pre-commit hook |
+| Standard                            | Status                                                       |
+| ----------------------------------- | ------------------------------------------------------------ |
+| WCAG 2.1 Level AA                   | ✅ Met (minimum floor)                                       |
+| WCAG 2.1 Level AAA                  | ✅ Met where achievable (our target)                         |
+| ADA Title III                       | ✅ Met                                                       |
+| CT State Accessibility Requirements | ✅ Met                                                       |
+| Section 508                         | ✅ Met                                                       |
+| Automated a11y linting (0 errors)   | ✅ Enforced via ESLint + pre-commit hook                     |
 | Chair's Questionnaire (10 sections) | ✅ All sections addressed (see status indicators throughout) |
 
 ---
@@ -521,13 +521,13 @@ Accessibility compliance is not just documented — it is **automatically enforc
 
 These items require additional discussion with the Accessibilities Chair before final implementation. Per Website Chair directive, we default to the highest standard until the Chair explicitly overrides.
 
-| Item | Chair's Notes | Current Default |
-|---|---|---|
-| **Digital anonymity traditions** (Guidelines §9.1) | Chair needs to consult 1–2 people and get more education on digital interpretation of Traditions 11 & 12. | Maximum anonymity. No full names, no identifiable photos of members as AA members, no recovery status visible to others. |
-| **AI behavior with recovery topics** (Guidelines §9.5) | Chair wants broader committee input before deciding. | Maximum sensitivity. Person-first language. No success/failure framing. AI offers to connect with a real person. |
-| **Legal compliance standards** (Guidelines §8.5) | Chair needs guidance; we default to WCAG AA + state requirements. | WCAG 2.1 AAA wherever achievable. AA as floor. CT state requirements as baseline. ADA Title III. |
-| **Harassment reporting process** (Guidelines §6.5) | Chair suggests small group consensus; sensitive timing. | Anonymous reporting always available. All reports private. Small group reviews. No retaliation. Survivor controls involvement. |
-| **Pre-launch review** (Guidelines §10) | Chair explicitly requested final review of everything before enactment. | All implementations built. Nothing goes live without Chair sign-off. Schedule review meeting before launch. |
+| Item                                                   | Chair's Notes                                                                                             | Current Default                                                                                                                |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Digital anonymity traditions** (Guidelines §9.1)     | Chair needs to consult 1–2 people and get more education on digital interpretation of Traditions 11 & 12. | Maximum anonymity. No full names, no identifiable photos of members as AA members, no recovery status visible to others.       |
+| **AI behavior with recovery topics** (Guidelines §9.5) | Chair wants broader committee input before deciding.                                                      | Maximum sensitivity. Person-first language. No success/failure framing. AI offers to connect with a real person.               |
+| **Legal compliance standards** (Guidelines §8.5)       | Chair needs guidance; we default to WCAG AA + state requirements.                                         | WCAG 2.1 AAA wherever achievable. AA as floor. CT state requirements as baseline. ADA Title III.                               |
+| **Harassment reporting process** (Guidelines §6.5)     | Chair suggests small group consensus; sensitive timing.                                                   | Anonymous reporting always available. All reports private. Small group reviews. No retaliation. Survivor controls involvement. |
+| **Pre-launch review** (Guidelines §10)                 | Chair explicitly requested final review of everything before enactment.                                   | All implementations built. Nothing goes live without Chair sign-off. Schedule review meeting before launch.                    |
 
 ---
 

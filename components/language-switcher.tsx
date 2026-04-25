@@ -58,9 +58,7 @@ export default function LanguageSwitcher() {
       >
         <Globe className="h-4 w-4" />
         <span className="text-base leading-none">{locales.find((l) => l.code === current)?.flag}</span>
-        <span className="hidden sm:inline">
-          {locales.find((l) => l.code === current)?.label}
-        </span>
+        <span className="hidden sm:inline">{locales.find((l) => l.code === current)?.label}</span>
         <ChevronDown
           className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           aria-hidden="true"

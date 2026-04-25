@@ -13,11 +13,7 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   experimental: {
-    optimizePackageImports: [
-      "lucide-react",
-      "framer-motion",
-      "@radix-ui/react-accordion",
-    ],
+    optimizePackageImports: ["lucide-react", "framer-motion", "@radix-ui/react-accordion"],
   },
   images: {
     formats: ["image/avif", "image/webp"],

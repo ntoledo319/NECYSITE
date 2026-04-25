@@ -34,6 +34,7 @@ Every AI agent working on this project must follow these governing documents.
 ## Escalation Triggers
 
 Stop and ask a human if you encounter:
+
 - Content that might identify an AA member
 - Promotional or superlative language
 - Implied affiliation with outside entities

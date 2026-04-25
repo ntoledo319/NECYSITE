@@ -67,20 +67,24 @@ describe("Stripe Webhook API", () => {
     const res = await POST(req)
     expect(res.status).toBe(200)
 
-    expect(mockPayloadFind).toHaveBeenCalledWith(expect.objectContaining({
-      collection: "registrations",
-      where: { stripeSessionId: { equals: "cs_test_123" } },
-    }))
+    expect(mockPayloadFind).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: "registrations",
+        where: { stripeSessionId: { equals: "cs_test_123" } },
+      }),
+    )
 
-    expect(mockPayloadUpdate).toHaveBeenCalledWith(expect.objectContaining({
-      collection: "registrations",
-      id: "reg_123",
-      data: {
-        status: "paid",
-        stripePaymentIntentId: "pi_test_123",
-        stripeCustomerId: "cus_test_123",
-      },
-    }))
+    expect(mockPayloadUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: "registrations",
+        id: "reg_123",
+        data: {
+          status: "paid",
+          stripePaymentIntentId: "pi_test_123",
+          stripeCustomerId: "cus_test_123",
+        },
+      }),
+    )
   })
 
   it("is idempotent - if no registration found, doesn't crash", async () => {

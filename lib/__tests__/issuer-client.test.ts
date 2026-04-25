@@ -111,9 +111,7 @@ describe("redeemRegistrationCode", () => {
   })
 
   it("returns SERVICE_ERROR on 500 response", async () => {
-    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
-      new Response("Internal Server Error", { status: 500 }),
-    )
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(new Response("Internal Server Error", { status: 500 }))
 
     const result = await redeemRegistrationCode(validRequest)
     expect(result.success).toBe(false)
@@ -135,10 +133,13 @@ describe("redeemRegistrationCode", () => {
 
   it("sends correct headers and body", async () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
-      new Response(JSON.stringify({ success: true, grantId: "g1", grantType: "cash_registration", redemptionId: "r1" }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }),
+      new Response(
+        JSON.stringify({ success: true, grantId: "g1", grantType: "cash_registration", redemptionId: "r1" }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        },
+      ),
     )
 
     await redeemRegistrationCode(validRequest)

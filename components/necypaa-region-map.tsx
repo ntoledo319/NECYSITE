@@ -150,11 +150,7 @@ const LABEL_OVERRIDES: Record<string, { x: number; y: number }> = {
   DC: { x: 798, y: 268 },
 }
 
-export default function NecypaaRegionMap({
-  activeState,
-  onStateSelect,
-  meetingCounts,
-}: NecypaaRegionMapProps) {
+export default function NecypaaRegionMap({ activeState, onStateSelect, meetingCounts }: NecypaaRegionMapProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null)
   const liveRegionId = useId()
   const rawFilterId = useId()
@@ -177,18 +173,12 @@ export default function NecypaaRegionMap({
       const isNE = region === "new-england"
 
       if (isActive) {
-        return isNE
-          ? "rgba(var(--nec-cyan-rgb),0.40)"
-          : "rgba(var(--nec-purple-rgb),0.40)"
+        return isNE ? "rgba(var(--nec-cyan-rgb),0.40)" : "rgba(var(--nec-purple-rgb),0.40)"
       }
       if (isHovered) {
-        return isNE
-          ? "rgba(var(--nec-cyan-rgb),0.22)"
-          : "rgba(var(--nec-purple-rgb),0.22)"
+        return isNE ? "rgba(var(--nec-cyan-rgb),0.22)" : "rgba(var(--nec-purple-rgb),0.22)"
       }
-      return isNE
-        ? "rgba(var(--nec-cyan-rgb),0.07)"
-        : "rgba(var(--nec-purple-rgb),0.07)"
+      return isNE ? "rgba(var(--nec-cyan-rgb),0.07)" : "rgba(var(--nec-purple-rgb),0.07)"
     },
     [activeState, hoveredState],
   )
@@ -200,37 +190,23 @@ export default function NecypaaRegionMap({
       const isNE = region === "new-england"
 
       if (isActive) {
-        return isNE
-          ? "rgba(var(--nec-cyan-rgb),0.85)"
-          : "rgba(var(--nec-purple-rgb),0.85)"
+        return isNE ? "rgba(var(--nec-cyan-rgb),0.85)" : "rgba(var(--nec-purple-rgb),0.85)"
       }
       if (isHovered) {
-        return isNE
-          ? "rgba(var(--nec-cyan-rgb),0.50)"
-          : "rgba(var(--nec-purple-rgb),0.50)"
+        return isNE ? "rgba(var(--nec-cyan-rgb),0.50)" : "rgba(var(--nec-purple-rgb),0.50)"
       }
       return "rgba(var(--nec-purple-rgb),0.25)"
     },
     [activeState, hoveredState],
   )
 
-  const activeStateName = useMemo(
-    () => STATE_SHAPES.find((s) => s.abbreviation === activeState)?.name,
-    [activeState],
-  )
+  const activeStateName = useMemo(() => STATE_SHAPES.find((s) => s.abbreviation === activeState)?.name, [activeState])
 
   return (
     <div className="necypaa-map-container relative">
       {/* Live region for screen reader announcements */}
-      <div
-        id={liveRegionId}
-        aria-live="polite"
-        aria-atomic="true"
-        className="sr-only"
-      >
-        {activeStateName
-          ? `${activeStateName} selected. Showing resources below.`
-          : ""}
+      <div id={liveRegionId} aria-live="polite" aria-atomic="true" className="sr-only">
+        {activeStateName ? `${activeStateName} selected. Showing resources below.` : ""}
       </div>
 
       <svg
@@ -238,7 +214,7 @@ export default function NecypaaRegionMap({
         xmlns="http://www.w3.org/2000/svg"
         role="group"
         aria-label="Interactive map of the NECYPAA region showing 12 states and Washington, D.C. Select a state to view its resources."
-        className="w-full h-auto max-h-[480px]"
+        className="h-auto max-h-[480px] w-full"
         style={{ touchAction: "manipulation" }}
       >
         <defs>
@@ -272,10 +248,7 @@ export default function NecypaaRegionMap({
             x: state.labelX,
             y: state.labelY,
           }
-          const isSmall =
-            state.abbreviation === "DC" ||
-            state.abbreviation === "RI" ||
-            state.abbreviation === "DE"
+          const isSmall = state.abbreviation === "DC" || state.abbreviation === "RI" || state.abbreviation === "DE"
 
           return (
             <g key={state.abbreviation}>
@@ -289,9 +262,7 @@ export default function NecypaaRegionMap({
                   strokeWidth: isActive ? 1.8 : isHovered ? 1.2 : 0.6,
                   cursor: "pointer",
                   transition: "fill 0.2s ease, stroke 0.2s ease, stroke-width 0.15s ease",
-                  filter: isActive
-                    ? `url(#${filterId}-active${state.region === "new-england" ? "-ne" : ""})`
-                    : "none",
+                  filter: isActive ? `url(#${filterId}-active${state.region === "new-england" ? "-ne" : ""})` : "none",
                 }}
                 role="button"
                 tabIndex={0}
@@ -326,12 +297,7 @@ export default function NecypaaRegionMap({
                 dominantBaseline="central"
                 className="pointer-events-none select-none"
                 style={{
-                  fill:
-                    isActive
-                      ? "#ffffff"
-                      : isHovered
-                        ? "rgba(255,255,255,0.85)"
-                        : "rgba(200,190,220,0.55)",
+                  fill: isActive ? "#ffffff" : isHovered ? "rgba(255,255,255,0.85)" : "rgba(200,190,220,0.55)",
                   fontSize: isSmall ? "5px" : "7px",
                   fontWeight: isActive ? 800 : 600,
                   fontFamily: "var(--font-heading), Outfit, sans-serif",
@@ -437,8 +403,7 @@ export default function NecypaaRegionMap({
           style={{ color: "var(--nec-muted)" }}
           aria-hidden="true"
         >
-          Selected:{" "}
-          <span className="text-[var(--nec-text)]">{activeStateName}</span>
+          Selected: <span className="text-[var(--nec-text)]">{activeStateName}</span>
         </div>
       )}
     </div>

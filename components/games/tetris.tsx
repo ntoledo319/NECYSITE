@@ -25,21 +25,53 @@ const ORANGE = "#f97316"
 const COLORS = [PURPLE, PINK, GOLD, CYAN, TEAL, ORANGE, "#ef4444"]
 
 const SLOGANS = [
-  "ODAAT", "LET GO", "EASY", "THINK", "LISTEN",
-  "TRUST", "HOW", "HALT", "HOPE", "FAITH",
-  "UNITY", "SERVICE", "RECOVERY", "COURAGE",
-  "ACCEPT", "CHANGE", "SUIT UP", "SHOW UP",
+  "ODAAT",
+  "LET GO",
+  "EASY",
+  "THINK",
+  "LISTEN",
+  "TRUST",
+  "HOW",
+  "HALT",
+  "HOPE",
+  "FAITH",
+  "UNITY",
+  "SERVICE",
+  "RECOVERY",
+  "COURAGE",
+  "ACCEPT",
+  "CHANGE",
+  "SUIT UP",
+  "SHOW UP",
 ]
 
 // Standard tetromino shapes
 const SHAPES = [
-  [[1, 1, 1, 1]],                   // I
-  [[1, 1], [1, 1]],                 // O
-  [[0, 1, 0], [1, 1, 1]],           // T
-  [[1, 0, 0], [1, 1, 1]],           // L
-  [[0, 0, 1], [1, 1, 1]],           // J
-  [[0, 1, 1], [1, 1, 0]],           // S
-  [[1, 1, 0], [0, 1, 1]],           // Z
+  [[1, 1, 1, 1]], // I
+  [
+    [1, 1],
+    [1, 1],
+  ], // O
+  [
+    [0, 1, 0],
+    [1, 1, 1],
+  ], // T
+  [
+    [1, 0, 0],
+    [1, 1, 1],
+  ], // L
+  [
+    [0, 0, 1],
+    [1, 1, 1],
+  ], // J
+  [
+    [0, 1, 1],
+    [1, 1, 0],
+  ], // S
+  [
+    [1, 1, 0],
+    [0, 1, 1],
+  ], // Z
 ]
 
 interface Piece {
@@ -74,7 +106,17 @@ function randomPiece(): Piece {
   }
 }
 
-function TouchButton({ label, ariaLabel, onAction, color = PURPLE }: { label: string; ariaLabel: string; onAction: () => void; color?: string }) {
+function TouchButton({
+  label,
+  ariaLabel,
+  onAction,
+  color = PURPLE,
+}: {
+  label: string
+  ariaLabel: string
+  onAction: () => void
+  color?: string
+}) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -115,13 +157,16 @@ function TouchButton({ label, ariaLabel, onAction, color = PURPLE }: { label: st
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); start() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        start()
+      }}
       onTouchEnd={stop}
       onTouchCancel={stop}
       onMouseDown={start}
       onMouseUp={stop}
       onMouseLeave={stop}
-      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-95 transition-transform"
+      className="flex select-none items-center justify-center rounded-xl text-lg font-bold transition-transform active:scale-95"
       style={{
         width: 52,
         height: 52,
@@ -284,11 +329,30 @@ export default function TetrisGame() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!g.running) return
       switch (e.key) {
-        case "ArrowLeft": case "a": e.preventDefault(); doAction("left"); break
-        case "ArrowRight": case "d": e.preventDefault(); doAction("right"); break
-        case "ArrowDown": case "s": e.preventDefault(); doAction("down"); break
-        case "ArrowUp": case "w": e.preventDefault(); doAction("rotate"); break
-        case " ": e.preventDefault(); doAction("drop"); break
+        case "ArrowLeft":
+        case "a":
+          e.preventDefault()
+          doAction("left")
+          break
+        case "ArrowRight":
+        case "d":
+          e.preventDefault()
+          doAction("right")
+          break
+        case "ArrowDown":
+        case "s":
+          e.preventDefault()
+          doAction("down")
+          break
+        case "ArrowUp":
+        case "w":
+          e.preventDefault()
+          doAction("rotate")
+          break
+        case " ":
+          e.preventDefault()
+          doAction("drop")
+          break
       }
     }
 
@@ -415,13 +479,15 @@ export default function TetrisGame() {
           aria-label="Tetris game. Arrow keys to move and rotate. Space to hard drop. Build your recovery program one block at a time."
         />
         {gameOver && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
-            <p className="text-2xl font-black mb-1" style={{ color: PINK }}>GAME OVER</p>
-            <p className="text-sm text-[var(--nec-muted)] mb-1">
-              &ldquo;Progress, not perfection.&rdquo;
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/70">
+            <p className="mb-1 text-2xl font-black" style={{ color: PINK }}>
+              GAME OVER
             </p>
-            <p className="text-lg font-bold text-white mb-1">Score: {score}</p>
-            <p className="text-sm mb-4" style={{ color: CYAN }}>Lines: {lines}</p>
+            <p className="mb-1 text-sm text-[var(--nec-muted)]">&ldquo;Progress, not perfection.&rdquo;</p>
+            <p className="mb-1 text-lg font-bold text-white">Score: {score}</p>
+            <p className="mb-4 text-sm" style={{ color: CYAN }}>
+              Lines: {lines}
+            </p>
             <button onClick={resetGame} className="btn-primary text-sm" type="button">
               Keep Coming Back
             </button>
@@ -436,8 +502,10 @@ export default function TetrisGame() {
         <TouchButton label="→" ariaLabel="Move right" onAction={() => handleAction("right")} />
         <TouchButton label="⏬" ariaLabel="Hard drop" onAction={() => handleAction("drop")} color={PINK} />
       </div>
-      <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        <span className="hidden md:inline">Build your program one block at a time. ← → move, ↑ rotate, ↓ soft drop, Space hard drop.</span>
+      <p className="max-w-xs text-center text-xs" style={{ color: "var(--nec-muted)" }}>
+        <span className="hidden md:inline">
+          Build your program one block at a time. ← → move, ↑ rotate, ↓ soft drop, Space hard drop.
+        </span>
         <span className="md:hidden">Tap the buttons below to play. Build your program one block at a time.</span>
       </p>
     </div>

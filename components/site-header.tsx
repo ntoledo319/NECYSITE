@@ -86,18 +86,21 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
   }, [])
 
   // Keyboard: Escape closes, ArrowDown opens
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "Escape") {
-      setOpen(false)
-      // Return focus to the trigger button
-      const button = containerRef.current?.querySelector("button")
-      button?.focus()
-    }
-    if (e.key === "ArrowDown" && !open) {
-      e.preventDefault()
-      setOpen(true)
-    }
-  }, [open])
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false)
+        // Return focus to the trigger button
+        const button = containerRef.current?.querySelector("button")
+        button?.focus()
+      }
+      if (e.key === "ArrowDown" && !open) {
+        e.preventDefault()
+        setOpen(true)
+      }
+    },
+    [open],
+  )
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- hover/focus/keyboard handlers delegate to the interactive button and menu items within
@@ -110,23 +113,21 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
       onKeyDown={handleKeyDown}
     >
       <button
-        className="px-3 py-2 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-xl
-                   hover:bg-[rgba(var(--nec-purple-rgb),0.04)] transition-all duration-150 tracking-[0.01em]
-                   inline-flex items-center gap-1 nec-nav-link"
+        className="nec-nav-link inline-flex items-center gap-1 rounded-xl px-3 py-2 text-sm font-medium tracking-[0.01em] text-[var(--nec-muted)] transition-all duration-150 hover:bg-[rgba(var(--nec-purple-rgb),0.04)] hover:text-[var(--nec-text)]"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="true"
       >
         {item.label}
         <ChevronDown
-          className={`w-3.5 h-3.5 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
           aria-hidden="true"
         />
       </button>
       <AnimatePresence>
         {open && (
           <motion.div
-            className="absolute top-full left-0 -mt-1 pt-3 min-w-[200px] z-50"
+            className="absolute left-0 top-full z-50 -mt-1 min-w-[200px] pt-3"
             initial={{ opacity: 0, y: -4, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.97 }}
@@ -134,42 +135,42 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
           >
             <div
               role="menu"
-              className="rounded-xl py-2 nec-dropdown-panel"
+              className="nec-dropdown-panel rounded-xl py-2"
               style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
             >
-          {item.children.map((child) =>
-            child.external ? (
-              <a
-                key={child.label}
-                href={child.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                role="menuitem"
-                tabIndex={open ? 0 : -1}
-                onClick={() => setOpen(false)}
-                className="block px-4 py-2.5 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
-              >
-                {child.label}
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
-            ) : (
-              <Link
-                key={child.label}
-                href={child.href}
-                role="menuitem"
-                tabIndex={open ? 0 : -1}
-                onClick={() => setOpen(false)}
-                className={`block px-4 py-2 text-sm transition-colors ${
-                  isActivePath(pathname, child.href)
-                    ? "text-[var(--nec-text)] nec-nav-active font-semibold"
-                    : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
-                }`}
-                {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
-              >
-                {child.label}
-              </Link>
-            )
-          )}
+              {item.children.map((child) =>
+                child.external ? (
+                  <a
+                    key={child.label}
+                    href={child.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    role="menuitem"
+                    tabIndex={open ? 0 : -1}
+                    onClick={() => setOpen(false)}
+                    className="nec-nav-hover block px-4 py-2.5 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+                  >
+                    {child.label}
+                    <span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                ) : (
+                  <Link
+                    key={child.label}
+                    href={child.href}
+                    role="menuitem"
+                    tabIndex={open ? 0 : -1}
+                    onClick={() => setOpen(false)}
+                    className={`block px-4 py-2 text-sm transition-colors ${
+                      isActivePath(pathname, child.href)
+                        ? "nec-nav-active font-semibold text-[var(--nec-text)]"
+                        : "nec-nav-hover text-[var(--nec-muted)] hover:text-[var(--nec-text)]"
+                    }`}
+                    {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
+                  >
+                    {child.label}
+                  </Link>
+                ),
+              )}
             </div>
           </motion.div>
         )}
@@ -178,36 +179,26 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
   )
 }
 
-function MobileDropdown({
-  item,
-  onClose,
-  pathname,
-}: {
-  item: NavDropdown
-  onClose: () => void
-  pathname: string
-}) {
+function MobileDropdown({ item, onClose, pathname }: { item: NavDropdown; onClose: () => void; pathname: string }) {
   const [open, setOpen] = useState(false)
 
   return (
     <div>
       <button
-        className="w-full px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-[var(--nec-text)]
-                   nec-nav-hover rounded-xl transition-all tracking-[0.01em]
-                   flex items-center justify-between"
+        className="nec-nav-hover flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] text-[var(--nec-text)] transition-all hover:text-[var(--nec-text)]"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
       >
         {item.label}
         <ChevronDown
-          className={`w-4 h-4 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
           aria-hidden="true"
         />
       </button>
       <div
         className={`overflow-hidden transition-all duration-200 ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
       >
-        <div className="pl-4 space-y-0.5 pb-1">
+        <div className="space-y-0.5 pb-1 pl-4">
           {item.children.map((child) =>
             child.external ? (
               <a
@@ -216,8 +207,7 @@ function MobileDropdown({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
-                className="block px-4 py-2.5 text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)]
-                           nec-nav-hover rounded-lg transition-colors"
+                className="nec-nav-hover block rounded-lg px-4 py-2.5 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
               >
                 {child.label}
                 <span className="sr-only"> (opens in new tab)</span>
@@ -227,17 +217,17 @@ function MobileDropdown({
                 key={child.label}
                 href={child.href}
                 onClick={onClose}
-                className={`block px-4 py-2.5 text-sm rounded-lg transition-colors ${
+                className={`block rounded-lg px-4 py-2.5 text-sm transition-colors ${
                   isActivePath(pathname, child.href)
-                    ? "text-[var(--nec-text)] nec-nav-active font-semibold border-l-2"
-                    : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
+                    ? "nec-nav-active border-l-2 font-semibold text-[var(--nec-text)]"
+                    : "nec-nav-hover text-[var(--nec-muted)] hover:text-[var(--nec-text)]"
                 }`}
                 style={isActivePath(pathname, child.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
                 {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
               >
                 {child.label}
               </Link>
-            )
+            ),
           )}
         </div>
       </div>
@@ -282,14 +272,10 @@ export default function SiteHeader() {
       <motion.header
         role="banner"
         aria-label="Site header"
-        className="fixed top-0 left-0 right-0 z-50 nec-header"
+        className="nec-header fixed left-0 right-0 top-0 z-50"
         animate={{
-          borderBottomColor: scrolled
-            ? "var(--nec-border)"
-            : "transparent",
-          boxShadow: scrolled
-            ? "0 2px 16px rgba(0,0,0,0.06)"
-            : "0 0 0 rgba(0,0,0,0)",
+          borderBottomColor: scrolled ? "var(--nec-border)" : "transparent",
+          boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.06)" : "0 0 0 rgba(0,0,0,0)",
         }}
         transition={shouldReduce ? { duration: 0 } : { duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
         style={{
@@ -300,35 +286,28 @@ export default function SiteHeader() {
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-[4.5rem]">
+          <div className="flex h-[4.5rem] items-center justify-between">
             {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center gap-3 group"
-              onClick={close}
-            >
+            <Link href="/" className="group flex items-center gap-3" onClick={close}>
               <Image
                 src="/images/necypaa-xxxvi-badge.webp"
                 alt="NECYPAA XXXVI — Escaping the Mad Realm"
                 width={200}
                 height={100}
                 sizes="200px"
-                className="h-11 w-auto group-hover:opacity-90 transition-opacity"
+                className="h-11 w-auto transition-opacity group-hover:opacity-90"
                 priority
               />
               <div className="min-w-0">
-                <p className="hidden sm:block text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">Hartford, Connecticut</p>
-                <p className="truncate text-sm font-semibold tracking-[0.01em] text-[var(--nec-text)]">
-                  NECYPAA XXXVI
+                <p className="hidden text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)] sm:block">
+                  Hartford, Connecticut
                 </p>
+                <p className="truncate text-sm font-semibold tracking-[0.01em] text-[var(--nec-text)]">NECYPAA XXXVI</p>
               </div>
             </Link>
 
             {/* Desktop nav */}
-            <nav
-              aria-label="Main navigation"
-              className="hidden md:flex items-center gap-0.5"
-            >
+            <nav aria-label="Main navigation" className="hidden items-center gap-0.5 md:flex">
               {navItems.map((item) =>
                 isDropdown(item) ? (
                   <DesktopDropdown key={item.label} item={item} pathname={pathname} />
@@ -338,8 +317,7 @@ export default function SiteHeader() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-2 text-sm font-medium text-[var(--nec-muted)] hover:text-[var(--nec-text)] rounded-xl
-                               nec-nav-hover transition-all duration-150 tracking-[0.01em]"
+                    className="nec-nav-hover rounded-xl px-3 py-2 text-sm font-medium tracking-[0.01em] text-[var(--nec-muted)] transition-all duration-150 hover:text-[var(--nec-text)]"
                   >
                     {item.label}
                     <span className="sr-only"> (opens in new tab)</span>
@@ -348,36 +326,32 @@ export default function SiteHeader() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={`px-3 py-2 text-sm font-medium rounded-xl
-                               transition-all duration-150 tracking-[0.01em] ${
-                               isActivePath(pathname, item.href)
-                                 ? "text-[var(--nec-text)] nec-nav-active"
-                                 : "text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover"
-                               }`}
+                    className={`rounded-xl px-3 py-2 text-sm font-medium tracking-[0.01em] transition-all duration-150 ${
+                      isActivePath(pathname, item.href)
+                        ? "nec-nav-active text-[var(--nec-text)]"
+                        : "nec-nav-hover text-[var(--nec-muted)] hover:text-[var(--nec-text)]"
+                    }`}
                     {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}
                   >
                     {item.label}
                   </Link>
-                )
+                ),
               )}
-              <Link
-                href="/register"
-                className="btn-primary ml-3 !min-h-[2.85rem] !px-5 !py-2 !text-sm"
-              >
+              <Link href="/register" className="btn-primary ml-3 !min-h-[2.85rem] !px-5 !py-2 !text-sm">
                 Register
               </Link>
             </nav>
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 rounded-xl text-[var(--nec-muted)] hover:text-[var(--nec-text)] nec-nav-hover transition-colors"
+              className="nec-nav-hover rounded-xl p-2 text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)] md:hidden"
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
               {menuOpen ? (
-                <X className="w-6 h-6" aria-hidden="true" />
+                <X className="h-6 w-6" aria-hidden="true" />
               ) : (
-                <Menu className="w-6 h-6" aria-hidden="true" />
+                <Menu className="h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -405,7 +379,7 @@ export default function SiteHeader() {
           <motion.nav
             ref={drawerRef}
             aria-label="Mobile navigation"
-            className="fixed left-0 right-0 z-50 md:hidden flex flex-col gap-1 overflow-y-auto p-4 nec-mobile-drawer"
+            className="nec-mobile-drawer fixed left-0 right-0 z-50 flex flex-col gap-1 overflow-y-auto p-4 md:hidden"
             style={{
               top: "calc(4.5rem + env(safe-area-inset-top, 0px))",
               maxHeight: "calc(100dvh - 4.5rem - env(safe-area-inset-top, 0px))",
@@ -418,58 +392,53 @@ export default function SiteHeader() {
             transition={shouldReduce ? { duration: 0 } : SPRING_SNAPPY}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
-        {navItems.map((item) =>
-          isDropdown(item) ? (
-            <MobileDropdown key={item.label} item={item} onClose={close} pathname={pathname} />
-          ) : item.external ? (
-            <a
-              key={item.label}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={close}
-              className="px-4 py-3 text-base font-semibold text-[var(--nec-text)] hover:text-[var(--nec-text)]
-                         nec-nav-hover rounded-xl transition-all tracking-[0.01em]"
-            >
-              {item.label}
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
-          ) : (
-            <Link
-              key={item.label}
-              href={item.href}
-              onClick={close}
-              className={`px-4 py-3 text-base font-semibold rounded-xl transition-all tracking-[0.01em] ${
-                isActivePath(pathname, item.href)
-                  ? "text-[var(--nec-text)] nec-nav-active border-l-2"
-                  : "text-[var(--nec-text)] hover:text-[var(--nec-text)] nec-nav-hover"
-              }`}
-              style={isActivePath(pathname, item.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
-              {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}
-            >
-              {item.label}
-            </Link>
-          )
-        )}
-        <div className="pt-2 border-t border-[var(--nec-border)] mt-1 space-y-2">
-          <Link
-            href="/register"
-            onClick={close}
-            className="btn-primary w-full !justify-center"
-          >
-            Register
-          </Link>
-          <a
-            href={HOTEL_BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={close}
-            className="btn-secondary w-full !justify-center"
-          >
-            Book Hotel
-            <span className="sr-only"> (opens in new tab)</span>
-          </a>
-        </div>
+            {navItems.map((item) =>
+              isDropdown(item) ? (
+                <MobileDropdown key={item.label} item={item} onClose={close} pathname={pathname} />
+              ) : item.external ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={close}
+                  className="nec-nav-hover rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] text-[var(--nec-text)] transition-all hover:text-[var(--nec-text)]"
+                >
+                  {item.label}
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={close}
+                  className={`rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] transition-all ${
+                    isActivePath(pathname, item.href)
+                      ? "nec-nav-active border-l-2 text-[var(--nec-text)]"
+                      : "nec-nav-hover text-[var(--nec-text)] hover:text-[var(--nec-text)]"
+                  }`}
+                  style={isActivePath(pathname, item.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
+                  {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
+            <div className="mt-1 space-y-2 border-t border-[var(--nec-border)] pt-2">
+              <Link href="/register" onClick={close} className="btn-primary w-full !justify-center">
+                Register
+              </Link>
+              <a
+                href={HOTEL_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={close}
+                className="btn-secondary w-full !justify-center"
+              >
+                Book Hotel
+                <span className="sr-only"> (opens in new tab)</span>
+              </a>
+            </div>
           </motion.nav>
         )}
       </AnimatePresence>

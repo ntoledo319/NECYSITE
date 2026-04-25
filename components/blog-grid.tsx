@@ -13,10 +13,7 @@ interface BlogGridProps {
 
 export default function BlogGrid({ posts }: BlogGridProps) {
   const [visibleCount, setVisibleCount] = useState(6)
-  const sorted = [...posts].sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  )
+  const sorted = [...posts].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
   const visible = sorted.slice(0, visibleCount)
   const hasMore = visibleCount < sorted.length
   const shouldReduce = useReducedMotion()
@@ -24,19 +21,12 @@ export default function BlogGrid({ posts }: BlogGridProps) {
   return (
     <section aria-label="Blog posts">
       <div className="mx-auto mb-8 flex max-w-6xl items-center gap-3">
-        <Newspaper
-          className="w-5 h-5 flex-shrink-0"
-          style={{ color: "var(--nec-purple)" }}
-          aria-hidden="true"
-        />
-        <p
-          className="text-sm font-semibold uppercase tracking-widest"
-          style={{ color: "var(--nec-muted)" }}
-        >
+        <Newspaper className="h-5 w-5 flex-shrink-0" style={{ color: "var(--nec-purple)" }} aria-hidden="true" />
+        <p className="text-sm font-semibold uppercase tracking-widest" style={{ color: "var(--nec-muted)" }}>
           {sorted.length} {sorted.length === 1 ? "Post" : "Posts"}
         </p>
         <div
-          className="flex-1 h-[1px]"
+          className="h-[1px] flex-1"
           aria-hidden="true"
           style={{ background: "linear-gradient(90deg, var(--nec-border), transparent)" }}
         />
@@ -61,23 +51,16 @@ export default function BlogGrid({ posts }: BlogGridProps) {
       </motion.div>
 
       {hasMore && (
-        <div className="text-center mt-12">
-          <button
-            type="button"
-            onClick={() => setVisibleCount((count) => count + 6)}
-            className="btn-ghost"
-          >
+        <div className="mt-12 text-center">
+          <button type="button" onClick={() => setVisibleCount((count) => count + 6)} className="btn-ghost">
             Load More Posts
           </button>
         </div>
       )}
 
       {sorted.length === 0 && (
-        <div className="text-center py-20">
-          <p
-            className="text-lg font-semibold"
-            style={{ color: "var(--nec-muted)" }}
-          >
+        <div className="py-20 text-center">
+          <p className="text-lg font-semibold" style={{ color: "var(--nec-muted)" }}>
             No posts yet — check back soon.
           </p>
         </div>

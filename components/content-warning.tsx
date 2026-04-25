@@ -26,14 +26,14 @@ export default function ContentWarning({ warning, children }: ContentWarningProp
         aria-expanded={revealed}
         aria-controls={panelId}
       >
-        <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} />
+        <AlertTriangle className="h-4 w-4 flex-shrink-0" style={{ color: "var(--nec-pink)" }} />
         <span className="flex-1 text-sm font-medium" style={{ color: "var(--nec-muted)" }}>
           Content warning: {warning}
         </span>
         {revealed ? (
-          <ChevronUp className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-muted)" }} />
+          <ChevronUp className="h-4 w-4 flex-shrink-0" style={{ color: "var(--nec-muted)" }} />
         ) : (
-          <ChevronDown className="w-4 h-4 flex-shrink-0" style={{ color: "var(--nec-muted)" }} />
+          <ChevronDown className="h-4 w-4 flex-shrink-0" style={{ color: "var(--nec-muted)" }} />
         )}
       </button>
       {revealed && (

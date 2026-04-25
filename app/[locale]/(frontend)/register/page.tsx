@@ -82,9 +82,12 @@ export default function RegisterPage() {
   const activeStepMeta = STEP_COPY[currentStep]
 
   return (
-    <div className="relative min-h-screen min-h-screen-safe bg-[var(--nec-navy)]">
+    <div className="min-h-screen-safe relative min-h-screen bg-[var(--nec-navy)]">
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="key" />
-      <div className="absolute left-1/2 top-20 z-0 hidden h-[32rem] w-[26rem] -translate-x-1/2 opacity-[0.05] lg:block" aria-hidden="true">
+      <div
+        className="absolute left-1/2 top-20 z-0 hidden h-[32rem] w-[26rem] -translate-x-1/2 opacity-[0.05] lg:block"
+        aria-hidden="true"
+      >
         <Image
           src="/images/mad-hatter-portal.webp"
           alt=""
@@ -105,9 +108,12 @@ export default function RegisterPage() {
             <p className="page-enter-3 mt-4 text-lg leading-8 text-[var(--nec-muted)]">
               Secure your spot at NECYPAA XXXVI in Hartford. A few quick steps and you&apos;re in.
             </p>
-            <p className="page-enter-4 mt-5 max-w-xl text-base italic leading-7 text-[var(--nec-muted)]" style={{ opacity: 0.85 }}>
-              &ldquo;You end up dancing even though &lsquo;you&rsquo;re not a dancer&rsquo; and the
-              two hours goes by as if it was 30 minutes.&rdquo;
+            <p
+              className="page-enter-4 mt-5 max-w-xl text-base italic leading-7 text-[var(--nec-muted)]"
+              style={{ opacity: 0.85 }}
+            >
+              &ldquo;You end up dancing even though &lsquo;you&rsquo;re not a dancer&rsquo; and the two hours goes by as
+              if it was 30 minutes.&rdquo;
             </p>
           </header>
 
@@ -118,7 +124,9 @@ export default function RegisterPage() {
                 <ol className="mt-5 space-y-4" aria-label="Registration steps">
                   {steps.map((step) => {
                     const active = currentStep === step.key
-                    const completed = steps.findIndex((item) => item.key === currentStep) > steps.findIndex((item) => item.key === step.key)
+                    const completed =
+                      steps.findIndex((item) => item.key === currentStep) >
+                      steps.findIndex((item) => item.key === step.key)
 
                     return (
                       <li key={step.key} className="flex items-start gap-4">
@@ -155,8 +163,7 @@ export default function RegisterPage() {
                   Hartford Marriott Downtown
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
-                  Book the host hotel early and keep the whole weekend within walking distance of the
-                  convention.
+                  Book the host hotel early and keep the whole weekend within walking distance of the convention.
                 </p>
                 <a href={HOTEL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary mt-5">
                   Book Hotel
@@ -167,9 +174,11 @@ export default function RegisterPage() {
               <div className="rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] p-6">
                 <p className="form-section-label">Need Help?</p>
                 <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
-                  Questions about registration, accessibility, or scholarship purchases can go straight
-                  to{" "}
-                  <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-[var(--nec-text)] underline underline-offset-4">
+                  Questions about registration, accessibility, or scholarship purchases can go straight to{" "}
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="font-semibold text-[var(--nec-text)] underline underline-offset-4"
+                  >
                     {CONTACT_EMAIL}
                   </a>
                   .
@@ -196,61 +205,61 @@ export default function RegisterPage() {
                 />
               </div>
               <div className="p-6 md:p-8 lg:p-10">
-              <div className="mb-8 border-b border-[rgba(var(--nec-purple-rgb),0.10)] pb-6">
-                <p className="form-section-label">{activeStepMeta.eyebrow}</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                  {activeStepMeta.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--nec-muted)]">
-                  {activeStepMeta.description}
-                </p>
-              </div>
+                <div className="mb-8 border-b border-[rgba(var(--nec-purple-rgb),0.10)] pb-6">
+                  <p className="form-section-label">{activeStepMeta.eyebrow}</p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
+                    {activeStepMeta.title}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--nec-muted)]">
+                    {activeStepMeta.description}
+                  </p>
+                </div>
 
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={currentStep}
-                  initial={shouldReduce ? false : { opacity: 0, x: directionRef.current * 40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: directionRef.current * -40 }}
-                  transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-                >
-                  {currentStep === "info" && <RegistrationForm onComplete={handleInfoComplete} enableScholarship />}
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={currentStep}
+                    initial={shouldReduce ? false : { opacity: 0, x: directionRef.current * 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: directionRef.current * -40 }}
+                    transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+                  >
+                    {currentStep === "info" && <RegistrationForm onComplete={handleInfoComplete} enableScholarship />}
 
-                  {currentStep === "policy" && (
-                    <PolicyAgreement
-                      onComplete={handlePolicyComplete}
-                      onBack={() => {
-                        directionRef.current = -1
-                        setCurrentStep("info")
-                      }}
-                    />
-                  )}
-
-                  {currentStep === "payment" && registrationData && (
-                    <ErrorBoundary
-                      fallback={
-                        <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.20)] bg-[rgba(var(--nec-card-rgb),0.90)] p-6 text-center">
-                          <p className="text-[var(--nec-text)] font-semibold mb-2">
-                            We had trouble loading the payment form.
-                          </p>
-                          <p className="text-sm text-[var(--nec-muted)]">
-                            Please refresh the page or try again in a moment.
-                          </p>
-                        </div>
-                      }
-                    >
-                      <RegistrationCheckout
-                        registrationData={registrationData}
-                        policyAgreements={policyAgreements}
+                    {currentStep === "policy" && (
+                      <PolicyAgreement
+                        onComplete={handlePolicyComplete}
                         onBack={() => {
                           directionRef.current = -1
-                          setCurrentStep(isScholarshipFlow ? "info" : "policy")
+                          setCurrentStep("info")
                         }}
                       />
-                    </ErrorBoundary>
-                  )}
-                </motion.div>
-              </AnimatePresence>
+                    )}
+
+                    {currentStep === "payment" && registrationData && (
+                      <ErrorBoundary
+                        fallback={
+                          <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.20)] bg-[rgba(var(--nec-card-rgb),0.90)] p-6 text-center">
+                            <p className="mb-2 font-semibold text-[var(--nec-text)]">
+                              We had trouble loading the payment form.
+                            </p>
+                            <p className="text-sm text-[var(--nec-muted)]">
+                              Please refresh the page or try again in a moment.
+                            </p>
+                          </div>
+                        }
+                      >
+                        <RegistrationCheckout
+                          registrationData={registrationData}
+                          policyAgreements={policyAgreements}
+                          onBack={() => {
+                            directionRef.current = -1
+                            setCurrentStep(isScholarshipFlow ? "info" : "policy")
+                          }}
+                        />
+                      </ErrorBoundary>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </section>
           </div>

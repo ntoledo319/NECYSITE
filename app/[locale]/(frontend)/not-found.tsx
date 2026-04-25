@@ -13,13 +13,13 @@ export default function NotFound() {
 
   return (
     <div
-      className="min-h-[80vh] flex flex-col justify-center px-4 py-16 relative overflow-hidden"
+      className="relative flex min-h-[80vh] flex-col justify-center overflow-hidden px-4 py-16"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="cheshire-cat" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="gear" />
 
       <motion.div
-        className="relative z-10 max-w-5xl mx-auto w-full"
+        className="relative z-10 mx-auto w-full max-w-5xl"
         initial={shouldReduce ? false : { opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
@@ -31,7 +31,7 @@ export default function NotFound() {
               <div className="absolute right-8 top-8 h-12 w-20 rounded-[1rem] border border-[rgba(var(--nec-gold-rgb),0.14)]" />
             </div>
 
-            <div className="relative flex items-center justify-center overflow-hidden rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-6 min-h-[22rem]">
+            <div className="relative flex min-h-[22rem] items-center justify-center overflow-hidden rounded-[1.4rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-6">
               <div
                 className="absolute h-56 w-56 rounded-full opacity-[0.12]"
                 aria-hidden="true"
@@ -45,37 +45,29 @@ export default function NotFound() {
                 alt=""
                 width={220}
                 height={220}
-                className="relative z-10 w-40 h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_4px_30px_rgba(var(--nec-purple-rgb),0.25)]"
+                className="relative z-10 h-40 w-40 object-contain drop-shadow-[0_4px_30px_rgba(var(--nec-purple-rgb),0.25)] md:h-48 md:w-48"
                 aria-hidden="true"
               />
             </div>
           </div>
 
           <div className="max-w-xl">
-            <span className="section-badge mb-4 inline-block">
-              404
-            </span>
+            <span className="section-badge mb-4 inline-block">404</span>
 
-            <h1 className="text-3xl md:text-5xl font-black text-[var(--nec-text)] mb-3 nec-heading-shadow">
+            <h1 className="nec-heading-shadow mb-3 text-3xl font-black text-[var(--nec-text)] md:text-5xl">
               Lost in the Mad Realm
             </h1>
 
-            <p className="text-base md:text-lg leading-relaxed mb-6 text-[var(--nec-muted)]">
-              This page doesn&apos;t exist — or perhaps the Cheshire Cat hid it.
-              Either way, let&apos;s get you back to familiar ground.
+            <p className="mb-6 text-base leading-relaxed text-[var(--nec-muted)] md:text-lg">
+              This page doesn&apos;t exist — or perhaps the Cheshire Cat hid it. Either way, let&apos;s get you back to
+              familiar ground.
             </p>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap mb-8">
-              <Link
-                href="/"
-                className="btn-primary"
-              >
+            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/" className="btn-primary">
                 Back to the Portal
               </Link>
-              <Link
-                href="/register"
-                className="btn-ghost"
-              >
+              <Link href="/register" className="btn-ghost">
                 Register
               </Link>
             </div>
@@ -96,9 +88,9 @@ export default function NotFound() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors inline-flex items-center gap-1"
+                        className="inline-flex items-center gap-1 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                       >
-                        <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                        <ArrowRight className="h-3 w-3" aria-hidden="true" />
                         {link.label}
                       </Link>
                     </li>
@@ -107,9 +99,9 @@ export default function NotFound() {
               </nav>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="inline-flex items-center gap-1.5 text-xs text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors mt-2"
+                className="mt-2 inline-flex items-center gap-1.5 text-xs text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
               >
-                <Mail className="w-3 h-3" aria-hidden="true" />
+                <Mail className="h-3 w-3" aria-hidden="true" />
                 Still stuck? Reach out — {CONTACT_EMAIL}
               </a>
             </div>
