@@ -86,6 +86,7 @@ The site handles event information, online registration with Stripe payments, an
 | Collection | Purpose | Key Fields |
 |-----------|---------|-----------|
 | **Users** | CMS admin auth | email, password, name, role (admin/editor) |
+| **Registrations** | First-party order record | email, name, status, type, stripeSessionId, amountTotalCents |
 | **Events** | Convention events | title, date, location, description, schedule[], details[], flyer (Media) |
 | **BlogPosts** | Blog articles | title, slug (unique), category, excerpt, body (richText/Lexical), featuredImage, publishedAt, status (draft/published), Spanish translations |
 | **FAQ** | Frequently asked questions | question, answer (richText), category, sortOrder, Spanish translations |

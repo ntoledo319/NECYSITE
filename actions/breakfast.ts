@@ -84,6 +84,26 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
       throw new Error("We had trouble connecting to our payment system. Please try again in a moment.")
     }
 
+    const payload = await getPayload({ config: configPromise })
+    await payload.create({
+      collection: "registrations",
+      data: {
+        email: validatedAttendee.email || "",
+        name: `${validatedAttendee.firstName} ${validatedAttendee.lastName}`.trim() || "Not provided",
+        state: "",
+        status: "pending",
+        type: "breakfast_only",
+        stripeSessionId: session.id,
+        amountTotalCents: subtotalInCents + processingFee,
+        metadata: metadata,
+        accommodations: "None",
+        interpretationNeeded: false,
+        mobilityAccessibility: false,
+        willingToServe: false,
+        homegroup: "",
+      },
+    })
+
     return session.client_secret
   } catch (error) {
     console.error("Breakfast checkout session creation failed:", error)

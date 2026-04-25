@@ -1,6 +1,8 @@
 "use server"
 
 import { createHash } from "node:crypto"
+import { getPayload } from "payload"
+import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
 import {
   BREAKFAST_PRODUCTS,
@@ -189,6 +191,32 @@ export async function startRegistrationCheckout(
     if (!session.client_secret) {
       throw new Error("We had trouble connecting to our payment system. Please try again in a moment.")
     }
+
+    const payload = await getPayload({ config: configPromise })
+    const recordType = selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
+      ? "self_plus_scholarship"
+      : validatedData.isScholarship
+        ? "scholarship"
+        : "self"
+
+    await payload.create({
+      collection: "registrations",
+      data: {
+        email: validatedData.email || "",
+        name: validatedData.name || "Not provided",
+        state: validatedData.state || "",
+        status: "pending",
+        type: recordType,
+        stripeSessionId: session.id,
+        amountTotalCents: subtotalInCents + processingFee,
+        metadata: metadata,
+        accommodations: validatedData.accommodations || "",
+        interpretationNeeded: validatedData.interpretationNeeded || false,
+        mobilityAccessibility: validatedData.mobilityAccessibility || false,
+        willingToServe: validatedData.willingToServe || false,
+        homegroup: validatedData.homegroup || "",
+      },
+    })
 
     return session.client_secret
   } catch (error) {

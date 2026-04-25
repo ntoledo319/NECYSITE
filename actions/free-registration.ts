@@ -1,5 +1,7 @@
 "use server"
 
+import { getPayload } from "payload"
+import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
 import { REGISTRATION_PRODUCTS, formatUsdFromCents } from "@/lib/registration-products"
 import { rateLimitFreeRegistration } from "@/lib/rate-limit"
@@ -93,6 +95,25 @@ export async function submitFreeRegistration(
         metadata,
       })
     }
+
+    const payload = await getPayload({ config: configPromise })
+    await payload.create({
+      collection: "registrations",
+      data: {
+        email: validatedData.email,
+        name: validatedData.name,
+        state: validatedData.state || "",
+        status: "cash",
+        type: validatedData.isScholarship ? "scholarship" : "self",
+        metadata: metadata,
+        accommodations: validatedData.accommodations || "",
+        interpretationNeeded: validatedData.interpretationNeeded || false,
+        mobilityAccessibility: validatedData.mobilityAccessibility || false,
+        willingToServe: validatedData.willingToServe || false,
+        homegroup: validatedData.homegroup || "",
+        amountTotalCents: scholarshipTotalCents || 0,
+      },
+    })
 
     return { success: true }
   } catch (error) {

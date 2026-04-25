@@ -9,6 +9,7 @@ import { Events } from "./collections/Events"
 import { Media } from "./collections/Media"
 import { BlogPosts } from "./collections/BlogPosts"
 import { FAQ } from "./collections/FAQ"
+import { Registrations } from "./collections/Registrations"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,7 +24,7 @@ export default buildConfig({
       titleSuffix: " — NECYPAA XXXVI CMS",
     },
   },
-  collections: [Users, Events, BlogPosts, FAQ, Media],
+  collections: [Users, Events, BlogPosts, FAQ, Media, Registrations],
   secret: process.env.PAYLOAD_SECRET ?? (() => { throw new Error("PAYLOAD_SECRET environment variable is required") })(),
   db: sqliteAdapter({
     client: {
