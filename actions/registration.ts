@@ -45,7 +45,7 @@ export async function startRegistrationCheckout(
   const validatedAttribution = purchaseAttributionSchema.parse(attribution)
   const validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
 
-  const rl = rateLimitCheckout(validatedData.email)
+  const rl = await rateLimitCheckout(validatedData.email)
   if (!rl.success) {
     throw new Error("Too many checkout attempts. Please wait a moment and try again.")
   }

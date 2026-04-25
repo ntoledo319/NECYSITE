@@ -140,6 +140,8 @@ The site handles event information, online registration with Stripe payments, an
 | `ISSUER_SERVICE_BASE_URL` | `lib/issuer-client.ts` | `https://issuer.example.com` |
 | `ISSUER_SERVICE_API_KEY` | `lib/issuer-client.ts` | Bearer token string |
 | `DATABASE_URI` | `payload.config.ts` | `file:./payload.db` (default) |
+| `UPSTASH_REDIS_REST_URL` | `lib/rate-limit.ts` | `https://...upstash.io` |
+| `UPSTASH_REDIS_REST_TOKEN` | `lib/rate-limit.ts` | `...` |
 
 ---
 

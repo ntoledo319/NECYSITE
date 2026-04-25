@@ -4,20 +4,14 @@ import "@testing-library/jest-dom/vitest"
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import RegistrationCheckout from "@/components/registration-checkout"
-import RegistrationConfirmation from "@/components/registration-confirmation"
 import type { PolicyAgreements, RegistrationData } from "@/lib/types"
 
-const { mockStartRegistrationCheckout, mockSubmitFreeRegistration } = vi.hoisted(() => ({
+const { mockStartRegistrationCheckout } = vi.hoisted(() => ({
   mockStartRegistrationCheckout: vi.fn(),
-  mockSubmitFreeRegistration: vi.fn(),
 }))
 
 vi.mock("@/actions/registration", () => ({
   startRegistrationCheckout: mockStartRegistrationCheckout,
-}))
-
-vi.mock("@/actions/free-registration", () => ({
-  submitFreeRegistration: mockSubmitFreeRegistration,
 }))
 
 vi.mock("@stripe/stripe-js", () => ({
@@ -88,7 +82,6 @@ describe("scholarship flow integration", () => {
     vi.clearAllMocks()
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_123"
     mockStartRegistrationCheckout.mockResolvedValue("cs_test_123")
-    mockSubmitFreeRegistration.mockResolvedValue({ success: true })
   })
 
   it("lets a standard registration add and remove scholarship pricing in the paid UI", async () => {
@@ -167,57 +160,6 @@ describe("scholarship flow integration", () => {
         [],
         { aaEntity: undefined, reservedForPerson: undefined },
         5550,
-      )
-    })
-  })
-
-  it("records default cash scholarship pricing without forcing a custom amount", async () => {
-    render(
-      <RegistrationConfirmation
-        registrationData={scholarshipRegistration}
-        policyAgreements={completePolicy}
-        onBack={() => {}}
-      />,
-    )
-
-    fireEvent.click(screen.getByRole("button", { name: "Save Cash Scholarship" }))
-
-    await waitFor(() => {
-      expect(mockSubmitFreeRegistration).toHaveBeenCalledWith(
-        scholarshipRegistration,
-        completePolicy,
-        1,
-        undefined,
-      )
-    })
-  })
-
-  it("records custom cash scholarship pricing and quantity", async () => {
-    render(
-      <RegistrationConfirmation
-        registrationData={scholarshipRegistration}
-        policyAgreements={completePolicy}
-        onBack={() => {}}
-      />,
-    )
-
-    fireEvent.click(screen.getByRole("button", { name: /use custom amount/i }))
-    fireEvent.change(screen.getByLabelText("Custom amount per scholarship"), {
-      target: { value: "60" },
-    })
-    fireEvent.blur(screen.getByLabelText("Custom amount per scholarship"))
-    fireEvent.click(screen.getByRole("button", { name: "Increase scholarship quantity" }))
-
-    expect(screen.getAllByText("$120.00").length).toBeGreaterThan(0)
-
-    fireEvent.click(screen.getByRole("button", { name: "Save Cash Scholarship" }))
-
-    await waitFor(() => {
-      expect(mockSubmitFreeRegistration).toHaveBeenCalledWith(
-        scholarshipRegistration,
-        completePolicy,
-        2,
-        6000,
       )
     })
   })

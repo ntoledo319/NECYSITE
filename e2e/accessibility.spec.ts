@@ -15,7 +15,6 @@ const PAGES_WITH_CONTENT = [
   { path: "/", name: "Homepage" },
   { path: "/register", name: "Registration" },
   { path: "/breakfast", name: "Breakfast Tickets" },
-  { path: "/cash", name: "Free Registration" },
   { path: "/faq", name: "FAQ" },
   { path: "/accessibility", name: "Accessibility" },
   { path: "/alanon", name: "Al-Anon" },

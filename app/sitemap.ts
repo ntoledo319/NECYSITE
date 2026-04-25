@@ -20,7 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/prayer", priority: 0.4, changeFrequency: "monthly" as const },
     { path: "/asl", priority: 0.4, changeFrequency: "monthly" as const },
     { path: "/bid", priority: 0.4, changeFrequency: "monthly" as const },
-    { path: "/cash", priority: 0.5, changeFrequency: "monthly" as const },
   ]
 
   return routes.map((route) => ({

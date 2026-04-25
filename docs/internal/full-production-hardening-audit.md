@@ -34,10 +34,10 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - [ ] Add rate limiting for sensitive routes.
 
 ### Phase 3 — Production-safe rate limiting
-- [ ] Replace in-memory-only rate limiting with production-safe storage (e.g., Upstash Redis/Vercel KV) with local fallback.
-- [ ] Apply to registration, free/cash/access-code submit, contact/newsletter forms.
-- [ ] Add tests/checks.
-- [ ] Document env vars.
+- [x] Replace in-memory-only rate limiting with production-safe storage (e.g., Upstash Redis/Vercel KV) with local fallback.
+- [x] Apply to registration, free/cash/access-code submit, contact/newsletter forms.
+- [x] Add tests/checks.
+- [x] Document env vars.
 
 ### Phase 4 — Payload CMS hardening
 - [ ] Make access control explicit (public can read published, admin can edit).
@@ -121,8 +121,15 @@ This document tracks the phased hardening and professionalization of the NECYPAA
 - `hardening/full-production-audit-fix` branch created.
 - Audit document initialized.
 
-### [Date: Phase 1 Completed]
-- Created `Registrations` Payload CMS collection.
-- Updated `startRegistrationCheckout`, `submitAccessCodeRegistration`, `submitFreeRegistration`, and `startBreakfastCheckout` to insert initial records.
-- Implemented Stripe webhook at `app/api/webhooks/stripe/route.ts` to reconcile checkout completion.
+### [Date: Phase 2 Completed]
+- Removed `/cash` local route completely as the cash registration system was moved to a separate repository (`necypaa-ras`).
+- Cleaned up obsolete local tests, actions (`free-registration.ts`), and sitemap entries.
+- Validated that the remaining `submitAccessCodeRegistration` is protected by the external issuer service and properly rate-limited.
+ reconcile checkout completion.
+- Added Vitest tests for webhook logic.
+@upstash/redis` backed implementation in `lib/rate-limit.ts`.
+- Retained the in-memory method as a graceful fallback when Redis credentials aren't provided.
+- Refactored calling code to handle the asynchronous API.
+- Updated documentation with new `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` environment variables.
+ reconcile checkout completion.
 - Added Vitest tests for webhook logic.

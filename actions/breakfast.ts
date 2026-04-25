@@ -14,7 +14,7 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
   const validatedAttendee = attendeeResult.data
   const validatedIds = breakfastIdsSchema.parse(breakfastIds)
 
-  const rl = rateLimitCheckout(validatedAttendee.email)
+  const rl = await rateLimitCheckout(validatedAttendee.email)
   if (!rl.success) {
     throw new Error("Too many checkout attempts. Please wait a moment and try again.")
   }
