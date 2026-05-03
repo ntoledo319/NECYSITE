@@ -13,6 +13,7 @@ import AccessibilityPanel from "@/components/accessibility-panel"
 import MadRealmArtLayer from "@/components/art/mad-realm-art-layer"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { GoogleAnalytics, ScrollTracker } from "@/components/analytics"
 
 const GrainOverlayWrapper = dynamic(() => import("@/components/ui/grain-overlay-wrapper"))
 const PageTransition = dynamic(() => import("@/components/ui/page-transition"))
@@ -101,6 +102,7 @@ export default async function RootLayout({
       <head>
         <meta name="color-scheme" content="light dark" />
         <link rel="alternate" type="application/rss+xml" title="NECYPAA XXXVI Blog" href="/feed.xml" />
+        <GoogleAnalytics />
       </head>
       <body className={`${sourceSerif.variable} ${playfair.variable} ${cormorant.variable} ${sourceSerif.className}`}>
         <Analytics />

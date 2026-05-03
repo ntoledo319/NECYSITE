@@ -80,5 +80,54 @@ Phase 7 — Design system cleanup
 - **Image asset diet:** `public/images/` is 91 MB with 47 unoptimized PNG/JPEG files. Conversion to WebP/AVIF is recommended before launch.
 - **i18n:** Site is not fully bilingual. Spanish CMS fields exist but are unpopulated.
 
+## Latest Changes (2026-04-26)
+- Added Google Analytics 4 (GA4) integration for enhanced visitor tracking
+- Files created:
+  - `lib/gtag.ts` — GA4 tracking utility with custom events
+  - `components/analytics/google-analytics.tsx` — GA4 script component
+  - `components/analytics/scroll-tracker.tsx` — Scroll depth tracking (25%, 50%, 75%, 90%, 100%)
+  - `components/analytics/index.ts` — Analytics component exports
+- Modified:
+  - `app/[locale]/(frontend)/layout.tsx` — Added GoogleAnalytics and ScrollTracker components
+  - `.env.local` — Added `NEXT_PUBLIC_GA_ID` placeholder
+- Custom events available:
+  - `trackRegistrationStarted(location)` — When user begins registration
+  - `trackRegistrationCompleted(ticketType)` — Successful registration
+  - `trackDonation(amount, method)` — Donation made
+  - `trackExternalLink(url, linkType)` — External link clicks
+  - `trackFAQExpanded(questionSlug)` — FAQ interactions
+  - `trackVideoPlay(videoTitle)` — Video engagement
+  - `trackScrollDepth(percentage)` — Scroll depth (auto-tracked)
+  - `trackSearch(query, resultsCount)` — Site search
+  - `trackFormStart/Submit(formName)` — Form interactions
+  - `trackError(type, message)` — Error tracking
+  - `trackSocialShare(platform, contentType)` — Social sharing
+  - `trackDownload(fileName, fileType)` — File downloads
+
+### Google Analytics Setup Instructions
+1. Go to https://analytics.google.com/analytics/web/
+2. Create a new GA4 property for "NECYPAA XXXVI"
+3. Get your Measurement ID (looks like `G-XXXXXXXXXX`)
+4. Add to `.env.local`:
+   ```
+   NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
+   ```
+5. Redeploy to Vercel
+
+### What GA4 Gives You (Free Tier)
+- **Geographic**: Country → State → City (no county, but metro area is close)
+- **Demographics**: Age, gender, interests (if users opt-in)
+- **Technology**: Browser, OS, device, screen resolution
+- **Engagement**: Session duration, pages/session, bounce rate
+- **Events**: All custom events listed above
+- **Realtime**: Live user count, active pages
+- **Retention**: 14 months standard, 2 months granular
+- **Custom**: Funnel exploration, path analysis, cohort analysis
+
+### Combining with Vercel Analytics
+Vercel Analytics (already running) + GA4 = complete picture:
+- Vercel: Core Web Vitals, performance, deployment correlation
+- GA4: User behavior, conversions, demographics, geographic breakdowns
+
 ## Final Report Requirements
 Refer to `GEMINI.md` for the final report structure.
