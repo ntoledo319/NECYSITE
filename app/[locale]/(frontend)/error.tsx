@@ -9,13 +9,7 @@ import PageArtAccents from "@/components/art/page-art-accents"
 
 const AUTO_RETRY_SECONDS = 10
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   const [countdown, setCountdown] = useState(AUTO_RETRY_SECONDS)
   const [autoRetryActive, setAutoRetryActive] = useState(true)
 
@@ -39,7 +33,7 @@ export default function Error({
 
   return (
     <div
-      className="min-h-screen min-h-screen-safe flex flex-col justify-center px-4 py-16 relative overflow-hidden"
+      className="min-h-screen-safe relative flex min-h-screen flex-col justify-center overflow-hidden px-4 py-16"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="mad-hatter" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="gear" />
@@ -67,41 +61,31 @@ export default function Error({
           <div className="max-w-xl">
             <div className="nec-reg-card p-8 md:p-10">
               <div
-                className="nec-error-icon w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                className="nec-error-icon mb-6 flex h-16 w-16 items-center justify-center rounded-full"
                 aria-hidden="true"
               >
                 <span className="text-2xl">⚙</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-black text-[var(--nec-text)] mb-3">
-                Something went wrong
-              </h1>
-              <p className="text-[var(--nec-muted)] leading-7">
-                We hit an unexpected snag. You can try again, or head back to the
-                homepage.
+              <h1 className="mb-3 text-3xl font-black text-[var(--nec-text)] md:text-4xl">Something went wrong</h1>
+              <p className="leading-7 text-[var(--nec-muted)]">
+                We hit an unexpected snag. You can try again, or head back to the homepage.
               </p>
 
               {autoRetryActive && (
-                <p
-                  className="mt-5 text-sm text-[var(--nec-muted)]"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
+                <p className="mt-5 text-sm text-[var(--nec-muted)]" aria-live="polite" aria-atomic="true">
                   Retrying in {countdown}…{" "}
                   <button
                     type="button"
                     onClick={cancelAutoRetry}
-                    className="underline hover:text-[var(--nec-text)] transition-colors"
+                    className="underline transition-colors hover:text-[var(--nec-text)]"
                   >
                     Cancel
                   </button>
                 </p>
               )}
 
-              <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
-                <button
-                  onClick={reset}
-                  className="btn-primary w-full sm:w-auto"
-                >
+              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+                <button onClick={reset} className="btn-primary w-full sm:w-auto">
                   Try Again
                 </button>
                 <Link href="/" className="btn-ghost w-full sm:w-auto">
@@ -109,21 +93,17 @@ export default function Error({
                 </Link>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[var(--nec-border)]">
+              <div className="mt-6 border-t border-[var(--nec-border)] pt-4">
                 <a
-                  href={`mailto:${CONTACT_EMAIL}?subject=Site%20Error${error.digest ? `%20(${error.digest})` : ''}`}
-                  className="inline-flex items-center gap-1.5 text-xs text-[var(--nec-muted)] hover:text-[var(--nec-text)] transition-colors"
+                  href={`mailto:${CONTACT_EMAIL}?subject=Site%20Error${error.digest ? `%20(${error.digest})` : ""}`}
+                  className="inline-flex items-center gap-1.5 text-xs text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                 >
-                  <Mail className="w-3 h-3" aria-hidden="true" />
+                  <Mail className="h-3 w-3" aria-hidden="true" />
                   Still having trouble? Let us know — {CONTACT_EMAIL}
                 </a>
               </div>
 
-              {error.digest && (
-                <p className="text-xs text-[var(--nec-muted)] mt-3">
-                  Error reference: {error.digest}
-                </p>
-              )}
+              {error.digest && <p className="mt-3 text-xs text-[var(--nec-muted)]">Error reference: {error.digest}</p>}
             </div>
           </div>
         </div>

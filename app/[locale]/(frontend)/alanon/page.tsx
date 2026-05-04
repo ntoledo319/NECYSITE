@@ -17,10 +17,13 @@ export const metadata: Metadata = {
 
 export default function AlAnonPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div
+      className="min-h-screen-safe relative flex min-h-screen flex-col"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
       {/* ── Mad Realm edge bleed: top ────────────────────────────── */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-48 z-0"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-48"
         aria-hidden="true"
         style={{
           background:
@@ -29,7 +32,7 @@ export default function AlAnonPage() {
       />
       {/* ── Mad Realm edge bleed: left ───────────────────────────── */}
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 w-32 md:w-48 z-0"
+        className="pointer-events-none absolute inset-y-0 left-0 z-0 w-32 md:w-48"
         aria-hidden="true"
         style={{
           background:
@@ -38,7 +41,7 @@ export default function AlAnonPage() {
       />
       {/* ── Mad Realm edge bleed: right ──────────────────────────── */}
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 w-32 md:w-48 z-0"
+        className="pointer-events-none absolute inset-y-0 right-0 z-0 w-32 md:w-48"
         aria-hidden="true"
         style={{
           background:
@@ -47,7 +50,7 @@ export default function AlAnonPage() {
       />
       {/* ── Mad Realm edge bleed: bottom ─────────────────────────── */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-48 z-0"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-48"
         aria-hidden="true"
         style={{
           background:
@@ -57,8 +60,7 @@ export default function AlAnonPage() {
 
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-
+          <div className="mx-auto max-w-4xl">
             {/* ── Al-Anon Logo & Header ──────────────────────────── */}
             <header
               className="relative mb-12 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:mb-14 md:px-8 md:py-10"
@@ -75,7 +77,9 @@ export default function AlAnonPage() {
                     "linear-gradient(90deg, rgba(0,147,208,0) 0%, rgba(0,147,208,0.45) 36%, rgba(180,140,210,0.45) 100%)",
                 }}
               />
-              <span className="section-badge-alanon mb-6 inline-block page-enter-1" role="doc-subtitle">Al-Anon & Alateen</span>
+              <span className="section-badge-alanon page-enter-1 mb-6 inline-block" role="doc-subtitle">
+                Al-Anon & Alateen
+              </span>
               {/* Conference-approved Al-Anon Family Groups logo (adaptive for light/dark modes) */}
               <div className="mb-6 flex justify-center md:mb-8">
                 <Image
@@ -88,12 +92,15 @@ export default function AlAnonPage() {
                 />
               </div>
               <h1
-                className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 page-enter-2"
+                className="page-enter-2 mb-3 text-xl font-bold sm:text-2xl md:text-3xl"
                 style={{ color: "var(--alanon-blue)" }}
               >
                 Resources &amp; Support
               </h1>
-              <p className="mx-auto max-w-2xl px-4 text-sm sm:text-base md:text-lg page-enter-3" style={{ color: "var(--nec-muted)" }}>
+              <p
+                className="page-enter-3 mx-auto max-w-2xl px-4 text-sm sm:text-base md:text-lg"
+                style={{ color: "var(--nec-muted)" }}
+              >
                 For friends and family members affected by someone else&apos;s drinking.
               </p>
             </header>
@@ -110,10 +117,10 @@ export default function AlAnonPage() {
               aria-label="Tradition 6 disclaimer"
             >
               <p>
-                <strong style={{ color: "var(--nec-gold)" }}>A note on Tradition 6:</strong>{" "}
-                NECYPAA is not affiliated with Al-Anon Family Groups, Inc. This page is provided as a
-                resource for friends and family of alcoholics attending or interested in our convention.
-                The links below are outbound resources — you will be leaving our site.
+                <strong style={{ color: "var(--nec-gold)" }}>A note on Tradition 6:</strong> NECYPAA is not affiliated
+                with Al-Anon Family Groups, Inc. This page is provided as a resource for friends and family of
+                alcoholics attending or interested in our convention. The links below are outbound resources — you will
+                be leaving our site.
               </p>
             </aside>
 
@@ -138,25 +145,22 @@ export default function AlAnonPage() {
                     className="absolute inset-x-0 top-0 h-[3px]"
                     aria-hidden="true"
                     style={{
-                      background: "linear-gradient(90deg, rgba(0,147,208,0) 0%, rgba(0,147,208,0.56) 50%, rgba(0,147,208,0) 100%)",
+                      background:
+                        "linear-gradient(90deg, rgba(0,147,208,0) 0%, rgba(0,147,208,0.56) 50%, rgba(0,147,208,0) 100%)",
                     }}
                   />
                   <ExternalLink
-                    className="w-5 h-5 mx-auto mb-3 opacity-70 group-hover:opacity-100 transition-opacity"
+                    className="mx-auto mb-3 h-5 w-5 opacity-70 transition-opacity group-hover:opacity-100"
                     style={{ color: "var(--alanon-blue)" }}
                     aria-hidden="true"
                   />
-                  <p
-                    className="text-lg sm:text-xl md:text-2xl font-black text-[var(--nec-text)] mb-2"
-                    >
+                  <p className="mb-2 text-lg font-black text-[var(--nec-text)] sm:text-xl md:text-2xl">
                     Is Al-Anon for Me?
                   </p>
-                  <p className="text-xs sm:text-sm mb-4 leading-relaxed" style={{ color: "var(--nec-muted)" }}>
+                  <p className="mb-4 text-xs leading-relaxed sm:text-sm" style={{ color: "var(--nec-muted)" }}>
                     Not sure if Al-Anon is right for you? Take the self-assessment quiz.
                   </p>
-                  <span className="btn-alanon text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5">
-                    Take the Quiz
-                  </span>
+                  <span className="btn-alanon px-4 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm">Take the Quiz</span>
                 </a>
 
                 {/* Alateen Quiz (Teens) */}
@@ -176,61 +180,53 @@ export default function AlAnonPage() {
                     className="absolute inset-x-0 top-0 h-[3px]"
                     aria-hidden="true"
                     style={{
-                      background: "linear-gradient(90deg, rgba(180,140,210,0) 0%, rgba(180,140,210,0.56) 50%, rgba(180,140,210,0) 100%)",
+                      background:
+                        "linear-gradient(90deg, rgba(180,140,210,0) 0%, rgba(180,140,210,0.56) 50%, rgba(180,140,210,0) 100%)",
                     }}
                   />
                   <Heart
-                    className="w-5 h-5 mx-auto mb-3 opacity-70 group-hover:opacity-100 transition-opacity"
+                    className="mx-auto mb-3 h-5 w-5 opacity-70 transition-opacity group-hover:opacity-100"
                     style={{ color: "#c4a5d6" }}
                     aria-hidden="true"
                   />
-                  <p
-                    className="text-lg sm:text-xl md:text-2xl font-black text-[var(--nec-text)] mb-2"
-                    >
+                  <p className="mb-2 text-lg font-black text-[var(--nec-text)] sm:text-xl md:text-2xl">
                     Is Alateen for Me?
                   </p>
-                  <p className="text-xs sm:text-sm mb-4 leading-relaxed" style={{ color: "var(--nec-muted)" }}>
+                  <p className="mb-4 text-xs leading-relaxed sm:text-sm" style={{ color: "var(--nec-muted)" }}>
                     For teens affected by someone else&apos;s drinking. Find support and hope.
                   </p>
-                  <span className="btn-alateen text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5">
-                    Take the Quiz
-                  </span>
+                  <span className="btn-alateen px-4 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm">Take the Quiz</span>
                 </a>
               </div>
             </section>
 
             {/* ── Info Accordion (What Is / Who Are / Spouse) ────── */}
-            <section className="mb-10 section-atmosphere-purple" aria-label="About Al-Anon and Alateen">
+            <section className="section-atmosphere-purple mb-10" aria-label="About Al-Anon and Alateen">
               <AlAnonInfoAccordion />
             </section>
 
             {/* ── NECYPAA Program Teaser ─────────────────────────── */}
             <section
-              className="nec-alanon-program mb-10 rounded-[1.8rem] p-6 md:p-8 section-atmosphere-cyan"
+              className="nec-alanon-program section-atmosphere-cyan mb-10 rounded-[1.8rem] p-6 md:p-8"
               style={{
-                background: "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.04) 0%, rgba(var(--nec-card-rgb),0.5) 50%, rgba(0,147,208,0.04) 100%)",
+                background:
+                  "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.04) 0%, rgba(var(--nec-card-rgb),0.5) 50%, rgba(0,147,208,0.04) 100%)",
                 border: "1px solid rgba(var(--nec-purple-rgb),0.12)",
               }}
               aria-label="Al-Anon and Alateen at NECYPAA XXXVI"
             >
-              <div className="text-center space-y-4">
-                <Sparkles className="w-8 h-8 mx-auto" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
-                <h2
-                  className="text-xl md:text-2xl font-black text-[var(--nec-text)]"
-                  >
+              <div className="space-y-4 text-center">
+                <Sparkles className="mx-auto h-8 w-8" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
+                <h2 className="text-xl font-black text-[var(--nec-text)] md:text-2xl">
                   Al-Anon & Alateen at NECYPAA XXXVI
                 </h2>
-                <p className="text-sm leading-relaxed max-w-xl mx-auto" style={{ color: "var(--nec-text)" }}>
-                  Al-Anon and Alateen meetings will be part of NECYPAA XXXVI! We have an extensive
-                  program planned with workshops, keynote speakers, panels, and activities.
-                  The full program is coming soon!
+                <p className="mx-auto max-w-xl text-sm leading-relaxed" style={{ color: "var(--nec-text)" }}>
+                  Al-Anon and Alateen meetings will be part of NECYPAA XXXVI! We have an extensive program planned with
+                  workshops, keynote speakers, panels, and activities. The full program is coming soon!
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-                  <Link
-                    href="/register"
-                    className="btn-primary inline-flex items-center justify-center gap-2"
-                  >
+                <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
+                  <Link href="/register" className="btn-primary inline-flex items-center justify-center gap-2">
                     Pre-Register Today
                   </Link>
                   <a
@@ -239,7 +235,7 @@ export default function AlAnonPage() {
                     rel="noopener noreferrer"
                     className="btn-secondary inline-flex items-center justify-center gap-2"
                   >
-                    <Hotel className="w-4 h-4" aria-hidden="true" />
+                    <Hotel className="h-4 w-4" aria-hidden="true" />
                     Book Your Hotel Room
                   </a>
                 </div>
@@ -255,20 +251,14 @@ export default function AlAnonPage() {
               }}
               aria-label="Alateen resources and support"
             >
-              <Heart className="w-8 h-8 mx-auto mb-3" style={{ color: "#c4a5d6" }} aria-hidden="true" />
-              <h2 className="text-lg font-bold text-[var(--nec-text)] mb-2">
-                Alateen Resources
-              </h2>
-              <p className="text-sm max-w-lg mx-auto mb-5" style={{ color: "var(--nec-muted)" }}>
-                If you&apos;re a teenager affected by someone else&apos;s drinking, you&apos;re not
-                alone. Alateen is a fellowship of young people whose lives have been affected by
-                someone else&apos;s drinking.
+              <Heart className="mx-auto mb-3 h-8 w-8" style={{ color: "#c4a5d6" }} aria-hidden="true" />
+              <h2 className="mb-2 text-lg font-bold text-[var(--nec-text)]">Alateen Resources</h2>
+              <p className="mx-auto mb-5 max-w-lg text-sm" style={{ color: "var(--nec-muted)" }}>
+                If you&apos;re a teenager affected by someone else&apos;s drinking, you&apos;re not alone. Alateen is a
+                fellowship of young people whose lives have been affected by someone else&apos;s drinking.
               </p>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                <a
-                  href="tel:1-888-425-2666"
-                  className="btn-alateen inline-flex items-center gap-2 text-sm"
-                >
+                <a href="tel:1-888-425-2666" className="btn-alateen inline-flex items-center gap-2 text-sm">
                   Call 1-888-4AL-ANON
                 </a>
                 <a
@@ -282,7 +272,7 @@ export default function AlAnonPage() {
                   <span className="sr-only"> (opens al-anon.org in new tab)</span>
                 </a>
               </div>
-              <p className="mt-4 text-xs max-w-md mx-auto" style={{ color: "var(--nec-muted)", opacity: 0.8 }}>
+              <p className="mx-auto mt-4 max-w-md text-xs" style={{ color: "var(--nec-muted)", opacity: 0.8 }}>
                 Alateen participation forms for NECYPAA XXXVI are being finalized and will be available here.
               </p>
             </section>
@@ -295,8 +285,8 @@ export default function AlAnonPage() {
                 border: "1px solid rgba(0,147,208,0.15)",
               }}
             >
-              <h2 className="text-xl font-bold text-[var(--nec-text)] mb-2">Find an Al-Anon Meeting</h2>
-              <p className="text-sm mb-4" style={{ color: "var(--nec-muted)" }}>
+              <h2 className="mb-2 text-xl font-bold text-[var(--nec-text)]">Find an Al-Anon Meeting</h2>
+              <p className="mb-4 text-sm" style={{ color: "var(--nec-muted)" }}>
                 Search for Al-Anon meetings near you or anywhere in the world.
               </p>
               <a
@@ -305,7 +295,8 @@ export default function AlAnonPage() {
                 rel="noopener noreferrer"
                 className="btn-alanon"
               >
-                Al-Anon Meeting Finder<span className="sr-only"> (opens in new tab)</span> <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                Al-Anon Meeting Finder<span className="sr-only"> (opens in new tab)</span>{" "}
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
               </a>
             </section>
 
@@ -325,14 +316,13 @@ export default function AlAnonPage() {
             >
               <h2
                 id="alanon-state-heading"
-                className="text-base sm:text-lg font-bold uppercase tracking-widest mb-2 pl-1"
+                className="mb-2 pl-1 text-base font-bold uppercase tracking-widest sm:text-lg"
                 style={{ color: "var(--alanon-blue-text)", textShadow: "0 0 12px rgba(0,147,208,0.12)" }}
               >
                 Al-Anon by State
               </h2>
-              <p className="text-xs sm:text-sm mb-4 sm:mb-6 pl-1" style={{ color: "var(--nec-muted)" }}>
-                Find your state&apos;s Al-Anon resources. Each link takes you to that state&apos;s
-                Al-Anon website.
+              <p className="mb-4 pl-1 text-xs sm:mb-6 sm:text-sm" style={{ color: "var(--nec-muted)" }}>
+                Find your state&apos;s Al-Anon resources. Each link takes you to that state&apos;s Al-Anon website.
               </p>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5">
                 {NECYPAA_STATES.map((state) => (
@@ -349,7 +339,7 @@ export default function AlAnonPage() {
                     aria-label={`${state.name} Al-Anon resources (opens in new tab)`}
                   >
                     <span
-                      className="block text-xl sm:text-2xl font-black mb-0.5 sm:mb-1 group-hover:text-[var(--alanon-blue)] transition-colors"
+                      className="mb-0.5 block text-xl font-black transition-colors group-hover:text-[var(--alanon-blue)] sm:mb-1 sm:text-2xl"
                       style={{ color: "var(--nec-text)" }}
                       aria-hidden="true"
                     >
@@ -359,7 +349,7 @@ export default function AlAnonPage() {
                       {state.name}
                     </span>
                     <ExternalLink
-                      className="w-3 h-3 mx-auto mt-1 sm:mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="mx-auto mt-1 h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 sm:mt-1.5"
                       style={{ color: "var(--alanon-blue)" }}
                       aria-hidden="true"
                     />
@@ -379,14 +369,14 @@ export default function AlAnonPage() {
             >
               <h2
                 id="alateen-state-heading"
-                className="text-base sm:text-lg font-bold uppercase tracking-widest mb-2 pl-1"
+                className="mb-2 pl-1 text-base font-bold uppercase tracking-widest sm:text-lg"
                 style={{ color: "var(--nec-alateen)", textShadow: "0 0 12px rgba(180,140,210,0.10)" }}
               >
                 Alateen by State
               </h2>
-              <p className="text-xs sm:text-sm mb-4 sm:mb-6 pl-1" style={{ color: "var(--nec-muted)" }}>
-                Alateen is for younger family members and friends of alcoholics. Some states share an
-                Al-Anon/Alateen site; others have a dedicated Alateen page.
+              <p className="mb-4 pl-1 text-xs sm:mb-6 sm:text-sm" style={{ color: "var(--nec-muted)" }}>
+                Alateen is for younger family members and friends of alcoholics. Some states share an Al-Anon/Alateen
+                site; others have a dedicated Alateen page.
               </p>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5">
                 {NECYPAA_STATES.map((state) => {
@@ -405,7 +395,7 @@ export default function AlAnonPage() {
                       aria-label={`${state.name} Alateen resources (opens in new tab)`}
                     >
                       <span
-                        className="block text-xl sm:text-2xl font-black mb-0.5 sm:mb-1 group-hover:text-[var(--nec-alateen)] transition-colors"
+                        className="mb-0.5 block text-xl font-black transition-colors group-hover:text-[var(--nec-alateen)] sm:mb-1 sm:text-2xl"
                         style={{ color: "var(--nec-text)" }}
                         aria-hidden="true"
                       >
@@ -415,7 +405,7 @@ export default function AlAnonPage() {
                         {state.name}
                       </span>
                       <ExternalLink
-                        className="w-3 h-3 mx-auto mt-1 sm:mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="mx-auto mt-1 h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 sm:mt-1.5"
                         style={{ color: "var(--nec-alateen)" }}
                         aria-hidden="true"
                       />
@@ -424,7 +414,6 @@ export default function AlAnonPage() {
                 })}
               </div>
             </section>
-
           </div>
         </div>
       </div>

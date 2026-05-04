@@ -66,9 +66,7 @@ export async function fetchCalendarEvents(): Promise<CalendarEvent[]> {
       if (!res.ok) {
         const msg =
           `[calendar] Google API ${res.status} ${res.statusText}` +
-          (res.status === 401 || res.status === 403
-            ? " — check GOOGLE_CALENDAR_API_KEY restrictions"
-            : "")
+          (res.status === 401 || res.status === 403 ? " — check GOOGLE_CALENDAR_API_KEY restrictions" : "")
         if (res.status >= 500) {
           console.warn(msg)
         } else {

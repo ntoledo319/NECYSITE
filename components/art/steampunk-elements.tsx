@@ -16,22 +16,10 @@ export function Gear({ className = "", size = 48, color = "var(--nec-gold)", opa
       aria-hidden="true"
       style={{ opacity }}
     >
-      <path
-        d="M50 20a30 30 0 1 1 0 60 30 30 0 0 1 0-60zm0 10a20 20 0 1 0 0 40 20 20 0 0 0 0-40z"
-        fill={color}
-      />
+      <path d="M50 20a30 30 0 1 1 0 60 30 30 0 0 1 0-60zm0 10a20 20 0 1 0 0 40 20 20 0 0 0 0-40z" fill={color} />
       {/* Gear teeth */}
       {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
-        <rect
-          key={angle}
-          x="46"
-          y="5"
-          width="8"
-          height="15"
-          rx="2"
-          fill={color}
-          transform={`rotate(${angle} 50 50)`}
-        />
+        <rect key={angle} x="46" y="5" width="8" height="15" rx="2" fill={color} transform={`rotate(${angle} 50 50)`} />
       ))}
     </svg>
   )
@@ -56,4 +44,3 @@ export function KeyIcon({ className = "", size = 40, color = "var(--nec-gold)", 
     </svg>
   )
 }
-

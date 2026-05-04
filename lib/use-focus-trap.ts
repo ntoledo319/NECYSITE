@@ -10,9 +10,7 @@ import { useEffect, useRef } from "react"
  * - Tab / Shift+Tab cycle within the container.
  * - Restores focus to the previously-focused element on cleanup.
  */
-export function useFocusTrap<T extends HTMLElement = HTMLElement>(
-  active: boolean
-): React.RefObject<T> {
+export function useFocusTrap<T extends HTMLElement = HTMLElement>(active: boolean): React.RefObject<T> {
   const containerRef = useRef<T>(null) as React.RefObject<T>
   const previousFocusRef = useRef<HTMLElement | null>(null)
 
@@ -31,7 +29,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
     function getFocusableElements(): HTMLElement[] {
       if (!container) return []
       return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
-        (el) => !el.hasAttribute("disabled") && el.offsetParent !== null
+        (el) => !el.hasAttribute("disabled") && el.offsetParent !== null,
       )
     }
 

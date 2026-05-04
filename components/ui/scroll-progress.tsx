@@ -28,11 +28,10 @@ export default function ScrollProgress() {
 
   return (
     <div
-      className="scroll-progress-bar fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
+      className="scroll-progress-bar fixed left-0 right-0 top-0 z-[60] h-[2px] origin-left"
       style={{
         transform: `scaleX(${progress})`,
-        background:
-          "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 50%, var(--nec-gold) 100%)",
+        background: "linear-gradient(90deg, var(--nec-purple) 0%, var(--nec-pink) 50%, var(--nec-gold) 100%)",
         boxShadow: "0 0 8px rgba(var(--nec-purple-rgb),0.20), 0 0 16px rgba(var(--nec-pink-rgb),0.10)",
       }}
       aria-hidden="true"

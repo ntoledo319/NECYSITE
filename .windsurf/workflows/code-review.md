@@ -10,11 +10,13 @@ This workflow uses the `code-reviewer` skill from `claude-skills/engineering-tea
 
 Analyze source code for structural issues, code smells, and SOLID violations:
 // turbo
+
 ```bash
 python3 claude-skills/engineering-team/code-reviewer/scripts/code_quality_checker.py .
 ```
 
 **Thresholds:**
+
 - Long function: >50 lines
 - Large file: >500 lines
 - God class: >20 methods
@@ -25,11 +27,13 @@ python3 claude-skills/engineering-team/code-reviewer/scripts/code_quality_checke
 ## Step 2: Run PR Analyzer (if reviewing a branch)
 
 Analyze git diff between branches for review complexity and risks:
+
 ```bash
 python3 claude-skills/engineering-team/code-reviewer/scripts/pr_analyzer.py . --base main --head HEAD
 ```
 
 **Detects:**
+
 - Hardcoded secrets (passwords, API keys, tokens)
 - SQL injection patterns
 - Debug statements (debugger, console.log)
@@ -40,11 +44,13 @@ python3 claude-skills/engineering-team/code-reviewer/scripts/pr_analyzer.py . --
 ## Step 3: Generate Review Report
 
 Combine analysis into a structured report:
+
 ```bash
 python3 claude-skills/engineering-team/code-reviewer/scripts/review_report_generator.py . --format markdown --output review.md
 ```
 
 **Verdicts:**
+
 - Score 90+ with no high issues → **Approve**
 - Score 75+ with ≤2 high issues → **Approve with suggestions**
 - Score 50-74 → **Request changes**

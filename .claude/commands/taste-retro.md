@@ -8,7 +8,7 @@ Run a taste retrospective on the last sprint/week/session.
    b. What generic patterns keep reappearing? (blind spots)
    c. Which areas of the project have the lowest scores? (taste debt zones)
    d. Are we discovering NEW principles or recycling old ones?
-      (If recycling → we've stopped growing. Prescribe new generate-destroy.)
+   (If recycling → we've stopped growing. Prescribe new generate-destroy.)
 5. Produce a Taste Retrospective:
    - STRENGTHS: What we're doing well (specific examples)
    - BLIND SPOTS: Patterns we keep missing (with evidence)

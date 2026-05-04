@@ -63,9 +63,8 @@ export default function RegistrationCheckout({
       ? "Enter a valid dollar amount, such as 40 or 40.00."
       : null
   const scholarshipUnitAmountCents = isScholarshipMode ? enteredScholarshipUnitAmountCents : null
-  const scholarshipUnitAmountForCheckout = isScholarshipMode && useCustomScholarshipAmount
-    ? scholarshipUnitAmountCents
-    : null
+  const scholarshipUnitAmountForCheckout =
+    isScholarshipMode && useCustomScholarshipAmount ? scholarshipUnitAmountCents : null
 
   const canAddBreakfast = selfRegistrationQuantity > 0
   const selectedBreakfasts = useMemo(
@@ -85,9 +84,8 @@ export default function RegistrationCheckout({
   const subtotalCents = registrationSubtotalCents != null ? registrationSubtotalCents + breakfastTotalCents : null
   const processingFeeCents = subtotalCents != null ? calculateProcessingFee(subtotalCents) : null
   const processingFee = processingFeeCents != null ? processingFeeCents / 100 : null
-  const totalAmount = subtotalCents != null && processingFeeCents != null
-    ? (subtotalCents + processingFeeCents) / 100
-    : null
+  const totalAmount =
+    subtotalCents != null && processingFeeCents != null ? (subtotalCents + processingFeeCents) / 100 : null
 
   useEffect(() => {
     if (hasAccessCode) return
@@ -161,9 +159,7 @@ export default function RegistrationCheckout({
   }
 
   const addReservedPersonField = () => {
-    setReservedForPeople((prev) =>
-      prev.length >= effectiveScholarshipQuantity ? prev : [...prev, ""],
-    )
+    setReservedForPeople((prev) => (prev.length >= effectiveScholarshipQuantity ? prev : [...prev, ""]))
     setValidationError(null)
     resetCheckout()
   }
@@ -242,11 +238,7 @@ export default function RegistrationCheckout({
 
   if (hasAccessCode) {
     return (
-      <AccessCodeCheckout
-        registrationData={registrationData}
-        policyAgreements={policyAgreements}
-        onBack={onBack}
-      />
+      <AccessCodeCheckout registrationData={registrationData} policyAgreements={policyAgreements} onBack={onBack} />
     )
   }
 
@@ -257,11 +249,11 @@ export default function RegistrationCheckout({
           Back
         </Button>
         <div
-          className="rounded-2xl p-4 min-h-[400px] flex items-center justify-center bg-[var(--nec-card)] border border-[var(--nec-border)]"
+          className="flex min-h-[400px] items-center justify-center rounded-2xl border border-[var(--nec-border)] bg-[var(--nec-card)] p-4"
           role="alert"
           aria-live="assertive"
         >
-          <div className="text-center space-y-2">
+          <div className="space-y-2 text-center">
             <p className="font-semibold text-[hsl(var(--destructive))]">Hmm, something went wrong</p>
             <p className="text-[var(--nec-muted)]">{error}</p>
           </div>
@@ -277,13 +269,13 @@ export default function RegistrationCheckout({
           Back
         </Button>
         <div
-          className="rounded-2xl p-4 min-h-[400px] flex items-center justify-center bg-[var(--nec-card)] border border-[var(--nec-border)]"
+          className="flex min-h-[400px] items-center justify-center rounded-2xl border border-[var(--nec-border)] bg-[var(--nec-card)] p-4"
           role="status"
           aria-live="polite"
         >
-          <div className="text-center space-y-3">
+          <div className="space-y-3 text-center">
             <div
-              className="w-8 h-8 mx-auto border-2 border-[var(--nec-purple)] border-t-transparent rounded-full animate-spin"
+              className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-[var(--nec-purple)] border-t-transparent"
               aria-hidden="true"
             />
             <p className="text-[var(--nec-muted)]">Loading payment form&hellip;</p>
@@ -313,12 +305,10 @@ export default function RegistrationCheckout({
         )}
       </div>
 
-      <div className="nec-reg-subcard p-6 space-y-4">
+      <div className="nec-reg-subcard space-y-4 p-6">
         <div className="space-y-2">
           <p className="form-section-label">Order Summary</p>
-          <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
-            Registration Summary
-          </h3>
+          <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">Registration Summary</h3>
         </div>
         <div className="space-y-2 text-[var(--nec-muted)]">
           {selfRegistrationQuantity > 0 && (
@@ -329,14 +319,12 @@ export default function RegistrationCheckout({
           )}
 
           {isScholarshipMode && (
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <span>
                 Scholarship Fee ({effectiveScholarshipQuantity} x {scholarshipUnitAmountLabel})
               </span>
               <span className="font-medium text-[var(--nec-text)]">
-                {scholarshipUnitAmountCents != null
-                  ? `$${formatUsdFromCents(scholarshipSubtotalCents)}`
-                  : "Add amount"}
+                {scholarshipUnitAmountCents != null ? `$${formatUsdFromCents(scholarshipSubtotalCents)}` : "Add amount"}
               </span>
             </div>
           )}
@@ -357,7 +345,7 @@ export default function RegistrationCheckout({
               {processingFee != null ? `$${processingFee.toFixed(2)}` : "Add amount"}
             </span>
           </div>
-          <div className="border-t border-[var(--nec-border)] pt-2 mt-2 flex justify-between text-lg font-bold">
+          <div className="mt-2 flex justify-between border-t border-[var(--nec-border)] pt-2 text-lg font-bold">
             <span className="text-[var(--nec-text)]">Total</span>
             <span className="text-[var(--nec-gold)]">
               {totalAmount != null ? `$${totalAmount.toFixed(2)}` : "Add amount"}
@@ -400,9 +388,7 @@ export default function RegistrationCheckout({
         </div>
       )}
 
-      {canAddBreakfast && (
-        <BreakfastAddOns breakfastSelections={breakfastSelections} onToggle={toggleBreakfast} />
-      )}
+      {canAddBreakfast && <BreakfastAddOns breakfastSelections={breakfastSelections} onToggle={toggleBreakfast} />}
 
       {isScholarshipMode && (
         <ScholarshipAttribution
@@ -423,7 +409,7 @@ export default function RegistrationCheckout({
             : "Add Scholarship Amount To Continue"}
         </Button>
       ) : (
-        <div key={checkoutKey} id="checkout" className="nec-stripe-embed p-4 min-h-[400px]">
+        <div key={checkoutKey} id="checkout" className="nec-stripe-embed min-h-[400px] p-4">
           <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>

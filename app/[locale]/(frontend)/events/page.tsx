@@ -19,12 +19,13 @@ export const metadata: Metadata = {
 export default async function EventsPage() {
   const { upcoming: upcomingEvent, past: pastEvents } = await getEvents()
   const allEvents = [...(upcomingEvent ? [upcomingEvent] : []), ...pastEvents]
-  const jsonLdItems = allEvents
-    .map(generateEventJsonLd)
-    .filter((ld): ld is Record<string, unknown> => ld !== null)
+  const jsonLdItems = allEvents.map(generateEventJsonLd).filter((ld): ld is Record<string, unknown> => ld !== null)
 
   return (
-    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div
+      className="min-h-screen-safe relative flex min-h-screen flex-col"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
       {jsonLdItems.map((ld, i) => (
         <script
           key={allEvents[i].id}
@@ -36,7 +37,7 @@ export default async function EventsPage() {
 
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-5xl page-stack">
+          <div className="page-stack mx-auto max-w-5xl">
             <header className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] px-6 py-8 shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8 md:py-10">
               <div
                 className="absolute inset-x-0 top-0 h-[3px]"
@@ -82,9 +83,7 @@ export default async function EventsPage() {
                 <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
                   What&apos;s next on the road to Hartford.
                 </h2>
-                <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                  Here&apos;s what&apos;s coming.
-                </p>
+                <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">Here&apos;s what&apos;s coming.</p>
               </div>
 
               {upcomingEvent ? (
@@ -149,8 +148,12 @@ export default async function EventsPage() {
                               key={slot.label}
                               className="rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-3"
                             >
-                              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{slot.time}</p>
-                              <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{slot.label}</p>
+                              <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                                {slot.time}
+                              </p>
+                              <p className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">
+                                {slot.label}
+                              </p>
                             </div>
                           ))}
                         </div>
@@ -163,8 +166,12 @@ export default async function EventsPage() {
                               key={detail.label}
                               className="rounded-[1.15rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.56)] px-4 py-3"
                             >
-                              <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">{detail.label}</dt>
-                              <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">{detail.value}</dd>
+                              <dt className="text-[11px] uppercase tracking-[0.18em] text-[var(--nec-muted)]">
+                                {detail.label}
+                              </dt>
+                              <dd className="mt-2 text-sm font-semibold leading-6 text-[var(--nec-text)]">
+                                {detail.value}
+                              </dd>
                             </div>
                           ))}
                         </dl>
@@ -173,8 +180,8 @@ export default async function EventsPage() {
                   </div>
                 </article>
               ) : (
-                <div className="text-center py-12 rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.02)]">
-                  <p className="text-[var(--nec-muted)] text-lg">No upcoming events scheduled at this time.</p>
+                <div className="rounded-[1.35rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.02)] py-12 text-center">
+                  <p className="text-lg text-[var(--nec-muted)]">No upcoming events scheduled at this time.</p>
                 </div>
               )}
             </section>
@@ -186,8 +193,8 @@ export default async function EventsPage() {
                   Where we&apos;ve been.
                 </h2>
                 <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                  A look back at the events and fundraisers that brought us here. Every one of these
-                  brought people together and moved us closer to Hartford.
+                  A look back at the events and fundraisers that brought us here. Every one of these brought people
+                  together and moved us closer to Hartford.
                 </p>
               </div>
 

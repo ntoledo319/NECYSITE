@@ -3,16 +3,20 @@
 This file contains foundational mandates for Gemini CLI in this workspace. These instructions take absolute precedence over general workflows and tool defaults.
 
 ## Project Overview
+
 Convention website for NECYPAA XXXVI ("Escaping the Mad Realm").
+
 - **Stack:** Next.js 15, TypeScript strict, Tailwind CSS, Payload CMS (SQLite), Stripe payments, next-intl (EN/ES).
 - **Goal:** WCAG 2.1 AAA accessibility target.
 
 ## Required Reading
+
 1. `AA_TRADITIONS_GUARDRAILS.md` — Anonymity rules. No full names, no faces, no promotion. **Non-negotiable.**
 2. `ACCESSIBILITY_GUIDELINES.md` — WCAG 2.1 AAA target.
 3. `CONTRIBUTING.md` — Branch naming, commit format, escalation rules.
 
 ## Code Conventions
+
 - **TypeScript strict mode** — zero `any` types.
 - **Zod validation** on all inputs (`lib/validation.ts`).
 - **Rate limiting** on all server actions (`lib/rate-limit.ts`).
@@ -22,14 +26,17 @@ Convention website for NECYPAA XXXVI ("Escaping the Mad Realm").
 - **Accessibility** — Every `<img>` needs alt text, every form input needs a label, interactive elements need keyboard support.
 
 ## Critical Emergency Protocol (Bus Factor 1)
+
 This project is maintained by a solo engineer. The `/.handoff` directory contains living documentation.
 
 **RULE:** Every time you make a structural change, add a dependency, or complete a feature, you **MUST** autonomously update the relevant files in the `/.handoff` directory.
+
 - Update `/.handoff/03_ACTIVE_CONTEXT.md` before every push.
 - Update `/.handoff/01_SYSTEM_ARCHITECTURE.md` for architectural changes.
 - Update `/.handoff/02_OPERATIONS_AND_DEPLOYMENT.md` for build/deploy changes.
 
 ## Testing & Validation
+
 - `pnpm test` — Vitest unit tests.
 - `pnpm test:a11y` — Playwright WCAG accessibility tests.
 - `pnpm build` — Must pass clean before any push.
@@ -44,6 +51,7 @@ You are working inside the NECYPAA 36 website repository.
 This is a public-facing conference website. Treat it like a real production system, not a demo. The site matters emotionally and operationally. It needs to feel beautiful, spiritual, modern, alive, trustworthy, accessible, and stable under real user traffic.
 
 You are acting as:
+
 - senior staff engineer
 - security reviewer
 - Stripe/payment systems engineer
@@ -93,6 +101,7 @@ Not over-animated nonsense.
 The magic should serve clarity.
 
 Every important page should answer:
+
 - What is this?
 - When is it?
 - Where is it?
@@ -104,6 +113,7 @@ Every important page should answer:
 ## Required workflow
 
 Before editing:
+
 1. Inspect the full repo.
 2. Identify package manager, framework versions, deployment assumptions, env vars, CMS setup, Stripe setup, tests, linting, routing, and image assets.
 3. Read existing docs.
@@ -112,6 +122,7 @@ Before editing:
 docs/internal/full-production-hardening-audit.md
 
 Track:
+
 - issues found
 - files inspected
 - changes made
@@ -128,6 +139,7 @@ Use todos/checklists internally so the work does not become soup.
 ## Verification standards
 
 Run available commands such as:
+
 - install dependencies
 - typecheck
 - lint
@@ -138,6 +150,7 @@ Run available commands such as:
 - production smoke test if feasible
 
 If a command fails:
+
 1. Diagnose it.
 2. Fix it.
 3. Rerun it.
@@ -152,6 +165,7 @@ No fake green reports.
 Highest priority.
 
 Audit:
+
 - actions/registration.ts
 - actions/free-registration.ts
 - actions/breakfast.ts
@@ -163,6 +177,7 @@ Audit:
 - admin/export/reporting routes
 
 Required outcomes:
+
 1. Add a durable first-party source of truth for registrations/orders.
    - Use existing DB/Payload patterns if present.
    - If Payload is intended, create suitable collections.
@@ -202,6 +217,7 @@ Required outcomes:
 ## Phase 2 — Cash/free/access-code security
 
 Audit anything like:
+
 - /cash
 - free registration
 - comp registration
@@ -209,6 +225,7 @@ Audit anything like:
 - breakfast purchase
 
 Required outcomes:
+
 1. No public route should allow free/cash/comp registration without protection.
 2. Protect sensitive routes using the best repo-consistent method:
    - Payload admin auth
@@ -229,6 +246,7 @@ Required outcomes:
 Audit lib/rate-limit.ts or equivalent.
 
 Required outcomes:
+
 1. Replace in-memory-only rate limiting with production-safe storage when env vars are present:
    - Upstash Redis
    - Vercel KV
@@ -246,6 +264,7 @@ Required outcomes:
 ## Phase 4 — Payload CMS hardening
 
 Audit:
+
 - payload.config.ts
 - collections/Events.ts
 - collections/BlogPosts.ts
@@ -254,6 +273,7 @@ Audit:
 - collections/Users.ts
 
 Required outcomes:
+
 1. Make access control explicit.
 2. Public can read only published content where appropriate.
 3. Draft/private/admin content is not public.
@@ -272,6 +292,7 @@ Required outcomes:
 ## Phase 5 — Static data versus CMS consolidation
 
 Audit:
+
 - lib/data/events.ts
 - lib/data/blog-posts.ts
 - lib/data/ypaa-meetings.ts
@@ -279,6 +300,7 @@ Audit:
 - Payload overlap
 
 Required outcomes:
+
 1. Identify duplicated content sources.
 2. Reduce duplication where safe.
 3. If static files remain, make them typed, clean, and intentional.
@@ -289,6 +311,7 @@ Required outcomes:
 ## Phase 6 — Replace weak placeholder pages
 
 Audit:
+
 - /program
 - /asl
 - /merch
@@ -297,6 +320,7 @@ Audit:
 - any “coming soon” game pages
 
 Required outcomes:
+
 1. Important logistics/accessibility pages must not feel like unserious placeholders.
 2. Keep personality, but make pages useful.
 3. Program page must include:
@@ -321,6 +345,7 @@ Required outcomes:
 ## Phase 7 — Design system cleanup
 
 Audit:
+
 - globals.css
 - Tailwind config
 - design tokens
@@ -330,6 +355,7 @@ Audit:
 - header/footer/nav/mobile UI
 
 Required outcomes:
+
 1. Preserve the sacred-modern identity.
 2. Split giant CSS if appropriate:
    - styles/tokens.css
@@ -358,6 +384,7 @@ Required outcomes:
 Audit public assets.
 
 Required outcomes:
+
 1. Identify unused giant images.
 2. Remove deployable deadweight.
 3. Move source/original/backup images out of public deployment.
@@ -370,6 +397,7 @@ Required outcomes:
 docs/assets-policy.md
 
 Include:
+
 - where source art lives
 - where optimized public assets live
 - max recommended sizes
@@ -381,6 +409,7 @@ Include:
 Audit all "use client" components.
 
 Required outcomes:
+
 1. Remove unnecessary client components.
 2. Convert static UI to server components where safe.
 3. Keep client components only where interaction/state requires them.
@@ -391,6 +420,7 @@ Required outcomes:
 ## Phase 10 — Accessibility hardening
 
 Audit:
+
 - skip links
 - nav
 - mobile nav
@@ -409,6 +439,7 @@ Audit:
 - ARIA
 
 Required outcomes:
+
 1. All interactive elements must be keyboard accessible.
 2. Custom radio/toggle groups must support correct ARIA and keyboard behavior.
 3. Modals/drawers must:
@@ -431,6 +462,7 @@ Do not claim WCAG perfection unless verified.
 ## Phase 11 — SEO / metadata / feed / sitemap
 
 Audit:
+
 - app/sitemap.ts
 - app/robots.ts
 - app/feed.xml/route.ts
@@ -442,6 +474,7 @@ Audit:
 - placeholder pages
 
 Required outcomes:
+
 1. Fix sitemap to match actual routes/locales.
 2. Add hreflang/alternates if multilingual routes exist.
 3. Do not use fake new Date() lastModified for all pages unless documented.
@@ -455,6 +488,7 @@ Required outcomes:
 Audit next-intl / locale routing / message files.
 
 Required outcomes:
+
 1. Identify hardcoded English inside localized routes.
 2. Move important public copy into translation files/CMS where feasible.
 3. Or document that translation is incomplete.
@@ -465,6 +499,7 @@ Required outcomes:
 ## Phase 13 — TypeScript / lint / config hardening
 
 Audit:
+
 - package.json
 - tsconfig.json
 - eslint config
@@ -474,6 +509,7 @@ Audit:
 - @lib/calendar/types.ts packages
 
 Required outcomes:
+
 1. Fix React/runtime/type mismatches.
 2. Remove unnecessary @ts-ignore and @ts-expect-error comments.
 3. Tighten TypeScript where safe.
@@ -495,6 +531,7 @@ Required outcomes:
 Audit existing tests.
 
 Required outcomes:
+
 1. Make current tests pass.
 2. Add tests for critical flows:
    - registration validation
@@ -522,6 +559,7 @@ Required outcomes:
 ## Phase 15 — Repo hygiene and docs
 
 Audit:
+
 - local AI agent files
 - temporary prompts
 - generated junk
@@ -530,6 +568,7 @@ Audit:
 - local secrets/config
 
 Required outcomes:
+
 1. Keep useful docs.
 2. Move internal/agent docs under docs/internal.
 3. Add .gitignore entries for local agent settings and generated junk.
@@ -550,6 +589,7 @@ Docs should be useful for a real human, not corporate oatmeal.
 ## Phase 16 — Final UX pass
 
 Review:
+
 - homepage
 - registration
 - success/cancel
@@ -567,6 +607,7 @@ Review:
 - all CTAs
 
 Required outcomes:
+
 1. Every page has a clear purpose.
 2. Every CTA is clear.
 3. No dead-end pages unless intentional.

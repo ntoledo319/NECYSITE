@@ -20,24 +20,49 @@ function getEventYear(date: string) {
 
 export default function JourneyPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div
+      className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
+          <div className="mx-auto max-w-6xl">
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
               <div className="relative max-w-3xl">
-                <div className="hidden lg:block absolute -left-10 top-1/2 -translate-y-1/2 w-24 h-36 opacity-[0.09] pointer-events-none" aria-hidden="true">
-                  <Image src="/images/caterpillar-character.webp" alt="" width={96} height={144} sizes="96px" className="w-full h-full object-contain" aria-hidden="true" />
+                <div
+                  className="pointer-events-none absolute -left-10 top-1/2 hidden h-36 w-24 -translate-y-1/2 opacity-[0.09] lg:block"
+                  aria-hidden="true"
+                >
+                  <Image
+                    src="/images/caterpillar-character.webp"
+                    alt=""
+                    width={96}
+                    height={144}
+                    sizes="96px"
+                    className="h-full w-full object-contain"
+                    aria-hidden="true"
+                  />
                 </div>
-                <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                  <Image src="/images/mad-hatter-character.webp" alt="" width={80} height={120} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+                <div
+                  className="pointer-events-none absolute -right-10 top-1/2 hidden h-32 w-20 -translate-y-1/2 opacity-[0.07] lg:block"
+                  aria-hidden="true"
+                >
+                  <Image
+                    src="/images/mad-hatter-character.webp"
+                    alt=""
+                    width={80}
+                    height={120}
+                    sizes="80px"
+                    className="h-full w-full object-contain"
+                    aria-hidden="true"
+                  />
                 </div>
-                <span className="section-badge mb-4 inline-block page-enter-1">Archive</span>
-                <h1 className="section-heading mb-3 page-enter-2">The Journey Comes First</h1>
-                <p className="text-lg max-w-2xl text-[var(--nec-muted)] page-enter-3">
-                  A look back at the events, fundraisers, and fellowship that brought us to Hartford. The
-                  journey is the point.
+                <span className="section-badge page-enter-1 mb-4 inline-block">Archive</span>
+                <h1 className="section-heading page-enter-2 mb-3">The Journey Comes First</h1>
+                <p className="page-enter-3 max-w-2xl text-lg text-[var(--nec-muted)]">
+                  A look back at the events, fundraisers, and fellowship that brought us to Hartford. The journey is the
+                  point.
                 </p>
               </div>
 
@@ -79,9 +104,9 @@ export default function JourneyPage() {
               </div>
             </div>
 
-            <div className="mt-12 relative section-atmosphere-purple">
+            <div className="section-atmosphere-purple relative mt-12">
               <div
-                className="pointer-events-none absolute left-6 top-0 bottom-0 hidden w-px bg-[linear-gradient(180deg,rgba(var(--nec-gold-rgb),0.18),rgba(var(--nec-purple-rgb),0.12),transparent)] md:block"
+                className="pointer-events-none absolute bottom-0 left-6 top-0 hidden w-px bg-[linear-gradient(180deg,rgba(var(--nec-gold-rgb),0.18),rgba(var(--nec-purple-rgb),0.12),transparent)] md:block"
                 aria-hidden="true"
               />
 
@@ -100,78 +125,75 @@ export default function JourneyPage() {
                         <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.22)] bg-[rgba(var(--nec-gold-rgb),0.08)] text-xs">
                           {year}
                         </span>
-                        <span className="h-px flex-1 bg-[linear-gradient(90deg,rgba(var(--nec-gold-rgb),0.18),transparent)]" aria-hidden="true" />
+                        <span
+                          className="h-px flex-1 bg-[linear-gradient(90deg,rgba(var(--nec-gold-rgb),0.18),transparent)]"
+                          aria-hidden="true"
+                        />
                       </h2>
                       {grouped.get(year)!.map((event) => (
-                  <article
-                    key={event.id}
-                    className="relative grid gap-5 overflow-hidden rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.90)] p-5 shadow-[0_18px_42px_rgba(44,24,16,0.08)] md:grid-cols-[4.5rem_14rem_minmax(0,1fr)] md:p-6"
-                  >
-                    <div className="relative hidden md:flex justify-center pt-2" aria-hidden="true">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.08)] text-sm font-semibold text-[var(--nec-gold)]">
-                        {getEventYear(event.date)}
-                      </div>
-                    </div>
+                        <article
+                          key={event.id}
+                          className="relative grid gap-5 overflow-hidden rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.90)] p-5 shadow-[0_18px_42px_rgba(44,24,16,0.08)] md:grid-cols-[4.5rem_14rem_minmax(0,1fr)] md:p-6"
+                        >
+                          <div className="relative hidden justify-center pt-2 md:flex" aria-hidden="true">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.08)] text-sm font-semibold text-[var(--nec-gold)]">
+                              {getEventYear(event.date)}
+                            </div>
+                          </div>
 
-                    <div className="md:max-w-[14rem]">
-                      <FlyerWithModal
-                        src={event.flyerSrc}
-                        alt={event.flyerAlt}
-                        title={event.title}
-                      />
-                    </div>
+                          <div className="md:max-w-[14rem]">
+                            <FlyerWithModal src={event.flyerSrc} alt={event.flyerAlt} title={event.title} />
+                          </div>
 
-                    <div className="space-y-4">
-                      <h3 className="text-xl md:text-2xl font-semibold tracking-[-0.03em] text-[var(--nec-text)]">
-                        {event.title}
-                      </h3>
+                          <div className="space-y-4">
+                            <h3 className="text-xl font-semibold tracking-[-0.03em] text-[var(--nec-text)] md:text-2xl">
+                              {event.title}
+                            </h3>
 
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-[var(--nec-muted)]">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Calendar className="w-4 h-4 flex-shrink-0 text-[var(--nec-cyan)]" aria-hidden="true" />
-                          {event.date}
-                        </span>
-                        {event.location && (
-                          <span className="inline-flex items-center gap-1.5">
-                            <MapPin className="w-4 h-4 flex-shrink-0 text-[var(--nec-pink)]" aria-hidden="true" />
-                            {event.location}
-                          </span>
-                        )}
-                      </div>
+                            <div className="flex flex-col gap-2 text-sm text-[var(--nec-muted)] sm:flex-row sm:items-center sm:gap-4">
+                              <span className="inline-flex items-center gap-1.5">
+                                <Calendar className="h-4 w-4 flex-shrink-0 text-[var(--nec-cyan)]" aria-hidden="true" />
+                                {event.date}
+                              </span>
+                              {event.location && (
+                                <span className="inline-flex items-center gap-1.5">
+                                  <MapPin className="h-4 w-4 flex-shrink-0 text-[var(--nec-pink)]" aria-hidden="true" />
+                                  {event.location}
+                                </span>
+                              )}
+                            </div>
 
-                      {event.description && (
-                        <p className="text-sm leading-7 text-[var(--nec-text)]">
-                          {event.description}
-                        </p>
-                      )}
+                            {event.description && (
+                              <p className="text-sm leading-7 text-[var(--nec-text)]">{event.description}</p>
+                            )}
 
-                      {event.schedule.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {event.schedule.map((scheduleItem) => (
-                            <span
-                              key={scheduleItem.label}
-                              className="nec-pill-subtle text-xs px-2.5 py-1 rounded-lg font-medium text-[var(--nec-cyan)]"
-                            >
-                              {scheduleItem.label}: {scheduleItem.time}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                            {event.schedule.length > 0 && (
+                              <div className="flex flex-wrap gap-2">
+                                {event.schedule.map((scheduleItem) => (
+                                  <span
+                                    key={scheduleItem.label}
+                                    className="nec-pill-subtle rounded-lg px-2.5 py-1 text-xs font-medium text-[var(--nec-cyan)]"
+                                  >
+                                    {scheduleItem.label}: {scheduleItem.time}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
 
-                      {event.details.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {event.details.map((detail) => (
-                            <span
-                              key={detail.label}
-                              className="nec-pill-pink text-xs px-2.5 py-1 rounded-lg font-medium text-[var(--nec-muted)]"
-                            >
-                              {detail.label}: {detail.value}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </article>
+                            {event.details.length > 0 && (
+                              <div className="flex flex-wrap gap-2">
+                                {event.details.map((detail) => (
+                                  <span
+                                    key={detail.label}
+                                    className="nec-pill-pink rounded-lg px-2.5 py-1 text-xs font-medium text-[var(--nec-muted)]"
+                                  >
+                                    {detail.label}: {detail.value}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </article>
                       ))}
                     </div>
                   ))
@@ -179,13 +201,11 @@ export default function JourneyPage() {
               </div>
             </div>
 
-            <div className="mt-12 text-center space-y-2 section-atmosphere-gold">
-              <p className="text-base text-[var(--nec-text)] italic">
+            <div className="section-atmosphere-gold mt-12 space-y-2 text-center">
+              <p className="text-base italic text-[var(--nec-text)]">
                 Every event on this timeline brought people together. That&apos;s the whole point.
               </p>
-              <p className="text-sm text-[var(--nec-muted)]">
-                More events to come. The journey continues.
-              </p>
+              <p className="text-sm text-[var(--nec-muted)]">More events to come. The journey continues.</p>
             </div>
           </div>
         </div>

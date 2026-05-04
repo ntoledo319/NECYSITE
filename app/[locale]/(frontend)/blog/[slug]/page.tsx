@@ -31,11 +31,7 @@ function isRecentPost(dateStr: string, daysThreshold = 14): boolean {
   return diffMs >= 0 && diffMs < daysThreshold * 24 * 60 * 60 * 1000
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const post = await getBlogPostBySlug(slug)
   if (!post) {
@@ -52,11 +48,7 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }))
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const post = await getBlogPostBySlug(slug)
 
@@ -70,19 +62,19 @@ export default async function BlogPostPage({
 
   return (
     <div
-      className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden"
+      className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" variant="subtle" dividerVariant="compass" />
 
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
+          <div className="mx-auto max-w-6xl">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-semibold mb-8 transition-colors hover:text-[var(--nec-text)] text-[var(--nec-muted)]"
+              className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
             >
-              <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
               Back to NECYBLOG
             </Link>
 
@@ -103,7 +95,7 @@ export default async function BlogPostPage({
                 />
 
                 <div className="border-b border-[rgba(var(--nec-purple-rgb),0.10)] px-6 py-7 md:px-10 md:py-9">
-                  <div className="flex flex-wrap items-center gap-3 mb-5">
+                  <div className="mb-5 flex flex-wrap items-center gap-3">
                     <span
                       className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
                       style={{
@@ -112,13 +104,10 @@ export default async function BlogPostPage({
                         color: cat.colorVar,
                       }}
                     >
-                      <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+                      <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
                       {cat.label}
                     </span>
-                    <time
-                      dateTime={post.publishedAt}
-                      className="text-sm font-medium text-[var(--nec-muted)]"
-                    >
+                    <time dateTime={post.publishedAt} className="text-sm font-medium text-[var(--nec-muted)]">
                       {formatDate(post.publishedAt)}
                     </time>
                     {isRecentPost(post.publishedAt) && (
@@ -136,13 +125,11 @@ export default async function BlogPostPage({
                     )}
                   </div>
 
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-[-0.045em] text-[var(--nec-text)] leading-tight">
+                  <h1 className="text-3xl font-semibold leading-tight tracking-[-0.045em] text-[var(--nec-text)] sm:text-4xl md:text-5xl">
                     {post.title}
                   </h1>
 
-                  <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--nec-muted)]">
-                    {post.excerpt}
-                  </p>
+                  <p className="mt-5 max-w-3xl text-lg leading-8 text-[var(--nec-muted)]">{post.excerpt}</p>
                 </div>
 
                 <div className="px-6 py-7 md:px-10 md:py-10">
@@ -154,26 +141,19 @@ export default async function BlogPostPage({
                         background: `linear-gradient(145deg, rgba(${cat.rgb},0.08), rgba(var(--nec-card-rgb),0.72))`,
                       }}
                     >
-                      <p className="text-lg leading-9 text-[var(--nec-text)] md:text-[1.3rem]">
-                        {leadParagraph}
-                      </p>
+                      <p className="text-lg leading-9 text-[var(--nec-text)] md:text-[1.3rem]">{leadParagraph}</p>
                     </div>
                   )}
 
                   <div className="mt-8 space-y-5">
                     {remainingParagraphs.map((paragraph, index) => (
-                      <p
-                        key={index}
-                        className="max-w-3xl text-base leading-8 text-[var(--nec-text)]"
-                      >
+                      <p key={index} className="max-w-3xl text-base leading-8 text-[var(--nec-text)]">
                         {paragraph}
                       </p>
                     ))}
                   </div>
 
-                  <p className="text-base leading-relaxed italic mt-8 text-[var(--nec-muted)]">
-                    &mdash;Anonymous
-                  </p>
+                  <p className="mt-8 text-base italic leading-relaxed text-[var(--nec-muted)]">&mdash;Anonymous</p>
                 </div>
               </article>
 
@@ -203,7 +183,7 @@ export default async function BlogPostPage({
 
                 <div className="text-center">
                   <Link href="/blog" className="btn-ghost w-full !justify-center">
-                    <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+                    <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                     Read More Posts
                   </Link>
                 </div>

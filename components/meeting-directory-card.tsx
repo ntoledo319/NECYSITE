@@ -31,18 +31,48 @@ const THEME_COLORS = {
     accent: "var(--nec-pink)",
     accentRgb: "var(--nec-pink-rgb)",
     badge: {
-      "in-person": { bg: "rgba(var(--nec-cyan-rgb),0.08)", border: "rgba(var(--nec-cyan-rgb),0.18)", color: "var(--nec-cyan)", label: "In-Person" },
-      online: { bg: "rgba(var(--nec-purple-rgb),0.08)", border: "rgba(var(--nec-purple-rgb),0.18)", color: "var(--nec-purple)", label: "Online" },
-      hybrid: { bg: "rgba(var(--nec-pink-rgb),0.08)", border: "rgba(var(--nec-pink-rgb),0.18)", color: "var(--nec-pink)", label: "Hybrid" },
+      "in-person": {
+        bg: "rgba(var(--nec-cyan-rgb),0.08)",
+        border: "rgba(var(--nec-cyan-rgb),0.18)",
+        color: "var(--nec-cyan)",
+        label: "In-Person",
+      },
+      online: {
+        bg: "rgba(var(--nec-purple-rgb),0.08)",
+        border: "rgba(var(--nec-purple-rgb),0.18)",
+        color: "var(--nec-purple)",
+        label: "Online",
+      },
+      hybrid: {
+        bg: "rgba(var(--nec-pink-rgb),0.08)",
+        border: "rgba(var(--nec-pink-rgb),0.18)",
+        color: "var(--nec-pink)",
+        label: "Hybrid",
+      },
     },
   },
   blue: {
     accent: "var(--alanon-blue)",
     accentRgb: "var(--alanon-blue-rgb)",
     badge: {
-      "in-person": { bg: "rgba(var(--alanon-blue-rgb),0.08)", border: "rgba(var(--alanon-blue-rgb),0.18)", color: "var(--alanon-blue)", label: "In-Person" },
-      online: { bg: "rgba(var(--nec-purple-rgb),0.08)", border: "rgba(var(--nec-purple-rgb),0.18)", color: "var(--nec-purple)", label: "Online" },
-      hybrid: { bg: "rgba(var(--alanon-blue-rgb),0.08)", border: "rgba(var(--alanon-blue-rgb),0.15)", color: "var(--alanon-blue)", label: "Hybrid" },
+      "in-person": {
+        bg: "rgba(var(--alanon-blue-rgb),0.08)",
+        border: "rgba(var(--alanon-blue-rgb),0.18)",
+        color: "var(--alanon-blue)",
+        label: "In-Person",
+      },
+      online: {
+        bg: "rgba(var(--nec-purple-rgb),0.08)",
+        border: "rgba(var(--nec-purple-rgb),0.18)",
+        color: "var(--nec-purple)",
+        label: "Online",
+      },
+      hybrid: {
+        bg: "rgba(var(--alanon-blue-rgb),0.08)",
+        border: "rgba(var(--alanon-blue-rgb),0.15)",
+        color: "var(--alanon-blue)",
+        label: "Hybrid",
+      },
     },
   },
 } as const
@@ -57,10 +87,8 @@ export default function MeetingDirectoryCard({ meeting, theme = "pink" }: Meetin
     <article className="nec-card h-full p-5">
       <div className="flex h-full flex-col gap-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2 min-w-0">
-            <h3 className="text-base font-semibold leading-tight text-[var(--nec-text)]">
-              {meeting.name}
-            </h3>
+          <div className="min-w-0 space-y-2">
+            <h3 className="text-base font-semibold leading-tight text-[var(--nec-text)]">{meeting.name}</h3>
             <div className="flex flex-wrap items-center gap-2">
               <span
                 className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"

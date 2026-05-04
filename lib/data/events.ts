@@ -15,18 +15,20 @@ export const upcomingEvent: EventData = {
   title: "The Ultimate Cool Down",
   date: "Saturday, April 25th, 2026",
   location: "CCAR, 713 Main St, Willimantic, CT",
-  schedule: [
-    { label: "Ice Cream Social & Speed Fellowship", time: "2:00 PM" },
-  ],
+  schedule: [{ label: "Ice Cream Social & Speed Fellowship", time: "2:00 PM" }],
   details: [
-    { label: "Activities", value: "Unlimited ice cream, speed fellowship, and positive and emotionally sober cat calling" },
+    {
+      label: "Activities",
+      value: "Unlimited ice cream, speed fellowship, and positive and emotionally sober cat calling",
+    },
     { label: "Suggested Contribution", value: "$15" },
     { label: "Presented by", value: "NECYPAA XXXVI Host Committee" },
   ],
   description:
-    "\"Rarely have we seen a person fail who has thoroughly licked their bowl.\" Come cool down with unlimited ice cream, speed fellowship, and good vibes!",
+    '"Rarely have we seen a person fail who has thoroughly licked their bowl." Come cool down with unlimited ice cream, speed fellowship, and good vibes!',
   flyerSrc: "/images/ultimate-cool-down-flyer.webp",
-  flyerAlt: "The Ultimate Cool Down — Ice Cream Social and Speed Fellowship, April 25th at 2 PM, CCAR 713 Main St Willimantic",
+  flyerAlt:
+    "The Ultimate Cool Down — Ice Cream Social and Speed Fellowship, April 25th at 2 PM, CCAR 713 Main St Willimantic",
 }
 
 export const pastEvents: EventData[] = [
@@ -45,7 +47,8 @@ export const pastEvents: EventData[] = [
     ],
     description: "",
     flyerSrc: "/images/flyer.webp",
-    flyerAlt: "Cardboard Masquerade — Masquerade ball with build-your-own masks, board games, pizza and snacks, May 30th 2025 at 3 Mountain Rd Farmington CT",
+    flyerAlt:
+      "Cardboard Masquerade — Masquerade ball with build-your-own masks, board games, pizza and snacks, May 30th 2025 at 3 Mountain Rd Farmington CT",
   },
   {
     id: "game-night-pajama-rave-2025",
@@ -62,7 +65,8 @@ export const pastEvents: EventData[] = [
     ],
     description: "",
     flyerSrc: "/images/game-night.webp",
-    flyerAlt: "Game Night, Pajama Party and Half-Assed Rave — April 11th 2025 at Pathfinders Club, 102 Norman St, Manchester CT",
+    flyerAlt:
+      "Game Night, Pajama Party and Half-Assed Rave — April 11th 2025 at Pathfinders Club, 102 Norman St, Manchester CT",
   },
   {
     id: "zombie-prom-2026",
@@ -80,7 +84,8 @@ export const pastEvents: EventData[] = [
     ],
     description: "",
     flyerSrc: "/images/zombie-prom-flyer.webp",
-    flyerAlt: "Zombie Prom — Dance and meeting, February 13th 2026 at Enfield United Church of Christ, 1295 Enfield St, Enfield CT",
+    flyerAlt:
+      "Zombie Prom — Dance and meeting, February 13th 2026 at Enfield United Church of Christ, 1295 Enfield St, Enfield CT",
   },
   {
     id: "nye-bonfire-2025",
@@ -88,12 +93,12 @@ export const pastEvents: EventData[] = [
     date: "Wednesday, December 31st, 2025",
     location: "",
     schedule: [],
-    details: [
-      { label: "Presented by", value: "NECYPAA XXXVI Host Committee" },
-    ],
-    description: "Ring in the New Year sober with fellowship, a bonfire, and good vibes. One year closer to NECYPAA XXXVI.",
+    details: [{ label: "Presented by", value: "NECYPAA XXXVI Host Committee" }],
+    description:
+      "Ring in the New Year sober with fellowship, a bonfire, and good vibes. One year closer to NECYPAA XXXVI.",
     flyerSrc: "/images/nye-event.webp",
-    flyerAlt: "New Year's Eve Bonfire and Fellowship — sober celebration with bonfire, music, and friends ringing in 2026",
+    flyerAlt:
+      "New Year's Eve Bonfire and Fellowship — sober celebration with bonfire, music, and friends ringing in 2026",
   },
   {
     id: "rave-halloween-2024",
@@ -113,6 +118,7 @@ export const pastEvents: EventData[] = [
     ],
     description: "One night of fright was never enough.",
     flyerSrc: "/images/rave-halloween.webp",
-    flyerAlt: "Rave Halloween 2.0 — Dance, games, arts and crafts, November 7th 2024 at Bristol Recovery Club, 67 West St, Bristol CT",
+    flyerAlt:
+      "Rave Halloween 2.0 — Dance, games, arts and crafts, November 7th 2024 at Bristol Recovery Club, 67 West St, Bristol CT",
   },
 ]

@@ -56,14 +56,16 @@ export async function startRegistrationCheckout(
   }
 
   if (!validatedData.isScholarship && !validatedPolicy) {
-    throw new Error("We need you to review and accept the policy agreement before continuing. You can find it on the previous step.")
+    throw new Error(
+      "We need you to review and accept the policy agreement before continuing. You can find it on the previous step.",
+    )
   }
 
   const selfRegistrationQuantity = validatedData.isScholarship ? 0 : 1
   const finalScholarshipQuantity =
     validatedData.isScholarship && validatedScholarshipQty === 0 ? 1 : validatedScholarshipQty
   const scholarshipUnitAmountInUse =
-    finalScholarshipQuantity > 0 ? validatedScholarshipUnitAmount ?? product.priceInCents : product.priceInCents
+    finalScholarshipQuantity > 0 ? (validatedScholarshipUnitAmount ?? product.priceInCents) : product.priceInCents
   const scholarshipAmountSource =
     finalScholarshipQuantity === 0
       ? "not_applicable"
@@ -88,9 +90,12 @@ export async function startRegistrationCheckout(
           : "self",
     self_registration_quantity: selfRegistrationQuantity.toString(),
     scholarship_quantity: finalScholarshipQuantity.toString(),
-    scholarship_unit_amount_cents: finalScholarshipQuantity > 0 ? scholarshipUnitAmountInUse.toString() : "not_applicable",
-    scholarship_unit_amount_display: finalScholarshipQuantity > 0 ? formatUsdFromCents(scholarshipUnitAmountInUse) : "not_applicable",
-    scholarship_total_cents: finalScholarshipQuantity > 0 ? (scholarshipUnitAmountInUse * finalScholarshipQuantity).toString() : "0",
+    scholarship_unit_amount_cents:
+      finalScholarshipQuantity > 0 ? scholarshipUnitAmountInUse.toString() : "not_applicable",
+    scholarship_unit_amount_display:
+      finalScholarshipQuantity > 0 ? formatUsdFromCents(scholarshipUnitAmountInUse) : "not_applicable",
+    scholarship_total_cents:
+      finalScholarshipQuantity > 0 ? (scholarshipUnitAmountInUse * finalScholarshipQuantity).toString() : "0",
     scholarship_default_price_cents: product.priceInCents.toString(),
     scholarship_amount_source: scholarshipAmountSource,
     attendee_name: validatedData.name || "Not provided",
@@ -104,9 +109,15 @@ export async function startRegistrationCheckout(
     breakfast_ticket_price_cents: "2500",
     attribution_aa_entity: validatedAttribution?.aaEntity || "None",
     attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
-    accommodations: validatedData.isScholarship ? "Not provided (scholarship purchase)" : validatedData.accommodations || "None",
-    interpretation_needed: validatedData.isScholarship ? "not_applicable" : validatedData.interpretationNeeded.toString(),
-    mobility_accessibility: validatedData.isScholarship ? "not_applicable" : validatedData.mobilityAccessibility.toString(),
+    accommodations: validatedData.isScholarship
+      ? "Not provided (scholarship purchase)"
+      : validatedData.accommodations || "None",
+    interpretation_needed: validatedData.isScholarship
+      ? "not_applicable"
+      : validatedData.interpretationNeeded.toString(),
+    mobility_accessibility: validatedData.isScholarship
+      ? "not_applicable"
+      : validatedData.mobilityAccessibility.toString(),
     willing_to_serve: validatedData.isScholarship ? "not_applicable" : validatedData.willingToServe.toString(),
     homegroup_committee: validatedData.homegroup,
     policy_read_and_understood: validatedPolicy ? validatedPolicy.readPolicy.toString() : "not_applicable",
@@ -114,7 +125,9 @@ export async function startRegistrationCheckout(
     policy_behavior_acknowledged: validatedPolicy ? validatedPolicy.acknowledgeBehavior.toString() : "not_applicable",
     policy_admission_understood: validatedPolicy ? validatedPolicy.understandAdmission.toString() : "not_applicable",
     policy_reporting_understood: validatedPolicy ? validatedPolicy.understandReporting.toString() : "not_applicable",
-    policy_investigation_understood: validatedPolicy ? validatedPolicy.understandInvestigation.toString() : "not_applicable",
+    policy_investigation_understood: validatedPolicy
+      ? validatedPolicy.understandInvestigation.toString()
+      : "not_applicable",
     policy_signature_agreement: validatedPolicy ? validatedPolicy.signatureAgreement.toString() : "not_applicable",
   }
 
@@ -193,11 +206,12 @@ export async function startRegistrationCheckout(
     }
 
     const payload = await getPayload({ config: configPromise })
-    const recordType = selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
-      ? "self_plus_scholarship"
-      : validatedData.isScholarship
-        ? "scholarship"
-        : "self"
+    const recordType =
+      selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
+        ? "self_plus_scholarship"
+        : validatedData.isScholarship
+          ? "scholarship"
+          : "self"
 
     await payload.create({
       collection: "registrations",

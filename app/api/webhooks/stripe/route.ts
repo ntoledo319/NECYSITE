@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session
-        
+
         const existing = await payload.find({
           collection: "registrations",
           where: { stripeSessionId: { equals: session.id } },
@@ -44,8 +44,8 @@ export async function POST(req: Request) {
             id: existing.docs[0].id,
             data: {
               status: "paid",
-              stripePaymentIntentId: session.payment_intent as string || "",
-              stripeCustomerId: session.customer as string || "",
+              stripePaymentIntentId: (session.payment_intent as string) || "",
+              stripeCustomerId: (session.customer as string) || "",
             },
           })
         }
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       }
       case "checkout.session.expired": {
         const session = event.data.object as Stripe.Checkout.Session
-        
+
         const existing = await payload.find({
           collection: "registrations",
           where: { stripeSessionId: { equals: session.id } },
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
       }
       case "payment_intent.payment_failed": {
         const paymentIntent = event.data.object as Stripe.PaymentIntent
-        
+
         const existing = await payload.find({
           collection: "registrations",
           where: { stripePaymentIntentId: { equals: paymentIntent.id } },
@@ -93,7 +93,7 @@ export async function POST(req: Request) {
       }
       case "charge.refunded": {
         const charge = event.data.object as Stripe.Charge
-        
+
         const existing = await payload.find({
           collection: "registrations",
           where: { stripePaymentIntentId: { equals: charge.payment_intent as string } },

@@ -7,11 +7,11 @@
 
 ## Prerequisites
 
-| Tool | Version | Install |
-|------|---------|---------|
-| Node.js | 20+ | `nvm install 20 && nvm use 20` |
-| pnpm | 9+ | `corepack enable && corepack prepare pnpm@latest --activate` |
-| Git | 2.30+ | Pre-installed on macOS/Linux |
+| Tool    | Version | Install                                                      |
+| ------- | ------- | ------------------------------------------------------------ |
+| Node.js | 20+     | `nvm install 20 && nvm use 20`                               |
+| pnpm    | 9+      | `corepack enable && corepack prepare pnpm@latest --activate` |
+| Git     | 2.30+   | Pre-installed on macOS/Linux                                 |
 
 ---
 
@@ -49,6 +49,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
 **Where to get Stripe test keys:**
+
 1. Go to https://dashboard.stripe.com/test/apikeys
 2. Copy "Publishable key" → `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
 3. Copy "Secret key" → `STRIPE_SECRET_KEY`
@@ -75,19 +76,19 @@ pnpm build         # Should show "Compiled successfully"
 
 ## All Available Commands
 
-| Command | What It Does | When to Use |
-|---------|-------------|-------------|
-| `pnpm dev` | Start dev server with hot reload | Daily development |
-| `pnpm build` | Production build (TypeScript check + ESLint + bundle) | Before every push |
-| `pnpm start` | Start production server from build output | Testing production build locally |
-| `pnpm lint` | Run ESLint across all files | Before committing |
-| `pnpm lint:fix` | Run ESLint with auto-fix | Fix formatting/import issues |
-| `pnpm format` | Run Prettier on all files | Normalize whitespace/formatting |
-| `pnpm format:check` | Check Prettier compliance (no writes) | CI or pre-commit |
-| `pnpm test` | Run Vitest unit tests (45 tests) | Before every push |
-| `pnpm test:watch` | Run Vitest in watch mode | During TDD |
-| `pnpm test:a11y` | Run Playwright accessibility tests | Before deploying a11y changes |
-| `pnpm test:a11y:ui` | Playwright with visual debugger | Debugging a11y failures |
+| Command             | What It Does                                          | When to Use                      |
+| ------------------- | ----------------------------------------------------- | -------------------------------- |
+| `pnpm dev`          | Start dev server with hot reload                      | Daily development                |
+| `pnpm build`        | Production build (TypeScript check + ESLint + bundle) | Before every push                |
+| `pnpm start`        | Start production server from build output             | Testing production build locally |
+| `pnpm lint`         | Run ESLint across all files                           | Before committing                |
+| `pnpm lint:fix`     | Run ESLint with auto-fix                              | Fix formatting/import issues     |
+| `pnpm format`       | Run Prettier on all files                             | Normalize whitespace/formatting  |
+| `pnpm format:check` | Check Prettier compliance (no writes)                 | CI or pre-commit                 |
+| `pnpm test`         | Run Vitest unit tests (45 tests)                      | Before every push                |
+| `pnpm test:watch`   | Run Vitest in watch mode                              | During TDD                       |
+| `pnpm test:a11y`    | Run Playwright accessibility tests                    | Before deploying a11y changes    |
+| `pnpm test:a11y:ui` | Playwright with visual debugger                       | Debugging a11y failures          |
 
 ---
 
@@ -100,6 +101,7 @@ pnpm test
 ```
 
 **45 tests across 5 suites:**
+
 - `lib/__tests__/validation.test.ts` — Zod schema validation + XSS sanitization
 - `lib/__tests__/rate-limit.test.ts` — Sliding window rate limiter
 - `lib/__tests__/registration-products.test.ts` — Fee calculation + product integrity
@@ -146,14 +148,14 @@ git push origin main
 
 These must be set in the Vercel dashboard (Settings > Environment Variables):
 
-| Variable | Value |
-|----------|-------|
-| `PAYLOAD_SECRET` | Strong random string (32+ chars) |
-| `STRIPE_SECRET_KEY` | `sk_live_...` (LIVE key for production) |
+| Variable                             | Value                                   |
+| ------------------------------------ | --------------------------------------- |
+| `PAYLOAD_SECRET`                     | Strong random string (32+ chars)        |
+| `STRIPE_SECRET_KEY`                  | `sk_live_...` (LIVE key for production) |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_...` (LIVE key for production) |
-| `NEXT_PUBLIC_BASE_URL` | `https://www.necypaact.com` |
-| `ISSUER_SERVICE_BASE_URL` | Production issuer service URL |
-| `ISSUER_SERVICE_API_KEY` | Production issuer API key |
+| `NEXT_PUBLIC_BASE_URL`               | `https://www.necypaact.com`             |
+| `ISSUER_SERVICE_BASE_URL`            | Production issuer service URL           |
+| `ISSUER_SERVICE_API_KEY`             | Production issuer API key               |
 
 ### Rolling Back a Deploy
 
@@ -175,14 +177,14 @@ This is instant and does not require a new build.
 
 ### Managing Content
 
-| Content Type | How to Edit |
-|-------------|-------------|
+| Content Type   | How to Edit                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------ |
 | **Blog Posts** | CMS admin → BlogPosts collection. Supports drafts, rich text (Lexical), featured images, EN/ES fields. |
-| **Events** | CMS admin → Events collection. Title, date, location, schedule, flyer image. |
-| **FAQ** | CMS admin → FAQ collection. Categories, sort order, EN/ES fields. |
-| **Media** | CMS admin → Media collection. Upload images/files, alt text required. |
-| **Meetings** | Edit `lib/data/ypaa-meetings.ts` directly (static data, not in CMS). Requires code change + deploy. |
-| **States** | Edit `lib/data/states.ts` directly (static data). Requires code change + deploy. |
+| **Events**     | CMS admin → Events collection. Title, date, location, schedule, flyer image.                           |
+| **FAQ**        | CMS admin → FAQ collection. Categories, sort order, EN/ES fields.                                      |
+| **Media**      | CMS admin → Media collection. Upload images/files, alt text required.                                  |
+| **Meetings**   | Edit `lib/data/ypaa-meetings.ts` directly (static data, not in CMS). Requires code change + deploy.    |
+| **States**     | Edit `lib/data/states.ts` directly (static data). Requires code change + deploy.                       |
 
 ### Database
 
@@ -195,16 +197,19 @@ SQLite file at `payload.db` in the project root. Payload auto-migrates the schem
 ## Monitoring & Observability
 
 ### Current Setup
+
 - **Vercel Analytics:** Built-in, tracks page views and Web Vitals
 - **Web Vitals:** CLS, INP, FCP, LCP, TTFB reported to Vercel via `lib/web-vitals.ts`
 - **Error logging:** `console.error` in server actions (visible in Vercel function logs)
 
 ### Viewing Logs
+
 1. Vercel Dashboard → Project → "Logs" tab
 2. Filter by function name (e.g., `registration`, `breakfast`)
 3. Or use Vercel CLI: `vercel logs --follow`
 
 ### Health Check
+
 There is no dedicated health endpoint. Verify the site is up by loading the homepage.
 
 ---
@@ -221,23 +226,27 @@ There is no dedicated health endpoint. Verify the site is up by loading the home
 ## Emergency Procedures
 
 ### Site is Down
+
 1. Check Vercel status: https://www.vercel-status.com/
 2. Check Vercel dashboard for failed deploys
 3. If a bad deploy caused it: roll back (see "Rolling Back a Deploy" above)
 4. If DNS issue: check domain settings in Vercel
 
 ### Stripe Payments Not Working
+
 1. Check Stripe dashboard for errors: https://dashboard.stripe.com/
 2. Verify env vars are set correctly in Vercel
 3. Check Vercel function logs for `"Stripe session creation failed"` errors
 4. Test with Stripe CLI: `stripe listen --forward-to localhost:3000/api/webhooks/stripe`
 
 ### CMS Admin Locked Out
+
 1. Delete `payload.db` (WARNING: this deletes all CMS content)
 2. Restart the server — Payload will prompt to create a new admin user
 3. Re-enter blog posts, events, and FAQ content
 
 ### Need to Change Stripe Keys (Compromised)
+
 1. Go to Stripe Dashboard → Developers → API Keys
 2. Roll the keys
 3. Update in Vercel dashboard (Settings > Environment Variables)
@@ -247,12 +256,12 @@ There is no dedicated health endpoint. Verify the site is up by loading the home
 
 ## Branching & Release Strategy
 
-| Branch | Purpose |
-|--------|---------|
-| `main` | Production. Auto-deploys to Vercel on push. |
-| `feat/*` | New features |
-| `fix/*` | Bug fixes |
-| `chore/*` | Maintenance, config, docs |
+| Branch    | Purpose                                     |
+| --------- | ------------------------------------------- |
+| `main`    | Production. Auto-deploys to Vercel on push. |
+| `feat/*`  | New features                                |
+| `fix/*`   | Bug fixes                                   |
+| `chore/*` | Maintenance, config, docs                   |
 
 ### Workflow
 

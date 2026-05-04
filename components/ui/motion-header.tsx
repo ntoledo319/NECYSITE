@@ -3,13 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
-export default function MotionHeader({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode
-  className?: string
-}) {
+export default function MotionHeader({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const shouldReduce = useReducedMotion()
 
   return (

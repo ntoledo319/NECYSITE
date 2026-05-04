@@ -10,18 +10,16 @@ const sections = [
     content: (
       <>
         <p className="mb-3">
-          Al‑Anon is a mutual support program for people whose lives have been affected by someone
-          else&apos;s drinking. By sharing common experiences and applying the Al‑Anon principles,
-          families and friends of alcoholics can bring positive changes to their individual
-          situations, whether or not the alcoholic admits the existence of a drinking problem or
-          seeks help.
+          Al‑Anon is a mutual support program for people whose lives have been affected by someone else&apos;s drinking.
+          By sharing common experiences and applying the Al‑Anon principles, families and friends of alcoholics can
+          bring positive changes to their individual situations, whether or not the alcoholic admits the existence of a
+          drinking problem or seeks help.
         </p>
         <p>
-          Alateen, a part of the Al‑Anon Family Groups, is a fellowship of young people (mostly
-          teenagers) whose lives have been affected by someone else&apos;s drinking — whether they
-          are in your life drinking or not. By attending Alateen, teenagers meet other teenagers with
-          similar situations. Alateen is not a religious program and there are no fees or dues to
-          belong to it.
+          Alateen, a part of the Al‑Anon Family Groups, is a fellowship of young people (mostly teenagers) whose lives
+          have been affected by someone else&apos;s drinking — whether they are in your life drinking or not. By
+          attending Alateen, teenagers meet other teenagers with similar situations. Alateen is not a religious program
+          and there are no fees or dues to belong to it.
         </p>
       </>
     ),
@@ -32,15 +30,13 @@ const sections = [
     content: (
       <>
         <p className="mb-3">
-          Al‑Anon members are people, just like you, who are worried about someone with a drinking
-          problem. Members do not give direction or advice to other members. Instead they share their
-          experiences and stories. If someone else&apos;s drinking troubles you, attending Al‑Anon
-          and Alateen Family Group meetings can help.
+          Al‑Anon members are people, just like you, who are worried about someone with a drinking problem. Members do
+          not give direction or advice to other members. Instead they share their experiences and stories. If someone
+          else&apos;s drinking troubles you, attending Al‑Anon and Alateen Family Group meetings can help.
         </p>
         <p>
-          Teens come together to share their experiences to find effective ways to cope with
-          problems. Self-assessment quizzes are designed to help you decide whether Al‑Anon or
-          Alateen might be able to help.
+          Teens come together to share their experiences to find effective ways to cope with problems. Self-assessment
+          quizzes are designed to help you decide whether Al‑Anon or Alateen might be able to help.
         </p>
       </>
     ),
@@ -51,15 +47,14 @@ const sections = [
     content: (
       <>
         <p className="mb-3">
-          Are you involved with someone whose drinking is bothering you? How do you cope with an
-          intimate relationship that is affected by alcoholism? Living with a spouse, partner or
-          significant other who exhibits a drinking problem can have devastating effects on our
-          emotional well-being, our personal relationships, our professional life and sometimes even
-          our physical health.
+          Are you involved with someone whose drinking is bothering you? How do you cope with an intimate relationship
+          that is affected by alcoholism? Living with a spouse, partner or significant other who exhibits a drinking
+          problem can have devastating effects on our emotional well-being, our personal relationships, our professional
+          life and sometimes even our physical health.
         </p>
         <p>
-          Attending Al‑Anon Family Group meetings might provide the support and tools needed to deal
-          with the effects of alcoholism on very important relationships.
+          Attending Al‑Anon Family Group meetings might provide the support and tools needed to deal with the effects of
+          alcoholism on very important relationships.
         </p>
       </>
     ),
@@ -84,13 +79,13 @@ export default function AlAnonInfoAccordion() {
             <Accordion.Trigger className="group flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-[var(--nec-text)] transition-[background-color,color] duration-200 hover:bg-[rgba(0,147,208,0.03)]">
               <span className="pr-4">{section.title}</span>
               <ChevronDown
-                className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"
+                className="h-5 w-5 flex-shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180"
                 style={{ color: "var(--alanon-blue)" }}
                 aria-hidden="true"
               />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Content className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+          <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div
               className="border-t px-5 pb-5 pt-4 text-sm leading-relaxed"
               style={{ borderColor: "rgba(0,147,208,0.08)", color: "var(--nec-text)" }}

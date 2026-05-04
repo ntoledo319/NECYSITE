@@ -9,11 +9,7 @@ function formatIcsDateUTC(date: Date): string {
 }
 
 function escapeIcs(text: string): string {
-  return text
-    .replace(/\\/g, "\\\\")
-    .replace(/;/g, "\\;")
-    .replace(/,/g, "\\,")
-    .replace(/\n/g, "\\n")
+  return text.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n")
 }
 
 function foldLine(line: string): string {

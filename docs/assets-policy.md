@@ -15,12 +15,12 @@
 
 ## Format rules
 
-| Use case | Preferred format | Max width | Notes |
-|----------|-----------------|-----------|-------|
-| Photographs | WebP or AVIF | 1600 px | Use `next/image` with explicit `width`/`height`/`sizes` |
-| Illustrations with transparency | WebP (with alpha) or PNG | 1200 px | Prefer WebP; PNG only if source lacks WebP export |
-| Icons / UI graphics | SVG | — | Inline small icons; external file for complex illustrations |
-| Character art / hero images | WebP | 1600 px | These are the largest images; optimize aggressively |
+| Use case                        | Preferred format         | Max width | Notes                                                       |
+| ------------------------------- | ------------------------ | --------- | ----------------------------------------------------------- |
+| Photographs                     | WebP or AVIF             | 1600 px   | Use `next/image` with explicit `width`/`height`/`sizes`     |
+| Illustrations with transparency | WebP (with alpha) or PNG | 1200 px   | Prefer WebP; PNG only if source lacks WebP export           |
+| Icons / UI graphics             | SVG                      | —         | Inline small icons; external file for complex illustrations |
+| Character art / hero images     | WebP                     | 1600 px   | These are the largest images; optimize aggressively         |
 
 ## Naming conventions
 

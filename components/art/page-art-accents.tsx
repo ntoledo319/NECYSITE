@@ -52,21 +52,21 @@ export default function PageArtAccents({
     <>
       {/* ── Ambient glow layer ─────────────────────── */}
       {variant === "full" && (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
           <div
-            className="absolute -top-40 -left-40 w-[900px] h-[900px] rounded-full opacity-[0.06]"
+            className="absolute -left-40 -top-40 h-[900px] w-[900px] rounded-full opacity-[0.06]"
             style={{
               background: "radial-gradient(circle, var(--nec-purple) 0%, transparent 65%)",
             }}
           />
           <div
-            className="absolute top-[40%] -right-20 w-[700px] h-[700px] rounded-full opacity-[0.05]"
+            className="absolute -right-20 top-[40%] h-[700px] w-[700px] rounded-full opacity-[0.05]"
             style={{
               background: `radial-gradient(circle, rgba(${rgb},1) 0%, transparent 65%)`,
             }}
           />
           <div
-            className="absolute bottom-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.04]"
+            className="absolute bottom-[10%] left-[20%] h-[600px] w-[600px] rounded-full opacity-[0.04]"
             style={{
               background: "radial-gradient(circle, var(--nec-gold) 0%, transparent 65%)",
             }}
@@ -75,30 +75,30 @@ export default function PageArtAccents({
       )}
 
       {/* ── Edge art accents (always shown) ────────── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]" aria-hidden="true">
+      <div className="pointer-events-none absolute inset-0 z-[2] overflow-hidden" aria-hidden="true">
         {/* Top-left sparkle cluster */}
-        <div className="absolute top-20 left-4 md:left-8">
+        <div className="absolute left-4 top-20 md:left-8">
           <Sparkle color="var(--nec-gold)" size={12} opacity={0.18} />
         </div>
-        <div className="absolute top-28 left-8 md:left-14">
+        <div className="absolute left-8 top-28 md:left-14">
           <Sparkle color={accentColor} size={8} opacity={0.12} />
         </div>
 
         {/* Top-right gear */}
-        <div className="absolute top-24 right-4 md:right-8 hidden md:block">
+        <div className="absolute right-4 top-24 hidden md:right-8 md:block">
           <Gear size={36} opacity={0.05} color="var(--nec-gold)" />
         </div>
 
         {/* Left edge drips */}
-        <div className="absolute top-[35%] left-2 hidden lg:block">
+        <div className="absolute left-2 top-[35%] hidden lg:block">
           <Drip color={accentColor} height={40} opacity={0.12} />
         </div>
-        <div className="absolute top-[38%] left-5 hidden lg:block">
+        <div className="absolute left-5 top-[38%] hidden lg:block">
           <Drip color="var(--nec-pink)" height={28} opacity={0.08} />
         </div>
 
         {/* Right edge splatter */}
-        <div className="absolute top-[50%] right-3 hidden lg:block">
+        <div className="absolute right-3 top-[50%] hidden lg:block">
           <Splatter color={accentColor} size={35} opacity={0.06} />
         </div>
 
@@ -106,7 +106,7 @@ export default function PageArtAccents({
         <div className="absolute bottom-32 right-6 md:right-12">
           <Sparkle color="var(--nec-cyan)" size={10} opacity={0.15} />
         </div>
-        <div className="absolute bottom-40 right-3 md:right-8 hidden md:block">
+        <div className="absolute bottom-40 right-3 hidden md:right-8 md:block">
           <Sparkle color="var(--nec-gold)" size={14} opacity={0.12} />
         </div>
 
@@ -116,28 +116,26 @@ export default function PageArtAccents({
         </div>
 
         {/* Floating character ghost — deep in the background */}
-        <div
-          className="absolute bottom-8 right-6 w-20 h-28 opacity-[0.06] hidden md:block"
-        >
+        <div className="absolute bottom-8 right-6 hidden h-28 w-20 opacity-[0.06] md:block">
           <Image
             src={CHARACTER_IMAGES[character]}
             alt=""
             width={80}
             height={112}
             sizes="80px"
-            className="w-full h-full object-contain"
+            className="h-full w-full object-contain"
             aria-hidden="true"
           />
         </div>
 
         {/* Gear cluster — left side */}
-        <div className="absolute top-[65%] left-2 hidden xl:block">
+        <div className="absolute left-2 top-[65%] hidden xl:block">
           <GearCluster className="opacity-50" />
         </div>
       </div>
 
       {/* ── Bottom ornate divider (before footer) ──── */}
-      <div className="container mx-auto px-4 mt-auto relative z-10" aria-hidden="true">
+      <div className="container relative z-10 mx-auto mt-auto px-4" aria-hidden="true">
         <OrnateDivider variant={dividerVariant} color={accentColor} />
       </div>
     </>

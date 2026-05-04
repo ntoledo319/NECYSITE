@@ -1,7 +1,25 @@
-import { getPayload } from "payload"
-import configPromise from "@payload-config"
 import { BLOG_POSTS, type BlogPost } from "./blog-posts"
 import { pastEvents, upcomingEvent, type EventData } from "./events"
+
+// Lazy import Payload to avoid pulling it into every server bundle at parse time.
+// This significantly reduces memory usage during build ("Collecting page data" step)
+// especially when the CMS has no data yet.
+async function loadPayload() {
+  // Allow opting out of Payload during build (e.g. CI / preview deploys with no DB)
+  if (process.env.SKIP_PAYLOAD_AT_BUILD === "true") {
+    return null
+  }
+  try {
+    const [{ getPayload }, { default: configPromise }] = await Promise.all([
+      import("payload"),
+      import("@payload-config"),
+    ])
+    return await getPayload({ config: configPromise })
+  } catch (error) {
+    console.error("Failed to initialize Payload CMS:", error)
+    return null
+  }
+}
 
 interface LexicalNode {
   type?: string
@@ -41,7 +59,9 @@ function extractTextFromLexical(lexicalData: unknown): string {
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
-    const payload = await getPayload({ config: configPromise })
+    const payload = await loadPayload()
+    if (!payload) return BLOG_POSTS
+
     const { docs } = await payload.find({
       collection: "blog-posts",
       where: {
@@ -59,7 +79,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         excerpt: String(doc.excerpt || ""),
         body: typeof doc.body === "string" ? doc.body : extractTextFromLexical(doc.body),
         category: String(doc.category) as BlogPost["category"],
-        publishedAt: doc.publishedAt ? new Date(String(doc.publishedAt)).toISOString().split('T')[0] : "2026-01-01",
+        publishedAt: doc.publishedAt ? new Date(String(doc.publishedAt)).toISOString().split("T")[0] : "2026-01-01",
       }))
     }
   } catch (error) {
@@ -87,7 +107,7 @@ function isPastEvent(dateString: string): boolean {
     const currentYear = new Date().getFullYear()
     if (year < currentYear) return true
     if (year > currentYear) return false
-    
+
     // If same year, we'd ideally parse month/day, but the string is unstructured.
     // For robust architecture, we should add an ISO date field in the future.
   }
@@ -96,7 +116,14 @@ function isPastEvent(dateString: string): boolean {
 
 export async function getEvents(): Promise<{ upcoming: EventData | null; past: EventData[] }> {
   try {
-    const payload = await getPayload({ config: configPromise })
+    const payload = await loadPayload()
+    if (!payload) {
+      return {
+        upcoming: upcomingEvent,
+        past: pastEvents,
+      }
+    }
+
     const { docs } = await payload.find({
       collection: "events",
       limit: 100,
@@ -125,13 +152,13 @@ export async function getEvents(): Promise<{ upcoming: EventData | null; past: E
       })
 
       // Filter out invalid dates
-      const validEvents = mappedEvents.filter(e => isValidEventDate(e.date))
+      const validEvents = mappedEvents.filter((e) => isValidEventDate(e.date))
 
       // Basic heuristic: assume the one event that isn't clearly past is upcoming
       // (This matches the site's current single-upcoming-event design).
-      const past = validEvents.filter(e => isPastEvent(e.date))
-      const potentialUpcoming = validEvents.filter(e => !isPastEvent(e.date))
-      
+      const past = validEvents.filter((e) => isPastEvent(e.date))
+      const potentialUpcoming = validEvents.filter((e) => !isPastEvent(e.date))
+
       const upcoming = potentialUpcoming.length > 0 ? potentialUpcoming[0] : null
       const remainingPast = potentialUpcoming.slice(1) // if there are multiple, push to past for now
 

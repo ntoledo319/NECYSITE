@@ -345,4 +345,3 @@ export const NECYPAA_STATES: StateResource[] = [
     notes: "District of Columbia — not a state, but a full NECYPAA member.",
   },
 ]
-

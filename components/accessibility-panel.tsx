@@ -12,7 +12,15 @@ export default function AccessibilityPanel() {
   const panelRef = useFocusTrap<HTMLDivElement>(open)
 
   const fontSizeLabel =
-    settings.fontSize <= 1 ? "Default" : settings.fontSize <= 1.25 ? "Large" : settings.fontSize <= 1.5 ? "Extra Large" : settings.fontSize <= 1.75 ? "XX-Large" : "Maximum"
+    settings.fontSize <= 1
+      ? "Default"
+      : settings.fontSize <= 1.25
+        ? "Large"
+        : settings.fontSize <= 1.5
+          ? "Extra Large"
+          : settings.fontSize <= 1.75
+            ? "XX-Large"
+            : "Maximum"
 
   useEffect(() => {
     if (open) {
@@ -36,7 +44,7 @@ export default function AccessibilityPanel() {
         }}
         aria-label="Open accessibility settings"
       >
-        <Settings className="w-5 h-5" aria-hidden="true" />
+        <Settings className="h-5 w-5" aria-hidden="true" />
       </button>
 
       {/* Panel overlay */}
@@ -44,15 +52,12 @@ export default function AccessibilityPanel() {
         <div className="fixed inset-0 z-[200]" role="dialog" aria-modal="true" aria-label="Accessibility settings">
           {/* Backdrop */}
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- backdrop dismiss is supplementary to Escape key and close button */}
-          <div
-            className="absolute inset-0 bg-[rgba(28,21,17,0.48)] backdrop-blur-sm"
-            onClick={() => setOpen(false)}
-          />
+          <div className="absolute inset-0 bg-[rgba(28,21,17,0.48)] backdrop-blur-sm" onClick={() => setOpen(false)} />
 
           {/* Panel */}
           <div
             ref={panelRef}
-            className="absolute right-0 top-0 bottom-0 w-full max-w-sm overflow-y-auto"
+            className="absolute bottom-0 right-0 top-0 w-full max-w-sm overflow-y-auto"
             style={{
               background: "rgba(var(--nec-card-rgb),0.98)",
               borderLeft: "1px solid rgba(var(--nec-purple-rgb),0.12)",
@@ -60,7 +65,10 @@ export default function AccessibilityPanel() {
             }}
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b p-4" style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)", background: "rgba(var(--nec-card-rgb),0.98)" }}>
+            <div
+              className="sticky top-0 z-10 flex items-center justify-between border-b p-4"
+              style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)", background: "rgba(var(--nec-card-rgb),0.98)" }}
+            >
               <h2 className="text-base font-bold text-[var(--nec-text)]">Accessibility Settings</h2>
               <div className="flex items-center gap-2">
                 <button
@@ -71,7 +79,7 @@ export default function AccessibilityPanel() {
                   aria-label="Reset all settings to defaults"
                   title="Reset to defaults"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="h-4 w-4" />
                 </button>
                 <button
                   type="button"
@@ -80,20 +88,25 @@ export default function AccessibilityPanel() {
                   style={{ color: "var(--nec-muted)" }}
                   aria-label="Close accessibility settings"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
             {/* Settings */}
-            <div className="p-4 space-y-5">
+            <div className="space-y-5 p-4">
               {/* Color Mode */}
               <SettingRow
-                icon={settings.colorMode === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+                icon={settings.colorMode === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                 label="Color Mode"
                 description={settings.colorMode === "dark" ? "Dark (default)" : "Light"}
               >
-                <div className="flex rounded-lg overflow-hidden" role="radiogroup" aria-label="Color mode" style={{ border: "1px solid var(--nec-border)" }}>
+                <div
+                  className="flex overflow-hidden rounded-lg"
+                  role="radiogroup"
+                  aria-label="Color mode"
+                  style={{ border: "1px solid var(--nec-border)" }}
+                >
                   <button
                     type="button"
                     onClick={() => updateSettings({ colorMode: "dark" })}
@@ -125,7 +138,7 @@ export default function AccessibilityPanel() {
 
               {/* High Contrast */}
               <SettingRow
-                icon={<Eye className="w-4 h-4" />}
+                icon={<Eye className="h-4 w-4" />}
                 label="High Contrast"
                 description="Increases contrast ratios for better readability"
               >
@@ -137,11 +150,7 @@ export default function AccessibilityPanel() {
               </SettingRow>
 
               {/* Font Size */}
-              <SettingRow
-                icon={<Type className="w-4 h-4" />}
-                label="Text Size"
-                description={fontSizeLabel}
-              >
+              <SettingRow icon={<Type className="h-4 w-4" />} label="Text Size" description={fontSizeLabel}>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
@@ -151,9 +160,9 @@ export default function AccessibilityPanel() {
                     style={{ color: "var(--nec-muted)" }}
                     aria-label="Decrease font size"
                   >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="h-4 w-4" />
                   </button>
-                  <span className="text-xs font-mono w-10 text-center" style={{ color: "var(--nec-text)" }}>
+                  <span className="w-10 text-center font-mono text-xs" style={{ color: "var(--nec-text)" }}>
                     {Math.round(settings.fontSize * 100)}%
                   </span>
                   <button
@@ -164,14 +173,18 @@ export default function AccessibilityPanel() {
                     style={{ color: "var(--nec-muted)" }}
                     aria-label="Increase font size"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="h-4 w-4" />
                   </button>
                 </div>
               </SettingRow>
 
               {/* Dyslexia Font */}
               <SettingRow
-                icon={<span className="text-sm font-bold" style={{ color: "var(--nec-cyan)" }}>Aa</span>}
+                icon={
+                  <span className="text-sm font-bold" style={{ color: "var(--nec-cyan)" }}>
+                    Aa
+                  </span>
+                }
                 label="Dyslexia-Friendly Font"
                 description="Uses a font designed for easier reading with dyslexia"
               >
@@ -184,7 +197,11 @@ export default function AccessibilityPanel() {
 
               {/* Reduce Motion */}
               <SettingRow
-                icon={<span className="text-sm" style={{ color: "var(--nec-cyan)" }}>⏸</span>}
+                icon={
+                  <span className="text-sm" style={{ color: "var(--nec-cyan)" }}>
+                    ⏸
+                  </span>
+                }
                 label="Reduce Motion"
                 description="Turns off all animations and transitions"
               >
@@ -197,7 +214,11 @@ export default function AccessibilityPanel() {
 
               {/* Grayscale */}
               <SettingRow
-                icon={<span className="text-sm" style={{ color: "var(--nec-cyan)" }}>◐</span>}
+                icon={
+                  <span className="text-sm" style={{ color: "var(--nec-cyan)" }}>
+                    ◐
+                  </span>
+                }
                 label="Grayscale"
                 description="Removes all color from the page"
               >
@@ -210,10 +231,12 @@ export default function AccessibilityPanel() {
             </div>
 
             {/* Footer */}
-            <div className="mt-4 border-t p-4 text-xs" style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)", color: "var(--nec-muted)" }}>
+            <div
+              className="mt-4 border-t p-4 text-xs"
+              style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)", color: "var(--nec-muted)" }}
+            >
               <p>
-                Your settings are saved locally on this device. If you need additional
-                accommodations, please email{" "}
+                Your settings are saved locally on this device. If you need additional accommodations, please email{" "}
                 <a href="mailto:info@necypaa.org" className="underline" style={{ color: "var(--nec-cyan)" }}>
                   info@necypaa.org
                 </a>
@@ -245,13 +268,13 @@ function SettingRow({
       className="flex items-center justify-between gap-4 rounded-[1.1rem] border p-3.5"
       style={{ background: "rgba(var(--nec-card-rgb),0.78)", border: "1px solid rgba(var(--nec-purple-rgb),0.10)" }}
     >
-      <div className="flex items-start gap-3 min-w-0">
+      <div className="flex min-w-0 items-start gap-3">
         <span className="mt-0.5 flex-shrink-0" style={{ color: "var(--nec-cyan)" }}>
           {icon}
         </span>
         <div className="min-w-0">
           <span className="block text-sm font-semibold text-[var(--nec-text)]">{label}</span>
-          <span className="block text-xs mt-0.5" style={{ color: "var(--nec-muted)" }}>
+          <span className="mt-0.5 block text-xs" style={{ color: "var(--nec-muted)" }}>
             {description}
           </span>
         </div>

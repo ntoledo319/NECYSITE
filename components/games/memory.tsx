@@ -51,14 +51,27 @@ interface Card {
   matched: boolean
 }
 
-function DPadButton({ label, ariaLabel, onTap, color = PURPLE }: { label: string; ariaLabel: string; onTap: () => void; color?: string }) {
+function DPadButton({
+  label,
+  ariaLabel,
+  onTap,
+  color = PURPLE,
+}: {
+  label: string
+  ariaLabel: string
+  onTap: () => void
+  color?: string
+}) {
   return (
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); onTap() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onTap()
+      }}
       onClick={onTap}
-      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-90 transition-transform"
+      className="flex select-none items-center justify-center rounded-xl text-lg font-bold transition-transform active:scale-90"
       style={{
         width: 52,
         height: 52,
@@ -96,7 +109,10 @@ export default function MemoryGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [moves, setMoves] = useState(0)
   const [gameComplete, setGameComplete] = useState(false)
-  const actionsRef = useRef<{ move: (dx: number, dy: number) => void; flip: () => void }>({ move: () => {}, flip: () => {} })
+  const actionsRef = useRef<{ move: (dx: number, dy: number) => void; flip: () => void }>({
+    move: () => {},
+    flip: () => {},
+  })
 
   const gameRef = useRef({
     cards: buildDeck(),
@@ -189,11 +205,31 @@ export default function MemoryGame() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
-        case "ArrowUp": case "w": e.preventDefault(); moveCursor(0, -1); break
-        case "ArrowDown": case "s": e.preventDefault(); moveCursor(0, 1); break
-        case "ArrowLeft": case "a": e.preventDefault(); moveCursor(-1, 0); break
-        case "ArrowRight": case "d": e.preventDefault(); moveCursor(1, 0); break
-        case "Enter": case " ": e.preventDefault(); flipCard(); break
+        case "ArrowUp":
+        case "w":
+          e.preventDefault()
+          moveCursor(0, -1)
+          break
+        case "ArrowDown":
+        case "s":
+          e.preventDefault()
+          moveCursor(0, 1)
+          break
+        case "ArrowLeft":
+        case "a":
+          e.preventDefault()
+          moveCursor(-1, 0)
+          break
+        case "ArrowRight":
+        case "d":
+          e.preventDefault()
+          moveCursor(1, 0)
+          break
+        case "Enter":
+        case " ":
+          e.preventDefault()
+          flipCard()
+          break
       }
     }
 
@@ -213,7 +249,11 @@ export default function MemoryGame() {
         const pulse = 0.3 + 0.15 * Math.sin(time * 0.003 + card.pairIndex)
         ctx.shadowColor = card.color
         ctx.shadowBlur = 12
-        ctx.fillStyle = card.color + Math.round(pulse * 255).toString(16).padStart(2, "0")
+        ctx.fillStyle =
+          card.color +
+          Math.round(pulse * 255)
+            .toString(16)
+            .padStart(2, "0")
         ctx.beginPath()
         ctx.roundRect(x, y, CARD_W, CARD_H, 8)
         ctx.fill()
@@ -404,16 +444,24 @@ export default function MemoryGame() {
           aria-label="Memory matching game. Use arrow keys to navigate cards and Enter or Space to flip. Match AA principles to their steps."
         />
         {gameComplete && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
-            <p className="text-2xl font-black mb-2" style={{ color: GOLD }}>ALL MATCHED!</p>
-            <p className="text-sm text-[var(--nec-muted)] mb-3 text-center px-4">
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/70">
+            <p className="mb-2 text-2xl font-black" style={{ color: GOLD }}>
+              ALL MATCHED!
+            </p>
+            <p className="mb-3 px-4 text-center text-sm text-[var(--nec-muted)]">
               &ldquo;Finding answers, one match at a time.&rdquo;
             </p>
-            <p className="text-lg font-bold text-white mb-1">
+            <p className="mb-1 text-lg font-bold text-white">
               Completed in {moves} move{moves !== 1 ? "s" : ""}
             </p>
-            <p className="text-sm mb-4" style={{ color: CYAN }}>
-              {moves <= 12 ? "Perfect memory!" : moves <= 20 ? "Great recall!" : moves <= 30 ? "Well done!" : "Keep practicing!"}
+            <p className="mb-4 text-sm" style={{ color: CYAN }}>
+              {moves <= 12
+                ? "Perfect memory!"
+                : moves <= 20
+                  ? "Great recall!"
+                  : moves <= 30
+                    ? "Well done!"
+                    : "Keep practicing!"}
             </p>
             <button onClick={resetGame} className="btn-primary text-sm" type="button">
               Play Again
@@ -422,7 +470,7 @@ export default function MemoryGame() {
         )}
       </div>
       {/* Mobile d-pad */}
-      <div className="md:hidden flex flex-col items-center gap-1" aria-label="Game controls" role="group">
+      <div className="flex flex-col items-center gap-1 md:hidden" aria-label="Game controls" role="group">
         <DPadButton label="▲" ariaLabel="Move up" onTap={() => handleMove(0, -1)} color={CYAN} />
         <div className="flex gap-1">
           <DPadButton label="◀" ariaLabel="Move left" onTap={() => handleMove(-1, 0)} />
@@ -431,9 +479,13 @@ export default function MemoryGame() {
         </div>
         <DPadButton label="▼" ariaLabel="Move down" onTap={() => handleMove(0, 1)} color={GOLD} />
       </div>
-      <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        <span className="hidden md:inline">Match AA principles to their steps. Arrow keys to navigate, Enter or Space to flip a card.</span>
-        <span className="md:hidden">Use the d-pad to navigate. Tap FLIP to reveal a card. Match all 8 pairs to win.</span>
+      <p className="max-w-xs text-center text-xs" style={{ color: "var(--nec-muted)" }}>
+        <span className="hidden md:inline">
+          Match AA principles to their steps. Arrow keys to navigate, Enter or Space to flip a card.
+        </span>
+        <span className="md:hidden">
+          Use the d-pad to navigate. Tap FLIP to reveal a card. Match all 8 pairs to win.
+        </span>
       </p>
     </div>
   )

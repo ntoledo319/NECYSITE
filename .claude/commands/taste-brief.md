@@ -4,7 +4,7 @@ Generate or update this project's Taste Brief.
 2. Interview me (one question at a time, wait for each answer):
    a. What does this project believe that competitors don't?
    b. Name 3 products in this space you think are painfully generic.
-      What DNA do they share?
+   What DNA do they share?
    c. Name 3 things from OUTSIDE this space that capture how this should feel.
    d. After 30 seconds with this project, what should someone FEEL?
    e. What will this project absolutely NEVER do?

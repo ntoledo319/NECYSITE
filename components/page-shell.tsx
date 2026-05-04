@@ -55,7 +55,10 @@ export default function PageShell({ badge, title, subtitle, children, character 
   const shouldReduce = useReducedMotion()
 
   return (
-    <div className="relative flex min-h-screen min-h-screen-safe flex-col" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div
+      className="min-h-screen-safe relative flex min-h-screen flex-col"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
       <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl">
@@ -68,11 +71,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
             >
               <span className="section-badge mb-4 inline-flex">{badge}</span>
               <h1 className="section-heading mb-3">{title}</h1>
-              {subtitle && (
-                <p className="mx-auto max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">
-                  {subtitle}
-                </p>
-              )}
+              {subtitle && <p className="mx-auto max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">{subtitle}</p>}
             </motion.div>
 
             {children || (
@@ -98,23 +97,38 @@ export default function PageShell({ badge, title, subtitle, children, character 
                         This room is still being built.
                       </h2>
                       <p className="mt-4 text-base leading-7 text-[var(--nec-muted)]">
-                        Instead of dropping you into a generic placeholder, we&apos;re pointing you toward the
-                        pages that already matter most right now.
+                        Instead of dropping you into a generic placeholder, we&apos;re pointing you toward the pages
+                        that already matter most right now.
                       </p>
                     </div>
 
                     <div className="grid gap-3">
-                      <Link href="/register" className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)]">
+                      <Link
+                        href="/register"
+                        className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-purple-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.05)]"
+                      >
                         <p className="text-sm font-semibold text-[var(--nec-text)]">Register for NECYPAA XXXVI</p>
-                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Secure your spot and start planning the weekend.</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">
+                          Secure your spot and start planning the weekend.
+                        </p>
                       </Link>
-                      <Link href="/events" className="rounded-2xl border border-[rgba(var(--nec-gold-rgb),0.12)] bg-[rgba(var(--nec-gold-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-gold-rgb),0.05)]">
+                      <Link
+                        href="/events"
+                        className="rounded-2xl border border-[rgba(var(--nec-gold-rgb),0.12)] bg-[rgba(var(--nec-gold-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-gold-rgb),0.05)]"
+                      >
                         <p className="text-sm font-semibold text-[var(--nec-text)]">See the road to Hartford</p>
-                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Follow fundraisers, fellowship nights, and updates.</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">
+                          Follow fundraisers, fellowship nights, and updates.
+                        </p>
                       </Link>
-                      <Link href="/service" className="rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-cyan-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-cyan-rgb),0.05)]">
+                      <Link
+                        href="/service"
+                        className="rounded-2xl border border-[rgba(var(--nec-cyan-rgb),0.12)] bg-[rgba(var(--nec-cyan-rgb),0.03)] px-4 py-4 transition-colors hover:bg-[rgba(var(--nec-cyan-rgb),0.05)]"
+                      >
                         <p className="text-sm font-semibold text-[var(--nec-text)]">Get involved in service</p>
-                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">Business meetings, outreach, and committee work.</p>
+                        <p className="mt-1 text-sm leading-6 text-[var(--nec-muted)]">
+                          Business meetings, outreach, and committee work.
+                        </p>
                       </Link>
                     </div>
                   </div>

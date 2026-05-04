@@ -23,7 +23,7 @@ export default function MobileCtaBar() {
       {!hidden && (
         <motion.nav
           aria-label="Quick actions"
-          className="sticky-cta-bar fixed bottom-0 left-0 right-0 md:hidden flex gap-3 px-3 pt-3"
+          className="sticky-cta-bar fixed bottom-0 left-0 right-0 flex gap-3 px-3 pt-3 md:hidden"
           style={{
             background: "rgba(var(--nec-navy-rgb),0.96)",
             backdropFilter: "blur(16px)",

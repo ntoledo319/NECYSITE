@@ -27,8 +27,7 @@ export const FAQ: CollectionConfig = {
       required: true,
       label: "Answer",
       admin: {
-        description:
-          "Use plain, clear language. No jargon without explanation. Person-first language only.",
+        description: "Use plain, clear language. No jargon without explanation. Person-first language only.",
       },
     },
     {

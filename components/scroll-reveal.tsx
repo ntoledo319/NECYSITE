@@ -14,12 +14,7 @@ interface ScrollRevealProps {
  * Zero animation library dependency. Respects prefers-reduced-motion.
  * Replaces the framer-motion version with identical visual behavior.
  */
-export default function ScrollReveal({
-  children,
-  className = "",
-  delay = 0,
-  as: Tag = "div",
-}: ScrollRevealProps) {
+export default function ScrollReveal({ children, className = "", delay = 0, as: Tag = "div" }: ScrollRevealProps) {
   const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {

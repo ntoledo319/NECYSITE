@@ -29,45 +29,37 @@ export default async function BlogPage() {
 
   return (
     <div
-      className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden"
+      className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" dividerVariant="compass" />
 
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
+          <div className="mx-auto max-w-6xl">
             <div className="grid gap-8 lg:grid-cols-[0.94fr_1.06fr] lg:items-start">
               <MotionHeader className="max-w-3xl">
-                <span className="section-badge mb-4 inline-block page-enter-1">NECYBLOG</span>
-                <h1 className="section-heading mb-2 page-enter-2">
+                <span className="section-badge page-enter-1 mb-4 inline-block">NECYBLOG</span>
+                <h1 className="section-heading page-enter-2 mb-2">
                   NECYBLOG{" "}
-                  <span className="block text-lg sm:text-xl font-bold mt-1 text-[var(--nec-pink)]">
-                    aka BLOGYPAA
-                  </span>
+                  <span className="mt-1 block text-lg font-bold text-[var(--nec-pink)] sm:text-xl">aka BLOGYPAA</span>
                 </h1>
 
                 <div
                   className="my-6 h-[2px] w-24 rounded-full"
                   aria-hidden="true"
                   style={{
-                    background:
-                      "linear-gradient(90deg, var(--nec-purple), var(--nec-pink), var(--nec-gold))",
-                    boxShadow:
-                      "0 0 12px rgba(var(--nec-purple-rgb),0.15), 0 0 24px rgba(var(--nec-pink-rgb),0.08)",
+                    background: "linear-gradient(90deg, var(--nec-purple), var(--nec-pink), var(--nec-gold))",
+                    boxShadow: "0 0 12px rgba(var(--nec-purple-rgb),0.15), 0 0 24px rgba(var(--nec-pink-rgb),0.08)",
                   }}
                 />
 
-                <div className="space-y-4 text-base sm:text-lg leading-relaxed text-[var(--nec-muted)] page-enter-3">
+                <div className="page-enter-3 space-y-4 text-base leading-relaxed text-[var(--nec-muted)] sm:text-lg">
                   <p>
-                    Experience, strength, and hope from everyone on host committee —
-                    anonymous, unfiltered, so help us HP.
+                    Experience, strength, and hope from everyone on host committee — anonymous, unfiltered, so help us
+                    HP.
                   </p>
-                  <p
-                    className="font-semibold text-[var(--nec-text)] italic"
-                  >
-                    Take what works, vibe with the rest.
-                  </p>
+                  <p className="font-semibold italic text-[var(--nec-text)]">Take what works, vibe with the rest.</p>
                 </div>
               </MotionHeader>
 
@@ -93,10 +85,8 @@ export default async function BlogPage() {
                               : "rgba(var(--nec-gold-rgb),0.14)",
                       }}
                     >
-                      <p className="text-xs font-medium text-[var(--nec-muted)]">
-                        {formatDate(post.publishedAt)}
-                      </p>
-                      <h2 className="mt-3 text-lg font-semibold tracking-[-0.02em] text-[var(--nec-text)] leading-tight">
+                      <p className="text-xs font-medium text-[var(--nec-muted)]">{formatDate(post.publishedAt)}</p>
+                      <h2 className="mt-3 text-lg font-semibold leading-tight tracking-[-0.02em] text-[var(--nec-text)]">
                         {post.title}
                       </h2>
                     </div>
@@ -105,7 +95,7 @@ export default async function BlogPage() {
               </div>
             </div>
 
-            <div className="mt-16 section-atmosphere-gold">
+            <div className="section-atmosphere-gold mt-16">
               <BlogGrid posts={allPosts} />
             </div>
           </div>

@@ -5,8 +5,7 @@ function sanitize(val: string): string {
   return val.replace(/<[^>]*>/g, "").trim()
 }
 
-const sanitizedString = (maxLength = 500) =>
-  z.string().max(maxLength).transform(sanitize)
+const sanitizedString = (maxLength = 500) => z.string().max(maxLength).transform(sanitize)
 
 export const registrationDataSchema = z.object({
   name: sanitizedString(200).pipe(z.string().min(1, "Name is required")),
@@ -19,10 +18,11 @@ export const registrationDataSchema = z.object({
   homegroup: sanitizedString(300).default(""),
   isScholarship: z.boolean(),
   scholarshipRecipientName: sanitizedString(200).default(""),
-  scholarshipRecipientEmail: z.string().max(320).default("").refine(
-    (val) => val === "" || z.string().email().safeParse(val).success,
-    "Must be a valid email or empty",
-  ),
+  scholarshipRecipientEmail: z
+    .string()
+    .max(320)
+    .default("")
+    .refine((val) => val === "" || z.string().email().safeParse(val).success, "Must be a valid email or empty"),
   accessCode: z.string().max(50).trim().default(""),
 })
 
@@ -40,10 +40,12 @@ export const policyAgreementsSchema = z.object({
 
 export type ValidatedPolicyAgreements = z.infer<typeof policyAgreementsSchema>
 
-export const purchaseAttributionSchema = z.object({
-  aaEntity: sanitizedString(200).optional(),
-  reservedForPerson: sanitizedString(200).optional(),
-}).optional()
+export const purchaseAttributionSchema = z
+  .object({
+    aaEntity: sanitizedString(200).optional(),
+    reservedForPerson: sanitizedString(200).optional(),
+  })
+  .optional()
 
 export const breakfastAttendeeSchema = z.object({
   firstName: sanitizedString(100).pipe(z.string().min(1, "First name is required")),

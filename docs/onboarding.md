@@ -11,6 +11,7 @@ These are non-negotiable:
 3. **`CONTRIBUTING.md`** — Contribution rules, branch naming, commit format.
 
 **The Cardinal Rules:**
+
 - No full names of AA members. Ever.
 - No identifiable faces of AA members. Ever.
 - Attraction, not promotion. Informational tone only.

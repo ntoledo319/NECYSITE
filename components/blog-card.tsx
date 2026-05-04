@@ -5,10 +5,7 @@ import { ChevronDown, BookOpen, Clock } from "lucide-react"
 import type { BlogPost } from "@/lib/data/blog-posts"
 import { getReadingTime } from "@/lib/reading-time"
 
-const CATEGORY_STYLES: Record<
-  string,
-  { label: string; colorVar: string; rgb: string }
-> = {
+const CATEGORY_STYLES: Record<string, { label: string; colorVar: string; rgb: string }> = {
   story: { label: "Story", colorVar: "var(--nec-purple)", rgb: "124,58,237" },
   update: { label: "Update", colorVar: "var(--nec-cyan)", rgb: "20,184,166" },
   recap: { label: "Recap", colorVar: "var(--nec-gold)", rgb: "212,160,23" },
@@ -76,12 +73,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
     })
   }, [])
 
-  const cardShift =
-    index % 3 === 0
-      ? "rotate-[-0.8deg]"
-      : index % 3 === 1
-        ? "rotate-[0.55deg]"
-        : "rotate-[-0.25deg]"
+  const cardShift = index % 3 === 0 ? "rotate-[-0.8deg]" : index % 3 === 1 ? "rotate-[0.55deg]" : "rotate-[-0.25deg]"
 
   return (
     <article
@@ -154,14 +146,11 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           )}
         </div>
 
-        <h3 className="text-xl sm:text-[1.7rem] font-semibold tracking-[-0.03em] text-[var(--nec-text)] mb-3 leading-tight">
+        <h3 className="mb-3 text-xl font-semibold leading-tight tracking-[-0.03em] text-[var(--nec-text)] sm:text-[1.7rem]">
           {post.title}
         </h3>
 
-        <p
-          className="text-sm sm:text-base leading-7 mb-5"
-          style={{ color: "var(--nec-muted)" }}
-        >
+        <p className="mb-5 text-sm leading-7 sm:text-base" style={{ color: "var(--nec-muted)" }}>
           {post.excerpt}
         </p>
 
@@ -177,23 +166,13 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           }}
         >
           <div className="min-h-0">
-            <div
-              className="space-y-4 border-t pt-5"
-              style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)" }}
-            >
+            <div className="space-y-4 border-t pt-5" style={{ borderColor: "rgba(var(--nec-purple-rgb),0.10)" }}>
               {paragraphs.map((paragraph, paragraphIndex) => (
-                <p
-                  key={paragraphIndex}
-                  className="text-sm sm:text-base leading-7"
-                  style={{ color: "var(--nec-text)" }}
-                >
+                <p key={paragraphIndex} className="text-sm leading-7 sm:text-base" style={{ color: "var(--nec-text)" }}>
                   {paragraph}
                 </p>
               ))}
-              <p
-                className="text-sm sm:text-base leading-relaxed italic pt-1"
-                style={{ color: "var(--nec-muted)" }}
-              >
+              <p className="pt-1 text-sm italic leading-relaxed sm:text-base" style={{ color: "var(--nec-muted)" }}>
                 &mdash;Anonymous
               </p>
             </div>
@@ -215,7 +194,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
         >
           {expanded ? "Read Less" : "Read More"}
           <ChevronDown
-            className="w-4 h-4 transition-transform duration-200"
+            className="h-4 w-4 transition-transform duration-200"
             aria-hidden="true"
             style={{
               transform: expanded ? "rotate(180deg)" : "rotate(0deg)",

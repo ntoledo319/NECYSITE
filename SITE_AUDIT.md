@@ -39,6 +39,7 @@
 NECYPAA XXXVI's website is **exceptionally well-crafted** for an AA convention site. It punches far above its weight class in every category — design quality, accessibility infrastructure, brand execution, and emotional storytelling. The "Escaping the Mad Realm" theme (Alice in Wonderland meets steampunk meets street art) is not just surface decoration — it's woven into every interaction, from CSS variable names to Easter egg mini-games on placeholder pages.
 
 Key strengths:
+
 - **Accessibility infrastructure** is best-in-class (6 customization modes, WCAG AAA target, skip links, focus traps, screen reader support, print stylesheet, reduced motion)
 - **Emotional storytelling** on the YPAA narrative section is among the most effective convention marketing copy we've seen
 - **Design system** is cohesive, well-tokenized, and supports dark/light/high-contrast modes
@@ -97,14 +98,14 @@ Homepage (/)
 
 ### Assessment
 
-| Criterion | Rating | Notes |
-|-----------|--------|-------|
-| Logical grouping | ★★★★☆ | Three dropdown categories are intuitive. "Convention" vs "Community" distinction is clear. |
-| Depth | ★★★★★ | All content is max 2 clicks from homepage. No deep nesting. |
-| Discoverability | ★★★★☆ | Most content is easy to find. `/cash` route is hidden (intentional for in-person reg). |
-| Naming/labeling | ★★★★★ | Labels are plain-language, jargon-free. "Find Your State" is better than "Member Directory." |
-| Cross-linking | ★★★★☆ | Good internal linking between related pages. Could add more contextual cross-links. |
-| Redundancy/overlap | ★★★☆☆ | "What is YPAA?" and "Business Meeting" are homepage anchors AND nav items — could confuse users expecting new pages. |
+| Criterion          | Rating | Notes                                                                                                                |
+| ------------------ | ------ | -------------------------------------------------------------------------------------------------------------------- |
+| Logical grouping   | ★★★★☆  | Three dropdown categories are intuitive. "Convention" vs "Community" distinction is clear.                           |
+| Depth              | ★★★★★  | All content is max 2 clicks from homepage. No deep nesting.                                                          |
+| Discoverability    | ★★★★☆  | Most content is easy to find. `/cash` route is hidden (intentional for in-person reg).                               |
+| Naming/labeling    | ★★★★★  | Labels are plain-language, jargon-free. "Find Your State" is better than "Member Directory."                         |
+| Cross-linking      | ★★★★☆  | Good internal linking between related pages. Could add more contextual cross-links.                                  |
+| Redundancy/overlap | ★★★☆☆  | "What is YPAA?" and "Business Meeting" are homepage anchors AND nav items — could confuse users expecting new pages. |
 
 ### Recommendations
 
@@ -122,6 +123,7 @@ Homepage (/)
 **Structure:** Fixed header with logo (left) + 3 dropdown groups + 2 standalone links + Register CTA button (right)
 
 **Strengths:**
+
 - Dropdowns open on both hover AND click — supports both mouse and keyboard users
 - Dropdown items have proper `role="menu"` / `role="menuitem"` semantics
 - `aria-expanded` state communicated correctly
@@ -131,6 +133,7 @@ Homepage (/)
 - Header becomes more opaque on scroll (subtle but effective depth cue)
 
 **Weaknesses:**
+
 - No active/current page indicator in nav links — users can't tell which page they're on
 - No visual differentiation between internal links and homepage anchors in dropdowns
 - Register CTA says "Register — $40" but the price may change — consider making this dynamic or removing the price from the nav
@@ -140,6 +143,7 @@ Homepage (/)
 **Structure:** Hamburger menu → full-width drawer with collapsible groups + sticky bottom CTA bar
 
 **Strengths:**
+
 - Focus trap on mobile drawer (`useFocusTrap` hook)
 - Escape key closes drawer
 - Backdrop click closes drawer
@@ -148,6 +152,7 @@ Homepage (/)
 - Safe area insets respected for notched devices
 
 **Weaknesses:**
+
 - Drawer doesn't animate the hamburger → X transition (just swaps icons)
 - No gesture support (swipe to close)
 - The drawer slides down from top but doesn't have a clear visual boundary at the bottom when content doesn't fill the viewport
@@ -207,12 +212,12 @@ Navigate to Al-Anon/Alateen page
 
 ### Conversion Touchpoints Audit
 
-| CTA | Locations | Count |
-|-----|-----------|-------|
-| **Register — $40** | Hero, Quick Facts, CTA Section, YPAA Narrative end, Mobile CTA bar, Header, Footer | **7** |
-| **Book Hotel** | Hero, CTA Section, Mobile CTA bar, Header, Footer, Register Success page | **6** |
-| **Join Zoom (Business Meeting)** | Homepage section, Service page | **2** |
-| **Contact (email)** | Footer, Accessibility page, FAQ page | **3** |
+| CTA                              | Locations                                                                          | Count |
+| -------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **Register — $40**               | Hero, Quick Facts, CTA Section, YPAA Narrative end, Mobile CTA bar, Header, Footer | **7** |
+| **Book Hotel**                   | Hero, CTA Section, Mobile CTA bar, Header, Footer, Register Success page           | **6** |
+| **Join Zoom (Business Meeting)** | Homepage section, Service page                                                     | **2** |
+| **Contact (email)**              | Footer, Accessibility page, FAQ page                                               | **3** |
 
 **Verdict:** CTA saturation is excellent without being obnoxious. The Register CTA is appropriately aggressive for an event with a clear deadline. The mobile sticky bar ensures conversion opportunity is always one tap away.
 
@@ -232,36 +237,37 @@ Navigate to Al-Anon/Alateen page
 
 The design system is built on a well-organized set of CSS custom properties defined in `globals.css`:
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--nec-cyan` | `#14b8a6` | Teal accent, links, info highlights |
-| `--nec-pink` | `#c026d3` | Magenta accent, secondary emphasis |
-| `--nec-purple` | `#7c3aed` | Primary brand, badges, CTAs |
-| `--nec-gold` | `#d4a017` | Steampunk brass, pricing, secondary CTA |
-| `--nec-orange` | `#ea580c` | Tertiary accent (minimal use) |
-| `--nec-navy` | `#0f0a1e` | Background, depth |
-| `--nec-dark` | `#150e28` | Card backgrounds, mobile drawer |
-| `--nec-card` | `#1a1030` | Card surface |
-| `--nec-border` | `#2d1f4e` | Borders, dividers |
-| `--nec-text` | `#e8e0f0` | Body text |
-| `--nec-muted` | `#9b8cb8` | Secondary text |
+| Token          | Value     | Usage                                   |
+| -------------- | --------- | --------------------------------------- |
+| `--nec-cyan`   | `#14b8a6` | Teal accent, links, info highlights     |
+| `--nec-pink`   | `#c026d3` | Magenta accent, secondary emphasis      |
+| `--nec-purple` | `#7c3aed` | Primary brand, badges, CTAs             |
+| `--nec-gold`   | `#d4a017` | Steampunk brass, pricing, secondary CTA |
+| `--nec-orange` | `#ea580c` | Tertiary accent (minimal use)           |
+| `--nec-navy`   | `#0f0a1e` | Background, depth                       |
+| `--nec-dark`   | `#150e28` | Card backgrounds, mobile drawer         |
+| `--nec-card`   | `#1a1030` | Card surface                            |
+| `--nec-border` | `#2d1f4e` | Borders, dividers                       |
+| `--nec-text`   | `#e8e0f0` | Body text                               |
+| `--nec-muted`  | `#9b8cb8` | Secondary text                          |
 
 **Assessment:** ★★★★★ — Excellent tokenization. Every color has a semantic name and clear purpose. Light mode and high-contrast overrides are defined for every token.
 
 ### Component Library
 
-| Component | CSS Class | Usage |
-|-----------|-----------|-------|
-| Primary Button | `.btn-primary` | Register CTAs (purple→pink gradient) |
-| Secondary Button | `.btn-secondary` | Hotel booking CTAs (gold gradient) |
-| Ghost Button | `.btn-ghost` | Tertiary actions (outlined) |
-| Card | `.nec-card` | Content containers (glassmorphism gradient) |
-| Section Badge | `.section-badge` | Section labels (purple pill) |
-| Section Heading | `.section-heading` | H1/H2 section titles |
-| Fact Pill | `.fact-pill` | Quick facts strip items |
-| Glow Text | `.glow-{color}` | Emphasized text with color glow |
+| Component        | CSS Class          | Usage                                       |
+| ---------------- | ------------------ | ------------------------------------------- |
+| Primary Button   | `.btn-primary`     | Register CTAs (purple→pink gradient)        |
+| Secondary Button | `.btn-secondary`   | Hotel booking CTAs (gold gradient)          |
+| Ghost Button     | `.btn-ghost`       | Tertiary actions (outlined)                 |
+| Card             | `.nec-card`        | Content containers (glassmorphism gradient) |
+| Section Badge    | `.section-badge`   | Section labels (purple pill)                |
+| Section Heading  | `.section-heading` | H1/H2 section titles                        |
+| Fact Pill        | `.fact-pill`       | Quick facts strip items                     |
+| Glow Text        | `.glow-{color}`    | Emphasized text with color glow             |
 
 **Assessment:** ★★★★☆ — Solid component library. Missing a few abstractions:
+
 - No standardized "info card" pattern (the 3-column grid on YPAA narrative, CTA section, etc. each use different inline styles)
 - No standardized "stat card" (used on states page with ad-hoc styling)
 - Some pages use extensive inline `style={{}}` that could be consolidated into reusable classes
@@ -285,17 +291,18 @@ The design system is built on a well-organized set of CSS custom properties defi
 
 ### Font Stack
 
-| Font | Variable | Usage | Weight(s) |
-|------|----------|-------|-----------|
-| Plus Jakarta Sans | `--font-sans` | Body text, UI | Variable |
-| Outfit | `--font-heading` | Headings, section titles | Variable |
-| Bangers | `--font-display` | Hero display text, convention title | 400 |
-| Pacifico | `--font-script` | Decorative script (minimal use) | 400 |
-| OpenDyslexic | (a11y override) | Dyslexia-friendly mode | 400, 700 |
+| Font              | Variable         | Usage                               | Weight(s) |
+| ----------------- | ---------------- | ----------------------------------- | --------- |
+| Plus Jakarta Sans | `--font-sans`    | Body text, UI                       | Variable  |
+| Outfit            | `--font-heading` | Headings, section titles            | Variable  |
+| Bangers           | `--font-display` | Hero display text, convention title | 400       |
+| Pacifico          | `--font-script`  | Decorative script (minimal use)     | 400       |
+| OpenDyslexic      | (a11y override)  | Dyslexia-friendly mode              | 400, 700  |
 
 **Assessment:** ★★★★☆
 
 **Strengths:**
+
 - Plus Jakarta Sans is an excellent choice for body text — geometric, modern, highly legible at all sizes
 - Outfit for headings provides good contrast with body text while remaining in the same geometric family
 - Bangers for the hero title perfectly captures the edgy, convention-poster aesthetic
@@ -303,6 +310,7 @@ The design system is built on a well-organized set of CSS custom properties defi
 - Font loading uses `next/font/google` with proper `font-display: swap` for performance
 
 **Weaknesses:**
+
 - Pacifico (`--font-script`) is loaded but appears unused in the reviewed pages — dead weight
 - The jump from Plus Jakarta Sans (body) to Bangers (hero) is quite dramatic — no intermediate display weight is used
 - Some text uses Tailwind's default `text-xs` (12px) which may be too small for comfortable reading, especially for body copy on mobile
@@ -319,33 +327,33 @@ The design system is built on a well-organized set of CSS custom properties defi
 
 ### Dark Mode (Default)
 
-| Pairing | Foreground | Background | Ratio | WCAG | Verdict |
-|---------|-----------|------------|-------|------|---------|
-| Body text | `#e8e0f0` | `#0f0a1e` | ~14:1 | AAA | ✅ |
-| Muted text | `#9b8cb8` | `#0f0a1e` | ~5.2:1 | AA | ⚠️ Passes AA, falls short of AAA for small text |
-| Cyan accent | `#14b8a6` | `#0f0a1e` | ~6.8:1 | AA Large | ✅ for large text, borderline for small |
-| Purple accent | `#7c3aed` | `#0f0a1e` | ~4.0:1 | AA Large | ⚠️ Only passes for large/bold text |
-| Pink accent | `#c026d3` | `#0f0a1e` | ~4.5:1 | AA | Borderline |
-| Gold accent | `#d4a017` | `#0f0a1e` | ~6.5:1 | AA | ✅ |
-| White on purple btn | `#ffffff` | gradient | ~7.5:1+ | AAA | ✅ |
-| Navy on gold btn | `#0f0a1e` | gradient | ~8:1+ | AAA | ✅ |
-| Gray-400 text | `~#9ca3af` | `#0f0a1e` | ~5.5:1 | AA | ⚠️ Passes AA, not AAA |
+| Pairing             | Foreground | Background | Ratio   | WCAG     | Verdict                                         |
+| ------------------- | ---------- | ---------- | ------- | -------- | ----------------------------------------------- |
+| Body text           | `#e8e0f0`  | `#0f0a1e`  | ~14:1   | AAA      | ✅                                              |
+| Muted text          | `#9b8cb8`  | `#0f0a1e`  | ~5.2:1  | AA       | ⚠️ Passes AA, falls short of AAA for small text |
+| Cyan accent         | `#14b8a6`  | `#0f0a1e`  | ~6.8:1  | AA Large | ✅ for large text, borderline for small         |
+| Purple accent       | `#7c3aed`  | `#0f0a1e`  | ~4.0:1  | AA Large | ⚠️ Only passes for large/bold text              |
+| Pink accent         | `#c026d3`  | `#0f0a1e`  | ~4.5:1  | AA       | Borderline                                      |
+| Gold accent         | `#d4a017`  | `#0f0a1e`  | ~6.5:1  | AA       | ✅                                              |
+| White on purple btn | `#ffffff`  | gradient   | ~7.5:1+ | AAA      | ✅                                              |
+| Navy on gold btn    | `#0f0a1e`  | gradient   | ~8:1+   | AAA      | ✅                                              |
+| Gray-400 text       | `~#9ca3af` | `#0f0a1e`  | ~5.5:1  | AA       | ⚠️ Passes AA, not AAA                           |
 
 ### Light Mode
 
-| Pairing | Foreground | Background | Ratio | WCAG | Verdict |
-|---------|-----------|------------|-------|------|---------|
-| Body text | `#1a1030` | `#f8f5ff` | ~15:1 | AAA | ✅ |
-| Muted text | `#554466` | `#f8f5ff` | ~6.2:1 | AA | ⚠️ Passes AA, not AAA for small text |
-| Purple accent | `#6d28d9` | `#f8f5ff` | ~5.5:1 | AA | ⚠️ |
+| Pairing       | Foreground | Background | Ratio  | WCAG | Verdict                              |
+| ------------- | ---------- | ---------- | ------ | ---- | ------------------------------------ |
+| Body text     | `#1a1030`  | `#f8f5ff`  | ~15:1  | AAA  | ✅                                   |
+| Muted text    | `#554466`  | `#f8f5ff`  | ~6.2:1 | AA   | ⚠️ Passes AA, not AAA for small text |
+| Purple accent | `#6d28d9`  | `#f8f5ff`  | ~5.5:1 | AA   | ⚠️                                   |
 
 ### High Contrast Mode
 
-| Pairing | Foreground | Background | Ratio | WCAG | Verdict |
-|---------|-----------|------------|-------|------|---------|
-| White text | `#ffffff` | `#0f0a1e` | ~18:1 | AAA | ✅ |
-| Muted (upgraded) | `#e0e0e0` | `#0f0a1e` | ~13:1 | AAA | ✅ |
-| All accents | Brightened | `#0f0a1e` | 7:1+ | AAA | ✅ |
+| Pairing          | Foreground | Background | Ratio | WCAG | Verdict |
+| ---------------- | ---------- | ---------- | ----- | ---- | ------- |
+| White text       | `#ffffff`  | `#0f0a1e`  | ~18:1 | AAA  | ✅      |
+| Muted (upgraded) | `#e0e0e0`  | `#0f0a1e`  | ~13:1 | AAA  | ✅      |
+| All accents      | Brightened | `#0f0a1e`  | 7:1+  | AAA  | ✅      |
 
 **Assessment:** ★★★★☆
 
@@ -401,12 +409,12 @@ The homepage establishes hierarchy excellently:
 
 Four card variants are used across the site:
 
-| Variant | Class/Pattern | Usage |
-|---------|--------------|-------|
-| Standard | `.nec-card` | General content containers |
-| CTA | `.nec-cta-card` + inline gradient | Register/Hotel promotion |
-| Event | `.nec-event-card` + inline gradient | Event previews |
-| Narrative | `.nec-narrative-card` + inline gradient | YPAA explainer |
+| Variant   | Class/Pattern                           | Usage                      |
+| --------- | --------------------------------------- | -------------------------- |
+| Standard  | `.nec-card`                             | General content containers |
+| CTA       | `.nec-cta-card` + inline gradient       | Register/Hotel promotion   |
+| Event     | `.nec-event-card` + inline gradient     | Event previews             |
+| Narrative | `.nec-narrative-card` + inline gradient | YPAA explainer             |
 
 **Issue:** The CTA, Event, and Narrative card variants all use unique inline `style={{}}` for their backgrounds and borders rather than CSS classes. This makes them harder to maintain and harder to keep visually consistent.
 
@@ -415,6 +423,7 @@ Four card variants are used across the site:
 ### InventoryShell (Placeholder Pages)
 
 The `InventoryShell` component is a creative solution for "under construction" pages:
+
 - Shows character portal art (Mad Hatter, Cheshire Cat, or Caterpillar)
 - AA-themed messaging ("Take a fourth step")
 - "Inventory in Progress" button reveals a mini-game
@@ -451,120 +460,120 @@ Used on FAQ page and Al-Anon page. Both use `aria-expanded` for toggle state.
 
 ### Homepage (`/`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| First impression | ★★★★★ | Stunning. The portal frame + ambient glows + gradient title immediately communicates "this is not a boring convention site." |
-| Information density | ★★★★★ | Quick facts strip delivers key info (dates, location, price, CTA) within 1 scroll on mobile. |
-| Emotional hook | ★★★★★ | The YPAA narrative section is exceptional — it tells a story that anyone in recovery will connect with. |
-| CTAs | ★★★★★ | Register and Hotel CTAs are impossible to miss. |
-| Load time (perceived) | ★★★★☆ | Heavy on decorative elements (glows, particles, SVGs) — may feel slow on low-end devices. |
-| Scroll depth | ★★★☆☆ | The page is LONG. Users may not reach the Events Preview section. Consider a table of contents or section navigation. |
+| Aspect                | Rating | Notes                                                                                                                        |
+| --------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| First impression      | ★★★★★  | Stunning. The portal frame + ambient glows + gradient title immediately communicates "this is not a boring convention site." |
+| Information density   | ★★★★★  | Quick facts strip delivers key info (dates, location, price, CTA) within 1 scroll on mobile.                                 |
+| Emotional hook        | ★★★★★  | The YPAA narrative section is exceptional — it tells a story that anyone in recovery will connect with.                      |
+| CTAs                  | ★★★★★  | Register and Hotel CTAs are impossible to miss.                                                                              |
+| Load time (perceived) | ★★★★☆  | Heavy on decorative elements (glows, particles, SVGs) — may feel slow on low-end devices.                                    |
+| Scroll depth          | ★★★☆☆  | The page is LONG. Users may not reach the Events Preview section. Consider a table of contents or section navigation.        |
 
 ### Register (`/register`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Form UX | ★★★★☆ | Multi-step flow reduces cognitive load. Progress indicator is clear. |
-| Error handling | — | Not visible in page code — depends on RegistrationForm component |
-| Hotel cross-sell | ★★★★★ | Hotel booking CTA card below the form is smart placement |
-| Scholarship flow | ★★★★☆ | `isScholarship` flag skips payment step — inclusive |
+| Aspect           | Rating | Notes                                                                |
+| ---------------- | ------ | -------------------------------------------------------------------- |
+| Form UX          | ★★★★☆  | Multi-step flow reduces cognitive load. Progress indicator is clear. |
+| Error handling   | —      | Not visible in page code — depends on RegistrationForm component     |
+| Hotel cross-sell | ★★★★★  | Hotel booking CTA card below the form is smart placement             |
+| Scholarship flow | ★★★★☆  | `isScholarship` flag skips payment step — inclusive                  |
 
 ### Register Success (`/register/success`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Confirmation clarity | ★★★★★ | Clear success message with next steps |
-| Post-conversion CTAs | ★★★★☆ | Book Hotel + Return Home. Missing: Breakfast cross-sell, share on social, add to calendar |
-| Email confirmation | — | Not addressed on page — should mention "check your email" |
+| Aspect               | Rating | Notes                                                                                     |
+| -------------------- | ------ | ----------------------------------------------------------------------------------------- |
+| Confirmation clarity | ★★★★★  | Clear success message with next steps                                                     |
+| Post-conversion CTAs | ★★★★☆  | Book Hotel + Return Home. Missing: Breakfast cross-sell, share on social, add to calendar |
+| Email confirmation   | —      | Not addressed on page — should mention "check your email"                                 |
 
 ### FAQ (`/faq`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Organization | ★★★★☆ | Categorized accordion is good. |
-| Content completeness | — | Depends on CMS data |
-| Contact fallback | ★★★★★ | "Still have questions? Email us" with direct mailto link |
-| Search | ★★☆☆☆ | No search/filter on FAQ — essential for larger FAQ lists |
+| Aspect               | Rating | Notes                                                    |
+| -------------------- | ------ | -------------------------------------------------------- |
+| Organization         | ★★★★☆  | Categorized accordion is good.                           |
+| Content completeness | —      | Depends on CMS data                                      |
+| Contact fallback     | ★★★★★  | "Still have questions? Email us" with direct mailto link |
+| Search               | ★★☆☆☆  | No search/filter on FAQ — essential for larger FAQ lists |
 
 ### Events (`/events`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Content richness | ★★★★★ | Detailed event cards with flyers, schedules, locations |
-| Visual design | ★★★★★ | Flyer-forward design is perfect for this audience |
-| Page length | ★★★☆☆ | With many past events, this page gets very long |
-| Filtering | ★★☆☆☆ | No filter by date/type. Only "upcoming" vs "past" sections |
+| Aspect           | Rating | Notes                                                      |
+| ---------------- | ------ | ---------------------------------------------------------- |
+| Content richness | ★★★★★  | Detailed event cards with flyers, schedules, locations     |
+| Visual design    | ★★★★★  | Flyer-forward design is perfect for this audience          |
+| Page length      | ★★★☆☆  | With many past events, this page gets very long            |
+| Filtering        | ★★☆☆☆  | No filter by date/type. Only "upcoming" vs "past" sections |
 
 ### Service (`/service`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Content | ★★★★★ | Clear explanation of what service means, why to get involved, and how |
-| CTAs | ★★★★☆ | Zoom link is prominent. Registration CTA included. |
-| Missing | ★★★☆☆ | No interest/application form. No list of current committee members. |
+| Aspect  | Rating | Notes                                                                 |
+| ------- | ------ | --------------------------------------------------------------------- |
+| Content | ★★★★★  | Clear explanation of what service means, why to get involved, and how |
+| CTAs    | ★★★★☆  | Zoom link is prominent. Registration CTA included.                    |
+| Missing | ★★★☆☆  | No interest/application form. No list of current committee members.   |
 
 ### States (`/states`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Interactivity | ★★★★★ | Interactive SVG map + list view + region filters — excellent |
-| Data richness | ★★★★★ | YPAA committees, intergroups, websites per state |
-| Performance | ★★★☆☆ | Full SVG map with 50 state paths + hover effects may be heavy |
-| Mobile UX | ★★★☆☆ | SVG map may be cramped on mobile — list view fallback helps |
+| Aspect        | Rating | Notes                                                         |
+| ------------- | ------ | ------------------------------------------------------------- |
+| Interactivity | ★★★★★  | Interactive SVG map + list view + region filters — excellent  |
+| Data richness | ★★★★★  | YPAA committees, intergroups, websites per state              |
+| Performance   | ★★★☆☆  | Full SVG map with 50 state paths + hover effects may be heavy |
+| Mobile UX     | ★★★☆☆  | SVG map may be cramped on mobile — list view fallback helps   |
 
 ### Al-Anon (`/alanon`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Tradition 6 compliance | ★★★★★ | Edge-bleed theme with neutral core — perfectly executed |
-| Resources | ★★★★★ | Comprehensive state-by-state Al-Anon resources |
-| Emotional design | ★★★★★ | Warm, welcoming tone that respects the Al-Anon identity |
+| Aspect                 | Rating | Notes                                                   |
+| ---------------------- | ------ | ------------------------------------------------------- |
+| Tradition 6 compliance | ★★★★★  | Edge-bleed theme with neutral core — perfectly executed |
+| Resources              | ★★★★★  | Comprehensive state-by-state Al-Anon resources          |
+| Emotional design       | ★★★★★  | Warm, welcoming tone that respects the Al-Anon identity |
 
 ### Blog (`/blog`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Design | ★★★★☆ | Clean header with good description of blog purpose |
-| Content | — | Depends entirely on CMS. Empty state not visible. |
-| Engagement | ★★★☆☆ | No comments, no social sharing, no "related posts" |
+| Aspect     | Rating | Notes                                              |
+| ---------- | ------ | -------------------------------------------------- |
+| Design     | ★★★★☆  | Clean header with good description of blog purpose |
+| Content    | —      | Depends entirely on CMS. Empty state not visible.  |
+| Engagement | ★★★☆☆  | No comments, no social sharing, no "related posts" |
 
 ### Journey (`/journey`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Storytelling | ★★★★★ | Timeline format is perfect for this "journey to the convention" narrative |
-| Visual design | ★★★★☆ | Clean and readable |
-| Engagement | ★★★☆☆ | Static content — could benefit from photos/media |
+| Aspect        | Rating | Notes                                                                     |
+| ------------- | ------ | ------------------------------------------------------------------------- |
+| Storytelling  | ★★★★★  | Timeline format is perfect for this "journey to the convention" narrative |
+| Visual design | ★★★★☆  | Clean and readable                                                        |
+| Engagement    | ★★★☆☆  | Static content — could benefit from photos/media                          |
 
 ### Breakfast (`/breakfast`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Simplicity | ★★★★★ | Clean, focused checkout page |
-| Cross-selling | ★★☆☆☆ | No mention of registration — should ask "Already registered?" or offer bundle |
+| Aspect        | Rating | Notes                                                                         |
+| ------------- | ------ | ----------------------------------------------------------------------------- |
+| Simplicity    | ★★★★★  | Clean, focused checkout page                                                  |
+| Cross-selling | ★★☆☆☆  | No mention of registration — should ask "Already registered?" or offer bundle |
 
 ### Cash Registration (`/cash`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Flow | ★★★★★ | Same as main registration minus payment — appropriate for in-person cash |
-| Discoverability | ★★★☆☆ | Not in main nav — needs to be accessible via admin/email link |
+| Aspect          | Rating | Notes                                                                    |
+| --------------- | ------ | ------------------------------------------------------------------------ |
+| Flow            | ★★★★★  | Same as main registration minus payment — appropriate for in-person cash |
+| Discoverability | ★★★☆☆  | Not in main nav — needs to be accessible via admin/email link            |
 
 ### Placeholder Pages (Program, Merch, Prayer, Bid, ASL)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Creativity | ★★★★★ | Mini-games themed to AA recovery are delightful |
-| User expectation | ★★☆☆☆ | Users expect content, not games. Needs clearer timeline info. |
-| Theme consistency | ★★★★★ | Each character + game is thematically mapped |
+| Aspect            | Rating | Notes                                                         |
+| ----------------- | ------ | ------------------------------------------------------------- |
+| Creativity        | ★★★★★  | Mini-games themed to AA recovery are delightful               |
+| User expectation  | ★★☆☆☆  | Users expect content, not games. Needs clearer timeline info. |
+| Theme consistency | ★★★★★  | Each character + game is thematically mapped                  |
 
 ### Accessibility (`/accessibility`)
 
-| Aspect | Rating | Notes |
-|--------|--------|-------|
-| Content completeness | ★★★★★ | Digital features, in-person accommodations, request form, report-a-problem, feedback form, formal statement |
-| Transparency | ★★★★★ | Publicly documenting a11y commitment is rare and admirable |
-| Actionability | ★★★★★ | Multiple ways to request help or report issues |
+| Aspect               | Rating | Notes                                                                                                       |
+| -------------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+| Content completeness | ★★★★★  | Digital features, in-person accommodations, request form, report-a-problem, feedback form, formal statement |
+| Transparency         | ★★★★★  | Publicly documenting a11y commitment is rare and admirable                                                  |
+| Actionability        | ★★★★★  | Multiple ways to request help or report issues                                                              |
 
 ---
 
@@ -604,26 +613,26 @@ The site's voice is **warm, authentic, slightly irreverent, and deeply welcoming
 **Examples of excellent copy:**
 
 > "A Convention sounds inherently boring. We're right there with you."
-— Immediately disarms skepticism
+> — Immediately disarms skepticism
 
 > "You play games with your new friends. You share experiences, hardships. You experience connection."
-— The narrative timeline builds emotion through simplicity
+> — The narrative timeline builds emotion through simplicity
 
 > "Made a searching and fearless moral inventory…" — Step 4
-— Using AA's 4th Step as flavor text for placeholder pages is brilliant for the target audience
+> — Using AA's 4th Step as flavor text for placeholder pages is brilliant for the target audience
 
 > "Why not take a fourth step?"
-— The "Inventory in Progress" button label is an inside joke that every AA member will understand
+> — The "Inventory in Progress" button label is an inside joke that every AA member will understand
 
 ### Language Compliance
 
-| Criterion | Status | Notes |
-|-----------|--------|-------|
-| Person-first language | ✅ | "people in recovery", "young people passionate about their sobriety" |
-| Gender-neutral | ✅ | No gendered greetings found |
-| No banned terms | ✅ | No "clean/dirty", "addict", etc. |
-| Plain language | ✅ | Jargon explained when used (e.g., "Bid Committee" gets context) |
-| AA terminology | ✅ | Used appropriately for target audience (Step 4, inventory, etc.) |
+| Criterion             | Status | Notes                                                                |
+| --------------------- | ------ | -------------------------------------------------------------------- |
+| Person-first language | ✅     | "people in recovery", "young people passionate about their sobriety" |
+| Gender-neutral        | ✅     | No gendered greetings found                                          |
+| No banned terms       | ✅     | No "clean/dirty", "addict", etc.                                     |
+| Plain language        | ✅     | Jargon explained when used (e.g., "Bid Committee" gets context)      |
+| AA terminology        | ✅     | Used appropriately for target audience (Step 4, inventory, etc.)     |
 
 ### Content Gaps
 
@@ -646,33 +655,33 @@ The site's voice is **warm, authentic, slightly irreverent, and deeply welcoming
 
 ### Urgency & Scarcity
 
-| Tactic | Present? | Notes |
-|--------|----------|-------|
-| Countdown timer | ❌ | Event is 18+ months away but a countdown still builds excitement |
-| Limited pricing | ✅ | "Limited pricing · Lock in your spot" |
-| Sold-out risk | ❌ | "X spots remaining" or capacity info would add urgency |
-| Early bird | ❌ | If price increases closer to event, this should be communicated |
-| FOMO | ★★★★☆ | The YPAA narrative creates strong FOMO — "you experience connection" |
+| Tactic          | Present? | Notes                                                                |
+| --------------- | -------- | -------------------------------------------------------------------- |
+| Countdown timer | ❌       | Event is 18+ months away but a countdown still builds excitement     |
+| Limited pricing | ✅       | "Limited pricing · Lock in your spot"                                |
+| Sold-out risk   | ❌       | "X spots remaining" or capacity info would add urgency               |
+| Early bird      | ❌       | If price increases closer to event, this should be communicated      |
+| FOMO            | ★★★★☆    | The YPAA narrative creates strong FOMO — "you experience connection" |
 
 ### Social Proof
 
-| Element | Present? | Notes |
-|---------|----------|-------|
-| Attendee count | ❌ | "Join 500+ young people" would be powerful |
-| Past event photos | ❌ | Visual social proof is the most effective kind |
-| Testimonials | ❌ | Quotes from past attendees |
-| Member state count | ✅ | States page shows community breadth |
-| Community size | Partial | "Thousands" mentioned in narrative but no specific numbers |
+| Element            | Present? | Notes                                                      |
+| ------------------ | -------- | ---------------------------------------------------------- |
+| Attendee count     | ❌       | "Join 500+ young people" would be powerful                 |
+| Past event photos  | ❌       | Visual social proof is the most effective kind             |
+| Testimonials       | ❌       | Quotes from past attendees                                 |
+| Member state count | ✅       | States page shows community breadth                        |
+| Community size     | Partial  | "Thousands" mentioned in narrative but no specific numbers |
 
 ### Re-engagement
 
-| Channel | Present? | Notes |
-|---------|----------|-------|
-| Email newsletter | ❌ | Critical gap — need to capture leads who aren't ready to register |
-| Social media | ❌ | No Instagram, Facebook, Twitter/X links anywhere |
-| Push notifications | ❌ | Not expected for this type of site |
-| Calendar invite | ❌ | "Add to Calendar" link would be easy to implement |
-| SMS/text updates | ❌ | Not expected but would be valuable |
+| Channel            | Present? | Notes                                                             |
+| ------------------ | -------- | ----------------------------------------------------------------- |
+| Email newsletter   | ❌       | Critical gap — need to capture leads who aren't ready to register |
+| Social media       | ❌       | No Instagram, Facebook, Twitter/X links anywhere                  |
+| Push notifications | ❌       | Not expected for this type of site                                |
+| Calendar invite    | ❌       | "Add to Calendar" link would be easy to implement                 |
+| SMS/text updates   | ❌       | Not expected but would be valuable                                |
 
 ### Recommendations (Marketing)
 
@@ -692,27 +701,28 @@ The site's voice is **warm, authentic, slightly irreverent, and deeply welcoming
 ### Theme: "Escaping the Mad Realm"
 
 The theme draws from three visual traditions:
+
 1. **Alice in Wonderland** — Mad Hatter, Cheshire Cat, Caterpillar characters; portal doors; "looking glass" archway
 2. **Steampunk** — Gears, keys, clocks, compasses, brass/gold metallic tones, ornate filigree
 3. **Street Art / Graffiti** — Splatter textures, sparkle accents, hex patterns, bold color contrasts
 
 ### Theme Consistency Audit
 
-| Page | Theme Present | Execution | Notes |
-|------|--------------|-----------|-------|
-| Homepage | ★★★★★ | All three traditions represented. Portal frame, character dividers, gear accents. |
-| Register | ★★★☆☆ | Minimal — focused on form. Hotel CTA has thematic card styling. |
-| FAQ | ★★★☆☆ | Generic. No thematic elements beyond color palette. |
-| Events | ★★★★☆ | Event flyers carry the brand. Page structure is functional. |
-| Service | ★★★★☆ | Gear clusters add steampunk flavor. Good balance. |
-| States | ★★★★☆ | Interactive map has thematic coloring. |
-| Al-Anon | ★★★★★ | Theme deliberately fades at edges — respectful and creative. |
-| Blog | ★★★☆☆ | Generic layout. Theme only in header area. |
-| Journey | ★★★☆☆ | Timeline is clean but could use more visual flair. |
-| Breakfast | ★★☆☆☆ | Very minimal — just a heading and checkout component. |
-| Placeholder pages | ★★★★★ | Each character has a mapped game with thematic naming. |
-| Accessibility | ★★★★☆ | Caterpillar accent, branded card styling. Professional. |
-| Footer | ★★★★★ | Character silhouettes, gear accents, sparkles, gradient bar. |
+| Page              | Theme Present | Execution                                                                         | Notes |
+| ----------------- | ------------- | --------------------------------------------------------------------------------- | ----- |
+| Homepage          | ★★★★★         | All three traditions represented. Portal frame, character dividers, gear accents. |
+| Register          | ★★★☆☆         | Minimal — focused on form. Hotel CTA has thematic card styling.                   |
+| FAQ               | ★★★☆☆         | Generic. No thematic elements beyond color palette.                               |
+| Events            | ★★★★☆         | Event flyers carry the brand. Page structure is functional.                       |
+| Service           | ★★★★☆         | Gear clusters add steampunk flavor. Good balance.                                 |
+| States            | ★★★★☆         | Interactive map has thematic coloring.                                            |
+| Al-Anon           | ★★★★★         | Theme deliberately fades at edges — respectful and creative.                      |
+| Blog              | ★★★☆☆         | Generic layout. Theme only in header area.                                        |
+| Journey           | ★★★☆☆         | Timeline is clean but could use more visual flair.                                |
+| Breakfast         | ★★☆☆☆         | Very minimal — just a heading and checkout component.                             |
+| Placeholder pages | ★★★★★         | Each character has a mapped game with thematic naming.                            |
+| Accessibility     | ★★★★☆         | Caterpillar accent, branded card styling. Professional.                           |
+| Footer            | ★★★★★         | Character silhouettes, gear accents, sparkles, gradient bar.                      |
 
 **Overall Theme Consistency:** ★★★★☆
 
@@ -720,11 +730,11 @@ The theme is strongest on the homepage, placeholder pages, and footer. Interior 
 
 ### Character Assignments
 
-| Character | Pages/Sections | Thematic Role |
-|-----------|---------------|---------------|
-| Mad Hatter | Homepage divider, Bid page, Footer | The guide / leader |
-| Cheshire Cat | Homepage divider, ASL page, Footer | The mystic / trickster |
-| Caterpillar | Homepage divider, Prayer page, Accessibility page, Footer | The sage / counselor |
+| Character    | Pages/Sections                                            | Thematic Role          |
+| ------------ | --------------------------------------------------------- | ---------------------- |
+| Mad Hatter   | Homepage divider, Bid page, Footer                        | The guide / leader     |
+| Cheshire Cat | Homepage divider, ASL page, Footer                        | The mystic / trickster |
+| Caterpillar  | Homepage divider, Prayer page, Accessibility page, Footer | The sage / counselor   |
 
 This mapping is intentional and thoughtful — the Caterpillar (wisdom/transformation) is on the prayer and accessibility pages.
 
@@ -736,23 +746,24 @@ This mapping is intentional and thoughtful — the Caterpillar (wisdom/transform
 
 ### Infrastructure
 
-| Feature | Status |
-|---------|--------|
-| Skip-to-content link | ✅ |
-| A11yProvider (6 modes) | ✅ |
-| AccessibilityPanel UI | ✅ |
-| useFocusTrap hook | ✅ |
-| OS preference detection | ✅ |
-| ARIA live regions | ✅ |
-| Print stylesheet | ✅ |
-| Reduced motion support | ✅ |
-| High contrast mode | ✅ |
-| Light mode | ✅ |
-| Dyslexia font | ✅ |
-| Grayscale mode | ✅ |
-| Font size adjustment | ✅ |
+| Feature                 | Status |
+| ----------------------- | ------ |
+| Skip-to-content link    | ✅     |
+| A11yProvider (6 modes)  | ✅     |
+| AccessibilityPanel UI   | ✅     |
+| useFocusTrap hook       | ✅     |
+| OS preference detection | ✅     |
+| ARIA live regions       | ✅     |
+| Print stylesheet        | ✅     |
+| Reduced motion support  | ✅     |
+| High contrast mode      | ✅     |
+| Light mode              | ✅     |
+| Dyslexia font           | ✅     |
+| Grayscale mode          | ✅     |
+| Font size adjustment    | ✅     |
 
 ### Key Strengths
+
 - Every `<nav>` has `aria-label`
 - All decorative images use `aria-hidden="true"` and `alt=""`
 - All external links announce "(opens in new tab)" via `sr-only`
@@ -797,19 +808,19 @@ This is genuinely exceptional. The dedication to WCAG AAA, the six customization
 
 ### Metadata
 
-| Element | Present | Quality |
-|---------|---------|---------|
-| `<title>` | ✅ | Excellent — includes event name, theme, location, dates |
-| `meta description` | ✅ | Good — includes key details and price |
-| Open Graph title | ✅ | Matches page title |
-| Open Graph description | ✅ | Slightly different (more marketing-focused) — good |
-| Open Graph image | ✅ | Convention flyer (1200x630) |
-| Twitter card | ✅ | `summary_large_image` |
-| `robots` | ✅ | `index: true, follow: true` |
-| `metadataBase` | ✅ | `https://www.necypaact.com` |
-| Per-page titles | ✅ | Each page has unique metadata |
-| Canonical URLs | — | Not explicitly set (Next.js may handle) |
-| Structured data | ❌ | No JSON-LD schema (event, organization) |
+| Element                | Present | Quality                                                 |
+| ---------------------- | ------- | ------------------------------------------------------- |
+| `<title>`              | ✅      | Excellent — includes event name, theme, location, dates |
+| `meta description`     | ✅      | Good — includes key details and price                   |
+| Open Graph title       | ✅      | Matches page title                                      |
+| Open Graph description | ✅      | Slightly different (more marketing-focused) — good      |
+| Open Graph image       | ✅      | Convention flyer (1200x630)                             |
+| Twitter card           | ✅      | `summary_large_image`                                   |
+| `robots`               | ✅      | `index: true, follow: true`                             |
+| `metadataBase`         | ✅      | `https://www.necypaact.com`                             |
+| Per-page titles        | ✅      | Each page has unique metadata                           |
+| Canonical URLs         | —       | Not explicitly set (Next.js may handle)                 |
+| Structured data        | ❌      | No JSON-LD schema (event, organization)                 |
 
 ### Recommendations
 
@@ -851,42 +862,42 @@ The i18n infrastructure is in place but **Spanish translations appear incomplete
 
 ### 🔴 Critical (Before Launch)
 
-| # | Recommendation | Impact | Effort |
-|---|---------------|--------|--------|
-| 1 | **Complete the 5 placeholder pages** (Program, Merch, Prayer, Bid, ASL) with real content | High | High |
-| 2 | **Add social media links** (Instagram at minimum) to header and/or footer | High | Low |
-| 3 | **Add email capture / newsletter signup** for pre-registrants and interested visitors | High | Medium |
-| 4 | **Complete Spanish translations** or remove the locale routing if not ready | Medium | High |
-| 5 | **Add JSON-LD structured data** for the event | Medium | Low |
+| #   | Recommendation                                                                            | Impact | Effort |
+| --- | ----------------------------------------------------------------------------------------- | ------ | ------ |
+| 1   | **Complete the 5 placeholder pages** (Program, Merch, Prayer, Bid, ASL) with real content | High   | High   |
+| 2   | **Add social media links** (Instagram at minimum) to header and/or footer                 | High   | Low    |
+| 3   | **Add email capture / newsletter signup** for pre-registrants and interested visitors     | High   | Medium |
+| 4   | **Complete Spanish translations** or remove the locale routing if not ready               | Medium | High   |
+| 5   | **Add JSON-LD structured data** for the event                                             | Medium | Low    |
 
 ### 🟡 High Priority (Soon After Launch)
 
-| # | Recommendation | Impact | Effort |
-|---|---------------|--------|--------|
-| 6 | **Add active page indicator** in navigation | Medium | Low |
-| 7 | **Add "Add to Calendar" buttons** for convention dates and events | Medium | Low |
-| 8 | **Cross-sell breakfast on registration success page** | Medium | Low |
-| 9 | **Show at-door vs online price comparison** | Medium | Low |
-| 10 | **Add testimonials/quotes** from past convention attendees | Medium | Medium |
-| 11 | **Dynamic import game components** to reduce bundle size | Medium | Low |
-| 12 | **Bump `--nec-muted` color** for AAA small-text compliance | Medium | Low |
-| 13 | **Add search/filter to FAQ page** | Medium | Medium |
-| 14 | **Add sitemap.xml** | Low | Low |
+| #   | Recommendation                                                    | Impact | Effort |
+| --- | ----------------------------------------------------------------- | ------ | ------ |
+| 6   | **Add active page indicator** in navigation                       | Medium | Low    |
+| 7   | **Add "Add to Calendar" buttons** for convention dates and events | Medium | Low    |
+| 8   | **Cross-sell breakfast on registration success page**             | Medium | Low    |
+| 9   | **Show at-door vs online price comparison**                       | Medium | Low    |
+| 10  | **Add testimonials/quotes** from past convention attendees        | Medium | Medium |
+| 11  | **Dynamic import game components** to reduce bundle size          | Medium | Low    |
+| 12  | **Bump `--nec-muted` color** for AAA small-text compliance        | Medium | Low    |
+| 13  | **Add search/filter to FAQ page**                                 | Medium | Medium |
+| 14  | **Add sitemap.xml**                                               | Low    | Low    |
 
 ### 🟢 Nice to Have (When Time Allows)
 
-| # | Recommendation | Impact | Effort |
-|---|---------------|--------|--------|
-| 15 | Add countdown timer to hero section | Low | Low |
-| 16 | Add photo gallery from past events | Medium | Medium |
-| 17 | Extract inline card styles into CSS classes | Low | Medium |
-| 18 | Add breadcrumbs on interior pages | Low | Low |
-| 19 | Remove Pacifico font if unused | Low | Low |
-| 20 | Add "Share this event" buttons on event pages | Low | Medium |
-| 21 | Default to list view on mobile for States page | Low | Low |
-| 22 | Increase minimum text size from 12px to 14px | Low | Medium |
-| 23 | Add service interest/application form | Medium | Medium |
-| 24 | Add "Notify me when ready" on placeholder pages | Low | Medium |
+| #   | Recommendation                                  | Impact | Effort |
+| --- | ----------------------------------------------- | ------ | ------ |
+| 15  | Add countdown timer to hero section             | Low    | Low    |
+| 16  | Add photo gallery from past events              | Medium | Medium |
+| 17  | Extract inline card styles into CSS classes     | Low    | Medium |
+| 18  | Add breadcrumbs on interior pages               | Low    | Low    |
+| 19  | Remove Pacifico font if unused                  | Low    | Low    |
+| 20  | Add "Share this event" buttons on event pages   | Low    | Medium |
+| 21  | Default to list view on mobile for States page  | Low    | Low    |
+| 22  | Increase minimum text size from 12px to 14px    | Low    | Medium |
+| 23  | Add service interest/application form           | Medium | Medium |
+| 24  | Add "Notify me when ready" on placeholder pages | Low    | Medium |
 
 ---
 
@@ -894,23 +905,23 @@ The i18n infrastructure is in place but **Spanish translations appear incomplete
 
 ### Scores by Discipline
 
-| Discipline | Score | Grade |
-|-----------|-------|-------|
-| **Information Architecture** | 88/100 | A- |
-| **Navigation & Wayfinding** | 90/100 | A |
-| **Visual Design** | 96/100 | A+ |
-| **Typography** | 88/100 | A- |
-| **Color & Contrast** | 90/100 | A |
-| **Layout & Hierarchy** | 92/100 | A |
-| **Component Design** | 90/100 | A |
-| **Mobile Experience** | 88/100 | A- |
-| **Content & Copy** | 94/100 | A |
-| **Marketing & Conversion** | 82/100 | B+ |
-| **Brand Consistency** | 92/100 | A |
-| **Accessibility** | 98/100 | A+ |
-| **Performance** | 85/100 | B+ |
-| **SEO** | 78/100 | B+ |
-| **Internationalization** | 70/100 | B- |
+| Discipline                   | Score  | Grade |
+| ---------------------------- | ------ | ----- |
+| **Information Architecture** | 88/100 | A-    |
+| **Navigation & Wayfinding**  | 90/100 | A     |
+| **Visual Design**            | 96/100 | A+    |
+| **Typography**               | 88/100 | A-    |
+| **Color & Contrast**         | 90/100 | A     |
+| **Layout & Hierarchy**       | 92/100 | A     |
+| **Component Design**         | 90/100 | A     |
+| **Mobile Experience**        | 88/100 | A-    |
+| **Content & Copy**           | 94/100 | A     |
+| **Marketing & Conversion**   | 82/100 | B+    |
+| **Brand Consistency**        | 92/100 | A     |
+| **Accessibility**            | 98/100 | A+    |
+| **Performance**              | 85/100 | B+    |
+| **SEO**                      | 78/100 | B+    |
+| **Internationalization**     | 70/100 | B-    |
 
 ### Composite Score: **90/100 — A**
 
@@ -919,15 +930,16 @@ The i18n infrastructure is in place but **Spanish translations appear incomplete
 This is an **outstanding** website for a volunteer-run AA convention committee. The design quality, accessibility infrastructure, and emotional storytelling are genuinely exceptional. The "Escaping the Mad Realm" theme is executed with creativity and restraint — it's immersive without being overwhelming.
 
 The main areas for improvement are:
+
 1. **Content completeness** — 5 placeholder pages need real content
 2. **Marketing infrastructure** — email capture, social media, and at-door price comparison are missing
 3. **SEO** — structured data and sitemap would improve discoverability
 4. **i18n** — Spanish translations need to be completed or the feature should be deferred
 
-The YPAA narrative section on the homepage deserves special recognition. It is, without exaggeration, one of the most effective pieces of event marketing copy we've encountered — it doesn't sell the event, it *lets you experience it*. That section alone is worth the price of admission.
+The YPAA narrative section on the homepage deserves special recognition. It is, without exaggeration, one of the most effective pieces of event marketing copy we've encountered — it doesn't sell the event, it _lets you experience it_. That section alone is worth the price of admission.
 
 **Nikki and the CT Host Committee should be proud of this work. It sets a new standard for YPAA convention websites.**
 
 ---
 
-*This audit was conducted by reviewing every page, component, stylesheet, and configuration file in the NECYPASITE codebase. It combines perspectives from web development, UX/UI design, graphic design, content strategy, and digital marketing.*
+_This audit was conducted by reviewing every page, component, stylesheet, and configuration file in the NECYPASITE codebase. It combines perspectives from web development, UX/UI design, graphic design, content strategy, and digital marketing._

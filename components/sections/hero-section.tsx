@@ -57,7 +57,6 @@ export default function HeroSection() {
         poster banner art → logo word art → AA circle → text
       */}
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-12 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24">
-
         {/* Logo */}
         <div className="hero-logo-glow hero-enter-1 relative mb-4 sm:mb-6 md:mb-7">
           <Image
@@ -143,10 +142,7 @@ export default function HeroSection() {
         {/* CTAs */}
         <div className="hero-enter-5 mt-5 flex w-full flex-col items-center gap-3 sm:mt-7 md:mt-9">
           <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-sm sm:flex-row">
-            <Link
-              href="/register"
-              className="btn-primary justify-center text-center"
-            >
+            <Link href="/register" className="btn-primary justify-center text-center">
               Register Now
             </Link>
             <a
@@ -184,9 +180,8 @@ export default function HeroSection() {
       </div>
 
       <p className="sr-only">
-        NECYPAA XXXVI — Escaping the Mad Realm. The Northeast Convention of
-        Young People in Alcoholics Anonymous. Hartford, Connecticut. December
-        31, 2026 through January 3, 2027. Hartford Marriott Downtown.
+        NECYPAA XXXVI — Escaping the Mad Realm. The Northeast Convention of Young People in Alcoholics Anonymous.
+        Hartford, Connecticut. December 31, 2026 through January 3, 2027. Hartford Marriott Downtown.
       </p>
     </section>
   )

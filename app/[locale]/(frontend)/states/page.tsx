@@ -5,7 +5,12 @@ import { motion, useReducedMotion } from "framer-motion"
 import { ExternalLink, Map, List, Globe, Sparkles, Users, BookOpen, Info } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import { NECYPAA_STATES } from "@/lib/data/states"
-import { YPAA_MEETINGS, YPAA_MEETING_COUNT, getYPAAMeetingCountsByState, getYPAAStatesWithMeetings } from "@/lib/data/ypaa-meetings"
+import {
+  YPAA_MEETINGS,
+  YPAA_MEETING_COUNT,
+  getYPAAMeetingCountsByState,
+  getYPAAStatesWithMeetings,
+} from "@/lib/data/ypaa-meetings"
 import StateCard from "@/components/state-card"
 import MeetingDirectory from "@/components/meeting-directory"
 import SiteFooter from "@/components/site-footer"
@@ -28,10 +33,7 @@ export default function StatesPage() {
     if (window.innerWidth < 768) setViewMode("list")
   }, [])
 
-  const totalIntergroups = NECYPAA_STATES.reduce(
-    (sum, s) => sum + s.intergroups.length,
-    0,
-  )
+  const totalIntergroups = NECYPAA_STATES.reduce((sum, s) => sum + s.intergroups.length, 0)
   const ypaaCount = NECYPAA_STATES.filter((s) => s.ypaaCommittee).length
   const meetingCounts = useMemo(() => getYPAAMeetingCountsByState(), [])
   const ypaaStates = useMemo(() => getYPAAStatesWithMeetings(), [])
@@ -104,14 +106,11 @@ export default function StatesPage() {
 
   return (
     <div
-      className="min-h-screen min-h-screen-safe flex flex-col relative"
+      className="min-h-screen-safe relative flex min-h-screen flex-col"
       style={{ backgroundColor: "var(--nec-navy)" }}
     >
       {/* Refined ambient background — thin gradient lines, not blobs */}
-      <div
-        className="fixed inset-0 pointer-events-none z-0"
-        aria-hidden="true"
-      >
+      <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
         <div
           className="absolute inset-0 opacity-[0.04]"
           style={{
@@ -120,7 +119,7 @@ export default function StatesPage() {
           }}
         />
         <div
-          className="absolute top-0 left-0 right-0 h-px"
+          className="absolute left-0 right-0 top-0 h-px"
           style={{
             background:
               "linear-gradient(90deg, transparent 10%, rgba(var(--nec-purple-rgb),0.10) 50%, transparent 90%)",
@@ -130,7 +129,7 @@ export default function StatesPage() {
 
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
+          <div className="mx-auto max-w-5xl">
             {/* ── Hero Header ──────────────────────── */}
             <motion.header
               className="relative mb-10 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:mb-12 md:px-8 md:py-10"
@@ -150,13 +149,13 @@ export default function StatesPage() {
                     "linear-gradient(90deg, rgba(var(--nec-cyan-rgb),0) 0%, rgba(var(--nec-cyan-rgb),0.45) 30%, rgba(var(--nec-purple-rgb),0.52) 72%, rgba(var(--nec-pink-rgb),0.36) 100%)",
                 }}
               />
-              <div className="inline-flex items-center gap-2 mb-5">
+              <div className="mb-5 inline-flex items-center gap-2">
                 <span className="section-badge">
-                  <Globe className="w-3.5 h-3.5" aria-hidden="true" />
+                  <Globe className="h-3.5 w-3.5" aria-hidden="true" />
                   Regional Directory
                 </span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[var(--nec-text)] leading-[1.1] mb-4">
+              <h1 className="mb-4 text-4xl font-black leading-[1.1] text-[var(--nec-text)] md:text-5xl lg:text-6xl">
                 <span className="block">Member</span>
                 <span
                   className="bg-clip-text text-transparent"
@@ -169,18 +168,17 @@ export default function StatesPage() {
                 </span>
               </h1>
               <p
-                className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
+                className="mx-auto max-w-2xl text-base leading-relaxed md:text-lg"
                 style={{ color: "var(--nec-muted)" }}
               >
-                Local AA resources, intergroups, and young people&apos;s
-                groups across the NECYPAA region — 12 states and Washington,
-                D.C.
+                Local AA resources, intergroups, and young people&apos;s groups across the NECYPAA region — 12 states
+                and Washington, D.C.
               </p>
             </motion.header>
 
             {/* ── Luxury Stats Strip ─────────────────── */}
             <motion.div
-              className="section-atmosphere-cyan relative mb-10 grid grid-cols-2 gap-3 md:mb-12 md:gap-4 sm:grid-cols-4"
+              className="section-atmosphere-cyan relative mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4 md:mb-12 md:gap-4"
               role="group"
               aria-label="Region statistics"
               variants={shouldReduce ? undefined : staggerContainer}
@@ -201,20 +199,17 @@ export default function StatesPage() {
                 >
                   {/* Top accent line */}
                   <div
-                    className="absolute top-0 left-0 right-0 h-[2px]"
+                    className="absolute left-0 right-0 top-0 h-[2px]"
                     style={{
                       background: `linear-gradient(90deg, transparent, rgba(${stat.bgRgb},0.6), transparent)`,
                     }}
                     aria-hidden="true"
                   />
-                  <span
-                    className="block text-3xl md:text-4xl font-black leading-none"
-                    style={{ color: stat.color }}
-                  >
+                  <span className="block text-3xl font-black leading-none md:text-4xl" style={{ color: stat.color }}>
                     {stat.value}
                   </span>
                   <span
-                    className="block text-xs md:text-sm font-semibold mt-2 uppercase tracking-wider"
+                    className="mt-2 block text-xs font-semibold uppercase tracking-wider md:text-sm"
                     style={{ color: "var(--nec-muted)" }}
                   >
                     {stat.label}
@@ -234,27 +229,23 @@ export default function StatesPage() {
               aria-label="Interactive region map"
             >
               {/* Map header with view toggle */}
-              <div className="flex items-center justify-between p-5 md:p-6 border-b" style={{ borderColor: "var(--nec-border)" }}>
+              <div
+                className="flex items-center justify-between border-b p-5 md:p-6"
+                style={{ borderColor: "var(--nec-border)" }}
+              >
                 <div>
-                  <h2 className="text-lg md:text-xl font-bold text-[var(--nec-text)] flex items-center gap-2">
-                    <Sparkles
-                      className="w-5 h-5"
-                      style={{ color: "var(--nec-purple)" }}
-                      aria-hidden="true"
-                    />
+                  <h2 className="flex items-center gap-2 text-lg font-bold text-[var(--nec-text)] md:text-xl">
+                    <Sparkles className="h-5 w-5" style={{ color: "var(--nec-purple)" }} aria-hidden="true" />
                     Explore the Region
                   </h2>
-                  <p
-                    className="text-xs md:text-sm mt-1"
-                    style={{ color: "var(--nec-muted)" }}
-                  >
+                  <p className="mt-1 text-xs md:text-sm" style={{ color: "var(--nec-muted)" }}>
                     Click a state to view its AA resources
                   </p>
                 </div>
 
                 {/* View mode toggle — Map / List */}
                 <div
-                  className="flex rounded-xl overflow-hidden"
+                  className="flex overflow-hidden rounded-xl"
                   role="radiogroup"
                   aria-label="View mode"
                   style={{
@@ -269,17 +260,11 @@ export default function StatesPage() {
                     onClick={() => setViewMode("map")}
                     className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200"
                     style={{
-                      background:
-                        viewMode === "map"
-                          ? "rgba(var(--nec-purple-rgb),0.12)"
-                          : "transparent",
-                      color:
-                        viewMode === "map"
-                          ? "var(--nec-purple)"
-                          : "var(--nec-muted)",
+                      background: viewMode === "map" ? "rgba(var(--nec-purple-rgb),0.12)" : "transparent",
+                      color: viewMode === "map" ? "var(--nec-purple)" : "var(--nec-muted)",
                     }}
                   >
-                    <Map className="w-3.5 h-3.5" aria-hidden="true" />
+                    <Map className="h-3.5 w-3.5" aria-hidden="true" />
                     Map
                   </button>
                   <button
@@ -289,17 +274,11 @@ export default function StatesPage() {
                     onClick={() => setViewMode("list")}
                     className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200"
                     style={{
-                      background:
-                        viewMode === "list"
-                          ? "rgba(var(--nec-purple-rgb),0.12)"
-                          : "transparent",
-                      color:
-                        viewMode === "list"
-                          ? "var(--nec-purple)"
-                          : "var(--nec-muted)",
+                      background: viewMode === "list" ? "rgba(var(--nec-purple-rgb),0.12)" : "transparent",
+                      color: viewMode === "list" ? "var(--nec-purple)" : "var(--nec-muted)",
                     }}
                   >
-                    <List className="w-3.5 h-3.5" aria-hidden="true" />
+                    <List className="h-3.5 w-3.5" aria-hidden="true" />
                     List
                   </button>
                 </div>
@@ -308,14 +287,19 @@ export default function StatesPage() {
               {/* Map content */}
               {viewMode === "map" ? (
                 <div className="p-4 md:p-6 lg:p-8">
-                  <Suspense fallback={
-                    <div className="flex min-h-[400px] items-center justify-center">
-                      <div className="text-center space-y-3">
-                        <div className="w-8 h-8 mx-auto border-2 border-[var(--nec-purple)] border-t-transparent rounded-full animate-spin" aria-hidden="true" />
-                        <p className="text-[var(--nec-text)]">Loading map...</p>
+                  <Suspense
+                    fallback={
+                      <div className="flex min-h-[400px] items-center justify-center">
+                        <div className="space-y-3 text-center">
+                          <div
+                            className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-[var(--nec-purple)] border-t-transparent"
+                            aria-hidden="true"
+                          />
+                          <p className="text-[var(--nec-text)]">Loading map...</p>
+                        </div>
                       </div>
-                    </div>
-                  }>
+                    }
+                  >
                     <NecypaaRegionMap
                       activeState={selectedState}
                       onStateSelect={handleStateSelect}
@@ -327,7 +311,7 @@ export default function StatesPage() {
                 <div className="p-4 md:p-6">
                   {/* Quick-select grid for list mode */}
                   <div
-                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2"
+                    className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5"
                     role="listbox"
                     aria-label="Select a state"
                   >
@@ -342,36 +326,24 @@ export default function StatesPage() {
                           type="button"
                           role="option"
                           aria-selected={isActive}
-                          onClick={() =>
-                            handleStateSelect(state.abbreviation)
-                          }
+                          onClick={() => handleStateSelect(state.abbreviation)}
                           className="rounded-xl p-3 text-center transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)]"
                           style={{
-                            background: isActive
-                              ? `rgba(${rgb},0.18)`
-                              : `rgba(${rgb},0.04)`,
-                            border: isActive
-                              ? `1.5px solid rgba(${rgb},0.5)`
-                              : `1px solid rgba(${rgb},0.1)`,
-                            boxShadow: isActive
-                              ? `0 0 16px rgba(${rgb},0.1)`
-                              : "none",
+                            background: isActive ? `rgba(${rgb},0.18)` : `rgba(${rgb},0.04)`,
+                            border: isActive ? `1.5px solid rgba(${rgb},0.5)` : `1px solid rgba(${rgb},0.1)`,
+                            boxShadow: isActive ? `0 0 16px rgba(${rgb},0.1)` : "none",
                           }}
                         >
                           <span
                             className="block text-lg font-black"
                             style={{
-                              color: isActive
-                                ? isNE
-                                  ? "var(--nec-cyan)"
-                                  : "var(--nec-purple)"
-                                : "var(--nec-muted)",
+                              color: isActive ? (isNE ? "var(--nec-cyan)" : "var(--nec-purple)") : "var(--nec-muted)",
                             }}
                           >
                             {state.abbreviation}
                           </span>
                           <span
-                            className="block text-[11px] mt-0.5 font-medium truncate"
+                            className="mt-0.5 block truncate text-[11px] font-medium"
                             style={{ color: "var(--nec-muted)" }}
                           >
                             {state.name}
@@ -403,30 +375,27 @@ export default function StatesPage() {
                   aria-selected={activeTab === "resources"}
                   aria-controls="panel-resources"
                   onClick={() => setActiveTab("resources")}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
                   style={{
-                    background: activeTab === "resources"
-                      ? "rgba(var(--nec-purple-rgb),0.10)"
-                      : "transparent",
-                    color: activeTab === "resources"
-                      ? "var(--nec-text)"
-                      : "var(--nec-muted)",
-                    boxShadow: activeTab === "resources"
-                      ? "var(--shadow-glow-purple)"
-                      : "none",
+                    background: activeTab === "resources" ? "rgba(var(--nec-purple-rgb),0.10)" : "transparent",
+                    color: activeTab === "resources" ? "var(--nec-text)" : "var(--nec-muted)",
+                    boxShadow: activeTab === "resources" ? "var(--shadow-glow-purple)" : "none",
                   }}
                 >
-                  <BookOpen className="w-4 h-4" style={{ color: activeTab === "resources" ? "var(--nec-cyan)" : "var(--nec-muted)" }} aria-hidden="true" />
+                  <BookOpen
+                    className="h-4 w-4"
+                    style={{ color: activeTab === "resources" ? "var(--nec-cyan)" : "var(--nec-muted)" }}
+                    aria-hidden="true"
+                  />
                   State Resources
                   <span
-                    className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
+                    className="rounded-md px-1.5 py-0.5 text-[11px] font-bold"
                     style={{
-                      background: activeTab === "resources"
-                        ? "rgba(var(--nec-cyan-rgb),0.10)"
-                        : "rgba(var(--nec-purple-rgb),0.06)",
-                      color: activeTab === "resources"
-                        ? "var(--nec-cyan)"
-                        : "var(--nec-muted)",
+                      background:
+                        activeTab === "resources"
+                          ? "rgba(var(--nec-cyan-rgb),0.10)"
+                          : "rgba(var(--nec-purple-rgb),0.06)",
+                      color: activeTab === "resources" ? "var(--nec-cyan)" : "var(--nec-muted)",
                     }}
                   >
                     {NECYPAA_STATES.length}
@@ -439,30 +408,27 @@ export default function StatesPage() {
                   aria-selected={activeTab === "meetings"}
                   aria-controls="panel-meetings"
                   onClick={() => setActiveTab("meetings")}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
                   style={{
-                    background: activeTab === "meetings"
-                      ? "rgba(var(--nec-pink-rgb),0.10)"
-                      : "transparent",
-                    color: activeTab === "meetings"
-                      ? "var(--nec-text)"
-                      : "var(--nec-muted)",
-                    boxShadow: activeTab === "meetings"
-                      ? "var(--shadow-glow-pink)"
-                      : "none",
+                    background: activeTab === "meetings" ? "rgba(var(--nec-pink-rgb),0.10)" : "transparent",
+                    color: activeTab === "meetings" ? "var(--nec-text)" : "var(--nec-muted)",
+                    boxShadow: activeTab === "meetings" ? "var(--shadow-glow-pink)" : "none",
                   }}
                 >
-                  <Users className="w-4 h-4" style={{ color: activeTab === "meetings" ? "var(--nec-pink)" : "var(--nec-muted)" }} aria-hidden="true" />
+                  <Users
+                    className="h-4 w-4"
+                    style={{ color: activeTab === "meetings" ? "var(--nec-pink)" : "var(--nec-muted)" }}
+                    aria-hidden="true"
+                  />
                   YPAA Meetings
                   <span
-                    className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
+                    className="rounded-md px-1.5 py-0.5 text-[11px] font-bold"
                     style={{
-                      background: activeTab === "meetings"
-                        ? "rgba(var(--nec-pink-rgb),0.10)"
-                        : "rgba(var(--nec-purple-rgb),0.06)",
-                      color: activeTab === "meetings"
-                        ? "var(--nec-pink)"
-                        : "var(--nec-muted)",
+                      background:
+                        activeTab === "meetings"
+                          ? "rgba(var(--nec-pink-rgb),0.10)"
+                          : "rgba(var(--nec-purple-rgb),0.06)",
+                      color: activeTab === "meetings" ? "var(--nec-pink)" : "var(--nec-muted)",
                     }}
                   >
                     {YPAA_MEETING_COUNT}
@@ -475,31 +441,31 @@ export default function StatesPage() {
             {/* ── TAB PANEL: State Resources ────────── */}
             {/* ════════════════════════════════════════ */}
             {activeTab === "resources" && (
-              <div
-                id="panel-resources"
-                role="tabpanel"
-                aria-labelledby="tab-resources"
-              >
+              <div id="panel-resources" role="tabpanel" aria-labelledby="tab-resources">
                 {/* Compact outbound links notice */}
                 <div
-                  className="flex items-start gap-2.5 rounded-xl p-3.5 mb-6 text-xs leading-relaxed"
+                  className="mb-6 flex items-start gap-2.5 rounded-xl p-3.5 text-xs leading-relaxed"
                   style={{
                     background: "rgba(251,191,36,0.03)",
                     border: "1px solid rgba(251,191,36,0.10)",
                     color: "var(--nec-muted)",
                   }}
                 >
-                  <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: "var(--nec-gold)" }} aria-hidden="true" />
+                  <Info
+                    className="mt-0.5 h-3.5 w-3.5 flex-shrink-0"
+                    style={{ color: "var(--nec-gold)" }}
+                    aria-hidden="true"
+                  />
                   <p>
-                    <strong style={{ color: "var(--nec-gold)" }}>Tradition 6:</strong>{" "}
-                    All links lead to external sites maintained by local AA service bodies and YPAA committees — resource links, not affiliations.
+                    <strong style={{ color: "var(--nec-gold)" }}>Tradition 6:</strong> All links lead to external sites
+                    maintained by local AA service bodies and YPAA committees — resource links, not affiliations.
                   </p>
                 </div>
 
                 {/* Region filter */}
                 <div className="mb-6">
                   <div
-                    className="flex items-center gap-1 p-1 rounded-2xl"
+                    className="flex items-center gap-1 rounded-2xl p-1"
                     role="tablist"
                     aria-label="Filter states by region"
                     style={{
@@ -517,29 +483,21 @@ export default function StatesPage() {
                           aria-selected={isActive}
                           aria-controls="state-cards-panel"
                           onClick={() => setRegionFilter(tab.key)}
-                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)]"
+                          className="flex flex-1 items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--nec-purple)] md:text-sm"
                           style={{
-                            background: isActive
-                              ? "rgba(var(--nec-purple-rgb),0.10)"
-                              : "transparent",
-                            color: isActive
-                              ? "var(--nec-purple)"
-                              : "var(--nec-muted)",
-                            boxShadow: isActive
-                              ? "var(--shadow-glow-purple)"
-                              : "none",
+                            background: isActive ? "rgba(var(--nec-purple-rgb),0.10)" : "transparent",
+                            color: isActive ? "var(--nec-purple)" : "var(--nec-muted)",
+                            boxShadow: isActive ? "var(--shadow-glow-purple)" : "none",
                           }}
                         >
                           {tab.label}
                           <span
-                            className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
+                            className="rounded-md px-1.5 py-0.5 text-[11px] font-bold"
                             style={{
                               background: isActive
                                 ? "rgba(var(--nec-purple-rgb),0.12)"
                                 : "rgba(var(--nec-purple-rgb),0.06)",
-                              color: isActive
-                                ? "var(--nec-purple)"
-                                : "var(--nec-muted)",
+                              color: isActive ? "var(--nec-purple)" : "var(--nec-muted)",
                             }}
                           >
                             {tab.count}
@@ -551,11 +509,7 @@ export default function StatesPage() {
                 </div>
 
                 {/* State cards */}
-                <section
-                  id="state-cards-panel"
-                  role="tabpanel"
-                  aria-label="NECYPAA member states"
-                >
+                <section id="state-cards-panel" role="tabpanel" aria-label="NECYPAA member states">
                   <motion.div
                     className="space-y-3"
                     variants={shouldReduce ? undefined : staggerContainer}
@@ -577,7 +531,7 @@ export default function StatesPage() {
 
                 {/* AA Meeting Finder — compact */}
                 <section
-                  className="rounded-2xl p-5 md:p-6 mt-8 text-center relative overflow-hidden"
+                  className="relative mt-8 overflow-hidden rounded-2xl p-5 text-center md:p-6"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(var(--nec-purple-rgb),0.06) 0%, rgba(var(--nec-card-rgb),0.6) 100%)",
@@ -585,20 +539,15 @@ export default function StatesPage() {
                   }}
                 >
                   <div
-                    className="absolute top-0 left-0 right-0 h-[2px]"
+                    className="absolute left-0 right-0 top-0 h-[2px]"
                     style={{
                       background:
                         "linear-gradient(90deg, transparent, rgba(var(--nec-purple-rgb),0.30), rgba(var(--nec-pink-rgb),0.30), transparent)",
                     }}
                     aria-hidden="true"
                   />
-                  <h2 className="text-lg font-black text-[var(--nec-text)] mb-1">
-                    Find an AA Meeting
-                  </h2>
-                  <p
-                    className="text-xs mb-4 max-w-sm mx-auto"
-                    style={{ color: "var(--nec-muted)" }}
-                  >
+                  <h2 className="mb-1 text-lg font-black text-[var(--nec-text)]">Find an AA Meeting</h2>
+                  <p className="mx-auto mb-4 max-w-sm text-xs" style={{ color: "var(--nec-muted)" }}>
                     Search for meetings anywhere in the NECYPAA region or around the world.
                   </p>
                   <a
@@ -607,15 +556,14 @@ export default function StatesPage() {
                     rel="noopener noreferrer"
                     className="btn-secondary inline-flex items-center gap-2 text-sm"
                   >
-                    AA Meeting Finder{" "}
-                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                    AA Meeting Finder <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                     <span className="sr-only"> (opens in new tab)</span>
                   </a>
                 </section>
 
                 {/* Feedback note */}
                 <div
-                  className="mt-8 rounded-xl p-4 text-xs leading-relaxed text-center"
+                  className="mt-8 rounded-xl p-4 text-center text-xs leading-relaxed"
                   style={{
                     background: "rgba(var(--nec-card-rgb),0.4)",
                     border: "1px solid var(--nec-border)",
@@ -641,11 +589,7 @@ export default function StatesPage() {
             {/* ── TAB PANEL: YPAA Meetings ──────────── */}
             {/* ════════════════════════════════════════ */}
             {activeTab === "meetings" && (
-              <div
-                id="panel-meetings"
-                role="tabpanel"
-                aria-labelledby="tab-meetings"
-              >
+              <div id="panel-meetings" role="tabpanel" aria-labelledby="tab-meetings">
                 <MeetingDirectory
                   meetings={YPAA_MEETINGS}
                   theme="pink"

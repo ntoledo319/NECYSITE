@@ -33,17 +33,36 @@ const TOKENS = [
   { label: "◆", name: "GRATITUDE", color: "#ec4899" },
 ]
 
-interface Pos { x: number; y: number }
-interface Food { pos: Pos; token: typeof TOKENS[number] }
+interface Pos {
+  x: number
+  y: number
+}
+interface Food {
+  pos: Pos
+  token: (typeof TOKENS)[number]
+}
 
-function DPadButton({ label, ariaLabel, onTap, color = PURPLE }: { label: string; ariaLabel: string; onTap: () => void; color?: string }) {
+function DPadButton({
+  label,
+  ariaLabel,
+  onTap,
+  color = PURPLE,
+}: {
+  label: string
+  ariaLabel: string
+  onTap: () => void
+  color?: string
+}) {
   return (
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); onTap() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onTap()
+      }}
       onClick={onTap}
-      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-90 transition-transform"
+      className="flex select-none items-center justify-center rounded-xl text-lg font-bold transition-transform active:scale-90"
       style={{
         width: 52,
         height: 52,
@@ -125,10 +144,26 @@ export default function SnakeGame() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!g.running) return
       switch (e.key) {
-        case "ArrowUp": case "w": e.preventDefault(); setDirection({ x: 0, y: -1 }); break
-        case "ArrowDown": case "s": e.preventDefault(); setDirection({ x: 0, y: 1 }); break
-        case "ArrowLeft": case "a": e.preventDefault(); setDirection({ x: -1, y: 0 }); break
-        case "ArrowRight": case "d": e.preventDefault(); setDirection({ x: 1, y: 0 }); break
+        case "ArrowUp":
+        case "w":
+          e.preventDefault()
+          setDirection({ x: 0, y: -1 })
+          break
+        case "ArrowDown":
+        case "s":
+          e.preventDefault()
+          setDirection({ x: 0, y: 1 })
+          break
+        case "ArrowLeft":
+        case "a":
+          e.preventDefault()
+          setDirection({ x: -1, y: 0 })
+          break
+        case "ArrowRight":
+        case "d":
+          e.preventDefault()
+          setDirection({ x: 1, y: 0 })
+          break
       }
     }
 
@@ -226,13 +261,7 @@ export default function SnakeGame() {
         }
         ctx.fillStyle = isHead ? PURPLE : `rgba(124,58,237,${alpha})`
         ctx.beginPath()
-        ctx.roundRect(
-          seg.x * GRID + 1,
-          seg.y * GRID + 1,
-          GRID - 2,
-          GRID - 2,
-          isHead ? 5 : 3,
-        )
+        ctx.roundRect(seg.x * GRID + 1, seg.y * GRID + 1, GRID - 2, GRID - 2, isHead ? 5 : 3)
         ctx.fill()
         if (isHead) {
           // AA triangle on head
@@ -318,15 +347,17 @@ export default function SnakeGame() {
           aria-label="Snake game. Use arrow keys or swipe to guide the journey. Collect serenity tokens to grow. Do not run into yourself."
         />
         {gameOver && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
-            <p className="text-2xl font-black mb-2" style={{ color: PINK }}>GAME OVER</p>
-            <p className="text-sm text-[var(--nec-muted)] mb-3 text-center px-4">
-              &ldquo;One day at a time.&rdquo;
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/70">
+            <p className="mb-2 text-2xl font-black" style={{ color: PINK }}>
+              GAME OVER
             </p>
-            <p className="text-lg font-bold text-white mb-1">
+            <p className="mb-3 px-4 text-center text-sm text-[var(--nec-muted)]">&ldquo;One day at a time.&rdquo;</p>
+            <p className="mb-1 text-lg font-bold text-white">
               {score / 10} day{score / 10 !== 1 ? "s" : ""} collected
             </p>
-            <p className="text-sm mb-4" style={{ color: CYAN }}>Score: {score}</p>
+            <p className="mb-4 text-sm" style={{ color: CYAN }}>
+              Score: {score}
+            </p>
             <button onClick={resetGame} className="btn-primary text-sm" type="button">
               Start a New Day
             </button>
@@ -334,7 +365,7 @@ export default function SnakeGame() {
         )}
       </div>
       {/* Mobile d-pad */}
-      <div className="md:hidden flex flex-col items-center gap-1" aria-label="Game controls" role="group">
+      <div className="flex flex-col items-center gap-1 md:hidden" aria-label="Game controls" role="group">
         <DPadButton label="↑" ariaLabel="Move up" onTap={() => handleDir({ x: 0, y: -1 })} color={CYAN} />
         <div className="flex gap-1">
           <DPadButton label="←" ariaLabel="Move left" onTap={() => handleDir({ x: -1, y: 0 })} />
@@ -343,9 +374,14 @@ export default function SnakeGame() {
         </div>
         <DPadButton label="↓" ariaLabel="Move down" onTap={() => handleDir({ x: 0, y: 1 })} color={GOLD} />
       </div>
-      <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        <span className="hidden md:inline">Collect serenity tokens. Each one adds a day to your journey. Arrow keys to move. Don&apos;t cross your own path.</span>
-        <span className="md:hidden">Swipe or use the d-pad to move. Collect tokens. Don&apos;t cross your own path.</span>
+      <p className="max-w-xs text-center text-xs" style={{ color: "var(--nec-muted)" }}>
+        <span className="hidden md:inline">
+          Collect serenity tokens. Each one adds a day to your journey. Arrow keys to move. Don&apos;t cross your own
+          path.
+        </span>
+        <span className="md:hidden">
+          Swipe or use the d-pad to move. Collect tokens. Don&apos;t cross your own path.
+        </span>
       </p>
     </div>
   )

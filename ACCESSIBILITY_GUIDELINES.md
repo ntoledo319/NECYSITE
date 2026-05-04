@@ -1,5 +1,7 @@
 # Accessibilities Chair Questionnaire — Complete Responses
+
 ## NECYPAA Digital Platform Inclusion Guidelines
+
 ### Submitted: March 13, 2026
 
 ---
@@ -11,9 +13,11 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 1: VISUAL & SENSORY ACCESSIBILITY
 
 ### Text Readability
+
 - Make text as readable as possible for everyone (no specific WCAG level mandated — default to AA minimum, push toward AAA where feasible)
 
 ### User Customization Options (ALL required)
+
 - Dark mode (light text on dark background)
 - High-contrast mode
 - Font size controls
@@ -22,6 +26,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Grayscale mode
 
 ### Media Rules
+
 - Every image MUST have alt text
 - Every video MUST have captions
 - Every video SHOULD have audio descriptions for blind users
@@ -31,12 +36,14 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Note: Auto-play was not explicitly checked — implement as opt-in (user must press play)
 
 ### Keyboard Navigation
+
 - Visible focus indicators on all interactive elements
 - Skip-to-content links on every page
 - All pop-ups/modals must be closable via Escape key
 - Full keyboard navigation support required (Tab, Enter, arrows)
 
 ### Timers & Auto-Advancing Content
+
 - Users must be able to pause, stop, or extend any countdown
 - Nothing should auto-advance
 - Warn users before session timeout and allow extension
@@ -46,6 +53,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 2: LANGUAGE & TONE
 
 ### Pronoun Rules (ALL required)
+
 - Default to "you/your" (direct address) instead of he/she
 - Use "they/them" when gender is unknown
 - Never assume gender from name or appearance
@@ -53,28 +61,34 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - No gendered greetings — use "Hey everyone," "Hey folks," "Hi there"
 
 ### Banned Language
+
 - Ban anything ableist, racist, or considered cultural appropriation
 - Reference list: "guys," "ladies and gentlemen," "manpower," "blacklist/whitelist," "grandfathered in," "spirit animal," "lame," "crazy," "blind spot"
 
 ### Reading Level
+
 - Use plain, clear language — don't overthink grade level
 - For complex topics, provide a simplified version alongside the detailed one
 
 ### Multilingual Support
+
 - Spanish translation: YES, required
 - ASL (American Sign Language) video content: desired
 
 ### Cultural Assumptions to Avoid
+
 - Don't assume holidays — either list no holidays or list ALL holidays
 - Don't assume personal finances or housing stability
 - Only reference these topics when directly relevant to the content
 
 ### Content Warnings
+
 - Show brief warnings before sensitive topics
 - Let users set their own content filters
 - Put sensitive content behind click-to-expand sections
 
 ### Error Messages
+
 - Warm and inviting without being condescending
 - Bad: "Error 403: Invalid input"
 - Good: "Hmm, that didn't work — here's what you can try"
@@ -84,6 +98,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 3: IMAGERY & REPRESENTATION
 
 ### Diversity in Images (ALL required)
+
 - Range of races and ethnicities
 - Different body types and sizes
 - People with visible disabilities
@@ -93,6 +108,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - No stereotypical role assignments
 
 ### AI-Generated Images
+
 - Must be labeled as AI-generated
 - Must not depict real, specific people
 - Must explicitly prompt for diverse representation
@@ -100,6 +116,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - AI-generated images are allowed (not banned)
 
 ### Avatars & Profile Pictures
+
 - Default avatar must be gender-neutral
 - Offer diverse skin tone options
 - Include hijab, head coverings, cultural accessories
@@ -108,6 +125,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Profile picture must be completely optional
 
 ### Icons & Symbols
+
 - Use best judgment — Chair trusts the development team on this
 
 ---
@@ -115,6 +133,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 4: FORMS & IDENTITY
 
 ### Name Fields
+
 - Flexible approach: single "Name" box OR separate First/Last both acceptable
 - MUST allow hyphens, apostrophes, accents, spaces
 - No minimum character requirement
@@ -122,25 +141,30 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Add optional "What should we call you?" / display name field
 
 ### Gender Collection
+
 - Open text box (free-type)
 - Multi-select capability
 - Only ask if legally required — and explain WHY
 - Do NOT use a simple Male/Female dropdown
 
 ### Pronouns
+
 - Optional field on profile, never required
 
 ### Personal Information to Collect
+
 - Disability status (optional)
 - Primary language spoken (optional)
 - Do NOT collect: race/ethnicity, sexual orientation, age/DOB, religious affiliation, veteran status, income (unless legally required)
 
 ### Address & Location
+
 - Address fields should be optional
 - State/Country fields are acceptable
 - Do NOT require physical/street address
 
 ### Required vs Optional Fields
+
 - Make optional: physical addresses, legal name
 - Rule: anything that could endanger someone if leaked must be optional
 - Sensitive data should only be visible to trusted committee members
@@ -150,12 +174,14 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 5: AI & AUTOMATION
 
 ### AI Chatbot Tone
+
 - Warm and supportive — not fake or condescending
 - Never use gendered language (no "sir," "ma'am," "buddy")
 - Same simple, clear language as the rest of the site
 - Never assume anything about the user's identity or life circumstances
 
 ### Sensitive Topics for AI (extra care required)
+
 - Mental health and crisis situations
 - Gender identity and pronouns
 - Race and cultural sensitivity
@@ -164,6 +190,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Note: Substance use/recovery and religion were NOT checked — still handle with care given the recovery context, but these were not flagged as top priority
 
 ### AI Hard Rules (ALL — no exceptions)
+
 - NEVER guess someone's gender, race, sexuality, or disability
 - NEVER change responses based on demographic information
 - NEVER suggest content based on assumed identity
@@ -172,16 +199,19 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - NEVER make jokes about identity, bodies, or culture
 
 ### AI Unknown Situations
+
 - Be honest about not knowing
 - Offer to connect with a real person
 - Ask the person to explain rather than assuming
 - Flag for Accessibilities Chair review so the system can learn
 
 ### AI Content Review
+
 - ALL AI-written content must be reviewed before publishing
 - No auto-publish for AI-generated content
 
 ### Content Filters
+
 - Trust development team's judgment on filter implementation
 - Key requirement: don't flag identity-related content as something it's not (e.g., LGBTQ+ content flagged as "sexual," disability content flagged as "medical misinformation")
 
@@ -190,15 +220,18 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 6: COMMUNITY & EVENTS
 
 ### Event Registration
+
 - Collect: dietary info, accessibility needs, pronouns
 
 ### Virtual Event Accessibility
+
 - Live captions (real-time subtitles)
 - ASL interpreter available on request
 - Captioned recordings available after
 - Multiple participation methods (not just speaking — include text chat, Q&A, post-event submission)
 
 ### In-Person Event Accessibility
+
 - Wheelchair accessible venues (ramps, elevators, accessible bathrooms)
 - Sliding scale pricing / financial assistance
 - Childcare or kid-friendly options
@@ -206,17 +239,20 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Quiet/sensory break room
 
 ### Code of Conduct
+
 - Required — must exist
 - Cover personal AND professional interactions
 - Include unwelcome/uncomfortable/unsafe framework
 - Include where to reach assistance for issues
 
 ### Harassment Reporting
+
 - Everything handled privately unless absolutely necessary
 - Consider a small group for group conscience on consequences
 - Chair noted sensitivity around this topic — defer to group decision-making
 
 ### User Profiles
+
 - Optional sharing: pronouns, accessibility needs, languages spoken, cultural background
 - Don't over-minimize profiles — allow meaningful self-expression
 
@@ -225,6 +261,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 7: EMAILS & OUTREACH
 
 ### Email Rules (ALL required)
+
 - Plain-text alternative for every email
 - Alt text on all images in emails
 - Gender-neutral greetings ("Hi there" not "Hey guys")
@@ -232,16 +269,19 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Translate important emails for non-English speakers (Spanish priority)
 
 ### Social Media
+
 - Follow all previously stated inclusion rules
 - Diversity of all kinds in visual content
 - Avoid ableism, racism, classism
 
 ### Notifications
+
 - Users choose notification frequency
 - Easy unsubscribe on every message
 - Never reveal sensitive info (recovery status, etc.) in subject lines or previews
 
 ### Outreach Materials
+
 - If using images of people: very diverse array
 - Since people images are rare: prioritize translation, colorblind-friendly design, dyslexia-friendly design
 
@@ -250,6 +290,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 8: PRIVACY & SAFETY
 
 ### Data Protection (ALL categories — equal protection)
+
 - Sexual orientation
 - Gender identity / transgender status
 - Disability status
@@ -260,23 +301,27 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - HIV/health status
 
 ### Data Visibility
+
 - User gets full control over who sees what
 - Never shown to other users unless the person explicitly enables it
 - Only designated inclusion/accessibility staff can access
 
 ### Anonymity
+
 - Allow preferred/chosen names
 - Allow anonymous harassment reports
 - Event registration private to relevant committee members
 - Anything that could endanger someone must be protected
 
 ### Public Statements (ALL required)
+
 - Accessibility statement on every page footer
 - DEI/inclusion statement on About page
 - Both include contact info for reporting problems
 - Information on how to request accommodations (ASL, etc.)
 
 ### Legal Standards
+
 - Chair needs guidance on specifics
 - At minimum: whatever Connecticut state requires
 - Development team should default to WCAG AA compliance
@@ -286,10 +331,12 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 9: RECOVERY-SPECIFIC INCLUSION
 
 ### Digital Anonymity Traditions
+
 - Chair needs further discussion/education on this — flag for follow-up meeting
 - Do not make unilateral decisions on 11th/12th tradition digital interpretation
 
 ### Recovery Language Rules
+
 - "Person in recovery" — not "addict" or "alcoholic"
 - No "clean/dirty" language
 - No "substance abuse" — use "substance use"
@@ -297,11 +344,13 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Apply all person-first language principles
 
 ### Recovery Diversity Support
+
 - Link to specialized meetings (in-person, hybrid, online)
 - Opt-in matching: users can choose to connect with others who share similar experiences (only visible to each other if both opt in)
 - Monitor and remove any phobic language
 
 ### Dedicated Safe Spaces (ALL approved)
+
 - Women's meetings/spaces
 - LGBTQ+ meetings/spaces
 - BIPOC meetings/spaces
@@ -310,6 +359,7 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Disability-specific spaces
 
 ### AI & Recovery Topics
+
 - Chair needs more input on this — don't finalize AI recovery behavior without broader committee input
 
 ---
@@ -317,17 +367,20 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 ## SECTION 10: GOVERNANCE & PROCESS
 
 ### Chair Involvement Level
+
 - Available for questions when needed
 - Doesn't need to see everything
 - Mix of approaches — flexible
 
 ### Communication Preferences
+
 - Email: checked a few times daily
 - Text: checked almost immediately (preferred for urgent)
 - Phone calls: NOT preferred (written info easier to reference)
 - Meetings: every other week suggested
 
 ### Regular Review Schedule (ALL approved)
+
 - Every few months: full website accessibility review
 - Monthly: AI chatbot behavior review
 - Annually: full language/inclusiveness audit
@@ -335,11 +388,13 @@ Use this document as the authoritative source for all inclusion, accessibility, 
 - Ongoing: community feedback monitoring
 
 ### User Problem Reporting (ALL required)
+
 - "Report a Problem" button on every page
 - Dedicated accessibility email address
 - Anonymous feedback form
 
 ### Final Note from Chair
+
 - "I just want to go over everything before it's enacted to make sure I haven't missed anything bc I'm sure I have"
 - **ACTION REQUIRED: Schedule a review meeting with the Chair before any of these guidelines go live.**
 

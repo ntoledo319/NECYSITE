@@ -29,21 +29,61 @@ const NAVY = "#0D1B2A"
 const TEAL = "#5DBAA8"
 
 const DENIAL_WORDS = [
-  "DENIAL", "FEAR", "PRIDE", "ANGER", "SELF",
-  "BLAME", "LIES", "SHAME", "DOUBT", "WORRY",
-  "EGO", "ENVY", "GREED", "SPITE", "MASK",
-  "HIDE", "RUN", "NUMB", "AVOID", "WALL",
-  "FAKE", "SHUT", "COLD", "LOST", "DARK",
-  "STUCK", "RIGID", "BLIND", "DEAF", "ALONE",
-  "STALL", "BLOCK", "CAGE", "FOG", "ICE",
+  "DENIAL",
+  "FEAR",
+  "PRIDE",
+  "ANGER",
+  "SELF",
+  "BLAME",
+  "LIES",
+  "SHAME",
+  "DOUBT",
+  "WORRY",
+  "EGO",
+  "ENVY",
+  "GREED",
+  "SPITE",
+  "MASK",
+  "HIDE",
+  "RUN",
+  "NUMB",
+  "AVOID",
+  "WALL",
+  "FAKE",
+  "SHUT",
+  "COLD",
+  "LOST",
+  "DARK",
+  "STUCK",
+  "RIGID",
+  "BLIND",
+  "DEAF",
+  "ALONE",
+  "STALL",
+  "BLOCK",
+  "CAGE",
+  "FOG",
+  "ICE",
   "DREAD",
 ]
 
 const ROW_COLORS = [PINK, PURPLE, GOLD, CYAN, TEAL, "#f97316"]
 
-interface Brick { x: number; y: number; alive: boolean; label: string; color: string }
+interface Brick {
+  x: number
+  y: number
+  alive: boolean
+  label: string
+  color: string
+}
 
-function DPadButton({ label, ariaLabel, onDown, onUp, color = PURPLE }: {
+function DPadButton({
+  label,
+  ariaLabel,
+  onDown,
+  onUp,
+  color = PURPLE,
+}: {
   label: string
   ariaLabel: string
   onDown: () => void
@@ -54,13 +94,22 @@ function DPadButton({ label, ariaLabel, onDown, onUp, color = PURPLE }: {
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); onDown() }}
-      onTouchEnd={(e) => { e.preventDefault(); onUp() }}
-      onTouchCancel={(e) => { e.preventDefault(); onUp() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onDown()
+      }}
+      onTouchEnd={(e) => {
+        e.preventDefault()
+        onUp()
+      }}
+      onTouchCancel={(e) => {
+        e.preventDefault()
+        onUp()
+      }}
       onMouseDown={onDown}
       onMouseUp={onUp}
       onMouseLeave={onUp}
-      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-90 transition-transform"
+      className="flex select-none items-center justify-center rounded-xl text-lg font-bold transition-transform active:scale-90"
       style={{
         width: 64,
         height: 52,
@@ -75,7 +124,12 @@ function DPadButton({ label, ariaLabel, onDown, onUp, color = PURPLE }: {
   )
 }
 
-function LaunchButton({ label, ariaLabel, onTap, color = CYAN }: {
+function LaunchButton({
+  label,
+  ariaLabel,
+  onTap,
+  color = CYAN,
+}: {
   label: string
   ariaLabel: string
   onTap: () => void
@@ -85,9 +139,12 @@ function LaunchButton({ label, ariaLabel, onTap, color = CYAN }: {
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); onTap() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onTap()
+      }}
       onClick={onTap}
-      className="flex items-center justify-center rounded-xl text-xs font-bold select-none active:scale-90 transition-transform uppercase tracking-wide"
+      className="flex select-none items-center justify-center rounded-xl text-xs font-bold uppercase tracking-wide transition-transform active:scale-90"
       style={{
         width: 80,
         height: 52,
@@ -184,12 +241,16 @@ export default function BreakoutGame() {
       if (["ArrowLeft", "ArrowRight", " "].includes(e.key)) e.preventDefault()
       if (e.key === " " && !g.launched) g.launched = true
     }
-    const handleKeyUp = (e: KeyboardEvent) => { g.keys[e.key] = false }
+    const handleKeyUp = (e: KeyboardEvent) => {
+      g.keys[e.key] = false
+    }
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
       g.mouseX = ((e.clientX - rect.left) / rect.width) * CANVAS_W
     }
-    const handleClick = () => { if (!g.launched) g.launched = true }
+    const handleClick = () => {
+      if (!g.launched) g.launched = true
+    }
 
     // Touch: immediately set paddle position on touchstart AND touchmove
     const handleTouchStart = (e: TouchEvent) => {
@@ -408,16 +469,16 @@ export default function BreakoutGame() {
           aria-label="Breakout game. Use arrow keys or mouse to move the paddle. Break through the Wall of Denial. Space or click to launch the ball."
         />
         {gameOver && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
-            <p className="text-2xl font-black mb-2" style={{ color: won ? GOLD : PINK }}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/70">
+            <p className="mb-2 text-2xl font-black" style={{ color: won ? GOLD : PINK }}>
               {won ? "WALL BROKEN!" : "GAME OVER"}
             </p>
             {won && (
-              <p className="text-sm text-[var(--nec-muted)] mb-3 text-center px-4">
+              <p className="mb-3 px-4 text-center text-sm text-[var(--nec-muted)]">
                 &ldquo;We will comprehend the word serenity.&rdquo; — The Promises
               </p>
             )}
-            <p className="text-lg font-bold text-white mb-4">Score: {score}</p>
+            <p className="mb-4 text-lg font-bold text-white">Score: {score}</p>
             <button onClick={resetGame} className="btn-primary text-sm" type="button">
               {won ? "Break It Again" : "Try Again"}
             </button>
@@ -425,19 +486,9 @@ export default function BreakoutGame() {
         )}
       </div>
       {/* Mobile d-pad: left, launch, right */}
-      <div className="md:hidden flex items-center gap-2" aria-label="Game controls" role="group">
-        <DPadButton
-          label="◀"
-          ariaLabel="Move left"
-          onDown={() => setPaddleDir(-1)}
-          onUp={() => setPaddleDir(0)}
-        />
-        <LaunchButton
-          label="LAUNCH"
-          ariaLabel="Launch ball"
-          onTap={launchBall}
-          color={CYAN}
-        />
+      <div className="flex items-center gap-2 md:hidden" aria-label="Game controls" role="group">
+        <DPadButton label="◀" ariaLabel="Move left" onDown={() => setPaddleDir(-1)} onUp={() => setPaddleDir(0)} />
+        <LaunchButton label="LAUNCH" ariaLabel="Launch ball" onTap={launchBall} color={CYAN} />
         <DPadButton
           label="▶"
           ariaLabel="Move right"
@@ -446,7 +497,7 @@ export default function BreakoutGame() {
           color={GOLD}
         />
       </div>
-      <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
+      <p className="max-w-xs text-center text-xs" style={{ color: "var(--nec-muted)" }}>
         <span className="hidden md:inline">Break through the Wall of Denial. ← → to move, SPACE to launch.</span>
         <span className="md:hidden">Use the buttons below to move and launch.</span>
       </p>

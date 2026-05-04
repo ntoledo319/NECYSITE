@@ -6,7 +6,8 @@ const TetrisGame = dynamic(() => import("@/components/games/tetris"))
 
 export const metadata: Metadata = {
   title: "Program — NECYPAA XXXVI",
-  description: "Convention program and schedule for NECYPAA XXXVI. Hartford Marriott Downtown, Dec 31, 2026 – Jan 3, 2027.",
+  description:
+    "Convention program and schedule for NECYPAA XXXVI. Hartford Marriott Downtown, Dec 31, 2026 – Jan 3, 2027.",
 }
 
 export default function ProgramPage() {
@@ -20,18 +21,24 @@ export default function ProgramPage() {
       gameName="Recovery Blocks"
       gameDescription="Build your program one block at a time. Each piece carries a recovery slogan. ← → move, ↑ rotate, Space hard drop."
       pageContent={
-        <div className="space-y-4 mb-8 text-[var(--nec-muted)] leading-relaxed">
+        <div className="mb-8 space-y-4 leading-relaxed text-[var(--nec-muted)]">
           <p>
-            <strong className="text-[var(--nec-text)]">Status:</strong> We are currently building the schedule for NECYPAA XXXVI. Expect a full weekend of speakers, panels, marathon meetings, and entertainment.
+            <strong className="text-[var(--nec-text)]">Status:</strong> We are currently building the schedule for
+            NECYPAA XXXVI. Expect a full weekend of speakers, panels, marathon meetings, and entertainment.
           </p>
           <p>
-            <strong className="text-[var(--nec-text)]">Attendees:</strong> We anticipate 500+ young people in AA from across the Northeast.
+            <strong className="text-[var(--nec-text)]">Attendees:</strong> We anticipate 500+ young people in AA from
+            across the Northeast.
           </p>
           <p>
             <strong className="text-[var(--nec-text)]">Last Updated:</strong> April 2026
           </p>
           <p>
-            Got a question or want to get involved with programming? <a href="mailto:info@necypaa.org" className="underline text-[var(--nec-text)] font-semibold">Contact the committee</a>.
+            Got a question or want to get involved with programming?{" "}
+            <a href="mailto:info@necypaa.org" className="font-semibold text-[var(--nec-text)] underline">
+              Contact the committee
+            </a>
+            .
           </p>
         </div>
       }

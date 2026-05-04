@@ -15,23 +15,37 @@ export const metadata: Metadata = {
 
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe flex flex-col relative overflow-hidden" style={{ backgroundColor: "var(--nec-navy)" }}>
+    <div
+      className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
+      style={{ backgroundColor: "var(--nec-navy)" }}
+    >
       <PageArtAccents character="caterpillar" accentColor="var(--nec-cyan)" variant="subtle" dividerVariant="key" />
       <div className="page-frame">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-6xl page-stack">
+          <div className="page-stack mx-auto max-w-6xl">
             {/* Header */}
             <div className="relative grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
               <div className="max-w-3xl">
-              {/* Caterpillar accent */}
-                <div className="hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-32 opacity-[0.07] pointer-events-none" aria-hidden="true">
-                <Image src="/images/caterpillar-character.webp" alt="" width={80} height={128} sizes="80px" className="w-full h-full object-contain" aria-hidden="true" />
+                {/* Caterpillar accent */}
+                <div
+                  className="pointer-events-none absolute -left-12 top-1/2 hidden h-32 w-20 -translate-y-1/2 opacity-[0.07] md:block"
+                  aria-hidden="true"
+                >
+                  <Image
+                    src="/images/caterpillar-character.webp"
+                    alt=""
+                    width={80}
+                    height={128}
+                    sizes="80px"
+                    className="h-full w-full object-contain"
+                    aria-hidden="true"
+                  />
                 </div>
-                <span className="section-badge mb-4 inline-block page-enter-1">Accessibility</span>
-                <h1 className="section-heading mb-3 page-enter-2">Accessibility &amp; Inclusion</h1>
-                <p className="text-lg max-w-2xl text-[var(--nec-muted)] page-enter-3">
-                We&apos;re committed to making NECYPAA XXXVI accessible to everyone — online and in
-                person. If you need accommodations, we want to hear from you.
+                <span className="section-badge page-enter-1 mb-4 inline-block">Accessibility</span>
+                <h1 className="section-heading page-enter-2 mb-3">Accessibility &amp; Inclusion</h1>
+                <p className="page-enter-3 max-w-2xl text-lg text-[var(--nec-muted)]">
+                  We&apos;re committed to making NECYPAA XXXVI accessible to everyone — online and in person. If you
+                  need accommodations, we want to hear from you.
                 </p>
               </div>
 
@@ -42,46 +56,43 @@ export default function AccessibilityPage() {
                 </div>
                 <div className="relative grid gap-4 sm:grid-cols-2">
                   <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
-                    <Eye className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                    <Eye className="h-6 w-6 text-[var(--nec-cyan)]" aria-hidden="true" />
                   </div>
                   <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
-                    <Monitor className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                    <Monitor className="h-6 w-6 text-[var(--nec-cyan)]" aria-hidden="true" />
                   </div>
                   <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
-                    <Keyboard className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                    <Keyboard className="h-6 w-6 text-[var(--nec-cyan)]" aria-hidden="true" />
                   </div>
                   <div className="rounded-[1.2rem] border border-[rgba(var(--nec-cyan-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.88)] p-5">
-                    <Globe className="w-6 h-6 text-[var(--nec-cyan)]" aria-hidden="true" />
+                    <Globe className="h-6 w-6 text-[var(--nec-cyan)]" aria-hidden="true" />
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-              <div className="space-y-6 md:space-y-8 section-atmosphere-cyan">
+              <div className="section-atmosphere-cyan space-y-6 md:space-y-8">
                 <section className="nec-card p-6 md:p-8">
                   <h2 className="mb-3 text-xl font-bold text-[var(--nec-text)]">Our Commitment</h2>
                   <p className="mb-3 text-sm leading-relaxed text-[var(--nec-text)]">
-                    Every person deserves equal access to recovery resources and fellowship events. Our
-                    accessibility guidelines are developed in partnership with the NECYPAA XXXVI
-                    Accessibilities Chair and informed by the experiences of our community.
+                    Every person deserves equal access to recovery resources and fellowship events. Our accessibility
+                    guidelines are developed in partnership with the NECYPAA XXXVI Accessibilities Chair and informed by
+                    the experiences of our community.
                   </p>
                   <p className="text-sm leading-relaxed text-[var(--nec-text)]">
-                    We target WCAG 2.1 AAA compliance wherever achievable, with AA as our absolute
-                    floor. Connecticut state accessibility requirements and ADA Title III standards are
-                    also met.
+                    We target WCAG 2.1 AAA compliance wherever achievable, with AA as our absolute floor. Connecticut
+                    state accessibility requirements and ADA Title III standards are also met.
                   </p>
                 </section>
 
                 <div>
-                  <h2
-                    className="nec-section-label mb-4 pl-1 text-lg font-bold uppercase tracking-widest text-[var(--nec-cyan)]"
-                  >
+                  <h2 className="nec-section-label mb-4 pl-1 text-lg font-bold uppercase tracking-widest text-[var(--nec-cyan)]">
                     Digital Accessibility
                   </h2>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <FeatureCard
-                      icon={<Eye className="w-5 h-5" />}
+                      icon={<Eye className="h-5 w-5" />}
                       title="Visual Settings"
                       items={[
                         "Dark & light mode",
@@ -92,7 +103,7 @@ export default function AccessibilityPage() {
                       ]}
                     />
                     <FeatureCard
-                      icon={<Monitor className="w-5 h-5" />}
+                      icon={<Monitor className="h-5 w-5" />}
                       title="Motion & Media"
                       items={[
                         "Ability to turn off all animations",
@@ -103,7 +114,7 @@ export default function AccessibilityPage() {
                       ]}
                     />
                     <FeatureCard
-                      icon={<Keyboard className="w-5 h-5" />}
+                      icon={<Keyboard className="h-5 w-5" />}
                       title="Navigation"
                       items={[
                         "Full keyboard navigation",
@@ -114,7 +125,7 @@ export default function AccessibilityPage() {
                       ]}
                     />
                     <FeatureCard
-                      icon={<Globe className="w-5 h-5" />}
+                      icon={<Globe className="h-5 w-5" />}
                       title="Language & Tone"
                       items={[
                         "Plain, clear language throughout",
@@ -128,11 +139,9 @@ export default function AccessibilityPage() {
                 </div>
               </div>
 
-              <div className="space-y-6 md:space-y-8 section-atmosphere-pink">
+              <div className="section-atmosphere-pink space-y-6 md:space-y-8">
                 <div>
-                  <h2
-                    className="nec-section-label mb-4 pl-1 text-lg font-bold uppercase tracking-widest text-[var(--nec-pink)]"
-                  >
+                  <h2 className="nec-section-label mb-4 pl-1 text-lg font-bold uppercase tracking-widest text-[var(--nec-pink)]">
                     In-Person Accessibility
                   </h2>
                   <div className="nec-card p-6 md:p-8">
@@ -165,20 +174,18 @@ export default function AccessibilityPage() {
                   </div>
                 </div>
 
-                <section
-                  className="nec-gradient-card rounded-xl p-6 text-center md:p-8"
-                >
+                <section className="nec-gradient-card rounded-xl p-6 text-center md:p-8">
                   <Ear className="mx-auto mb-3 h-8 w-8 text-[var(--nec-cyan)]" />
                   <h2 className="mb-2 text-xl font-bold text-[var(--nec-text)]">Need Accommodations?</h2>
                   <p className="mx-auto mb-4 max-w-md text-sm text-[var(--nec-muted)]">
-                    If you need any accommodations — ASL interpretation, dietary needs, mobility
-                    assistance, or anything else — please let us know. We want to help.
+                    If you need any accommodations — ASL interpretation, dietary needs, mobility assistance, or anything
+                    else — please let us know. We want to help.
                   </p>
                   <a
                     href={`mailto:${CONTACT_EMAIL}?subject=Accommodation%20Request`}
                     className="btn-secondary inline-flex items-center gap-2"
                   >
-                    <Mail className="w-4 h-4" /> Request Accommodations
+                    <Mail className="h-4 w-4" /> Request Accommodations
                   </a>
                 </section>
               </div>
@@ -188,15 +195,15 @@ export default function AccessibilityPage() {
             <section className="nec-card p-6 md:p-8">
               <h2 className="mb-3 text-xl font-bold text-[var(--nec-text)]">Report an Accessibility Problem</h2>
               <p className="mb-4 text-sm leading-relaxed text-[var(--nec-text)]">
-                Found something on this site that isn&apos;t accessible? We want to fix it. You can
-                report issues by email, and anonymous reports are welcome.
+                Found something on this site that isn&apos;t accessible? We want to fix it. You can report issues by
+                email, and anonymous reports are welcome.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <a
                   href={`mailto:${CONTACT_EMAIL}?subject=Accessibility%20Issue`}
                   className="btn-ghost inline-flex items-center gap-2"
                 >
-                  <Mail className="w-4 h-4" /> Email Us
+                  <Mail className="h-4 w-4" /> Email Us
                 </a>
               </div>
             </section>
@@ -205,29 +212,23 @@ export default function AccessibilityPage() {
             <section className="nec-card p-6 md:p-8">
               <h2 className="mb-3 text-xl font-bold text-[var(--nec-text)]">Anonymous Feedback</h2>
               <p className="mb-4 text-sm leading-relaxed text-[var(--nec-text)]">
-                Want to share feedback without identifying yourself? Use this form. No email
-                address or name is required.
+                Want to share feedback without identifying yourself? Use this form. No email address or name is
+                required.
               </p>
               <AnonymousFeedbackForm />
             </section>
 
             {/* Accessibility statement */}
-            <section
-              className="nec-statement-card rounded-xl p-5 text-xs leading-relaxed text-[var(--nec-muted)]"
-            >
+            <section className="nec-statement-card rounded-xl p-5 text-xs leading-relaxed text-[var(--nec-muted)]">
               <h3 className="mb-2 text-sm font-bold text-[var(--nec-text)]">Accessibility Statement</h3>
               <p className="mb-2">
-                NECYPAA XXXVI is committed to ensuring digital accessibility for people of all
-                abilities. We continually improve the user experience for everyone and apply relevant
-                accessibility standards. This site targets WCAG 2.1 Level AAA conformance wherever
-                achievable, with Level AA as our absolute minimum.
+                NECYPAA XXXVI is committed to ensuring digital accessibility for people of all abilities. We continually
+                improve the user experience for everyone and apply relevant accessibility standards. This site targets
+                WCAG 2.1 Level AAA conformance wherever achievable, with Level AA as our absolute minimum.
               </p>
               <p>
                 If you encounter any accessibility barriers on this site, please contact us at{" "}
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="underline text-[var(--nec-cyan)]"
-                >
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-[var(--nec-cyan)] underline">
                   {CONTACT_EMAIL}
                 </a>
                 . We take all feedback seriously and will work to address issues promptly.
@@ -243,18 +244,10 @@ export default function AccessibilityPage() {
   )
 }
 
-function FeatureCard({
-  icon,
-  title,
-  items,
-}: {
-  icon: React.ReactNode
-  title: string
-  items: string[]
-}) {
+function FeatureCard({ icon, title, items }: { icon: React.ReactNode; title: string; items: string[] }) {
   return (
     <div className="nec-card p-5">
-      <div className="flex items-center gap-2 mb-3">
+      <div className="mb-3 flex items-center gap-2">
         <span className="text-[var(--nec-cyan)]">{icon}</span>
         <h3 className="text-sm font-bold text-[var(--nec-text)]">{title}</h3>
       </div>

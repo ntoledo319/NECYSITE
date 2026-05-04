@@ -6,28 +6,28 @@ Generate a React artifact that visualizes my project's taste trajectory.
 4. Create a React component (single .jsx file) that displays:
 
    a. TASTE SCORE OVER TIME — line chart using recharts
-      - X axis: dates from score-history
-      - Y axis: taste score percentage (0-100)
-      - Color: green above 75, yellow 50-75, red below 50
-      - Show trend line
+   - X axis: dates from score-history
+   - Y axis: taste score percentage (0-100)
+   - Color: green above 75, yellow 50-75, red below 50
+   - Show trend line
 
    b. ELEMENT BREAKDOWN — stacked bar chart
-      - Per audit: bars showing Generic / Safe-Good / Contextual / Distinctive
-      - Color coded: red / yellow / blue / green
+   - Per audit: bars showing Generic / Safe-Good / Contextual / Distinctive
+   - Color coded: red / yellow / blue / green
 
    c. DISCOVERED PRINCIPLES — scrollable list
-      - Each principle with date and originating element
-      - Most recent first
-      - Total count prominently displayed
+   - Each principle with date and originating element
+   - Most recent first
+   - Total count prominently displayed
 
    d. REJECTION HEATMAP — category breakdown
-      - Group rejections by category
-      - Show which categories appear most often
-      - These are the project's taste blind spots
+   - Group rejections by category
+   - Show which categories appear most often
+   - These are the project's taste blind spots
 
    e. CRITIC VERDICT HISTORY — approval rate over time
-      - Track ★ / ⚠️ / ❌ ratios
-      - Show if approval rate is climbing (taste muscle developing)
+   - Track ★ / ⚠️ / ❌ ratios
+   - Show if approval rate is climbing (taste muscle developing)
 
    Style the dashboard itself with taste:
    - Do NOT use the default recharts styling

@@ -8,10 +8,10 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 
 export default function BreakfastPage() {
   return (
-    <div className="min-h-screen min-h-screen-safe relative flex flex-col bg-[var(--nec-navy)]">
+    <div className="min-h-screen-safe relative flex min-h-screen flex-col bg-[var(--nec-navy)]">
       <PageArtAccents character="caterpillar" accentColor="var(--nec-gold)" variant="subtle" dividerVariant="compass" />
-      <div className="container mx-auto px-4 pt-24 pb-12 relative z-10 flex-1">
-        <div className="max-w-3xl mx-auto">
+      <div className="container relative z-10 mx-auto flex-1 px-4 pb-12 pt-24">
+        <div className="mx-auto max-w-3xl">
           <div
             className="relative mb-8 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:px-8"
             style={{
@@ -35,22 +35,17 @@ export default function BreakfastPage() {
 
           <div className="nec-breakfast-info mb-6 rounded-[1.6rem] p-5 text-sm leading-relaxed">
             <p className="mb-2">
-              <strong className="text-[var(--nec-text)]">New Year's Day Breakfast</strong> — Start your morning with fellowship and a great meal at the Hartford Marriott Downtown.
+              <strong className="text-[var(--nec-text)]">New Year's Day Breakfast</strong> — Start your morning with
+              fellowship and a great meal at the Hartford Marriott Downtown.
             </p>
-            <p>
-              Dietary accommodations available. Select your dates below and check out securely.
-            </p>
+            <p>Dietary accommodations available. Select your dates below and check out securely.</p>
           </div>
 
           <ErrorBoundary
             fallback={
               <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.20)] bg-[rgba(var(--nec-card-rgb),0.90)] p-6 text-center">
-                <p className="text-[var(--nec-text)] font-semibold mb-2">
-                  We had trouble loading the payment form.
-                </p>
-                <p className="text-sm text-[var(--nec-muted)]">
-                  Please refresh the page or try again in a moment.
-                </p>
+                <p className="mb-2 font-semibold text-[var(--nec-text)]">We had trouble loading the payment form.</p>
+                <p className="text-sm text-[var(--nec-muted)]">Please refresh the page or try again in a moment.</p>
               </div>
             }
           >

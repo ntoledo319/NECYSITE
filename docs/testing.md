@@ -4,34 +4,34 @@
 
 ## Test Infrastructure
 
-| Tool | Purpose | Command |
-|------|---------|---------|
-| Vitest 4 | Unit tests | `pnpm test` |
-| Playwright 1.58 | E2E + accessibility | `pnpm test:a11y` |
-| axe-core | WCAG 2.1 AA/AAA compliance | Integrated via `@axe-core/playwright` |
-| @testing-library/react | React component tests | Used by Vitest for hooks/context |
+| Tool                   | Purpose                    | Command                               |
+| ---------------------- | -------------------------- | ------------------------------------- |
+| Vitest 4               | Unit tests                 | `pnpm test`                           |
+| Playwright 1.58        | E2E + accessibility        | `pnpm test:a11y`                      |
+| axe-core               | WCAG 2.1 AA/AAA compliance | Integrated via `@axe-core/playwright` |
+| @testing-library/react | React component tests      | Used by Vitest for hooks/context      |
 
 ## Current Coverage
 
 ### Unit Tests — 45 passing
 
-| Suite | File | Tests | What's Covered |
-|-------|------|-------|---------------|
-| Validation schemas | `lib/__tests__/validation.test.ts` | 11 | All Zod schemas — registration data, policy agreements, breakfast attendee, IDs, product ID, scholarship qty. Includes XSS sanitization and edge cases. |
-| Rate limiter | `lib/__tests__/rate-limit.test.ts` | 4 | Sliding window enforcement, key independence, reset timing. |
-| Registration products | `lib/__tests__/registration-products.test.ts` | 8 | Processing fee gross-up formula (single, combined, zero-amount), product catalog integrity, Stripe fee coverage proof. |
-| Issuer client | `lib/__tests__/issuer-client.test.ts` | 8 | Access code masking, code redemption success/failure paths, HTTP error codes (400/404/500), network failures, request headers/body verification. |
-| Accessibility context | `lib/__tests__/accessibility-context.test.ts` | 4 | Provider defaults, partial updates, reset, error on missing provider. |
+| Suite                 | File                                          | Tests | What's Covered                                                                                                                                          |
+| --------------------- | --------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Validation schemas    | `lib/__tests__/validation.test.ts`            | 11    | All Zod schemas — registration data, policy agreements, breakfast attendee, IDs, product ID, scholarship qty. Includes XSS sanitization and edge cases. |
+| Rate limiter          | `lib/__tests__/rate-limit.test.ts`            | 4     | Sliding window enforcement, key independence, reset timing.                                                                                             |
+| Registration products | `lib/__tests__/registration-products.test.ts` | 8     | Processing fee gross-up formula (single, combined, zero-amount), product catalog integrity, Stripe fee coverage proof.                                  |
+| Issuer client         | `lib/__tests__/issuer-client.test.ts`         | 8     | Access code masking, code redemption success/failure paths, HTTP error codes (400/404/500), network failures, request headers/body verification.        |
+| Accessibility context | `lib/__tests__/accessibility-context.test.ts` | 4     | Provider defaults, partial updates, reset, error on missing provider.                                                                                   |
 
 ### E2E / Accessibility Tests — Playwright
 
-| Suite | Tests | What's Covered |
-|-------|-------|---------------|
-| WCAG 2.1 AA per page | 10 content pages + 6 placeholder pages | Full axe-core scan against AA ruleset |
-| WCAG 2.1 AAA per page | 10 content pages | Best-effort AAA scan (non-blocking) |
-| Keyboard navigation | 2 | Skip-to-content link, tab reachability |
-| Color contrast | 1 | Homepage contrast violations |
-| ARIA & semantics | 4 | Image alt text, form labels, landmark structure, nav aria-labels |
+| Suite                 | Tests                                  | What's Covered                                                   |
+| --------------------- | -------------------------------------- | ---------------------------------------------------------------- |
+| WCAG 2.1 AA per page  | 10 content pages + 6 placeholder pages | Full axe-core scan against AA ruleset                            |
+| WCAG 2.1 AAA per page | 10 content pages                       | Best-effort AAA scan (non-blocking)                              |
+| Keyboard navigation   | 2                                      | Skip-to-content link, tab reachability                           |
+| Color contrast        | 1                                      | Homepage contrast violations                                     |
+| ARIA & semantics      | 4                                      | Image alt text, form labels, landmark structure, nav aria-labels |
 
 ## What's Not Tested
 
@@ -108,13 +108,15 @@ Place in `e2e/` with the naming convention `<feature>.spec.ts`. These use Playwr
 ## CI Integration
 
 Tests run via:
+
 - **Pre-commit hook:** Husky + lint-staged runs ESLint on staged `.ts`/`.tsx` files
 - **Build:** `pnpm build` enforces TypeScript type checking and ESLint (both configured to fail on errors)
 - **Manual:** `pnpm test` for unit tests, `pnpm test:a11y` for accessibility
 
 Recommended CI pipeline addition:
+
 ```yaml
-- pnpm test          # Unit tests
-- pnpm build         # Type check + lint + build
-- pnpm test:a11y     # Accessibility (requires Playwright browsers)
+- pnpm test # Unit tests
+- pnpm build # Type check + lint + build
+- pnpm test:a11y # Accessibility (requires Playwright browsers)
 ```

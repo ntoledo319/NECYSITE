@@ -28,23 +28,16 @@ const CHARACTERS = {
   },
 }
 
-export default function CharacterDivider({
-  character,
-  flip = false,
-  className = "",
-}: CharacterDividerProps) {
+export default function CharacterDivider({ character, flip = false, className = "" }: CharacterDividerProps) {
   const char = CHARACTERS[character]
 
   const shouldReduce = useReducedMotion()
 
   return (
-    <div
-      className={`relative flex items-center gap-4 ${className}`}
-      aria-hidden="true"
-    >
+    <div className={`relative flex items-center gap-4 ${className}`} aria-hidden="true">
       {/* Left gradient line */}
       <motion.div
-        className="flex-1 h-[2px] rounded-full"
+        className="h-[2px] flex-1 rounded-full"
         style={{
           background: flip
             ? `linear-gradient(90deg, rgba(${char.accentRgb},0.5) 0%, transparent 100%)`
@@ -68,17 +61,14 @@ export default function CharacterDivider({
           }}
         />
         <FloatingElement yOffset={6} duration={4}>
-          <div
-            className="relative w-20 h-20 sm:w-24 sm:h-24"
-            style={{ transform: flip ? "scaleX(-1)" : undefined }}
-          >
+          <div className="relative h-20 w-20 sm:h-24 sm:w-24" style={{ transform: flip ? "scaleX(-1)" : undefined }}>
             <Image
               src={char.src}
               alt=""
               width={96}
               height={96}
               sizes="(min-width: 640px) 96px, 80px"
-              className="w-full h-full object-contain"
+              className="h-full w-full object-contain"
               style={{
                 filter: `drop-shadow(0 2px 12px rgba(${char.accentRgb},0.35)) drop-shadow(0 1px 4px rgba(0,0,0,0.4))`,
               }}
@@ -90,7 +80,7 @@ export default function CharacterDivider({
 
       {/* Right gradient line */}
       <motion.div
-        className="flex-1 h-[2px] rounded-full"
+        className="h-[2px] flex-1 rounded-full"
         style={{
           background: flip
             ? `linear-gradient(90deg, transparent 0%, rgba(${char.accentRgb},0.5) 100%)`

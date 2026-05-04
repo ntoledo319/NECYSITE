@@ -54,18 +54,36 @@ const SLOGANS = [
   "WE ARE NOT A GLUM LOT",
 ]
 
-function DPadButton({ label, ariaLabel, onDown, onUp, color = PURPLE }: { label: string; ariaLabel: string; onDown: () => void; onUp: () => void; color?: string }) {
+function DPadButton({
+  label,
+  ariaLabel,
+  onDown,
+  onUp,
+  color = PURPLE,
+}: {
+  label: string
+  ariaLabel: string
+  onDown: () => void
+  onUp: () => void
+  color?: string
+}) {
   return (
     <button
       type="button"
       aria-label={ariaLabel}
-      onTouchStart={(e) => { e.preventDefault(); onDown() }}
-      onTouchEnd={(e) => { e.preventDefault(); onUp() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onDown()
+      }}
+      onTouchEnd={(e) => {
+        e.preventDefault()
+        onUp()
+      }}
       onTouchCancel={onUp}
       onMouseDown={onDown}
       onMouseUp={onUp}
       onMouseLeave={onUp}
-      className="flex items-center justify-center rounded-xl text-lg font-bold select-none active:scale-90 transition-transform"
+      className="flex select-none items-center justify-center rounded-xl text-lg font-bold transition-transform active:scale-90"
       style={{
         width: 52,
         height: 52,
@@ -85,9 +103,12 @@ function ServeButton({ onTap, color = GOLD }: { onTap: () => void; color?: strin
     <button
       type="button"
       aria-label="Serve the ball"
-      onTouchStart={(e) => { e.preventDefault(); onTap() }}
+      onTouchStart={(e) => {
+        e.preventDefault()
+        onTap()
+      }}
       onClick={onTap}
-      className="flex items-center justify-center rounded-xl text-xs font-bold select-none active:scale-90 transition-transform uppercase tracking-wide"
+      className="flex select-none items-center justify-center rounded-xl text-xs font-bold uppercase tracking-wide transition-transform active:scale-90"
       style={{
         width: 72,
         height: 52,
@@ -111,7 +132,9 @@ export default function PongGame() {
   const [currentSlogan, setCurrentSlogan] = useState(SLOGANS[0])
   const sloganRef = useRef(currentSlogan)
 
-  useEffect(() => { sloganRef.current = currentSlogan }, [currentSlogan])
+  useEffect(() => {
+    sloganRef.current = currentSlogan
+  }, [currentSlogan])
 
   const gameRef = useRef({
     playerY: CANVAS_H / 2 - PADDLE_H / 2,
@@ -124,13 +147,13 @@ export default function PongGame() {
     aiScore: 0,
     running: true,
     keys: {} as Record<string, boolean>,
-    mouseY: -1,          // -1 means "not tracking"
-    usingMouse: false,   // only follow mouse when actively on canvas
+    mouseY: -1, // -1 means "not tracking"
+    usingMouse: false, // only follow mouse when actively on canvas
     rallyCount: 0,
     animId: 0,
     serveDelay: 0,
     serving: true,
-    paddleDir: 0,        // d-pad: -1 up, 1 down, 0 none
+    paddleDir: 0, // d-pad: -1 up, 1 down, 0 none
   })
 
   const resetBall = useCallback((direction: number) => {
@@ -191,7 +214,9 @@ export default function PongGame() {
         handleServe()
       }
     }
-    const handleKeyUp = (e: KeyboardEvent) => { g.keys[e.key] = false }
+    const handleKeyUp = (e: KeyboardEvent) => {
+      g.keys[e.key] = false
+    }
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
       g.mouseY = ((e.clientY - rect.top) / rect.height) * CANVAS_H
@@ -460,16 +485,16 @@ export default function PongGame() {
           aria-label="Pong game. Use arrow keys or mouse to move your paddle. Keep the message going back and forth. First to 7 wins."
         />
         {gameOver && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-xl">
-            <p className="text-2xl font-black mb-2" style={{ color: won ? GOLD : PINK }}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-black/70">
+            <p className="mb-2 text-2xl font-black" style={{ color: won ? GOLD : PINK }}>
               {won ? "MESSAGE CARRIED!" : "GAME OVER"}
             </p>
-            <p className="text-sm text-[var(--nec-muted)] mb-3 text-center px-4">
+            <p className="mb-3 px-4 text-center text-sm text-[var(--nec-muted)]">
               {won
                 ? "\u201CWe carry the message to the alcoholic who still suffers.\u201D"
                 : "\u201CKeep coming back. It works if you work it.\u201D"}
             </p>
-            <p className="text-lg font-bold text-white mb-4">
+            <p className="mb-4 text-lg font-bold text-white">
               {playerScore} – {aiScore}
             </p>
             <button onClick={resetGame} className="btn-primary text-sm" type="button">
@@ -479,25 +504,35 @@ export default function PongGame() {
         )}
       </div>
       {/* Mobile d-pad */}
-      <div className="md:hidden flex items-center justify-center gap-3" aria-label="Game controls" role="group">
+      <div className="flex items-center justify-center gap-3 md:hidden" aria-label="Game controls" role="group">
         <DPadButton
           label="&#9650;"
           ariaLabel="Move paddle up"
-          onDown={() => { gameRef.current.paddleDir = -1 }}
-          onUp={() => { gameRef.current.paddleDir = 0 }}
+          onDown={() => {
+            gameRef.current.paddleDir = -1
+          }}
+          onUp={() => {
+            gameRef.current.paddleDir = 0
+          }}
           color={CYAN}
         />
         <ServeButton onTap={handleServe} color={GOLD} />
         <DPadButton
           label="&#9660;"
           ariaLabel="Move paddle down"
-          onDown={() => { gameRef.current.paddleDir = 1 }}
-          onUp={() => { gameRef.current.paddleDir = 0 }}
+          onDown={() => {
+            gameRef.current.paddleDir = 1
+          }}
+          onUp={() => {
+            gameRef.current.paddleDir = 0
+          }}
           color={CYAN}
         />
       </div>
-      <p className="text-xs text-center max-w-xs" style={{ color: "var(--nec-muted)" }}>
-        <span className="hidden md:inline">Keep the message going. &#8593; &#8595; or mouse to move. Space to serve. First to {WIN_SCORE} wins.</span>
+      <p className="max-w-xs text-center text-xs" style={{ color: "var(--nec-muted)" }}>
+        <span className="hidden md:inline">
+          Keep the message going. &#8593; &#8595; or mouse to move. Space to serve. First to {WIN_SCORE} wins.
+        </span>
         <span className="md:hidden">Use the buttons below to move your paddle. First to {WIN_SCORE} wins.</span>
       </p>
     </div>

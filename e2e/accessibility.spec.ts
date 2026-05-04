@@ -57,7 +57,7 @@ for (const page of PAGES_WITH_CONTENT) {
     if (violations.length > 0) {
       console.error(
         `\n❌ ${page.name} has ${violations.length} a11y violation(s):\n`,
-        JSON.stringify(violations, null, 2)
+        JSON.stringify(violations, null, 2),
       )
     }
 
@@ -67,14 +67,12 @@ for (const page of PAGES_WITH_CONTENT) {
   test(`${page.name} (${page.path}) — WCAG 2.1 AAA (best-effort)`, async ({ page: browserPage }) => {
     await browserPage.goto(page.path, { waitUntil: "networkidle" })
 
-    const results = await new AxeBuilder({ page: browserPage })
-      .withTags(["wcag2aaa", "wcag21aaa"])
-      .analyze()
+    const results = await new AxeBuilder({ page: browserPage }).withTags(["wcag2aaa", "wcag21aaa"]).analyze()
 
     if (results.violations.length > 0) {
       console.warn(
         `\n⚠️  ${page.name} has ${results.violations.length} AAA-level issue(s) (non-blocking):\n`,
-        results.violations.map((v) => `  - ${v.id}: ${v.description} (${v.nodes.length} node(s))`).join("\n")
+        results.violations.map((v) => `  - ${v.id}: ${v.description} (${v.nodes.length} node(s))`).join("\n"),
       )
     }
 
@@ -143,16 +141,12 @@ test.describe("Color contrast & visual", () => {
   test("Homepage has no color-contrast violations", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" })
 
-    const results = await new AxeBuilder({ page })
-      .withRules(["color-contrast", "color-contrast-enhanced"])
-      .analyze()
+    const results = await new AxeBuilder({ page }).withRules(["color-contrast", "color-contrast-enhanced"]).analyze()
 
     if (results.violations.length > 0) {
       console.error(
         "\n❌ Color contrast violations:\n",
-        results.violations.map((v) =>
-          v.nodes.map((n) => `  - ${n.target}: ${n.failureSummary}`).join("\n")
-        ).join("\n")
+        results.violations.map((v) => v.nodes.map((n) => `  - ${n.target}: ${n.failureSummary}`).join("\n")).join("\n"),
       )
     }
 
@@ -164,9 +158,7 @@ test.describe("ARIA & semantics", () => {
   test("All images have alt text", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" })
 
-    const results = await new AxeBuilder({ page })
-      .withRules(["image-alt"])
-      .analyze()
+    const results = await new AxeBuilder({ page }).withRules(["image-alt"]).analyze()
 
     expect(results.violations).toEqual([])
   })
@@ -174,9 +166,7 @@ test.describe("ARIA & semantics", () => {
   test("All form inputs have labels", async ({ page }) => {
     await page.goto("/register", { waitUntil: "networkidle" })
 
-    const results = await new AxeBuilder({ page })
-      .withRules(["label", "label-title-only"])
-      .analyze()
+    const results = await new AxeBuilder({ page }).withRules(["label", "label-title-only"]).analyze()
 
     expect(results.violations).toEqual([])
   })
@@ -184,9 +174,7 @@ test.describe("ARIA & semantics", () => {
   test("Page has proper landmark structure", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" })
 
-    const results = await new AxeBuilder({ page })
-      .withRules(["landmark-one-main", "region"])
-      .analyze()
+    const results = await new AxeBuilder({ page }).withRules(["landmark-one-main", "region"]).analyze()
 
     expect(results.violations).toEqual([])
   })

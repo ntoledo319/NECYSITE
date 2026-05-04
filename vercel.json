@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=8192"
+    }
+  },
+  "functions": {
+    "app/api/**/*.{js,ts}": {
+      "memory": 1024,
+      "maxDuration": 30
+    },
+    "app/(payload)/**/*.{js,ts}": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
+}

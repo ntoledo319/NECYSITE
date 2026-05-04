@@ -10,11 +10,13 @@ This workflow uses the `senior-frontend` skill from `claude-skills/engineering-t
 
 Analyze dependencies for optimization opportunities:
 // turbo
+
 ```bash
 python3 claude-skills/engineering-team/senior-frontend/scripts/bundle_analyzer.py .
 ```
 
 **Score interpretation:**
+
 - 90-100 (A): Well-optimized
 - 80-89 (B): Minor optimizations available
 - 70-79 (C): Replace heavy dependencies

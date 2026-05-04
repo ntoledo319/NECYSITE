@@ -207,7 +207,9 @@ export default function RegistrationForm({
           <div className="space-y-2">
             <Label htmlFor="name" className="text-[var(--nec-text)]">
               {formData.isScholarship ? "Purchaser name" : "Full name"}{" "}
-              <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">
+                *
+              </span>
             </Label>
             <Input
               id="name"
@@ -220,12 +222,19 @@ export default function RegistrationForm({
               onChange={(e) => updateField("name", e.target.value)}
               placeholder={formData.isScholarship ? "Who is making this purchase?" : "Your full name"}
             />
-            {errors.name && <p id="name-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.name}</p>}
+            {errors.name && (
+              <p id="name-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
+                {errors.name}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="email" className="text-[var(--nec-text)]">
-              Email <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
+              Email{" "}
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">
+                *
+              </span>
             </Label>
             <Input
               id="email"
@@ -238,12 +247,19 @@ export default function RegistrationForm({
               onChange={(e) => updateField("email", e.target.value)}
               placeholder="name@email.com"
             />
-            {errors.email && <p id="email-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.email}</p>}
+            {errors.email && (
+              <p id="email-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="state" className="text-[var(--nec-text)]">
-              State / region <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
+              State / region{" "}
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">
+                *
+              </span>
             </Label>
             <select
               id="state"
@@ -262,12 +278,19 @@ export default function RegistrationForm({
                 </option>
               ))}
             </select>
-            {errors.state && <p id="state-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.state}</p>}
+            {errors.state && (
+              <p id="state-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
+                {errors.state}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="homegroup" className="text-[var(--nec-text)]">
-              Homegroup / committee <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
+              Homegroup / committee{" "}
+              <span className="text-[var(--nec-pink)]" aria-hidden="true">
+                *
+              </span>
             </Label>
             <Input
               id="homegroup"
@@ -280,7 +303,11 @@ export default function RegistrationForm({
               onChange={(e) => updateField("homegroup", e.target.value)}
               placeholder="Homegroup, committee, or service body"
             />
-            {errors.homegroup && <p id="homegroup-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">{errors.homegroup}</p>}
+            {errors.homegroup && (
+              <p id="homegroup-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
+                {errors.homegroup}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -290,16 +317,19 @@ export default function RegistrationForm({
           <div className="space-y-2">
             <p className="form-section-label">Sponsored Registration</p>
             <p className="form-support-text">
-              Tell us who this scholarship registration is intended for. If you don&apos;t know the email yet,
-              you can leave it blank. The amount defaults to the current pre-registration price on the next step,
-              and you can override it there if needed.
+              Tell us who this scholarship registration is intended for. If you don&apos;t know the email yet, you can
+              leave it blank. The amount defaults to the current pre-registration price on the next step, and you can
+              override it there if needed.
             </p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="scholarshipRecipientName" className="text-[var(--nec-text)]">
-                Recipient name <span className="text-[var(--nec-pink)]" aria-hidden="true">*</span>
+                Recipient name{" "}
+                <span className="text-[var(--nec-pink)]" aria-hidden="true">
+                  *
+                </span>
               </Label>
               <Input
                 id="scholarshipRecipientName"
@@ -311,7 +341,12 @@ export default function RegistrationForm({
                 placeholder="Who is this registration for?"
               />
               {errors.scholarshipRecipientName && (
-                <p id="recipient-name-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
+                <p
+                  id="recipient-name-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="text-sm text-[var(--nec-pink)]"
+                >
                   {errors.scholarshipRecipientName}
                 </p>
               )}
@@ -331,7 +366,12 @@ export default function RegistrationForm({
                 placeholder="Add an email if you have it"
               />
               {errors.scholarshipRecipientEmail ? (
-                <p id="recipient-email-error" role="alert" aria-live="assertive" className="text-sm text-[var(--nec-pink)]">
+                <p
+                  id="recipient-email-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="text-sm text-[var(--nec-pink)]"
+                >
                   {errors.scholarshipRecipientEmail}
                 </p>
               ) : (
@@ -381,7 +421,7 @@ export default function RegistrationForm({
               onClick={() => setShowAccessCodeField((prev) => !prev)}
               aria-expanded={showAccessCodeField}
               aria-controls="access-code-section"
-              className="btn-ghost self-start !min-h-0 !px-4 !py-2 sm:self-auto"
+              className="btn-ghost !min-h-0 self-start !px-4 !py-2 sm:self-auto"
             >
               {showAccessCodeField ? "Hide Code Field" : "Enter Access Code"}
             </button>

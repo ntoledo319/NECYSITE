@@ -58,13 +58,14 @@ Pages are server-rendered by default. Client components are used only where inte
 
 Two server action modules handle all mutating operations:
 
-| Action | File | Purpose |
-|--------|------|---------|
-| `startRegistrationCheckout` | `registration.ts` | Creates Stripe Checkout session for paid registration |
-| `submitAccessCodeRegistration` | `registration.ts` | Redeems access code + creates Stripe customer record |
-| `startBreakfastCheckout` | `breakfast.ts` | Creates Stripe Checkout session for breakfast tickets |
+| Action                         | File              | Purpose                                               |
+| ------------------------------ | ----------------- | ----------------------------------------------------- |
+| `startRegistrationCheckout`    | `registration.ts` | Creates Stripe Checkout session for paid registration |
+| `submitAccessCodeRegistration` | `registration.ts` | Redeems access code + creates Stripe customer record  |
+| `startBreakfastCheckout`       | `breakfast.ts`    | Creates Stripe Checkout session for breakfast tickets |
 
 All actions follow the same pattern:
+
 1. Validate inputs via Zod schemas (`lib/validation.ts`)
 2. Check rate limit (`lib/rate-limit.ts`)
 3. Compute pricing/fees (`lib/registration-products.ts`)
@@ -76,6 +77,7 @@ All actions follow the same pattern:
 Payload CMS runs as an embedded Next.js plugin (not a separate server). The admin panel is at `/admin`, and the REST/GraphQL APIs are at `/api/*`.
 
 **Collections:**
+
 - `Users` — Admin authentication
 - `BlogPosts` — Blog articles with rich text (Lexical editor), drafts, versioning, bilingual fields
 - `Events` — Convention events with schedule, location, and flyer images
@@ -86,18 +88,18 @@ Payload CMS runs as an embedded Next.js plugin (not a separate server). The admi
 
 ### 4. Shared Library — `lib/`
 
-| Module | Responsibility |
-|--------|---------------|
-| `validation.ts` | 13 Zod schemas — HTML sanitization, email validation, input bounds |
-| `rate-limit.ts` | Sliding-window rate limiter (Upstash Redis in production, in-memory fallback locally) |
-| `registration-products.ts` | Product catalog + processing fee gross-up calculation |
-| `stripe.ts` | Stripe client singleton (server-only) |
-| `issuer-client.ts` | Access code redemption client (external service) |
-| `types.ts` | Shared TypeScript interfaces |
-| `constants.ts` | URLs, event slug, convention dates |
-| `accessibility-context.tsx` | React context for 6-mode accessibility settings |
-| `utils.ts` | `cn()` utility (clsx + tailwind-merge) |
-| `data/` | Static data files (events, meetings, states, blog posts) |
+| Module                      | Responsibility                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------- |
+| `validation.ts`             | 13 Zod schemas — HTML sanitization, email validation, input bounds                    |
+| `rate-limit.ts`             | Sliding-window rate limiter (Upstash Redis in production, in-memory fallback locally) |
+| `registration-products.ts`  | Product catalog + processing fee gross-up calculation                                 |
+| `stripe.ts`                 | Stripe client singleton (server-only)                                                 |
+| `issuer-client.ts`          | Access code redemption client (external service)                                      |
+| `types.ts`                  | Shared TypeScript interfaces                                                          |
+| `constants.ts`              | URLs, event slug, convention dates                                                    |
+| `accessibility-context.tsx` | React context for 6-mode accessibility settings                                       |
+| `utils.ts`                  | `cn()` utility (clsx + tailwind-merge)                                                |
+| `data/`                     | Static data files (events, meetings, states, blog posts)                              |
 
 ### 5. Static Data — `lib/data/`
 
@@ -143,20 +145,18 @@ User enters code + form → RegistrationForm (client)
   → Client shows confirmation
 ```
 
-
-
 ## Security Architecture
 
-| Layer | Mechanism |
-|-------|-----------|
-| Input Validation | Zod schemas strip HTML, enforce max lengths, validate email format |
-| Rate Limiting | Sliding window per email — 5/min for checkout, 3/min for free reg/code redemption |
-| CSP Headers | Strict Content-Security-Policy allowing only Stripe and Vercel domains |
-| Transport | HSTS with 2-year max-age, includeSubDomains, preload |
-| Frame Protection | X-Frame-Options: DENY + frame-ancestors: 'none' |
-| Type Safety | TypeScript strict mode — no `any` types in codebase |
-| Server-Only | Stripe secret key isolated via `server-only` package |
-| CMS Auth | Payload admin requires authenticated user |
+| Layer            | Mechanism                                                                         |
+| ---------------- | --------------------------------------------------------------------------------- |
+| Input Validation | Zod schemas strip HTML, enforce max lengths, validate email format                |
+| Rate Limiting    | Sliding window per email — 5/min for checkout, 3/min for free reg/code redemption |
+| CSP Headers      | Strict Content-Security-Policy allowing only Stripe and Vercel domains            |
+| Transport        | HSTS with 2-year max-age, includeSubDomains, preload                              |
+| Frame Protection | X-Frame-Options: DENY + frame-ancestors: 'none'                                   |
+| Type Safety      | TypeScript strict mode — no `any` types in codebase                               |
+| Server-Only      | Stripe secret key isolated via `server-only` package                              |
+| CMS Auth         | Payload admin requires authenticated user                                         |
 
 ## Internationalization
 
@@ -181,6 +181,7 @@ All user-facing text should use `useTranslations()` from next-intl. Static data 
 The site targets WCAG 2.1 AAA compliance (AA as absolute floor).
 
 **Runtime:** `A11yProvider` (React context) manages 6 settings — persisted in localStorage, applied as CSS classes/variables on `<html>`:
+
 - Font size (1x–2x)
 - High contrast
 - Dyslexia-friendly font

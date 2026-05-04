@@ -38,7 +38,9 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
       setAccessCodeSuccess(true)
       router.push("/register/success?flow=access-code")
     } catch {
-      setAccessCodeError("Something went wrong. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.")
+      setAccessCodeError(
+        "Something went wrong. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
+      )
     } finally {
       setIsSubmittingCode(false)
     }
@@ -50,19 +52,19 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
         type="button"
         onClick={onBack}
         variant="outline"
-        className="text-[var(--nec-text)] bg-transparent border-[var(--nec-border)]"
+        className="border-[var(--nec-border)] bg-transparent text-[var(--nec-text)]"
       >
         Back
       </Button>
 
-      <div className="nec-reg-subcard rounded-2xl p-6 space-y-4">
+      <div className="nec-reg-subcard space-y-4 rounded-2xl p-6">
         <h3 className="text-lg font-semibold text-[var(--nec-text)]">Registration Summary</h3>
         <div className="space-y-2 text-[var(--nec-muted)]">
           <div className="flex justify-between">
             <span>Registration (Access Code)</span>
             <span className="font-medium text-[var(--nec-text)]">$0.00</span>
           </div>
-          <div className="border-t border-[var(--nec-border)] pt-2 mt-2 flex justify-between text-lg font-bold">
+          <div className="mt-2 flex justify-between border-t border-[var(--nec-border)] pt-2 text-lg font-bold">
             <span className="text-[var(--nec-text)]">Total</span>
             <span className="text-[var(--nec-gold)]">$0.00</span>
           </div>
@@ -74,21 +76,25 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
 
       <div aria-live="polite">
         {accessCodeError && (
-          <div className="bg-red-900/30 border border-red-700 text-red-300 text-sm rounded-lg p-3 text-center" role="alert" aria-live="assertive">
+          <div
+            className="rounded-lg border border-red-700 bg-red-900/30 p-3 text-center text-sm text-red-300"
+            role="alert"
+            aria-live="assertive"
+          >
             {accessCodeError}
           </div>
         )}
       </div>
 
       {accessCodeSuccess ? (
-        <div className="text-center py-4" role="status" aria-live="polite">
-          <p className="text-[var(--nec-text)] font-semibold">Registration complete! Redirecting&hellip;</p>
+        <div className="py-4 text-center" role="status" aria-live="polite">
+          <p className="font-semibold text-[var(--nec-text)]">Registration complete! Redirecting&hellip;</p>
         </div>
       ) : (
         <Button
           onClick={handleAccessCodeSubmit}
           disabled={isSubmittingCode}
-          className="w-full text-[var(--nec-text)] py-6 text-lg font-bold bg-[var(--nec-pink)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
+          className="w-full bg-[var(--nec-pink)] py-6 text-lg font-bold text-[var(--nec-text)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
         >
           {isSubmittingCode ? "Completing Registration\u2026" : "Complete Registration"}
         </Button>

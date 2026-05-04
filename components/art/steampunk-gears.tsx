@@ -6,22 +6,9 @@ interface GearProps {
   opacity?: number
 }
 
-function Gear({
-  size = 60,
-  teeth = 8,
-  className = "",
-  color = "currentColor",
-  opacity = 0.06,
-}: GearProps) {
+function Gear({ size = 60, teeth = 8, className = "", color = "currentColor", opacity = 0.06 }: GearProps) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" className={className} aria-hidden="true">
       <circle cx="50" cy="50" r="35" stroke={color} strokeWidth="6" opacity={opacity} />
       <circle cx="50" cy="50" r="18" stroke={color} strokeWidth="4" opacity={opacity} />
       {Array.from({ length: teeth }).map((_, i) => {
@@ -44,25 +31,20 @@ function Gear({
   )
 }
 
-export function GearCluster({
-  className = "",
-}: {
-  className?: string
-}) {
+export function GearCluster({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none select-none ${className}`} aria-hidden="true">
-      <div className="relative w-[140px] h-[100px]">
-        <div className="absolute top-0 left-0">
+      <div className="relative h-[100px] w-[140px]">
+        <div className="absolute left-0 top-0">
           <Gear size={60} teeth={8} color="rgb(168,85,247)" opacity={0.07} />
         </div>
-        <div className="absolute top-[25px] left-[45px]">
+        <div className="absolute left-[45px] top-[25px]">
           <Gear size={45} teeth={6} color="rgb(236,72,153)" opacity={0.05} />
         </div>
-        <div className="absolute top-[5px] left-[80px]">
+        <div className="absolute left-[80px] top-[5px]">
           <Gear size={35} teeth={6} color="rgb(234,179,8)" opacity={0.04} />
         </div>
       </div>
     </div>
   )
 }
-

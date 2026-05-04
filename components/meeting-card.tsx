@@ -35,8 +35,14 @@ export function MeetingCard({ day, meetings }: MeetingCardProps) {
         >
           <h3 className="text-base font-semibold leading-6 text-[var(--nec-text)]">
             {meeting.url ? (
-              <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--nec-purple)] hover:underline">
-                {meeting.name}<span className="sr-only"> (opens in new tab)</span>
+              <a
+                href={meeting.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-[var(--nec-purple)] hover:underline"
+              >
+                {meeting.name}
+                <span className="sr-only"> (opens in new tab)</span>
               </a>
             ) : (
               meeting.name

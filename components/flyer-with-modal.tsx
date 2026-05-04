@@ -47,7 +47,7 @@ export default function FlyerWithModal({ src, alt, title, className = "", sizes 
           height={600}
           sizes={sizes || "(min-width: 768px) 400px, 100vw"}
           loading="lazy"
-          className="h-full w-full object-contain rounded-[1.1rem]"
+          className="h-full w-full rounded-[1.1rem] object-contain"
         />
         <span
           className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-[rgba(31,22,18,0.82)] via-[rgba(31,22,18,0.24)] to-transparent px-3 py-3 text-left text-[var(--nec-text)] opacity-95 transition-opacity duration-200 group-hover:opacity-100"
@@ -57,9 +57,7 @@ export default function FlyerWithModal({ src, alt, title, className = "", sizes 
             <span className="block text-[11px] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.72)]">
               Tap To Expand
             </span>
-            <span className="mt-1 block text-sm font-semibold leading-5 text-white">
-              {title ?? alt}
-            </span>
+            <span className="mt-1 block text-sm font-semibold leading-5 text-white">{title ?? alt}</span>
           </span>
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(255,255,255,0.18)] bg-[rgba(var(--nec-card-rgb),0.18)] shadow-[0_8px_24px_rgba(0,0,0,0.18)]">
             <Search className="h-4 w-4 text-white" />
@@ -90,9 +88,7 @@ export default function FlyerWithModal({ src, alt, title, className = "", sizes 
                 <h2 className="mt-2 text-lg font-semibold leading-tight text-[var(--nec-text)] md:text-xl">
                   {title ?? alt}
                 </h2>
-                <p className="mt-1 text-sm text-[var(--nec-muted)]">
-                  Tap outside or press Escape to close.
-                </p>
+                <p className="mt-1 text-sm text-[var(--nec-muted)]">Tap outside or press Escape to close.</p>
               </div>
               <button
                 type="button"

@@ -22,7 +22,8 @@ export const BREAKFAST_PRODUCTS: RegistrationProduct[] = [
   {
     id: "breakfast-friday",
     name: "New Year's Day Breakfast - Friday",
-    description: "New Year's Day Breakfast at the convention - Start your new year with fellowship! Most local restaurants will be closed.",
+    description:
+      "New Year's Day Breakfast at the convention - Start your new year with fellowship! Most local restaurants will be closed.",
     priceInCents: 2500, // $25.00
   },
   {

@@ -12,7 +12,7 @@ import { useEffect, useRef } from "react"
  */
 export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
   threshold = 0.15,
-  rootMargin = "0px 0px -40px 0px"
+  rootMargin = "0px 0px -40px 0px",
 ) {
   const ref = useRef<T>(null)
 
@@ -37,7 +37,7 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
           observer.unobserve(el)
         }
       },
-      { threshold, rootMargin }
+      { threshold, rootMargin },
     )
 
     observer.observe(el)

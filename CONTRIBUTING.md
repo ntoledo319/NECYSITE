@@ -6,14 +6,14 @@
 
 Before writing a single line of code or content, read these:
 
-| Document | Location | Required |
-|----------|----------|----------|
-| **AA Traditions Guardrails** | `AA_TRADITIONS_GUARDRAILS.md` | **Non-negotiable** |
-| **Accessibility Guidelines** | `ACCESSIBILITY_GUIDELINES.md` | **Non-negotiable** — inclusion & accessibility rules (from Accessibilities Chair) |
-| **This Document** | `CONTRIBUTING.md` | How to contribute |
-| **NECYPREAMBLE** | `NECYPREAMBLE.md` | Planning & architecture |
-| **AI Agent Rules** | `.windsurf/rules.md` | AI agent quick-reference (references all docs above) |
-| **Changelog Workflow** | `.windsurf/workflows/changelog.md` | Tone & format |
+| Document                     | Location                           | Required                                                                          |
+| ---------------------------- | ---------------------------------- | --------------------------------------------------------------------------------- |
+| **AA Traditions Guardrails** | `AA_TRADITIONS_GUARDRAILS.md`      | **Non-negotiable**                                                                |
+| **Accessibility Guidelines** | `ACCESSIBILITY_GUIDELINES.md`      | **Non-negotiable** — inclusion & accessibility rules (from Accessibilities Chair) |
+| **This Document**            | `CONTRIBUTING.md`                  | How to contribute                                                                 |
+| **NECYPREAMBLE**             | `NECYPREAMBLE.md`                  | Planning & architecture                                                           |
+| **AI Agent Rules**           | `.windsurf/rules.md`               | AI agent quick-reference (references all docs above)                              |
+| **Changelog Workflow**       | `.windsurf/workflows/changelog.md` | Tone & format                                                                     |
 
 ---
 
@@ -65,6 +65,7 @@ pnpm dev
 ### Commit Messages
 
 Follow the format in `.windsurf/workflows/changelog.md`. Prefix with:
+
 - `feat:` — new feature
 - `fix:` — bug fix
 - `chore:` — cleanup, config, docs
@@ -169,4 +170,4 @@ Email [info@necypaa.org](mailto:info@necypaa.org) or raise an issue.
 
 ---
 
-*Alcoholics Anonymous®, A.A.®, and The Big Book® are registered trademarks of Alcoholics Anonymous World Services, Inc.*
+_Alcoholics Anonymous®, A.A.®, and The Big Book® are registered trademarks of Alcoholics Anonymous World Services, Inc._

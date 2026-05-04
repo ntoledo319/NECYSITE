@@ -26,8 +26,14 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         <td className="px-4 py-3 text-[var(--nec-muted)]">{meeting.time}</td>
         <td className="px-4 py-3 text-[var(--nec-text)]">
           {meeting.url ? (
-            <a href={meeting.url} target="_blank" rel="noopener noreferrer" className="font-semibold transition-colors hover:text-[var(--nec-purple)] hover:underline">
-              {meeting.name}<span className="sr-only"> (opens in new tab)</span>
+            <a
+              href={meeting.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold transition-colors hover:text-[var(--nec-purple)] hover:underline"
+            >
+              {meeting.name}
+              <span className="sr-only"> (opens in new tab)</span>
             </a>
           ) : (
             meeting.name
@@ -50,16 +56,27 @@ export function ExpandableMeetingRow({ meeting }: { meeting: MeetingProps }) {
         </td>
       </tr>
       {isExpanded && (
-        <tr id={detailsId} className="border-b border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-purple-rgb),0.035)]">
+        <tr
+          id={detailsId}
+          className="border-b border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-purple-rgb),0.035)]"
+        >
           <td colSpan={7} className="px-4 py-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.72)] px-4 py-3">
-                <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Address</h4>
-                <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">{meeting.address || "No address provided"}</p>
+                <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                  Address
+                </h4>
+                <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
+                  {meeting.address || "No address provided"}
+                </p>
               </div>
               <div className="rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.72)] px-4 py-3">
-                <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Meeting Types</h4>
-                <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">{meeting.types || "No types specified"}</p>
+                <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">
+                  Meeting Types
+                </h4>
+                <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
+                  {meeting.types || "No types specified"}
+                </p>
               </div>
             </div>
           </td>
