@@ -1,27 +1,74 @@
 "use client"
 
+import { useRef, useEffect, useState, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import AddToCalendar from "@/components/add-to-calendar"
+import { MagneticButton } from "@/components/ui/motion-primitives"
 
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  const handleScroll = useCallback(() => {
+    if (!sectionRef.current) return
+    const rect = sectionRef.current.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const progress = Math.max(0, Math.min(1, -rect.top / viewportHeight))
+    setScrollProgress(progress)
+  }, [])
+
+  useEffect(() => {
+    let rafId: number | null = null
+    let ticking = false
+
+    const onScroll = () => {
+      if (!ticking) {
+        rafId = requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    handleScroll()
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
+  }, [handleScroll])
+
+  const exitY = scrollProgress * -50
+  const exitOpacity = Math.max(0, 1 - scrollProgress * 1.1)
+  const posterScale = 1 + scrollProgress * 0.06
+  const posterY = scrollProgress * -60
+
   return (
     <section
+      ref={sectionRef}
       aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
       className="relative -mt-16 flex min-h-screen flex-col items-center justify-center overflow-hidden"
       style={{ minHeight: "100dvh" }}
     >
-      {/* ── Poster background ── */}
-      <Image
-        src="/images/mad-realm-poster-full.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="hero-poster-alive object-cover object-[center_20%] sm:object-center"
-        aria-hidden="true"
-      />
+      {/* Poster background with parallax */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <Image
+          src="/images/mad-realm-poster-full.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="hero-poster-alive object-cover object-[center_20%] sm:object-center"
+          aria-hidden="true"
+          style={{
+            transform: `scale(${posterScale}) translateY(${posterY}px)`,
+            transition: "transform 0.1s linear",
+          }}
+        />
+      </div>
 
       {/* Mobile overlay */}
       <div
@@ -50,13 +97,16 @@ export default function HeroSection() {
         }}
       />
 
-      {/*
-        Content — centered vertically.
-        On mobile, the poster object-position is set to 20% so the AA triangle
-        sits BELOW the centered content. The visual stack reads:
-        poster banner art → logo word art → AA circle → text
-      */}
-      <div className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-12 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24">
+      {/* Content with scroll-driven exit */}
+      <div
+        className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-12 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24"
+        style={{
+          transform: `translateY(${exitY}px)`,
+          opacity: exitOpacity,
+          transition: "transform 0.1s linear, opacity 0.1s linear",
+          willChange: "transform, opacity",
+        }}
+      >
         {/* Logo */}
         <div className="hero-logo-glow hero-enter-1 relative mb-4 sm:mb-6 md:mb-7">
           <Image
@@ -139,21 +189,25 @@ export default function HeroSection() {
           </p>
         </div>
 
-        {/* CTAs */}
+        {/* CTAs with MagneticButton */}
         <div className="hero-enter-5 mt-5 flex w-full flex-col items-center gap-3 sm:mt-7 md:mt-9">
           <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-sm sm:flex-row">
-            <Link href="/register" className="btn-primary justify-center text-center">
-              Register Now
-            </Link>
-            <a
-              href={HOTEL_BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary justify-center text-center"
-            >
-              Book Hotel
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
+            <MagneticButton className="w-full sm:w-auto" strength={0.2}>
+              <Link href="/register" className="btn-primary justify-center text-center">
+                Register Now
+              </Link>
+            </MagneticButton>
+            <MagneticButton className="w-full sm:w-auto" strength={0.2}>
+              <a
+                href={HOTEL_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary justify-center text-center"
+              >
+                Book Hotel
+                <span className="sr-only"> (opens in new tab)</span>
+              </a>
+            </MagneticButton>
           </div>
           <AddToCalendar variant="inline" />
         </div>
@@ -180,8 +234,9 @@ export default function HeroSection() {
       </div>
 
       <p className="sr-only">
-        NECYPAA XXXVI — Escaping the Mad Realm. The Northeast Convention of Young People in Alcoholics Anonymous.
-        Hartford, Connecticut. December 31, 2026 through January 3, 2027. Hartford Marriott Downtown.
+        NECYPAA XXXVI — Escaping the Mad Realm. The Northeast Convention of Young People in
+        Alcoholics Anonymous. Hartford, Connecticut. December 31, 2026 through January 3, 2027.
+        Hartford Marriott Downtown.
       </p>
     </section>
   )

@@ -15,12 +15,16 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     const el = ref.current
     if (!el) return
 
+    // Exit: fade out + slight scale down + lift
     el.style.opacity = "0"
-    el.style.transform = "translateY(8px)"
+    el.style.transform = "translateY(6px) scale(0.995)"
+    el.style.transition = "none"
+
+    // Next frame: enter with smooth spring-like easing
     requestAnimationFrame(() => {
-      el.style.transition = "opacity 0.25s ease, transform 0.25s ease"
+      el.style.transition = "opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)"
       el.style.opacity = "1"
-      el.style.transform = "translateY(0)"
+      el.style.transform = "translateY(0) scale(1)"
     })
   }, [pathname])
 

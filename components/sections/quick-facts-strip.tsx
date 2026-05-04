@@ -4,10 +4,18 @@ import Link from "next/link"
 import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
+import {
+  PocketWatchIcon,
+  CompassRoseIcon,
+  VintageTicketIcon,
+  AntiqueKeyIcon,
+  MasqueradeMaskIcon,
+  InterlockingGearsIcon,
+} from "@/components/art/theme-icons"
 
 const facts = [
   {
-    icon: "📅",
+    Icon: PocketWatchIcon,
     label: "Dates",
     value: "Dec 31 – Jan 3",
     sub: "New Year's Eve 2026",
@@ -15,7 +23,7 @@ const facts = [
     spotlightColor: "rgba(212,160,23,0.10)",
   },
   {
-    icon: "📍",
+    Icon: CompassRoseIcon,
     label: "Location",
     value: "Hartford, CT",
     sub: "Hartford Marriott Downtown",
@@ -23,7 +31,7 @@ const facts = [
     spotlightColor: "rgba(20,184,166,0.10)",
   },
   {
-    icon: "🎟️",
+    Icon: VintageTicketIcon,
     label: "Pre-Registration",
     value: "Open Now",
     sub: "Lock in your spot",
@@ -33,7 +41,7 @@ const facts = [
     spotlightColor: "rgba(192,38,211,0.10)",
   },
   {
-    icon: "🏨",
+    Icon: AntiqueKeyIcon,
     label: "Hotel Block",
     value: "Book Now",
     sub: "Special NECYPAA rate",
@@ -43,7 +51,7 @@ const facts = [
     spotlightColor: "rgba(20,184,166,0.10)",
   },
   {
-    icon: "🎉",
+    Icon: MasqueradeMaskIcon,
     label: "Convention",
     value: "4-Day YPAA",
     sub: "Young & young at heart",
@@ -51,7 +59,7 @@ const facts = [
     spotlightColor: "rgba(234,88,12,0.10)",
   },
   {
-    icon: "🤝",
+    Icon: InterlockingGearsIcon,
     label: "Get Involved",
     value: "Join a Committee",
     sub: "Service opportunities",
@@ -85,9 +93,10 @@ export default function QuickFactsStrip() {
                 className="flex flex-col items-center gap-1 p-4 text-center"
                 style={{ cursor: fact.href ? "pointer" : undefined }}
               >
-                <span className="text-2xl" aria-hidden="true">
-                  {fact.icon}
-                </span>
+                <fact.Icon
+                  className="h-6 w-6 transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: fact.color }}
+                />
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--nec-muted)" }}>
                   {fact.label}
                 </span>
