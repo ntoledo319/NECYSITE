@@ -1,5 +1,6 @@
 "use client"
 
+import "./states.css"
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react"
 import { ExternalLink, Map, List, Globe, Sparkles, Users, BookOpen, Info } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"

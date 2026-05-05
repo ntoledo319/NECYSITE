@@ -1,0 +1,105 @@
+/* States Page — SVG map, cards, accordion panel */
+
+.necypaa-map-state {
+  transition:
+    fill 0.25s ease,
+    stroke 0.25s ease,
+    stroke-width 0.2s ease,
+    filter 0.3s ease;
+}
+.a11y-reduce-motion .necypaa-map-state {
+  transition: none !important;
+}
+
+.state-card-luxury {
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+.a11y-reduce-motion .state-card-luxury {
+  transition: none !important;
+}
+
+.state-card-panel {
+  animation: stateCardReveal 0.25s ease both;
+}
+@keyframes stateCardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.a11y-reduce-motion .state-card-panel {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
+.states-stat-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.states-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+.a11y-reduce-motion .states-stat-card {
+  transition: none !important;
+}
+.a11y-reduce-motion .states-stat-card:hover {
+  transform: none !important;
+}
+
+.states-map-section {
+  transition: box-shadow 0.3s ease;
+}
+
+/* Light Mode */
+[data-color-mode="light"] .state-card-luxury {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--nec-border);
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.06),
+    0 2px 12px rgba(0, 0, 0, 0.04);
+  backdrop-filter: none;
+}
+[data-color-mode="light"] .states-stat-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--nec-border);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+[data-color-mode="light"] .states-map-section {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--nec-border);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+[data-color-mode="light"] .necypaa-map-state {
+  stroke: rgba(109, 40, 217, 0.25);
+}
+
+/* High Contrast */
+.a11y-high-contrast .state-card-luxury {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .states-stat-card {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .states-map-section {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .necypaa-map-state {
+  stroke-width: 2px !important;
+}
+.a11y-high-contrast .necypaa-map-state:focus-visible {
+  outline: 3px solid #a78bfa !important;
+  outline-offset: 2px !important;
+}

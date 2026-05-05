@@ -1,5 +1,6 @@
 "use client"
 
+import "../register/register.css"
 import BreakfastCheckout from "@/components/breakfast-checkout"
 import ErrorBoundary from "@/components/ui/error-boundary"
 import PageArtAccents from "@/components/art/page-art-accents"

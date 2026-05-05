@@ -1,5 +1,6 @@
 "use client"
 
+import "../register.css"
 import { useEffect } from "react"
 import { Link } from "@/i18n/navigation"
 import { ShieldCheck, Hotel, Home, Mail, ArrowRight, UtensilsCrossed, KeyRound } from "lucide-react"

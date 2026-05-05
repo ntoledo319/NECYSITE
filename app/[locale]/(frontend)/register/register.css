@@ -1,0 +1,227 @@
+/* ══════════════════════════════════════════════
+   REGISTRATION FLOW — Cards, Steps, Success Pages
+   All surfaces use CSS classes (not inline styles)
+   so light mode, high contrast, and reduce-motion
+   overrides work correctly.
+   ══════════════════════════════════════════════ */
+
+/* ── Registration content card (main form wrapper) ── */
+.nec-reg-card {
+  background: linear-gradient(180deg, rgba(var(--nec-card-rgb), 0.98) 0%, rgba(var(--nec-card-rgb), 0.94) 100%);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.14);
+  box-shadow:
+    0 24px 56px rgba(44, 24, 16, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+  @apply rounded-[1.75rem];
+}
+
+/* ── Registration accent card (hotel CTA, cross-sell) — purple accent ── */
+.nec-reg-accent-purple {
+  background: linear-gradient(180deg, rgba(var(--nec-purple-rgb), 0.05) 0%, rgba(var(--nec-card-rgb), 0.92) 100%);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.16);
+  box-shadow: var(--shadow-card);
+  @apply rounded-2xl;
+}
+
+/* ── Registration accent card — orange accent (breakfast cross-sell) ── */
+.nec-reg-accent-orange {
+  background: rgba(var(--nec-orange), 0.04);
+  border: 1px solid rgba(234, 88, 12, 0.18);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
+}
+
+/* ── Success page hero card — purple variant ── */
+.nec-success-card-purple {
+  background: rgba(var(--nec-purple-rgb), 0.04);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.2);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
+}
+
+/* ── Success page hero card — orange variant (breakfast) ── */
+.nec-success-card-orange {
+  background: rgba(249, 115, 22, 0.04);
+  border: 1px solid rgba(249, 115, 22, 0.18);
+  box-shadow: var(--shadow-card);
+  @apply rounded-xl;
+}
+
+/* ── Success icon ring — purple ── */
+.nec-success-icon-purple {
+  background: rgba(var(--nec-purple-rgb), 0.08);
+  border: 2px solid rgba(var(--nec-purple-rgb), 0.25);
+  box-shadow: var(--shadow-glow-purple);
+}
+
+/* ── Success icon ring — orange ── */
+.nec-success-icon-orange {
+  background: rgba(249, 115, 22, 0.08);
+  border: 2px solid rgba(249, 115, 22, 0.25);
+  box-shadow: 0 2px 16px rgba(249, 115, 22, 0.1);
+}
+
+/* ── Help/info card (small, bottom of success pages) ── */
+.nec-reg-help-card {
+  background: var(--nec-card);
+  border: 1px solid var(--nec-border);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Step number badge — purple (reg success) ── */
+.nec-step-badge-purple {
+  background: rgba(var(--nec-purple-rgb), 0.08);
+  color: var(--nec-purple);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.2);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Step number badge — orange (breakfast success) ── */
+.nec-step-badge-orange {
+  background: rgba(249, 115, 22, 0.08);
+  color: var(--nec-orange);
+  border: 1px solid rgba(249, 115, 22, 0.18);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Step indicator bubble — active ── */
+.nec-step-active {
+  background: var(--nec-purple);
+  color: white;
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.38);
+  box-shadow: 0 12px 24px rgba(107, 48, 96, 0.14);
+}
+
+/* ── Step indicator bubble — inactive ── */
+.nec-step-inactive {
+  background: rgba(var(--nec-card-rgb), 0.78);
+  color: var(--nec-muted);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
+}
+
+/* ── Breakfast info box ── */
+.nec-breakfast-info {
+  background: var(--nec-card);
+  border: 1px solid var(--nec-border);
+  color: var(--nec-muted);
+}
+
+/* ── Stripe embed wrapper ── */
+.nec-stripe-embed {
+  background: #fff;
+  border: 1px solid var(--nec-border);
+  box-shadow: var(--shadow-card);
+  @apply overflow-hidden rounded-xl;
+}
+
+/* ── Registration sub-card (summary, scholarship, add-ons) ── */
+.nec-reg-subcard {
+  background: rgba(var(--nec-purple-rgb), 0.03);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
+  @apply rounded-2xl;
+}
+
+/* ── Registration accent bar (top of success pages) ── */
+.nec-accent-bar {
+  box-shadow: 0 0 8px rgba(var(--nec-purple-rgb), 0.15);
+}
+
+/* ── Registration page heading text-shadow ── */
+.nec-heading-shadow {
+  text-shadow: var(--shadow-text);
+}
+.nec-heading-shadow-sm {
+  text-shadow: 0 1px 3px rgba(44, 24, 16, 0.1);
+}
+
+.form-section-label {
+  font-family: var(--font-display), var(--font-heading), Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nec-purple);
+}
+
+.form-support-text {
+  color: var(--nec-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.form-option-card {
+  background: rgba(var(--nec-card-rgb), 0.84);
+  border: 1px solid rgba(var(--nec-purple-rgb), 0.1);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.form-option-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(var(--nec-purple-rgb), 0.2);
+  box-shadow:
+    0 18px 36px rgba(44, 24, 16, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.form-option-card[data-active="true"] {
+  background: rgba(var(--nec-purple-rgb), 0.05);
+  border-color: rgba(var(--nec-purple-rgb), 0.22);
+  box-shadow:
+    0 20px 40px rgba(44, 24, 16, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* ══════════════════════════════════════════════
+   REGISTRATION — High Contrast Overrides
+   ══════════════════════════════════════════════ */
+.a11y-high-contrast .nec-reg-card,
+.a11y-high-contrast .nec-reg-accent-purple,
+.a11y-high-contrast .nec-reg-accent-orange,
+.a11y-high-contrast .nec-success-card-purple,
+.a11y-high-contrast .nec-success-card-orange,
+.a11y-high-contrast .nec-reg-help-card,
+.a11y-high-contrast .nec-reg-subcard,
+.a11y-high-contrast .nec-breakfast-info {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-success-icon-purple,
+.a11y-high-contrast .nec-success-icon-orange {
+  border-width: 3px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-step-active {
+  outline: 2px solid #a78bfa;
+  outline-offset: 1px;
+}
+.a11y-high-contrast .nec-step-inactive {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-step-badge-purple,
+.a11y-high-contrast .nec-step-badge-orange {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-stripe-embed {
+  border-width: 2px !important;
+  border-color: #999 !important;
+}
+.a11y-high-contrast .nec-accent-bar {
+  box-shadow: none !important;
+}
+.a11y-high-contrast .nec-heading-shadow,
+.a11y-high-contrast .nec-heading-shadow-sm {
+  text-shadow: none !important;
+}
+
+/* ══════════════════════════════════════════════
+   REGISTRATION — Reduce Motion Overrides
+   ══════════════════════════════════════════════ */
+.a11y-reduce-motion .nec-accent-bar {
+  box-shadow: none !important;
+}

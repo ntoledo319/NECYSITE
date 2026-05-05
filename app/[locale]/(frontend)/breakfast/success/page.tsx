@@ -1,5 +1,6 @@
 "use client"
 
+import "../../register/register.css"
 import Link from "next/link"
 import { CheckCircle, Hotel, Home, Mail, ArrowRight } from "lucide-react"
 import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"

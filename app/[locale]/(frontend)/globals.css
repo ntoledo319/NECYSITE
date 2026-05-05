@@ -551,71 +551,6 @@
   }
 }
 
-/* ── States Page: Map & Cards ──────────────── */
-.necypaa-map-state {
-  transition:
-    fill 0.25s ease,
-    stroke 0.25s ease,
-    stroke-width 0.2s ease,
-    filter 0.3s ease;
-}
-.a11y-reduce-motion .necypaa-map-state {
-  transition: none !important;
-}
-
-.state-card-luxury {
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    background 0.3s ease;
-}
-.a11y-reduce-motion .state-card-luxury {
-  transition: none !important;
-}
-
-.state-card-panel {
-  animation: stateCardReveal 0.25s ease both;
-}
-@keyframes stateCardReveal {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.a11y-reduce-motion .state-card-panel {
-  animation: none !important;
-  opacity: 1;
-  transform: none;
-}
-
-.states-stat-card {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-.states-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover);
-}
-.a11y-reduce-motion .states-stat-card {
-  transition: none !important;
-}
-.a11y-reduce-motion .states-stat-card:hover {
-  transform: none !important;
-}
-.a11y-reduce-motion .btn-primary:hover,
-.a11y-reduce-motion .btn-secondary:hover {
-  transform: none !important;
-}
-
-.states-map-section {
-  transition: box-shadow 0.3s ease;
-}
-
 /* ── Events card: Light Mode ─────────────── */
 [data-color-mode="light"] .nec-event-card {
   background: rgba(255, 255, 255, 0.92);
@@ -623,48 +558,10 @@
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
 }
 
-/* ── States Page: Light Mode ─────────────── */
-[data-color-mode="light"] .state-card-luxury {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: var(--nec-border);
-  box-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.06),
-    0 2px 12px rgba(0, 0, 0, 0.04);
-  backdrop-filter: none;
-}
-[data-color-mode="light"] .states-stat-card {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: var(--nec-border);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
-}
-[data-color-mode="light"] .states-map-section {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: var(--nec-border);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
-}
-[data-color-mode="light"] .necypaa-map-state {
-  stroke: rgba(109, 40, 217, 0.25);
-}
-
-/* ── States Page: High Contrast ──────────── */
-.a11y-high-contrast .state-card-luxury {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .states-stat-card {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .states-map-section {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .necypaa-map-state {
-  stroke-width: 2px !important;
-}
-.a11y-high-contrast .necypaa-map-state:focus-visible {
-  outline: 3px solid #a78bfa !important;
-  outline-offset: 2px !important;
+/* ── States page: global btn reduce-motion rules ── */
+.a11y-reduce-motion .btn-primary:hover,
+.a11y-reduce-motion .btn-secondary:hover {
+  transform: none !important;
 }
 
 /* ── Blog Page ─────────────────────────────── */
@@ -881,13 +778,6 @@
 .sr-delay-3 {
   transition-delay: 0.3s;
 }
-@media (prefers-reduced-motion: reduce) {
-  .sr-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
 .a11y-reduce-motion .sr-reveal {
   opacity: 1 !important;
   transform: none !important;
@@ -1014,57 +904,15 @@
 }
 
 /* ── Section atmosphere — art palette radiates into sections ── */
-.section-atmosphere-purple {
-  position: relative;
-}
-.section-atmosphere-purple::before {
-  content: "";
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 600px;
-  height: 200px;
-  background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-.section-atmosphere-gold {
-  position: relative;
-}
-.section-atmosphere-gold::before {
-  content: "";
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 600px;
-  height: 200px;
-  background: radial-gradient(ellipse at center, rgba(212, 168, 75, 0.04) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-.section-atmosphere-cyan {
-  position: relative;
-}
-.section-atmosphere-cyan::before {
-  content: "";
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 600px;
-  height: 200px;
-  background: radial-gradient(ellipse at center, rgba(93, 186, 168, 0.04) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
+.section-atmosphere-purple,
+.section-atmosphere-gold,
+.section-atmosphere-cyan,
 .section-atmosphere-pink {
   position: relative;
 }
+.section-atmosphere-purple::before,
+.section-atmosphere-gold::before,
+.section-atmosphere-cyan::before,
 .section-atmosphere-pink::before {
   content: "";
   position: absolute;
@@ -1074,10 +922,13 @@
   width: 80%;
   max-width: 600px;
   height: 200px;
-  background: radial-gradient(ellipse at center, rgba(212, 116, 142, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
+.section-atmosphere-purple::before { background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.05) 0%, transparent 70%); }
+.section-atmosphere-gold::before { background: radial-gradient(ellipse at center, rgba(212, 168, 75, 0.04) 0%, transparent 70%); }
+.section-atmosphere-cyan::before { background: radial-gradient(ellipse at center, rgba(93, 186, 168, 0.04) 0%, transparent 70%); }
+.section-atmosphere-pink::before { background: radial-gradient(ellipse at center, rgba(212, 116, 142, 0.04) 0%, transparent 70%); }
 
 /* ── Page-level entrance — reusable stagger for any page header ── */
 @keyframes pageMaterialize {
@@ -1103,19 +954,6 @@
   animation: pageMaterialize 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
 }
 
-/* ── Section badge shimmer ──────────────────── */
-@keyframes badgeShimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-.section-badge-shimmer {
-  background-image: none;
-  animation: none;
-}
 
 /* ── Character divider float ────────────────── */
 @keyframes characterFloat {
@@ -1147,38 +985,6 @@
   animation: gearSpin 30s linear infinite;
 }
 
-/* ── Timeline dot pulse ─────────────────────── */
-@keyframes timelinePulse {
-  0%,
-  100% {
-    box-shadow: 0 0 8px var(--dot-color);
-  }
-  50% {
-    box-shadow:
-      0 0 16px var(--dot-color),
-      0 0 24px var(--dot-color);
-  }
-}
-.timeline-dot-pulse {
-  animation: timelinePulse 2.5s ease-in-out infinite;
-}
-
-/* ── Hero title gradient shimmer ────────────── */
-@keyframes gradientShimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-.gradient-shimmer {
-  background-size: 200% auto;
-  animation: gradientShimmer 9s ease-in-out infinite;
-}
 
 /* ── Button press feedback ──────────────────── */
 .btn-primary:active {
@@ -1318,12 +1124,6 @@
 .a11y-reduce-motion .divider-motif-spin {
   animation: none !important;
 }
-.a11y-reduce-motion .timeline-dot-pulse {
-  animation: none !important;
-}
-.a11y-reduce-motion .gradient-shimmer {
-  animation: none !important;
-}
 .a11y-reduce-motion .btn-primary:active,
 .a11y-reduce-motion .btn-secondary:active,
 .a11y-reduce-motion .btn-ghost:active,
@@ -1422,7 +1222,8 @@
     opacity: 1;
     transform: none;
   }
-  .reveal {
+  .reveal,
+  .sr-reveal {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1981,236 +1782,6 @@ footer {
   display: none !important;
 }
 
-/* ══════════════════════════════════════════════
-   REGISTRATION FLOW — Cards, Steps, Success Pages
-   All surfaces use CSS classes (not inline styles)
-   so light mode, high contrast, and reduce-motion
-   overrides work correctly.
-   ══════════════════════════════════════════════ */
-
-/* ── Registration content card (main form wrapper) ── */
-.nec-reg-card {
-  background: linear-gradient(180deg, rgba(var(--nec-card-rgb), 0.98) 0%, rgba(var(--nec-card-rgb), 0.94) 100%);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.14);
-  box-shadow:
-    0 24px 56px rgba(44, 24, 16, 0.1),
-    0 2px 6px rgba(0, 0, 0, 0.03);
-  @apply rounded-[1.75rem];
-}
-
-/* ── Registration accent card (hotel CTA, cross-sell) — purple accent ── */
-.nec-reg-accent-purple {
-  background: linear-gradient(180deg, rgba(var(--nec-purple-rgb), 0.05) 0%, rgba(var(--nec-card-rgb), 0.92) 100%);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.16);
-  box-shadow: var(--shadow-card);
-  @apply rounded-2xl;
-}
-
-/* ── Registration accent card — orange accent (breakfast cross-sell) ── */
-.nec-reg-accent-orange {
-  background: rgba(var(--nec-orange), 0.04);
-  border: 1px solid rgba(234, 88, 12, 0.18);
-  box-shadow: var(--shadow-card);
-  @apply rounded-xl;
-}
-
-/* ── Success page hero card — purple variant ── */
-.nec-success-card-purple {
-  background: rgba(var(--nec-purple-rgb), 0.04);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.2);
-  box-shadow: var(--shadow-card);
-  @apply rounded-xl;
-}
-
-/* ── Success page hero card — orange variant (breakfast) ── */
-.nec-success-card-orange {
-  background: rgba(249, 115, 22, 0.04);
-  border: 1px solid rgba(249, 115, 22, 0.18);
-  box-shadow: var(--shadow-card);
-  @apply rounded-xl;
-}
-
-/* ── Success icon ring — purple ── */
-.nec-success-icon-purple {
-  background: rgba(var(--nec-purple-rgb), 0.08);
-  border: 2px solid rgba(var(--nec-purple-rgb), 0.25);
-  box-shadow: var(--shadow-glow-purple);
-}
-
-/* ── Success icon ring — orange ── */
-.nec-success-icon-orange {
-  background: rgba(249, 115, 22, 0.08);
-  border: 2px solid rgba(249, 115, 22, 0.25);
-  box-shadow: 0 2px 16px rgba(249, 115, 22, 0.1);
-}
-
-/* ── Help/info card (small, bottom of success pages) ── */
-.nec-reg-help-card {
-  background: var(--nec-card);
-  border: 1px solid var(--nec-border);
-  box-shadow: var(--shadow-card);
-}
-
-/* ── Step number badge — purple (reg success) ── */
-.nec-step-badge-purple {
-  background: rgba(var(--nec-purple-rgb), 0.08);
-  color: var(--nec-purple);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.2);
-  box-shadow: var(--shadow-card);
-}
-
-/* ── Step number badge — orange (breakfast success) ── */
-.nec-step-badge-orange {
-  background: rgba(249, 115, 22, 0.08);
-  color: var(--nec-orange);
-  border: 1px solid rgba(249, 115, 22, 0.18);
-  box-shadow: var(--shadow-card);
-}
-
-/* ── Step indicator bubble — active ── */
-.nec-step-active {
-  background: var(--nec-purple);
-  color: white;
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.38);
-  box-shadow: 0 12px 24px rgba(107, 48, 96, 0.14);
-}
-
-/* ── Step indicator bubble — inactive ── */
-.nec-step-inactive {
-  background: rgba(var(--nec-card-rgb), 0.78);
-  color: var(--nec-muted);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
-}
-
-/* ── Breakfast info box ── */
-.nec-breakfast-info {
-  background: var(--nec-card);
-  border: 1px solid var(--nec-border);
-  color: var(--nec-muted);
-}
-
-/* ── Stripe embed wrapper ── */
-.nec-stripe-embed {
-  background: #fff;
-  border: 1px solid var(--nec-border);
-  box-shadow: var(--shadow-card);
-  @apply overflow-hidden rounded-xl;
-}
-
-/* ── Registration sub-card (summary, scholarship, add-ons) ── */
-.nec-reg-subcard {
-  background: rgba(var(--nec-purple-rgb), 0.03);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.12);
-  @apply rounded-2xl;
-}
-
-/* ── Registration accent bar (top of success pages) ── */
-.nec-accent-bar {
-  box-shadow: 0 0 8px rgba(var(--nec-purple-rgb), 0.15);
-}
-
-/* ── Registration page heading text-shadow ── */
-.nec-heading-shadow {
-  text-shadow: var(--shadow-text);
-}
-.nec-heading-shadow-sm {
-  text-shadow: 0 1px 3px rgba(44, 24, 16, 0.1);
-}
-
-.form-section-label {
-  font-family: var(--font-display), var(--font-heading), Georgia, serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--nec-purple);
-}
-
-.form-support-text {
-  color: var(--nec-muted);
-  font-size: 0.95rem;
-  line-height: 1.65;
-}
-
-.form-option-card {
-  background: rgba(var(--nec-card-rgb), 0.84);
-  border: 1px solid rgba(var(--nec-purple-rgb), 0.1);
-  box-shadow: var(--shadow-card);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-}
-
-.form-option-card:hover {
-  transform: translateY(-1px);
-  border-color: rgba(var(--nec-purple-rgb), 0.2);
-  box-shadow:
-    0 18px 36px rgba(44, 24, 16, 0.08),
-    0 2px 6px rgba(0, 0, 0, 0.03);
-}
-
-.form-option-card[data-active="true"] {
-  background: rgba(var(--nec-purple-rgb), 0.05);
-  border-color: rgba(var(--nec-purple-rgb), 0.22);
-  box-shadow:
-    0 20px 40px rgba(44, 24, 16, 0.1),
-    0 2px 6px rgba(0, 0, 0, 0.03);
-}
-
-/* Registration light mode overrides removed — light IS the default now.
-   Base styles above already use CSS variables that resolve correctly. */
-
-/* ══════════════════════════════════════════════
-   REGISTRATION — High Contrast Overrides
-   ══════════════════════════════════════════════ */
-.a11y-high-contrast .nec-reg-card,
-.a11y-high-contrast .nec-reg-accent-purple,
-.a11y-high-contrast .nec-reg-accent-orange,
-.a11y-high-contrast .nec-success-card-purple,
-.a11y-high-contrast .nec-success-card-orange,
-.a11y-high-contrast .nec-reg-help-card,
-.a11y-high-contrast .nec-reg-subcard,
-.a11y-high-contrast .nec-breakfast-info {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .nec-success-icon-purple,
-.a11y-high-contrast .nec-success-icon-orange {
-  border-width: 3px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .nec-step-active {
-  outline: 2px solid #a78bfa;
-  outline-offset: 1px;
-}
-.a11y-high-contrast .nec-step-inactive {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .nec-step-badge-purple,
-.a11y-high-contrast .nec-step-badge-orange {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .nec-stripe-embed {
-  border-width: 2px !important;
-  border-color: #999 !important;
-}
-.a11y-high-contrast .nec-accent-bar {
-  box-shadow: none !important;
-}
-.a11y-high-contrast .nec-heading-shadow,
-.a11y-high-contrast .nec-heading-shadow-sm {
-  text-shadow: none !important;
-}
-
-/* ══════════════════════════════════════════════
-   REGISTRATION — Reduce Motion Overrides
-   ══════════════════════════════════════════════ */
-.a11y-reduce-motion .nec-accent-bar {
-  box-shadow: none !important;
-}
 
 /* ══════════════════════════════════════════════
    SITE-WIDE — Surface Utility Classes
