@@ -155,11 +155,15 @@ Vercel Analytics (already running) + GA4 = complete picture:
 
 **Fix applied:**
 
-- **Provisioned Turso DB** `necypaa-prod` in `aws-us-east-1`, owner `frothyappeal`, seeded from local `payload.db` via SQL dump pushed over the Hrana HTTP pipeline (`turso db create --from-file` and `--from-dump` both silently produced empty databases on Turso CLI 1.0.23, so the workaround is to push CREATE + INSERT statements directly via `/v2/pipeline`).
+- **Provisioned Turso DB** `necypaa-prod` in `aws-us-east-1`, owner `frothyappeal`. Schema (16 tables: `users`, `users_sessions`, `events`, `events_details`, `events_schedule`, `blog_posts`, `_blog_posts_v`, `faq`, `media`, `registrations`, `payload_kv`, `payload_locked_documents`, `payload_locked_documents_rels`, `payload_migrations`, `payload_preferences`, `payload_preferences_rels`) seeded from local `payload.db`. Local `payload.db` content is intentionally minimal (1 admin user, 1 migration record); events/blog/faq pages render from hard-coded static fallback content in the Next.js source — Payload tables are present and writable but currently empty.
 - **Set `PAYLOAD_SECRET` and `DATABASE_URI`** on the live project (`prj_Bcg79JrlDALrNWQxU21hfHsV0xtq`, team `team_6HxrGZnzv7pEo1nhSxC1teCX`) via the Vercel REST API, type `encrypted`, all three targets (Production / Preview / Development).
 - **`package.json`** — Promoted `libsql@^0.4.7` and `@libsql/client@^0.14.0` from transitive to direct dependencies so pnpm hoists them into top-level `node_modules`, where Node.js can resolve them at runtime.
 - **`next.config.mjs`** — Added `serverExternalPackages: ["libsql", "@libsql/client", "@libsql/core", "@payloadcms/db-sqlite"]` so Next.js's webpack stops trying to bundle native modules and lets Node's `require()` resolve them at runtime.
 - **`.vercel/project.json`** — Re-linked to the correct live project (`prj_Bcg79JrlDALrNWQxU21hfHsV0xtq` / `team_6HxrGZnzv7pEo1nhSxC1teCX`); previous link pointed to a phantom `v0-necypaa` clone under a different account.
+
+**Late catch — Turso token rotation:**
+
+After all env vars were set and the libsql native module fix was deployed, /admin and /en/register were still returning 500 with `Failed query: ... Error [LibsqlError]: SERVER_ERROR: Server returned HTTP status 404`. Initial diagnosis suggested schema mismatch, but a fresh Node.js test against the same `DATABASE_URI` reproduced the 404 from local — meaning the URL itself was being rejected by Turso. Generating a new token with `turso db tokens create necypaa-prod --expiration none` resolved the issue. **Turso silently invalidates earlier `--expiration none` tokens when a new one is generated for the same database**, which was triggered earlier in the recovery flow when troubleshooting auth. The 404 is Turso's response when an auth-token signature is valid in shape but no longer authorised for the named DB. Fix: rotated to fresh token, PATCHed the env entry on Vercel via `/v10/projects/.../env/{id}`, redeployed.
 
 ### Active production identity
 
