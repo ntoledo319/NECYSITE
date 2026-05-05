@@ -47,7 +47,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       aria-label="NECYPAA Convention Hero — Escaping the Mad Realm"
-      className="relative -mt-16 flex min-h-screen flex-col items-center justify-center overflow-hidden"
+      className="relative -mt-16 flex min-h-screen flex-col items-center justify-center"
       style={
         {
           minHeight: "100dvh",
@@ -56,7 +56,7 @@ export default function HeroSection() {
       }
     >
       {/* Poster background with parallax */}
-      <div className="absolute inset-0" aria-hidden="true">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <Image
           src="/images/mad-realm-poster-full.webp"
           alt=""
@@ -101,7 +101,7 @@ export default function HeroSection() {
 
       {/* Content with scroll-driven exit */}
       <div
-        className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-12 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24"
+        className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-12 pt-20 text-center sm:pb-14 sm:pt-20 md:max-w-3xl md:pb-14"
         style={{
           transform: "translateY(calc(var(--scroll-progress) * -50px))",
           opacity: "calc(1 - var(--scroll-progress) * 1.1)",
