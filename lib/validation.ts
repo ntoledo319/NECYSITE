@@ -43,7 +43,7 @@ export type ValidatedPolicyAgreements = z.infer<typeof policyAgreementsSchema>
 export const purchaseAttributionSchema = z
   .object({
     aaEntity: sanitizedString(200).optional(),
-    reservedForPerson: sanitizedString(200).optional(),
+    reservedForPerson: sanitizedString(2000).optional(),
   })
   .nullable()
   .optional()

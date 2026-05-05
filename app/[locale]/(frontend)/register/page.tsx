@@ -14,6 +14,8 @@ import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 type Step = "info" | "policy" | "payment"
 
+const STORAGE_KEY = "necypaa-registration-state"
+
 const STEP_COPY: Record<Step, { eyebrow: string; title: string; description: string }> = {
   info: {
     eyebrow: "Step One",
@@ -32,12 +34,48 @@ const STEP_COPY: Record<Step, { eyebrow: string; title: string; description: str
   },
 }
 
+interface PersistedState {
+  currentStep: Step
+  registrationData: RegistrationData | null
+  policyAgreements: PolicyAgreements | null
+}
+
+function readPersistedState(): PersistedState | null {
+  if (typeof window === "undefined") return null
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as PersistedState
+    if (!parsed || typeof parsed !== "object") return null
+    if (parsed.currentStep !== "info" && parsed.currentStep !== "policy" && parsed.currentStep !== "payment") {
+      return null
+    }
+    if (parsed.currentStep !== "info" && !parsed.registrationData) {
+      return null
+    }
+    return parsed
+  } catch {
+    return null
+  }
+}
+
 export default function RegisterPage() {
-  const [currentStep, setCurrentStep] = useState<Step>("info")
-  const [registrationData, setRegistrationData] = useState<RegistrationData | null>(null)
-  const [policyAgreements, setPolicyAgreements] = useState<PolicyAgreements | null>(null)
+  const initial = useMemo<PersistedState>(
+    () =>
+      readPersistedState() ?? {
+        currentStep: "info",
+        registrationData: null,
+        policyAgreements: null,
+      },
+    [],
+  )
+
+  const [currentStep, setCurrentStep] = useState<Step>(initial.currentStep)
+  const [registrationData, setRegistrationData] = useState<RegistrationData | null>(initial.registrationData)
+  const [policyAgreements, setPolicyAgreements] = useState<PolicyAgreements | null>(initial.policyAgreements)
   const directionRef = useRef(1)
   const shouldReduce = useReducedMotion()
+  const isFirstRender = useRef(true)
 
   const handleInfoComplete = (data: RegistrationData) => {
     setRegistrationData(data)
@@ -59,27 +97,25 @@ export default function RegisterPage() {
   }
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
     window.scrollTo({ top: 0, behavior: "smooth" })
   }, [currentStep])
 
   useEffect(() => {
-    const saved = sessionStorage.getItem("necypaa-registration-state")
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved)
-        if (parsed.currentStep) setCurrentStep(parsed.currentStep)
-        if (parsed.registrationData) setRegistrationData(parsed.registrationData)
-        if (parsed.policyAgreements !== undefined) setPolicyAgreements(parsed.policyAgreements)
-      } catch {
-        // ignore parse errors
-      }
+    const state: PersistedState = { currentStep, registrationData, policyAgreements }
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    } catch {
+      // ignore quota errors
     }
-  }, [])
-
-  useEffect(() => {
-    const state = { currentStep, registrationData, policyAgreements }
-    sessionStorage.setItem("necypaa-registration-state", JSON.stringify(state))
   }, [currentStep, registrationData, policyAgreements])
+
+  const updateScholarshipIntent = (next: boolean) => {
+    setRegistrationData((prev) => (prev ? { ...prev, isScholarship: next } : prev))
+  }
 
   const isScholarshipFlow = registrationData?.isScholarship === true
 
@@ -242,10 +278,17 @@ export default function RegisterPage() {
                     exit={{ opacity: 0, x: directionRef.current * -40 }}
                     transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
                   >
-                    {currentStep === "info" && <RegistrationForm onComplete={handleInfoComplete} enableScholarship />}
+                    {currentStep === "info" && (
+                      <RegistrationForm
+                        initialData={registrationData ?? undefined}
+                        onComplete={handleInfoComplete}
+                        enableScholarship
+                      />
+                    )}
 
                     {currentStep === "policy" && (
                       <PolicyAgreement
+                        initialAgreements={policyAgreements ?? undefined}
                         onComplete={handlePolicyComplete}
                         onBack={() => {
                           directionRef.current = -1
@@ -254,7 +297,7 @@ export default function RegisterPage() {
                       />
                     )}
 
-                    {currentStep === "payment" && registrationData && (
+                    {currentStep === "payment" && registrationData && (registrationData.isScholarship || policyAgreements) && (
                       <ErrorBoundary
                         fallback={
                           <div className="rounded-[1.5rem] border border-[rgba(var(--nec-pink-rgb),0.20)] bg-[rgba(var(--nec-card-rgb),0.90)] p-6 text-center">
@@ -270,6 +313,7 @@ export default function RegisterPage() {
                         <RegistrationCheckout
                           registrationData={registrationData}
                           policyAgreements={policyAgreements}
+                          onScholarshipIntentChange={updateScholarshipIntent}
                           onBack={() => {
                             directionRef.current = -1
                             setCurrentStep(isScholarshipFlow ? "info" : "policy")

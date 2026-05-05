@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { Link } from "@/i18n/navigation"
 import { ShieldCheck, Hotel, Home, Mail, ArrowRight, UtensilsCrossed, KeyRound } from "lucide-react"
 import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"
@@ -47,6 +48,14 @@ export default function RegistrationConfirmed({ registration }: Props) {
   const isPaid = !!registration
   const name = registration?.customerName
   const email = registration?.customerEmail
+
+  useEffect(() => {
+    try {
+      sessionStorage.removeItem("necypaa-registration-state")
+    } catch {
+      // ignore storage errors
+    }
+  }, [])
 
   const heading = name ? `You\u2019re in, ${name}.` : "You\u2019re in."
 

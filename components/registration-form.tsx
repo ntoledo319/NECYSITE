@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useMemo, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +12,7 @@ import { NECYPAA_STATES } from "@/lib/data/states"
 import type { RegistrationData } from "@/lib/types"
 
 interface RegistrationFormProps {
+  initialData?: RegistrationData
   onComplete: (data: RegistrationData) => void
   enableScholarship?: boolean
   checkoutMode?: "payment" | "offline"
@@ -40,12 +41,13 @@ const preferenceOptions = [
 ] as const
 
 export default function RegistrationForm({
+  initialData,
   onComplete,
   enableScholarship = false,
   checkoutMode = "payment",
   showAccessCode = checkoutMode === "payment",
 }: RegistrationFormProps) {
-  const [formData, setFormData] = useState<RegistrationData>({
+  const [formData, setFormData] = useState<RegistrationData>(() => ({
     name: "",
     state: "",
     email: "",
@@ -58,9 +60,13 @@ export default function RegistrationForm({
     scholarshipRecipientName: "",
     scholarshipRecipientEmail: "",
     accessCode: "",
-  })
-  const [showAccessCodeField, setShowAccessCodeField] = useState(false)
+    ...(initialData ?? {}),
+  }))
+  const [showAccessCodeField, setShowAccessCodeField] = useState(
+    Boolean((initialData?.accessCode ?? "").trim().length),
+  )
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const errorSummaryRef = useRef<HTMLDivElement | null>(null)
 
   const hasAccessCode = (formData.accessCode ?? "").trim().length > 0
 
@@ -113,9 +119,17 @@ export default function RegistrationForm({
     e.preventDefault()
     const nextErrors = validate(formData)
     setErrors(nextErrors)
-    if (Object.keys(nextErrors).length > 0) return
+    if (Object.keys(nextErrors).length > 0) {
+      requestAnimationFrame(() => {
+        errorSummaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+        errorSummaryRef.current?.focus()
+      })
+      return
+    }
     onComplete(formData)
   }
+
+  const errorEntries = Object.entries(errors)
 
   const checkboxCards = preferenceOptions.map((option) => {
     const checked = formData[option.id]
@@ -142,8 +156,46 @@ export default function RegistrationForm({
     )
   })
 
+  const fieldLabels: Record<string, string> = {
+    name: formData.isScholarship ? "Purchaser name" : "Full name",
+    email: "Email",
+    state: "State / region",
+    homegroup: "Homegroup / committee",
+    scholarshipRecipientName: "Recipient name",
+    scholarshipRecipientEmail: "Recipient email",
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+      {errorEntries.length > 0 && (
+        <div
+          ref={errorSummaryRef}
+          tabIndex={-1}
+          role="alert"
+          aria-live="assertive"
+          className="rounded-[1.25rem] border border-[rgba(var(--nec-pink-rgb),0.30)] bg-[rgba(var(--nec-pink-rgb),0.06)] p-5 outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]"
+        >
+          <p className="text-sm font-semibold text-[var(--nec-text)]">Please fix the following before continuing:</p>
+          <ul className="mt-2 space-y-1 text-sm text-[var(--nec-text)]">
+            {errorEntries.map(([field, message]) => (
+              <li key={field}>
+                <a
+                  href={`#${field}`}
+                  className="underline decoration-[var(--nec-pink)] underline-offset-4"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    document.getElementById(field)?.focus()
+                  }}
+                >
+                  {fieldLabels[field] ?? field}
+                </a>
+                : {message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {enableScholarship && !hasAccessCode && (
         <section className="space-y-4">
           <div className="space-y-2">

@@ -7,25 +7,30 @@ import { Label } from "@/components/ui/label"
 import type { PolicyAgreements } from "@/lib/types"
 
 interface PolicyAgreementProps {
+  initialAgreements?: PolicyAgreements
   onComplete: (agreements: PolicyAgreements) => void
   onBack: () => void
   continueLabel?: string
 }
 
 export default function PolicyAgreement({
+  initialAgreements,
   onComplete,
   onBack,
   continueLabel = "Continue to Payment",
 }: PolicyAgreementProps) {
-  const [agreements, setAgreements] = useState<PolicyAgreements>({
-    readPolicy: false,
-    understandQuestions: false,
-    acknowledgeBehavior: false,
-    understandAdmission: false,
-    understandReporting: false,
-    understandInvestigation: false,
-    signatureAgreement: false,
-  })
+  const [agreements, setAgreements] = useState<PolicyAgreements>(
+    () =>
+      initialAgreements ?? {
+        readPolicy: false,
+        understandQuestions: false,
+        acknowledgeBehavior: false,
+        understandAdmission: false,
+        understandReporting: false,
+        understandInvestigation: false,
+        signatureAgreement: false,
+      },
+  )
 
   const allAgreed = Object.values(agreements).every((val) => val === true)
 

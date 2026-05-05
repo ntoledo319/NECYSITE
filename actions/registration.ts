@@ -50,8 +50,18 @@ export async function startRegistrationCheckout(
     validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
     validatedAttribution = purchaseAttributionSchema.parse(attribution)
     validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
-  } catch {
+  } catch (err) {
+    const zodErr = err as { issues?: Array<{ path: (string | number)[]; message: string }> }
+    const first = zodErr.issues?.[0]
+    if (first) {
+      const fieldLabel = first.path.length > 0 ? `${first.path.join(".")}: ` : ""
+      throw new Error(`We couldn't accept that input — ${fieldLabel}${first.message}`)
+    }
     throw new Error("Invalid registration data. Please check your information and try again.")
+  }
+
+  if (validatedData.isScholarship && validatedScholarshipQty < 1) {
+    throw new Error("Add at least one scholarship to continue.")
   }
 
   const uniqueBreakfastIds = [...new Set(validatedBreakfastIds)]
@@ -171,6 +181,7 @@ export async function startRegistrationCheckout(
     },
   })
 
+  let stripeFailureCleanupId: string | number | null = record.id
   try {
     const session = await stripe.checkout.sessions.create(
       {
@@ -250,10 +261,18 @@ export async function startRegistrationCheckout(
       id: record.id,
       data: { stripeSessionId: session.id },
     })
+    stripeFailureCleanupId = null
 
     return session.client_secret
   } catch (error) {
     console.error("Stripe session creation failed:", error)
+    if (stripeFailureCleanupId != null) {
+      try {
+        await payload.delete({ collection: "registrations", id: stripeFailureCleanupId })
+      } catch (cleanupErr) {
+        console.error("Failed to clean up orphaned pending registration:", cleanupErr)
+      }
+    }
     throw new Error("Payment session could not be created. Please try again.")
   }
 }
@@ -268,7 +287,13 @@ export async function submitAccessCodeRegistration(
   try {
     validatedData = registrationDataSchema.parse(registrationData)
     validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
-  } catch {
+  } catch (err) {
+    const zodErr = err as { issues?: Array<{ path: (string | number)[]; message: string }> }
+    const first = zodErr.issues?.[0]
+    if (first) {
+      const fieldLabel = first.path.length > 0 ? `${first.path.join(".")}: ` : ""
+      return { success: false, error: `Please review — ${fieldLabel}${first.message}` }
+    }
     return { success: false, error: "Invalid registration data. Please check your information and try again." }
   }
 
@@ -286,26 +311,6 @@ export async function submitAccessCodeRegistration(
     .digest("hex")
     .slice(0, 36)
 
-  const payload = await getPayload({ config: configPromise })
-
-  await payload.create({
-    collection: "registrations",
-    data: {
-      email: validatedData.email || "",
-      name: validatedData.name || "Not provided",
-      state: validatedData.state || "",
-      status: "comped",
-      type: "comp",
-      stripeSessionId: "",
-      amountTotalCents: 0,
-      accommodations: validatedData.accommodations || "",
-      interpretationNeeded: validatedData.interpretationNeeded || false,
-      mobilityAccessibility: validatedData.mobilityAccessibility || false,
-      willingToServe: validatedData.willingToServe || false,
-      homegroup: validatedData.homegroup || "",
-    },
-  })
-
   const result = await redeemRegistrationCode({
     code: validatedData.accessCode,
     eventSlug: EVENT_SLUG,
@@ -317,6 +322,30 @@ export async function submitAccessCodeRegistration(
 
   if (!result.success) {
     return { success: false, error: result.error }
+  }
+
+  const payload = await getPayload({ config: configPromise })
+
+  try {
+    await payload.create({
+      collection: "registrations",
+      data: {
+        email: validatedData.email || "",
+        name: validatedData.name || "Not provided",
+        state: validatedData.state || "",
+        status: "comped",
+        type: "comp",
+        stripeSessionId: "",
+        amountTotalCents: 0,
+        accommodations: validatedData.accommodations || "",
+        interpretationNeeded: validatedData.interpretationNeeded || false,
+        mobilityAccessibility: validatedData.mobilityAccessibility || false,
+        willingToServe: validatedData.willingToServe || false,
+        homegroup: validatedData.homegroup || "",
+      },
+    })
+  } catch (err) {
+    console.error("Failed to persist comped registration after successful redemption:", err)
   }
 
   const metadata: Record<string, string> = {

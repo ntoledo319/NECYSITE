@@ -22,6 +22,7 @@ interface RegistrationCheckoutProps {
   registrationData: RegistrationData
   policyAgreements: PolicyAgreements | null
   onBack: () => void
+  onScholarshipIntentChange?: (next: boolean) => void
 }
 
 export default function RegistrationCheckout({
@@ -148,7 +149,10 @@ export default function RegistrationCheckout({
     selectedBreakfasts,
   ])
 
-  const resetCheckout = () => setCheckoutReady(false)
+  const resetCheckout = () => {
+    setCheckoutReady(false)
+    setIsProceeding(false)
+  }
 
   const options = useMemo(() => ({ fetchClientSecret }), [fetchClientSecret])
 
@@ -235,7 +239,14 @@ export default function RegistrationCheckout({
     }
   }
 
+  const hasNothingToBuy =
+    selfRegistrationQuantity === 0 && effectiveScholarshipQuantity === 0 && selectedBreakfasts.length === 0
+
   const proceedToPayment = () => {
+    if (hasNothingToBuy) {
+      setValidationError("Add a registration, scholarship, or breakfast ticket before continuing.")
+      return
+    }
     if (isScholarshipMode && scholarshipUnitAmountCents == null) {
       setValidationError("Enter a valid scholarship amount before continuing.")
       return
@@ -414,10 +425,18 @@ export default function RegistrationCheckout({
       )}
 
       {!checkoutReady ? (
-        <Button onClick={proceedToPayment} disabled={totalAmount == null || Number.isNaN(totalAmount) || isProceeding} className="w-full py-6 text-lg">
-          {totalAmount != null
-            ? `Proceed to Payment - $${totalAmount.toFixed(2)}`
-            : "Add Scholarship Amount To Continue"}
+        <Button
+          onClick={proceedToPayment}
+          disabled={
+            totalAmount == null || Number.isNaN(totalAmount) || isProceeding || hasNothingToBuy
+          }
+          className="w-full py-6 text-lg"
+        >
+          {hasNothingToBuy
+            ? "Add A Registration Or Add-On To Continue"
+            : totalAmount != null
+              ? `Proceed to Payment - $${totalAmount.toFixed(2)}`
+              : "Add Scholarship Amount To Continue"}
         </Button>
       ) : (
         <div key={checkoutKey} id="checkout" className="nec-stripe-embed min-h-[400px] p-4">
