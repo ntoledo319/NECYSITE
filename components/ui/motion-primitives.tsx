@@ -41,18 +41,16 @@ export function SpotlightCard({
   spotlightSize = 350,
 }: SpotlightCardProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
   const shouldReduce = useReducedMotion()
 
   const handleMouseMove = useCallback(
     (e: ReactMouseEvent<HTMLDivElement>) => {
       if (!containerRef.current || shouldReduce) return
       const rect = containerRef.current.getBoundingClientRect()
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      })
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      containerRef.current.style.setProperty("--mouse-x", `${x}px`)
+      containerRef.current.style.setProperty("--mouse-y", `${y}px`)
     },
     [shouldReduce],
   )
@@ -60,16 +58,21 @@ export function SpotlightCard({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden ${className}`}
+      className={`group relative overflow-hidden ${className}`}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      style={
+        {
+          "--mouse-x": "0px",
+          "--mouse-y": "0px",
+          "--spotlight-color": spotlightColor,
+          "--spotlight-size": `${spotlightSize}px`,
+        } as any
+      }
     >
       <div
-        className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          opacity: isHovered && !shouldReduce ? 1 : 0,
-          background: `radial-gradient(${spotlightSize}px circle at ${mousePos.x}px ${mousePos.y}px, ${spotlightColor}, transparent 65%)`,
+          background: `radial-gradient(var(--spotlight-size) circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 65%)`,
         }}
         aria-hidden="true"
       />

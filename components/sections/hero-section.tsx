@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState, useCallback } from "react"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
@@ -9,19 +9,21 @@ import { MagneticButton } from "@/components/ui/motion-primitives"
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  const handleScroll = useCallback(() => {
-    if (!sectionRef.current) return
-    const rect = sectionRef.current.getBoundingClientRect()
-    const viewportHeight = window.innerHeight
-    const progress = Math.max(0, Math.min(1, -rect.top / viewportHeight))
-    setScrollProgress(progress)
-  }, [])
 
   useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
     let rafId: number | null = null
     let ticking = false
+
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const progress = Math.max(0, Math.min(1, -rect.top / viewportHeight))
+
+      section.style.setProperty("--scroll-progress", progress.toString())
+    }
 
     const onScroll = () => {
       if (!ticking) {
@@ -39,19 +41,19 @@ export default function HeroSection() {
       window.removeEventListener("scroll", onScroll)
       if (rafId) cancelAnimationFrame(rafId)
     }
-  }, [handleScroll])
-
-  const exitY = scrollProgress * -50
-  const exitOpacity = Math.max(0, 1 - scrollProgress * 1.1)
-  const posterScale = 1 + scrollProgress * 0.06
-  const posterY = scrollProgress * -60
+  }, [])
 
   return (
     <section
       ref={sectionRef}
-      aria-label="NECYPAA XXXVI Convention Hero — Escaping the Mad Realm"
+      aria-label="NECYPAA Convention Hero — Escaping the Mad Realm"
       className="relative -mt-16 flex min-h-screen flex-col items-center justify-center overflow-hidden"
-      style={{ minHeight: "100dvh" }}
+      style={
+        {
+          minHeight: "100dvh",
+          "--scroll-progress": "0",
+        } as any
+      }
     >
       {/* Poster background with parallax */}
       <div className="absolute inset-0" aria-hidden="true">
@@ -64,7 +66,7 @@ export default function HeroSection() {
           className="hero-poster-alive object-cover object-[center_20%] sm:object-center"
           aria-hidden="true"
           style={{
-            transform: `scale(${posterScale}) translateY(${posterY}px)`,
+            transform: "scale(calc(1 + var(--scroll-progress) * 0.06)) translateY(calc(var(--scroll-progress) * -60px))",
             transition: "transform 0.1s linear",
           }}
         />
@@ -101,8 +103,8 @@ export default function HeroSection() {
       <div
         className="relative z-10 flex w-full max-w-2xl flex-col items-center px-6 pb-12 pt-20 text-center sm:pb-16 sm:pt-24 md:max-w-3xl md:pb-24"
         style={{
-          transform: `translateY(${exitY}px)`,
-          opacity: exitOpacity,
+          transform: "translateY(calc(var(--scroll-progress) * -50px))",
+          opacity: "calc(1 - var(--scroll-progress) * 1.1)",
           transition: "transform 0.1s linear, opacity 0.1s linear",
           willChange: "transform, opacity",
         }}

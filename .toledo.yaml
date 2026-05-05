@@ -1,0 +1,14 @@
+name: NECYPASITE
+status: active
+type: nonprofit
+oauth:
+  needed: true
+  google_scopes: []
+  redirect_uris: []
+deployment:
+  platform: vercel
+  url: null
+github: ntoledo319/NECYSITE
+last_touched: 2026-05-05
+original_path: /Users/nicholastoledo/Development/A.A/NECYPASITE
+notes: ""

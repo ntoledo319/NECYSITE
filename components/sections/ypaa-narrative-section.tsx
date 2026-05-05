@@ -1,10 +1,6 @@
-"use client"
-
 import Link from "next/link"
-import { motion, useReducedMotion } from "framer-motion"
-import { SPRING_GENTLE, SPRING_SLOW, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
-/* ── Inline SVG graphics for the narrative ── */
+/* ── Inline SVG graphics for the narrative (Server Components) ── */
 
 function DancingFigures() {
   return (
@@ -15,6 +11,7 @@ function DancingFigures() {
       className="h-auto w-full"
       aria-hidden="true"
     >
+      {/* ... (SVG paths) ... */}
       {/* Figure 1 - arms up dancing */}
       <circle cx="40" cy="20" r="8" fill="var(--nec-cyan)" opacity="0.8" />
       <line
@@ -377,14 +374,8 @@ function SpeakerPodium() {
 
 /* ── Narrative timeline step data ── */
 const narrativeSteps = [
-  {
-    text: "You show up and you wonder, why am I here?",
-    color: "var(--nec-purple)",
-  },
-  {
-    text: "You go to a panel that addresses that specific question.",
-    color: "var(--nec-cyan)",
-  },
+  { text: "You show up and you wonder, why am I here?", color: "var(--nec-purple)" },
+  { text: "You go to a panel that addresses that specific question.", color: "var(--nec-cyan)" },
   {
     text: "You meet people from another state while making your nametag with some admittedly pretty cool stickers.",
     color: "var(--nec-pink)",
@@ -393,14 +384,8 @@ const narrativeSteps = [
     text: "You go to the Main Meeting Room and see a bunch of young people in recovery dancing to Like A G6.",
     color: "var(--nec-gold)",
   },
-  {
-    text: "You wonder who hired the DJ.",
-    color: "var(--nec-purple)",
-  },
-  {
-    text: "You listen to the Main Speaker and laugh, maybe shed a tear.",
-    color: "var(--nec-cyan)",
-  },
+  { text: "You wonder who hired the DJ.", color: "var(--nec-purple)" },
+  { text: "You listen to the Main Speaker and laugh, maybe shed a tear.", color: "var(--nec-cyan)" },
   {
     text: "You walk around the outreach tables after the meeting and meet people involved in service.",
     color: "var(--nec-pink)",
@@ -409,10 +394,7 @@ const narrativeSteps = [
     text: "You ask questions and you learn. What is a Bid Committee? Why do they keep stealing your banner?",
     color: "var(--nec-gold)",
   },
-  {
-    text: "They know your name now. You pre-register for their Convention.",
-    color: "var(--nec-purple)",
-  },
+  { text: "They know your name now. You pre-register for their Convention.", color: "var(--nec-purple)" },
   {
     text: "They convince you to go to the dance even though you didn\u2019t bring an outfit to go with the theme.",
     color: "var(--nec-cyan)",
@@ -425,24 +407,10 @@ const narrativeSteps = [
     text: "You follow a trail of people and walk into a room filled with laughter and loud voices.",
     color: "var(--nec-gold)",
   },
-  {
-    text: "You play games with your new friends. You share experiences, hardships.",
-    color: "var(--nec-purple)",
-  },
-  {
-    text: "You experience connection.",
-    color: "var(--nec-cyan)",
-    emphasis: true,
-  },
-  {
-    text: 'You live all that stuff you didn\u2019t believe in "A Vision for You".',
-    color: "var(--nec-gold)",
-    emphasis: true,
-  },
-  {
-    text: "You wake up the next day and do it all over again.",
-    color: "var(--nec-pink)",
-  },
+  { text: "You play games with your new friends. You share experiences, hardships.", color: "var(--nec-purple)" },
+  { text: "You experience connection.", color: "var(--nec-cyan)", emphasis: true },
+  { text: 'You live all that stuff you didn\u2019t believe in "A Vision for You".', color: "var(--nec-gold)", emphasis: true },
+  { text: "You wake up the next day and do it all over again.", color: "var(--nec-pink)" },
 ]
 
 /* ── Highlight chips for "What is a YPAA?" section ── */
@@ -464,22 +432,10 @@ const highlights = [
 ]
 
 export default function YpaaNarrativeSection() {
-  const shouldReduce = useReducedMotion()
-
   return (
     <section id="what-is-ypaa" aria-label="What is a YPAA Convention">
-      {/* ═══════════════════════════════════════════
-          PART 1: "What is a YPAA?"
-          ═══════════════════════════════════════════ */}
       <div className="mb-20 md:mb-24">
-        {/* Section header */}
-        <motion.div
-          className="mb-12 text-center"
-          initial={shouldReduce ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={SPRING_GENTLE}
-        >
+        <div className="fade-up mb-12 text-center">
           <span className="section-badge mb-4 inline-block">About YPAA</span>
           <h2 className="section-heading mt-3">
             What is a{" "}
@@ -493,10 +449,9 @@ export default function YpaaNarrativeSection() {
               YPAA?
             </span>
           </h2>
-        </motion.div>
+        </div>
 
-        {/* Main explainer card */}
-        <div className="nec-card relative overflow-hidden rounded-[1.95rem] p-7 sm:p-9 md:p-11">
+        <div className="nec-card fade-up relative overflow-hidden rounded-[1.95rem] p-7 sm:p-9 md:p-11">
           <div
             className="absolute inset-x-0 top-0 h-[3px]"
             aria-hidden="true"
@@ -518,22 +473,17 @@ export default function YpaaNarrativeSection() {
           <div
             className="pointer-events-none absolute -right-12 top-10 h-40 w-40 rounded-full"
             aria-hidden="true"
-            style={{
-              background: "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 72%)",
-            }}
+            style={{ background: "radial-gradient(circle, rgba(var(--nec-purple-rgb),0.10) 0%, transparent 72%)" }}
           />
           <div
             className="pointer-events-none absolute -bottom-16 left-8 h-32 w-32 rounded-full"
             aria-hidden="true"
-            style={{
-              background: "radial-gradient(circle, rgba(var(--nec-gold-rgb),0.08) 0%, transparent 76%)",
-            }}
+            style={{ background: "radial-gradient(circle, rgba(var(--nec-gold-rgb),0.08) 0%, transparent 76%)" }}
           />
 
           <div className="relative z-10">
             <div className="grid gap-8 xl:grid-cols-[minmax(0,1.08fr)_minmax(280px,0.92fr)] xl:items-start xl:gap-12">
               <div>
-                {/* Lede paragraph */}
                 <p className="mb-6 text-base leading-relaxed text-[var(--nec-text)] sm:text-lg md:text-xl">
                   A Convention sounds inherently boring.{" "}
                   <span style={{ color: "var(--nec-muted)" }}>We&apos;re right there with you.</span> But a YPAA
@@ -554,18 +504,11 @@ export default function YpaaNarrativeSection() {
                   >
                     What you&apos;ll experience
                   </p>
-                  <motion.div
-                    className="grid gap-3 sm:grid-cols-2"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-40px" }}
-                  >
+                  <div className="grid gap-3 sm:grid-cols-2">
                     {highlights.map((h) => (
-                      <motion.div
+                      <div
                         key={h.text}
-                        variants={staggerChild}
-                        className="rounded-[1.25rem] border px-4 py-3.5"
+                        className="fade-up rounded-[1.25rem] border px-4 py-3.5"
                         style={{
                           background: "rgba(var(--nec-card-rgb),0.68)",
                           borderColor: `rgba(${h.accentRgb},0.15)`,
@@ -579,31 +522,22 @@ export default function YpaaNarrativeSection() {
                           />
                           <span className="text-sm leading-6 text-[var(--nec-text)]">{h.text}</span>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 </div>
               </div>
 
               <div className="space-y-6 md:space-y-7">
-                {/* Graphic: Dancing figures */}
-                <div className="rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.05),rgba(var(--nec-card-rgb),0.8))] p-5">
+                <div className="fade-up rounded-[1.6rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.05),rgba(var(--nec-card-rgb),0.8))] p-5">
                   <div className="mx-auto max-w-md opacity-80">
                     <DancingFigures />
                   </div>
                 </div>
 
-                {/* The deeper question row */}
-                <motion.div
-                  className="grid grid-cols-1 gap-4"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-40px" }}
-                >
-                  <motion.div
-                    variants={staggerChild}
-                    className="rounded-xl p-5 text-center"
+                <div className="grid grid-cols-1 gap-4">
+                  <div
+                    className="fade-up rounded-xl p-5 text-center"
                     style={{
                       background: "rgba(var(--nec-cyan-rgb),0.05)",
                       border: "1px solid rgba(var(--nec-cyan-rgb),0.15)",
@@ -615,10 +549,9 @@ export default function YpaaNarrativeSection() {
                     <p className="text-sm leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                       What is it like to get sober young? To be a parent in sobriety?
                     </p>
-                  </motion.div>
-                  <motion.div
-                    variants={staggerChild}
-                    className="rounded-xl p-5 text-center"
+                  </div>
+                  <div
+                    className="fade-up rounded-xl p-5 text-center"
                     style={{
                       background: "rgba(var(--nec-pink-rgb),0.05)",
                       border: "1px solid rgba(var(--nec-pink-rgb),0.15)",
@@ -630,10 +563,9 @@ export default function YpaaNarrativeSection() {
                     <p className="text-sm leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                       Building community in AA that crosses state and even country lines.
                     </p>
-                  </motion.div>
-                  <motion.div
-                    variants={staggerChild}
-                    className="rounded-xl p-5 text-center"
+                  </div>
+                  <div
+                    className="fade-up rounded-xl p-5 text-center"
                     style={{
                       background: "rgba(var(--nec-gold-rgb),0.05)",
                       border: "1px solid rgba(var(--nec-gold-rgb),0.15)",
@@ -648,92 +580,62 @@ export default function YpaaNarrativeSection() {
                     <p className="text-sm leading-relaxed" style={{ color: "var(--nec-muted)" }}>
                       What does a healthy sober relationship look like? What does joy look like?
                     </p>
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════
-          PART 2: "A YPAA Convention goes something like this."
-          The narrative timeline
-          ═══════════════════════════════════════════ */}
       <div>
-        {/* Section header */}
-        <div className="mb-14 text-center">
+        <div className="fade-up mb-14 text-center">
           <h2 className="text-2xl font-black leading-tight text-[var(--nec-text)] sm:text-3xl md:text-4xl">
             A YPAA Convention goes{" "}
             <span
               className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: "linear-gradient(90deg, var(--nec-cyan) 0%, var(--nec-purple) 100%)",
-              }}
+              style={{ backgroundImage: "linear-gradient(90deg, var(--nec-cyan) 0%, var(--nec-purple) 100%)" }}
             >
               something like this.
             </span>
           </h2>
         </div>
 
-        {/* Timeline */}
         <div className="relative mx-auto max-w-3xl rounded-[1.9rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.52)] px-5 py-9 sm:px-8 md:px-12 md:py-10">
-          {/* Vertical timeline line */}
-          <motion.div
+          <div
             className="absolute bottom-0 left-4 top-0 w-px md:left-6"
             aria-hidden="true"
             style={{
               background:
                 "linear-gradient(180deg, rgba(var(--nec-purple-rgb),0.45) 0%, rgba(var(--nec-cyan-rgb),0.28) 100%)",
             }}
-            initial={shouldReduce ? false : { scaleY: 0, originY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={shouldReduce ? { duration: 0 } : { ...SPRING_SLOW, duration: 2 }}
           />
 
           <div className="space-y-6 md:space-y-7">
             {narrativeSteps.map((step, i) => (
-              <motion.div
-                key={i}
-                className="relative pl-12 md:pl-16"
-                initial={shouldReduce ? false : { opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={shouldReduce ? { duration: 0 } : { ...SPRING_GENTLE, delay: i * 0.04 }}
-              >
-                {/* Timeline dot */}
+              <div key={i} className="fade-up relative pl-12 md:pl-16">
                 <div
                   className="absolute left-2.5 top-1.5 h-3 w-3 rounded-full md:left-4"
                   aria-hidden="true"
-                  style={{
-                    background: step.color,
-                    boxShadow: `0 0 0 6px rgba(var(--nec-card-rgb),0.94)`,
-                  }}
+                  style={{ background: step.color, boxShadow: `0 0 0 6px rgba(var(--nec-card-rgb),0.94)` }}
                 />
-
                 <p
                   className={`rounded-[1.2rem] border border-[rgba(var(--nec-purple-rgb),0.08)] bg-[rgba(var(--nec-card-rgb),0.72)] px-4 py-3 leading-relaxed shadow-[0_10px_22px_rgba(44,24,16,0.04)] ${
                     step.emphasis ? "text-lg font-bold sm:text-xl md:text-2xl" : "text-base sm:text-lg"
                   }`}
-                  style={{
-                    color: "var(--nec-text)",
-                  }}
+                  style={{ color: "var(--nec-text)" }}
                 >
                   {step.text}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          {/* ── Welcome Home ── */}
-          <div className="relative mt-12 pt-6">
+          <div className="fade-up relative mt-12 pt-6">
             <div
               className="absolute -top-0 left-4 h-8 w-px md:left-6"
               aria-hidden="true"
-              style={{
-                background: "linear-gradient(180deg, var(--nec-gold) 0%, transparent 100%)",
-              }}
+              style={{ background: "linear-gradient(180deg, var(--nec-gold) 0%, transparent 100%)" }}
             />
             <div
               className="relative overflow-hidden rounded-2xl p-6 text-center sm:p-8"
@@ -757,17 +659,10 @@ export default function YpaaNarrativeSection() {
                 >
                   Welcome to YPAA.
                 </p>
-                <p
-                  className="text-xl font-black sm:text-2xl md:text-3xl"
-                  style={{
-                    color: "var(--nec-text)",
-                    textShadow: "none",
-                  }}
-                >
+                <p className="text-xl font-black sm:text-2xl md:text-3xl" style={{ color: "var(--nec-text)" }}>
                   Welcome home.
                 </p>
 
-                {/* CTA */}
                 <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
                   <Link href="/register" className="btn-primary justify-center text-center">
                     Register Now

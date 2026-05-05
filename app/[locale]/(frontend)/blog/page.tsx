@@ -6,6 +6,8 @@ import PageArtAccents from "@/components/art/page-art-accents"
 import MotionHeader from "@/components/ui/motion-header"
 import { getBlogPosts } from "@/lib/data/fetch-utils"
 
+export const revalidate = 300 // Revalidate every 5 minutes
+
 export const metadata: Metadata = {
   title: "NECYBLOG aka BLOGYPAA — NECYPAA XXXVI",
   description:

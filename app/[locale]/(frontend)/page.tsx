@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import dynamic from "next/dynamic"
 import HeroSection from "@/components/sections/hero-section"
 import QuickFactsStrip from "@/components/sections/quick-facts-strip"
 import BusinessMeetingSection from "@/components/sections/business-meeting-section"
@@ -11,8 +10,11 @@ import { EventJsonLd, OrganizationJsonLd } from "@/components/json-ld"
 import { fetchCalendarEvents } from "@/lib/calendar/fetch"
 import { getEvents } from "@/lib/data/fetch-utils"
 
-const YpaaNarrativeSection = dynamic(() => import("@/components/sections/ypaa-narrative-section"))
-const EventsPreviewSection = dynamic(() => import("@/components/sections/events-preview-section"))
+import YpaaNarrativeSection from "@/components/sections/ypaa-narrative-section"
+import EventsPreviewSection from "@/components/sections/events-preview-section"
+import PurposeSection from "@/components/sections/purpose-section"
+
+export const revalidate = 300 // Revalidate every 5 minutes
 
 export const metadata: Metadata = {
   title: "NECYPAA XXXVI — Escaping the Mad Realm · Hartford, CT · Dec 31, 2026 – Jan 3, 2027",
@@ -45,12 +47,20 @@ export default async function HomePage() {
           <OrnateDivider variant="gear" color="var(--nec-purple)" />
         </div>
 
+        <ScrollReveal className="container relative mx-auto mb-14 px-4">
+          <PurposeSection />
+        </ScrollReveal>
+
+        <div className="container mx-auto mb-12 px-4">
+          <OrnateDivider variant="key" color="var(--nec-pink)" />
+        </div>
+
         <ScrollReveal className="container mx-auto mb-14 px-4">
           <QuickFactsStrip />
         </ScrollReveal>
 
         <div className="container mx-auto mb-12 px-4">
-          <OrnateDivider variant="key" color="var(--nec-pink)" />
+          <OrnateDivider variant="compass" color="var(--nec-gold)" />
         </div>
 
         <ScrollReveal className="section-atmosphere-gold container relative mx-auto mb-14 px-4">
@@ -58,16 +68,12 @@ export default async function HomePage() {
         </ScrollReveal>
 
         <div className="container mx-auto mb-12 px-4">
-          <OrnateDivider variant="compass" color="var(--nec-gold)" />
+          <OrnateDivider variant="potion" color="var(--nec-cyan)" />
         </div>
 
         <ScrollReveal className="container relative mx-auto mb-6 px-4 pb-20 md:pb-6">
           <EventsPreviewSection upcomingEvent={hostEvents.upcoming} pastEvents={hostEvents.past} />
         </ScrollReveal>
-
-        <div className="container mx-auto px-4">
-          <OrnateDivider variant="potion" color="var(--nec-cyan)" />
-        </div>
       </div>
 
       <SiteFooter />

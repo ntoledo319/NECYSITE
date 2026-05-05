@@ -10,6 +10,8 @@ import PageArtAccents from "@/components/art/page-art-accents"
 import ShareMenu from "@/components/share-menu"
 import { generateEventJsonLd } from "@/lib/event-jsonld"
 
+export const revalidate = 300 // Revalidate every 5 minutes
+
 export const metadata: Metadata = {
   title: "Events — NECYPAA XXXVI",
   description:

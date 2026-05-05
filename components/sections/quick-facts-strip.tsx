@@ -1,9 +1,6 @@
-"use client"
-
 import Link from "next/link"
-import { motion, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
-import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
+import { SpotlightCard } from "@/components/ui/motion-primitives"
 import {
   PocketWatchIcon,
   CompassRoseIcon,
@@ -71,17 +68,9 @@ const facts = [
 ]
 
 export default function QuickFactsStrip() {
-  const shouldReduce = useReducedMotion()
-
   return (
     <section aria-label="Quick facts" className="px-4 md:px-0">
-      <motion.div
-        className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6"
-        variants={shouldReduce ? undefined : staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-40px" }}
-      >
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
         {facts.map((fact) => {
           const inner = (
             <SpotlightCard
@@ -114,35 +103,32 @@ export default function QuickFactsStrip() {
           if (fact.href) {
             if (fact.external) {
               return (
-                <motion.a
+                <a
                   key={fact.label}
                   href={fact.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="no-underline"
-                  variants={shouldReduce ? undefined : staggerChild}
+                  className="fade-up no-underline"
                 >
                   {inner}
                   <span className="sr-only"> (opens in new tab)</span>
-                </motion.a>
+                </a>
               )
             }
             return (
-              <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
-                <Link href={fact.href} className="block no-underline">
-                  {inner}
-                </Link>
-              </motion.div>
+              <Link key={fact.label} href={fact.href} className="fade-up block no-underline">
+                {inner}
+              </Link>
             )
           }
 
           return (
-            <motion.div key={fact.label} variants={shouldReduce ? undefined : staggerChild}>
+            <div key={fact.label} className="fade-up">
               {inner}
-            </motion.div>
+            </div>
           )
         })}
-      </motion.div>
+      </div>
     </section>
   )
 }

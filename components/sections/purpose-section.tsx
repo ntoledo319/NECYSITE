@@ -1,7 +1,4 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
+import { SpotlightCard } from "@/components/ui/motion-primitives"
 
 export default function PurposeSection() {
   const pillars = [
@@ -39,27 +36,17 @@ export default function PurposeSection() {
         </p>
       </div>
 
-      <motion.div
-        className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-      >
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {pillars.map((p) => (
-          <motion.div
-            key={p.title}
-            variants={staggerChild}
-            className="nec-card space-y-3 p-5 transition-all duration-200 hover:-translate-y-0.5"
-          >
+          <div key={p.title} className="nec-card fade-up space-y-3 p-5 transition-all duration-200 hover:-translate-y-0.5">
             <span className="text-3xl" role="img" aria-hidden="true">
               {p.icon}
             </span>
             <h3 className="text-base font-bold text-[var(--nec-text)]">{p.title}</h3>
             <p className="text-sm leading-relaxed text-[var(--nec-muted)]">{p.body}</p>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
 
       {/* First-timer callout */}
       <SpotlightCard spotlightColor="rgba(var(--nec-purple-rgb),0.08)" spotlightSize={500}>

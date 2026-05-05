@@ -193,18 +193,6 @@ const PARTICLES = [
     rotate: -12,
   },
   {
-    id: "g2",
-    Component: GearParticle,
-    size: 20,
-    left: "70%",
-    top: "75%",
-    color: "var(--nec-purple)",
-    opacity: 0.035,
-    duration: "46s",
-    delay: "-20s",
-    rotate: 45,
-  },
-  {
     id: "m1",
     Component: CompassParticle,
     size: 24,
@@ -228,66 +216,6 @@ const PARTICLES = [
     delay: "-14s",
     rotate: 20,
   },
-  {
-    id: "p2",
-    Component: PotionParticle,
-    size: 16,
-    left: "95%",
-    top: "70%",
-    color: "var(--nec-pink)",
-    opacity: 0.03,
-    duration: "43s",
-    delay: "-22s",
-    rotate: -8,
-  },
-  {
-    id: "c2",
-    Component: ClockParticle,
-    size: 18,
-    left: "25%",
-    top: "48%",
-    color: "var(--nec-gold)",
-    opacity: 0.03,
-    duration: "47s",
-    delay: "-18s",
-    rotate: 15,
-  },
-  {
-    id: "g3",
-    Component: GearParticle,
-    size: 16,
-    left: "50%",
-    top: "42%",
-    color: "var(--nec-gold)",
-    opacity: 0.025,
-    duration: "55s",
-    delay: "-25s",
-    rotate: -30,
-  },
-  {
-    id: "h2",
-    Component: HourglassParticle,
-    size: 14,
-    left: "82%",
-    top: "88%",
-    color: "var(--nec-cyan)",
-    opacity: 0.03,
-    duration: "41s",
-    delay: "-3s",
-    rotate: 8,
-  },
-  {
-    id: "d2",
-    Component: CardParticle,
-    size: 14,
-    left: "3%",
-    top: "82%",
-    color: "var(--nec-purple)",
-    opacity: 0.03,
-    duration: "49s",
-    delay: "-7s",
-    rotate: -25,
-  },
 ] as const
 
 export default function MadRealmParticles() {
@@ -296,7 +224,7 @@ export default function MadRealmParticles() {
       {PARTICLES.map(({ id, Component, size, left, top, color, opacity, duration, delay, rotate }, index) => (
         <div
           key={id}
-          className={`absolute mad-realm-particle${index >= 6 ? "hidden lg:block" : ""}`}
+          className={`absolute mad-realm-particle${index >= 4 ? " hidden lg:block" : ""}`}
           style={{
             left,
             top,
@@ -312,3 +240,4 @@ export default function MadRealmParticles() {
     </div>
   )
 }
+
