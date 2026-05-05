@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { ShieldCheck, Hotel, Home, Mail, ArrowRight, UtensilsCrossed, KeyRound } from "lucide-react"
 import { HOTEL_BOOKING_URL, CONTACT_EMAIL, CONVENTION_DATES, CONVENTION_VENUE } from "@/lib/constants"
 import AddToCalendar from "@/components/add-to-calendar"

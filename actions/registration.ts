@@ -1,9 +1,10 @@
 "use server"
 
-import { createHash } from "node:crypto"
+import { createHash, randomUUID } from "node:crypto"
 import { getPayload } from "payload"
 import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
+import { env } from "@/lib/env"
 import {
   BREAKFAST_PRODUCTS,
   REGISTRATION_PRODUCTS,
@@ -33,17 +34,27 @@ export async function startRegistrationCheckout(
   attribution?: PurchaseAttribution,
   scholarshipUnitAmountInCents?: number,
 ) {
-  const validatedProductId = productIdSchema.parse(productId)
-  const dataResult = registrationDataSchema.safeParse(registrationData)
-  if (!dataResult.success) {
+  let validatedProductId: string
+  let validatedData: import("@/lib/validation").ValidatedRegistrationData
+  let validatedScholarshipQty: number
+  let validatedScholarshipUnitAmount: number | undefined
+  let validatedBreakfastIds: string[]
+  let validatedAttribution: import("zod").infer<typeof import("@/lib/validation").purchaseAttributionSchema>
+  let validatedPolicy: import("@/lib/validation").ValidatedPolicyAgreements | null
+
+  try {
+    validatedProductId = productIdSchema.parse(productId)
+    validatedData = registrationDataSchema.parse(registrationData)
+    validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
+    validatedScholarshipUnitAmount = scholarshipUnitAmountCentsSchema.parse(scholarshipUnitAmountInCents)
+    validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
+    validatedAttribution = purchaseAttributionSchema.parse(attribution)
+    validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
+  } catch {
     throw new Error("Invalid registration data. Please check your information and try again.")
   }
-  const validatedData = dataResult.data
-  const validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
-  const validatedScholarshipUnitAmount = scholarshipUnitAmountCentsSchema.parse(scholarshipUnitAmountInCents)
-  const validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
-  const validatedAttribution = purchaseAttributionSchema.parse(attribution)
-  const validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
+
+  const uniqueBreakfastIds = [...new Set(validatedBreakfastIds)]
 
   const rl = await rateLimitCheckout(validatedData.email)
   if (!rl.success) {
@@ -72,7 +83,7 @@ export async function startRegistrationCheckout(
       : validatedScholarshipUnitAmount != null
         ? "custom"
         : "default_pre_registration"
-  const selectedBreakfasts = validatedBreakfastIds
+  const selectedBreakfasts = uniqueBreakfastIds
     .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
     .filter((bp): bp is (typeof BREAKFAST_PRODUCTS)[number] => Boolean(bp))
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
@@ -103,7 +114,7 @@ export async function startRegistrationCheckout(
     attendee_email: validatedData.email || "Not provided",
     scholarship_recipient_name: validatedData.scholarshipRecipientName || "None",
     scholarship_recipient_email: validatedData.scholarshipRecipientEmail || "None",
-    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ") || "None",
+    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ").slice(0, 500) || "None",
     breakfast_count: selectedBreakfasts.length.toString(),
     breakfast_price_version: "2026-03-26-$25",
     breakfast_ticket_price_cents: "2500",
@@ -111,7 +122,7 @@ export async function startRegistrationCheckout(
     attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
     accommodations: validatedData.isScholarship
       ? "Not provided (scholarship purchase)"
-      : validatedData.accommodations || "None",
+      : validatedData.accommodations?.slice(0, 500) || "None",
     interpretation_needed: validatedData.isScholarship
       ? "not_applicable"
       : validatedData.interpretationNeeded.toString(),
@@ -131,105 +142,113 @@ export async function startRegistrationCheckout(
     policy_signature_agreement: validatedPolicy ? validatedPolicy.signatureAgreement.toString() : "not_applicable",
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.necypaact.com"
-  const successUrl = `${baseUrl}/register/success?session_id={CHECKOUT_SESSION_ID}`
+  const successUrl = `${env.NEXT_PUBLIC_BASE_URL}/en/register/success?session_id={CHECKOUT_SESSION_ID}`
+
+  const payload = await getPayload({ config: configPromise })
+  const recordType =
+    selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
+      ? "self_plus_scholarship"
+      : validatedData.isScholarship
+        ? "scholarship"
+        : "self"
+
+  const record = await payload.create({
+    collection: "registrations",
+    data: {
+      email: validatedData.email || "",
+      name: validatedData.name || "Not provided",
+      state: validatedData.state || "",
+      status: "pending",
+      type: recordType,
+      stripeSessionId: "",
+      amountTotalCents: subtotalInCents + processingFee,
+      metadata: metadata,
+      accommodations: validatedData.accommodations || "",
+      interpretationNeeded: validatedData.interpretationNeeded || false,
+      mobilityAccessibility: validatedData.mobilityAccessibility || false,
+      willingToServe: validatedData.willingToServe || false,
+      homegroup: validatedData.homegroup || "",
+    },
+  })
 
   try {
-    const session = await stripe.checkout.sessions.create({
-      ui_mode: "embedded",
-      return_url: successUrl,
-      customer_email: validatedData.email || undefined,
-      line_items: [
-        ...(selfRegistrationQuantity > 0
-          ? [
-              {
-                price_data: {
-                  currency: "usd",
-                  product_data: {
-                    name: product.name,
-                    description: product.description,
+    const session = await stripe.checkout.sessions.create(
+      {
+        ui_mode: "embedded",
+        return_url: successUrl,
+        customer_email: validatedData.email || undefined,
+        line_items: [
+          ...(selfRegistrationQuantity > 0
+            ? [
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: product.name,
+                      description: product.description,
+                    },
+                    unit_amount: product.priceInCents,
                   },
-                  unit_amount: product.priceInCents,
+                  quantity: selfRegistrationQuantity,
                 },
-                quantity: selfRegistrationQuantity,
-              },
-            ]
-          : []),
-        ...(finalScholarshipQuantity > 0
-          ? [
-              {
-                price_data: {
-                  currency: "usd",
-                  product_data: {
-                    name: "Scholarship Registration",
-                    description:
-                      scholarshipAmountSource === "custom"
-                        ? "Sponsored NECYPAA XXXVI registration (custom amount)"
-                        : "Sponsored NECYPAA XXXVI registration",
+              ]
+            : []),
+          ...(finalScholarshipQuantity > 0
+            ? [
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: "Scholarship Registration",
+                      description:
+                        scholarshipAmountSource === "custom"
+                          ? "Sponsored NECYPAA XXXVI registration (custom amount)"
+                          : "Sponsored NECYPAA XXXVI registration",
+                    },
+                    unit_amount: scholarshipUnitAmountInUse,
                   },
-                  unit_amount: scholarshipUnitAmountInUse,
+                  quantity: finalScholarshipQuantity,
                 },
-                quantity: finalScholarshipQuantity,
+              ]
+            : []),
+          ...selectedBreakfasts.map((bp) => ({
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: bp.name,
+                description: bp.description,
               },
-            ]
-          : []),
-        ...selectedBreakfasts.map((bp) => ({
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: bp.name,
-              description: bp.description,
+              unit_amount: bp.priceInCents,
             },
-            unit_amount: bp.priceInCents,
-          },
-          quantity: 1,
-        })),
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Processing Fee",
-              description: "Credit card processing fee (2.9% + $0.30)",
+            quantity: 1,
+          })),
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: "Processing Fee",
+                description: "Credit card processing fee (2.9% + $0.30)",
+              },
+              unit_amount: processingFee,
             },
-            unit_amount: processingFee,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      metadata,
-      payment_intent_data: { metadata },
-    })
+        ],
+        mode: "payment",
+        metadata,
+        payment_intent_data: { metadata },
+      },
+      { idempotencyKey: randomUUID() },
+    )
 
     if (!session.client_secret) {
       throw new Error("We had trouble connecting to our payment system. Please try again in a moment.")
     }
 
-    const payload = await getPayload({ config: configPromise })
-    const recordType =
-      selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
-        ? "self_plus_scholarship"
-        : validatedData.isScholarship
-          ? "scholarship"
-          : "self"
-
-    await payload.create({
+    await payload.update({
       collection: "registrations",
-      data: {
-        email: validatedData.email || "",
-        name: validatedData.name || "Not provided",
-        state: validatedData.state || "",
-        status: "pending",
-        type: recordType,
-        stripeSessionId: session.id,
-        amountTotalCents: subtotalInCents + processingFee,
-        metadata: metadata,
-        accommodations: validatedData.accommodations || "",
-        interpretationNeeded: validatedData.interpretationNeeded || false,
-        mobilityAccessibility: validatedData.mobilityAccessibility || false,
-        willingToServe: validatedData.willingToServe || false,
-        homegroup: validatedData.homegroup || "",
-      },
+      id: record.id,
+      data: { stripeSessionId: session.id },
     })
 
     return session.client_secret
@@ -243,12 +262,15 @@ export async function submitAccessCodeRegistration(
   registrationData: RegistrationData,
   policyAgreements: PolicyAgreements,
 ): Promise<{ success: true } | { success: false; error: string }> {
-  const dataResult = registrationDataSchema.safeParse(registrationData)
-  if (!dataResult.success) {
+  let validatedData: import("@/lib/validation").ValidatedRegistrationData
+  let validatedPolicy: import("@/lib/validation").ValidatedPolicyAgreements
+
+  try {
+    validatedData = registrationDataSchema.parse(registrationData)
+    validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
+  } catch {
     return { success: false, error: "Invalid registration data. Please check your information and try again." }
   }
-  const validatedData = dataResult.data
-  const validatedPolicy = policyAgreementsSchema.parse(policyAgreements)
 
   if (!validatedData.accessCode) {
     return { success: false, error: "A registration access code is required." }
@@ -263,6 +285,26 @@ export async function submitAccessCodeRegistration(
     .update(`${validatedData.email.toLowerCase()}-${validatedData.accessCode}`)
     .digest("hex")
     .slice(0, 36)
+
+  const payload = await getPayload({ config: configPromise })
+
+  await payload.create({
+    collection: "registrations",
+    data: {
+      email: validatedData.email || "",
+      name: validatedData.name || "Not provided",
+      state: validatedData.state || "",
+      status: "comped",
+      type: "comp",
+      stripeSessionId: "",
+      amountTotalCents: 0,
+      accommodations: validatedData.accommodations || "",
+      interpretationNeeded: validatedData.interpretationNeeded || false,
+      mobilityAccessibility: validatedData.mobilityAccessibility || false,
+      willingToServe: validatedData.willingToServe || false,
+      homegroup: validatedData.homegroup || "",
+    },
+  })
 
   const result = await redeemRegistrationCode({
     code: validatedData.accessCode,
@@ -319,13 +361,9 @@ export async function submitAccessCodeRegistration(
         metadata,
       })
     }
-
-    return { success: true }
   } catch (error) {
-    console.error("Failed to save access code registration:", error)
-    return {
-      success: false,
-      error: "We had trouble saving your registration. Please try again in a moment.",
-    }
+    console.error("Stripe customer operation failed for comped registration:", error)
   }
+
+  return { success: true }
 }

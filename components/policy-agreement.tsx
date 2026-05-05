@@ -212,7 +212,7 @@ export default function PolicyAgreement({
             <Checkbox
               id="readPolicy"
               checked={agreements.readPolicy}
-              onCheckedChange={(checked) => setAgreements({ ...agreements, readPolicy: checked as boolean })}
+              onCheckedChange={(checked) => setAgreements({ ...agreements, readPolicy: checked === true })}
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
@@ -229,7 +229,7 @@ export default function PolicyAgreement({
             <Checkbox
               id="understandQuestions"
               checked={agreements.understandQuestions}
-              onCheckedChange={(checked) => setAgreements({ ...agreements, understandQuestions: checked as boolean })}
+              onCheckedChange={(checked) => setAgreements({ ...agreements, understandQuestions: checked === true })}
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
@@ -246,7 +246,7 @@ export default function PolicyAgreement({
             <Checkbox
               id="acknowledgeBehavior"
               checked={agreements.acknowledgeBehavior}
-              onCheckedChange={(checked) => setAgreements({ ...agreements, acknowledgeBehavior: checked as boolean })}
+              onCheckedChange={(checked) => setAgreements({ ...agreements, acknowledgeBehavior: checked === true })}
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
@@ -264,7 +264,7 @@ export default function PolicyAgreement({
             <Checkbox
               id="understandAdmission"
               checked={agreements.understandAdmission}
-              onCheckedChange={(checked) => setAgreements({ ...agreements, understandAdmission: checked as boolean })}
+              onCheckedChange={(checked) => setAgreements({ ...agreements, understandAdmission: checked === true })}
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
@@ -282,7 +282,7 @@ export default function PolicyAgreement({
             <Checkbox
               id="understandReporting"
               checked={agreements.understandReporting}
-              onCheckedChange={(checked) => setAgreements({ ...agreements, understandReporting: checked as boolean })}
+              onCheckedChange={(checked) => setAgreements({ ...agreements, understandReporting: checked === true })}
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />
@@ -301,7 +301,7 @@ export default function PolicyAgreement({
               id="understandInvestigation"
               checked={agreements.understandInvestigation}
               onCheckedChange={(checked) =>
-                setAgreements({ ...agreements, understandInvestigation: checked as boolean })
+                setAgreements({ ...agreements, understandInvestigation: checked === true })
               }
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
@@ -319,7 +319,7 @@ export default function PolicyAgreement({
             <Checkbox
               id="signatureAgreement"
               checked={agreements.signatureAgreement}
-              onCheckedChange={(checked) => setAgreements({ ...agreements, signatureAgreement: checked as boolean })}
+              onCheckedChange={(checked) => setAgreements({ ...agreements, signatureAgreement: checked === true })}
               className="mt-1 border-[var(--nec-border)]"
               aria-required="true"
             />

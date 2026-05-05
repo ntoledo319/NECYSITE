@@ -11,6 +11,9 @@ const envSchema = z.object({
   UPSTASH_REDIS_REST_URL: z.string().url().optional(),
   UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  GOOGLE_CALENDAR_API_KEY: z.string().optional(),
+  NEXT_PUBLIC_GA_ID: z.string().optional(),
+  SKIP_PAYLOAD_AT_BUILD: z.string().optional(),
 })
 
 function parseEnv() {
@@ -25,14 +28,18 @@ function parseEnv() {
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    GOOGLE_CALENDAR_API_KEY: process.env.GOOGLE_CALENDAR_API_KEY,
+    NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+    SKIP_PAYLOAD_AT_BUILD: process.env.SKIP_PAYLOAD_AT_BUILD,
   }
 
   const parsed = envSchema.safeParse(raw)
 
   if (!parsed.success) {
     const messages = parsed.error.issues.map((i) => `  - ${i.path.join(".")}: ${i.message}`).join("\n")
-    // Warn instead of throwing so builds don't fail in contexts where some optional vars are missing.
-    // Call validateEnv() at app startup in production to enforce strictly.
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(`Invalid environment variables:\n${messages}`)
+    }
     if (typeof console !== "undefined" && process.env.NODE_ENV !== "test") {
       console.warn(`[env] Environment validation warnings:\n${messages}`)
     }
@@ -55,10 +62,17 @@ export function validateEnv(): void {
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    GOOGLE_CALENDAR_API_KEY: process.env.GOOGLE_CALENDAR_API_KEY,
+    NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+    SKIP_PAYLOAD_AT_BUILD: process.env.SKIP_PAYLOAD_AT_BUILD,
   })
 
   if (!parsed.success) {
     const messages = parsed.error.issues.map((i) => `  - ${i.path.join(".")}: ${i.message}`).join("\n")
     throw new Error(`Invalid environment variables:\n${messages}`)
   }
+}
+
+if (process.env.NODE_ENV === "production") {
+  validateEnv()
 }

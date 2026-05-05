@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.necypaact.com"
+const LOCALES = ["en", "es"]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
@@ -22,9 +23,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/bid", priority: 0.4, changeFrequency: "monthly" as const },
   ]
 
-  return routes.map((route) => ({
-    url: `${BASE_URL}${route.path}`,
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  }))
+  return routes.flatMap((route) =>
+    LOCALES.map((locale) => ({
+      url: `${BASE_URL}/${locale}${route.path === "/" ? "" : route.path}`,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    }))
+  )
 }

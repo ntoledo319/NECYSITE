@@ -8,7 +8,7 @@ export interface RegistrationData {
   mobilityAccessibility: boolean
   willingToServe: boolean
   homegroup: string
-  isScholarship?: boolean
+  isScholarship: boolean
   scholarshipRecipientName?: string
   scholarshipRecipientEmail?: string
   accessCode?: string

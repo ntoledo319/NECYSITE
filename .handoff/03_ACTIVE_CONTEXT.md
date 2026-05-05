@@ -141,6 +141,18 @@ Vercel Analytics (already running) + GA4 = complete picture:
 - Vercel: Core Web Vitals, performance, deployment correlation
 - GA4: User behavior, conversions, demographics, geographic breakdowns
 
+## Latest Changes (2026-05-04)
+
+### Config & i18n Hardening
+- **`middleware.ts`** — Added `/media` to the `next-intl` matcher exclusion list so Payload CMS uploads bypass locale middleware.
+- **`next.config.mjs`** — CSP `connect-src` now dynamically includes the `ISSUER_SERVICE_BASE_URL` origin at build time.
+- **`app/sitemap.ts`** — Fixed to emit fully localized paths (`/en/register`, `/es/register`, etc.) instead of non-locale paths.
+- **`i18n/navigation.ts`** — Verified `createNavigation` export. Updated `SiteHeader`, `SiteFooter`, `PageShell`, and `MobileCtaBar` to import `Link` from `@/i18n/navigation` so locale prefixes are preserved on client-side navigation.
+
+### Documentation Updates
+- **`docs/tech-debt-and-gaps.md`** — Added "Recently Fixed (2026-05-04)" section documenting the config and i18n hardening items.
+- **`docs/testing.md`** — Updated stale references (Stripe webhook handler now exists, blog content now CMS-backed) and added a "Recent Fixes" section.
+
 ## Final Report Requirements
 
 Refer to `GEMINI.md` for the final report structure.

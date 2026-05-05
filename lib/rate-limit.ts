@@ -92,8 +92,18 @@ export async function rateLimit(key: string, options: RateLimitOptions): Promise
   pipeline.zadd(redisKey, { score: now, member: `${now}-${Math.random()}` })
   pipeline.expire(redisKey, windowSecs)
 
-  const results = await pipeline.exec()
-  const count = results[1] as number
+  let results: unknown
+  try {
+    results = await pipeline.exec()
+  } catch {
+    return rateLimitInMemory(key, options)
+  }
+
+  if (!Array.isArray(results) || typeof results[1] !== "number") {
+    return rateLimitInMemory(key, options)
+  }
+
+  const count = results[1]
 
   if (count >= limit) {
     // If blocked, we added a member we shouldn't have, but it will expire anyway.
@@ -113,9 +123,9 @@ export async function rateLimit(key: string, options: RateLimitOptions): Promise
 }
 
 export async function rateLimitCheckout(key: string): Promise<RateLimitResult> {
-  return rateLimit(key, { limit: 5, windowMs: 60_000 })
+  return rateLimit(`checkout:${key}`, { limit: 5, windowMs: 60_000 })
 }
 
 export async function rateLimitCodeRedemption(key: string): Promise<RateLimitResult> {
-  return rateLimit(key, { limit: 3, windowMs: 60_000 })
+  return rateLimit(`code:${key}`, { limit: 3, windowMs: 60_000 })
 }

@@ -1,6 +1,6 @@
 # Technical Debt & Gap Analysis
 
-> Last updated: 2026-03-23
+> Last updated: 2026-05-04
 > Audit scope: Full codebase scan — app/, components/, lib/, actions/, collections/, e2e/
 
 ## Sizing Legend
@@ -190,6 +190,15 @@ No automated check prevents bundle size regressions. The shared JS bundle is cur
 **Fix:** Add `@next/bundle-analyzer` or a size-limit CI check.
 
 ---
+
+## Recently Fixed (2026-05-04)
+
+### Config & i18n Hardening
+
+- **`middleware.ts`** — Added `/media` to the matcher exclusion list so Payload CMS file uploads bypass `next-intl` middleware.
+- **`next.config.mjs`** — Made CSP `connect-src` dynamic at build time: automatically includes `ISSUER_SERVICE_BASE_URL` origin when defined.
+- **`app/sitemap.ts`** — Fixed sitemap to emit fully localized paths (`/en/register`, `/es/register`, etc.) instead of bare root-relative paths.
+- **i18n navigation** — Verified `createNavigation` export in `i18n/navigation.ts` and switched structural components (`SiteHeader`, `SiteFooter`, `PageShell`, `MobileCtaBar`) to import `Link` from `@/i18n/navigation` so locale prefixes are preserved on client-side transitions.
 
 ## Summary
 

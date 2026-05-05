@@ -16,7 +16,6 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
   const router = useRouter()
   const [accessCodeError, setAccessCodeError] = useState<string | null>(null)
   const [isSubmittingCode, setIsSubmittingCode] = useState(false)
-  const [accessCodeSuccess, setAccessCodeSuccess] = useState(false)
 
   const handleAccessCodeSubmit = async () => {
     if (!policyAgreements) {
@@ -35,7 +34,6 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
         return
       }
 
-      setAccessCodeSuccess(true)
       router.push("/register/success?flow=access-code")
     } catch {
       setAccessCodeError(
@@ -79,26 +77,19 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
           <div
             className="rounded-lg border border-red-700 bg-red-900/30 p-3 text-center text-sm text-red-300"
             role="alert"
-            aria-live="assertive"
           >
             {accessCodeError}
           </div>
         )}
       </div>
 
-      {accessCodeSuccess ? (
-        <div className="py-4 text-center" role="status" aria-live="polite">
-          <p className="font-semibold text-[var(--nec-text)]">Registration complete! Redirecting&hellip;</p>
-        </div>
-      ) : (
-        <Button
-          onClick={handleAccessCodeSubmit}
-          disabled={isSubmittingCode}
-          className="w-full bg-[var(--nec-pink)] py-6 text-lg font-bold text-[var(--nec-text)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
-        >
-          {isSubmittingCode ? "Completing Registration\u2026" : "Complete Registration"}
-        </Button>
-      )}
+      <Button
+        onClick={handleAccessCodeSubmit}
+        disabled={isSubmittingCode}
+        className="w-full bg-[var(--nec-pink)] py-6 text-lg font-bold text-[var(--nec-text)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
+      >
+        {isSubmittingCode ? "Completing Registration\u2026" : "Complete Registration"}
+      </Button>
     </div>
   )
 }

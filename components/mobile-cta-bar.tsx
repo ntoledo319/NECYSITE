@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import { SPRING_SNAPPY } from "@/components/ui/motion-primitives"

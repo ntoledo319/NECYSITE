@@ -39,7 +39,7 @@
 
 1. **Server actions (integration)** — `startRegistrationCheckout`, `startBreakfastCheckout`, `submitFreeRegistration`, and `submitAccessCodeRegistration` have no integration tests. The validation layer is tested via unit tests, but the full flow (validate → rate limit → Stripe API → return) is untested. This requires mocking the Stripe SDK.
 
-2. **Stripe webhook handler** — Does not exist yet (see `docs/tech-debt-and-gaps.md` P0 #1). When implemented, it will need tests for signature verification, idempotent event processing, and error handling.
+2. **Stripe webhook handler** — Implemented at `app/api/webhooks/stripe/route.ts` with signature verification, idempotent event processing, and error handling. Unit tests exist in `lib/__tests__/webhook-handler.test.ts`. Integration tests against a mocked Stripe client are still a gap.
 
 3. **React component rendering** — No snapshot or interaction tests for key components like `RegistrationForm`, `BreakfastCheckout`, `AccessibilityPanel`, or `StateCard`. These rely on manual QA and Playwright's axe-core scans.
 
@@ -49,7 +49,7 @@
 
 5. **Game components** — Seven retro games in `components/games/` have no tests. They are Easter eggs and non-critical.
 
-6. **Blog post rendering** — No tests for the blog index or dynamic `[slug]` page. Content comes from static data currently.
+6. **Blog post rendering** — No tests for the blog index or dynamic `[slug]` page. Content now comes from Payload CMS with static fallback.
 
 7. **Sitemap generation** — `app/sitemap.ts` has no tests verifying it returns valid XML with correct URLs.
 
@@ -69,6 +69,11 @@ pnpm test:a11y
 # Accessibility tests with UI debugger
 pnpm test:a11y:ui
 ```
+
+## Recent Fixes (2026-05-04)
+
+- **Sitemap localization** — `app/sitemap.ts` now outputs locale-prefixed URLs (`/en/*`, `/es/*`). Consider adding a unit test that validates sitemap shape and locale coverage.
+- **i18n `Link` usage** — Core layout components (`SiteHeader`, `SiteFooter`, `PageShell`, `MobileCtaBar`) now use `Link` from `@/i18n/navigation` to preserve locale on transitions.
 
 ## Writing New Tests
 

@@ -1,8 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
+import { loadStripe, type Stripe } from "@stripe/stripe-js"
 import { startBreakfastCheckout } from "@/actions/breakfast"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
 import { Button } from "@/components/ui/button"
@@ -15,13 +15,16 @@ export default function BreakfastCheckout() {
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [breakfastSelections, setBreakfastSelections] = useState<Record<string, boolean>>({})
-  const [stripePromise, setStripePromise] = useState<ReturnType<typeof loadStripe> | null>(null)
+  const [stripePromise, setStripePromise] = useState<Stripe | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [checkoutReady, setCheckoutReady] = useState(false)
   const [checkoutKey, setCheckoutKey] = useState(0)
 
-  const selectedBreakfasts = BREAKFAST_PRODUCTS.filter((bp) => breakfastSelections[bp.id])
+  const selectedBreakfasts = useMemo(
+    () => BREAKFAST_PRODUCTS.filter((bp) => breakfastSelections[bp.id]),
+    [breakfastSelections],
+  )
   const subtotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
   const processingFee = subtotalCents > 0 ? calculateProcessingFee(subtotalCents) / 100 : 0
   const totalAmount = subtotalCents / 100 + processingFee
@@ -54,7 +57,11 @@ export default function BreakfastCheckout() {
   useEffect(() => {
     const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
     if (key) {
-      setStripePromise(loadStripe(key))
+      loadStripe(key)
+        .then(setStripePromise)
+        .catch(() =>
+          setError("We're having trouble loading the payment form. Please refresh the page or try again in a moment."),
+        )
     } else {
       setError("We're having trouble loading the payment form. Please refresh the page or try again in a moment.")
     }
@@ -78,9 +85,11 @@ export default function BreakfastCheckout() {
           ? err.message
           : "Something didn't go as planned. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
       )
-      throw err
+      return Promise.reject(err)
     }
   }, [email, firstName, lastName, selectedBreakfasts])
+
+  const options = useMemo(() => ({ fetchClientSecret }), [fetchClientSecret])
 
   const proceedToPayment = () => {
     setCheckoutKey((prev) => prev + 1)
@@ -146,7 +155,7 @@ export default function BreakfastCheckout() {
                         })
                     }}
                     onBlur={() => validateField("firstName", firstName)}
-                    required
+                    maxLength={100}
                     aria-required="true"
                     aria-invalid={!!errors.firstName}
                     aria-describedby={errors.firstName ? "firstName-error" : undefined}
@@ -181,7 +190,7 @@ export default function BreakfastCheckout() {
                         })
                     }}
                     onBlur={() => validateField("lastName", lastName)}
-                    required
+                    maxLength={100}
                     aria-required="true"
                     aria-invalid={!!errors.lastName}
                     aria-describedby={errors.lastName ? "lastName-error" : undefined}
@@ -218,7 +227,7 @@ export default function BreakfastCheckout() {
                       })
                   }}
                   onBlur={() => validateField("email", email)}
-                  required
+                  maxLength={320}
                   aria-required="true"
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "email-error" : undefined}
@@ -244,10 +253,16 @@ export default function BreakfastCheckout() {
               </p>
 
               {fridayProduct && (
-                <button
-                  type="button"
+                <div
+                  role="button"
+                  tabIndex={0}
                   onClick={() => toggleBreakfast(fridayProduct.id, !breakfastSelections[fridayProduct.id])}
-                  aria-pressed={breakfastSelections[fridayProduct.id] || false}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      toggleBreakfast(fridayProduct.id, !breakfastSelections[fridayProduct.id])
+                    }
+                  }}
                   className="w-full rounded-[1.45rem] border px-4 py-4 text-left transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5"
                   style={{
                     background: breakfastSelections[fridayProduct.id]
@@ -262,9 +277,8 @@ export default function BreakfastCheckout() {
                     <Checkbox
                       id={fridayProduct.id}
                       checked={breakfastSelections[fridayProduct.id] || false}
-                      onCheckedChange={(checked) => toggleBreakfast(fridayProduct.id, checked as boolean)}
+                      onCheckedChange={(checked) => toggleBreakfast(fridayProduct.id, checked === true)}
                       className="mt-1 border-[var(--nec-gold)] data-[state=checked]:border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)]"
-                      onClick={(e) => e.stopPropagation()}
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-4">
@@ -283,16 +297,22 @@ export default function BreakfastCheckout() {
                       </p>
                     </div>
                   </div>
-                </button>
+                </div>
               )}
 
               <div className="grid gap-3 sm:grid-cols-2">
                 {weekendProducts.map((bp) => (
-                  <button
+                  <div
                     key={bp.id}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => toggleBreakfast(bp.id, !breakfastSelections[bp.id])}
-                    aria-pressed={breakfastSelections[bp.id] || false}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        toggleBreakfast(bp.id, !breakfastSelections[bp.id])
+                      }
+                    }}
                     className="nec-breakfast-option w-full rounded-[1.35rem] border px-4 py-4 text-left transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5"
                     style={{
                       background: breakfastSelections[bp.id]
@@ -305,9 +325,8 @@ export default function BreakfastCheckout() {
                       <Checkbox
                         id={bp.id}
                         checked={breakfastSelections[bp.id] || false}
-                        onCheckedChange={(checked) => toggleBreakfast(bp.id, checked as boolean)}
+                        onCheckedChange={(checked) => toggleBreakfast(bp.id, checked === true)}
                         className="border-[var(--nec-border)] data-[state=checked]:border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)]"
-                        onClick={(e) => e.stopPropagation()}
                       />
                       <div className="flex flex-1 items-center justify-between gap-4">
                         <Label htmlFor={bp.id} className="cursor-pointer text-sm text-[var(--nec-text)]">
@@ -316,7 +335,7 @@ export default function BreakfastCheckout() {
                         <span className="text-sm font-medium text-[var(--nec-text)]">$25</span>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -361,7 +380,7 @@ export default function BreakfastCheckout() {
         </div>
       ) : (
         <div key={checkoutKey} className="nec-stripe-embed min-h-[400px] rounded-[1.8rem] p-4">
-          <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
+          <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>
         </div>

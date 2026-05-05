@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"

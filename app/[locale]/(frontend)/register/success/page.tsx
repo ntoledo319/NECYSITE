@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { stripe } from "@/lib/stripe"
 import RegistrationConfirmed, { type VerifiedRegistration } from "./registration-confirmed"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { AlertCircle, Clock, Mail } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"

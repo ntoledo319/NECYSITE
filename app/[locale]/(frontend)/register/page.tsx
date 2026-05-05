@@ -59,8 +59,27 @@ export default function RegisterPage() {
   }
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" })
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }, [currentStep])
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("necypaa-registration-state")
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (parsed.currentStep) setCurrentStep(parsed.currentStep)
+        if (parsed.registrationData) setRegistrationData(parsed.registrationData)
+        if (parsed.policyAgreements !== undefined) setPolicyAgreements(parsed.policyAgreements)
+      } catch {
+        // ignore parse errors
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const state = { currentStep, registrationData, policyAgreements }
+    sessionStorage.setItem("necypaa-registration-state", JSON.stringify(state))
+  }, [currentStep, registrationData, policyAgreements])
 
   const isScholarshipFlow = registrationData?.isScholarship === true
 

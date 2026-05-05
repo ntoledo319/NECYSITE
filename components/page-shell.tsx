@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { motion, useReducedMotion } from "framer-motion"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"

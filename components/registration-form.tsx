@@ -81,9 +81,9 @@ export default function RegistrationForm({
   const updateField = <K extends keyof RegistrationData>(field: K, value: RegistrationData[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
     setErrors((prev) => {
-      if (!prev[field as string]) return prev
+      if (!prev[field]) return prev
       const next = { ...prev }
-      delete next[field as string]
+      delete next[field]
       return next
     })
   }
@@ -164,6 +164,7 @@ export default function RegistrationForm({
               onClick={() => {
                 updateField("isScholarship", false)
                 updateField("accessCode", "")
+                setShowAccessCodeField(false)
               }}
             >
               <p className="form-section-label">Standard Registration</p>
@@ -183,6 +184,7 @@ export default function RegistrationForm({
               onClick={() => {
                 updateField("isScholarship", true)
                 updateField("accessCode", "")
+                setShowAccessCodeField(false)
               }}
             >
               <p className="form-section-label">Scholarship Purchase</p>
@@ -214,7 +216,6 @@ export default function RegistrationForm({
             <Input
               id="name"
               type="text"
-              required
               aria-required="true"
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "name-error" : undefined}
@@ -239,7 +240,6 @@ export default function RegistrationForm({
             <Input
               id="email"
               type="email"
-              required
               aria-required="true"
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
@@ -263,7 +263,6 @@ export default function RegistrationForm({
             </Label>
             <select
               id="state"
-              required
               aria-required="true"
               aria-invalid={!!errors.state}
               aria-describedby={errors.state ? "state-error" : undefined}
@@ -295,7 +294,6 @@ export default function RegistrationForm({
             <Input
               id="homegroup"
               type="text"
-              required
               aria-required="true"
               aria-invalid={!!errors.homegroup}
               aria-describedby={errors.homegroup ? "homegroup-error" : undefined}
@@ -438,6 +436,7 @@ export default function RegistrationForm({
                 value={formData.accessCode}
                 onChange={(e) => updateField("accessCode", e.target.value)}
                 placeholder="Enter your code"
+                maxLength={50}
                 autoComplete="off"
               />
               <p className="text-sm leading-6 text-[var(--nec-muted)]">

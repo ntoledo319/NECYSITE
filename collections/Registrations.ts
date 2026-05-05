@@ -9,7 +9,7 @@ export const Registrations: CollectionConfig = {
   },
   access: {
     read: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "registration"),
-    create: () => true, // Allows server actions to create using local API if needed, though local API bypasses access control anyway
+    create: ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "registration"),
     delete: ({ req: { user } }) => Boolean(user?.role === "admin"),
   },
@@ -40,9 +40,11 @@ export const Registrations: CollectionConfig = {
         { label: "Paid", value: "paid" },
         { label: "Failed", value: "failed" },
         { label: "Refunded", value: "refunded" },
+        { label: "Partially Refunded", value: "partially_refunded" },
         { label: "Comped", value: "comped" },
         { label: "Cash", value: "cash" },
         { label: "Canceled", value: "canceled" },
+        { label: "Disputed", value: "disputed" },
       ],
       defaultValue: "pending",
       required: true,

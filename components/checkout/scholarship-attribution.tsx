@@ -1,5 +1,7 @@
 "use client"
 
+import { Input } from "@/components/ui/input"
+
 interface ScholarshipAttributionProps {
   aaEntity: string
   onAaEntityChange: (value: string) => void
@@ -26,14 +28,20 @@ export default function ScholarshipAttribution({
         <label htmlFor="aaEntity" className="mb-1 block text-sm text-[var(--nec-muted)]">
           YPAA Committee, Meeting, District, Area, or State (optional)
         </label>
-        <input
+        <Input
           id="aaEntity"
           type="text"
           value={aaEntity}
           onChange={(e) => onAaEntityChange(e.target.value)}
           placeholder="Example: CT Bid for ICYPAA, District 5, CT Area 11, New Haven YP Meeting"
-          className="w-full rounded-xl border border-[var(--nec-border)] bg-[var(--nec-card)] px-3 py-2 text-sm text-[var(--nec-text)] focus:outline-none focus:ring-2 focus:ring-pink-500"
+          maxLength={200}
+          aria-invalid={false}
+          aria-describedby="aaEntity-help"
+          className="w-full"
         />
+        <p id="aaEntity-help" className="sr-only">
+          Optional attribution for this scholarship purchase
+        </p>
       </div>
 
       <div className="space-y-2">
@@ -41,7 +49,7 @@ export default function ScholarshipAttribution({
           Reserved for individual (optional)
         </span>
         {reservedForPeople.map((name, index) => (
-          <input
+          <Input
             key={`reserved-person-${index}`}
             type="text"
             value={name}
@@ -49,7 +57,10 @@ export default function ScholarshipAttribution({
             placeholder="John S, Middletown USA"
             aria-labelledby="reserved-for-label"
             aria-label={`Reserved for person ${index + 1}`}
-            className="w-full rounded-xl border border-[var(--nec-border)] bg-[var(--nec-card)] px-3 py-2 text-sm text-[var(--nec-text)] focus:outline-none focus:ring-2 focus:ring-pink-500"
+            maxLength={200}
+            aria-invalid={false}
+            aria-describedby="reserved-for-label"
+            className="w-full"
           />
         ))}
         {effectiveScholarshipQuantity > 1 && (

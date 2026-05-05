@@ -15,8 +15,8 @@ export const registrationDataSchema = z.object({
   interpretationNeeded: z.boolean(),
   mobilityAccessibility: z.boolean(),
   willingToServe: z.boolean(),
-  homegroup: sanitizedString(300).default(""),
-  isScholarship: z.boolean(),
+  homegroup: sanitizedString(300).pipe(z.string().min(1, "Homegroup is required")),
+  isScholarship: z.boolean().default(false),
   scholarshipRecipientName: sanitizedString(200).default(""),
   scholarshipRecipientEmail: z
     .string()
@@ -45,6 +45,7 @@ export const purchaseAttributionSchema = z
     aaEntity: sanitizedString(200).optional(),
     reservedForPerson: sanitizedString(200).optional(),
   })
+  .nullable()
   .optional()
 
 export const breakfastAttendeeSchema = z.object({
@@ -55,10 +56,13 @@ export const breakfastAttendeeSchema = z.object({
 
 export type ValidatedBreakfastAttendee = z.infer<typeof breakfastAttendeeSchema>
 
-export const breakfastIdsSchema = z.array(z.string().max(50)).max(20)
+export const breakfastIdsSchema = z
+  .array(z.string().max(50))
+  .max(20)
+  .transform((arr) => [...new Set(arr)])
 
 export const productIdSchema = z.string().max(50).min(1, "Product ID is required")
 
-export const scholarshipQuantitySchema = z.number().int().min(0).max(50).default(0)
+export const scholarshipQuantitySchema = z.number().int().min(0).max(20).default(0)
 
 export const scholarshipUnitAmountCentsSchema = z.number().int().min(100).max(1_000_000).optional()

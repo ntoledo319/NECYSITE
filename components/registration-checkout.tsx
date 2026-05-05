@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
+import { loadStripe, type Stripe } from "@stripe/stripe-js"
 import { startRegistrationCheckout } from "@/actions/registration"
 import { Button } from "@/components/ui/button"
 import {
@@ -31,7 +31,7 @@ export default function RegistrationCheckout({
 }: RegistrationCheckoutProps) {
   const hasAccessCode = (registrationData.accessCode ?? "").trim().length > 0
 
-  const [stripePromise, setStripePromise] = useState<ReturnType<typeof loadStripe> | null>(null)
+  const [stripePromise, setStripePromise] = useState<Stripe | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
   const [isScholarshipMode, setIsScholarshipMode] = useState(registrationData.isScholarship)
@@ -43,6 +43,7 @@ export default function RegistrationCheckout({
   const [breakfastSelections, setBreakfastSelections] = useState<Record<string, boolean>>({})
   const [checkoutReady, setCheckoutReady] = useState(false)
   const [checkoutKey, setCheckoutKey] = useState(0)
+  const [isProceeding, setIsProceeding] = useState(false)
 
   const product = REGISTRATION_PRODUCTS.find((p) => p.id === "necypaa-xxxvi-registration")
   const unitRegistrationFeeCents = product?.priceInCents || 0
@@ -50,7 +51,7 @@ export default function RegistrationCheckout({
 
   useEffect(() => {
     setScholarshipAmountInput(formatUsdFromCents(unitRegistrationFeeCents))
-  }, [unitRegistrationFeeCents])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const selfRegistrationQuantity = registrationData.isScholarship ? 0 : 1
   const effectiveScholarshipQuantity = isScholarshipMode ? scholarshipQuantity : 0
@@ -91,7 +92,11 @@ export default function RegistrationCheckout({
     if (hasAccessCode) return
     const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
     if (key) {
-      setStripePromise(loadStripe(key))
+      loadStripe(key)
+        .then(setStripePromise)
+        .catch(() =>
+          setError("We're having trouble loading the payment form. Please refresh the page or try again in a moment."),
+        )
     } else {
       setError("We're having trouble loading the payment form. Please refresh the page or try again in a moment.")
     }
@@ -99,9 +104,12 @@ export default function RegistrationCheckout({
 
   useEffect(() => {
     if (!isScholarshipMode) return
-    setReservedForPeople((prev) =>
-      prev.length <= effectiveScholarshipQuantity ? prev : prev.slice(0, effectiveScholarshipQuantity),
-    )
+    setReservedForPeople((prev) => {
+      if (prev.length < effectiveScholarshipQuantity) {
+        return [...prev, ...Array(effectiveScholarshipQuantity - prev.length).fill("")]
+      }
+      return prev.length > effectiveScholarshipQuantity ? prev.slice(0, effectiveScholarshipQuantity) : prev
+    })
   }, [effectiveScholarshipQuantity, isScholarshipMode])
 
   const fetchClientSecret = useCallback(async () => {
@@ -127,7 +135,7 @@ export default function RegistrationCheckout({
           ? err.message
           : "Something didn't go as planned. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
       )
-      throw err
+      return Promise.reject(err)
     }
   }, [
     aaEntity,
@@ -141,6 +149,8 @@ export default function RegistrationCheckout({
   ])
 
   const resetCheckout = () => setCheckoutReady(false)
+
+  const options = useMemo(() => ({ fetchClientSecret }), [fetchClientSecret])
 
   const toggleBreakfast = (productId: string, checked: boolean) => {
     setBreakfastSelections((prev) => ({ ...prev, [productId]: checked }))
@@ -165,7 +175,7 @@ export default function RegistrationCheckout({
   }
 
   const removeReservedPersonField = () => {
-    setReservedForPeople((prev) => (prev.length <= 1 ? prev : prev.slice(0, -1)))
+    setReservedForPeople((prev) => prev.slice(0, -1))
     setValidationError(null)
     resetCheckout()
   }
@@ -200,13 +210,13 @@ export default function RegistrationCheckout({
     resetCheckout()
   }
 
-  const toggleCustomScholarshipAmount = () => {
+  const toggleCustomScholarshipAmount = (mode: boolean) => {
     setUseCustomScholarshipAmount((prev) => {
-      const next = !prev
-      if (next && parseUsdInputToCents(scholarshipAmountInput) == null) {
+      if (prev === mode) return prev
+      if (mode && parseUsdInputToCents(scholarshipAmountInput) == null) {
         setScholarshipAmountInput(formatUsdFromCents(defaultScholarshipUnitAmountCents))
       }
-      return next
+      return mode
     })
     setValidationError(null)
     resetCheckout()
@@ -232,6 +242,7 @@ export default function RegistrationCheckout({
     }
 
     setValidationError(null)
+    setIsProceeding(true)
     setCheckoutKey((prev) => prev + 1)
     setCheckoutReady(true)
   }
@@ -251,7 +262,7 @@ export default function RegistrationCheckout({
         <div
           className="flex min-h-[400px] items-center justify-center rounded-2xl border border-[var(--nec-border)] bg-[var(--nec-card)] p-4"
           role="alert"
-          aria-live="assertive"
+          aria-live="polite"
         >
           <div className="space-y-2 text-center">
             <p className="font-semibold text-[hsl(var(--destructive))]">Hmm, something went wrong</p>
@@ -382,7 +393,7 @@ export default function RegistrationCheckout({
         <div
           className="rounded-xl border border-[rgba(var(--nec-pink-rgb),0.24)] bg-[rgba(var(--nec-pink-rgb),0.08)] px-4 py-3 text-sm text-[var(--nec-text)]"
           role="alert"
-          aria-live="assertive"
+          aria-live="polite"
         >
           {validationError}
         </div>
@@ -403,14 +414,14 @@ export default function RegistrationCheckout({
       )}
 
       {!checkoutReady ? (
-        <Button onClick={proceedToPayment} disabled={totalAmount == null} className="w-full py-6 text-lg">
+        <Button onClick={proceedToPayment} disabled={totalAmount == null || Number.isNaN(totalAmount) || isProceeding} className="w-full py-6 text-lg">
           {totalAmount != null
             ? `Proceed to Payment - $${totalAmount.toFixed(2)}`
             : "Add Scholarship Amount To Continue"}
         </Button>
       ) : (
         <div key={checkoutKey} id="checkout" className="nec-stripe-embed min-h-[400px] p-4">
-          <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
+          <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>
         </div>

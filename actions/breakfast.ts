@@ -1,27 +1,34 @@
 "use server"
 
+import { randomUUID } from "node:crypto"
 import { getPayload } from "payload"
 import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
+import { env } from "@/lib/env"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
 import { rateLimitCheckout } from "@/lib/rate-limit"
 import { breakfastAttendeeSchema, breakfastIdsSchema } from "@/lib/validation"
 import type { BreakfastAttendee } from "@/lib/types"
 
 export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakfastIds: string[]) {
-  const attendeeResult = breakfastAttendeeSchema.safeParse(attendee)
-  if (!attendeeResult.success) {
+  let validatedAttendee: import("@/lib/validation").ValidatedBreakfastAttendee
+  let validatedIds: string[]
+
+  try {
+    validatedAttendee = breakfastAttendeeSchema.parse(attendee)
+    validatedIds = breakfastIdsSchema.parse(breakfastIds)
+  } catch {
     throw new Error("Invalid attendee data. Please check your information and try again.")
   }
-  const validatedAttendee = attendeeResult.data
-  const validatedIds = breakfastIdsSchema.parse(breakfastIds)
+
+  const uniqueBreakfastIds = [...new Set(validatedIds)]
 
   const rl = await rateLimitCheckout(validatedAttendee.email)
   if (!rl.success) {
     throw new Error("Too many checkout attempts. Please wait a moment and try again.")
   }
 
-  const selectedBreakfasts = validatedIds
+  const selectedBreakfasts = uniqueBreakfastIds
     .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
     .filter((bp): bp is (typeof BREAKFAST_PRODUCTS)[number] => Boolean(bp))
 
@@ -37,73 +44,81 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
     attendee_first_name: validatedAttendee.firstName,
     attendee_last_name: validatedAttendee.lastName,
     attendee_email: validatedAttendee.email,
-    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", "),
+    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ").slice(0, 500),
     breakfast_count: selectedBreakfasts.length.toString(),
     breakfast_price_version: "2026-03-26-$25",
     breakfast_ticket_price_cents: "2500",
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.necypaact.com"
-  const successUrl = `${baseUrl}/breakfast/success?session_id={CHECKOUT_SESSION_ID}`
+  const successUrl = `${env.NEXT_PUBLIC_BASE_URL}/en/breakfast/success?session_id={CHECKOUT_SESSION_ID}`
+
+  const payload = await getPayload({ config: configPromise })
+  const record = await payload.create({
+    collection: "registrations",
+    data: {
+      email: validatedAttendee.email || "",
+      name: `${validatedAttendee.firstName} ${validatedAttendee.lastName}`.trim() || "Not provided",
+      state: "",
+      status: "pending",
+      type: "breakfast_only",
+      stripeSessionId: "",
+      amountTotalCents: subtotalInCents + processingFee,
+      metadata: metadata,
+      accommodations: "None",
+      interpretationNeeded: false,
+      mobilityAccessibility: false,
+      willingToServe: false,
+      homegroup: "",
+    },
+  })
 
   try {
-    const session = await stripe.checkout.sessions.create({
-      ui_mode: "embedded",
-      return_url: successUrl,
-      customer_email: validatedAttendee.email,
-      line_items: [
-        ...selectedBreakfasts.map((bp) => ({
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: bp.name,
-              description: bp.description,
+    const session = await stripe.checkout.sessions.create(
+      {
+        ui_mode: "embedded",
+        return_url: successUrl,
+        customer_email: validatedAttendee.email,
+        line_items: [
+          ...selectedBreakfasts.map((bp) => ({
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: bp.name,
+                description: bp.description,
+              },
+              unit_amount: bp.priceInCents,
             },
-            unit_amount: bp.priceInCents,
-          },
-          quantity: 1,
-        })),
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Processing Fee",
-              description: "Credit card processing fee (2.9% + $0.30)",
+            quantity: 1,
+          })),
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: "Processing Fee",
+                description: "Credit card processing fee (2.9% + $0.30)",
+              },
+              unit_amount: processingFee,
             },
-            unit_amount: processingFee,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      metadata,
-      payment_intent_data: {
+        ],
+        mode: "payment",
         metadata,
+        payment_intent_data: {
+          metadata,
+        },
       },
-    })
+      { idempotencyKey: randomUUID() },
+    )
 
     if (!session.client_secret) {
       throw new Error("We had trouble connecting to our payment system. Please try again in a moment.")
     }
 
-    const payload = await getPayload({ config: configPromise })
-    await payload.create({
+    await payload.update({
       collection: "registrations",
-      data: {
-        email: validatedAttendee.email || "",
-        name: `${validatedAttendee.firstName} ${validatedAttendee.lastName}`.trim() || "Not provided",
-        state: "",
-        status: "pending",
-        type: "breakfast_only",
-        stripeSessionId: session.id,
-        amountTotalCents: subtotalInCents + processingFee,
-        metadata: metadata,
-        accommodations: "None",
-        interpretationNeeded: false,
-        mobilityAccessibility: false,
-        willingToServe: false,
-        homegroup: "",
-      },
+      id: record.id,
+      data: { stripeSessionId: session.id },
     })
 
     return session.client_secret

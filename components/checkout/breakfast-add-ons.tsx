@@ -22,10 +22,17 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
       </p>
 
       {fridayProduct && (
-        <button
-          type="button"
+        <div
+          role="checkbox"
+          aria-checked={breakfastSelections[fridayProduct.id] || false}
+          tabIndex={0}
           onClick={() => onToggle(fridayProduct.id, !breakfastSelections[fridayProduct.id])}
-          aria-pressed={breakfastSelections[fridayProduct.id] || false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault()
+              onToggle(fridayProduct.id, !breakfastSelections[fridayProduct.id])
+            }
+          }}
           className="w-full rounded-xl border px-4 py-3 text-left transition-colors"
           style={{
             background: breakfastSelections[fridayProduct.id]
@@ -40,9 +47,8 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
             <Checkbox
               id={fridayProduct.id}
               checked={breakfastSelections[fridayProduct.id] || false}
-              onCheckedChange={(checked) => onToggle(fridayProduct.id, checked as boolean)}
+              onCheckedChange={(checked) => onToggle(fridayProduct.id, checked === true)}
               className="mt-1 border-[var(--nec-gold)] data-[state=checked]:border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)]"
-              onClick={(e) => e.stopPropagation()}
             />
             <div className="flex-1">
               <div className="flex items-center justify-between">
@@ -59,16 +65,23 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
               </p>
             </div>
           </div>
-        </button>
+        </div>
       )}
 
       <div className="grid gap-2 sm:grid-cols-2">
         {weekendProducts.map((bp) => (
-          <button
+          <div
             key={bp.id}
-            type="button"
+            role="checkbox"
+            aria-checked={breakfastSelections[bp.id] || false}
+            tabIndex={0}
             onClick={() => onToggle(bp.id, !breakfastSelections[bp.id])}
-            aria-pressed={breakfastSelections[bp.id] || false}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault()
+                onToggle(bp.id, !breakfastSelections[bp.id])
+              }
+            }}
             className="nec-breakfast-option w-full rounded-xl border px-3 py-2.5 text-left transition-colors"
             style={{
               background: breakfastSelections[bp.id] ? "rgba(var(--nec-purple-rgb),0.08)" : "var(--nec-card)",
@@ -79,9 +92,8 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
               <Checkbox
                 id={bp.id}
                 checked={breakfastSelections[bp.id] || false}
-                onCheckedChange={(checked) => onToggle(bp.id, checked as boolean)}
+                onCheckedChange={(checked) => onToggle(bp.id, checked === true)}
                 className="border-[var(--nec-border)] data-[state=checked]:border-[var(--nec-gold)] data-[state=checked]:bg-[var(--nec-gold)]"
-                onClick={(e) => e.stopPropagation()}
               />
               <div className="flex flex-1 items-center justify-between">
                 <Label htmlFor={bp.id} className="cursor-pointer text-sm text-[var(--nec-text)]">
@@ -90,7 +102,7 @@ export default function BreakfastAddOns({ breakfastSelections, onToggle }: Break
                 <span className="text-sm font-medium text-[var(--nec-text)]">$25</span>
               </div>
             </div>
-          </button>
+          </div>
         ))}
       </div>
     </div>

@@ -14,7 +14,7 @@ interface ScholarshipConfiguratorProps {
   currentTotalCents?: number | null
   onDecreaseQuantity: () => void
   onIncreaseQuantity: () => void
-  onToggleCustomAmount: () => void
+  onToggleCustomAmount: (mode: boolean) => void
   onAmountInputChange: (value: string) => void
   onAmountInputBlur?: () => void
   removeAction?: {
@@ -134,7 +134,7 @@ export default function ScholarshipConfigurator({
           <div className="mt-4 grid gap-2 sm:grid-cols-2" role="group" aria-label="Scholarship amount type">
             <button
               type="button"
-              onClick={onToggleCustomAmount}
+              onClick={() => onToggleCustomAmount(false)}
               aria-pressed={!useCustomAmount}
               className={`${amountModeButtonClassName} ${
                 !useCustomAmount
@@ -148,7 +148,7 @@ export default function ScholarshipConfigurator({
 
             <button
               type="button"
-              onClick={onToggleCustomAmount}
+              onClick={() => onToggleCustomAmount(true)}
               aria-pressed={useCustomAmount}
               aria-controls="scholarship-custom-amount-section"
               className={`${amountModeButtonClassName} ${
@@ -185,6 +185,7 @@ export default function ScholarshipConfigurator({
                   id="scholarship-custom-amount"
                   type="text"
                   inputMode="decimal"
+                  pattern="[0-9]*"
                   value={amountInput}
                   onChange={(event) => onAmountInputChange(event.target.value)}
                   onBlur={onAmountInputBlur}

@@ -3,6 +3,16 @@ import createNextIntlPlugin from "next-intl/plugin"
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
 
+function getIssuerOrigin() {
+  try {
+    return process.env.ISSUER_SERVICE_BASE_URL ? new URL(process.env.ISSUER_SERVICE_BASE_URL).origin : ""
+  } catch {
+    return ""
+  }
+}
+
+const issuerOrigin = getIssuerOrigin()
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -33,7 +43,7 @@ const nextConfig = {
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: blob: https://*.stripe.com",
               "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
-              "connect-src 'self' https://api.stripe.com https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              `connect-src 'self' https://api.stripe.com https://va.vercel-scripts.com https://vitals.vercel-insights.com${issuerOrigin ? " " + issuerOrigin : ""}`,
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
