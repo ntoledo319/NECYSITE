@@ -1,0 +1,97 @@
+================================================================
+  NECYPAA XXXVI PRODUCTION INCIDENT AUTOPSY
+  Cryptographic Attestation File
+================================================================
+
+This file anchors the existence of the autopsy document
+"NECYPAA-XXXVI-Production-Autopsy-2026-05-05.docx" to GitHub's
+append-only commit log, which provides a server-side timestamp
+that cannot be back-dated.
+
+How verification works:
+  1. Anyone can compute SHA-256 of the .docx file.
+  2. The hash recorded below MUST match.
+  3. The "Last commit" timestamp shown on this file in GitHub
+     (https://github.com/ntoledo319/NECYSITE/blob/main/.handoff/autopsy-attestation.txt)
+     is the cryptographic upper bound on when the document existed.
+
+----------------------------------------------------------------
+DOCUMENT FACTS
+----------------------------------------------------------------
+File name:        NECYPAA-XXXVI-Production-Autopsy-2026-05-05.docx
+File location:    ~/Desktop/ (on the originating workstation)
+File size:        26318 bytes
+SHA-256:          06fa63ad88c711cca5beda7294d2d4b3f2ff70eeda4b2b686f9c6b0cc53ff494
+
+----------------------------------------------------------------
+TIMESTAMP CHAIN
+----------------------------------------------------------------
+Workstation UTC at creation:    2026-05-05T21:59:28Z
+Workstation hostname:           Nicholass-MacBook-Pro.local
+Workstation user:               nicholastoledo
+
+External HTTP Date headers cross-checked at 21:55:24 UTC
+(within 4 minutes of file creation, all agreed within 12 seconds):
+  apple.com:           Tue, 05 May 2026 21:55:24 GMT
+  google.com:          Tue, 05 May 2026 21:55:24 GMT
+  api.github.com:      Tue, 05 May 2026 21:55:12 GMT
+  api.vercel.com:      Tue, 05 May 2026 21:55:24 GMT
+
+Git HEAD at time of document creation:
+  2d53c5f86bb6a663c18c47ab1fe873def64c24c6
+  (commit timestamp 2026-05-05T17:39:42-04:00 = 21:39:42Z)
+
+----------------------------------------------------------------
+EXTERNAL SYSTEM REFERENCES
+----------------------------------------------------------------
+Vercel project ID:   prj_Bcg79JrlDALrNWQxU21hfHsV0xtq
+Vercel team ID:      team_6HxrGZnzv7pEo1nhSxC1teCX
+Turso DB ID:         019df9da-cb01-7da3-a746-73397fa1a106
+Turso DB name:       necypaa-prod (region aws-us-east-1)
+GitHub repo:         github.com/ntoledo319/NECYSITE
+
+Vercel API endpoints that confirm the data points cited in the
+document (each requires the team's Vercel auth token):
+  /v9/projects/prj_Bcg79JrlDALrNWQxU21hfHsV0xtq?teamId=team_6HxrGZnzv7pEo1nhSxC1teCX
+    → returns project createdAt = 1772233791554 ms = 2026-02-27T18:09:51Z
+  /v9/projects/prj_Bcg79JrlDALrNWQxU21hfHsV0xtq/env?teamId=team_6HxrGZnzv7pEo1nhSxC1teCX
+    → returns the env-var-creation-timestamp history cited in §2 Phase A
+  /v6/deployments?projectId=prj_Bcg79JrlDALrNWQxU21hfHsV0xtq&teamId=team_6HxrGZnzv7pEo1nhSxC1teCX
+    → returns the full deploy history, 132 READY out of 139 unique deploys
+
+Turso CLI commands that confirm the DB facts:
+  turso db show necypaa-prod
+    → ID 019df9da-cb01-7da3-a746-73397fa1a106, region aws-us-east-1
+  turso db tokens list necypaa-prod
+    → currently 1 active --expiration none token (Token #2)
+
+----------------------------------------------------------------
+HOW TO VERIFY THIS DOCUMENT YOURSELF
+----------------------------------------------------------------
+
+  $ shasum -a 256 ~/Desktop/NECYPAA-XXXVI-Production-Autopsy-2026-05-05.docx
+  06fa63ad88c711cca5beda7294d2d4b3f2ff70eeda4b2b686f9c6b0cc53ff494  (expected)
+
+If the hashes match, this is the same document the attestation
+describes. The GitHub "Last commit" timestamp on the attestation
+file (visible at the URL above) is the upper bound on when the
+document came into existence in this exact form.
+
+This is "good enough" cryptographic timestamping for an internal
+postmortem. For higher-assurance proofs, the document or its
+hash can be additionally anchored to the Bitcoin blockchain via
+OpenTimestamps (https://opentimestamps.org), which would require
+running `ots stamp` on the .docx and committing the resulting
+.ots receipt — left as an optional follow-up if needed.
+
+----------------------------------------------------------------
+LICENSE / SCOPE
+----------------------------------------------------------------
+This document is internal-only and represents a good-faith
+forensic reconstruction of events on 2026-04-25 through
+2026-05-05 using server-side records as primary evidence.
+Where conjecture is involved (e.g., the breakdown of fault
+percentages in §6) it is labelled as such. No claims are
+made about persons not named.
+
+================================================================
