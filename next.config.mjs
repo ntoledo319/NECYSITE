@@ -24,6 +24,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  // Keep native libsql/SQLite modules out of the webpack bundle so they resolve from
+  // node_modules at runtime on Vercel. Without this, Next.js tries to bundle the
+  // native binding and the deployed function throws "Cannot find module 'libsql'".
+  serverExternalPackages: [
+    "libsql",
+    "@libsql/client",
+    "@libsql/core",
+    "@payloadcms/db-sqlite",
+  ],
   experimental: {
     optimizePackageImports: [
       "lucide-react",

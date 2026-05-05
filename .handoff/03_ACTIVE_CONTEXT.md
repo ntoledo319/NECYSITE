@@ -141,7 +141,43 @@ Vercel Analytics (already running) + GA4 = complete picture:
 - Vercel: Core Web Vitals, performance, deployment correlation
 - GA4: User behavior, conversions, demographics, geographic breakdowns
 
-## Latest Changes (2026-05-04)
+## Latest Changes (2026-05-05) — Production Recovery
+
+### Production registration broken & restored
+
+**Symptom:** "Server Components render error" on `/en/register`, all production deploys to `main` for the past ~17 hours failing at build time. Six consecutive `Error` deploys in a row.
+
+**Root cause (two layers):**
+
+1. **Account migration leak.** The site's original Vercel project lived under `frothy.appeal@gmail.com` with only Stripe + Google Calendar env vars set — never had `DATABASE_URI`, `PAYLOAD_SECRET`, or `STRIPE_WEBHOOK_SECRET`. When v0/Agent created the new `v0-necypaa` project under `hubypaa@gmail.com` (team `hubypaas-projects`) on 2026-05-03 and re-pointed `www.necypaact.com`, none of those variables existed in the new project's Production scope. Build failed eagerly because of the `PAYLOAD_SECRET ?? throw` guard added in the 2026-04-25 hardening pass.
+2. **`libsql` native binding not deployed.** Even after env vars were set and a fresh Turso DB was provisioned, `/admin` and any Payload-write route returned 500 with `Cannot find module 'libsql'`. The libSQL native binding and `@libsql/client` were transitive deps of `@payloadcms/db-sqlite`; pnpm did not hoist them, and Next.js webpack tried (and failed) to bundle the native module.
+
+**Fix applied:**
+
+- **Provisioned Turso DB**: `necypaa-prod` in `aws-us-east-1`, seeded from local `payload.db` via SQL dump pushed over the Hrana HTTP pipeline (`--from-file` and `--from-dump` both silently produced empty databases on this Turso CLI build, so the workaround is to push CREATE+INSERT statements directly via `/v2/pipeline`). Owner: `frothyappeal`. Connection URL: `libsql://necypaa-prod-frothyappeal.aws-us-east-1.turso.io?authToken=…` — value stored only in Vercel Production env (sensitive).
+- **Set 5 production env vars on `v0-necypaa`** via `vercel env add … production --sensitive`: `PAYLOAD_SECRET`, `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `GOOGLE_CALENDAR_API_KEY`, `DATABASE_URI`. Values pulled from Preview scope where they had been set previously.
+- **`package.json`** — Promoted `libsql@^0.4.7` and `@libsql/client@^0.14.0` from transitive to direct dependencies so pnpm hoists them into top-level `node_modules`, where Node.js can resolve them at runtime.
+- **`next.config.mjs`** — Added `serverExternalPackages: ["libsql", "@libsql/client", "@libsql/core", "@payloadcms/db-sqlite"]` so Next.js's webpack does not attempt to bundle native modules and lets Node's `require()` resolve them at runtime.
+
+### Active production identity (post-migration)
+
+- **Vercel project:** `prj_HM7yFzhIXXWdT5jSUR20srPyzMaY` (`v0-necypaa`)
+- **Vercel team:** `team_HL7EBmuXADcyaCD7gbKWQ7Vy` (`hubypaas-projects`)
+- **Vercel CLI account:** `hubypaa-5418` (`hubypaa@gmail.com`, created 2026-04-11)
+- **Turso owner:** `frothyappeal` (`frothy.appeal@gmail.com`)
+- **GitHub author identity (unchanged):** `ntoledo319 <toledonick98@gmail.com>`
+- **Domain:** `www.necypaact.com` aliased to `v0-necypaa-iota.vercel.app` since 2026-05-03 16:17
+
+The original `frothy.appeal@gmail.com` Vercel project is now orphaned (no live traffic). Decommissioning it is optional but recommended once the new project is fully validated.
+
+### Outstanding follow-ups (post-recovery)
+
+1. **Defensive Payload writes in `actions/registration.ts`** — currently a `payload.create()` failure throws and bubbles a "Server Components render error" to the user. Wrap in try/catch + log + continue with Stripe-only flow, using Stripe Checkout session metadata as the durable fallback record.
+2. **`/api/health` endpoint** — add a lightweight route that returns 200 + JSON with Payload + Turso connectivity status, so future incidents surface faster.
+3. **Stripe webhook `STRIPE_WEBHOOK_SECRET`** — never set in either Vercel project. Stripe → DB reconciliation is currently silent. Set this once the webhook endpoint is exposed.
+4. **Decommission orphaned old Vercel project** under `frothy.appeal@gmail.com` once new project has been live for one full convention cycle.
+
+## Previous Changes (2026-05-04)
 
 ### Config & i18n Hardening
 - **`middleware.ts`** — Added `/media` to the `next-intl` matcher exclusion list so Payload CMS uploads bypass locale middleware.
