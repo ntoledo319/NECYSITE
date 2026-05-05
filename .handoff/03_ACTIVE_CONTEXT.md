@@ -145,37 +145,41 @@ Vercel Analytics (already running) + GA4 = complete picture:
 
 ### Production registration broken & restored
 
-**Symptom:** "Server Components render error" on `/en/register`, all production deploys to `main` for the past ~17 hours failing at build time. Six consecutive `Error` deploys in a row.
+**Symptom (user-reported):** "Server Components render error" on `/en/register` when a user submitted the form. Live admin (`/admin`) had been returning HTTP 500 silently for ~10 days.
 
-**Root cause (two layers):**
+**Root cause (two independent layers):**
 
-1. **Account migration leak.** The site's original Vercel project lived under `frothy.appeal@gmail.com` with only Stripe + Google Calendar env vars set — never had `DATABASE_URI`, `PAYLOAD_SECRET`, or `STRIPE_WEBHOOK_SECRET`. When v0/Agent created the new `v0-necypaa` project under `hubypaa@gmail.com` (team `hubypaas-projects`) on 2026-05-03 and re-pointed `www.necypaact.com`, none of those variables existed in the new project's Production scope. Build failed eagerly because of the `PAYLOAD_SECRET ?? throw` guard added in the 2026-04-25 hardening pass.
-2. **`libsql` native binding not deployed.** Even after env vars were set and a fresh Turso DB was provisioned, `/admin` and any Payload-write route returned 500 with `Cannot find module 'libsql'`. The libSQL native binding and `@libsql/client` were transitive deps of `@payloadcms/db-sqlite`; pnpm did not hoist them, and Next.js webpack tried (and failed) to bundle the native module.
+1. **Two missing env vars on the live project.** The live project (`v0-necypaa` under team `necypaas-projects`, owned by `frothy.appeal@gmail.com`) had only 5 env vars set: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_MCP_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `GOOGLE_CALENDAR_API_KEY`. **`PAYLOAD_SECRET` and `DATABASE_URI` had never been set.** This worked unnoticed for ~5 weeks (2026-03-18 Payload introduction → 2026-04-25 production-hardening pass) because Payload silently fell back to a random per-cold-start secret and a read-only `file:./payload.db` bundled into the deployment. Reads (events, blog, FAQ pages) succeeded; writes (registration, admin) failed silently. The 2026-04-25 hardening pass added eager validation in `lib/env.ts` and a `PAYLOAD_SECRET ?? throw` guard, which masked the underlying issue with a confusing user-facing crash.
+
+2. **`libsql` native binding not deployed.** Even with env vars correct and a real `DATABASE_URI`, `/admin` and any Payload-write route returned 500 with `Cannot find module 'libsql'`. The libSQL native binding and `@libsql/client` were transitive deps of `@payloadcms/db-sqlite`; pnpm did not hoist them, and Next.js's webpack tried (and failed) to bundle the native module instead of letting Node's runtime `require()` resolve it.
 
 **Fix applied:**
 
-- **Provisioned Turso DB**: `necypaa-prod` in `aws-us-east-1`, seeded from local `payload.db` via SQL dump pushed over the Hrana HTTP pipeline (`--from-file` and `--from-dump` both silently produced empty databases on this Turso CLI build, so the workaround is to push CREATE+INSERT statements directly via `/v2/pipeline`). Owner: `frothyappeal`. Connection URL: `libsql://necypaa-prod-frothyappeal.aws-us-east-1.turso.io?authToken=…` — value stored only in Vercel Production env (sensitive).
-- **Set 5 production env vars on `v0-necypaa`** via `vercel env add … production --sensitive`: `PAYLOAD_SECRET`, `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `GOOGLE_CALENDAR_API_KEY`, `DATABASE_URI`. Values pulled from Preview scope where they had been set previously.
+- **Provisioned Turso DB** `necypaa-prod` in `aws-us-east-1`, owner `frothyappeal`, seeded from local `payload.db` via SQL dump pushed over the Hrana HTTP pipeline (`turso db create --from-file` and `--from-dump` both silently produced empty databases on Turso CLI 1.0.23, so the workaround is to push CREATE + INSERT statements directly via `/v2/pipeline`).
+- **Set `PAYLOAD_SECRET` and `DATABASE_URI`** on the live project (`prj_Bcg79JrlDALrNWQxU21hfHsV0xtq`, team `team_6HxrGZnzv7pEo1nhSxC1teCX`) via the Vercel REST API, type `encrypted`, all three targets (Production / Preview / Development).
 - **`package.json`** — Promoted `libsql@^0.4.7` and `@libsql/client@^0.14.0` from transitive to direct dependencies so pnpm hoists them into top-level `node_modules`, where Node.js can resolve them at runtime.
-- **`next.config.mjs`** — Added `serverExternalPackages: ["libsql", "@libsql/client", "@libsql/core", "@payloadcms/db-sqlite"]` so Next.js's webpack does not attempt to bundle native modules and lets Node's `require()` resolve them at runtime.
+- **`next.config.mjs`** — Added `serverExternalPackages: ["libsql", "@libsql/client", "@libsql/core", "@payloadcms/db-sqlite"]` so Next.js's webpack stops trying to bundle native modules and lets Node's `require()` resolve them at runtime.
+- **`.vercel/project.json`** — Re-linked to the correct live project (`prj_Bcg79JrlDALrNWQxU21hfHsV0xtq` / `team_6HxrGZnzv7pEo1nhSxC1teCX`); previous link pointed to a phantom `v0-necypaa` clone under a different account.
 
-### Active production identity (post-migration)
+### Active production identity
 
-- **Vercel project:** `prj_HM7yFzhIXXWdT5jSUR20srPyzMaY` (`v0-necypaa`)
-- **Vercel team:** `team_HL7EBmuXADcyaCD7gbKWQ7Vy` (`hubypaas-projects`)
-- **Vercel CLI account:** `hubypaa-5418` (`hubypaa@gmail.com`, created 2026-04-11)
-- **Turso owner:** `frothyappeal` (`frothy.appeal@gmail.com`)
+- **Vercel project:** `prj_Bcg79JrlDALrNWQxU21hfHsV0xtq` (`v0-necypaa`)
+- **Vercel team:** `team_6HxrGZnzv7pEo1nhSxC1teCX` (`necypaas-projects`)
+- **Vercel CLI account:** `host-4508` (`frothy.appeal@gmail.com`)
+- **Turso account:** `frothyappeal` (same email)
+- **Domains attached:** `necypaact.com`, `www.necypaact.com`, `v0-necypaa.vercel.app` — all 200 OK across all routes after the fix.
 - **GitHub author identity (unchanged):** `ntoledo319 <toledonick98@gmail.com>`
-- **Domain:** `www.necypaact.com` aliased to `v0-necypaa-iota.vercel.app` since 2026-05-03 16:17
 
-The original `frothy.appeal@gmail.com` Vercel project is now orphaned (no live traffic). Decommissioning it is optional but recommended once the new project is fully validated.
+### Phantom clone account (informational)
+
+Around 2026-05-03 a duplicate Vercel account `hubypaa-5418` (`hubypaa@gmail.com`) was created — likely an artifact of a v0/Agent flow — and a separate `v0-necypaa` project was cloned into a `hubypaas-projects` team. That account/project never owned the production domain, was never connected to live traffic, and is safe to delete from `hubypaa@gmail.com` at any time. **All production lives only on `frothy.appeal@gmail.com`.**
 
 ### Outstanding follow-ups (post-recovery)
 
 1. **Defensive Payload writes in `actions/registration.ts`** — currently a `payload.create()` failure throws and bubbles a "Server Components render error" to the user. Wrap in try/catch + log + continue with Stripe-only flow, using Stripe Checkout session metadata as the durable fallback record.
 2. **`/api/health` endpoint** — add a lightweight route that returns 200 + JSON with Payload + Turso connectivity status, so future incidents surface faster.
-3. **Stripe webhook `STRIPE_WEBHOOK_SECRET`** — never set in either Vercel project. Stripe → DB reconciliation is currently silent. Set this once the webhook endpoint is exposed.
-4. **Decommission orphaned old Vercel project** under `frothy.appeal@gmail.com` once new project has been live for one full convention cycle.
+3. **`STRIPE_WEBHOOK_SECRET`** — never set on the live project. Stripe → DB reconciliation in `app/api/webhooks/stripe/route.ts` is currently unsigned. Set this and configure the corresponding endpoint in the Stripe dashboard.
+4. **Delete phantom `v0-necypaa` project under `hubypaa@gmail.com`** when convenient (no traffic; cosmetic cleanup only).
 
 ## Previous Changes (2026-05-04)
 
