@@ -4,11 +4,9 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { Link } from "@/i18n/navigation"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { X, Menu, ChevronDown } from "lucide-react"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL } from "@/lib/constants"
 import { useFocusTrap } from "@/lib/use-focus-trap"
-import { SPRING_SNAPPY } from "@/components/ui/motion-primitives"
 
 type NavLink = {
   href: string
@@ -78,19 +76,16 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
     timeout.current = setTimeout(() => setOpen(false), 150)
   }
 
-  // Close on focus leaving the entire dropdown container
   const handleBlur = useCallback((e: React.FocusEvent) => {
     if (!containerRef.current?.contains(e.relatedTarget as Node)) {
       setOpen(false)
     }
   }, [])
 
-  // Keyboard: Escape closes, ArrowDown opens
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false)
-        // Return focus to the trigger button
         const button = containerRef.current?.querySelector("button")
         button?.focus()
       }
@@ -124,57 +119,51 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
           aria-hidden="true"
         />
       </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="absolute left-0 top-full z-50 -mt-1 min-w-[200px] pt-3"
-            initial={{ opacity: 0, y: -4, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.97 }}
-            transition={SPRING_SNAPPY}
-          >
-            <div
-              role="menu"
-              className="nec-dropdown-panel rounded-xl py-2"
-              style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
-            >
-              {item.children.map((child) =>
-                child.external ? (
-                  <a
-                    key={child.label}
-                    href={child.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    role="menuitem"
-                    tabIndex={open ? 0 : -1}
-                    onClick={() => setOpen(false)}
-                    className="nec-nav-hover block px-4 py-2.5 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
-                  >
-                    {child.label}
-                    <span className="sr-only"> (opens in new tab)</span>
-                  </a>
-                ) : (
-                  <Link
-                    key={child.label}
-                    href={child.href}
-                    role="menuitem"
-                    tabIndex={open ? 0 : -1}
-                    onClick={() => setOpen(false)}
-                    className={`block px-4 py-2 text-sm transition-colors ${
-                      isActivePath(pathname, child.href)
-                        ? "nec-nav-active font-semibold text-[var(--nec-text)]"
-                        : "nec-nav-hover text-[var(--nec-muted)] hover:text-[var(--nec-text)]"
-                    }`}
-                    {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
-                  >
-                    {child.label}
-                  </Link>
-                ),
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        className={`absolute left-0 top-full z-50 -mt-1 min-w-[200px] origin-top pt-3 transition-[opacity,transform] duration-150 ${
+          open ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-[0.97] opacity-0 -translate-y-1"
+        }`}
+      >
+        <div
+          role="menu"
+          className="nec-dropdown-panel rounded-xl py-2"
+          style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
+        >
+          {item.children.map((child) =>
+            child.external ? (
+              <a
+                key={child.label}
+                href={child.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                role="menuitem"
+                tabIndex={open ? 0 : -1}
+                onClick={() => setOpen(false)}
+                className="nec-nav-hover block px-4 py-2.5 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
+              >
+                {child.label}
+                <span className="sr-only"> (opens in new tab)</span>
+              </a>
+            ) : (
+              <Link
+                key={child.label}
+                href={child.href}
+                role="menuitem"
+                tabIndex={open ? 0 : -1}
+                onClick={() => setOpen(false)}
+                className={`block px-4 py-2 text-sm transition-colors ${
+                  isActivePath(pathname, child.href)
+                    ? "nec-nav-active font-semibold text-[var(--nec-text)]"
+                    : "nec-nav-hover text-[var(--nec-muted)] hover:text-[var(--nec-text)]"
+                }`}
+                {...(isActivePath(pathname, child.href) ? { "aria-current": "page" as const } : {})}
+              >
+                {child.label}
+              </Link>
+            ),
+          )}
+        </div>
+      </div>
     </div>
   )
 }
@@ -240,7 +229,6 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const drawerRef = useFocusTrap<HTMLElement>(menuOpen)
   const pathname = usePathname()
-  const shouldReduce = useReducedMotion()
 
   useEffect(() => {
     let ticking = false
@@ -278,20 +266,18 @@ export default function SiteHeader() {
 
   return (
     <>
-      <motion.header
+      <header
         role="banner"
         aria-label="Site header"
         className="nec-header fixed left-0 right-0 top-0 z-50"
-        animate={{
-          borderBottomColor: scrolled ? "var(--nec-border)" : "transparent",
-          boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.06)" : "0 0 0 rgba(0,0,0,0)",
-        }}
-        transition={shouldReduce ? { duration: 0 } : { duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
         style={{
           backdropFilter: "blur(12px) saturate(1.1)",
           WebkitBackdropFilter: "blur(12px) saturate(1.1)",
           borderBottom: "1px solid",
+          borderBottomColor: scrolled ? "var(--nec-border)" : "transparent",
+          boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.06)" : "none",
           paddingTop: "env(safe-area-inset-top)",
+          transition: "border-bottom-color 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
         }}
       >
         <div className="container mx-auto px-4">
@@ -365,92 +351,83 @@ export default function SiteHeader() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      {/* Mobile backdrop */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            className="fixed inset-0 z-40 md:hidden"
-            style={{ background: "rgba(0,0,0,0.3)" }}
-            initial={shouldReduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={close}
-          />
-        )}
-      </AnimatePresence>
+      <button
+        type="button"
+        aria-label="Close menu"
+        tabIndex={-1}
+        aria-hidden="true"
+        className={`fixed inset-0 z-40 cursor-default transition-opacity duration-200 md:hidden ${
+          menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        style={{ background: "rgba(0,0,0,0.3)" }}
+        onClick={close}
+      />
 
       {/* Mobile drawer */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.nav
-            ref={drawerRef}
-            aria-label="Mobile navigation"
-            className="nec-mobile-drawer fixed left-0 right-0 z-50 flex flex-col gap-1 overflow-y-auto p-4 md:hidden"
-            style={{
-              top: "calc(4.5rem + env(safe-area-inset-top, 0px))",
-              maxHeight: "calc(100dvh - 4.5rem - env(safe-area-inset-top, 0px))",
-              backdropFilter: "blur(14px) saturate(1.05)",
-              WebkitBackdropFilter: "blur(14px) saturate(1.05)",
-            }}
-            initial={shouldReduce ? false : { opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={shouldReduce ? { duration: 0 } : SPRING_SNAPPY}
-            onClick={(e: React.MouseEvent) => e.stopPropagation()}
-          >
-            {navItems.map((item) =>
-              isDropdown(item) ? (
-                <MobileDropdown key={item.label} item={item} onClose={close} pathname={pathname} />
-              ) : item.external ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={close}
-                  className="nec-nav-hover rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] text-[var(--nec-text)] transition-all hover:text-[var(--nec-text)]"
-                >
-                  {item.label}
-                  <span className="sr-only"> (opens in new tab)</span>
-                </a>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={close}
-                  className={`rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] transition-all ${
-                    isActivePath(pathname, item.href)
-                      ? "nec-nav-active border-l-2 text-[var(--nec-text)]"
-                      : "nec-nav-hover text-[var(--nec-text)] hover:text-[var(--nec-text)]"
-                  }`}
-                  style={isActivePath(pathname, item.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
-                  {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
-            <div className="mt-1 space-y-2 border-t border-[var(--nec-border)] pt-2">
-              <Link href="/register" onClick={close} className="btn-primary w-full !justify-center">
-                Register
-              </Link>
-              <a
-                href={HOTEL_BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={close}
-                className="btn-secondary w-full !justify-center"
-              >
-                Book Hotel
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
-            </div>
-          </motion.nav>
+      <nav
+        ref={drawerRef}
+        aria-label="Mobile navigation"
+        aria-hidden={!menuOpen}
+        className={`nec-mobile-drawer fixed left-0 right-0 z-50 flex flex-col gap-1 overflow-y-auto p-4 transition-[opacity,transform] duration-200 md:hidden ${
+          menuOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
+        }`}
+        style={{
+          top: "calc(4.5rem + env(safe-area-inset-top, 0px))",
+          maxHeight: "calc(100dvh - 4.5rem - env(safe-area-inset-top, 0px))",
+          backdropFilter: "blur(14px) saturate(1.05)",
+          WebkitBackdropFilter: "blur(14px) saturate(1.05)",
+        }}
+      >
+        {navItems.map((item) =>
+          isDropdown(item) ? (
+            <MobileDropdown key={item.label} item={item} onClose={close} pathname={pathname} />
+          ) : item.external ? (
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+              className="nec-nav-hover rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] text-[var(--nec-text)] transition-all hover:text-[var(--nec-text)]"
+            >
+              {item.label}
+              <span className="sr-only"> (opens in new tab)</span>
+            </a>
+          ) : (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={close}
+              className={`rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] transition-all ${
+                isActivePath(pathname, item.href)
+                  ? "nec-nav-active border-l-2 text-[var(--nec-text)]"
+                  : "nec-nav-hover text-[var(--nec-text)] hover:text-[var(--nec-text)]"
+              }`}
+              style={isActivePath(pathname, item.href) ? { borderLeftColor: "var(--nec-purple)" } : undefined}
+              {...(isActivePath(pathname, item.href) ? { "aria-current": "page" as const } : {})}
+            >
+              {item.label}
+            </Link>
+          ),
         )}
-      </AnimatePresence>
+        <div className="mt-1 space-y-2 border-t border-[var(--nec-border)] pt-2">
+          <Link href="/register" onClick={close} className="btn-primary w-full !justify-center">
+            Register
+          </Link>
+          <a
+            href={HOTEL_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+            className="btn-secondary w-full !justify-center"
+          >
+            Book Hotel
+            <span className="sr-only"> (opens in new tab)</span>
+          </a>
+        </div>
+      </nav>
     </>
   )
 }

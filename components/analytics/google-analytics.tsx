@@ -11,7 +11,6 @@ function AnalyticsContent() {
 
   useEffect(() => {
     if (!GA_TRACKING_ID) return
-
     const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '')
     pageview(url)
   }, [pathname, searchParams])
@@ -20,9 +19,7 @@ function AnalyticsContent() {
 }
 
 export function GoogleAnalytics() {
-  if (!GA_TRACKING_ID) {
-    return null
-  }
+  if (!GA_TRACKING_ID) return null
 
   return (
     <>
@@ -43,21 +40,12 @@ export function GoogleAnalytics() {
               send_page_view: true,
               transport_type: 'beacon',
               cookie_flags: 'SameSite=None;Secure',
-              custom_map: {
-                'dimension1': 'user_type',
-                'dimension2': 'page_category',
-                'dimension3': 'content_language'
-              }
-            });
-            
-            // Enhanced Ecommerce (for future ticket sales)
-            gtag('config', '${GA_TRACKING_ID}', {
-              'cookie_expires': 63072000,
-              'cookie_update': true,
-              'anonymize_ip': false,
-              'allow_google_signals': true,
-              'allow_ad_personalization_signals': false,
-              'transport_type': 'beacon'
+              cookie_expires: 63072000,
+              cookie_update: true,
+              anonymize_ip: false,
+              allow_google_signals: true,
+              allow_ad_personalization_signals: false,
+              custom_map: { dimension1: 'user_type', dimension2: 'page_category', dimension3: 'content_language' }
             });
           `,
         }}

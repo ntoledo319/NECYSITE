@@ -1,7 +1,9 @@
 import { withPayload } from "@payloadcms/next/withPayload"
 import createNextIntlPlugin from "next-intl/plugin"
+import createBundleAnalyzer from "@next/bundle-analyzer"
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
+const withBundleAnalyzer = createBundleAnalyzer({ enabled: process.env.ANALYZE === "true" })
 
 function getIssuerOrigin() {
   try {
@@ -23,11 +25,21 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   experimental: {
-    optimizePackageImports: ["lucide-react", "framer-motion", "@radix-ui/react-accordion"],
+    optimizePackageImports: [
+      "lucide-react",
+      "framer-motion",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-checkbox",
+      "@radix-ui/react-label",
+      "@radix-ui/react-slot",
+      "@radix-ui/react-switch",
+    ],
   },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,
+    deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
   async headers() {
     return [
@@ -38,12 +50,12 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://va.vercel-scripts.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://va.vercel-scripts.com https://www.googletagmanager.com",
+              "style-src 'self' 'unsafe-inline'",
+              "font-src 'self'",
               "img-src 'self' data: blob: https://*.stripe.com",
               "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
-              `connect-src 'self' https://api.stripe.com https://va.vercel-scripts.com https://vitals.vercel-insights.com${issuerOrigin ? " " + issuerOrigin : ""}`,
+              `connect-src 'self' https://api.stripe.com https://va.vercel-scripts.com https://vitals.vercel-insights.com https://www.google-analytics.com${issuerOrigin ? " " + issuerOrigin : ""}`,
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
@@ -76,8 +88,16 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/images/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
     ]
   },
 }
 
-export default withPayload(withNextIntl(nextConfig))
+export default withBundleAnalyzer(withPayload(withNextIntl(nextConfig)))

@@ -1,8 +1,4 @@
-"use client"
-
 import Image from "next/image"
-import { motion, useReducedMotion } from "framer-motion"
-import { FloatingElement, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 interface CharacterDividerProps {
   character: "mad-hatter" | "cheshire-cat" | "caterpillar"
@@ -31,27 +27,18 @@ const CHARACTERS = {
 export default function CharacterDivider({ character, flip = false, className = "" }: CharacterDividerProps) {
   const char = CHARACTERS[character]
 
-  const shouldReduce = useReducedMotion()
-
   return (
     <div className={`relative flex items-center gap-4 ${className}`} aria-hidden="true">
-      {/* Left gradient line */}
-      <motion.div
+      <div
         className="h-[2px] flex-1 rounded-full"
         style={{
           background: flip
             ? `linear-gradient(90deg, rgba(${char.accentRgb},0.5) 0%, transparent 100%)`
             : `linear-gradient(90deg, transparent 0%, rgba(${char.accentRgb},0.5) 100%)`,
           boxShadow: `0 0 12px rgba(${char.accentRgb},0.15)`,
-          transformOrigin: flip ? "right center" : "left center",
         }}
-        initial={shouldReduce ? false : { scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       />
 
-      {/* Character */}
       <div className="relative flex-shrink-0">
         <div
           className="absolute inset-0 scale-[2] rounded-full"
@@ -60,8 +47,8 @@ export default function CharacterDivider({ character, flip = false, className = 
             filter: "blur(16px)",
           }}
         />
-        <FloatingElement yOffset={6} duration={4}>
-          <div className="relative h-20 w-20 sm:h-24 sm:w-24" style={{ transform: flip ? "scaleX(-1)" : undefined }}>
+        <div style={flip ? { transform: "scaleX(-1)" } : undefined}>
+          <div className="character-float relative h-20 w-20 sm:h-24 sm:w-24">
             <Image
               src={char.src}
               alt=""
@@ -75,23 +62,17 @@ export default function CharacterDivider({ character, flip = false, className = 
               aria-hidden="true"
             />
           </div>
-        </FloatingElement>
+        </div>
       </div>
 
-      {/* Right gradient line */}
-      <motion.div
+      <div
         className="h-[2px] flex-1 rounded-full"
         style={{
           background: flip
             ? `linear-gradient(90deg, transparent 0%, rgba(${char.accentRgb},0.5) 100%)`
             : `linear-gradient(90deg, rgba(${char.accentRgb},0.5) 0%, transparent 100%)`,
           boxShadow: `0 0 12px rgba(${char.accentRgb},0.15)`,
-          transformOrigin: flip ? "left center" : "right center",
         }}
-        initial={shouldReduce ? false : { scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       />
     </div>
   )

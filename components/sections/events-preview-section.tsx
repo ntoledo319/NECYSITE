@@ -1,11 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { motion, useReducedMotion } from "framer-motion"
 import type { EventData } from "@/lib/data/events"
 import FlyerWithModal from "@/components/flyer-with-modal"
 import { Calendar, MapPin, ArrowRight, Sparkles } from "lucide-react"
-import { SPRING_GENTLE, SpotlightCard, staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
+import { SpotlightCard } from "@/components/ui/motion-primitives"
 
 interface EventsPreviewSectionProps {
   upcomingEvent: EventData | null
@@ -13,19 +12,12 @@ interface EventsPreviewSectionProps {
 }
 
 export default function EventsPreviewSection({ upcomingEvent, pastEvents }: EventsPreviewSectionProps) {
-  const shouldReduce = useReducedMotion()
-
   return (
     <section id="events" aria-label="Events preview" className="space-y-10 px-4 md:px-0">
       {/* ── Featured Upcoming Event ──────────────────────────── */}
       <div>
-        <motion.div
-          className="mb-8"
-          initial={shouldReduce ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={SPRING_GENTLE}
-        >
+        <div
+          className="mb-8">
           <span className="section-badge section-badge-shimmer">Coming Up</span>
           <h2 className="section-heading mt-3" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
             Next Event
@@ -33,7 +25,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
           <p className="mt-2 max-w-xl text-base text-[var(--nec-muted)]">
             Our next fundraiser is right around the corner. Come hang!
           </p>
-        </motion.div>
+        </div>
 
         {upcomingEvent ? (
           <SpotlightCard
@@ -179,22 +171,17 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
             </Link>
           </div>
 
-          <motion.div
+          <div
             className="scrollbar-thin -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
             role="list"
             aria-label="Recent past events"
             style={{ scrollbarColor: "rgba(124,58,237,0.25) transparent" }}
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
           >
             {pastEvents.slice(0, 4).map((event) => (
-              <motion.div
+              <div
                 key={event.id}
                 role="listitem"
                 className="group w-36 flex-shrink-0 snap-start sm:w-40"
-                variants={staggerChild}
               >
                 <div
                   className="mb-2 aspect-[3/4] w-full overflow-hidden rounded-xl transition-transform duration-200 group-hover:-translate-y-0.5"
@@ -214,7 +201,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
                 <p className="text-[10px]" style={{ color: "var(--nec-muted)" }}>
                   {event.date.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/, "")}
                 </p>
-              </motion.div>
+              </div>
             ))}
 
             {pastEvents.length > 4 && (
@@ -235,7 +222,7 @@ export default function EventsPreviewSection({ upcomingEvent, pastEvents }: Even
                 </span>
               </Link>
             )}
-          </motion.div>
+          </div>
         </div>
       )}
     </section>

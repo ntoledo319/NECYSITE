@@ -7,6 +7,8 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 import PageArtAccents from "@/components/art/page-art-accents"
 import FlyerWithModal from "@/components/flyer-with-modal"
 
+export const dynamic = "force-static"
+
 export const metadata: Metadata = {
   title: "The Journey Comes First — NECYPAA XXXVI",
   description:

@@ -122,7 +122,6 @@ export function A11yProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loaded = loadSettings()
     setSettings(loaded)
-    applySettings(loaded)
     setMounted(true)
   }, [])
 

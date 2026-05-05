@@ -1,24 +1,21 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useEffect, useRef, useCallback } from "react"
 import { ArrowUp } from "lucide-react"
 
 export default function BackToTop() {
-  const [visible, setVisible] = useState(false)
+  const btnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    let ticking = false
+    let raf = 0
     const onScroll = () => {
-      if (!ticking) {
-        ticking = true
-        requestAnimationFrame(() => {
-          setVisible(window.scrollY > 600)
-          ticking = false
-        })
-      }
+      if (!raf) raf = requestAnimationFrame(() => {
+        btnRef.current?.classList.toggle("back-to-top-visible", window.scrollY > 600)
+        raf = 0
+      })
     }
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    return () => { window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf) }
   }, [])
 
   const scrollToTop = useCallback(() => {
@@ -27,10 +24,11 @@ export default function BackToTop() {
 
   return (
     <button
+      ref={btnRef}
       type="button"
       aria-label="Back to top"
       onClick={scrollToTop}
-      className={`back-to-top-btn fixed bottom-20 right-4 z-40 inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-full px-3.5 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)] md:bottom-8 md:right-6 ${visible ? "back-to-top-visible" : ""}`}
+      className="back-to-top-btn fixed bottom-20 right-4 z-40 inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-full px-3.5 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nec-purple)] md:bottom-8 md:right-6"
       style={{
         background: "rgba(var(--nec-card-rgb),0.95)",
         border: "1px solid rgba(var(--nec-purple-rgb),0.16)",

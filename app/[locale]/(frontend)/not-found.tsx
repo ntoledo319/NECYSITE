@@ -2,15 +2,11 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { motion, useReducedMotion } from "framer-motion"
-import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 import PageArtAccents from "@/components/art/page-art-accents"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import { Mail, ArrowRight } from "lucide-react"
 
 export default function NotFound() {
-  const shouldReduce = useReducedMotion()
-
   return (
     <div
       className="relative flex min-h-[80vh] flex-col justify-center overflow-hidden px-4 py-16"
@@ -18,12 +14,7 @@ export default function NotFound() {
     >
       <PageArtAccents character="cheshire-cat" accentColor="var(--nec-purple)" variant="subtle" dividerVariant="gear" />
 
-      <motion.div
-        className="relative z-10 mx-auto w-full max-w-5xl"
-        initial={shouldReduce ? false : { opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-      >
+      <div className="page-enter-1 relative z-10 mx-auto w-full max-w-5xl">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="relative overflow-hidden rounded-[2rem] border border-[rgba(var(--nec-purple-rgb),0.16)] bg-[linear-gradient(145deg,rgba(var(--nec-purple-rgb),0.08),rgba(var(--nec-card-rgb),0.92))] p-5 shadow-[0_22px_54px_rgba(44,24,16,0.08)]">
             <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -107,7 +98,7 @@ export default function NotFound() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

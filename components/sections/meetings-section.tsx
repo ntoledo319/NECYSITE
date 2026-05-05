@@ -1,15 +1,12 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
 import { meetingsByDay, allMeetings } from "@/lib/data/meetings"
 import { MeetingCard } from "@/components/meeting-card"
 import { ExpandableMeetingRow } from "@/components/expandable-meeting-row"
 import { Mail } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
-import { staggerContainer, staggerChild, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 export default function MeetingsSection() {
-  const shouldReduce = useReducedMotion()
   const meetingCount = allMeetings.length
   const dayCount = Object.keys(meetingsByDay).length
 
@@ -84,13 +81,7 @@ export default function MeetingsSection() {
         </table>
       </div>
 
-      <motion.div
-        className="grid grid-cols-1 gap-4 md:hidden"
-        variants={shouldReduce ? undefined : staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-40px" }}
-      >
+      <div className="grid grid-cols-1 gap-4 md:hidden">
         <div className="rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] px-4 py-4 shadow-[0_16px_34px_rgba(44,24,16,0.06)]">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Mobile View</p>
           <p className="mt-2 text-sm leading-6 text-[var(--nec-muted)]">
@@ -98,18 +89,14 @@ export default function MeetingsSection() {
           </p>
         </div>
         {Object.entries(meetingsByDay).map(([day, meetings]) => (
-          <motion.div key={day} variants={staggerChild}>
+          <div key={day}>
             <MeetingCard day={day} meetings={meetings} />
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
 
-      <motion.div
+      <div
         className="mt-6 flex flex-col gap-4 rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[linear-gradient(135deg,rgba(var(--nec-purple-rgb),0.04),rgba(var(--nec-card-rgb),0.92))] p-6 shadow-[0_22px_48px_rgba(44,24,16,0.08)] sm:flex-row sm:items-center"
-        initial={shouldReduce ? false : { opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
       >
         <div className="flex-1">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--nec-purple)]">Missing One?</p>
@@ -126,7 +113,7 @@ export default function MeetingsSection() {
           <Mail className="h-4 w-4" aria-hidden="true" />
           {CONTACT_EMAIL}
         </a>
-      </motion.div>
+      </div>
     </section>
   )
 }

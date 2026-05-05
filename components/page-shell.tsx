@@ -1,11 +1,7 @@
-"use client"
-
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
-import { motion, useReducedMotion } from "framer-motion"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
-import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 interface PageShellProps {
   badge: string
@@ -52,7 +48,6 @@ function getCharacterForPage(badge: string): "mad-hatter" | "cheshire-cat" | "ca
 export default function PageShell({ badge, title, subtitle, children, character }: PageShellProps) {
   const charKey = character || getCharacterForPage(badge)
   const char = CHARACTER_DATA[charKey]
-  const shouldReduce = useReducedMotion()
 
   return (
     <div
@@ -62,24 +57,15 @@ export default function PageShell({ badge, title, subtitle, children, character 
       <div className="page-frame">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl">
-            {/* Page header with staggered entrance */}
-            <motion.div
-              className="mb-8 text-center md:mb-10"
-              initial={shouldReduce ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
-            >
+            <div className="page-enter-1 mb-8 text-center md:mb-10">
               <span className="section-badge mb-4 inline-flex">{badge}</span>
               <h1 className="section-heading mb-3">{title}</h1>
               {subtitle && <p className="mx-auto max-w-2xl text-lg leading-8 text-[var(--nec-muted)]">{subtitle}</p>}
-            </motion.div>
+            </div>
 
             {children || (
-              <motion.div
-                className={`relative grid gap-8 lg:grid-cols-[0.95fr_1.05fr] ${char.atmosphere}`}
-                initial={shouldReduce ? false : { opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={shouldReduce ? { duration: 0 } : { ...SPRING_GENTLE, delay: 0.08 }}
+              <div
+                className={`page-enter-2 relative grid gap-8 lg:grid-cols-[0.95fr_1.05fr] ${char.atmosphere}`}
               >
                 <div className="nec-card relative overflow-hidden p-8 md:p-10">
                   <div
@@ -135,7 +121,6 @@ export default function PageShell({ badge, title, subtitle, children, character 
                 </div>
 
                 <div className="grid gap-6">
-                  {/* Portal art — the character's doorway into the Mad Realm */}
                   <div className="nec-card overflow-hidden p-4">
                     <div className="overflow-hidden rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.10)]">
                       <Image
@@ -149,7 +134,6 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     </div>
                   </div>
 
-                  {/* Status card with character */}
                   <div className="rounded-[1.75rem] border border-[rgba(var(--nec-purple-rgb),0.12)] bg-[rgba(var(--nec-card-rgb),0.76)] p-6">
                     <div className="flex items-center gap-4">
                       <div className="overflow-hidden rounded-2xl border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-purple-rgb),0.03)] p-2">
@@ -176,7 +160,7 @@ export default function PageShell({ badge, title, subtitle, children, character 
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )}
           </div>
         </div>

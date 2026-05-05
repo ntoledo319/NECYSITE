@@ -7,6 +7,8 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 import AnonymousFeedbackForm from "@/components/anonymous-feedback-form"
 import PageArtAccents from "@/components/art/page-art-accents"
 
+export const dynamic = "force-static"
+
 export const metadata: Metadata = {
   title: "Accessibility — NECYPAA XXXVI",
   description:

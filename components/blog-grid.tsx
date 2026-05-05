@@ -1,11 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { motion, useReducedMotion } from "framer-motion"
 import type { BlogPost } from "@/lib/data/blog-posts"
 import BlogCard from "@/components/blog-card"
 import { Newspaper } from "lucide-react"
-import { staggerContainer, staggerChild } from "@/components/ui/motion-primitives"
 
 interface BlogGridProps {
   posts: BlogPost[]
@@ -16,7 +14,6 @@ export default function BlogGrid({ posts }: BlogGridProps) {
   const sorted = [...posts].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
   const visible = sorted.slice(0, visibleCount)
   const hasMore = visibleCount < sorted.length
-  const shouldReduce = useReducedMotion()
 
   return (
     <section aria-label="Blog posts">
@@ -32,23 +29,13 @@ export default function BlogGrid({ posts }: BlogGridProps) {
         />
       </div>
 
-      <motion.div
-        className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
-        variants={shouldReduce ? undefined : staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-      >
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {visible.map((post, index) => (
-          <motion.div
-            key={post.id}
-            variants={staggerChild}
-            className={index === 0 ? "md:col-span-2 xl:col-span-2" : ""}
-          >
+          <div key={post.id} className={index === 0 ? "md:col-span-2 xl:col-span-2" : ""}>
             <BlogCard post={post} index={index} />
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
 
       {hasMore && (
         <div className="mt-12 text-center">

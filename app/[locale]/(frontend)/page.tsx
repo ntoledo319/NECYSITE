@@ -23,8 +23,7 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const hostEvents = await getEvents()
-  const events = await fetchCalendarEvents()
+  const [hostEvents, events] = await Promise.all([getEvents(), fetchCalendarEvents()])
   const now = new Date()
   const nextBusinessMeeting = events.find((e) => e.category === "host-business" && new Date(e.start) >= now)
 

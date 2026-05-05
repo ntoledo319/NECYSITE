@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from "react"
-import { motion, useReducedMotion } from "framer-motion"
 import { ExternalLink, Map, List, Globe, Sparkles, Users, BookOpen, Info } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import { NECYPAA_STATES } from "@/lib/data/states"
@@ -15,7 +14,6 @@ import StateCard from "@/components/state-card"
 import MeetingDirectory from "@/components/meeting-directory"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
-import { staggerContainer, staggerChild, SPRING_GENTLE } from "@/components/ui/motion-primitives"
 
 const NecypaaRegionMap = lazy(() => import("@/components/necypaa-region-map"))
 
@@ -27,8 +25,6 @@ export default function StatesPage() {
   const [regionFilter, setRegionFilter] = useState<RegionFilter>("all")
   const [viewMode, setViewMode] = useState<"map" | "list">("map")
   const [activeTab, setActiveTab] = useState<ContentTab>("resources")
-  const shouldReduce = useReducedMotion()
-
   useEffect(() => {
     if (window.innerWidth < 768) setViewMode("list")
   }, [])
@@ -131,11 +127,8 @@ export default function StatesPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl">
             {/* ── Hero Header ──────────────────────── */}
-            <motion.header
-              className="relative mb-10 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:mb-12 md:px-8 md:py-10"
-              initial={shouldReduce ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={shouldReduce ? { duration: 0 } : SPRING_GENTLE}
+            <header
+              className="page-enter-1 relative mb-10 overflow-hidden rounded-[2rem] border px-6 py-8 text-center shadow-[0_22px_48px_rgba(44,24,16,0.08)] md:mb-12 md:px-8 md:py-10"
               style={{
                 background: "rgba(var(--nec-card-rgb),0.74)",
                 borderColor: "rgba(var(--nec-purple-rgb),0.12)",
@@ -174,22 +167,17 @@ export default function StatesPage() {
                 Local AA resources, intergroups, and young people&apos;s groups across the NECYPAA region — 12 states
                 and Washington, D.C.
               </p>
-            </motion.header>
+            </header>
 
             {/* ── Luxury Stats Strip ─────────────────── */}
-            <motion.div
+            <div
               className="section-atmosphere-cyan relative mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4 md:mb-12 md:gap-4"
               role="group"
               aria-label="Region statistics"
-              variants={shouldReduce ? undefined : staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
             >
               {stats.map((stat) => (
-                <motion.div
+                <div
                   key={stat.label}
-                  variants={staggerChild}
                   className="states-stat-card relative overflow-hidden rounded-[1.55rem] p-5 text-center md:p-6"
                   style={{
                     background: `linear-gradient(135deg, rgba(${stat.bgRgb},0.08) 0%, rgba(var(--nec-card-rgb),0.8) 100%)`,
@@ -214,9 +202,9 @@ export default function StatesPage() {
                   >
                     {stat.label}
                   </span>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
 
             {/* ── Interactive Map Section ─────────────── */}
             <section
@@ -510,23 +498,17 @@ export default function StatesPage() {
 
                 {/* State cards */}
                 <section id="state-cards-panel" role="tabpanel" aria-label="NECYPAA member states">
-                  <motion.div
-                    className="space-y-3"
-                    variants={shouldReduce ? undefined : staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-40px" }}
-                  >
+                  <div className="space-y-3">
                     {filteredStates.map((state) => (
-                      <motion.div key={state.abbreviation} variants={staggerChild}>
+                      <div key={state.abbreviation}>
                         <StateCard
                           state={state}
                           isHighlighted={selectedState === state.abbreviation}
                           onViewMeetings={handleViewMeetings}
                         />
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 </section>
 
                 {/* AA Meeting Finder — compact */}

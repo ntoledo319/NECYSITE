@@ -52,3 +52,7 @@ payload-types.ts
 # OS files
 .DS_Store
 Thumbs.db
+
+# Never commit image backup files created by optimization scripts
+public/**/*.original
+*.whitebg.bak
