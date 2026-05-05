@@ -126,7 +126,7 @@ export default function ScholarshipConfigurator({
           <div className="space-y-1">
             <p className="form-section-label">Amount</p>
             <p className="text-sm leading-6 text-[var(--nec-muted)]">
-              Keep the amount tied to the live pre-registration price, or switch to a custom amount for each
+              Keep the amount tied to the regular price, or switch to a custom amount for each
               scholarship.
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function ScholarshipConfigurator({
                   : "border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.84)] text-[var(--nec-muted)] hover:border-[rgba(var(--nec-purple-rgb),0.18)] hover:text-[var(--nec-text)]"
               }`}
             >
-              <span className="block text-sm font-semibold">Use synced amount</span>
+              <span className="block text-sm font-semibold">Use regular price</span>
               <span className="mt-1 block text-xs leading-6">${formatUsdFromCents(defaultUnitAmountCents)} each</span>
             </button>
 
@@ -171,7 +171,7 @@ export default function ScholarshipConfigurator({
                 ${formatUsdFromCents(defaultUnitAmountCents)}
               </p>
               <p className="mt-1 text-xs leading-6 text-[var(--nec-muted)]">
-                This stays synced with the current pre-registration price.
+                This stays synced with the regular price.
               </p>
             </div>
           ) : (
@@ -228,3 +228,4 @@ export default function ScholarshipConfigurator({
     </div>
   )
 }
+

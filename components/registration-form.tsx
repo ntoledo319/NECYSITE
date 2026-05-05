@@ -367,9 +367,10 @@ export default function RegistrationForm({
           <div className="space-y-2">
             <p className="form-section-label">Sponsored Registration</p>
             <p className="form-support-text">
-              Tell us who this scholarship registration is intended for. If you don&apos;t know the email yet, you can
-              leave it blank. The amount defaults to the current pre-registration price on the next step, and you can
-              override it there if needed.
+              You can sponsor a specific person or contribute to the <strong>General Scholarship Fund</strong>.
+              If contributing to the fund, enter &quot;General Fund&quot; as the recipient name.
+              The amount defaults to the current pre-registration price on the next step, and you can
+              override it there to provide a partial scholarship.
             </p>
           </div>
 

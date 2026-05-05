@@ -396,7 +396,7 @@ export default function RegistrationCheckout({
               : undefined
           }
           title="Scholarship Pricing"
-          description="Use the live pre-registration price by default, or set a custom amount per scholarship if you need something different."
+          description="Provide a full registration by using the regular price, or set a custom amount to provide a partial scholarship. Each gift helps ensure no one is turned away. Every donation to the scholarship fund lets us help give the next sick and suffering a place to be this New Year's."
         />
       )}
 
