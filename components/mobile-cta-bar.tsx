@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react"
 import { Link } from "@/i18n/navigation"
-import { HOTEL_BOOKING_URL } from "@/lib/constants"
 
 export default function MobileCtaBar() {
   const navRef = useRef<HTMLElement>(null)
@@ -32,6 +31,17 @@ export default function MobileCtaBar() {
       }}
     >
       <Link
+        href="/#purpose"
+        className="btn-secondary flex-1 !py-3 !text-sm"
+        style={{
+          backgroundColor: "rgba(var(--nec-card-rgb),0.6)",
+          borderColor: "rgba(var(--nec-purple-rgb),0.34)",
+          color: "var(--nec-text)",
+        }}
+      >
+        First time? Start here
+      </Link>
+      <Link
         href="/register"
         className="btn-primary flex-1 !py-3 !text-sm"
         style={{
@@ -42,19 +52,6 @@ export default function MobileCtaBar() {
       >
         Register
       </Link>
-      <a
-        href={HOTEL_BOOKING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn-secondary flex-1 !py-3 !text-sm"
-        style={{
-          backgroundColor: "#7A5B0D",
-          borderColor: "rgba(122,91,13,0.34)",
-          color: "#fdf8ee",
-        }}
-      >
-        Book Hotel<span className="sr-only"> (opens in new tab)</span>
-      </a>
     </nav>
   )
 }

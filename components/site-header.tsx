@@ -7,11 +7,15 @@ import { usePathname } from "next/navigation"
 import { X, Menu, ChevronDown } from "lucide-react"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL } from "@/lib/constants"
 import { useFocusTrap } from "@/lib/use-focus-trap"
+import ExternalLink from "@/components/external-link"
+
+type ExternalKind = "aa-resource" | "logistics" | "third-party"
 
 type NavLink = {
   href: string
   label: string
   external?: boolean
+  externalKind?: ExternalKind
 }
 
 type NavDropdown = {
@@ -29,7 +33,7 @@ const navItems: NavItem[] = [
   { href: "/#what-is-ypaa", label: "About" },
   { href: "/events", label: "Events" },
   { href: "/program", label: "Program" },
-  { href: HOTEL_BOOKING_URL, label: "Hotel", external: true },
+  { href: HOTEL_BOOKING_URL, label: "Hotel", external: true, externalKind: "logistics" },
   { href: "/blog", label: "Blog" },
   { href: "/service", label: "Service" },
   { href: "/faq", label: "FAQ" },
@@ -45,7 +49,7 @@ const navItems: NavItem[] = [
       { href: "/alanon", label: "Al-Anon / Alateen" },
       { href: "/accessibility", label: "Accessibility" },
       { href: "/bid", label: "Start a Bid" },
-      { href: NECYPAA_ADVISORY_URL, label: "Advisory", external: true },
+      { href: NECYPAA_ADVISORY_URL, label: "Advisory", external: true, externalKind: "aa-resource" },
     ],
   },
 ]
@@ -131,19 +135,15 @@ function DesktopDropdown({ item, pathname }: { item: NavDropdown; pathname: stri
         >
           {item.children.map((child) =>
             child.external ? (
-              <a
+              <ExternalLink
                 key={child.label}
                 href={child.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                role="menuitem"
-                tabIndex={open ? 0 : -1}
-                onClick={() => setOpen(false)}
+                kind={child.externalKind ?? "third-party"}
+                showIcon={false}
                 className="nec-nav-hover block px-4 py-2.5 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
               >
                 {child.label}
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
+              </ExternalLink>
             ) : (
               <Link
                 key={child.label}
@@ -190,17 +190,15 @@ function MobileDropdown({ item, onClose, pathname }: { item: NavDropdown; onClos
         <div className="space-y-0.5 pb-1 pl-4">
           {item.children.map((child) =>
             child.external ? (
-              <a
+              <ExternalLink
                 key={child.label}
                 href={child.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={onClose}
+                kind={child.externalKind ?? "third-party"}
+                showIcon={false}
                 className="nec-nav-hover block rounded-lg px-4 py-2.5 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
               >
                 {child.label}
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
+              </ExternalLink>
             ) : (
               <Link
                 key={child.label}
@@ -307,16 +305,15 @@ export default function SiteHeader() {
                 isDropdown(item) ? (
                   <DesktopDropdown key={item.label} item={item} pathname={pathname} />
                 ) : item.external ? (
-                  <a
+                  <ExternalLink
                     key={item.label}
                     href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    kind={item.externalKind ?? "third-party"}
+                    showIcon={false}
                     className="nec-nav-hover rounded-xl px-3 py-2 text-sm font-medium tracking-[0.01em] text-[var(--nec-muted)] transition-all duration-150 hover:text-[var(--nec-text)]"
                   >
                     {item.label}
-                    <span className="sr-only"> (opens in new tab)</span>
-                  </a>
+                  </ExternalLink>
                 ) : (
                   <Link
                     key={item.label}
@@ -384,17 +381,15 @@ export default function SiteHeader() {
           isDropdown(item) ? (
             <MobileDropdown key={item.label} item={item} onClose={close} pathname={pathname} />
           ) : item.external ? (
-            <a
+            <ExternalLink
               key={item.label}
               href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={close}
+              kind={item.externalKind ?? "third-party"}
+              showIcon={false}
               className="nec-nav-hover rounded-xl px-4 py-3 text-base font-semibold tracking-[0.01em] text-[var(--nec-text)] transition-all hover:text-[var(--nec-text)]"
             >
               {item.label}
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
+            </ExternalLink>
           ) : (
             <Link
               key={item.label}
@@ -416,16 +411,6 @@ export default function SiteHeader() {
           <Link href="/register" onClick={close} className="btn-primary w-full !justify-center">
             Register
           </Link>
-          <a
-            href={HOTEL_BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={close}
-            className="btn-secondary w-full !justify-center"
-          >
-            Book Hotel
-            <span className="sr-only"> (opens in new tab)</span>
-          </a>
         </div>
       </nav>
     </>

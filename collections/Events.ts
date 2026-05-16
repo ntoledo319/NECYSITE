@@ -21,12 +21,40 @@ export const Events: CollectionConfig = {
       label: "Event Title",
     },
     {
+      name: "startsAt",
+      type: "date",
+      required: true,
+      label: "Starts At (ISO timestamp)",
+      admin: {
+        date: {
+          pickerAppearance: "dayAndTime",
+          timeFormat: "h:mm a",
+        },
+        description:
+          "Canonical start datetime. Drives upcoming-vs-past partitioning, sorting, and structured-data feeds.",
+      },
+    },
+    {
+      name: "endsAt",
+      type: "date",
+      label: "Ends At (optional)",
+      admin: {
+        date: {
+          pickerAppearance: "dayAndTime",
+          timeFormat: "h:mm a",
+        },
+        description:
+          "Optional end datetime. Used by calendar exports and Event JSON-LD when set; otherwise we default to a 3-hour window.",
+      },
+    },
+    {
       name: "date",
       type: "text",
       required: true,
       label: "Display Date",
       admin: {
-        description: 'Human-readable date string, e.g. "Friday, February 13th, 2026"',
+        description:
+          'Human-readable date string shown in the UI, e.g. "Friday, February 13th, 2026". Chronology is driven by Starts At, not this field.',
       },
     },
     {

@@ -8,6 +8,7 @@ import MobileCtaBar from "@/components/mobile-cta-bar"
 import FlyerWithModal from "@/components/flyer-with-modal"
 import PageArtAccents from "@/components/art/page-art-accents"
 import ShareMenu from "@/components/share-menu"
+import ExternalLink from "@/components/external-link"
 import { generateEventJsonLd } from "@/lib/event-jsonld"
 
 export const revalidate = 300 // Revalidate every 5 minutes
@@ -130,16 +131,16 @@ export default async function EventsPage() {
                       {(() => {
                         const calUrl = getGoogleCalendarUrl(upcomingEvent)
                         return calUrl ? (
-                          <a
+                          <ExternalLink
                             href={calUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            kind="logistics"
+                            showIcon={false}
+                            srSuffix="Google Calendar"
                             className="btn-ghost inline-flex items-center gap-2 self-start"
                           >
                             <CalendarPlus className="h-4 w-4" aria-hidden="true" />
                             Add to Calendar
-                            <span className="sr-only"> (opens Google Calendar in new tab)</span>
-                          </a>
+                          </ExternalLink>
                         ) : null
                       })()}
 

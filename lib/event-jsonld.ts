@@ -12,11 +12,26 @@ function parseToISO(dateStr: string, timeStr?: string): string | null {
 }
 
 export function generateEventJsonLd(event: EventData): Record<string, unknown> | null {
-  const startTime = event.schedule.length > 0 ? event.schedule[0].time : undefined
-  const startDate = parseToISO(event.date, startTime)
+  let startDate: string | null = null
+  if (event.startsAt) {
+    const ms = new Date(event.startsAt).getTime()
+    if (Number.isFinite(ms)) startDate = new Date(ms).toISOString()
+  }
+  if (!startDate) {
+    const startTime = event.schedule.length > 0 ? event.schedule[0].time : undefined
+    startDate = parseToISO(event.date, startTime)
+  }
   if (!startDate) return null
 
-  const endDate = new Date(new Date(startDate).getTime() + 3 * 60 * 60 * 1000).toISOString()
+  let endDate: string
+  if (event.endsAt) {
+    const ms = new Date(event.endsAt).getTime()
+    endDate = Number.isFinite(ms)
+      ? new Date(ms).toISOString()
+      : new Date(new Date(startDate).getTime() + 3 * 60 * 60 * 1000).toISOString()
+  } else {
+    endDate = new Date(new Date(startDate).getTime() + 3 * 60 * 60 * 1000).toISOString()
+  }
 
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",

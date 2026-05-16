@@ -2,6 +2,7 @@ import { Calendar, Clock, Video } from "lucide-react"
 import { ZOOM_MEETING_URL } from "@/lib/constants"
 import { GearCluster } from "@/components/art/steampunk-gears"
 import { SpotlightCard, MagneticButton } from "@/components/ui/motion-primitives"
+import ExternalLink from "@/components/external-link"
 import type { CalendarEvent } from "@/lib/calendar/types"
 
 function formatMeetingDate(iso: string): string {
@@ -101,10 +102,10 @@ export default function BusinessMeetingSection({ nextMeeting }: { nextMeeting?: 
 
         <div className="fade-up">
           <MagneticButton strength={0.25}>
-            <a
+            <ExternalLink
               href={ZOOM_MEETING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              kind="logistics"
+              showIcon={false}
               className="zoom-link inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition-all duration-200"
               style={{
                 background: "rgba(124,58,237,0.12)",
@@ -114,8 +115,8 @@ export default function BusinessMeetingSection({ nextMeeting }: { nextMeeting?: 
               }}
             >
               <Video className="h-4 w-4" aria-hidden="true" />
-              Join on Zoom<span className="sr-only"> (opens in new tab)</span>
-            </a>
+              Join on Zoom
+            </ExternalLink>
           </MagneticButton>
         </div>
       </SpotlightCard>

@@ -3,7 +3,6 @@
 import { useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { HOTEL_BOOKING_URL } from "@/lib/constants"
 import AddToCalendar from "@/components/add-to-calendar"
 import { MagneticButton } from "@/components/ui/motion-primitives"
 
@@ -196,19 +195,13 @@ export default function HeroSection() {
           <div className="flex w-full max-w-xs flex-col justify-center gap-3 sm:max-w-sm sm:flex-row">
             <MagneticButton className="w-full sm:w-auto" strength={0.2}>
               <Link href="/register" className="btn-primary justify-center text-center">
-                Register Now
+                Register
               </Link>
             </MagneticButton>
             <MagneticButton className="w-full sm:w-auto" strength={0.2}>
-              <a
-                href={HOTEL_BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary justify-center text-center"
-              >
-                Book Hotel
-                <span className="sr-only"> (opens in new tab)</span>
-              </a>
+              <Link href="/#purpose" className="btn-secondary justify-center text-center">
+                First time? Start here
+              </Link>
             </MagneticButton>
           </div>
           <AddToCalendar variant="inline" />

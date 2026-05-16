@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto"
 import { Redis } from "@upstash/redis"
 
 interface RateLimitOptions {
@@ -13,7 +14,6 @@ interface RateLimitResult {
   resetMs: number
 }
 
-// In-memory fallback
 interface RateLimitEntry {
   timestamps: number[]
 }
@@ -73,8 +73,16 @@ const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN
 
 const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null
 
+// Redis is the only distributed limiter; in-memory is per-instance and won't survive multi-instance deploys.
+// Production must have Redis. Without it we fail closed so an attacker can't bypass via instance hopping.
+const isProduction = process.env.NODE_ENV === "production"
+
 export async function rateLimit(key: string, options: RateLimitOptions): Promise<RateLimitResult> {
   if (!redis) {
+    if (isProduction) {
+      console.error("[rate-limit] Redis is not configured in production — failing closed")
+      return { success: false, remaining: 0, resetMs: options.windowMs }
+    }
     return rateLimitInMemory(key, options)
   }
 
@@ -82,7 +90,6 @@ export async function rateLimit(key: string, options: RateLimitOptions): Promise
   const now = Date.now()
   const windowSecs = Math.ceil(windowMs / 1000)
 
-  // Use a simple sorted set sliding window
   const redisKey = `ratelimit:${key}`
   const cutoff = now - windowMs
 
@@ -91,41 +98,93 @@ export async function rateLimit(key: string, options: RateLimitOptions): Promise
   pipeline.zcard(redisKey)
   pipeline.zadd(redisKey, { score: now, member: `${now}-${Math.random()}` })
   pipeline.expire(redisKey, windowSecs)
+  pipeline.zrange(redisKey, 0, 0, { withScores: true })
 
   let results: unknown
   try {
     results = await pipeline.exec()
-  } catch {
-    return rateLimitInMemory(key, options)
+  } catch (err) {
+    console.error("[rate-limit] Redis pipeline failed — failing closed:", err)
+    return { success: false, remaining: 0, resetMs: windowMs }
   }
 
   if (!Array.isArray(results) || typeof results[1] !== "number") {
-    return rateLimitInMemory(key, options)
+    console.error("[rate-limit] Unexpected Redis response shape — failing closed")
+    return { success: false, remaining: 0, resetMs: windowMs }
   }
 
   const count = results[1]
 
+  let resetMs = windowMs
+  const oldestEntry = results[4]
+  if (Array.isArray(oldestEntry) && oldestEntry.length >= 2) {
+    const score = Number(oldestEntry[1])
+    if (Number.isFinite(score)) {
+      resetMs = Math.max(0, score + windowMs - now)
+    }
+  }
+
   if (count >= limit) {
-    // If blocked, we added a member we shouldn't have, but it will expire anyway.
-    // To be perfectly accurate we could remove it, but for rate limiting it's fine.
     return {
       success: false,
       remaining: 0,
-      resetMs: windowMs, // simplified reset for Redis implementation
+      resetMs,
     }
   }
 
   return {
     success: true,
     remaining: Math.max(0, limit - (count + 1)),
-    resetMs: windowMs,
+    resetMs,
   }
 }
 
-export async function rateLimitCheckout(key: string): Promise<RateLimitResult> {
-  return rateLimit(`checkout:${key}`, { limit: 5, windowMs: 60_000 })
+const RATE_LIMIT_IP_SALT = process.env.RATE_LIMIT_IP_SALT ?? "necypaa-ratelimit"
+
+export function hashIdentifier(value: string): string {
+  return createHash("sha256")
+    .update(`${RATE_LIMIT_IP_SALT}:${value}`)
+    .digest("hex")
+    .slice(0, 16)
 }
 
-export async function rateLimitCodeRedemption(key: string): Promise<RateLimitResult> {
-  return rateLimit(`code:${key}`, { limit: 3, windowMs: 60_000 })
+export function extractClientIp(headers: Headers | Record<string, string | string[] | undefined>): string {
+  const get = (name: string): string | undefined => {
+    if (headers instanceof Headers) return headers.get(name) ?? undefined
+    const raw = headers[name] ?? headers[name.toLowerCase()]
+    if (Array.isArray(raw)) return raw[0]
+    return raw
+  }
+
+  const forwarded = get("x-forwarded-for")
+  if (forwarded) {
+    const first = forwarded.split(",")[0]?.trim()
+    if (first) return first
+  }
+
+  return get("x-real-ip") ?? get("cf-connecting-ip") ?? get("x-vercel-forwarded-for") ?? "unknown"
+}
+
+function composeKey(prefix: string, parts: { ip: string; subject: string }): string {
+  const ipHash = hashIdentifier(parts.ip)
+  const subject = parts.subject.toLowerCase().trim()
+  return `${prefix}:${ipHash}:${subject}`
+}
+
+export function formatResetSeconds(resetMs: number): number {
+  return Math.max(1, Math.ceil(resetMs / 1000))
+}
+
+export async function rateLimitCheckout(parts: { ip: string; email: string }): Promise<RateLimitResult> {
+  return rateLimit(composeKey("checkout", { ip: parts.ip, subject: parts.email }), {
+    limit: 5,
+    windowMs: 60_000,
+  })
+}
+
+export async function rateLimitCodeRedemption(parts: { ip: string; email: string }): Promise<RateLimitResult> {
+  return rateLimit(composeKey("code", { ip: parts.ip, subject: parts.email }), {
+    limit: 3,
+    windowMs: 60_000,
+  })
 }

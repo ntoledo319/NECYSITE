@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test"
 import AxeBuilder from "@axe-core/playwright"
+// Slug enumeration only — canonical content layer is lib/data/fetch-utils.ts (getBlogPosts).
+// TODO: discover slugs via the running app (sitemap or /blog) instead of importing the static seed.
 import { BLOG_POSTS } from "../lib/data/blog-posts"
 
 /**

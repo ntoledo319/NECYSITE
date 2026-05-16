@@ -1,6 +1,7 @@
 "use server"
 
 import { createHash, randomUUID } from "node:crypto"
+import { headers } from "next/headers"
 import { getPayload } from "payload"
 import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
@@ -11,7 +12,12 @@ import {
   calculateProcessingFee,
   formatUsdFromCents,
 } from "@/lib/registration-products"
-import { rateLimitCheckout, rateLimitCodeRedemption } from "@/lib/rate-limit"
+import {
+  rateLimitCheckout,
+  rateLimitCodeRedemption,
+  extractClientIp,
+  formatResetSeconds,
+} from "@/lib/rate-limit"
 import {
   registrationDataSchema,
   policyAgreementsSchema,
@@ -66,9 +72,11 @@ export async function startRegistrationCheckout(
 
   const uniqueBreakfastIds = [...new Set(validatedBreakfastIds)]
 
-  const rl = await rateLimitCheckout(validatedData.email)
+  const ip = extractClientIp(await headers())
+  const rl = await rateLimitCheckout({ ip, email: validatedData.email })
   if (!rl.success) {
-    throw new Error("Too many checkout attempts. Please wait a moment and try again.")
+    const seconds = formatResetSeconds(rl.resetMs)
+    throw new Error(`Too many checkout attempts. Please wait about ${seconds}s and try again.`)
   }
 
   const product = REGISTRATION_PRODUCTS.find((p) => p.id === validatedProductId)
@@ -301,9 +309,11 @@ export async function submitAccessCodeRegistration(
     return { success: false, error: "A registration access code is required." }
   }
 
-  const rl = await rateLimitCodeRedemption(validatedData.email)
+  const ip = extractClientIp(await headers())
+  const rl = await rateLimitCodeRedemption({ ip, email: validatedData.email })
   if (!rl.success) {
-    return { success: false, error: "Too many attempts. Please wait a moment and try again." }
+    const seconds = formatResetSeconds(rl.resetMs)
+    return { success: false, error: `Too many attempts. Please wait about ${seconds}s and try again.` }
   }
 
   const idempotencyKey = createHash("sha256")

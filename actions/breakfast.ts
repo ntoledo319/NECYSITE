@@ -1,12 +1,13 @@
 "use server"
 
 import { randomUUID } from "node:crypto"
+import { headers } from "next/headers"
 import { getPayload } from "payload"
 import configPromise from "@payload-config"
 import { stripe } from "@/lib/stripe"
 import { env } from "@/lib/env"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
-import { rateLimitCheckout } from "@/lib/rate-limit"
+import { rateLimitCheckout, extractClientIp, formatResetSeconds } from "@/lib/rate-limit"
 import { breakfastAttendeeSchema, breakfastIdsSchema } from "@/lib/validation"
 import type { BreakfastAttendee } from "@/lib/types"
 
@@ -23,9 +24,11 @@ export async function startBreakfastCheckout(attendee: BreakfastAttendee, breakf
 
   const uniqueBreakfastIds = [...new Set(validatedIds)]
 
-  const rl = await rateLimitCheckout(validatedAttendee.email)
+  const ip = extractClientIp(await headers())
+  const rl = await rateLimitCheckout({ ip, email: validatedAttendee.email })
   if (!rl.success) {
-    throw new Error("Too many checkout attempts. Please wait a moment and try again.")
+    const seconds = formatResetSeconds(rl.resetMs)
+    throw new Error(`Too many checkout attempts. Please wait about ${seconds}s and try again.`)
   }
 
   const selectedBreakfasts = uniqueBreakfastIds

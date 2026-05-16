@@ -1,13 +1,14 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { pastEvents } from "@/lib/data/events"
+import { getEvents } from "@/lib/data/fetch-utils"
+import type { EventData } from "@/lib/data/events"
 import { Calendar, MapPin } from "lucide-react"
 import SiteFooter from "@/components/site-footer"
 import MobileCtaBar from "@/components/mobile-cta-bar"
 import PageArtAccents from "@/components/art/page-art-accents"
 import FlyerWithModal from "@/components/flyer-with-modal"
 
-export const dynamic = "force-static"
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: "The Journey Comes First — NECYPAA XXXVI",
@@ -15,12 +16,17 @@ export const metadata: Metadata = {
     "An archive of the journey to NECYPAA XXXVI — past events, fundraisers, and milestones from the CT Host Committee.",
 }
 
-function getEventYear(date: string) {
-  const match = date.match(/20\d{2}/)
+function getEventYear(event: EventData): string {
+  if (event.startsAt) {
+    const ms = new Date(event.startsAt).getTime()
+    if (Number.isFinite(ms)) return String(new Date(ms).getFullYear())
+  }
+  const match = event.date.match(/20\d{2}/)
   return match?.[0] ?? ""
 }
 
-export default function JourneyPage() {
+export default async function JourneyPage() {
+  const { past: pastEvents } = await getEvents()
   return (
     <div
       className="min-h-screen-safe relative flex min-h-screen flex-col overflow-hidden"
@@ -114,9 +120,9 @@ export default function JourneyPage() {
 
               <div className="space-y-8">
                 {(() => {
-                  const grouped = new Map<string, typeof pastEvents>()
+                  const grouped = new Map<string, EventData[]>()
                   for (const ev of pastEvents) {
-                    const year = getEventYear(ev.date)
+                    const year = getEventYear(ev)
                     if (!grouped.has(year)) grouped.set(year, [])
                     grouped.get(year)!.push(ev)
                   }
@@ -139,7 +145,7 @@ export default function JourneyPage() {
                         >
                           <div className="relative hidden justify-center pt-2 md:flex" aria-hidden="true">
                             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(var(--nec-gold-rgb),0.18)] bg-[rgba(var(--nec-gold-rgb),0.08)] text-sm font-semibold text-[var(--nec-gold)]">
-                              {getEventYear(event.date)}
+                              {getEventYear(event)}
                             </div>
                           </div>
 

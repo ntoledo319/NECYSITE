@@ -45,7 +45,7 @@ export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID ?? ''
 export function pageview(url: string, title?: string) {
   if (typeof window === 'undefined' || !window.gtag) return
 
-  window.gtag('config', GA_TRACKING_ID, {
+  window.gtag('event', 'page_view', {
     page_path: url,
     page_title: title ?? document.title,
     page_location: window.location.href,
