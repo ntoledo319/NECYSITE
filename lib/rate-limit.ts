@@ -188,3 +188,29 @@ export async function rateLimitCodeRedemption(parts: { ip: string; email: string
     windowMs: 60_000,
   })
 }
+
+/**
+ * Second limiter for access-code redemption, keyed on IP only. Without this
+ * an attacker on one IP could brute-force codes by cycling emails because the
+ * primary limiter includes email in its key.
+ */
+export async function rateLimitCodeRedemptionByIp(parts: { ip: string }): Promise<RateLimitResult> {
+  const ipHash = hashIdentifier(parts.ip)
+  return rateLimit(`code-ip:${ipHash}`, {
+    limit: 20,
+    windowMs: 60_000,
+  })
+}
+
+/**
+ * Read-only rate-limit variant that FAILS OPEN when Redis isn't configured.
+ * Use for routes where blocking a legitimate user is worse than missing a
+ * spam wave — confirmation page views, public health checks. Don't use for
+ * anything that mutates state.
+ */
+export async function rateLimitReadOnly(key: string, options: RateLimitOptions): Promise<RateLimitResult> {
+  if (!redis) {
+    return { success: true, remaining: options.limit, resetMs: options.windowMs }
+  }
+  return rateLimit(key, options)
+}

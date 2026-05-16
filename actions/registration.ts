@@ -1,9 +1,10 @@
 "use server"
 
-import { createHash, randomUUID } from "node:crypto"
-import { headers } from "next/headers"
-import { getPayload } from "payload"
+import { createHash } from "node:crypto"
+import { headers, cookies } from "next/headers"
+import { getPayload, type Payload } from "payload"
 import configPromise from "@payload-config"
+import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
 import { env } from "@/lib/env"
 import {
@@ -15,6 +16,7 @@ import {
 import {
   rateLimitCheckout,
   rateLimitCodeRedemption,
+  rateLimitCodeRedemptionByIp,
   extractClientIp,
   formatResetSeconds,
 } from "@/lib/rate-limit"
@@ -30,6 +32,40 @@ import {
 import { redeemRegistrationCode, maskAccessCode } from "@/lib/issuer-client"
 import { EVENT_SLUG } from "@/lib/constants"
 import type { RegistrationData, PolicyAgreements, PurchaseAttribution } from "@/lib/types"
+import { newCorrelationId, type CorrelationId } from "@/lib/correlation"
+import { log, hashIdentifier, summarizeError, partialId } from "@/lib/logger"
+import { withTimeout, withRetry, safeAsync, TimeoutError } from "@/lib/resilience"
+import { dlqRegistrationFailure } from "@/lib/dlq"
+import { buildError, fromUnknown, type RegistrationError } from "@/lib/registration-errors"
+import { isRegistrationPaused, registrationPausedReason } from "@/lib/registration-status"
+import { signSuccessToken, signAccessCodePayload } from "@/lib/success-token"
+
+const SUPPORTED_LOCALES = new Set(["en", "es"])
+const DEFAULT_LOCALE = "en"
+const SUCCESS_COOKIE = "necypaa_checkout_token"
+
+const PAYLOAD_TIMEOUT_MS = 5_000
+const STRIPE_TIMEOUT_MS = 10_000
+const PI_UPDATE_TIMEOUT_MS = 5_000
+
+function normalizeLocale(input: unknown): string {
+  if (typeof input !== "string") return DEFAULT_LOCALE
+  const trimmed = input.trim().toLowerCase()
+  return SUPPORTED_LOCALES.has(trimmed) ? trimmed : DEFAULT_LOCALE
+}
+
+function isRetryableStripeError(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false
+  if (err instanceof TimeoutError) return true
+  const e = err as { type?: string; statusCode?: number }
+  if (e.type === "StripeConnectionError" || e.type === "StripeAPIError") return true
+  if (typeof e.statusCode === "number" && e.statusCode >= 500) return true
+  return false
+}
+
+export type StartCheckoutResult =
+  | { ok: true; clientSecret: string; correlationId: CorrelationId }
+  | { ok: false; error: RegistrationError }
 
 export async function startRegistrationCheckout(
   productId: string,
@@ -39,7 +75,19 @@ export async function startRegistrationCheckout(
   breakfastIds: string[] = [],
   attribution?: PurchaseAttribution,
   scholarshipUnitAmountInCents?: number,
-) {
+  locale?: string,
+): Promise<StartCheckoutResult> {
+  const correlationId = newCorrelationId()
+
+  // ── Kill switch ────────────────────────────────────────────────────
+  if (isRegistrationPaused()) {
+    log.warn({ event: "checkout.paused", correlationId, reason: registrationPausedReason() ?? "no_reason" })
+    return { ok: false, error: buildError("REGISTRATION_PAUSED", { correlationId }) }
+  }
+
+  const resolvedLocale = normalizeLocale(locale)
+
+  // ── Validate input ─────────────────────────────────────────────────
   let validatedProductId: string
   let validatedData: import("@/lib/validation").ValidatedRegistrationData
   let validatedScholarshipQty: number
@@ -59,37 +107,89 @@ export async function startRegistrationCheckout(
   } catch (err) {
     const zodErr = err as { issues?: Array<{ path: (string | number)[]; message: string }> }
     const first = zodErr.issues?.[0]
-    if (first) {
-      const fieldLabel = first.path.length > 0 ? `${first.path.join(".")}: ` : ""
-      throw new Error(`We couldn't accept that input — ${fieldLabel}${first.message}`)
+    const fieldPath = first?.path?.join(".")
+    log.warn({
+      event: "checkout.validation_failed",
+      correlationId,
+      fieldPath,
+      message: first?.message,
+    })
+    return {
+      ok: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        fieldPath,
+        userMessage: first
+          ? `We couldn't accept that input — ${fieldPath ? fieldPath + ": " : ""}${first.message}`
+          : undefined,
+      }),
     }
-    throw new Error("Invalid registration data. Please check your information and try again.")
   }
 
   if (validatedData.isScholarship && validatedScholarshipQty < 1) {
-    throw new Error("Add at least one scholarship to continue.")
-  }
-
-  const uniqueBreakfastIds = [...new Set(validatedBreakfastIds)]
-
-  const ip = extractClientIp(await headers())
-  const rl = await rateLimitCheckout({ ip, email: validatedData.email })
-  if (!rl.success) {
-    const seconds = formatResetSeconds(rl.resetMs)
-    throw new Error(`Too many checkout attempts. Please wait about ${seconds}s and try again.`)
-  }
-
-  const product = REGISTRATION_PRODUCTS.find((p) => p.id === validatedProductId)
-  if (!product) {
-    throw new Error("Hmm, we couldn't find that registration option. Please go back and try selecting it again.")
+    return {
+      ok: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        userMessage: "Add at least one scholarship to continue.",
+      }),
+    }
   }
 
   if (!validatedData.isScholarship && !validatedPolicy) {
-    throw new Error(
-      "We need you to review and accept the policy agreement before continuing. You can find it on the previous step.",
-    )
+    return {
+      ok: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        userMessage:
+          "We need you to review and accept the policy agreement before continuing. You can find it on the previous step.",
+      }),
+    }
   }
 
+  // ── Rate limit ─────────────────────────────────────────────────────
+  let ip = "unknown"
+  try {
+    ip = extractClientIp(await headers())
+  } catch (err) {
+    log.warn({ event: "checkout.ip_extract_failed", correlationId, ...summarizeError(err) })
+  }
+
+  let rl: Awaited<ReturnType<typeof rateLimitCheckout>>
+  try {
+    rl = await withTimeout(rateLimitCheckout({ ip, email: validatedData.email }), 2_000, "ratelimit.checkout")
+  } catch (err) {
+    log.error({ event: "checkout.rate_limit_failed", correlationId, ...summarizeError(err) })
+    return { ok: false, error: buildError("REDIS_DOWN", { correlationId }) }
+  }
+  if (!rl.success) {
+    const seconds = formatResetSeconds(rl.resetMs)
+    log.info({ event: "checkout.rate_limited", correlationId, hashedEmail: hashIdentifier(validatedData.email) })
+    return {
+      ok: false,
+      error: buildError("RATE_LIMITED", {
+        correlationId,
+        retryAfterSeconds: seconds,
+        userMessage: `Too many checkout attempts. Please wait about ${seconds}s and try again.`,
+      }),
+    }
+  }
+
+  // ── Resolve product ────────────────────────────────────────────────
+  const product = REGISTRATION_PRODUCTS.find((p) => p.id === validatedProductId)
+  if (!product) {
+    log.warn({ event: "checkout.unknown_product", correlationId, productId: validatedProductId })
+    return {
+      ok: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        userMessage: "Hmm, we couldn't find that registration option. Please go back and try selecting it again.",
+      }),
+    }
+  }
+
+  // ── Compute totals (server-authoritative) ──────────────────────────
+  const uniqueBreakfastIds = [...new Set(validatedBreakfastIds)]
   const selfRegistrationQuantity = validatedData.isScholarship ? 0 : 1
   const finalScholarshipQuantity =
     validatedData.isScholarship && validatedScholarshipQty === 0 ? 1 : validatedScholarshipQty
@@ -110,13 +210,16 @@ export async function startRegistrationCheckout(
   const subtotalInCents = registrationSubtotalInCents + breakfastTotalCents
   const processingFee = calculateProcessingFee(subtotalInCents)
 
+  const recordType =
+    selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
+      ? "self_plus_scholarship"
+      : validatedData.isScholarship
+        ? "scholarship"
+        : "self"
+
   const metadata = {
-    purchase_type:
-      selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
-        ? "self_plus_scholarship"
-        : validatedData.isScholarship
-          ? "scholarship"
-          : "self",
+    correlation_id: correlationId,
+    purchase_type: recordType,
     self_registration_quantity: selfRegistrationQuantity.toString(),
     scholarship_quantity: finalScholarshipQuantity.toString(),
     scholarship_unit_amount_cents:
@@ -158,137 +261,335 @@ export async function startRegistrationCheckout(
       ? validatedPolicy.understandInvestigation.toString()
       : "not_applicable",
     policy_signature_agreement: validatedPolicy ? validatedPolicy.signatureAgreement.toString() : "not_applicable",
+  } as const
+
+  // ── Bootstrap Payload ──────────────────────────────────────────────
+  let payload: Payload
+  try {
+    payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+  } catch (err) {
+    log.error({ event: "checkout.payload_bootstrap_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "critical",
+      error: err,
+      email: validatedData.email,
+      requestPayload: sanitizeRequest({ productId: validatedProductId, recordType }),
+    })
+    return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
   }
 
-  const successUrl = `${env.NEXT_PUBLIC_BASE_URL}/en/register/success?session_id={CHECKOUT_SESSION_ID}`
+  // ── Create pending registration row ────────────────────────────────
+  let record: { id: string | number }
+  try {
+    record = await withTimeout(
+      payload.create({
+        collection: "registrations",
+        data: {
+          email: validatedData.email,
+          name: validatedData.name,
+          state: validatedData.state,
+          status: "pending",
+          type: recordType,
+          stripeSessionId: "",
+          amountTotalCents: subtotalInCents + processingFee,
+          metadata,
+          accommodations: validatedData.accommodations || "",
+          interpretationNeeded: validatedData.interpretationNeeded || false,
+          mobilityAccessibility: validatedData.mobilityAccessibility || false,
+          willingToServe: validatedData.willingToServe || false,
+          homegroup: validatedData.homegroup,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.create:pending",
+    )
+  } catch (err) {
+    log.error({ event: "checkout.payload_create_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+      requestPayload: sanitizeRequest({ productId: validatedProductId, recordType }),
+    })
+    return {
+      ok: false,
+      error: buildError(err instanceof TimeoutError ? "DB_TIMEOUT" : "DB_DOWN", { correlationId }),
+    }
+  }
 
-  const payload = await getPayload({ config: configPromise })
-  const recordType =
-    selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
-      ? "self_plus_scholarship"
-      : validatedData.isScholarship
-        ? "scholarship"
-        : "self"
-
-  const record = await payload.create({
-    collection: "registrations",
-    data: {
-      email: validatedData.email || "",
-      name: validatedData.name || "Not provided",
-      state: validatedData.state || "",
-      status: "pending",
-      type: recordType,
-      stripeSessionId: "",
-      amountTotalCents: subtotalInCents + processingFee,
-      metadata: metadata,
-      accommodations: validatedData.accommodations || "",
-      interpretationNeeded: validatedData.interpretationNeeded || false,
-      mobilityAccessibility: validatedData.mobilityAccessibility || false,
-      willingToServe: validatedData.willingToServe || false,
-      homegroup: validatedData.homegroup || "",
-    },
+  log.info({
+    event: "checkout.pending_created",
+    correlationId,
+    registrationId: record.id,
+    recordType,
+    hashedEmail: hashIdentifier(validatedData.email),
+    subtotalCents: subtotalInCents,
+    processingFeeCents: processingFee,
   })
 
-  let stripeFailureCleanupId: string | number | null = record.id
+  // ── Create Stripe session ──────────────────────────────────────────
+  // F5: locale-aware success URL. F6: stable idempotency key derived from
+  // the Payload record id, so retries reuse the same Stripe session.
+  const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/register/success`
+  const idempotencyKey = `reg-session-${record.id}`
+
+  let session: Stripe.Checkout.Session
   try {
-    const session = await stripe.checkout.sessions.create(
+    session = await withRetry(
+      () =>
+        withTimeout(
+          stripe.checkout.sessions.create(
+            {
+              ui_mode: "embedded",
+              // Initial return_url uses only the Stripe-supported placeholder. We
+              // patch it with the HMAC token after creation (best-effort). If the
+              // patch fails, the success page falls back to Payload lookup.
+              return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}`,
+              customer_email: validatedData.email,
+              line_items: [
+                ...(selfRegistrationQuantity > 0
+                  ? [
+                      {
+                        price_data: {
+                          currency: "usd",
+                          product_data: {
+                            name: product.name,
+                            description: product.description,
+                          },
+                          unit_amount: product.priceInCents,
+                        },
+                        quantity: selfRegistrationQuantity,
+                      },
+                    ]
+                  : []),
+                ...(finalScholarshipQuantity > 0
+                  ? [
+                      {
+                        price_data: {
+                          currency: "usd",
+                          product_data: {
+                            name: "Scholarship Registration",
+                            description:
+                              scholarshipAmountSource === "custom"
+                                ? "Sponsored NECYPAA XXXVI registration (custom amount)"
+                                : "Sponsored NECYPAA XXXVI registration",
+                          },
+                          unit_amount: scholarshipUnitAmountInUse,
+                        },
+                        quantity: finalScholarshipQuantity,
+                      },
+                    ]
+                  : []),
+                ...selectedBreakfasts.map((bp) => ({
+                  price_data: {
+                    currency: "usd",
+                    product_data: { name: bp.name, description: bp.description },
+                    unit_amount: bp.priceInCents,
+                  },
+                  quantity: 1,
+                })),
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: "Processing Fee",
+                      description: "Credit card processing fee (2.9% + $0.30)",
+                    },
+                    unit_amount: processingFee,
+                  },
+                  quantity: 1,
+                },
+              ],
+              mode: "payment",
+              metadata: { ...metadata, registration_id: String(record.id) },
+              payment_intent_data: {
+                metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: "{set_after_creation}" },
+              },
+            },
+            { idempotencyKey },
+          ),
+          STRIPE_TIMEOUT_MS,
+          "stripe.sessions.create",
+        ),
       {
-        ui_mode: "embedded",
-        return_url: successUrl,
-        customer_email: validatedData.email || undefined,
-        line_items: [
-          ...(selfRegistrationQuantity > 0
-            ? [
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: product.name,
-                      description: product.description,
-                    },
-                    unit_amount: product.priceInCents,
-                  },
-                  quantity: selfRegistrationQuantity,
-                },
-              ]
-            : []),
-          ...(finalScholarshipQuantity > 0
-            ? [
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: "Scholarship Registration",
-                      description:
-                        scholarshipAmountSource === "custom"
-                          ? "Sponsored NECYPAA XXXVI registration (custom amount)"
-                          : "Sponsored NECYPAA XXXVI registration",
-                    },
-                    unit_amount: scholarshipUnitAmountInUse,
-                  },
-                  quantity: finalScholarshipQuantity,
-                },
-              ]
-            : []),
-          ...selectedBreakfasts.map((bp) => ({
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: bp.name,
-                description: bp.description,
-              },
-              unit_amount: bp.priceInCents,
-            },
-            quantity: 1,
-          })),
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: "Processing Fee",
-                description: "Credit card processing fee (2.9% + $0.30)",
-              },
-              unit_amount: processingFee,
-            },
-            quantity: 1,
-          },
-        ],
-        mode: "payment",
-        metadata,
-        payment_intent_data: { metadata },
+        maxAttempts: 2,
+        baseDelayMs: 500,
+        label: "stripe.sessions.create",
+        correlationId,
+        retryableErrors: isRetryableStripeError,
       },
-      { idempotencyKey: randomUUID() },
     )
-
-    if (!session.client_secret) {
-      throw new Error("We had trouble connecting to our payment system. Please try again in a moment.")
-    }
-
-    await payload.update({
-      collection: "registrations",
-      id: record.id,
-      data: { stripeSessionId: session.id },
+  } catch (err) {
+    log.error({
+      event: "checkout.stripe_session_failed",
+      correlationId,
+      registrationId: record.id,
+      ...summarizeError(err),
     })
-    stripeFailureCleanupId = null
-
-    return session.client_secret
-  } catch (error) {
-    console.error("Stripe session creation failed:", error)
-    if (stripeFailureCleanupId != null) {
-      try {
-        await payload.delete({ collection: "registrations", id: stripeFailureCleanupId })
-      } catch (cleanupErr) {
-        console.error("Failed to clean up orphaned pending registration:", cleanupErr)
-      }
-    }
-    throw new Error("Payment session could not be created. Please try again.")
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+      registrationId: record.id,
+      requestPayload: sanitizeRequest({ productId: validatedProductId, recordType }),
+    })
+    // Best-effort cleanup of the orphan pending row. If it fails, the
+    // reconciliation cron will reap it.
+    await safeAsync(
+      () => withTimeout(payload.delete({ collection: "registrations", id: record.id }), PAYLOAD_TIMEOUT_MS, "payload.delete:orphan"),
+      undefined,
+      {
+        correlationId,
+        label: "payload.delete:orphan",
+        severity: "warn",
+        onError: (cleanupErr) =>
+          dlqRegistrationFailure({
+            correlationId,
+            stage: "payload.delete",
+            severity: "warn",
+            error: cleanupErr,
+            registrationId: record.id,
+          }),
+      },
+    )
+    return { ok: false, error: fromUnknown(err, correlationId) }
   }
+
+  if (!session.client_secret) {
+    log.error({ event: "checkout.stripe_no_client_secret", correlationId, sessionId: partialId(session.id) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: new Error("Stripe session created without client_secret"),
+      registrationId: record.id,
+      stripeSessionId: session.id,
+    })
+    return { ok: false, error: buildError("STRIPE_DOWN", { correlationId }) }
+  }
+
+  // Stripe doesn't allow updating `return_url` after creation, and its only
+  // URL placeholder is `{CHECKOUT_SESSION_ID}` — we can't compute an HMAC
+  // server-side at redirect time. Instead, set a same-site cookie carrying
+  // the HMAC; the success page reads it and verifies against the URL param.
+  // If the cookie set somehow fails, the success page falls back to
+  // Payload-verified rendering keyed on the session ID.
+  const token = signSuccessToken(session.id)
+  if (token) {
+    await safeAsync(
+      async () => {
+        const jar = await cookies()
+        jar.set({
+          name: SUCCESS_COOKIE,
+          value: `${session.id}.${token}`,
+          httpOnly: true,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+          maxAge: 60 * 60, // 1 hour — enough to complete checkout
+        })
+      },
+      undefined,
+      { correlationId, label: "cookies.set.success_token", severity: "info" },
+    )
+  }
+
+  // Persist the session ID on the Payload row. This MUST succeed — without
+  // it the webhook can't reconcile and the success page can't fall back to
+  // Payload. Retry aggressively before giving up.
+  try {
+    await withRetry(
+      () =>
+        withTimeout(
+          payload.update({
+            collection: "registrations",
+            id: record.id,
+            data: { stripeSessionId: session.id },
+          }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.update:stripeSessionId",
+        ),
+      {
+        maxAttempts: 3,
+        baseDelayMs: 250,
+        label: "payload.update:stripeSessionId",
+        correlationId,
+      },
+    )
+  } catch (err) {
+    log.error({
+      event: "checkout.link_session_failed",
+      correlationId,
+      registrationId: record.id,
+      sessionId: session.id,
+      ...summarizeError(err),
+    })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.update",
+      severity: "critical",
+      error: err,
+      registrationId: record.id,
+      stripeSessionId: session.id,
+    })
+    // Surface as an error so the user retries. Idempotency key ensures the
+    // same Stripe session is reused on retry, but we'll get a fresh Payload
+    // row — the orphan row is reaped by reconciliation.
+    return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
+  }
+
+  // Backfill PaymentIntent metadata so failure webhooks can find the session
+  // without an extra Stripe list call. Best-effort — the webhook has fallbacks.
+  if (typeof session.payment_intent === "string") {
+    await safeAsync(
+      () =>
+        withTimeout(
+          stripe.paymentIntents.update(session.payment_intent as string, {
+            metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: session.id },
+          }),
+          PI_UPDATE_TIMEOUT_MS,
+          "stripe.payment_intent.update",
+        ),
+      undefined,
+      {
+        correlationId,
+        label: "stripe.payment_intent.update",
+        severity: "info",
+      },
+    )
+  }
+
+  log.info({
+    event: "checkout.session_created",
+    correlationId,
+    registrationId: record.id,
+    sessionId: session.id,
+  })
+
+  return { ok: true, clientSecret: session.client_secret, correlationId }
 }
+
+export type AccessCodeResult =
+  | { success: true; correlationId: CorrelationId; successToken: string }
+  | { success: false; error: RegistrationError }
 
 export async function submitAccessCodeRegistration(
   registrationData: RegistrationData,
   policyAgreements: PolicyAgreements,
-): Promise<{ success: true } | { success: false; error: string }> {
+): Promise<AccessCodeResult> {
+  const correlationId = newCorrelationId()
+
+  if (isRegistrationPaused()) {
+    log.warn({ event: "accesscode.paused", correlationId })
+    return { success: false, error: buildError("REGISTRATION_PAUSED", { correlationId }) }
+  }
+
   let validatedData: import("@/lib/validation").ValidatedRegistrationData
   let validatedPolicy: import("@/lib/validation").ValidatedPolicyAgreements
 
@@ -298,22 +599,61 @@ export async function submitAccessCodeRegistration(
   } catch (err) {
     const zodErr = err as { issues?: Array<{ path: (string | number)[]; message: string }> }
     const first = zodErr.issues?.[0]
-    if (first) {
-      const fieldLabel = first.path.length > 0 ? `${first.path.join(".")}: ` : ""
-      return { success: false, error: `Please review — ${fieldLabel}${first.message}` }
+    const fieldPath = first?.path?.join(".")
+    log.warn({ event: "accesscode.validation_failed", correlationId, fieldPath, message: first?.message })
+    return {
+      success: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        fieldPath,
+        userMessage: first ? `Please review — ${fieldPath ? fieldPath + ": " : ""}${first.message}` : undefined,
+      }),
     }
-    return { success: false, error: "Invalid registration data. Please check your information and try again." }
   }
 
   if (!validatedData.accessCode) {
-    return { success: false, error: "A registration access code is required." }
+    return {
+      success: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        userMessage: "A registration access code is required.",
+        fieldPath: "accessCode",
+      }),
+    }
   }
 
-  const ip = extractClientIp(await headers())
-  const rl = await rateLimitCodeRedemption({ ip, email: validatedData.email })
-  if (!rl.success) {
-    const seconds = formatResetSeconds(rl.resetMs)
-    return { success: false, error: `Too many attempts. Please wait about ${seconds}s and try again.` }
+  let ip = "unknown"
+  try {
+    ip = extractClientIp(await headers())
+  } catch (err) {
+    log.warn({ event: "accesscode.ip_extract_failed", correlationId, ...summarizeError(err) })
+  }
+
+  // Two limiters: per IP+email (existing) and per IP only (new) so an attacker
+  // can't bypass by rotating emails.
+  let rl: Awaited<ReturnType<typeof rateLimitCodeRedemption>>
+  let rlIp: Awaited<ReturnType<typeof rateLimitCodeRedemptionByIp>>
+  try {
+    ;[rl, rlIp] = await Promise.all([
+      withTimeout(rateLimitCodeRedemption({ ip, email: validatedData.email }), 2_000, "ratelimit.code"),
+      withTimeout(rateLimitCodeRedemptionByIp({ ip }), 2_000, "ratelimit.code.ip"),
+    ])
+  } catch (err) {
+    log.error({ event: "accesscode.rate_limit_failed", correlationId, ...summarizeError(err) })
+    return { success: false, error: buildError("REDIS_DOWN", { correlationId }) }
+  }
+  const tripped = !rl.success ? rl : !rlIp.success ? rlIp : null
+  if (tripped) {
+    const seconds = formatResetSeconds(tripped.resetMs)
+    log.info({ event: "accesscode.rate_limited", correlationId, hashedEmail: hashIdentifier(validatedData.email) })
+    return {
+      success: false,
+      error: buildError("RATE_LIMITED", {
+        correlationId,
+        retryAfterSeconds: seconds,
+        userMessage: `Too many attempts. Please wait about ${seconds}s and try again.`,
+      }),
+    }
   }
 
   const idempotencyKey = createHash("sha256")
@@ -321,88 +661,252 @@ export async function submitAccessCodeRegistration(
     .digest("hex")
     .slice(0, 36)
 
-  const result = await redeemRegistrationCode({
-    code: validatedData.accessCode,
-    eventSlug: EVENT_SLUG,
-    email: validatedData.email,
-    fullName: validatedData.name,
-    source: "necypaa-main-site",
-    idempotencyKey,
-  })
-
-  if (!result.success) {
-    return { success: false, error: result.error }
+  // Bootstrap Payload first — F12: we want to write the comp row before
+  // burning the code, so a Payload outage doesn't consume a code with no
+  // local record.
+  let payload: Payload
+  try {
+    payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+  } catch (err) {
+    log.error({ event: "accesscode.payload_bootstrap_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "critical",
+      error: err,
+      email: validatedData.email,
+    })
+    return { success: false, error: buildError("DB_DOWN", { correlationId }) }
   }
 
-  const payload = await getPayload({ config: configPromise })
-
+  // Reserve a pending comp row first. If issuer redemption fails we mark it
+  // failed; if it succeeds we promote it to comped.
+  let record: { id: string | number }
   try {
-    await payload.create({
-      collection: "registrations",
-      data: {
-        email: validatedData.email || "",
-        name: validatedData.name || "Not provided",
-        state: validatedData.state || "",
-        status: "comped",
-        type: "comp",
-        stripeSessionId: "",
-        amountTotalCents: 0,
-        accommodations: validatedData.accommodations || "",
-        interpretationNeeded: validatedData.interpretationNeeded || false,
-        mobilityAccessibility: validatedData.mobilityAccessibility || false,
-        willingToServe: validatedData.willingToServe || false,
-        homegroup: validatedData.homegroup || "",
-      },
+    record = await withTimeout(
+      payload.create({
+        collection: "registrations",
+        data: {
+          email: validatedData.email,
+          name: validatedData.name,
+          state: validatedData.state,
+          status: "pending",
+          type: "comp",
+          stripeSessionId: "",
+          amountTotalCents: 0,
+          metadata: { correlation_id: correlationId, awaiting_issuer_redemption: true },
+          accommodations: validatedData.accommodations || "",
+          interpretationNeeded: validatedData.interpretationNeeded || false,
+          mobilityAccessibility: validatedData.mobilityAccessibility || false,
+          willingToServe: validatedData.willingToServe || false,
+          homegroup: validatedData.homegroup,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.create:comp_pending",
+    )
+  } catch (err) {
+    log.error({ event: "accesscode.payload_create_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+    })
+    return {
+      success: false,
+      error: buildError(err instanceof TimeoutError ? "DB_TIMEOUT" : "DB_DOWN", { correlationId }),
+    }
+  }
+
+  // Redeem the code at the issuer.
+  let result: Awaited<ReturnType<typeof redeemRegistrationCode>>
+  try {
+    result = await redeemRegistrationCode({
+      code: validatedData.accessCode,
+      eventSlug: EVENT_SLUG,
+      email: validatedData.email,
+      fullName: validatedData.name,
+      source: "necypaa-main-site",
+      idempotencyKey,
     })
   } catch (err) {
-    console.error("Failed to persist comped registration after successful redemption:", err)
-  }
-
-  const metadata: Record<string, string> = {
-    purchase_type: result.grantType,
-    attendee_name: validatedData.name,
-    attendee_state: validatedData.state,
-    attendee_email: validatedData.email,
-    accommodations: validatedData.accommodations || "None",
-    interpretation_needed: validatedData.interpretationNeeded.toString(),
-    mobility_accessibility: validatedData.mobilityAccessibility.toString(),
-    willing_to_serve: validatedData.willingToServe.toString(),
-    homegroup_committee: validatedData.homegroup,
-    access_grant_id: result.grantId,
-    access_redemption_id: result.redemptionId,
-    access_grant_type: result.grantType,
-    access_issuer_source: "archway-issuer",
-    access_code_masked: maskAccessCode(validatedData.accessCode),
-    policy_read_and_understood: validatedPolicy.readPolicy.toString(),
-    policy_questions_understood: validatedPolicy.understandQuestions.toString(),
-    policy_behavior_acknowledged: validatedPolicy.acknowledgeBehavior.toString(),
-    policy_admission_understood: validatedPolicy.understandAdmission.toString(),
-    policy_reporting_understood: validatedPolicy.understandReporting.toString(),
-    policy_investigation_understood: validatedPolicy.understandInvestigation.toString(),
-    policy_signature_agreement: validatedPolicy.signatureAgreement.toString(),
-  }
-
-  try {
-    const existingCustomers = await stripe.customers.list({
+    log.error({ event: "accesscode.issuer_threw", correlationId, ...summarizeError(err) })
+    await safeAsync(
+      () =>
+        withTimeout(
+          payload.update({ collection: "registrations", id: record.id, data: { status: "failed" } }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.update:comp_failed",
+        ),
+      undefined,
+      { correlationId, label: "payload.update:comp_failed", severity: "warn" },
+    )
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "issuer.redeem",
+      severity: "critical",
+      error: err,
       email: validatedData.email,
-      limit: 1,
+      registrationId: record.id,
     })
-
-    if (existingCustomers.data.length > 0) {
-      await stripe.customers.update(existingCustomers.data[0].id, {
-        name: validatedData.name,
-        metadata,
-      })
-    } else {
-      await stripe.customers.create({
-        name: validatedData.name,
-        email: validatedData.email,
-        metadata,
-      })
-    }
-  } catch (error) {
-    console.error("Stripe customer operation failed for comped registration:", error)
+    return { success: false, error: buildError("ISSUER_DOWN", { correlationId }) }
   }
 
-  return { success: true }
+  if (!result.success) {
+    log.info({
+      event: "accesscode.redeem_failed",
+      correlationId,
+      code: result.code,
+      maskedCode: maskAccessCode(validatedData.accessCode),
+    })
+    await safeAsync(
+      () =>
+        withTimeout(
+          payload.update({
+            collection: "registrations",
+            id: record.id,
+            data: { status: "failed", metadata: { ...{ correlation_id: correlationId }, issuer_error: result.code } },
+          }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.update:comp_invalid",
+        ),
+      undefined,
+      { correlationId, label: "payload.update:comp_invalid", severity: "warn" },
+    )
+    const errorCode =
+      result.code === "INVALID_CODE"
+        ? "ISSUER_INVALID_CODE"
+        : result.code === "EXPIRED_CODE"
+          ? "ISSUER_EXPIRED"
+          : result.code === "ALREADY_REDEEMED"
+            ? "ISSUER_ALREADY_USED"
+            : "ISSUER_DOWN"
+    return { success: false, error: buildError(errorCode, { correlationId, userMessage: result.error }) }
+  }
+
+  // Promote the row to comped.
+  try {
+    await withTimeout(
+      payload.update({
+        collection: "registrations",
+        id: record.id,
+        data: {
+          status: "comped",
+          type: "comp",
+          metadata: {
+            correlation_id: correlationId,
+            access_grant_id: result.grantId,
+            access_redemption_id: result.redemptionId,
+            access_grant_type: result.grantType,
+            access_issuer_source: "archway-issuer",
+            access_code_masked: maskAccessCode(validatedData.accessCode),
+            policy_read_and_understood: validatedPolicy.readPolicy,
+            policy_questions_understood: validatedPolicy.understandQuestions,
+            policy_behavior_acknowledged: validatedPolicy.acknowledgeBehavior,
+            policy_admission_understood: validatedPolicy.understandAdmission,
+            policy_reporting_understood: validatedPolicy.understandReporting,
+            policy_investigation_understood: validatedPolicy.understandInvestigation,
+            policy_signature_agreement: validatedPolicy.signatureAgreement,
+          },
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:comp_promoted",
+    )
+  } catch (err) {
+    // The code is burned at the issuer but we couldn't promote locally. This
+    // is the worst case — alert and DLQ so a human can reconcile.
+    log.error({ event: "accesscode.promote_failed", correlationId, registrationId: record.id, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.update",
+      severity: "critical",
+      error: err,
+      email: validatedData.email,
+      registrationId: record.id,
+    })
+    // Still tell the user it succeeded — the issuer is authoritative for
+    // whether they're registered. The DLQ catches the local divergence.
+  }
+
+  // Best-effort Stripe customer upsert for CRM continuity.
+  await safeAsync(
+    async () => {
+      const existingCustomers = await withTimeout(
+        stripe.customers.list({ email: validatedData.email, limit: 1 }),
+        STRIPE_TIMEOUT_MS,
+        "stripe.customers.list",
+      )
+      if (existingCustomers.data.length > 0) {
+        await withTimeout(
+          stripe.customers.update(existingCustomers.data[0].id, {
+            name: validatedData.name,
+            metadata: {
+              correlation_id: correlationId,
+              access_grant_id: result.grantId,
+              access_grant_type: result.grantType,
+              access_code_masked: maskAccessCode(validatedData.accessCode),
+            },
+          }),
+          STRIPE_TIMEOUT_MS,
+          "stripe.customers.update",
+        )
+      } else {
+        await withTimeout(
+          stripe.customers.create({
+            name: validatedData.name,
+            email: validatedData.email,
+            metadata: {
+              correlation_id: correlationId,
+              access_grant_id: result.grantId,
+              access_grant_type: result.grantType,
+              access_code_masked: maskAccessCode(validatedData.accessCode),
+            },
+          }),
+          STRIPE_TIMEOUT_MS,
+          "stripe.customers.create",
+        )
+      }
+    },
+    undefined,
+    {
+      correlationId,
+      label: "stripe.customer.upsert",
+      severity: "info",
+      onError: (custErr) =>
+        dlqRegistrationFailure({
+          correlationId,
+          stage: "stripe.customer.upsert",
+          severity: "info",
+          error: custErr,
+          email: validatedData.email,
+          registrationId: record.id,
+        }),
+    },
+  )
+
+  const successToken = signAccessCodePayload({
+    name: validatedData.name,
+    email: validatedData.email,
+    iat: Math.floor(Date.now() / 1000),
+  })
+
+  log.info({
+    event: "accesscode.redeemed",
+    correlationId,
+    registrationId: record.id,
+    grantType: result.grantType,
+  })
+
+  return { success: true, correlationId, successToken }
+}
+
+function sanitizeRequest(value: unknown): unknown {
+  try {
+    return JSON.parse(JSON.stringify(value))
+  } catch {
+    return null
+  }
 }

@@ -12,7 +12,7 @@ describe("calculateProcessingFee", () => {
     const fee = calculateProcessingFee(4000)
     // Stripe charges 2.9% + $0.30 on the total.
     // Gross-up: fee = (4000 + 30) / (1 - 0.029) - 4000
-    // = 4030 / 0.971 - 4000 = 4149.33... - 4000 = 149.33 → rounded to 149
+    // = 4030 / 0.971 - 4000 ≈ 150.36 → rounds to 150
     expect(fee).toBe(150)
   })
 

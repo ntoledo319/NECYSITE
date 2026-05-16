@@ -65,4 +65,8 @@ export const productIdSchema = z.string().max(50).min(1, "Product ID is required
 
 export const scholarshipQuantitySchema = z.number().int().min(0).max(20).default(0)
 
-export const scholarshipUnitAmountCentsSchema = z.number().int().min(100).max(1_000_000).optional()
+// Minimum custom scholarship contribution. Raised from $1 to $10 because the
+// $1 floor combined with no bot detection let attackers run cheap noise
+// transactions through Stripe. Partial scholarships below $10 are not a
+// real-world use case; if they ever are, gate behind admin auth.
+export const scholarshipUnitAmountCentsSchema = z.number().int().min(1_000).max(1_000_000).optional()

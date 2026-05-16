@@ -10,6 +10,9 @@ import { Media } from "./collections/Media"
 import { BlogPosts } from "./collections/BlogPosts"
 import { FAQ } from "./collections/FAQ"
 import { Registrations } from "./collections/Registrations"
+import { RegistrationFailures } from "./collections/RegistrationFailures"
+import { WebhookFailures } from "./collections/WebhookFailures"
+import { ProcessedWebhookEvents } from "./collections/ProcessedWebhookEvents"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +27,17 @@ export default buildConfig({
       titleSuffix: " — NECYPAA XXXVI CMS",
     },
   },
-  collections: [Users, Events, BlogPosts, FAQ, Media, Registrations],
+  collections: [
+    Users,
+    Events,
+    BlogPosts,
+    FAQ,
+    Media,
+    Registrations,
+    RegistrationFailures,
+    WebhookFailures,
+    ProcessedWebhookEvents,
+  ],
   secret:
     process.env.PAYLOAD_SECRET ??
     (() => {

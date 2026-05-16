@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js"
 import { loadStripe, type Stripe } from "@stripe/stripe-js"
+import { useLocale } from "next-intl"
 import { startRegistrationCheckout } from "@/actions/registration"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,12 +24,14 @@ interface RegistrationCheckoutProps {
   policyAgreements: PolicyAgreements | null
   onBack: () => void
   onScholarshipIntentChange?: (next: boolean) => void
+  correlationId?: string
 }
 
 export default function RegistrationCheckout({
   registrationData,
   policyAgreements,
   onBack,
+  correlationId,
 }: RegistrationCheckoutProps) {
   const hasAccessCode = (registrationData.accessCode ?? "").trim().length > 0
 
@@ -113,12 +116,14 @@ export default function RegistrationCheckout({
     })
   }, [effectiveScholarshipQuantity, isScholarshipMode])
 
+  const locale = useLocale()
+
   const fetchClientSecret = useCallback(async () => {
     try {
       const reservedNames = reservedForPeople.map((name) => name.trim()).filter(Boolean)
       const selectedBreakfastIds = canAddBreakfast ? selectedBreakfasts.map((bp) => bp.id) : []
 
-      return await startRegistrationCheckout(
+      const result = await startRegistrationCheckout(
         "necypaa-xxxvi-registration",
         registrationData,
         policyAgreements,
@@ -129,7 +134,16 @@ export default function RegistrationCheckout({
           reservedForPerson: reservedNames.length > 0 ? reservedNames.join(", ") : undefined,
         },
         scholarshipUnitAmountForCheckout ?? undefined,
+        locale,
       )
+      if (!result.ok) {
+        const message = result.error.contactSupport
+          ? `${result.error.userMessage} (ref ${result.error.correlationId})`
+          : result.error.userMessage
+        setError(message)
+        return Promise.reject(new Error(result.error.userMessage))
+      }
+      return result.clientSecret
     } catch (err) {
       setError(
         err instanceof Error
@@ -142,6 +156,7 @@ export default function RegistrationCheckout({
     aaEntity,
     canAddBreakfast,
     effectiveScholarshipQuantity,
+    locale,
     policyAgreements,
     registrationData,
     reservedForPeople,

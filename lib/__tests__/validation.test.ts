@@ -150,7 +150,9 @@ describe("scholarshipUnitAmountCentsSchema", () => {
     expect(scholarshipUnitAmountCentsSchema.safeParse(undefined).success).toBe(true)
   })
 
-  it("rejects values below one dollar", () => {
+  it("rejects values below the ten-dollar floor", () => {
     expect(scholarshipUnitAmountCentsSchema.safeParse(99).success).toBe(false)
+    expect(scholarshipUnitAmountCentsSchema.safeParse(999).success).toBe(false)
+    expect(scholarshipUnitAmountCentsSchema.safeParse(1_000).success).toBe(true)
   })
 })

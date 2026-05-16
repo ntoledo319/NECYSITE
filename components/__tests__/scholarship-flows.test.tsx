@@ -14,6 +14,10 @@ vi.mock("@/actions/registration", () => ({
   startRegistrationCheckout: mockStartRegistrationCheckout,
 }))
 
+vi.mock("next-intl", () => ({
+  useLocale: () => "en",
+}))
+
 vi.mock("@stripe/stripe-js", () => ({
   loadStripe: vi.fn(() => Promise.resolve({})),
 }))
@@ -87,7 +91,11 @@ describe("scholarship flow integration", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_123"
-    mockStartRegistrationCheckout.mockResolvedValue("cs_test_123")
+    mockStartRegistrationCheckout.mockResolvedValue({
+      ok: true,
+      clientSecret: "cs_test_123",
+      correlationId: "reg_test_correlation",
+    })
   })
 
   it("lets a standard registration add and remove scholarship pricing in the paid UI", async () => {
@@ -125,6 +133,7 @@ describe("scholarship flow integration", () => {
         [],
         { aaEntity: undefined, reservedForPerson: undefined },
         undefined,
+        "en",
       )
     })
   })
@@ -154,6 +163,7 @@ describe("scholarship flow integration", () => {
         [],
         { aaEntity: undefined, reservedForPerson: undefined },
         5550,
+        "en",
       )
     })
   })
