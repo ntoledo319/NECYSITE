@@ -8,7 +8,10 @@ import { Link } from "@/i18n/navigation"
 import { AlertCircle, Clock, Mail } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
-import { withTimeout } from "@/lib/resilience"
+import { withTimeout, safeAsync } from "@/lib/resilience"
+import { maybeNotifyScholarshipRecipient } from "@/lib/scholarship-email"
+import { alertCritical } from "@/lib/alerts"
+import type Stripe from "stripe"
 import { newCorrelationId } from "@/lib/correlation"
 import { log, summarizeError, hashIdentifier } from "@/lib/logger"
 import { rateLimitReadOnly, hashIdentifier as ipHash, extractClientIp, formatResetSeconds } from "@/lib/rate-limit"
@@ -60,6 +63,12 @@ async function fetchFromStripe(sessionId: string, correlationId: string): Promis
       "stripe.sessions.retrieve",
     )
     if (session.payment_status === "paid" && session.status === "complete") {
+      // Self-heal: if the Payload row is still pending (missed webhook), promote
+      // it inline. The Hobby-plan cron only runs once daily, so this keeps
+      // admins from seeing stale "pending" rows for up to 24h. Awaited so the
+      // work survives serverless instance shutdown; the body short-circuits
+      // when there's nothing to do, so subsequent visits are cheap.
+      await selfHealPendingRow(session, correlationId)
       return {
         status: "verified",
         data: {
@@ -87,6 +96,62 @@ async function fetchFromStripe(sessionId: string, correlationId: string): Promis
     })
     return { status: "error", correlationId }
   }
+}
+
+async function selfHealPendingRow(session: Stripe.Checkout.Session, correlationId: string): Promise<void> {
+  await safeAsync(
+    async () => {
+      const payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+      const found = await withTimeout(
+        payload.find({
+          collection: "registrations",
+          where: { stripeSessionId: { equals: session.id } },
+          limit: 1,
+        }),
+        PAYLOAD_TIMEOUT_MS,
+        "selfheal.find",
+      )
+      if (found.docs.length === 0) return
+      const doc = found.docs[0] as { id: string | number; status?: string | null }
+      if (doc.status === "paid") return
+      if (doc.status === "refunded" || doc.status === "partially_refunded" || doc.status === "disputed") return
+
+      await withTimeout(
+        payload.update({
+          collection: "registrations",
+          id: doc.id,
+          data: {
+            status: "paid",
+            stripePaymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : "",
+            stripeCustomerId: typeof session.customer === "string" ? session.customer : "",
+            amountTotalCents: session.amount_total ?? undefined,
+          },
+        }),
+        PAYLOAD_TIMEOUT_MS,
+        "selfheal.promote",
+      )
+      log.info({
+        event: "success.selfheal_promoted_paid",
+        correlationId,
+        sessionId: session.id,
+        registrationId: doc.id,
+      })
+      await alertCritical({
+        event: "registration.selfheal_missed_webhook",
+        correlationId,
+        summary: `Success page healed a missed webhook for session ${session.id}`,
+        fields: { sessionId: session.id, registrationId: String(doc.id) },
+      })
+      // Fire the scholarship email the webhook would have sent. Best-effort.
+      await maybeNotifyScholarshipRecipient({ session, correlationId })
+    },
+    undefined,
+    {
+      correlationId,
+      label: "success.selfheal",
+      severity: "warn",
+    },
+  )
 }
 
 interface PayloadRegistrationRow {
