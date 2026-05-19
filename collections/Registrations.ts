@@ -134,5 +134,32 @@ export const Registrations: CollectionConfig = {
       type: "text",
       label: "Homegroup/Committee",
     },
+    {
+      name: "refundedAt",
+      type: "date",
+      admin: { position: "sidebar", description: "Timestamp of the most recent refund event." },
+    },
+    {
+      name: "refundAmountCents",
+      type: "number",
+      admin: { position: "sidebar", description: "Cumulative amount refunded across all refund events on this charge." },
+    },
+    {
+      name: "refundedFully",
+      type: "checkbox",
+      defaultValue: false,
+      admin: { position: "sidebar", description: "Set when the refund covered the entire original amount." },
+    },
+    {
+      name: "disputedAt",
+      type: "date",
+      admin: { position: "sidebar", description: "Timestamp the chargeback was opened." },
+    },
+    {
+      name: "disputeId",
+      type: "text",
+      index: true,
+      admin: { position: "sidebar" },
+    },
   ],
 }

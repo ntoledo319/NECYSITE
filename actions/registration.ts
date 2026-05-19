@@ -389,6 +389,14 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
     quantity: 1,
   })
 
+  const piDescription = buildPaymentIntentDescription({
+    intent: validatedData.intent,
+    selfQuantity,
+    giftQuantity,
+    breakfastCount: selectedBreakfasts.length,
+    email: validatedData.email,
+  })
+
   let session: Stripe.Checkout.Session
   try {
     session = await withRetry(
@@ -399,11 +407,19 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
               ui_mode: "embedded",
               return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}`,
               customer_email: validatedData.email,
+              // Always create a Customer object so attribution survives in the
+              // Stripe dashboard even for one-off charges.
+              customer_creation: "always",
               line_items: lineItems,
               mode: "payment",
               metadata: { ...metadata, registration_id: String(record.id) },
               payment_intent_data: {
                 metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: "" },
+                description: piDescription,
+                // Shows on the cardholder's statement. Max 22 chars and limited
+                // character set; keep it short and brand-recognizable.
+                statement_descriptor_suffix: "NECYPAA XXXVI",
+                receipt_email: validatedData.email,
               },
             },
             { idempotencyKey },
@@ -613,6 +629,7 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
               ui_mode: "embedded",
               return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}&donation=1`,
               customer_email: validatedData.email,
+              customer_creation: "always",
               line_items: [
                 {
                   price_data: {
@@ -641,6 +658,9 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
               metadata: { ...metadata, donation_id: String(record.id) },
               payment_intent_data: {
                 metadata: { ...metadata, donation_id: String(record.id) },
+                description: `NECYPAA XXXVI · General Fund donation · ${formatUsdFromCents(amountCents)} from ${validatedData.email}`,
+                statement_descriptor_suffix: "NECYPAA DONATE",
+                receipt_email: validatedData.email,
               },
             },
             { idempotencyKey },
@@ -1049,4 +1069,27 @@ function sanitizeRequest(value: unknown): unknown {
   } catch {
     return null
   }
+}
+
+interface PiDescriptionArgs {
+  intent: "self" | "self_plus_gift" | "gift_only" | "donate"
+  selfQuantity: number
+  giftQuantity: number
+  breakfastCount: number
+  email: string
+}
+
+/**
+ * Builds the description that appears on the Stripe PaymentIntent and shows
+ * up everywhere in the dashboard ("Recent payments", refund views, etc).
+ * Capped at ~250 chars to stay well inside Stripe's 1000-char limit.
+ */
+function buildPaymentIntentDescription(args: PiDescriptionArgs): string {
+  const parts: string[] = ["NECYPAA XXXVI"]
+  if (args.intent === "self") parts.push("Registration")
+  else if (args.intent === "self_plus_gift") parts.push(`Self + ${args.giftQuantity} gift${args.giftQuantity === 1 ? "" : "s"}`)
+  else if (args.intent === "gift_only") parts.push(`${args.giftQuantity} gift${args.giftQuantity === 1 ? "" : "s"}`)
+  if (args.breakfastCount > 0) parts.push(`${args.breakfastCount} breakfast${args.breakfastCount === 1 ? "" : "s"}`)
+  parts.push(args.email)
+  return parts.join(" · ").slice(0, 250)
 }

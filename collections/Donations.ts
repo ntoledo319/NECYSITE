@@ -52,5 +52,32 @@ export const Donations: CollectionConfig = {
     { name: "metadata", type: "json", admin: { description: "Raw metadata snapshot from checkout." } },
     { name: "attributionAaEntity", type: "text", admin: { description: "Optional: which committee / district / area the donation is from." } },
     { name: "anonymous", type: "checkbox", defaultValue: false, admin: { description: "Donor requested no public attribution." } },
+    {
+      name: "refundedAt",
+      type: "date",
+      admin: { position: "sidebar", description: "Timestamp of the most recent refund event." },
+    },
+    {
+      name: "refundAmountCents",
+      type: "number",
+      admin: { position: "sidebar", description: "Cumulative amount refunded across all refund events." },
+    },
+    {
+      name: "refundedFully",
+      type: "checkbox",
+      defaultValue: false,
+      admin: { position: "sidebar" },
+    },
+    {
+      name: "disputedAt",
+      type: "date",
+      admin: { position: "sidebar" },
+    },
+    {
+      name: "disputeId",
+      type: "text",
+      index: true,
+      admin: { position: "sidebar" },
+    },
   ],
 }

@@ -10,6 +10,7 @@ import { dlqWebhookFailure } from "@/lib/dlq"
 import { alertCritical } from "@/lib/alerts"
 import { maybeNotifyScholarshipRecipient } from "@/lib/scholarship-email"
 import { mintGiftCodesForPaidSession } from "@/lib/gift-mint"
+import { voidUnclaimedGiftsForSession } from "@/lib/gift-void"
 
 const PAYLOAD_TIMEOUT_MS = 5_000
 const STRIPE_LOOKUP_TIMEOUT_MS = 4_000
@@ -516,11 +517,7 @@ async function handleChargeRefunded(
   // would match every still-pending registration.
   const paymentIntentId = typeof charge.payment_intent === "string" ? charge.payment_intent : ""
   if (!paymentIntentId) {
-    log.warn({
-      event: "webhook.refund.no_payment_intent",
-      correlationId,
-      chargeId: charge.id,
-    })
+    log.warn({ event: "webhook.refund.no_payment_intent", correlationId, chargeId: charge.id })
     await dlqWebhookFailure({
       correlationId,
       eventId: event.id,
@@ -532,40 +529,115 @@ async function handleChargeRefunded(
     })
     return
   }
-  const isPartial = (charge.amount_refunded ?? 0) < charge.amount
-  const existing = await withTimeout(
+
+  const amountRefundedCents = charge.amount_refunded ?? 0
+  const isPartial = amountRefundedCents < charge.amount
+  const refundedFully = !isPartial
+  const refundedAt = new Date().toISOString()
+
+  // Look in registrations first. A self/self_plus_gift/gift_only/comp row
+  // will surface here.
+  const regHits = await withTimeout(
     payload.find({
       collection: "registrations",
       where: { stripePaymentIntentId: { equals: paymentIntentId } },
       limit: 1,
     }),
     PAYLOAD_TIMEOUT_MS,
-    "payload.find:refund",
+    "payload.find:refund_reg",
   )
-  if (existing.docs.length === 0) {
-    log.warn({
-      event: "webhook.refund.no_match",
+  if (regHits.docs.length > 0) {
+    const reg = regHits.docs[0] as { id: string | number; type?: string | null; stripeSessionId?: string | null }
+    await withTimeout(
+      payload.update({
+        collection: "registrations",
+        id: reg.id,
+        data: {
+          status: isPartial ? "partially_refunded" : "refunded",
+          refundedAt,
+          refundAmountCents: amountRefundedCents,
+          refundedFully,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:refund_reg",
+    )
+    log.info({
+      event: "webhook.refund_applied",
       correlationId,
       paymentIntentId,
-      chargeId: charge.id,
+      registrationId: reg.id,
+      partial: isPartial,
+      amountRefundedCents,
+    })
+
+    // If this purchase spawned gift codes AND the refund is full, void the
+    // unclaimed ones. Partial refunds (e.g., breakfast-only refund on a
+    // self+gift order) don't auto-void; admin can void manually if needed.
+    const spawnedGifts = reg.type === "self_plus_scholarship" || reg.type === "scholarship"
+    if (refundedFully && spawnedGifts && reg.stripeSessionId) {
+      await voidUnclaimedGiftsForSession({
+        payload,
+        stripeSessionId: reg.stripeSessionId,
+        reason: `Parent purchase refunded (PI ${paymentIntentId})`,
+        correlationId,
+      })
+    }
+    return
+  }
+
+  // Fall through to donations.
+  const donationHits = await withTimeout(
+    payload.find({
+      collection: "donations",
+      where: { stripePaymentIntentId: { equals: paymentIntentId } },
+      limit: 1,
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.find:refund_donation",
+  )
+  if (donationHits.docs.length > 0) {
+    const don = donationHits.docs[0] as { id: string | number }
+    await withTimeout(
+      payload.update({
+        collection: "donations",
+        id: don.id,
+        data: {
+          status: isPartial ? "partially_refunded" : "refunded",
+          refundedAt,
+          refundAmountCents: amountRefundedCents,
+          refundedFully,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:refund_donation",
+    )
+    log.info({
+      event: "webhook.donation_refund_applied",
+      correlationId,
+      paymentIntentId,
+      donationId: don.id,
+      partial: isPartial,
+      amountRefundedCents,
     })
     return
   }
-  await withTimeout(
-    payload.update({
-      collection: "registrations",
-      id: existing.docs[0].id,
-      data: { status: isPartial ? "partially_refunded" : "refunded" },
-    }),
-    PAYLOAD_TIMEOUT_MS,
-    "payload.update:refund",
-  )
-  log.info({
-    event: "webhook.refund_applied",
+
+  log.warn({
+    event: "webhook.refund.no_match",
     correlationId,
     paymentIntentId,
-    registrationId: existing.docs[0].id,
-    partial: isPartial,
+    chargeId: charge.id,
+  })
+  await dlqWebhookFailure({
+    correlationId,
+    eventId: event.id,
+    eventType: event.type,
+    severity: "warn",
+    reason: "refund event has no matching registration or donation row",
+    stripePaymentIntentId: paymentIntentId,
+    stripeChargeId: charge.id,
+    rawEvent: serializeEvent(event),
   })
 }
 
@@ -612,52 +684,123 @@ async function handleDisputeCreated(
     })
     return
   }
-  const existing = await withTimeout(
+  const disputedAt = new Date().toISOString()
+
+  // Registrations first.
+  const regHits = await withTimeout(
     payload.find({
       collection: "registrations",
       where: { stripePaymentIntentId: { equals: lookupValue } },
       limit: 1,
     }),
     PAYLOAD_TIMEOUT_MS,
-    "payload.find:dispute",
+    "payload.find:dispute_reg",
   )
-  if (existing.docs.length === 0) {
-    log.warn({
-      event: "webhook.dispute.no_match",
+  if (regHits.docs.length > 0) {
+    const reg = regHits.docs[0] as { id: string | number; type?: string | null; stripeSessionId?: string | null }
+    await withTimeout(
+      payload.update({
+        collection: "registrations",
+        id: reg.id,
+        data: { status: "disputed", disputedAt, disputeId: dispute.id },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:dispute_reg",
+    )
+    log.info({
+      event: "webhook.dispute_recorded",
       correlationId,
       paymentIntentId: lookupValue,
+      registrationId: reg.id,
       disputeId: dispute.id,
+    })
+
+    // Disputed gift purchases: void the unclaimed codes. Funds may still
+    // come back via dispute response, but treating them as void during the
+    // dispute window prevents new claims; an admin can re-issue if we win.
+    const spawnedGifts = reg.type === "self_plus_scholarship" || reg.type === "scholarship"
+    if (spawnedGifts && reg.stripeSessionId) {
+      await voidUnclaimedGiftsForSession({
+        payload,
+        stripeSessionId: reg.stripeSessionId,
+        reason: `Chargeback opened (dispute ${dispute.id})`,
+        correlationId,
+      })
+    }
+
+    await alertCritical({
+      event: "registration.dispute_opened",
+      correlationId,
+      summary: `Chargeback opened on registration ${reg.id}`,
+      fields: {
+        disputeId: dispute.id,
+        paymentIntentId: lookupValue,
+        registrationId: String(reg.id),
+        type: reg.type ?? null,
+        amount: dispute.amount,
+        reason: dispute.reason ?? null,
+      },
     })
     return
   }
-  await withTimeout(
-    payload.update({
-      collection: "registrations",
-      id: existing.docs[0].id,
-      data: { status: "disputed" },
+
+  // Donations fallback.
+  const donationHits = await withTimeout(
+    payload.find({
+      collection: "donations",
+      where: { stripePaymentIntentId: { equals: lookupValue } },
+      limit: 1,
     }),
     PAYLOAD_TIMEOUT_MS,
-    "payload.update:dispute",
+    "payload.find:dispute_donation",
   )
-  log.info({
-    event: "webhook.dispute_recorded",
+  if (donationHits.docs.length > 0) {
+    const don = donationHits.docs[0] as { id: string | number }
+    await withTimeout(
+      payload.update({
+        collection: "donations",
+        id: don.id,
+        data: { status: "disputed", disputedAt, disputeId: dispute.id },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:dispute_donation",
+    )
+    log.info({
+      event: "webhook.donation_dispute_recorded",
+      correlationId,
+      paymentIntentId: lookupValue,
+      donationId: don.id,
+      disputeId: dispute.id,
+    })
+    await alertCritical({
+      event: "donation.dispute_opened",
+      correlationId,
+      summary: `Chargeback opened on donation ${don.id}`,
+      fields: {
+        disputeId: dispute.id,
+        paymentIntentId: lookupValue,
+        donationId: String(don.id),
+        amount: dispute.amount,
+        reason: dispute.reason ?? null,
+      },
+    })
+    return
+  }
+
+  log.warn({
+    event: "webhook.dispute.no_match",
     correlationId,
     paymentIntentId: lookupValue,
-    registrationId: existing.docs[0].id,
     disputeId: dispute.id,
   })
-  // Disputes always page a human.
-  await alertCritical({
-    event: "registration.dispute_opened",
+  await dlqWebhookFailure({
     correlationId,
-    summary: `Chargeback opened on registration ${existing.docs[0].id}`,
-    fields: {
-      disputeId: dispute.id,
-      paymentIntentId: lookupValue,
-      registrationId: String(existing.docs[0].id),
-      amount: dispute.amount,
-      reason: dispute.reason ?? null,
-    },
+    eventId: event.id,
+    eventType: event.type,
+    severity: "warn",
+    reason: "dispute event has no matching registration or donation row",
+    stripePaymentIntentId: lookupValue,
+    rawEvent: serializeEvent(event),
   })
 }
 
