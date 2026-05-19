@@ -78,7 +78,7 @@ describe("Stripe Webhook — refund routing", () => {
 
     const updateCall = mockPayloadUpdate.mock.calls.find(([arg]) => arg.collection === "registrations")
     expect(updateCall).toBeTruthy()
-    expect(updateCall[0]).toMatchObject({
+    expect(updateCall![0]).toMatchObject({
       collection: "registrations",
       id: "reg_1",
       data: expect.objectContaining({
@@ -108,7 +108,8 @@ describe("Stripe Webhook — refund routing", () => {
     }))
 
     const updateCall = mockPayloadUpdate.mock.calls.find(([arg]) => arg.collection === "registrations")
-    expect(updateCall[0].data).toMatchObject({
+    expect(updateCall).toBeTruthy()
+    expect(updateCall![0].data).toMatchObject({
       status: "partially_refunded",
       refundedFully: false,
       refundAmountCents: 2500,
@@ -136,7 +137,7 @@ describe("Stripe Webhook — refund routing", () => {
 
     const updateCall = mockPayloadUpdate.mock.calls.find(([arg]) => arg.collection === "donations")
     expect(updateCall).toBeTruthy()
-    expect(updateCall[0]).toMatchObject({
+    expect(updateCall![0]).toMatchObject({
       collection: "donations",
       id: "don_1",
       data: expect.objectContaining({
@@ -244,9 +245,11 @@ describe("Stripe Webhook — dispute routing", () => {
     }))
 
     const regUpdate = mockPayloadUpdate.mock.calls.find(([arg]) => arg.collection === "registrations")
-    expect(regUpdate[0].data).toMatchObject({ status: "disputed", disputeId: "du_1" })
+    expect(regUpdate).toBeTruthy()
+    expect(regUpdate![0].data).toMatchObject({ status: "disputed", disputeId: "du_1" })
     const voidUpdate = mockPayloadUpdate.mock.calls.find(([arg]) => arg.collection === "gift-codes")
-    expect(voidUpdate[0]).toMatchObject({ id: "g_d1", data: expect.objectContaining({ status: "void" }) })
+    expect(voidUpdate).toBeTruthy()
+    expect(voidUpdate![0]).toMatchObject({ id: "g_d1", data: expect.objectContaining({ status: "void" }) })
   })
 
   it("routes dispute to donations when no registration matches", async () => {
@@ -269,7 +272,8 @@ describe("Stripe Webhook — dispute routing", () => {
     }))
 
     const donUpdate = mockPayloadUpdate.mock.calls.find(([arg]) => arg.collection === "donations")
-    expect(donUpdate[0]).toMatchObject({
+    expect(donUpdate).toBeTruthy()
+    expect(donUpdate![0]).toMatchObject({
       id: "don_d",
       data: expect.objectContaining({ status: "disputed", disputeId: "du_donate" }),
     })

@@ -18,6 +18,9 @@ export const giftRecipientSchema = z.object({
     .default("")
     .transform((v) => v.trim().toLowerCase())
     .refine((val) => val === "" || z.string().email().safeParse(val).success, "Recipient email must be valid or empty"),
+  // Optional short message shown to the recipient on the claim page and in
+  // the notification email. Capped to keep the email readable.
+  message: sanitizedString(500).default(""),
 })
 
 export type ValidatedGiftRecipient = z.infer<typeof giftRecipientSchema>

@@ -2,6 +2,7 @@
 
 import "./register.css"
 import { useEffect, useMemo, useRef, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import Image from "next/image"
 import RegistrationForm from "@/components/registration-form"
@@ -9,7 +10,7 @@ import PolicyAgreement from "@/components/policy-agreement"
 import RegistrationCheckout from "@/components/registration-checkout"
 import RegistrationErrorBoundary from "@/components/registration-error-boundary"
 import RegistrationPausedCard from "@/components/registration-paused-card"
-import type { RegistrationData, PolicyAgreements } from "@/lib/types"
+import type { RegistrationData, PolicyAgreements, RegistrationIntent } from "@/lib/types"
 import { CONTACT_EMAIL, HOTEL_BOOKING_URL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
 import { SPRING_GENTLE } from "@/components/ui/motion-primitives"
@@ -45,16 +46,62 @@ type HealthState =
     }
   | { status: "unknown" }
 
+const VALID_INTENTS: ReadonlySet<RegistrationIntent> = new Set([
+  "self",
+  "self_plus_gift",
+  "gift_only",
+  "donate",
+])
+
+function readIntentFromQuery(searchParams: URLSearchParams): RegistrationIntent | null {
+  const raw = searchParams.get("intent")
+  if (!raw) return null
+  const normalized = raw.toLowerCase().trim() as RegistrationIntent
+  return VALID_INTENTS.has(normalized) ? normalized : null
+}
+
 export default function RegisterPage() {
-  const initial = useMemo(
-    () =>
-      readRegistrationDraft() ?? {
+  const searchParams = useSearchParams()
+  const queryIntent = useMemo(() => readIntentFromQuery(searchParams), [searchParams])
+
+  const initial = useMemo(() => {
+    const draft = readRegistrationDraft()
+    // Deep link wins over a stale draft IF the user hasn't moved past info.
+    if (queryIntent && (!draft || draft.currentStep === "info")) {
+      const draftedData = draft?.registrationData
+      const seed: RegistrationData = draftedData
+        ? { ...draftedData, intent: queryIntent }
+        : {
+            intent: queryIntent,
+            name: "",
+            email: "",
+            state: "",
+            homegroup: "",
+            accommodations: "",
+            interpretationNeeded: false,
+            mobilityAccessibility: false,
+            willingToServe: false,
+            giftRecipients:
+              queryIntent === "self_plus_gift" || queryIntent === "gift_only"
+                ? [{ name: "", email: "", message: "" }]
+                : [],
+            donationAmountCents: queryIntent === "donate" ? 4000 : 0,
+            accessCode: "",
+          }
+      return {
+        currentStep: "info" as Step,
+        registrationData: seed,
+        policyAgreements: null as PolicyAgreements | null,
+      }
+    }
+    return (
+      draft ?? {
         currentStep: "info" as Step,
         registrationData: null as RegistrationData | null,
         policyAgreements: null as PolicyAgreements | null,
-      },
-    [],
-  )
+      }
+    )
+  }, [queryIntent])
 
   const [currentStep, setCurrentStep] = useState<Step>(initial.currentStep)
   const [registrationData, setRegistrationData] = useState<RegistrationData | null>(initial.registrationData)

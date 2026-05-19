@@ -7,12 +7,8 @@ import configPromise from "@payload-config"
 import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
 import { env } from "@/lib/env"
-import {
-  BREAKFAST_PRODUCTS,
-  REGISTRATION_PRODUCTS,
-  calculateProcessingFee,
-  formatUsdFromCents,
-} from "@/lib/registration-products"
+import { calculateProcessingFee, formatUsdFromCents } from "@/lib/registration-products"
+import { getLivePricing } from "@/lib/pricing"
 import {
   rateLimitCheckout,
   rateLimitCodeRedemption,
@@ -199,8 +195,9 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
     buyerIsAttendee,
   } = args
 
-  const product = REGISTRATION_PRODUCTS.find((p) => p.id === validatedProductId)
-  if (!product) {
+  const pricing = await getLivePricing()
+  const product = pricing.registration
+  if (!product || product.id !== validatedProductId) {
     log.warn({ event: "checkout.unknown_product", correlationId, productId: validatedProductId })
     return {
       ok: false,
@@ -217,8 +214,8 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
   // Breakfast add-ons only apply to attendees.
   const uniqueBreakfastIds = buyerIsAttendee ? [...new Set(validatedBreakfastIds)] : []
   const selectedBreakfasts = uniqueBreakfastIds
-    .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
-    .filter((bp): bp is (typeof BREAKFAST_PRODUCTS)[number] => Boolean(bp))
+    .map((id) => pricing.breakfasts.find((bp) => bp.id === id))
+    .filter((bp): bp is (typeof pricing.breakfasts)[number] => Boolean(bp))
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
 
   const registrationSubtotalCents = product.priceInCents * (selfQuantity + giftQuantity)
@@ -249,7 +246,11 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
     gift_quantity: giftQuantity.toString(),
     gift_unit_amount_cents: product.priceInCents.toString(),
     gift_recipients_json: JSON.stringify(
-      validatedData.giftRecipients.map((r) => ({ name: r.name, email: r.email || null })),
+      validatedData.giftRecipients.map((r) => ({
+        name: r.name,
+        email: r.email || null,
+        message: r.message || null,
+      })),
     ).slice(0, 4000),
     attendee_name: validatedData.name,
     attendee_state: validatedData.state || "not_attending",

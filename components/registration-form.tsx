@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { NECYPAA_STATES } from "@/lib/data/states"
 import type { RegistrationData, RegistrationIntent, GiftRecipient } from "@/lib/types"
 import { REGISTRATION_PRODUCTS, formatUsdFromCents, parseUsdInputToCents } from "@/lib/registration-products"
+import EmailTypoHint from "@/components/ui/email-typo-hint"
 
 interface RegistrationFormProps {
   initialData?: RegistrationData
@@ -102,6 +103,16 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
   )
   const [errors, setErrors] = useState<Record<string, string>>({})
   const errorSummaryRef = useRef<HTMLDivElement | null>(null)
+  const nameInputRef = useRef<HTMLInputElement | null>(null)
+
+  // Focus the first input on mount so keyboard users (and screen readers)
+  // know where they are after step transitions. Skip on iOS to avoid the
+  // jarring keyboard-popup-on-load behavior.
+  useEffect(() => {
+    const isTouch = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches
+    if (isTouch) return
+    nameInputRef.current?.focus({ preventScroll: true })
+  }, [])
 
   const isBuyerAttendee = data.intent === "self" || data.intent === "self_plus_gift"
   const showRecipients = data.intent === "self_plus_gift" || data.intent === "gift_only"
@@ -124,7 +135,7 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
       // Reset recipient list to a single empty slot when entering a gift flow.
       if (next === "self_plus_gift" || next === "gift_only") {
         if (prev.giftRecipients.length === 0) {
-          out.giftRecipients = [{ name: "", email: "" }]
+          out.giftRecipients = [{ name: "", email: "", message: "" }]
         }
       } else {
         out.giftRecipients = []
@@ -158,7 +169,7 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
   const addRecipient = () => {
     setData((prev) =>
       prev.giftRecipients.length < MAX_RECIPIENTS
-        ? { ...prev, giftRecipients: [...prev.giftRecipients, { name: "", email: "" }] }
+        ? { ...prev, giftRecipients: [...prev.giftRecipients, { name: "", email: "", message: "" }] }
         : prev,
     )
   }
@@ -324,6 +335,7 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
             </Label>
             <Input
               id="name"
+              ref={nameInputRef}
               value={data.name}
               onChange={(e) => update("name", e.target.value)}
               aria-invalid={!!errors.name}
@@ -342,9 +354,11 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
               value={data.email}
               onChange={(e) => update("email", e.target.value)}
               aria-invalid={!!errors.email}
+              aria-describedby="email-typo-hint"
               placeholder="name@email.com"
             />
             {errors.email && <p className="text-sm text-[var(--nec-pink)]">{errors.email}</p>}
+            <EmailTypoHint value={data.email} fieldId="email" onAccept={(v) => update("email", v)} />
           </div>
 
           {isBuyerAttendee && (
@@ -451,46 +465,76 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
             {data.giftRecipients.map((r, i) => (
               <div
                 key={i}
-                className="grid gap-3 rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.6)] p-4 md:grid-cols-[1.1fr_1.1fr_auto]"
+                className="space-y-3 rounded-[1.25rem] border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.6)] p-4"
               >
-                <div className="space-y-1">
-                  <Label htmlFor={`recipient_${i}_name`} className="text-xs uppercase tracking-wider text-[var(--nec-muted)]">
-                    Recipient {i + 1} name <span className="text-[var(--nec-pink)]">*</span>
-                  </Label>
-                  <Input
-                    id={`recipient_${i}_name`}
-                    value={r.name}
-                    onChange={(e) => updateRecipient(i, { name: e.target.value })}
-                    placeholder="Their full name"
-                    aria-invalid={!!errors[`recipient_${i}`]}
-                  />
+                <div className="grid gap-3 md:grid-cols-[1.1fr_1.1fr_auto]">
+                  <div className="space-y-1">
+                    <Label
+                      htmlFor={`recipient_${i}_name`}
+                      className="text-xs uppercase tracking-wider text-[var(--nec-muted)]"
+                    >
+                      Recipient {i + 1} name <span className="text-[var(--nec-pink)]">*</span>
+                    </Label>
+                    <Input
+                      id={`recipient_${i}_name`}
+                      value={r.name}
+                      onChange={(e) => updateRecipient(i, { name: e.target.value })}
+                      placeholder="Their full name"
+                      aria-invalid={!!errors[`recipient_${i}`]}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label
+                      htmlFor={`recipient_${i}_email`}
+                      className="text-xs uppercase tracking-wider text-[var(--nec-muted)]"
+                    >
+                      Email <span className="text-[var(--nec-muted)]">(optional)</span>
+                    </Label>
+                    <Input
+                      id={`recipient_${i}_email`}
+                      type="email"
+                      value={r.email}
+                      onChange={(e) => updateRecipient(i, { email: e.target.value })}
+                      placeholder="Leave blank to forward yourself"
+                      aria-invalid={!!errors[`recipient_${i}`]}
+                    />
+                    <EmailTypoHint
+                      value={r.email}
+                      fieldId={`recipient_${i}_email`}
+                      onAccept={(v) => updateRecipient(i, { email: v })}
+                    />
+                  </div>
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      onClick={() => removeRecipient(i)}
+                      disabled={data.giftRecipients.length <= 1}
+                      className="rounded-md border border-[rgba(var(--nec-purple-rgb),0.20)] px-3 py-2 text-sm text-[var(--nec-text)] transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.08)] disabled:opacity-40"
+                      aria-label={`Remove recipient ${i + 1}`}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
                 <div className="space-y-1">
-                  <Label htmlFor={`recipient_${i}_email`} className="text-xs uppercase tracking-wider text-[var(--nec-muted)]">
-                    Email <span className="text-[var(--nec-muted)]">(optional)</span>
-                  </Label>
-                  <Input
-                    id={`recipient_${i}_email`}
-                    type="email"
-                    value={r.email}
-                    onChange={(e) => updateRecipient(i, { email: e.target.value })}
-                    placeholder="Leave blank to forward yourself"
-                    aria-invalid={!!errors[`recipient_${i}`]}
-                  />
-                </div>
-                <div className="flex items-end">
-                  <button
-                    type="button"
-                    onClick={() => removeRecipient(i)}
-                    disabled={data.giftRecipients.length <= 1}
-                    className="rounded-md border border-[rgba(var(--nec-purple-rgb),0.20)] px-3 py-2 text-sm text-[var(--nec-text)] transition-colors hover:bg-[rgba(var(--nec-purple-rgb),0.08)] disabled:opacity-40"
-                    aria-label={`Remove recipient ${i + 1}`}
+                  <Label
+                    htmlFor={`recipient_${i}_message`}
+                    className="text-xs uppercase tracking-wider text-[var(--nec-muted)]"
                   >
-                    Remove
-                  </button>
+                    Note from you <span className="text-[var(--nec-muted)]">(optional)</span>
+                  </Label>
+                  <Textarea
+                    id={`recipient_${i}_message`}
+                    value={r.message}
+                    onChange={(e) => updateRecipient(i, { message: e.target.value })}
+                    placeholder={`Say hello — they'll see this on the claim page and in the email. Like, "Joey here — can't wait to see you in Hartford."`}
+                    maxLength={500}
+                    rows={2}
+                  />
+                  <p className="text-xs text-[var(--nec-muted)]">{r.message.length}/500 characters</p>
                 </div>
                 {errors[`recipient_${i}`] && (
-                  <p className="col-span-full text-sm text-[var(--nec-pink)]">{errors[`recipient_${i}`]}</p>
+                  <p className="text-sm text-[var(--nec-pink)]">{errors[`recipient_${i}`]}</p>
                 )}
               </div>
             ))}

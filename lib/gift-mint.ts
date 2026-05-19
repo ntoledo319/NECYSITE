@@ -13,6 +13,7 @@ const PAYLOAD_TIMEOUT_MS = 6_000
 interface RecipientFromMetadata {
   name: string
   email: string | null
+  message: string | null
 }
 
 /**
@@ -77,6 +78,7 @@ export async function mintGiftCodesForPaidSession(args: {
             status: "unclaimed",
             recipientName: recipient.name,
             recipientEmail: recipient.email || undefined,
+            sponsorMessage: recipient.message || undefined,
             sponsorName,
             sponsorEmail: sponsorEmail || "unknown@necypaa.org",
             sponsorState: sponsorState || undefined,
@@ -123,6 +125,7 @@ export async function mintGiftCodesForPaidSession(args: {
           recipientEmail: recipient.email || null,
           sponsorName,
           sponsorEmail,
+          sponsorMessage: recipient.message || null,
           correlationId,
           payload,
         }),
@@ -144,11 +147,16 @@ function parseRecipients(raw: unknown): RecipientFromMetadata[] {
     return parsed
       .map((r) => {
         if (!r || typeof r !== "object") return null
-        const obj = r as { name?: unknown; email?: unknown }
+        const obj = r as { name?: unknown; email?: unknown; message?: unknown }
         const name = typeof obj.name === "string" ? obj.name.trim() : ""
         const email = typeof obj.email === "string" ? obj.email.trim() : null
+        const message = typeof obj.message === "string" ? obj.message.trim() : null
         if (!name) return null
-        return { name, email: email && email.length > 0 ? email : null }
+        return {
+          name,
+          email: email && email.length > 0 ? email : null,
+          message: message && message.length > 0 ? message.slice(0, 500) : null,
+        }
       })
       .filter((v): v is RecipientFromMetadata => v !== null)
       .slice(0, 20)

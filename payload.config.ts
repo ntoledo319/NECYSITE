@@ -15,6 +15,7 @@ import { WebhookFailures } from "./collections/WebhookFailures"
 import { ProcessedWebhookEvents } from "./collections/ProcessedWebhookEvents"
 import { GiftCodes } from "./collections/GiftCodes"
 import { Donations } from "./collections/Donations"
+import { PricingSettings } from "./globals/PricingSettings"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -42,6 +43,7 @@ export default buildConfig({
     WebhookFailures,
     ProcessedWebhookEvents,
   ],
+  globals: [PricingSettings],
   secret:
     process.env.PAYLOAD_SECRET ??
     (() => {

@@ -329,7 +329,7 @@ export async function submitGiftClaim(
  * gift metadata without exposing the token to the client component.
  */
 export async function loadGiftForClaim(token: string): Promise<
-  | { status: "ok"; recipientName: string; sponsorName: string }
+  | { status: "ok"; recipientName: string; sponsorName: string; sponsorMessage: string | null }
   | { status: "claimed" }
   | { status: "void" }
   | { status: "not_found" }
@@ -351,13 +351,14 @@ export async function loadGiftForClaim(token: string): Promise<
       "claim.find_gift_public",
     )
     if (found.docs.length === 0) return { status: "not_found" }
-    const row = found.docs[0] as GiftRow
+    const row = found.docs[0] as GiftRow & { sponsorMessage?: string | null }
     if (row.status === "claimed") return { status: "claimed" }
     if (row.status === "void") return { status: "void" }
     return {
       status: "ok",
       recipientName: row.recipientName ?? "friend",
       sponsorName: row.sponsorName ?? "Someone",
+      sponsorMessage: row.sponsorMessage ?? null,
     }
   } catch (err) {
     log.error({ event: "claim.load_failed", correlationId, ...summarizeError(err) })

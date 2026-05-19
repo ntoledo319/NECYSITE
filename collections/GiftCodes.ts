@@ -50,6 +50,13 @@ export const GiftCodes: CollectionConfig = {
     },
     { name: "recipientName", type: "text", required: true },
     { name: "recipientEmail", type: "email", admin: { description: "Optional. If present we email the recipient directly; otherwise the sponsor receives the link to forward." } },
+    {
+      name: "sponsorMessage",
+      type: "textarea",
+      admin: {
+        description: "Optional note from the sponsor, shown on the claim page header and in the recipient email.",
+      },
+    },
     { name: "sponsorName", type: "text", required: true },
     { name: "sponsorEmail", type: "email", required: true, index: true },
     { name: "sponsorState", type: "text" },

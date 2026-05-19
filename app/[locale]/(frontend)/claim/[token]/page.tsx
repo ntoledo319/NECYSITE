@@ -35,6 +35,14 @@ export default async function ClaimPage({ params }: { params: Promise<Params> })
                   Fill in a few details and review the convention policy &mdash; that&apos;s the whole process. No
                   payment required.
                 </p>
+                {gift.sponsorMessage && (
+                  <blockquote className="page-enter-4 mt-6 rounded-[1.25rem] border-l-4 border-[var(--nec-purple)] bg-[rgba(var(--nec-purple-rgb),0.06)] px-5 py-4">
+                    <p className="text-base italic leading-7 text-[var(--nec-text)]">
+                      &ldquo;{gift.sponsorMessage}&rdquo;
+                    </p>
+                    <p className="mt-2 text-sm text-[var(--nec-muted)]">— {gift.sponsorName}</p>
+                  </blockquote>
+                )}
               </header>
               <div className="mt-10">
                 <ClaimForm token={token} suggestedName={gift.recipientName} sponsorName={gift.sponsorName} />

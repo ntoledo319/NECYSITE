@@ -27,14 +27,15 @@ export async function sendGiftClaimEmail(args: {
   recipientEmail: string | null
   sponsorName: string
   sponsorEmail: string
+  sponsorMessage: string | null
   correlationId: CorrelationId
 }): Promise<void> {
-  const { payload, giftId, token, recipientName, recipientEmail, sponsorName, sponsorEmail, correlationId } = args
+  const { payload, giftId, token, recipientName, recipientEmail, sponsorName, sponsorEmail, sponsorMessage, correlationId } = args
 
   const claimUrl = `${env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, "")}/claim/${encodeURIComponent(token)}`
 
   if (recipientEmail) {
-    const { text, html } = renderRecipientEmail({ recipientName, sponsorName, claimUrl })
+    const { text, html } = renderRecipientEmail({ recipientName, sponsorName, sponsorMessage, claimUrl })
     const result = await sendTransactionalEmail({
       to: recipientEmail,
       subject: `${sponsorName} bought you a NECYPAA XXXVI registration`,
@@ -47,7 +48,7 @@ export async function sendGiftClaimEmail(args: {
   }
 
   if (sponsorEmail) {
-    const { text, html } = renderSponsorForwardEmail({ sponsorName, recipientName, claimUrl })
+    const { text, html } = renderSponsorForwardEmail({ sponsorName, recipientName, sponsorMessage, claimUrl })
     const result = await sendTransactionalEmail({
       to: sponsorEmail,
       subject: `Forward this to ${recipientName} — their NECYPAA gift link`,
@@ -121,16 +122,21 @@ async function updateGiftEmailStatus(
 interface RecipientEmailVars {
   recipientName: string
   sponsorName: string
+  sponsorMessage: string | null
   claimUrl: string
 }
 
 function renderRecipientEmail(vars: RecipientEmailVars): { text: string; html: string } {
   const firstName = vars.recipientName.split(" ")[0]
+  const noteLines = vars.sponsorMessage
+    ? [`A note from ${vars.sponsorName}:`, `"${vars.sponsorMessage}"`, ""]
+    : []
   const text = [
     `Hi ${firstName},`,
     "",
     `${vars.sponsorName} bought you a registration for NECYPAA XXXVI — Escaping the Mad Realm.`,
     "",
+    ...noteLines,
     `It's ${CONVENTION_DATES} at the ${CONVENTION_VENUE} in Hartford, CT.`,
     "",
     "To claim your spot, click the link below and fill out the short form. You'll review the convention policy as part of that — every attendee signs it directly.",
@@ -144,9 +150,13 @@ function renderRecipientEmail(vars: RecipientEmailVars): { text: string; html: s
     "",
     "— NECYPAA XXXVI Host Committee",
   ].join("\n")
+  const noteHtml = vars.sponsorMessage
+    ? `<blockquote style="margin:16px 0;padding:12px 16px;border-left:3px solid #7c3aed;background:rgba(124,58,237,0.06);color:#444;font-style:italic">${escape(vars.sponsorMessage)}<br><span style="font-style:normal;font-size:12px;color:#888">— ${escape(vars.sponsorName)}</span></blockquote>`
+    : ""
   const html = `
 <p>Hi ${escape(firstName)},</p>
 <p><strong>${escape(vars.sponsorName)}</strong> bought you a registration for NECYPAA XXXVI &mdash; Escaping the Mad Realm.</p>
+${noteHtml}
 <p>It's <strong>${CONVENTION_DATES}</strong> at the <strong>${CONVENTION_VENUE}</strong> in Hartford, CT.</p>
 <p>To claim your spot, click below and fill out the short form. You'll review the convention policy as part of that &mdash; every attendee signs it directly.</p>
 <p><a href="${vars.claimUrl}" style="background:#7c3aed;color:#fff;padding:14px 28px;border-radius:9999px;text-decoration:none;font-weight:600;display:inline-block">Claim your registration</a></p>
@@ -161,11 +171,15 @@ function renderRecipientEmail(vars: RecipientEmailVars): { text: string; html: s
 interface SponsorEmailVars {
   sponsorName: string
   recipientName: string
+  sponsorMessage: string | null
   claimUrl: string
 }
 
 function renderSponsorForwardEmail(vars: SponsorEmailVars): { text: string; html: string } {
   const firstName = vars.sponsorName.split(" ")[0]
+  const noteLines = vars.sponsorMessage
+    ? [`(We'll show them this note when they click the link: "${vars.sponsorMessage}")`, ""]
+    : []
   const text = [
     `Hi ${firstName},`,
     "",
@@ -173,6 +187,7 @@ function renderSponsorForwardEmail(vars: SponsorEmailVars): { text: string; html
     "",
     vars.claimUrl,
     "",
+    ...noteLines,
     `Forward this whole email if it's easier — or copy/paste the link into a text. They'll fill out a short form (including the convention policy, which only attendees sign) and they're registered.`,
     "",
     `Event: NECYPAA XXXVI — ${CONVENTION_DATES} — ${CONVENTION_VENUE}, Hartford CT`,
@@ -180,10 +195,14 @@ function renderSponsorForwardEmail(vars: SponsorEmailVars): { text: string; html
     "",
     "— NECYPAA XXXVI Host Committee",
   ].join("\n")
+  const noteHtml = vars.sponsorMessage
+    ? `<p style="color:#666;font-size:13px;font-style:italic">We'll show them this note when they click the link: "${escape(vars.sponsorMessage)}"</p>`
+    : ""
   const html = `
 <p>Hi ${escape(firstName)},</p>
 <p>Thank you for sponsoring <strong>${escape(vars.recipientName)}</strong>. Here's the claim link to send them:</p>
 <p><a href="${vars.claimUrl}" style="background:#7c3aed;color:#fff;padding:14px 28px;border-radius:9999px;text-decoration:none;font-weight:600;display:inline-block">${vars.claimUrl}</a></p>
+${noteHtml}
 <p style="color:#888;font-size:13px">Forward this whole email if it's easier &mdash; or copy/paste the link into a text. They'll fill out a short form (including the convention policy, which only attendees sign) and they're registered.</p>
 <p>Event: <strong>NECYPAA XXXVI</strong> &mdash; ${CONVENTION_DATES} &mdash; ${CONVENTION_VENUE}, Hartford CT<br>Questions: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
 <p>&mdash; NECYPAA XXXVI Host Committee</p>

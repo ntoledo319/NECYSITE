@@ -80,8 +80,8 @@ const giftOnlyRegistration: RegistrationData = {
   state: "",
   homegroup: "",
   giftRecipients: [
-    { name: "Casey Recipient", email: "casey@example.com" },
-    { name: "Pat Recipient", email: "" },
+    { name: "Casey Recipient", email: "casey@example.com", message: "" },
+    { name: "Pat Recipient", email: "", message: "" },
   ],
 }
 

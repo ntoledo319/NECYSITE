@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, type FormEvent } from "react"
+import { useEffect, useState, useRef, type FormEvent } from "react"
 import { useRouter } from "@/i18n/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import PolicyAgreement from "@/components/policy-agreement"
+import EmailTypoHint from "@/components/ui/email-typo-hint"
 import { submitGiftClaim, type ClaimFormInput } from "@/actions/claim-gift"
 import { NECYPAA_STATES } from "@/lib/data/states"
 import type { PolicyAgreements } from "@/lib/types"
@@ -47,6 +48,14 @@ export default function ClaimForm({ token, suggestedName, sponsorName }: Props) 
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<{ message: string; correlationId?: string } | null>(null)
   const errorSummaryRef = useRef<HTMLDivElement | null>(null)
+  const nameInputRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    if (step !== "info") return
+    const isTouch = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches
+    if (isTouch) return
+    nameInputRef.current?.focus({ preventScroll: true })
+  }, [step])
 
   const update = <K extends keyof ClaimFormInput>(field: K, value: ClaimFormInput[K]) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -188,6 +197,7 @@ export default function ClaimForm({ token, suggestedName, sponsorName }: Props) 
           </Label>
           <Input
             id="name"
+            ref={nameInputRef}
             value={form.name}
             onChange={(e) => update("name", e.target.value)}
             aria-invalid={!!errors.name}
@@ -209,6 +219,7 @@ export default function ClaimForm({ token, suggestedName, sponsorName }: Props) 
             placeholder="name@email.com"
           />
           {errors.email && <p className="text-sm text-[var(--nec-pink)]">{errors.email}</p>}
+          <EmailTypoHint value={form.email} fieldId="email" onAccept={(v) => update("email", v)} />
         </div>
 
         <div className="space-y-2">

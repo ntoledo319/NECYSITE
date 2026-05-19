@@ -3,12 +3,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js"
 import { loadStripe, type Stripe } from "@stripe/stripe-js"
+import { useLocale } from "next-intl"
 import { startBreakfastCheckout } from "@/actions/breakfast"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import EmailTypoHint from "@/components/ui/email-typo-hint"
+import { CONTACT_EMAIL } from "@/lib/constants"
 
 export default function BreakfastCheckout() {
   const [firstName, setFirstName] = useState("")
@@ -72,22 +75,33 @@ export default function BreakfastCheckout() {
     setCheckoutReady(false)
   }
 
+  const locale = useLocale()
+
   const fetchClientSecret = useCallback(async () => {
     try {
       const selectedBreakfastIds = selectedBreakfasts.map((bp) => bp.id)
-      return await startBreakfastCheckout(
+      const result = await startBreakfastCheckout(
         { firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim() },
         selectedBreakfastIds,
+        locale,
       )
+      if (!result.ok) {
+        const message = result.error.contactSupport
+          ? `${result.error.userMessage} (ref ${result.error.correlationId})`
+          : result.error.userMessage
+        setError(message)
+        return Promise.reject(new Error(result.error.userMessage))
+      }
+      return result.clientSecret
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Something didn't go as planned. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
+          : `Something didn't go as planned. Please try again — and if it keeps happening, reach out at ${CONTACT_EMAIL}.`,
       )
       return Promise.reject(err)
     }
-  }, [email, firstName, lastName, selectedBreakfasts])
+  }, [email, firstName, lastName, locale, selectedBreakfasts])
 
   const options = useMemo(() => ({ fetchClientSecret }), [fetchClientSecret])
 
@@ -243,6 +257,9 @@ export default function BreakfastCheckout() {
                     {errors.email}
                   </p>
                 )}
+                <div className="mt-1">
+                  <EmailTypoHint value={email} fieldId="email" onAccept={(v) => setEmail(v)} />
+                </div>
               </div>
             </div>
 

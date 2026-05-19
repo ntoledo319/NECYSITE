@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
@@ -33,6 +33,16 @@ export default function PolicyAgreement({
   )
 
   const allAgreed = Object.values(agreements).every((val) => val === true)
+  const firstCheckboxRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    const isTouch = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches
+    if (isTouch) return
+    // Defer until after the AnimatePresence transition settles so focus isn't
+    // pulled mid-animation.
+    const t = window.setTimeout(() => firstCheckboxRef.current?.focus({ preventScroll: true }), 60)
+    return () => window.clearTimeout(t)
+  }, [])
 
   return (
     <div className="space-y-6">
@@ -216,6 +226,7 @@ export default function PolicyAgreement({
           <div className="flex items-start space-x-3">
             <Checkbox
               id="readPolicy"
+              ref={firstCheckboxRef}
               checked={agreements.readPolicy}
               onCheckedChange={(checked) => setAgreements({ ...agreements, readPolicy: checked === true })}
               className="mt-1 border-[var(--nec-border)]"

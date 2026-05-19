@@ -18,6 +18,8 @@ export interface GiftRecipient {
   name: string
   /** Optional. If present, the system emails the claim link directly. */
   email: string
+  /** Optional short note from the sponsor, shown on the claim page and in the email. */
+  message: string
 }
 
 /** Attendee-submitted form data for the paid-checkout flows. */
