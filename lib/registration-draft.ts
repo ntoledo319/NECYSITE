@@ -9,7 +9,7 @@ import type { RegistrationData, PolicyAgreements } from "@/lib/types"
  * should not linger in browser storage after the tab is closed.
  */
 
-export const REGISTRATION_DRAFT_VERSION = 2 as const
+export const REGISTRATION_DRAFT_VERSION = 3 as const
 export const REGISTRATION_DRAFT_KEY = "necypaa-registration-state"
 
 export type Step = "info" | "policy" | "payment"
@@ -31,14 +31,17 @@ function isRegistrationData(value: unknown): value is RegistrationData {
   const v = value as Record<string, unknown>
   return (
     typeof v.name === "string" &&
-    typeof v.state === "string" &&
     typeof v.email === "string" &&
+    typeof v.state === "string" &&
+    typeof v.homegroup === "string" &&
     typeof v.accommodations === "string" &&
     typeof v.interpretationNeeded === "boolean" &&
     typeof v.mobilityAccessibility === "boolean" &&
     typeof v.willingToServe === "boolean" &&
-    typeof v.homegroup === "string" &&
-    typeof v.isScholarship === "boolean"
+    typeof v.intent === "string" &&
+    ["self", "self_plus_gift", "gift_only", "donate"].includes(v.intent as string) &&
+    Array.isArray(v.giftRecipients) &&
+    typeof v.donationAmountCents === "number"
   )
 }
 

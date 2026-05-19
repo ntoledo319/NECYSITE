@@ -13,6 +13,8 @@ import { Registrations } from "./collections/Registrations"
 import { RegistrationFailures } from "./collections/RegistrationFailures"
 import { WebhookFailures } from "./collections/WebhookFailures"
 import { ProcessedWebhookEvents } from "./collections/ProcessedWebhookEvents"
+import { GiftCodes } from "./collections/GiftCodes"
+import { Donations } from "./collections/Donations"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,6 +36,8 @@ export default buildConfig({
     FAQ,
     Media,
     Registrations,
+    GiftCodes,
+    Donations,
     RegistrationFailures,
     WebhookFailures,
     ProcessedWebhookEvents,

@@ -19,18 +19,18 @@ import { newCorrelationId } from "@/lib/correlation"
 const STEP_COPY: Record<Step, { eyebrow: string; title: string; description: string }> = {
   info: {
     eyebrow: "Step One",
-    title: "Tell us who's coming.",
-    description: "Start with the details we need to confirm the registration and support the attendee well.",
+    title: "Pick your path.",
+    description: "Tell us how you want to participate. The form changes based on what you choose.",
   },
   policy: {
     eyebrow: "Step Two",
     title: "Review the policy agreement.",
-    description: "We keep this visible and explicit so expectations are clear before anyone arrives in Hartford.",
+    description: "Every attendee signs this directly so expectations are clear before Hartford.",
   },
   payment: {
     eyebrow: "Final Step",
     title: "Complete payment.",
-    description: "Review the total, add optional items, and finish checkout without losing context.",
+    description: "Review the total and finish checkout without losing context.",
   },
 }
 
@@ -64,23 +64,25 @@ export default function RegisterPage() {
   const shouldReduce = useReducedMotion()
   const isFirstRender = useRef(true)
 
-  // Stable correlation ID for the whole attempt. Survives step transitions
-  // and step-level retries; reset only when the page is reloaded.
   const correlationIdRef = useRef<string>("")
   if (!correlationIdRef.current) correlationIdRef.current = newCorrelationId()
   const correlationId = correlationIdRef.current
+
+  const buyerIsAttendee = registrationData?.intent === "self" || registrationData?.intent === "self_plus_gift"
 
   const handleInfoComplete = (data: RegistrationData) => {
     setRegistrationData(data)
     directionRef.current = 1
 
-    if (data.isScholarship) {
+    // Only attendees sign the policy. Donors and gift-only sponsors go
+    // straight to payment.
+    const requiresPolicy = data.intent === "self" || data.intent === "self_plus_gift"
+    if (requiresPolicy) {
+      setCurrentStep("policy")
+    } else {
       setPolicyAgreements(null)
       setCurrentStep("payment")
-      return
     }
-
-    setCurrentStep("policy")
   }
 
   const handlePolicyComplete = (agreements: PolicyAgreements) => {
@@ -101,8 +103,6 @@ export default function RegisterPage() {
     writeRegistrationDraft({ currentStep, registrationData, policyAgreements })
   }, [currentStep, registrationData, policyAgreements])
 
-  // Health check on mount. If the kill switch is on or critical subsystems
-  // are down, render the paused card instead of the form.
   useEffect(() => {
     let cancelled = false
     const controller = new AbortController()
@@ -110,14 +110,7 @@ export default function RegisterPage() {
 
     const publicPausedFlag = process.env.NEXT_PUBLIC_REGISTRATION_PAUSED
     if (publicPausedFlag && /^(1|true|yes|on|paused)$/i.test(publicPausedFlag)) {
-      // Fast-path: env-provided client flag short-circuits the network call.
-      setHealth({
-        status: "ready",
-        paused: true,
-        pausedReason: null,
-        degradedFeatures: [],
-        overall: "down",
-      })
+      setHealth({ status: "ready", paused: true, pausedReason: null, degradedFeatures: [], overall: "down" })
       clearTimeout(timeout)
       return () => {
         cancelled = true
@@ -138,8 +131,6 @@ export default function RegisterPage() {
       })
       .catch(() => {
         if (cancelled) return
-        // Health endpoint unreachable — don't block the user; let server
-        // actions enforce real authorization.
         setHealth({ status: "unknown" })
       })
       .finally(() => clearTimeout(timeout))
@@ -151,34 +142,22 @@ export default function RegisterPage() {
     }
   }, [])
 
-  // When the success page completes, it clears the draft. We also clear on
-  // explicit "register another person" by resetting state at unmount.
-  useEffect(() => {
-    return () => {
-      // Intentionally not clearing on unmount — Next route changes would
-      // wipe drafts users might want to resume.
-    }
-  }, [])
-
-  const updateScholarshipIntent = (next: boolean) => {
-    setRegistrationData((prev) => (prev ? { ...prev, isScholarship: next } : prev))
-  }
-
-  const isScholarshipFlow = registrationData?.isScholarship === true
+  const intent = registrationData?.intent ?? "self"
+  const requiresPolicy = intent === "self" || intent === "self_plus_gift"
 
   const steps = useMemo(
     () =>
-      isScholarshipFlow
+      requiresPolicy
         ? [
-            { key: "info" as const, label: "Information", number: 1 },
-            { key: "payment" as const, label: "Payment", number: 2 },
-          ]
-        : [
             { key: "info" as const, label: "Information", number: 1 },
             { key: "policy" as const, label: "Policy", number: 2 },
             { key: "payment" as const, label: "Payment", number: 3 },
+          ]
+        : [
+            { key: "info" as const, label: "Information", number: 1 },
+            { key: "payment" as const, label: "Payment", number: 2 },
           ],
-    [isScholarshipFlow],
+    [requiresPolicy],
   )
 
   const activeStepMeta = STEP_COPY[currentStep]
@@ -214,7 +193,7 @@ export default function RegisterPage() {
               Register for NECYPAA XXXVI.
             </h1>
             <p className="page-enter-3 mt-4 text-lg leading-8 text-[var(--nec-muted)]">
-              Secure your spot at NECYPAA XXXVI in Hartford. A few quick steps and you&apos;re in.
+              Coming to Hartford, sponsoring a friend, or donating to the General Fund — we&apos;ve got a path for it.
             </p>
             <p
               className="page-enter-4 mt-5 max-w-xl text-base italic leading-7 text-[var(--nec-muted)]"
@@ -277,10 +256,7 @@ export default function RegisterPage() {
                     aria-live="polite"
                   >
                     Card payments are temporarily unreachable. Try again in a few minutes — or email{" "}
-                    <a
-                      href={`mailto:${CONTACT_EMAIL}`}
-                      className="font-semibold underline underline-offset-4"
-                    >
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold underline underline-offset-4">
                       {CONTACT_EMAIL}
                     </a>{" "}
                     and we&apos;ll register you manually.
@@ -293,8 +269,7 @@ export default function RegisterPage() {
                     role="status"
                     aria-live="polite"
                   >
-                    Access code redemption is offline right now. Card checkout still works; codes will be honored as
-                    soon as the service is back.
+                    Access code redemption is offline right now. Card checkout still works.
                   </div>
                 )}
 
@@ -304,7 +279,7 @@ export default function RegisterPage() {
                     Hartford Marriott Downtown
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
-                    Book the host hotel early and keep the whole weekend within walking distance of the convention.
+                    Book the host hotel early and keep the whole weekend within walking distance.
                   </p>
                   <a href={HOTEL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-secondary mt-5">
                     Book Hotel
@@ -315,7 +290,7 @@ export default function RegisterPage() {
                 <div className="rounded-[1.5rem] border border-[rgba(var(--nec-purple-rgb),0.10)] bg-[rgba(var(--nec-card-rgb),0.74)] p-6">
                   <p className="form-section-label">Need Help?</p>
                   <p className="mt-3 text-sm leading-7 text-[var(--nec-muted)]">
-                    Questions about registration, accessibility, or scholarship purchases can go straight to{" "}
+                    Questions about registration, accessibility, scholarships, or sponsoring people can go straight to{" "}
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
                       className="font-semibold text-[var(--nec-text)] underline underline-offset-4"
@@ -372,7 +347,6 @@ export default function RegisterPage() {
                           <RegistrationForm
                             initialData={registrationData ?? undefined}
                             onComplete={handleInfoComplete}
-                            enableScholarship
                             showAccessCode={!accessCodeDown}
                           />
                         </RegistrationErrorBoundary>
@@ -393,16 +367,15 @@ export default function RegisterPage() {
 
                       {currentStep === "payment" &&
                         registrationData &&
-                        (registrationData.isScholarship || policyAgreements) && (
+                        (!requiresPolicy || policyAgreements) && (
                           <RegistrationErrorBoundary section="payment" correlationId={correlationId}>
                             <RegistrationCheckout
                               registrationData={registrationData}
                               policyAgreements={policyAgreements}
-                              onScholarshipIntentChange={updateScholarshipIntent}
                               correlationId={correlationId}
                               onBack={() => {
                                 directionRef.current = -1
-                                setCurrentStep(isScholarshipFlow ? "info" : "policy")
+                                setCurrentStep(requiresPolicy ? "policy" : "info")
                               }}
                             />
                           </RegistrationErrorBoundary>
@@ -418,4 +391,3 @@ export default function RegisterPage() {
     </div>
   )
 }
-

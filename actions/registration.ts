@@ -25,8 +25,6 @@ import {
   policyAgreementsSchema,
   purchaseAttributionSchema,
   productIdSchema,
-  scholarshipQuantitySchema,
-  scholarshipUnitAmountCentsSchema,
   breakfastIdsSchema,
 } from "@/lib/validation"
 import { redeemRegistrationCode, maskAccessCode } from "@/lib/issuer-client"
@@ -43,7 +41,6 @@ import { signSuccessToken, signAccessCodePayload } from "@/lib/success-token"
 const SUPPORTED_LOCALES = new Set(["en", "es"])
 const DEFAULT_LOCALE = "en"
 const SUCCESS_COOKIE = "necypaa_checkout_token"
-
 const PAYLOAD_TIMEOUT_MS = 5_000
 const STRIPE_TIMEOUT_MS = 10_000
 const PI_UPDATE_TIMEOUT_MS = 5_000
@@ -71,15 +68,12 @@ export async function startRegistrationCheckout(
   productId: string,
   registrationData: RegistrationData,
   policyAgreements: PolicyAgreements | null,
-  scholarshipQuantity = 0,
   breakfastIds: string[] = [],
   attribution?: PurchaseAttribution,
-  scholarshipUnitAmountInCents?: number,
   locale?: string,
 ): Promise<StartCheckoutResult> {
   const correlationId = newCorrelationId()
 
-  // ── Kill switch ────────────────────────────────────────────────────
   if (isRegistrationPaused()) {
     log.warn({ event: "checkout.paused", correlationId, reason: registrationPausedReason() ?? "no_reason" })
     return { ok: false, error: buildError("REGISTRATION_PAUSED", { correlationId }) }
@@ -87,11 +81,8 @@ export async function startRegistrationCheckout(
 
   const resolvedLocale = normalizeLocale(locale)
 
-  // ── Validate input ─────────────────────────────────────────────────
   let validatedProductId: string
   let validatedData: import("@/lib/validation").ValidatedRegistrationData
-  let validatedScholarshipQty: number
-  let validatedScholarshipUnitAmount: number | undefined
   let validatedBreakfastIds: string[]
   let validatedAttribution: import("zod").infer<typeof import("@/lib/validation").purchaseAttributionSchema>
   let validatedPolicy: import("@/lib/validation").ValidatedPolicyAgreements | null
@@ -99,8 +90,6 @@ export async function startRegistrationCheckout(
   try {
     validatedProductId = productIdSchema.parse(productId)
     validatedData = registrationDataSchema.parse(registrationData)
-    validatedScholarshipQty = scholarshipQuantitySchema.parse(scholarshipQuantity)
-    validatedScholarshipUnitAmount = scholarshipUnitAmountCentsSchema.parse(scholarshipUnitAmountInCents)
     validatedBreakfastIds = breakfastIdsSchema.parse(breakfastIds)
     validatedAttribution = purchaseAttributionSchema.parse(attribution)
     validatedPolicy = policyAgreements ? policyAgreementsSchema.parse(policyAgreements) : null
@@ -108,12 +97,7 @@ export async function startRegistrationCheckout(
     const zodErr = err as { issues?: Array<{ path: (string | number)[]; message: string }> }
     const first = zodErr.issues?.[0]
     const fieldPath = first?.path?.join(".")
-    log.warn({
-      event: "checkout.validation_failed",
-      correlationId,
-      fieldPath,
-      message: first?.message,
-    })
+    log.warn({ event: "checkout.validation_failed", correlationId, fieldPath, message: first?.message })
     return {
       ok: false,
       error: buildError("VALIDATION", {
@@ -126,17 +110,11 @@ export async function startRegistrationCheckout(
     }
   }
 
-  if (validatedData.isScholarship && validatedScholarshipQty < 1) {
-    return {
-      ok: false,
-      error: buildError("VALIDATION", {
-        correlationId,
-        userMessage: "Add at least one scholarship to continue.",
-      }),
-    }
-  }
-
-  if (!validatedData.isScholarship && !validatedPolicy) {
+  // Policy gating — REQUIRED when the buyer is an attendee (self or
+  // self_plus_gift). Forbidden otherwise (gift_only / donate buyers don't
+  // attend, so collecting their signature would be misleading).
+  const buyerIsAttendee = validatedData.intent === "self" || validatedData.intent === "self_plus_gift"
+  if (buyerIsAttendee && !validatedPolicy) {
     return {
       ok: false,
       error: buildError("VALIDATION", {
@@ -147,7 +125,6 @@ export async function startRegistrationCheckout(
     }
   }
 
-  // ── Rate limit ─────────────────────────────────────────────────────
   let ip = "unknown"
   try {
     ip = extractClientIp(await headers())
@@ -175,7 +152,53 @@ export async function startRegistrationCheckout(
     }
   }
 
-  // ── Resolve product ────────────────────────────────────────────────
+  // Route by intent.
+  if (validatedData.intent === "donate") {
+    return runDonationCheckout({
+      correlationId,
+      resolvedLocale,
+      validatedData,
+      validatedAttribution,
+    })
+  }
+
+  return runAttendingOrGiftCheckout({
+    correlationId,
+    resolvedLocale,
+    validatedProductId,
+    validatedData,
+    validatedPolicy,
+    validatedBreakfastIds,
+    validatedAttribution,
+    buyerIsAttendee,
+  })
+}
+
+// ── Attending / gift flow ──────────────────────────────────────────
+
+interface AttendingArgs {
+  correlationId: CorrelationId
+  resolvedLocale: string
+  validatedProductId: string
+  validatedData: import("@/lib/validation").ValidatedRegistrationData
+  validatedPolicy: import("@/lib/validation").ValidatedPolicyAgreements | null
+  validatedBreakfastIds: string[]
+  validatedAttribution: import("zod").infer<typeof import("@/lib/validation").purchaseAttributionSchema>
+  buyerIsAttendee: boolean
+}
+
+async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartCheckoutResult> {
+  const {
+    correlationId,
+    resolvedLocale,
+    validatedProductId,
+    validatedData,
+    validatedPolicy,
+    validatedBreakfastIds,
+    validatedAttribution,
+    buyerIsAttendee,
+  } = args
+
   const product = REGISTRATION_PRODUCTS.find((p) => p.id === validatedProductId)
   if (!product) {
     log.warn({ event: "checkout.unknown_product", correlationId, productId: validatedProductId })
@@ -188,70 +211,60 @@ export async function startRegistrationCheckout(
     }
   }
 
-  // ── Compute totals (server-authoritative) ──────────────────────────
-  const uniqueBreakfastIds = [...new Set(validatedBreakfastIds)]
-  const selfRegistrationQuantity = validatedData.isScholarship ? 0 : 1
-  const finalScholarshipQuantity =
-    validatedData.isScholarship && validatedScholarshipQty === 0 ? 1 : validatedScholarshipQty
-  const scholarshipUnitAmountInUse =
-    finalScholarshipQuantity > 0 ? (validatedScholarshipUnitAmount ?? product.priceInCents) : product.priceInCents
-  const scholarshipAmountSource =
-    finalScholarshipQuantity === 0
-      ? "not_applicable"
-      : validatedScholarshipUnitAmount != null
-        ? "custom"
-        : "default_pre_registration"
+  const selfQuantity = buyerIsAttendee ? 1 : 0
+  const giftQuantity = validatedData.giftRecipients.length
+
+  // Breakfast add-ons only apply to attendees.
+  const uniqueBreakfastIds = buyerIsAttendee ? [...new Set(validatedBreakfastIds)] : []
   const selectedBreakfasts = uniqueBreakfastIds
     .map((id) => BREAKFAST_PRODUCTS.find((bp) => bp.id === id))
     .filter((bp): bp is (typeof BREAKFAST_PRODUCTS)[number] => Boolean(bp))
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
-  const registrationSubtotalInCents =
-    product.priceInCents * selfRegistrationQuantity + scholarshipUnitAmountInUse * finalScholarshipQuantity
-  const subtotalInCents = registrationSubtotalInCents + breakfastTotalCents
-  const processingFee = calculateProcessingFee(subtotalInCents)
+
+  const registrationSubtotalCents = product.priceInCents * (selfQuantity + giftQuantity)
+  const subtotalCents = registrationSubtotalCents + breakfastTotalCents
+  if (subtotalCents <= 0) {
+    return {
+      ok: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        userMessage: "Add a registration, a gift recipient, or a breakfast ticket before continuing.",
+      }),
+    }
+  }
+  const processingFee = calculateProcessingFee(subtotalCents)
 
   const recordType =
-    selfRegistrationQuantity > 0 && finalScholarshipQuantity > 0
+    validatedData.intent === "self_plus_gift"
       ? "self_plus_scholarship"
-      : validatedData.isScholarship
+      : validatedData.intent === "gift_only"
         ? "scholarship"
         : "self"
 
   const metadata = {
     correlation_id: correlationId,
     purchase_type: recordType,
-    self_registration_quantity: selfRegistrationQuantity.toString(),
-    scholarship_quantity: finalScholarshipQuantity.toString(),
-    scholarship_unit_amount_cents:
-      finalScholarshipQuantity > 0 ? scholarshipUnitAmountInUse.toString() : "not_applicable",
-    scholarship_unit_amount_display:
-      finalScholarshipQuantity > 0 ? formatUsdFromCents(scholarshipUnitAmountInUse) : "not_applicable",
-    scholarship_total_cents:
-      finalScholarshipQuantity > 0 ? (scholarshipUnitAmountInUse * finalScholarshipQuantity).toString() : "0",
-    scholarship_default_price_cents: product.priceInCents.toString(),
-    scholarship_amount_source: scholarshipAmountSource,
-    attendee_name: validatedData.name || "Not provided",
-    attendee_state: validatedData.state || "Not provided",
-    attendee_email: validatedData.email || "Not provided",
-    scholarship_recipient_name: validatedData.scholarshipRecipientName || "None",
-    scholarship_recipient_email: validatedData.scholarshipRecipientEmail || "None",
+    intent: validatedData.intent,
+    self_registration_quantity: selfQuantity.toString(),
+    gift_quantity: giftQuantity.toString(),
+    gift_unit_amount_cents: product.priceInCents.toString(),
+    gift_recipients_json: JSON.stringify(
+      validatedData.giftRecipients.map((r) => ({ name: r.name, email: r.email || null })),
+    ).slice(0, 4000),
+    attendee_name: validatedData.name,
+    attendee_state: validatedData.state || "not_attending",
+    attendee_email: validatedData.email,
     breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ").slice(0, 500) || "None",
     breakfast_count: selectedBreakfasts.length.toString(),
     breakfast_price_version: "2026-03-26-$25",
     breakfast_ticket_price_cents: "2500",
     attribution_aa_entity: validatedAttribution?.aaEntity || "None",
     attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
-    accommodations: validatedData.isScholarship
-      ? "Not provided (scholarship purchase)"
-      : validatedData.accommodations?.slice(0, 500) || "None",
-    interpretation_needed: validatedData.isScholarship
-      ? "not_applicable"
-      : validatedData.interpretationNeeded.toString(),
-    mobility_accessibility: validatedData.isScholarship
-      ? "not_applicable"
-      : validatedData.mobilityAccessibility.toString(),
-    willing_to_serve: validatedData.isScholarship ? "not_applicable" : validatedData.willingToServe.toString(),
-    homegroup_committee: validatedData.homegroup,
+    accommodations: buyerIsAttendee ? validatedData.accommodations?.slice(0, 500) || "None" : "not_attending",
+    interpretation_needed: buyerIsAttendee ? validatedData.interpretationNeeded.toString() : "not_attending",
+    mobility_accessibility: buyerIsAttendee ? validatedData.mobilityAccessibility.toString() : "not_attending",
+    willing_to_serve: buyerIsAttendee ? validatedData.willingToServe.toString() : "not_attending",
+    homegroup_committee: buyerIsAttendee ? validatedData.homegroup : "not_attending",
     policy_read_and_understood: validatedPolicy ? validatedPolicy.readPolicy.toString() : "not_applicable",
     policy_questions_understood: validatedPolicy ? validatedPolicy.understandQuestions.toString() : "not_applicable",
     policy_behavior_acknowledged: validatedPolicy ? validatedPolicy.acknowledgeBehavior.toString() : "not_applicable",
@@ -263,7 +276,6 @@ export async function startRegistrationCheckout(
     policy_signature_agreement: validatedPolicy ? validatedPolicy.signatureAgreement.toString() : "not_applicable",
   } as const
 
-  // ── Bootstrap Payload ──────────────────────────────────────────────
   let payload: Payload
   try {
     payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
@@ -275,12 +287,11 @@ export async function startRegistrationCheckout(
       severity: "critical",
       error: err,
       email: validatedData.email,
-      requestPayload: sanitizeRequest({ productId: validatedProductId, recordType }),
+      requestPayload: sanitizeRequest({ intent: validatedData.intent }),
     })
     return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
   }
 
-  // ── Create pending registration row ────────────────────────────────
   let record: { id: string | number }
   try {
     record = await withTimeout(
@@ -289,17 +300,17 @@ export async function startRegistrationCheckout(
         data: {
           email: validatedData.email,
           name: validatedData.name,
-          state: validatedData.state,
+          state: validatedData.state || "",
           status: "pending",
           type: recordType,
           stripeSessionId: "",
-          amountTotalCents: subtotalInCents + processingFee,
+          amountTotalCents: subtotalCents + processingFee,
           metadata,
-          accommodations: validatedData.accommodations || "",
-          interpretationNeeded: validatedData.interpretationNeeded || false,
-          mobilityAccessibility: validatedData.mobilityAccessibility || false,
-          willingToServe: validatedData.willingToServe || false,
-          homegroup: validatedData.homegroup,
+          accommodations: buyerIsAttendee ? validatedData.accommodations || "" : "",
+          interpretationNeeded: buyerIsAttendee && validatedData.interpretationNeeded,
+          mobilityAccessibility: buyerIsAttendee && validatedData.mobilityAccessibility,
+          willingToServe: buyerIsAttendee && validatedData.willingToServe,
+          homegroup: buyerIsAttendee ? validatedData.homegroup : "",
         },
       }),
       PAYLOAD_TIMEOUT_MS,
@@ -313,7 +324,7 @@ export async function startRegistrationCheckout(
       severity: "error",
       error: err,
       email: validatedData.email,
-      requestPayload: sanitizeRequest({ productId: validatedProductId, recordType }),
+      requestPayload: sanitizeRequest({ intent: validatedData.intent }),
     })
     return {
       ok: false,
@@ -325,17 +336,58 @@ export async function startRegistrationCheckout(
     event: "checkout.pending_created",
     correlationId,
     registrationId: record.id,
+    intent: validatedData.intent,
     recordType,
     hashedEmail: hashIdentifier(validatedData.email),
-    subtotalCents: subtotalInCents,
+    subtotalCents,
     processingFeeCents: processingFee,
   })
 
-  // ── Create Stripe session ──────────────────────────────────────────
-  // F5: locale-aware success URL. F6: stable idempotency key derived from
-  // the Payload record id, so retries reuse the same Stripe session.
   const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/register/success`
   const idempotencyKey = `reg-session-${record.id}`
+
+  const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = []
+  if (selfQuantity > 0) {
+    lineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: { name: product.name, description: product.description },
+        unit_amount: product.priceInCents,
+      },
+      quantity: selfQuantity,
+    })
+  }
+  if (giftQuantity > 0) {
+    lineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: "Sponsored Registration",
+          description: `Gift registration for ${giftQuantity === 1 ? "1 person" : `${giftQuantity} people`} — each receives a claim link`,
+        },
+        unit_amount: product.priceInCents,
+      },
+      quantity: giftQuantity,
+    })
+  }
+  for (const bp of selectedBreakfasts) {
+    lineItems.push({
+      price_data: {
+        currency: "usd",
+        product_data: { name: bp.name, description: bp.description },
+        unit_amount: bp.priceInCents,
+      },
+      quantity: 1,
+    })
+  }
+  lineItems.push({
+    price_data: {
+      currency: "usd",
+      product_data: { name: "Processing Fee", description: "Credit card processing fee (2.9% + $0.30)" },
+      unit_amount: processingFee,
+    },
+    quantity: 1,
+  })
 
   let session: Stripe.Checkout.Session
   try {
@@ -345,69 +397,13 @@ export async function startRegistrationCheckout(
           stripe.checkout.sessions.create(
             {
               ui_mode: "embedded",
-              // Initial return_url uses only the Stripe-supported placeholder. We
-              // patch it with the HMAC token after creation (best-effort). If the
-              // patch fails, the success page falls back to Payload lookup.
               return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}`,
               customer_email: validatedData.email,
-              line_items: [
-                ...(selfRegistrationQuantity > 0
-                  ? [
-                      {
-                        price_data: {
-                          currency: "usd",
-                          product_data: {
-                            name: product.name,
-                            description: product.description,
-                          },
-                          unit_amount: product.priceInCents,
-                        },
-                        quantity: selfRegistrationQuantity,
-                      },
-                    ]
-                  : []),
-                ...(finalScholarshipQuantity > 0
-                  ? [
-                      {
-                        price_data: {
-                          currency: "usd",
-                          product_data: {
-                            name: "Scholarship Registration",
-                            description:
-                              scholarshipAmountSource === "custom"
-                                ? "Sponsored NECYPAA XXXVI registration (custom amount)"
-                                : "Sponsored NECYPAA XXXVI registration",
-                          },
-                          unit_amount: scholarshipUnitAmountInUse,
-                        },
-                        quantity: finalScholarshipQuantity,
-                      },
-                    ]
-                  : []),
-                ...selectedBreakfasts.map((bp) => ({
-                  price_data: {
-                    currency: "usd",
-                    product_data: { name: bp.name, description: bp.description },
-                    unit_amount: bp.priceInCents,
-                  },
-                  quantity: 1,
-                })),
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: "Processing Fee",
-                      description: "Credit card processing fee (2.9% + $0.30)",
-                    },
-                    unit_amount: processingFee,
-                  },
-                  quantity: 1,
-                },
-              ],
+              line_items: lineItems,
               mode: "payment",
               metadata: { ...metadata, registration_id: String(record.id) },
               payment_intent_data: {
-                metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: "{set_after_creation}" },
+                metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: "" },
               },
             },
             { idempotencyKey },
@@ -437,26 +433,11 @@ export async function startRegistrationCheckout(
       error: err,
       email: validatedData.email,
       registrationId: record.id,
-      requestPayload: sanitizeRequest({ productId: validatedProductId, recordType }),
     })
-    // Best-effort cleanup of the orphan pending row. If it fails, the
-    // reconciliation cron will reap it.
     await safeAsync(
       () => withTimeout(payload.delete({ collection: "registrations", id: record.id }), PAYLOAD_TIMEOUT_MS, "payload.delete:orphan"),
       undefined,
-      {
-        correlationId,
-        label: "payload.delete:orphan",
-        severity: "warn",
-        onError: (cleanupErr) =>
-          dlqRegistrationFailure({
-            correlationId,
-            stage: "payload.delete",
-            severity: "warn",
-            error: cleanupErr,
-            registrationId: record.id,
-          }),
-      },
+      { correlationId, label: "payload.delete:orphan", severity: "warn" },
     )
     return { ok: false, error: fromUnknown(err, correlationId) }
   }
@@ -474,35 +455,8 @@ export async function startRegistrationCheckout(
     return { ok: false, error: buildError("STRIPE_DOWN", { correlationId }) }
   }
 
-  // Stripe doesn't allow updating `return_url` after creation, and its only
-  // URL placeholder is `{CHECKOUT_SESSION_ID}` — we can't compute an HMAC
-  // server-side at redirect time. Instead, set a same-site cookie carrying
-  // the HMAC; the success page reads it and verifies against the URL param.
-  // If the cookie set somehow fails, the success page falls back to
-  // Payload-verified rendering keyed on the session ID.
-  const token = signSuccessToken(session.id)
-  if (token) {
-    await safeAsync(
-      async () => {
-        const jar = await cookies()
-        jar.set({
-          name: SUCCESS_COOKIE,
-          value: `${session.id}.${token}`,
-          httpOnly: true,
-          sameSite: "lax",
-          secure: process.env.NODE_ENV === "production",
-          path: "/",
-          maxAge: 60 * 60, // 1 hour — enough to complete checkout
-        })
-      },
-      undefined,
-      { correlationId, label: "cookies.set.success_token", severity: "info" },
-    )
-  }
+  await setSuccessCookie(session.id, correlationId)
 
-  // Persist the session ID on the Payload row. This MUST succeed — without
-  // it the webhook can't reconcile and the success page can't fall back to
-  // Payload. Retry aggressively before giving up.
   try {
     await withRetry(
       () =>
@@ -515,12 +469,7 @@ export async function startRegistrationCheckout(
           PAYLOAD_TIMEOUT_MS,
           "payload.update:stripeSessionId",
         ),
-      {
-        maxAttempts: 3,
-        baseDelayMs: 250,
-        label: "payload.update:stripeSessionId",
-        correlationId,
-      },
+      { maxAttempts: 3, baseDelayMs: 250, label: "payload.update:stripeSessionId", correlationId },
     )
   } catch (err) {
     log.error({
@@ -538,14 +487,9 @@ export async function startRegistrationCheckout(
       registrationId: record.id,
       stripeSessionId: session.id,
     })
-    // Surface as an error so the user retries. Idempotency key ensures the
-    // same Stripe session is reused on retry, but we'll get a fresh Payload
-    // row — the orphan row is reaped by reconciliation.
     return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
   }
 
-  // Backfill PaymentIntent metadata so failure webhooks can find the session
-  // without an extra Stripe list call. Best-effort — the webhook has fallbacks.
   if (typeof session.payment_intent === "string") {
     await safeAsync(
       () =>
@@ -557,11 +501,7 @@ export async function startRegistrationCheckout(
           "stripe.payment_intent.update",
         ),
       undefined,
-      {
-        correlationId,
-        label: "stripe.payment_intent.update",
-        severity: "info",
-      },
+      { correlationId, label: "stripe.payment_intent.update", severity: "info" },
     )
   }
 
@@ -570,10 +510,239 @@ export async function startRegistrationCheckout(
     correlationId,
     registrationId: record.id,
     sessionId: session.id,
+    intent: validatedData.intent,
   })
 
   return { ok: true, clientSecret: session.client_secret, correlationId }
 }
+
+// ── Donation flow ──────────────────────────────────────────────────
+
+interface DonationArgs {
+  correlationId: CorrelationId
+  resolvedLocale: string
+  validatedData: import("@/lib/validation").ValidatedRegistrationData
+  validatedAttribution: import("zod").infer<typeof import("@/lib/validation").purchaseAttributionSchema>
+}
+
+async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutResult> {
+  const { correlationId, resolvedLocale, validatedData, validatedAttribution } = args
+
+  const amountCents = validatedData.donationAmountCents
+  const processingFee = calculateProcessingFee(amountCents)
+
+  const metadata = {
+    correlation_id: correlationId,
+    purchase_type: "donation",
+    intent: "donate",
+    donor_name: validatedData.name,
+    donor_email: validatedData.email,
+    donation_amount_cents: amountCents.toString(),
+    donation_amount_display: formatUsdFromCents(amountCents),
+    attribution_aa_entity: validatedAttribution?.aaEntity || "None",
+    attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
+  } as const
+
+  let payload: Payload
+  try {
+    payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+  } catch (err) {
+    log.error({ event: "donation.payload_bootstrap_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "critical",
+      error: err,
+      email: validatedData.email,
+    })
+    return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
+  }
+
+  let record: { id: string | number }
+  try {
+    record = await withTimeout(
+      payload.create({
+        collection: "donations",
+        data: {
+          donorName: validatedData.name,
+          donorEmail: validatedData.email,
+          correlationId,
+          status: "pending",
+          amountCents,
+          amountTotalCents: amountCents + processingFee,
+          metadata,
+          attributionAaEntity: validatedAttribution?.aaEntity || undefined,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.create:donation_pending",
+    )
+  } catch (err) {
+    log.error({ event: "donation.payload_create_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+    })
+    return {
+      ok: false,
+      error: buildError(err instanceof TimeoutError ? "DB_TIMEOUT" : "DB_DOWN", { correlationId }),
+    }
+  }
+
+  log.info({
+    event: "donation.pending_created",
+    correlationId,
+    donationId: record.id,
+    amountCents,
+    hashedEmail: hashIdentifier(validatedData.email),
+  })
+
+  const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/register/success`
+  const idempotencyKey = `donation-${record.id}`
+
+  let session: Stripe.Checkout.Session
+  try {
+    session = await withRetry(
+      () =>
+        withTimeout(
+          stripe.checkout.sessions.create(
+            {
+              ui_mode: "embedded",
+              return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}&donation=1`,
+              customer_email: validatedData.email,
+              line_items: [
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: "NECYPAA XXXVI General Fund Donation",
+                      description: "Helps cover scholarships for those who can't afford registration.",
+                    },
+                    unit_amount: amountCents,
+                  },
+                  quantity: 1,
+                },
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: "Processing Fee",
+                      description: "Credit card processing fee (2.9% + $0.30)",
+                    },
+                    unit_amount: processingFee,
+                  },
+                  quantity: 1,
+                },
+              ],
+              mode: "payment",
+              metadata: { ...metadata, donation_id: String(record.id) },
+              payment_intent_data: {
+                metadata: { ...metadata, donation_id: String(record.id) },
+              },
+            },
+            { idempotencyKey },
+          ),
+          STRIPE_TIMEOUT_MS,
+          "stripe.sessions.create:donation",
+        ),
+      {
+        maxAttempts: 2,
+        baseDelayMs: 500,
+        label: "stripe.sessions.create:donation",
+        correlationId,
+        retryableErrors: isRetryableStripeError,
+      },
+    )
+  } catch (err) {
+    log.error({ event: "donation.stripe_session_failed", correlationId, donationId: record.id, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+      registrationId: record.id,
+    })
+    await safeAsync(
+      () => withTimeout(payload.delete({ collection: "donations", id: record.id }), PAYLOAD_TIMEOUT_MS, "payload.delete:donation_orphan"),
+      undefined,
+      { correlationId, label: "payload.delete:donation_orphan", severity: "warn" },
+    )
+    return { ok: false, error: fromUnknown(err, correlationId) }
+  }
+
+  if (!session.client_secret) {
+    log.error({ event: "donation.stripe_no_client_secret", correlationId })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: new Error("Stripe donation session created without client_secret"),
+      registrationId: record.id,
+      stripeSessionId: session.id,
+    })
+    return { ok: false, error: buildError("STRIPE_DOWN", { correlationId }) }
+  }
+
+  await setSuccessCookie(session.id, correlationId)
+
+  try {
+    await withRetry(
+      () =>
+        withTimeout(
+          payload.update({
+            collection: "donations",
+            id: record.id,
+            data: { stripeSessionId: session.id },
+          }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.update:donation_session_id",
+        ),
+      { maxAttempts: 3, baseDelayMs: 250, label: "payload.update:donation_session_id", correlationId },
+    )
+  } catch (err) {
+    log.error({ event: "donation.link_session_failed", correlationId, donationId: record.id, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.update",
+      severity: "critical",
+      error: err,
+      registrationId: record.id,
+      stripeSessionId: session.id,
+    })
+    return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
+  }
+
+  log.info({ event: "donation.session_created", correlationId, donationId: record.id, sessionId: session.id })
+
+  return { ok: true, clientSecret: session.client_secret, correlationId }
+}
+
+async function setSuccessCookie(sessionId: string, correlationId: CorrelationId): Promise<void> {
+  const token = signSuccessToken(sessionId)
+  if (!token) return
+  await safeAsync(
+    async () => {
+      const jar = await cookies()
+      jar.set({
+        name: SUCCESS_COOKIE,
+        value: `${sessionId}.${token}`,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 60,
+      })
+    },
+    undefined,
+    { correlationId, label: "cookies.set.success_token", severity: "info" },
+  )
+}
+
+// ── Access-code flow (staff-issued codes via issuer service) ───────
 
 export type AccessCodeResult =
   | { success: true; correlationId: CorrelationId; successToken: string }
@@ -621,6 +790,15 @@ export async function submitAccessCodeRegistration(
       }),
     }
   }
+  if (validatedData.intent !== "self") {
+    return {
+      success: false,
+      error: buildError("VALIDATION", {
+        correlationId,
+        userMessage: "Access codes redeem a single registration for the person filling out the form.",
+      }),
+    }
+  }
 
   let ip = "unknown"
   try {
@@ -629,8 +807,6 @@ export async function submitAccessCodeRegistration(
     log.warn({ event: "accesscode.ip_extract_failed", correlationId, ...summarizeError(err) })
   }
 
-  // Two limiters: per IP+email (existing) and per IP only (new) so an attacker
-  // can't bypass by rotating emails.
   let rl: Awaited<ReturnType<typeof rateLimitCodeRedemption>>
   let rlIp: Awaited<ReturnType<typeof rateLimitCodeRedemptionByIp>>
   try {
@@ -661,9 +837,6 @@ export async function submitAccessCodeRegistration(
     .digest("hex")
     .slice(0, 36)
 
-  // Bootstrap Payload first — F12: we want to write the comp row before
-  // burning the code, so a Payload outage doesn't consume a code with no
-  // local record.
   let payload: Payload
   try {
     payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
@@ -679,8 +852,6 @@ export async function submitAccessCodeRegistration(
     return { success: false, error: buildError("DB_DOWN", { correlationId }) }
   }
 
-  // Reserve a pending comp row first. If issuer redemption fails we mark it
-  // failed; if it succeeds we promote it to comped.
   let record: { id: string | number }
   try {
     record = await withTimeout(
@@ -696,9 +867,9 @@ export async function submitAccessCodeRegistration(
           amountTotalCents: 0,
           metadata: { correlation_id: correlationId, awaiting_issuer_redemption: true },
           accommodations: validatedData.accommodations || "",
-          interpretationNeeded: validatedData.interpretationNeeded || false,
-          mobilityAccessibility: validatedData.mobilityAccessibility || false,
-          willingToServe: validatedData.willingToServe || false,
+          interpretationNeeded: validatedData.interpretationNeeded,
+          mobilityAccessibility: validatedData.mobilityAccessibility,
+          willingToServe: validatedData.willingToServe,
           homegroup: validatedData.homegroup,
         },
       }),
@@ -720,7 +891,6 @@ export async function submitAccessCodeRegistration(
     }
   }
 
-  // Redeem the code at the issuer.
   let result: Awaited<ReturnType<typeof redeemRegistrationCode>>
   try {
     result = await redeemRegistrationCode({
@@ -767,7 +937,7 @@ export async function submitAccessCodeRegistration(
           payload.update({
             collection: "registrations",
             id: record.id,
-            data: { status: "failed", metadata: { ...{ correlation_id: correlationId }, issuer_error: result.code } },
+            data: { status: "failed", metadata: { correlation_id: correlationId, issuer_error: result.code } },
           }),
           PAYLOAD_TIMEOUT_MS,
           "payload.update:comp_invalid",
@@ -786,7 +956,6 @@ export async function submitAccessCodeRegistration(
     return { success: false, error: buildError(errorCode, { correlationId, userMessage: result.error }) }
   }
 
-  // Promote the row to comped.
   try {
     await withTimeout(
       payload.update({
@@ -816,8 +985,6 @@ export async function submitAccessCodeRegistration(
       "payload.update:comp_promoted",
     )
   } catch (err) {
-    // The code is burned at the issuer but we couldn't promote locally. This
-    // is the worst case — alert and DLQ so a human can reconcile.
     log.error({ event: "accesscode.promote_failed", correlationId, registrationId: record.id, ...summarizeError(err) })
     await dlqRegistrationFailure({
       correlationId,
@@ -827,11 +994,8 @@ export async function submitAccessCodeRegistration(
       email: validatedData.email,
       registrationId: record.id,
     })
-    // Still tell the user it succeeded — the issuer is authoritative for
-    // whether they're registered. The DLQ catches the local divergence.
   }
 
-  // Best-effort Stripe customer upsert for CRM continuity.
   await safeAsync(
     async () => {
       const existingCustomers = await withTimeout(
@@ -839,52 +1003,28 @@ export async function submitAccessCodeRegistration(
         STRIPE_TIMEOUT_MS,
         "stripe.customers.list",
       )
+      const metadata = {
+        correlation_id: correlationId,
+        access_grant_id: result.grantId,
+        access_grant_type: result.grantType,
+        access_code_masked: maskAccessCode(validatedData.accessCode),
+      }
       if (existingCustomers.data.length > 0) {
         await withTimeout(
-          stripe.customers.update(existingCustomers.data[0].id, {
-            name: validatedData.name,
-            metadata: {
-              correlation_id: correlationId,
-              access_grant_id: result.grantId,
-              access_grant_type: result.grantType,
-              access_code_masked: maskAccessCode(validatedData.accessCode),
-            },
-          }),
+          stripe.customers.update(existingCustomers.data[0].id, { name: validatedData.name, metadata }),
           STRIPE_TIMEOUT_MS,
           "stripe.customers.update",
         )
       } else {
         await withTimeout(
-          stripe.customers.create({
-            name: validatedData.name,
-            email: validatedData.email,
-            metadata: {
-              correlation_id: correlationId,
-              access_grant_id: result.grantId,
-              access_grant_type: result.grantType,
-              access_code_masked: maskAccessCode(validatedData.accessCode),
-            },
-          }),
+          stripe.customers.create({ name: validatedData.name, email: validatedData.email, metadata }),
           STRIPE_TIMEOUT_MS,
           "stripe.customers.create",
         )
       }
     },
     undefined,
-    {
-      correlationId,
-      label: "stripe.customer.upsert",
-      severity: "info",
-      onError: (custErr) =>
-        dlqRegistrationFailure({
-          correlationId,
-          stage: "stripe.customer.upsert",
-          severity: "info",
-          error: custErr,
-          email: validatedData.email,
-          registrationId: record.id,
-        }),
-    },
+    { correlationId, label: "stripe.customer.upsert", severity: "info" },
   )
 
   const successToken = signAccessCodePayload({

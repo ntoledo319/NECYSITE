@@ -9,6 +9,7 @@ import { withTimeout, TimeoutError } from "@/lib/resilience"
 import { dlqWebhookFailure } from "@/lib/dlq"
 import { alertCritical } from "@/lib/alerts"
 import { maybeNotifyScholarshipRecipient } from "@/lib/scholarship-email"
+import { mintGiftCodesForPaidSession } from "@/lib/gift-mint"
 
 const PAYLOAD_TIMEOUT_MS = 5_000
 const STRIPE_LOOKUP_TIMEOUT_MS = 4_000
@@ -218,6 +219,13 @@ async function handlePaidEvent(
     return
   }
 
+  // Donation flow first — donations live in their own collection and never
+  // touch the registrations table.
+  if (session.metadata?.purchase_type === "donation") {
+    await handleDonationPaid(payload, session, event, correlationId)
+    return
+  }
+
   const existing = await withTimeout(
     payload.find({
       collection: "registrations",
@@ -312,9 +320,91 @@ async function handlePaidEvent(
     eventType: event.type,
   })
 
-  // Best-effort scholarship recipient notification. Wrapped internally — a
-  // failure here never blocks the webhook response.
+  // Mint gift codes for gift_only / self_plus_gift purchases. Idempotent on
+  // stripeSessionId — replay-safe.
+  if (
+    session.metadata?.intent === "self_plus_gift" ||
+    session.metadata?.intent === "gift_only" ||
+    session.metadata?.purchase_type === "self_plus_scholarship" ||
+    session.metadata?.purchase_type === "scholarship"
+  ) {
+    await mintGiftCodesForPaidSession({ payload, session, correlationId })
+  }
+
+  // Legacy: the older single-recipient scholarship email helper. With gift
+  // codes minted via mintGiftCodesForPaidSession the per-recipient email is
+  // already sent; this helper is now a no-op for gift purchases (it only
+  // looks at the legacy scholarship_recipient_email metadata key, which the
+  // new flow doesn't set). Kept for back-compat with any in-flight session.
   await maybeNotifyScholarshipRecipient({ session, correlationId })
+}
+
+async function handleDonationPaid(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  session: Stripe.Checkout.Session,
+  event: Stripe.Event,
+  correlationId: string,
+): Promise<void> {
+  const existing = await withTimeout(
+    payload.find({
+      collection: "donations",
+      where: { stripeSessionId: { equals: session.id } },
+      limit: 1,
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.find:donation",
+  )
+  if (existing.docs.length === 0) {
+    log.warn({
+      event: "webhook.donation_no_match",
+      correlationId,
+      eventId: event.id,
+      sessionId: session.id,
+    })
+    await dlqWebhookFailure({
+      correlationId,
+      eventId: event.id,
+      eventType: event.type,
+      severity: "critical",
+      reason: "paid donation session has no matching donations row",
+      stripeSessionId: session.id,
+      rawEvent: serializeEvent(event),
+    })
+    return
+  }
+  const doc = existing.docs[0] as { id: string | number; status?: string | null; amountTotalCents?: number | null }
+  if (doc.status === "paid") {
+    log.info({
+      event: "webhook.donation_already_paid",
+      correlationId,
+      eventId: event.id,
+      sessionId: session.id,
+      donationId: doc.id,
+    })
+    return
+  }
+  await withTimeout(
+    payload.update({
+      collection: "donations",
+      id: doc.id,
+      data: {
+        status: "paid",
+        stripePaymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : "",
+        stripeCustomerId: typeof session.customer === "string" ? session.customer : "",
+        amountTotalCents: session.amount_total ?? doc.amountTotalCents ?? undefined,
+        paidAt: new Date().toISOString(),
+      },
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.update:donation_paid",
+  )
+  log.info({
+    event: "webhook.donation_marked_paid",
+    correlationId,
+    eventId: event.id,
+    sessionId: session.id,
+    donationId: doc.id,
+  })
 }
 
 async function updateStatusBySession(
