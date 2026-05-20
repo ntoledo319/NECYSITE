@@ -121,9 +121,51 @@ describe("registrationDataSchema — donate intent", () => {
     expect(
       registrationDataSchema.safeParse({
         ...base,
-        giftRecipients: [{ name: "Should not be here", email: "" }],
+        giftRecipients: [{ name: "Should not be here", email: "", message: "" }],
       }).success,
     ).toBe(false)
+  })
+})
+
+describe("registrationDataSchema — leftover fields under wrong intent are tolerated", () => {
+  it("accepts a self registration even if donationAmountCents is set", () => {
+    const data = {
+      intent: "self" as const,
+      name: "Test",
+      email: "test@example.com",
+      state: "CT",
+      homegroup: "Test Group",
+      accommodations: "",
+      interpretationNeeded: false,
+      mobilityAccessibility: false,
+      willingToServe: false,
+      giftRecipients: [],
+      donationAmountCents: 4000,
+      groupName: "",
+      groupQuantity: 0,
+      accessCode: "",
+    }
+    expect(registrationDataSchema.safeParse(data).success).toBe(true)
+  })
+
+  it("accepts a self registration even with a leftover groupName/groupQuantity", () => {
+    const data = {
+      intent: "self" as const,
+      name: "Test",
+      email: "test@example.com",
+      state: "CT",
+      homegroup: "Test Group",
+      accommodations: "",
+      interpretationNeeded: false,
+      mobilityAccessibility: false,
+      willingToServe: false,
+      giftRecipients: [],
+      donationAmountCents: 0,
+      groupName: "Some Org",
+      groupQuantity: 5,
+      accessCode: "",
+    }
+    expect(registrationDataSchema.safeParse(data).success).toBe(true)
   })
 })
 

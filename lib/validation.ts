@@ -73,19 +73,11 @@ export const registrationDataSchema = z
         message: "Recipients are not allowed for this intent",
       })
     }
-    if (data.intent === "donate") {
-      if (data.donationAmountCents < 1_000) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["donationAmountCents"],
-          message: "Donation must be at least $10",
-        })
-      }
-    } else if (data.donationAmountCents > 0) {
+    if (data.intent === "donate" && data.donationAmountCents < 1_000) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["donationAmountCents"],
-        message: "Donation amount only applies to General Fund donations",
+        message: "Donation must be at least $10",
       })
     }
     if (data.intent === "group") {
@@ -110,22 +102,12 @@ export const registrationDataSchema = z
           message: "For more than 100 seats, email us to arrange a custom invoice",
         })
       }
-    } else {
-      if (data.groupName.trim().length > 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["groupName"],
-          message: "Organization name only applies to group purchases",
-        })
-      }
-      if (data.groupQuantity > 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["groupQuantity"],
-          message: "Seat quantity only applies to group purchases",
-        })
-      }
     }
+    // Note: we don't reject when fields from one intent are present under
+    // another (e.g., a leftover donationAmountCents under a self
+    // registration). The server only USES the relevant fields for each
+    // intent; form drafts and intent-switches can leave stale values, and
+    // refusing the submit creates UX bugs without protecting anything.
   })
 
 export type ValidatedRegistrationData = z.infer<typeof registrationDataSchema>

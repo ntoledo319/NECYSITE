@@ -105,7 +105,11 @@ function defaultData(): RegistrationData {
     mobilityAccessibility: false,
     willingToServe: false,
     giftRecipients: [],
-    donationAmountCents: REGISTRATION_PRICE_CENTS,
+    // donationAmountCents stays 0 by default — the form seeds it to the
+    // current registration price when the user switches to the donate intent.
+    // Leaving the field 0 here means a stale value can't leak into a self
+    // registration submission.
+    donationAmountCents: 0,
     groupName: "",
     groupQuantity: 0,
     accessCode: "",
