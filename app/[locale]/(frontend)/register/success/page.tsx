@@ -4,6 +4,7 @@ import { stripe } from "@/lib/stripe"
 import { getPayload } from "payload"
 import configPromise from "@payload-config"
 import RegistrationConfirmed, { type VerifiedRegistration } from "./registration-confirmed"
+import GroupConfirmed, { type VerifiedGroupRegistration } from "./group-confirmed"
 import { Link } from "@/i18n/navigation"
 import { AlertCircle, Clock, Mail } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
@@ -163,6 +164,58 @@ interface PayloadRegistrationRow {
   metadata?: Record<string, unknown> | null
 }
 
+interface PayloadGroupRow {
+  id: string | number
+  status?: string | null
+  organizationName?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  quantity?: number | null
+  submissionDeadline?: string | null
+  amountTotalCents?: number | null
+}
+
+type GroupLookupResult =
+  | { status: "verified"; data: VerifiedGroupRegistration }
+  | { status: "unpaid" }
+  | { status: "missing" }
+  | { status: "error"; correlationId: string }
+
+async function fetchGroupRowBySession(sessionId: string, correlationId: string): Promise<GroupLookupResult> {
+  try {
+    const payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+    const found = await withTimeout(
+      payload.find({
+        collection: "group-registrations",
+        where: { stripeSessionId: { equals: sessionId } },
+        limit: 1,
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.find:success_group",
+    )
+    if (found.docs.length === 0) return { status: "missing" }
+    const doc = found.docs[0] as PayloadGroupRow
+    if (doc.status !== "paid" && doc.status !== "complete") {
+      return { status: "unpaid" }
+    }
+    return {
+      status: "verified",
+      data: {
+        organizationName: doc.organizationName ?? "your group",
+        contactName: typeof doc.contactName === "string" ? doc.contactName : null,
+        contactEmail: typeof doc.contactEmail === "string" ? doc.contactEmail : "",
+        quantity: typeof doc.quantity === "number" ? doc.quantity : 0,
+        submissionDeadline:
+          typeof doc.submissionDeadline === "string" ? doc.submissionDeadline : "2026-12-31T00:00:00-05:00",
+        amountTotalCents: typeof doc.amountTotalCents === "number" ? doc.amountTotalCents : null,
+      },
+    }
+  } catch (err) {
+    log.error({ event: "success.group_lookup_failed", correlationId, sessionId, ...summarizeError(err) })
+    return { status: "error", correlationId }
+  }
+}
+
 async function fetchFromPayload(sessionId: string, correlationId: string): Promise<VerifyResult> {
   try {
     const payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
@@ -203,7 +256,7 @@ async function fetchFromPayload(sessionId: string, correlationId: string): Promi
 export default async function RegistrationSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ session_id?: string; flow?: string; t?: string }>
+  searchParams: Promise<{ session_id?: string; flow?: string; t?: string; group?: string; donation?: string }>
 }) {
   const params = await searchParams
   const correlationId = newCorrelationId("success")
@@ -268,6 +321,18 @@ export default async function RegistrationSuccessPage({
     const cookieToken = await readSuccessCookieToken(sessionId)
     const tokenOk =
       verifySuccessToken(sessionId, params.t ?? null) || verifySuccessToken(sessionId, cookieToken)
+
+    // Group / institution purchases get their own confirmation experience.
+    if (params.group === "1" && tokenOk) {
+      const grp = await fetchGroupRowBySession(sessionId, correlationId)
+      if (grp.status === "verified") {
+        return <GroupConfirmed registration={grp.data} />
+      }
+      if (grp.status === "unpaid") {
+        return <UnverifiedPage status="unpaid" />
+      }
+      // Fall through to generic handling on missing/error.
+    }
 
     if (!tokenOk && (params.t || cookieToken)) {
       log.warn({ event: "success.token_invalid", correlationId, sessionId })

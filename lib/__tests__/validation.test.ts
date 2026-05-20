@@ -127,6 +127,54 @@ describe("registrationDataSchema — donate intent", () => {
   })
 })
 
+describe("registrationDataSchema — group intent", () => {
+  const base = {
+    intent: "group" as const,
+    name: "Contact Person",
+    email: "contact@org.example",
+    state: "",
+    homegroup: "",
+    accommodations: "",
+    interpretationNeeded: false,
+    mobilityAccessibility: false,
+    willingToServe: false,
+    giftRecipients: [],
+    donationAmountCents: 0,
+    groupName: "Hope House",
+    groupQuantity: 5,
+    accessCode: "",
+  }
+
+  it("accepts a valid group purchase", () => {
+    expect(registrationDataSchema.safeParse(base).success).toBe(true)
+  })
+
+  it("requires an organization name", () => {
+    expect(registrationDataSchema.safeParse({ ...base, groupName: "" }).success).toBe(false)
+  })
+
+  it("rejects a single-seat group purchase", () => {
+    expect(registrationDataSchema.safeParse({ ...base, groupQuantity: 1 }).success).toBe(false)
+  })
+
+  it("rejects more than 100 seats", () => {
+    expect(registrationDataSchema.safeParse({ ...base, groupQuantity: 101 }).success).toBe(false)
+  })
+
+  it("does NOT require state/homegroup for group", () => {
+    expect(registrationDataSchema.safeParse({ ...base, state: "", homegroup: "" }).success).toBe(true)
+  })
+
+  it("rejects gift recipients on a group purchase", () => {
+    expect(
+      registrationDataSchema.safeParse({
+        ...base,
+        giftRecipients: [{ name: "stray", email: "", message: "" }],
+      }).success,
+    ).toBe(false)
+  })
+})
+
 describe("policyAgreementsSchema", () => {
   const allTrue = {
     readPolicy: true,

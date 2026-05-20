@@ -127,6 +127,7 @@ describe("Stripe Webhook — refund routing", () => {
     mockPayloadFind
       .mockResolvedValueOnce({ docs: [] }) // idempotency
       .mockResolvedValueOnce({ docs: [] }) // registrations — no match
+      .mockResolvedValueOnce({ docs: [] }) // group-registrations — no match
       .mockResolvedValueOnce({ docs: [{ id: "don_1" }] }) // donations — match
 
     await POST(new Request("http://localhost/api/webhooks/stripe", {
@@ -263,6 +264,7 @@ describe("Stripe Webhook — dispute routing", () => {
     mockPayloadFind
       .mockResolvedValueOnce({ docs: [] })
       .mockResolvedValueOnce({ docs: [] }) // registrations — no match
+      .mockResolvedValueOnce({ docs: [] }) // group-registrations — no match
       .mockResolvedValueOnce({ docs: [{ id: "don_d" }] })
 
     await POST(new Request("http://localhost/api/webhooks/stripe", {

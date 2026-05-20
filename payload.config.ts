@@ -15,6 +15,7 @@ import { WebhookFailures } from "./collections/WebhookFailures"
 import { ProcessedWebhookEvents } from "./collections/ProcessedWebhookEvents"
 import { GiftCodes } from "./collections/GiftCodes"
 import { Donations } from "./collections/Donations"
+import { GroupRegistrations } from "./collections/GroupRegistrations"
 import { PricingSettings } from "./globals/PricingSettings"
 
 const filename = fileURLToPath(import.meta.url)
@@ -39,6 +40,7 @@ export default buildConfig({
     Registrations,
     GiftCodes,
     Donations,
+    GroupRegistrations,
     RegistrationFailures,
     WebhookFailures,
     ProcessedWebhookEvents,

@@ -86,6 +86,8 @@ export default function RegisterPage() {
                 ? [{ name: "", email: "", message: "" }]
                 : [],
             donationAmountCents: queryIntent === "donate" ? 4000 : 0,
+            groupName: "",
+            groupQuantity: queryIntent === "group" ? 5 : 0,
             accessCode: "",
           }
       return {
@@ -121,8 +123,10 @@ export default function RegisterPage() {
     setRegistrationData(data)
     directionRef.current = 1
 
-    // Only attendees sign the policy. Donors and gift-only sponsors go
-    // straight to payment.
+    // Only attendees sign the policy. Donors, gift-only sponsors, and
+    // group purchasers go straight to payment — their attendees sign in
+    // their own name later (gift recipients on the claim page; group
+    // attendees by email when the org submits names).
     const requiresPolicy = data.intent === "self" || data.intent === "self_plus_gift"
     if (requiresPolicy) {
       setCurrentStep("policy")

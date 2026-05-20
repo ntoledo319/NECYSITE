@@ -24,7 +24,7 @@ import {
   breakfastIdsSchema,
 } from "@/lib/validation"
 import { redeemRegistrationCode, maskAccessCode } from "@/lib/issuer-client"
-import { EVENT_SLUG } from "@/lib/constants"
+import { EVENT_SLUG, CONVENTION_START_DATE } from "@/lib/constants"
 import type { RegistrationData, PolicyAgreements, PurchaseAttribution } from "@/lib/types"
 import { newCorrelationId, type CorrelationId } from "@/lib/correlation"
 import { log, hashIdentifier, summarizeError, partialId } from "@/lib/logger"
@@ -155,6 +155,14 @@ export async function startRegistrationCheckout(
       resolvedLocale,
       validatedData,
       validatedAttribution,
+    })
+  }
+
+  if (validatedData.intent === "group") {
+    return runGroupCheckout({
+      correlationId,
+      resolvedLocale,
+      validatedData,
     })
   }
 
@@ -742,6 +750,233 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
   return { ok: true, clientSecret: session.client_secret, correlationId }
 }
 
+// ── Group / Institution flow ───────────────────────────────────────
+
+interface GroupArgs {
+  correlationId: CorrelationId
+  resolvedLocale: string
+  validatedData: import("@/lib/validation").ValidatedRegistrationData
+}
+
+async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
+  const { correlationId, resolvedLocale, validatedData } = args
+
+  const pricing = await getLivePricing()
+  const unitPriceCents = pricing.registration.priceInCents
+  const quantity = validatedData.groupQuantity
+  const subtotalCents = unitPriceCents * quantity
+  const processingFee = calculateProcessingFee(subtotalCents)
+  const deadline = CONVENTION_START_DATE
+
+  const metadata = {
+    correlation_id: correlationId,
+    purchase_type: "group",
+    intent: "group",
+    organization_name: validatedData.groupName,
+    quantity: quantity.toString(),
+    unit_price_cents: unitPriceCents.toString(),
+    contact_name: validatedData.name,
+    contact_email: validatedData.email,
+    submission_deadline: deadline,
+    pricing_source: pricing.source,
+  } as const
+
+  let payload: Payload
+  try {
+    payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+  } catch (err) {
+    log.error({ event: "group.payload_bootstrap_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "critical",
+      error: err,
+      email: validatedData.email,
+    })
+    return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
+  }
+
+  let record: { id: string | number }
+  try {
+    record = await withTimeout(
+      payload.create({
+        collection: "group-registrations",
+        data: {
+          organizationName: validatedData.groupName,
+          contactName: validatedData.name,
+          contactEmail: validatedData.email,
+          correlationId,
+          quantity,
+          unitPriceCents,
+          status: "pending",
+          submissionDeadline: deadline,
+          amountTotalCents: subtotalCents + processingFee,
+          metadata,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.create:group_pending",
+    )
+  } catch (err) {
+    log.error({ event: "group.payload_create_failed", correlationId, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+    })
+    return {
+      ok: false,
+      error: buildError(err instanceof TimeoutError ? "DB_TIMEOUT" : "DB_DOWN", { correlationId }),
+    }
+  }
+
+  log.info({
+    event: "group.pending_created",
+    correlationId,
+    groupRegistrationId: record.id,
+    quantity,
+    hashedEmail: hashIdentifier(validatedData.email),
+  })
+
+  const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/register/success`
+  const idempotencyKey = `group-${record.id}`
+
+  let session: Stripe.Checkout.Session
+  try {
+    session = await withRetry(
+      () =>
+        withTimeout(
+          stripe.checkout.sessions.create(
+            {
+              ui_mode: "embedded",
+              return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}&group=1`,
+              customer_email: validatedData.email,
+              customer_creation: "always",
+              line_items: [
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: `NECYPAA XXXVI — Group Registration (${validatedData.groupName})`,
+                      description: `${quantity} seats for ${validatedData.groupName}. Submit attendee names by the convention start date.`,
+                    },
+                    unit_amount: unitPriceCents,
+                  },
+                  quantity,
+                },
+                {
+                  price_data: {
+                    currency: "usd",
+                    product_data: {
+                      name: "Processing Fee",
+                      description: "Credit card processing fee (2.9% + $0.30)",
+                    },
+                    unit_amount: processingFee,
+                  },
+                  quantity: 1,
+                },
+              ],
+              mode: "payment",
+              metadata: { ...metadata, group_registration_id: String(record.id) },
+              payment_intent_data: {
+                metadata: { ...metadata, group_registration_id: String(record.id) },
+                description: `NECYPAA XXXVI · Group ${quantity} seats · ${validatedData.groupName} · ${validatedData.email}`.slice(
+                  0,
+                  250,
+                ),
+                statement_descriptor_suffix: "NECYPAA GROUP",
+                receipt_email: validatedData.email,
+              },
+            },
+            { idempotencyKey },
+          ),
+          STRIPE_TIMEOUT_MS,
+          "stripe.sessions.create:group",
+        ),
+      {
+        maxAttempts: 2,
+        baseDelayMs: 500,
+        label: "stripe.sessions.create:group",
+        correlationId,
+        retryableErrors: isRetryableStripeError,
+      },
+    )
+  } catch (err) {
+    log.error({
+      event: "group.stripe_session_failed",
+      correlationId,
+      groupRegistrationId: record.id,
+      ...summarizeError(err),
+    })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: err,
+      email: validatedData.email,
+      registrationId: record.id,
+    })
+    await safeAsync(
+      () =>
+        withTimeout(
+          payload.delete({ collection: "group-registrations", id: record.id }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.delete:group_orphan",
+        ),
+      undefined,
+      { correlationId, label: "payload.delete:group_orphan", severity: "warn" },
+    )
+    return { ok: false, error: fromUnknown(err, correlationId) }
+  }
+
+  if (!session.client_secret) {
+    log.error({ event: "group.stripe_no_client_secret", correlationId })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: new Error("Stripe group session created without client_secret"),
+      registrationId: record.id,
+      stripeSessionId: session.id,
+    })
+    return { ok: false, error: buildError("STRIPE_DOWN", { correlationId }) }
+  }
+
+  await setSuccessCookie(session.id, correlationId)
+
+  try {
+    await withRetry(
+      () =>
+        withTimeout(
+          payload.update({
+            collection: "group-registrations",
+            id: record.id,
+            data: { stripeSessionId: session.id },
+          }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.update:group_session_id",
+        ),
+      { maxAttempts: 3, baseDelayMs: 250, label: "payload.update:group_session_id", correlationId },
+    )
+  } catch (err) {
+    log.error({ event: "group.link_session_failed", correlationId, groupRegistrationId: record.id, ...summarizeError(err) })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.update",
+      severity: "critical",
+      error: err,
+      registrationId: record.id,
+      stripeSessionId: session.id,
+    })
+    return { ok: false, error: buildError("DB_DOWN", { correlationId }) }
+  }
+
+  log.info({ event: "group.session_created", correlationId, groupRegistrationId: record.id, sessionId: session.id })
+  return { ok: true, clientSecret: session.client_secret, correlationId }
+}
+
 async function setSuccessCookie(sessionId: string, correlationId: CorrelationId): Promise<void> {
   const token = signSuccessToken(sessionId)
   if (!token) return
@@ -1073,7 +1308,7 @@ function sanitizeRequest(value: unknown): unknown {
 }
 
 interface PiDescriptionArgs {
-  intent: "self" | "self_plus_gift" | "gift_only" | "donate"
+  intent: "self" | "self_plus_gift" | "gift_only" | "group" | "donate"
   selfQuantity: number
   giftQuantity: number
   breakfastCount: number

@@ -11,6 +11,7 @@ import { NECYPAA_STATES } from "@/lib/data/states"
 import type { RegistrationData, RegistrationIntent, GiftRecipient } from "@/lib/types"
 import { REGISTRATION_PRODUCTS, formatUsdFromCents, parseUsdInputToCents } from "@/lib/registration-products"
 import EmailTypoHint from "@/components/ui/email-typo-hint"
+import { CONVENTION_START_DATE } from "@/lib/constants"
 
 interface RegistrationFormProps {
   initialData?: RegistrationData
@@ -22,6 +23,13 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const STATE_OPTIONS = [...NECYPAA_STATES.map((s) => s.name), "Other / International"]
 const MAX_RECIPIENTS = 20
 const REGISTRATION_PRICE_CENTS = REGISTRATION_PRODUCTS[0]?.priceInCents ?? 4000
+
+const GROUP_DEADLINE_DISPLAY = new Date(CONVENTION_START_DATE).toLocaleDateString("en-US", {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+})
 
 const preferenceOptions = [
   {
@@ -64,10 +72,17 @@ const INTENT_OPTIONS: IntentOption[] = [
   },
   {
     value: "gift_only",
-    badge: "Sponsor Only",
-    title: "Sponsor someone else.",
+    badge: "Sponsor Individuals",
+    title: "Sponsor specific people.",
     description:
-      "I'm not attending — I just want to pay for one or more people. Each recipient gets a claim link.",
+      "I'm not attending — I just want to pay for one or more people I know by name. Each recipient gets a claim link.",
+  },
+  {
+    value: "group",
+    badge: "Group / Institution",
+    title: "Buy bulk seats for our group.",
+    description:
+      "Our recovery house, treatment center, or service body wants to register a number of folks. Pay now; send us the names by the convention start date.",
   },
   {
     value: "donate",
@@ -91,6 +106,8 @@ function defaultData(): RegistrationData {
     willingToServe: false,
     giftRecipients: [],
     donationAmountCents: REGISTRATION_PRICE_CENTS,
+    groupName: "",
+    groupQuantity: 0,
     accessCode: "",
   }
 }
@@ -117,6 +134,7 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
   const isBuyerAttendee = data.intent === "self" || data.intent === "self_plus_gift"
   const showRecipients = data.intent === "self_plus_gift" || data.intent === "gift_only"
   const showDonation = data.intent === "donate"
+  const showGroup = data.intent === "group"
   const hasAccessCode = (data.accessCode ?? "").trim().length > 0
 
   const update = <K extends keyof RegistrationData>(field: K, value: RegistrationData[K]) => {
@@ -144,6 +162,13 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
         out.donationAmountCents = parseUsdInputToCents(donationInput) ?? REGISTRATION_PRICE_CENTS
       } else {
         out.donationAmountCents = 0
+      }
+      if (next === "group") {
+        out.groupQuantity = prev.groupQuantity > 1 ? prev.groupQuantity : 5
+        out.groupName = prev.groupName
+      } else {
+        out.groupQuantity = 0
+        out.groupName = ""
       }
       return out
     })
@@ -223,6 +248,12 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
       if (parsed == null || parsed < 1000) {
         next.donationAmountCents = "Donation must be at least $10."
       }
+    }
+
+    if (showGroup) {
+      if (!data.groupName.trim()) next.groupName = "Organization name is required."
+      if (data.groupQuantity < 2) next.groupQuantity = "Buy 2 or more seats for a group purchase."
+      if (data.groupQuantity > 100) next.groupQuantity = "For more than 100 seats, email us to arrange a custom invoice."
     }
 
     setErrors(next)
@@ -587,6 +618,110 @@ export default function RegistrationForm({ initialData, onComplete, showAccessCo
             <p className="text-sm leading-6 text-[var(--nec-muted)]">
               100% of donations to the General Fund go toward scholarships. You won&apos;t be registered as an attendee
               — this is a contribution only.
+            </p>
+          </div>
+        </section>
+      )}
+
+      {showGroup && (
+        <section className="space-y-5">
+          <div className="space-y-2">
+            <p className="form-section-label">Group Purchase</p>
+            <p className="form-support-text">
+              Pay now for a block of seats — no need to know who&apos;s coming yet. We&apos;ll email you a receipt and a
+              clear deadline to send us the attendee names. Each attendee will receive the convention policy when their
+              name reaches us; you (the purchaser) don&apos;t need to sign on their behalf.
+            </p>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="groupName" className="text-[var(--nec-text)]">
+                Organization name <span className="text-[var(--nec-pink)]">*</span>
+              </Label>
+              <Input
+                id="groupName"
+                value={data.groupName}
+                onChange={(e) => update("groupName", e.target.value)}
+                aria-invalid={!!errors.groupName}
+                placeholder="Hope House, District 12, Hartford YPAA, etc."
+                maxLength={200}
+              />
+              {errors.groupName && <p className="text-sm text-[var(--nec-pink)]">{errors.groupName}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="groupQuantity" className="text-[var(--nec-text)]">
+                Number of seats <span className="text-[var(--nec-pink)]">*</span>
+              </Label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => update("groupQuantity", Math.max(2, data.groupQuantity - 1))}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.92)] text-lg font-semibold text-[var(--nec-text)] hover:border-[rgba(var(--nec-purple-rgb),0.24)] hover:bg-[rgba(var(--nec-purple-rgb),0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 disabled:opacity-50"
+                  aria-label="Decrease seat count"
+                  disabled={data.groupQuantity <= 2}
+                >
+                  −
+                </button>
+                <Input
+                  id="groupQuantity"
+                  type="number"
+                  inputMode="numeric"
+                  min={2}
+                  max={100}
+                  value={data.groupQuantity}
+                  onChange={(e) => {
+                    const n = Number.parseInt(e.target.value, 10)
+                    if (Number.isFinite(n)) update("groupQuantity", Math.max(0, Math.min(100, n)))
+                    else update("groupQuantity", 0)
+                  }}
+                  aria-invalid={!!errors.groupQuantity}
+                  className="w-24 text-center"
+                />
+                <button
+                  type="button"
+                  onClick={() => update("groupQuantity", Math.min(100, Math.max(2, data.groupQuantity) + 1))}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(var(--nec-purple-rgb),0.14)] bg-[rgba(var(--nec-card-rgb),0.92)] text-lg font-semibold text-[var(--nec-text)] hover:border-[rgba(var(--nec-purple-rgb),0.24)] hover:bg-[rgba(var(--nec-purple-rgb),0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 disabled:opacity-50"
+                  aria-label="Increase seat count"
+                  disabled={data.groupQuantity >= 100}
+                >
+                  +
+                </button>
+                <span className="text-sm text-[var(--nec-muted)]">
+                  × ${formatUsdFromCents(REGISTRATION_PRICE_CENTS)} ={" "}
+                  <strong className="text-[var(--nec-text)]">
+                    ${formatUsdFromCents(Math.max(0, data.groupQuantity) * REGISTRATION_PRICE_CENTS)}
+                  </strong>
+                </span>
+              </div>
+              {errors.groupQuantity && <p className="text-sm text-[var(--nec-pink)]">{errors.groupQuantity}</p>}
+              <p className="text-xs text-[var(--nec-muted)]">
+                2–100 seats per purchase. Need more? Email us and we&apos;ll arrange a custom invoice.
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-[1.4rem] border border-[rgba(var(--nec-gold-rgb),0.30)] bg-[rgba(var(--nec-gold-rgb),0.08)] p-5">
+            <p className="form-section-label">How This Works</p>
+            <ol className="mt-3 space-y-2 text-sm leading-7 text-[var(--nec-text)]">
+              <li>
+                <strong>1.</strong> Pay for your seats today.
+              </li>
+              <li>
+                <strong>2.</strong> We&apos;ll send your confirmation to the email above. Reply to that email with the
+                attendee names by{" "}
+                <strong className="text-[var(--nec-gold)]">{GROUP_DEADLINE_DISPLAY}</strong> (the day the convention
+                starts).
+              </li>
+              <li>
+                <strong>3.</strong> As each name arrives, we&apos;ll email that attendee directly with the convention
+                policy to review and sign. They&apos;ll be checked in onsite under their own name.
+              </li>
+            </ol>
+            <p className="mt-3 text-xs italic leading-6 text-[var(--nec-muted)]">
+              Seats not assigned by the deadline are still yours — you can hand them off to walk-ins at the door, or
+              reach out and we&apos;ll release them to the scholarship pool.
             </p>
           </div>
         </section>

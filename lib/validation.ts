@@ -7,7 +7,7 @@ function sanitize(val: string): string {
 
 const sanitizedString = (maxLength = 500) => z.string().max(maxLength).transform(sanitize)
 
-export const intentSchema = z.enum(["self", "self_plus_gift", "gift_only", "donate"])
+export const intentSchema = z.enum(["self", "self_plus_gift", "gift_only", "group", "donate"])
 
 export const giftRecipientSchema = z.object({
   name: sanitizedString(200).pipe(z.string().min(1, "Recipient name is required")),
@@ -36,6 +36,8 @@ const baseRegistrationFields = {
   willingToServe: z.boolean(),
   giftRecipients: z.array(giftRecipientSchema).max(20).default([]),
   donationAmountCents: z.number().int().min(0).max(10_000_000).default(0),
+  groupName: sanitizedString(200).default(""),
+  groupQuantity: z.number().int().min(0).max(100).default(0),
   accessCode: z.string().max(50).trim().default(""),
 }
 
@@ -85,6 +87,44 @@ export const registrationDataSchema = z
         path: ["donationAmountCents"],
         message: "Donation amount only applies to General Fund donations",
       })
+    }
+    if (data.intent === "group") {
+      if (!data.groupName.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groupName"],
+          message: "Organization name is required",
+        })
+      }
+      if (data.groupQuantity < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groupQuantity"],
+          message: "Buy 2 or more seats for a group purchase",
+        })
+      }
+      if (data.groupQuantity > 100) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groupQuantity"],
+          message: "For more than 100 seats, email us to arrange a custom invoice",
+        })
+      }
+    } else {
+      if (data.groupName.trim().length > 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groupName"],
+          message: "Organization name only applies to group purchases",
+        })
+      }
+      if (data.groupQuantity > 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["groupQuantity"],
+          message: "Seat quantity only applies to group purchases",
+        })
+      }
     }
   })
 

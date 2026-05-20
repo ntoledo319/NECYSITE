@@ -71,6 +71,8 @@ const baseRegistration: RegistrationData = {
   willingToServe: false,
   giftRecipients: [],
   donationAmountCents: 0,
+  groupName: "",
+  groupQuantity: 0,
   accessCode: "",
 }
 

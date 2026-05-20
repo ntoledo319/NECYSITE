@@ -4,14 +4,23 @@
  *
  *  - `self`            buyer is the attendee, no sponsorship
  *  - `self_plus_gift`  buyer is an attendee AND sponsors N others
- *  - `gift_only`       buyer sponsors N others, does NOT attend
+ *  - `gift_only`       buyer sponsors N named individuals, does NOT attend
+ *  - `group`           an organization buys N unnamed seats; names arrive
+ *                      later by email, by the convention start date
  *  - `donate`          General Fund donation, buyer does NOT attend
  *
  * Policy agreement: collected ONLY when the buyer is an attendee
- * (`self`, `self_plus_gift`). Recipients of gift codes sign their own
- * policy at claim time. Donors never sign — they aren't attending.
+ * (`self`, `self_plus_gift`). Gift-code recipients sign their own policy
+ * at claim time. Group-submitted attendees are emailed the policy when
+ * the organization sends their name in. Donors never sign — they aren't
+ * attending.
  */
-export type RegistrationIntent = "self" | "self_plus_gift" | "gift_only" | "donate"
+export type RegistrationIntent =
+  | "self"
+  | "self_plus_gift"
+  | "gift_only"
+  | "group"
+  | "donate"
 
 /** A single sponsored gift on the way to becoming a `gift-code` row. */
 export interface GiftRecipient {
@@ -47,6 +56,11 @@ export interface RegistrationData {
   // Populated only when intent === "donate". Cents; defaults to the
   // current registration price, donor may override down to the $10 floor.
   donationAmountCents: number
+
+  // Populated only when intent === "group". The org name appears on
+  // receipts and admin views; quantity is the seat count.
+  groupName: string
+  groupQuantity: number
 
   // Staff-issued code path. Mutually exclusive with gift / donate intents
   // at the UI level. Left in `RegistrationData` so the server can still

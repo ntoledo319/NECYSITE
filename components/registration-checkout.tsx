@@ -38,6 +38,8 @@ export default function RegistrationCheckout({
   const giftCount = registrationData.giftRecipients.length
   const isDonation = intent === "donate"
   const isGiftOnly = intent === "gift_only"
+  const isGroup = intent === "group"
+  const groupQuantity = registrationData.groupQuantity
 
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -58,7 +60,8 @@ export default function RegistrationCheckout({
   const selfCents = isAttendee ? REGISTRATION_PRICE_CENTS : 0
   const giftSubtotalCents = (intent === "self_plus_gift" || isGiftOnly) ? giftCount * REGISTRATION_PRICE_CENTS : 0
   const donationCents = isDonation ? registrationData.donationAmountCents : 0
-  const subtotalCents = selfCents + giftSubtotalCents + breakfastTotalCents + donationCents
+  const groupSubtotalCents = isGroup ? groupQuantity * REGISTRATION_PRICE_CENTS : 0
+  const subtotalCents = selfCents + giftSubtotalCents + breakfastTotalCents + donationCents + groupSubtotalCents
   const processingFeeCents = subtotalCents > 0 ? calculateProcessingFee(subtotalCents) : 0
   const totalCents = subtotalCents + processingFeeCents
 
@@ -185,7 +188,7 @@ export default function RegistrationCheckout({
         <div className="space-y-2">
           <p className="form-section-label">Order Summary</p>
           <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--nec-text)]">
-            {isDonation ? "Donation Summary" : "Registration Summary"}
+            {isDonation ? "Donation Summary" : isGroup ? "Group Purchase Summary" : "Registration Summary"}
           </h3>
         </div>
         <div className="space-y-2 text-[var(--nec-muted)]">
@@ -207,6 +210,14 @@ export default function RegistrationCheckout({
             <div className="flex justify-between">
               <span>General Fund donation</span>
               <span className="font-medium text-[var(--nec-text)]">${formatUsdFromCents(donationCents)}</span>
+            </div>
+          )}
+          {groupSubtotalCents > 0 && (
+            <div className="flex justify-between">
+              <span>
+                {registrationData.groupName || "Group"} — {groupQuantity} seats × ${formatUsdFromCents(REGISTRATION_PRICE_CENTS)}
+              </span>
+              <span className="font-medium text-[var(--nec-text)]">${formatUsdFromCents(groupSubtotalCents)}</span>
             </div>
           )}
           {selectedBreakfasts.map((bp) => (
@@ -238,6 +249,17 @@ export default function RegistrationCheckout({
           After payment, each recipient gets a claim link. Recipients with an email get it directly; the rest come back
           to you to forward. They&apos;ll sign the policy and finish registering on the claim page — every attendee
           signs in their own name.
+        </div>
+      )}
+
+      {isGroup && (
+        <div
+          className="rounded-[1.4rem] border border-[rgba(var(--nec-gold-rgb),0.30)] bg-[rgba(var(--nec-gold-rgb),0.08)] p-5 text-sm leading-6 text-[var(--nec-text)]"
+          role="status"
+        >
+          After payment, we&apos;ll send your confirmation to{" "}
+          <strong>{registrationData.email}</strong>. Reply to that email with your {groupQuantity} attendee names by the
+          convention start date. We&apos;ll email each attendee the policy directly when their name reaches us.
         </div>
       )}
 

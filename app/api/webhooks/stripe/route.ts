@@ -11,6 +11,7 @@ import { alertCritical } from "@/lib/alerts"
 import { maybeNotifyScholarshipRecipient } from "@/lib/scholarship-email"
 import { mintGiftCodesForPaidSession } from "@/lib/gift-mint"
 import { voidUnclaimedGiftsForSession } from "@/lib/gift-void"
+import { sendGroupConfirmationEmail } from "@/lib/group-email"
 
 const PAYLOAD_TIMEOUT_MS = 5_000
 const STRIPE_LOOKUP_TIMEOUT_MS = 4_000
@@ -227,6 +228,12 @@ async function handlePaidEvent(
     return
   }
 
+  // Group / institution flow — lives in its own collection.
+  if (session.metadata?.purchase_type === "group") {
+    await handleGroupPaid(payload, session, event, correlationId)
+    return
+  }
+
   const existing = await withTimeout(
     payload.find({
       collection: "registrations",
@@ -338,6 +345,86 @@ async function handlePaidEvent(
   // looks at the legacy scholarship_recipient_email metadata key, which the
   // new flow doesn't set). Kept for back-compat with any in-flight session.
   await maybeNotifyScholarshipRecipient({ session, correlationId })
+}
+
+async function handleGroupPaid(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  session: Stripe.Checkout.Session,
+  event: Stripe.Event,
+  correlationId: string,
+): Promise<void> {
+  const existing = await withTimeout(
+    payload.find({
+      collection: "group-registrations",
+      where: { stripeSessionId: { equals: session.id } },
+      limit: 1,
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.find:group",
+  )
+  if (existing.docs.length === 0) {
+    log.warn({ event: "webhook.group_no_match", correlationId, eventId: event.id, sessionId: session.id })
+    await dlqWebhookFailure({
+      correlationId,
+      eventId: event.id,
+      eventType: event.type,
+      severity: "critical",
+      reason: "paid group session has no matching group-registrations row",
+      stripeSessionId: session.id,
+      rawEvent: serializeEvent(event),
+    })
+    return
+  }
+  const doc = existing.docs[0] as {
+    id: string | number
+    status?: string | null
+    organizationName?: string | null
+    contactName?: string | null
+    contactEmail?: string | null
+    quantity?: number | null
+    submissionDeadline?: string | null
+    amountTotalCents?: number | null
+  }
+  if (doc.status === "paid") {
+    log.info({ event: "webhook.group_already_paid", correlationId, sessionId: session.id, groupRegistrationId: doc.id })
+    return
+  }
+  await withTimeout(
+    payload.update({
+      collection: "group-registrations",
+      id: doc.id,
+      data: {
+        status: "paid",
+        stripePaymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : "",
+        stripeCustomerId: typeof session.customer === "string" ? session.customer : "",
+        amountTotalCents: session.amount_total ?? doc.amountTotalCents ?? undefined,
+        paidAt: new Date().toISOString(),
+      },
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.update:group_paid",
+  )
+  log.info({
+    event: "webhook.group_marked_paid",
+    correlationId,
+    eventId: event.id,
+    sessionId: session.id,
+    groupRegistrationId: doc.id,
+  })
+
+  // Best-effort confirmation email. Failures land in the DLQ; the group
+  // registration itself remains valid.
+  await sendGroupConfirmationEmail({
+    payload,
+    session,
+    groupRegistrationId: doc.id,
+    organizationName: doc.organizationName ?? "your group",
+    contactName: doc.contactName ?? "there",
+    contactEmail: doc.contactEmail ?? "",
+    quantity: doc.quantity ?? 0,
+    submissionDeadline: doc.submissionDeadline ?? "",
+    correlationId,
+  })
 }
 
 async function handleDonationPaid(
@@ -586,7 +673,44 @@ async function handleChargeRefunded(
     return
   }
 
-  // Fall through to donations.
+  // Fall through to group registrations.
+  const groupHits = await withTimeout(
+    payload.find({
+      collection: "group-registrations",
+      where: { stripePaymentIntentId: { equals: paymentIntentId } },
+      limit: 1,
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.find:refund_group",
+  )
+  if (groupHits.docs.length > 0) {
+    const grp = groupHits.docs[0] as { id: string | number }
+    await withTimeout(
+      payload.update({
+        collection: "group-registrations",
+        id: grp.id,
+        data: {
+          status: isPartial ? "partially_refunded" : "refunded",
+          refundedAt,
+          refundAmountCents: amountRefundedCents,
+          refundedFully,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:refund_group",
+    )
+    log.info({
+      event: "webhook.group_refund_applied",
+      correlationId,
+      paymentIntentId,
+      groupRegistrationId: grp.id,
+      partial: isPartial,
+      amountRefundedCents,
+    })
+    return
+  }
+
+  // Finally, donations.
   const donationHits = await withTimeout(
     payload.find({
       collection: "donations",
@@ -737,6 +861,49 @@ async function handleDisputeCreated(
         paymentIntentId: lookupValue,
         registrationId: String(reg.id),
         type: reg.type ?? null,
+        amount: dispute.amount,
+        reason: dispute.reason ?? null,
+      },
+    })
+    return
+  }
+
+  // Group registrations fallback.
+  const groupHits = await withTimeout(
+    payload.find({
+      collection: "group-registrations",
+      where: { stripePaymentIntentId: { equals: lookupValue } },
+      limit: 1,
+    }),
+    PAYLOAD_TIMEOUT_MS,
+    "payload.find:dispute_group",
+  )
+  if (groupHits.docs.length > 0) {
+    const grp = groupHits.docs[0] as { id: string | number; organizationName?: string | null }
+    await withTimeout(
+      payload.update({
+        collection: "group-registrations",
+        id: grp.id,
+        data: { status: "disputed", disputedAt, disputeId: dispute.id },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.update:dispute_group",
+    )
+    log.info({
+      event: "webhook.group_dispute_recorded",
+      correlationId,
+      paymentIntentId: lookupValue,
+      groupRegistrationId: grp.id,
+      disputeId: dispute.id,
+    })
+    await alertCritical({
+      event: "group.dispute_opened",
+      correlationId,
+      summary: `Chargeback opened on group registration ${grp.id} (${grp.organizationName ?? "unknown org"})`,
+      fields: {
+        disputeId: dispute.id,
+        paymentIntentId: lookupValue,
+        groupRegistrationId: String(grp.id),
         amount: dispute.amount,
         reason: dispute.reason ?? null,
       },
