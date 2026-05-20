@@ -9,6 +9,7 @@ import { stripe } from "@/lib/stripe"
 import { env } from "@/lib/env"
 import { calculateProcessingFee, formatUsdFromCents } from "@/lib/registration-products"
 import { getLivePricing } from "@/lib/pricing"
+import { priceDataForCatalogItem, type CatalogKey } from "@/lib/stripe-catalog"
 import {
   rateLimitCheckout,
   rateLimitCodeRedemption,
@@ -358,43 +359,52 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = []
   if (selfQuantity > 0) {
     lineItems.push({
-      price_data: {
-        currency: "usd",
-        product_data: { name: product.name, description: product.description },
-        unit_amount: product.priceInCents,
-      },
+      ...(await priceDataForCatalogItem({
+        key: "necypaa-xxxvi-registration",
+        unitAmountCents: product.priceInCents,
+        fallbackName: product.name,
+        fallbackDescription: product.description,
+      })),
       quantity: selfQuantity,
     })
   }
   if (giftQuantity > 0) {
     lineItems.push({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: "Sponsored Registration",
-          description: `Gift registration for ${giftQuantity === 1 ? "1 person" : `${giftQuantity} people`} — each receives a claim link`,
-        },
-        unit_amount: product.priceInCents,
-      },
+      ...(await priceDataForCatalogItem({
+        key: "necypaa-xxxvi-gift",
+        unitAmountCents: product.priceInCents,
+        fallbackName: "Sponsored Registration",
+        fallbackDescription: `Gift registration for ${
+          giftQuantity === 1 ? "1 person" : `${giftQuantity} people`
+        } — each receives a claim link`,
+      })),
       quantity: giftQuantity,
     })
   }
   for (const bp of selectedBreakfasts) {
+    const breakfastKey: CatalogKey =
+      bp.id === "breakfast-friday"
+        ? "necypaa-xxxvi-breakfast-friday"
+        : bp.id === "breakfast-saturday"
+          ? "necypaa-xxxvi-breakfast-saturday"
+          : "necypaa-xxxvi-breakfast-sunday"
     lineItems.push({
-      price_data: {
-        currency: "usd",
-        product_data: { name: bp.name, description: bp.description },
-        unit_amount: bp.priceInCents,
-      },
+      ...(await priceDataForCatalogItem({
+        key: breakfastKey,
+        unitAmountCents: bp.priceInCents,
+        fallbackName: bp.name,
+        fallbackDescription: bp.description,
+      })),
       quantity: 1,
     })
   }
   lineItems.push({
-    price_data: {
-      currency: "usd",
-      product_data: { name: "Processing Fee", description: "Credit card processing fee (2.9% + $0.30)" },
-      unit_amount: processingFee,
-    },
+    ...(await priceDataForCatalogItem({
+      key: "necypaa-xxxvi-processing-fee",
+      unitAmountCents: processingFee,
+      fallbackName: "Processing Fee",
+      fallbackDescription: "Credit card processing fee (2.9% + $0.30)",
+    })),
     quantity: 1,
   })
 
@@ -628,6 +638,27 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
   const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/register/success`
   const idempotencyKey = `donation-${record.id}`
 
+  const donationLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+    {
+      ...(await priceDataForCatalogItem({
+        key: "necypaa-xxxvi-donation",
+        unitAmountCents: amountCents,
+        fallbackName: "NECYPAA XXXVI General Fund Donation",
+        fallbackDescription: "Helps cover scholarships for those who can't afford registration.",
+      })),
+      quantity: 1,
+    },
+    {
+      ...(await priceDataForCatalogItem({
+        key: "necypaa-xxxvi-processing-fee",
+        unitAmountCents: processingFee,
+        fallbackName: "Processing Fee",
+        fallbackDescription: "Credit card processing fee (2.9% + $0.30)",
+      })),
+      quantity: 1,
+    },
+  ]
+
   let session: Stripe.Checkout.Session
   try {
     session = await withRetry(
@@ -639,30 +670,7 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
               return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}&donation=1`,
               customer_email: validatedData.email,
               customer_creation: "always",
-              line_items: [
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: "NECYPAA XXXVI General Fund Donation",
-                      description: "Helps cover scholarships for those who can't afford registration.",
-                    },
-                    unit_amount: amountCents,
-                  },
-                  quantity: 1,
-                },
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: "Processing Fee",
-                      description: "Credit card processing fee (2.9% + $0.30)",
-                    },
-                    unit_amount: processingFee,
-                  },
-                  quantity: 1,
-                },
-              ],
+              line_items: donationLineItems,
               mode: "payment",
               metadata: { ...metadata, donation_id: String(record.id) },
               payment_intent_data: {
@@ -843,6 +851,27 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
   const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/register/success`
   const idempotencyKey = `group-${record.id}`
 
+  const groupLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+    {
+      ...(await priceDataForCatalogItem({
+        key: "necypaa-xxxvi-group-seat",
+        unitAmountCents: unitPriceCents,
+        fallbackName: `NECYPAA XXXVI — Group Seat (${validatedData.groupName})`,
+        fallbackDescription: `${quantity} seats for ${validatedData.groupName}. Submit attendee names by the convention start date.`,
+      })),
+      quantity,
+    },
+    {
+      ...(await priceDataForCatalogItem({
+        key: "necypaa-xxxvi-processing-fee",
+        unitAmountCents: processingFee,
+        fallbackName: "Processing Fee",
+        fallbackDescription: "Credit card processing fee (2.9% + $0.30)",
+      })),
+      quantity: 1,
+    },
+  ]
+
   let session: Stripe.Checkout.Session
   try {
     session = await withRetry(
@@ -854,30 +883,7 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
               return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}&group=1`,
               customer_email: validatedData.email,
               customer_creation: "always",
-              line_items: [
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: `NECYPAA XXXVI — Group Registration (${validatedData.groupName})`,
-                      description: `${quantity} seats for ${validatedData.groupName}. Submit attendee names by the convention start date.`,
-                    },
-                    unit_amount: unitPriceCents,
-                  },
-                  quantity,
-                },
-                {
-                  price_data: {
-                    currency: "usd",
-                    product_data: {
-                      name: "Processing Fee",
-                      description: "Credit card processing fee (2.9% + $0.30)",
-                    },
-                    unit_amount: processingFee,
-                  },
-                  quantity: 1,
-                },
-              ],
+              line_items: groupLineItems,
               mode: "payment",
               metadata: { ...metadata, group_registration_id: String(record.id) },
               payment_intent_data: {

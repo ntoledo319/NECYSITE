@@ -25,6 +25,25 @@ const envSchema = z.object({
   RESEND_FROM: z.string().optional(),
   SENTRY_DSN: z.string().url().optional(),
   BOTID_ENABLED: z.string().optional(),
+  // Optional canonical Stripe Product IDs — set by the bootstrap script.
+  // When unset, lib/stripe-catalog.ts falls back to a live products.search
+  // lookup. Test-mode and live-mode IDs are stored separately.
+  STRIPE_PRODUCT_REGISTRATION: z.string().optional(),
+  STRIPE_PRODUCT_GIFT: z.string().optional(),
+  STRIPE_PRODUCT_GROUP_SEAT: z.string().optional(),
+  STRIPE_PRODUCT_DONATION: z.string().optional(),
+  STRIPE_PRODUCT_BREAKFAST_FRIDAY: z.string().optional(),
+  STRIPE_PRODUCT_BREAKFAST_SATURDAY: z.string().optional(),
+  STRIPE_PRODUCT_BREAKFAST_SUNDAY: z.string().optional(),
+  STRIPE_PRODUCT_PROCESSING_FEE: z.string().optional(),
+  STRIPE_PRODUCT_REGISTRATION_TEST: z.string().optional(),
+  STRIPE_PRODUCT_GIFT_TEST: z.string().optional(),
+  STRIPE_PRODUCT_GROUP_SEAT_TEST: z.string().optional(),
+  STRIPE_PRODUCT_DONATION_TEST: z.string().optional(),
+  STRIPE_PRODUCT_BREAKFAST_FRIDAY_TEST: z.string().optional(),
+  STRIPE_PRODUCT_BREAKFAST_SATURDAY_TEST: z.string().optional(),
+  STRIPE_PRODUCT_BREAKFAST_SUNDAY_TEST: z.string().optional(),
+  STRIPE_PRODUCT_PROCESSING_FEE_TEST: z.string().optional(),
 })
 
 const ENV_KEYS = [
@@ -52,6 +71,22 @@ const ENV_KEYS = [
   "RESEND_FROM",
   "SENTRY_DSN",
   "BOTID_ENABLED",
+  "STRIPE_PRODUCT_REGISTRATION",
+  "STRIPE_PRODUCT_GIFT",
+  "STRIPE_PRODUCT_GROUP_SEAT",
+  "STRIPE_PRODUCT_DONATION",
+  "STRIPE_PRODUCT_BREAKFAST_FRIDAY",
+  "STRIPE_PRODUCT_BREAKFAST_SATURDAY",
+  "STRIPE_PRODUCT_BREAKFAST_SUNDAY",
+  "STRIPE_PRODUCT_PROCESSING_FEE",
+  "STRIPE_PRODUCT_REGISTRATION_TEST",
+  "STRIPE_PRODUCT_GIFT_TEST",
+  "STRIPE_PRODUCT_GROUP_SEAT_TEST",
+  "STRIPE_PRODUCT_DONATION_TEST",
+  "STRIPE_PRODUCT_BREAKFAST_FRIDAY_TEST",
+  "STRIPE_PRODUCT_BREAKFAST_SATURDAY_TEST",
+  "STRIPE_PRODUCT_BREAKFAST_SUNDAY_TEST",
+  "STRIPE_PRODUCT_PROCESSING_FEE_TEST",
 ] as const
 
 function readEnv(): Record<(typeof ENV_KEYS)[number], string | undefined> {

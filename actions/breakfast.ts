@@ -8,6 +8,7 @@ import { stripe } from "@/lib/stripe"
 import { env } from "@/lib/env"
 import { calculateProcessingFee } from "@/lib/registration-products"
 import { getLivePricing } from "@/lib/pricing"
+import { priceDataForCatalogItem, type CatalogKey } from "@/lib/stripe-catalog"
 import { rateLimitCheckout, extractClientIp, formatResetSeconds } from "@/lib/rate-limit"
 import { breakfastAttendeeSchema, breakfastIdsSchema } from "@/lib/validation"
 import type { BreakfastAttendee } from "@/lib/types"
@@ -209,6 +210,35 @@ export async function startBreakfastCheckout(
   const successUrlBase = `${env.NEXT_PUBLIC_BASE_URL}/${resolvedLocale}/breakfast/success`
   const idempotencyKey = `breakfast-${record.id}`
 
+  const breakfastLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = await Promise.all(
+    selectedBreakfasts.map(async (bp) => {
+      const breakfastKey: CatalogKey =
+        bp.id === "breakfast-friday"
+          ? "necypaa-xxxvi-breakfast-friday"
+          : bp.id === "breakfast-saturday"
+            ? "necypaa-xxxvi-breakfast-saturday"
+            : "necypaa-xxxvi-breakfast-sunday"
+      return {
+        ...(await priceDataForCatalogItem({
+          key: breakfastKey,
+          unitAmountCents: bp.priceInCents,
+          fallbackName: bp.name,
+          fallbackDescription: bp.description,
+        })),
+        quantity: 1,
+      }
+    }),
+  )
+  breakfastLineItems.push({
+    ...(await priceDataForCatalogItem({
+      key: "necypaa-xxxvi-processing-fee",
+      unitAmountCents: processingFee,
+      fallbackName: "Processing Fee",
+      fallbackDescription: "Credit card processing fee (2.9% + $0.30)",
+    })),
+    quantity: 1,
+  })
+
   let session: Stripe.Checkout.Session
   try {
     session = await withRetry(
@@ -220,27 +250,7 @@ export async function startBreakfastCheckout(
               return_url: `${successUrlBase}?session_id={CHECKOUT_SESSION_ID}`,
               customer_email: validatedAttendee.email,
               customer_creation: "always",
-              line_items: [
-                ...selectedBreakfasts.map((bp) => ({
-                  price_data: {
-                    currency: "usd" as const,
-                    product_data: { name: bp.name, description: bp.description },
-                    unit_amount: bp.priceInCents,
-                  },
-                  quantity: 1,
-                })),
-                {
-                  price_data: {
-                    currency: "usd" as const,
-                    product_data: {
-                      name: "Processing Fee",
-                      description: "Credit card processing fee (2.9% + $0.30)",
-                    },
-                    unit_amount: processingFee,
-                  },
-                  quantity: 1,
-                },
-              ],
+              line_items: breakfastLineItems,
               mode: "payment",
               metadata: { ...metadata, registration_id: String(record.id) },
               payment_intent_data: {
