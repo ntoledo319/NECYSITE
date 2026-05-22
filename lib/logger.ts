@@ -88,8 +88,10 @@ function emit(level: LogLevel, fields: LogFields): void {
   } else if (level === "warn") {
     console.warn(line)
   } else if (level === "debug") {
+    // eslint-disable-next-line no-console -- structured logger intentionally uses console.debug for non-prod dev output
     if (process.env.NODE_ENV !== "production") console.debug(line)
   } else {
+    // eslint-disable-next-line no-console -- structured logger intentionally writes info-level JSON to stdout
     console.log(line)
   }
 }

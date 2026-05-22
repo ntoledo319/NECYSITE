@@ -5,6 +5,7 @@ import { getPayload } from "payload"
 import configPromise from "@payload-config"
 import RegistrationConfirmed, { type VerifiedRegistration } from "./registration-confirmed"
 import GroupConfirmed, { type VerifiedGroupRegistration } from "./group-confirmed"
+import DonationConfirmed, { type VerifiedDonation } from "./donation-confirmed"
 import { Link } from "@/i18n/navigation"
 import { AlertCircle, Clock, Mail } from "lucide-react"
 import { CONTACT_EMAIL } from "@/lib/constants"
@@ -162,6 +163,52 @@ interface PayloadRegistrationRow {
   name?: string | null
   amountTotalCents?: number | null
   metadata?: Record<string, unknown> | null
+}
+
+interface PayloadDonationRow {
+  id: string | number
+  status?: string | null
+  donorName?: string | null
+  donorEmail?: string | null
+  amountTotalCents?: number | null
+}
+
+type DonationLookupResult =
+  | { status: "verified"; data: VerifiedDonation }
+  | { status: "unpaid" }
+  | { status: "missing" }
+  | { status: "error"; correlationId: string }
+
+async function fetchDonationBySession(sessionId: string, correlationId: string): Promise<DonationLookupResult> {
+  try {
+    const payload = await withTimeout(getPayload({ config: configPromise }), PAYLOAD_TIMEOUT_MS, "payload.bootstrap")
+    const found = await withTimeout(
+      payload.find({
+        collection: "donations",
+        where: { stripeSessionId: { equals: sessionId } },
+        limit: 1,
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "payload.find:success_donation",
+    )
+    if (found.docs.length === 0) return { status: "missing" }
+    const doc = found.docs[0] as PayloadDonationRow
+    if (doc.status !== "paid") {
+      return { status: "unpaid" }
+    }
+    return {
+      status: "verified",
+      data: {
+        donorName: typeof doc.donorName === "string" ? doc.donorName : null,
+        donorEmail: typeof doc.donorEmail === "string" ? doc.donorEmail : null,
+        amountTotalCents: typeof doc.amountTotalCents === "number" ? doc.amountTotalCents : null,
+        currency: "usd",
+      },
+    }
+  } catch (err) {
+    log.error({ event: "success.donation_lookup_failed", correlationId, sessionId, ...summarizeError(err) })
+    return { status: "error", correlationId }
+  }
 }
 
 interface PayloadGroupRow {
@@ -329,6 +376,20 @@ export default async function RegistrationSuccessPage({
         return <GroupConfirmed registration={grp.data} />
       }
       if (grp.status === "unpaid") {
+        return <UnverifiedPage status="unpaid" />
+      }
+      // Fall through to generic handling on missing/error.
+    }
+
+    // General Fund donations get their own confirmation experience too —
+    // donors aren't attendees, so the "registration is confirmed" copy
+    // would mislead them.
+    if (params.donation === "1" && tokenOk) {
+      const don = await fetchDonationBySession(sessionId, correlationId)
+      if (don.status === "verified") {
+        return <DonationConfirmed donation={don.data} />
+      }
+      if (don.status === "unpaid") {
         return <UnverifiedPage status="unpaid" />
       }
       // Fall through to generic handling on missing/error.

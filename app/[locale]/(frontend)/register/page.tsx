@@ -117,8 +117,6 @@ export default function RegisterPage() {
   if (!correlationIdRef.current) correlationIdRef.current = newCorrelationId()
   const correlationId = correlationIdRef.current
 
-  const buyerIsAttendee = registrationData?.intent === "self" || registrationData?.intent === "self_plus_gift"
-
   const handleInfoComplete = (data: RegistrationData) => {
     setRegistrationData(data)
     directionRef.current = 1

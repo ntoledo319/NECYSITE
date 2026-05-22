@@ -74,29 +74,56 @@ export async function GET(req: Request) {
     { label: ">24h", ceilingMinutes: Number.POSITIVE_INFINITY, count: 0 },
   ]
 
-  const pending = await safeAsync(
-    () =>
-      withTimeout(
-        payload.find({
-          collection: "registrations",
-          where: { status: { equals: "pending" } },
-          limit: 500,
-          sort: "createdAt",
-        }),
-        6_000,
-        "diagnostics.find_pending",
-      ),
-    EMPTY_PAGE,
-    { correlationId, label: "diagnostics.find_pending", severity: "warn" },
-  )
+  // Build the same age-bucket histogram for each of the three pending pools
+  // separately so the admin sees at a glance which type of purchase is stuck.
+  const makeBuckets = (): AgeBucket[] => [
+    { label: "0-15m", ceilingMinutes: 15, count: 0 },
+    { label: "15-60m", ceilingMinutes: 60, count: 0 },
+    { label: "1-6h", ceilingMinutes: 6 * 60, count: 0 },
+    { label: "6-24h", ceilingMinutes: 24 * 60, count: 0 },
+    { label: ">24h", ceilingMinutes: Number.POSITIVE_INFINITY, count: 0 },
+  ]
 
-  for (const row of pending.docs) {
-    const createdRaw = (row as Record<string, unknown>).createdAt
-    const created = typeof createdRaw === "string" ? new Date(createdRaw).getTime() : now
-    const ageMin = (now - created) / 60_000
-    const bucket = buckets.find((b) => ageMin <= b.ceilingMinutes)
-    if (bucket) bucket.count += 1
+  const registrationsBuckets = buckets
+  const groupBuckets = makeBuckets()
+  const donationsBuckets = makeBuckets()
+
+  const fetchPending = async (collection: "registrations" | "group-registrations" | "donations") =>
+    safeAsync(
+      () =>
+        withTimeout(
+          payload.find({
+            collection,
+            where: { status: { equals: "pending" } },
+            limit: 500,
+            sort: "createdAt",
+          }),
+          6_000,
+          `diagnostics.find_pending:${collection}`,
+        ),
+      EMPTY_PAGE,
+      { correlationId, label: `diagnostics.find_pending:${collection}`, severity: "warn" },
+    )
+
+  const [pending, pendingGroup, pendingDonations] = await Promise.all([
+    fetchPending("registrations"),
+    fetchPending("group-registrations"),
+    fetchPending("donations"),
+  ])
+
+  const populateBucket = (rows: { docs: Array<Record<string, unknown>> }, bucketSet: AgeBucket[]) => {
+    for (const row of rows.docs) {
+      const createdRaw = row.createdAt
+      const created = typeof createdRaw === "string" ? new Date(createdRaw).getTime() : now
+      const ageMin = (now - created) / 60_000
+      const bucket = bucketSet.find((b) => ageMin <= b.ceilingMinutes)
+      if (bucket) bucket.count += 1
+    }
   }
+
+  populateBucket(pending, registrationsBuckets)
+  populateBucket(pendingGroup, groupBuckets)
+  populateBucket(pendingDonations, donationsBuckets)
 
   const recentFailures = await safeAsync(
     () =>
@@ -171,8 +198,9 @@ export async function GET(req: Request) {
     correlationId,
     generatedAt: new Date().toISOString(),
     pending: {
-      total: pending.docs.length,
-      ageBuckets: buckets,
+      registrations: { total: pending.docs.length, ageBuckets: registrationsBuckets },
+      groupRegistrations: { total: pendingGroup.docs.length, ageBuckets: groupBuckets },
+      donations: { total: pendingDonations.docs.length, ageBuckets: donationsBuckets },
     },
     recentStatusCounts: statusCounts,
     failures: {

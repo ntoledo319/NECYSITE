@@ -502,50 +502,60 @@ async function updateStatusBySession(
   correlationId: string,
   eventType: string,
 ): Promise<void> {
-  const existing = await withTimeout(
-    payload.find({
-      collection: "registrations",
-      where: { stripeSessionId: { equals: sessionId } },
-      limit: 1,
-    }),
-    PAYLOAD_TIMEOUT_MS,
-    `payload.find:${status}`,
-  )
-  if (existing.docs.length === 0) {
+  // Same registrations → group-registrations → donations fallback chain we
+  // use for refund / dispute lookup. A failed or expired session in any of
+  // the three collections gets flipped without waiting for the daily cron.
+  const collections = ["registrations", "group-registrations", "donations"] as const
+
+  for (const collection of collections) {
+    const existing = await withTimeout(
+      payload.find({
+        collection,
+        where: { stripeSessionId: { equals: sessionId } },
+        limit: 1,
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      `payload.find:${collection}:${status}`,
+    )
+    if (existing.docs.length === 0) continue
+
+    const doc = existing.docs[0] as { id: string | number; status?: string | null }
+    // Don't downgrade a row that's already in a terminal money-state.
+    if (
+      doc.status === "paid" ||
+      doc.status === "refunded" ||
+      doc.status === "partially_refunded" ||
+      doc.status === "disputed" ||
+      doc.status === "complete"
+    ) {
+      log.info({
+        event: "webhook.status_skipped_terminal",
+        correlationId,
+        sessionId,
+        collection,
+        targetStatus: status,
+        currentStatus: doc.status,
+      })
+      return
+    }
+    await withTimeout(
+      payload.update({ collection, id: doc.id, data: { status } }),
+      PAYLOAD_TIMEOUT_MS,
+      `payload.update:${collection}:${status}`,
+    )
     log.info({
-      event: "webhook.status_no_match",
+      event: "webhook.status_updated",
       correlationId,
       sessionId,
+      collection,
+      rowId: doc.id,
       targetStatus: status,
       eventType,
     })
     return
   }
-  const doc = existing.docs[0]
-  // Don't downgrade a paid registration via a stray failed/expired event.
-  if (doc.status === "paid" || doc.status === "refunded" || doc.status === "partially_refunded") {
-    log.info({
-      event: "webhook.status_skipped_terminal",
-      correlationId,
-      sessionId,
-      targetStatus: status,
-      currentStatus: doc.status,
-    })
-    return
-  }
-  await withTimeout(
-    payload.update({ collection: "registrations", id: doc.id, data: { status } }),
-    PAYLOAD_TIMEOUT_MS,
-    `payload.update:${status}`,
-  )
-  log.info({
-    event: "webhook.status_updated",
-    correlationId,
-    sessionId,
-    registrationId: doc.id,
-    targetStatus: status,
-    eventType,
-  })
+
+  log.info({ event: "webhook.status_no_match", correlationId, sessionId, targetStatus: status, eventType })
 }
 
 async function handlePaymentIntentFailed(

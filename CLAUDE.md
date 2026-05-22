@@ -43,3 +43,45 @@ UI element, copy block, and architectural decision must pass taste review.
 Before any task is complete, run the Specificity Test:
 "Could this element exist in any other project without modification?"
 If yes → rewrite.
+
+---
+
+## Handoff Sync Protocol (non-negotiable)
+
+This project has a hard bus-factor problem. The owner may not be the one
+maintaining it in the future. The folder `HANDOFF/` exists so that a
+non-technical inheritor — paired with a coding agent — can keep the site
+running. If `HANDOFF/` ever drifts from the real codebase, the inheritor
+will trust the wrong information in a real emergency.
+
+**Read `HANDOFF/AI_BRIEFING.md` at the start of any session where you will
+edit code.** It contains the operating posture (plan-first, PR-not-push,
+build-before-done, escalate-on-danger-zones) that overrides anything else.
+
+**Run `/handoff-sync` whenever a change touches any of these surfaces:**
+
+- `lib/constants.ts` (dates, venue, contact email, URLs)
+- `lib/registration-products.ts`, `lib/pricing.ts` (default prices)
+- `lib/env.ts`, `.env.example` (environment variables)
+- `actions/registration.ts`, `actions/breakfast.ts`, `actions/claim-gift.ts`
+- `app/api/webhooks/stripe/**`
+- `collections/Registrations.ts`, `collections/Donations.ts`,
+  `collections/GroupRegistrations.ts`, `collections/GiftCodes.ts`
+- The admin panel structure (Payload globals, new collections)
+- Any file path referenced by `HANDOFF/MANUAL.md` Appendix A
+- Anything that would change one of the four "scenarios" in
+  `HANDOFF/QUICKSTART.md`
+
+The `/handoff-sync` command (defined at `.claude/commands/handoff-sync.md`)
+audits the HANDOFF docs against the current code and proposes updates.
+Run it **before opening any PR that touches the above** and include the
+resulting HANDOFF edits in the same PR.
+
+**Never commit secrets.** `.env`, `.env.local`, anything with a key in it.
+The `.gitignore` already excludes them — keep it that way.
+
+**Never push directly to `main`.** Always open a pull request. The operator
+is the only one who can approve a merge.
+
+If you are unsure whether a change qualifies for `/handoff-sync`, run it
+anyway — the command is cheap and idempotent. Drift is expensive.
