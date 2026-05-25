@@ -20,17 +20,27 @@ interface RecipientFromMetadata {
  * After a gift purchase is confirmed paid by Stripe, mint one gift-code row
  * per recipient, then dispatch the claim email.
  *
- * Recipients are read from the parent `registrations` row's metadata
- * (`metadata.gift_recipients`), where they are stored at action-time with
- * no truncation. Stripe metadata is NOT used as the recipient source
- * because Stripe enforces a 500-char-per-value cap that any non-trivial
- * recipient list would blow past. The session is still used to learn
- * sponsor name/email and other display-only fields.
+ * Recipients come from the parent `registrations` row's metadata
+ * (`metadata.gift_recipients`), with no truncation. Stripe metadata caps
+ * values at 500 chars — any non-trivial recipient list would blow that.
  *
- * Concurrency: a `processed-webhook-events` row keyed on
- * `mint-<stripeSessionId>` acts as a single-shot lock. Two concurrent
- * webhooks (or webhook + self-heal) racing on the same session means one
- * wins the lock and mints, the other no-ops cleanly.
+ * IDEMPOTENCY MODEL (per-recipient atomic):
+ *
+ * Each recipient gets a deterministic slot key `<sessionId>:<index>`, with
+ * a Payload unique constraint on `sessionRecipientKey`. The mint loop tries
+ * to create each row by that key; a unique-constraint violation means
+ * another worker (a concurrent webhook, the success-page self-heal, the
+ * cron, or a previous attempt that crashed mid-loop) already minted that
+ * slot — we skip cleanly and move on. This means:
+ *
+ *   - Crash recovery: a partial-mint state (some recipients minted, others
+ *     not) is automatically completed on the next call. No manual recovery
+ *     needed.
+ *   - Concurrency: two workers running mint in parallel both succeed at
+ *     creating non-overlapping rows; the Payload unique constraint prevents
+ *     any overlap.
+ *   - Email retry: if a row exists but its email send previously failed
+ *     (`emailDeliveredTo` ∈ {'pending', 'failed'}), we re-send.
  */
 export async function mintGiftCodesForPaidSession(args: {
   payload: Payload
@@ -39,66 +49,10 @@ export async function mintGiftCodesForPaidSession(args: {
 }): Promise<void> {
   const { payload, session, correlationId } = args
 
-  // Claim the mint lock first. If another worker already inserted this
-  // marker, we lose the race and return silently.
-  const lockEventId = `mint-${session.id}`
-  try {
-    await withTimeout(
-      payload.create({
-        collection: "processed-webhook-events",
-        data: {
-          eventId: lockEventId,
-          eventType: "internal.gift_mint",
-          correlationId,
-        },
-      }),
-      PAYLOAD_TIMEOUT_MS,
-      "gift.mint_lock",
-    )
-  } catch (err) {
-    // Almost certainly a unique-constraint violation — another worker beat
-    // us. That's the desired behavior; bail out cleanly.
-    log.info({
-      event: "gift.mint_lock_lost",
-      correlationId,
-      sessionId: session.id,
-      reason: err instanceof Error ? err.message : String(err),
-    })
-    return
-  }
-
-  // Resolve recipients from the parent registration row (full, untruncated).
   const recipients = await resolveRecipients(payload, session, correlationId)
   if (recipients.length === 0) {
     log.info({ event: "gift.mint_no_recipients", correlationId, sessionId: session.id })
     return
-  }
-
-  // Belt-and-suspenders: even with the lock, do an existence check before
-  // creating rows. Covers the unlikely case where a previous attempt
-  // partial-minted and a different worker is retrying via reconciliation.
-  try {
-    const existing = await withTimeout(
-      payload.find({
-        collection: "gift-codes",
-        where: { stripeSessionId: { equals: session.id } },
-        limit: 1,
-      }),
-      PAYLOAD_TIMEOUT_MS,
-      "gift.find_existing",
-    )
-    if (existing.docs.length > 0) {
-      log.info({
-        event: "gift.mint_skipped_already_present",
-        correlationId,
-        sessionId: session.id,
-        existingCount: existing.docs.length,
-      })
-      return
-    }
-  } catch (err) {
-    log.warn({ event: "gift.mint_idempotency_check_failed", correlationId, ...summarizeError(err) })
-    // Fall through — minting is safer than skipping.
   }
 
   const sponsorName = stringFromMeta(session.metadata, "attendee_name") || "A friend"
@@ -107,64 +61,146 @@ export async function mintGiftCodesForPaidSession(args: {
   const unitAmountCents = Number(stringFromMeta(session.metadata, "gift_unit_amount_cents") || "0") || 0
   const paidAt = new Date().toISOString()
 
-  for (const recipient of recipients) {
-    const token = generateGiftToken()
-    let createdId: string | number | null = null
-    try {
-      const created = await withTimeout(
-        payload.create({
-          collection: "gift-codes",
-          data: {
-            token,
-            correlationId,
-            status: "unclaimed",
-            recipientName: recipient.name,
-            recipientEmail: recipient.email || undefined,
-            sponsorMessage: recipient.message || undefined,
-            sponsorName,
-            sponsorEmail: sponsorEmail || "unknown@necypaa.org",
-            sponsorState: sponsorState || undefined,
-            emailDeliveredTo: "pending",
-            paidAt,
-            stripeSessionId: session.id,
-            stripePaymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : undefined,
-            amountPaidCents: unitAmountCents || undefined,
-          },
-        }),
-        PAYLOAD_TIMEOUT_MS,
-        "gift.create",
-      )
-      createdId = (created as { id: string | number }).id
-      log.info({
-        event: "gift.minted",
-        correlationId,
-        giftId: createdId,
-        sessionId: session.id,
-        hasRecipientEmail: Boolean(recipient.email),
-      })
-    } catch (err) {
-      log.error({ event: "gift.mint_failed", correlationId, sessionId: session.id, ...summarizeError(err) })
-      await dlqRegistrationFailure({
-        correlationId,
-        stage: "payload.create",
-        severity: "critical",
-        error: err,
-        email: sponsorEmail,
-        stripeSessionId: session.id,
-        requestPayload: { recipient: { name: recipient.name, hasEmail: Boolean(recipient.email) } },
-      })
-      continue
+  let mintedNow = 0
+  let alreadyExisted = 0
+  let emailsReSent = 0
+  let failures = 0
+
+  for (let i = 0; i < recipients.length; i++) {
+    const recipient = recipients[i]
+    const slotKey = `${session.id}:${i}`
+
+    const outcome = await mintOrRetrySlot({
+      payload,
+      session,
+      correlationId,
+      recipient,
+      slotKey,
+      recipientIndex: i,
+      sponsorName,
+      sponsorEmail,
+      sponsorState,
+      unitAmountCents,
+      paidAt,
+    })
+
+    if (outcome === "minted") mintedNow += 1
+    else if (outcome === "already_existed_email_resent") {
+      alreadyExisted += 1
+      emailsReSent += 1
+    } else if (outcome === "already_existed_skipped") alreadyExisted += 1
+    else failures += 1
+  }
+
+  log.info({
+    event: "gift.mint_complete",
+    correlationId,
+    sessionId: session.id,
+    totalRecipients: recipients.length,
+    mintedNow,
+    alreadyExisted,
+    emailsReSent,
+    failures,
+  })
+}
+
+type SlotOutcome = "minted" | "already_existed_email_resent" | "already_existed_skipped" | "failed"
+
+async function mintOrRetrySlot(args: {
+  payload: Payload
+  session: Stripe.Checkout.Session
+  correlationId: CorrelationId
+  recipient: RecipientFromMetadata
+  slotKey: string
+  recipientIndex: number
+  sponsorName: string
+  sponsorEmail: string
+  sponsorState: string
+  unitAmountCents: number
+  paidAt: string
+}): Promise<SlotOutcome> {
+  const {
+    payload,
+    session,
+    correlationId,
+    recipient,
+    slotKey,
+    recipientIndex,
+    sponsorName,
+    sponsorEmail,
+    sponsorState,
+    unitAmountCents,
+    paidAt,
+  } = args
+
+  // Check first to give a fast path for the common case (slot already minted
+  // cleanly). The atomic try/catch below is the actual race-safe primitive.
+  let existingId: string | number | null = null
+  let existingEmailStatus: string | null = null
+  let existingToken: string | null = null
+  let existingRecipientEmail: string | null = null
+  try {
+    const found = await withTimeout(
+      payload.find({
+        collection: "gift-codes",
+        where: { sessionRecipientKey: { equals: slotKey } },
+        limit: 1,
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "gift.find_slot",
+    )
+    if (found.docs.length > 0) {
+      const doc = found.docs[0] as {
+        id: string | number
+        emailDeliveredTo?: string | null
+        token?: string | null
+        recipientEmail?: string | null
+      }
+      existingId = doc.id
+      existingEmailStatus = doc.emailDeliveredTo ?? null
+      existingToken = doc.token ?? null
+      existingRecipientEmail = doc.recipientEmail ?? null
     }
+  } catch (err) {
+    log.warn({
+      event: "gift.find_slot_failed",
+      correlationId,
+      sessionId: session.id,
+      slotKey,
+      ...summarizeError(err),
+    })
+    // Fall through and let the create attempt be the source of truth.
+  }
 
-    if (!createdId) continue
-
+  // If a row exists already, decide whether to re-send the email.
+  if (existingId && existingToken) {
+    const needsEmailRetry = existingEmailStatus === "pending" || existingEmailStatus === "failed"
+    if (!needsEmailRetry) {
+      log.info({
+        event: "gift.slot_already_minted",
+        correlationId,
+        sessionId: session.id,
+        slotKey,
+        giftId: existingId,
+        emailDeliveredTo: existingEmailStatus,
+      })
+      return "already_existed_skipped"
+    }
+    log.info({
+      event: "gift.slot_already_minted_retry_email",
+      correlationId,
+      sessionId: session.id,
+      slotKey,
+      giftId: existingId,
+      previousEmailStatus: existingEmailStatus,
+    })
     await safeAsync(
       () =>
         sendGiftClaimEmail({
-          giftId: createdId,
-          token,
+          giftId: existingId!,
+          token: existingToken!,
           recipientName: recipient.name,
-          recipientEmail: recipient.email || null,
+          recipientEmail: existingRecipientEmail ?? recipient.email ?? null,
           sponsorName,
           sponsorEmail,
           sponsorMessage: recipient.message || null,
@@ -172,13 +208,111 @@ export async function mintGiftCodesForPaidSession(args: {
           payload,
         }),
       undefined,
-      {
-        correlationId,
-        label: "gift.send_claim_email",
-        severity: "warn",
-      },
+      { correlationId, label: "gift.email_retry", severity: "warn" },
     )
+    return "already_existed_email_resent"
   }
+
+  // Slot is free (or check failed); try to create. A unique-constraint
+  // violation on sessionRecipientKey means we lost a race with another
+  // worker — treat as success and move on.
+  const token = generateGiftToken()
+  let createdId: string | number | null = null
+  try {
+    const created = await withTimeout(
+      payload.create({
+        collection: "gift-codes",
+        data: {
+          token,
+          correlationId,
+          status: "unclaimed",
+          sessionRecipientKey: slotKey,
+          recipientIndex,
+          recipientName: recipient.name,
+          recipientEmail: recipient.email || undefined,
+          sponsorMessage: recipient.message || undefined,
+          sponsorName,
+          sponsorEmail: sponsorEmail || "unknown@necypaa.org",
+          sponsorState: sponsorState || undefined,
+          emailDeliveredTo: "pending",
+          paidAt,
+          stripeSessionId: session.id,
+          stripePaymentIntentId: typeof session.payment_intent === "string" ? session.payment_intent : undefined,
+          amountPaidCents: unitAmountCents || undefined,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "gift.create_slot",
+    )
+    createdId = (created as { id: string | number }).id
+  } catch (err) {
+    // Detect the unique-constraint race: SQLite reports it via libsql with
+    // "UNIQUE constraint failed" in the message. We treat any "duplicate"
+    // signal as the race outcome.
+    const message = err instanceof Error ? err.message : String(err)
+    const isUniqueViolation =
+      /UNIQUE constraint failed|SQLITE_CONSTRAINT|duplicate key|already exists/i.test(message)
+    if (isUniqueViolation) {
+      log.info({
+        event: "gift.slot_race_lost",
+        correlationId,
+        sessionId: session.id,
+        slotKey,
+      })
+      return "already_existed_skipped"
+    }
+    log.error({
+      event: "gift.mint_slot_failed",
+      correlationId,
+      sessionId: session.id,
+      slotKey,
+      ...summarizeError(err),
+    })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "payload.create",
+      severity: "critical",
+      error: err,
+      email: sponsorEmail,
+      stripeSessionId: session.id,
+      requestPayload: { slotKey, recipientIndex, recipientName: recipient.name },
+    })
+    return "failed"
+  }
+
+  if (!createdId) return "failed"
+
+  log.info({
+    event: "gift.slot_minted",
+    correlationId,
+    sessionId: session.id,
+    slotKey,
+    giftId: createdId,
+    hasRecipientEmail: Boolean(recipient.email),
+  })
+
+  await safeAsync(
+    () =>
+      sendGiftClaimEmail({
+        giftId: createdId!,
+        token,
+        recipientName: recipient.name,
+        recipientEmail: recipient.email || null,
+        sponsorName,
+        sponsorEmail,
+        sponsorMessage: recipient.message || null,
+        correlationId,
+        payload,
+      }),
+    undefined,
+    {
+      correlationId,
+      label: "gift.send_claim_email",
+      severity: "warn",
+    },
+  )
+
+  return "minted"
 }
 
 /**
@@ -192,7 +326,6 @@ async function resolveRecipients(
   session: Stripe.Checkout.Session,
   correlationId: CorrelationId,
 ): Promise<RecipientFromMetadata[]> {
-  // Preferred path: read from the parent registration row's metadata.
   try {
     const found = await withTimeout(
       payload.find({
@@ -234,8 +367,6 @@ async function resolveRecipients(
     })
   }
 
-  // Back-compat fallback: legacy in-flight sessions stored recipients in
-  // Stripe metadata. The JSON may be truncated; we accept what we can parse.
   const legacy = parseLegacyJson(stringFromMeta(session.metadata, "gift_recipients_json"))
   if (legacy.length > 0) {
     log.info({

@@ -12,6 +12,7 @@ import type { RegistrationData, RegistrationIntent, GiftRecipient } from "@/lib/
 import { REGISTRATION_PRODUCTS, formatUsdFromCents, parseUsdInputToCents } from "@/lib/registration-products"
 import EmailTypoHint from "@/components/ui/email-typo-hint"
 import { CONVENTION_START_DATE } from "@/lib/constants"
+import { usePricing } from "@/lib/use-pricing"
 
 interface RegistrationFormProps {
   initialData?: RegistrationData
@@ -22,7 +23,7 @@ interface RegistrationFormProps {
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const STATE_OPTIONS = [...NECYPAA_STATES.map((s) => s.name), "Other / International"]
 const MAX_RECIPIENTS = 20
-const REGISTRATION_PRICE_CENTS = REGISTRATION_PRODUCTS[0]?.priceInCents ?? 4000
+const COMPILED_REGISTRATION_PRICE_CENTS = REGISTRATION_PRODUCTS[0]?.priceInCents ?? 4000
 
 const GROUP_DEADLINE_DISPLAY = new Date(CONVENTION_START_DATE).toLocaleDateString("en-US", {
   weekday: "long",
@@ -117,10 +118,12 @@ function defaultData(): RegistrationData {
 }
 
 export default function RegistrationForm({ initialData, onComplete, showAccessCode = true }: RegistrationFormProps) {
+  const pricing = usePricing()
+  const REGISTRATION_PRICE_CENTS = pricing.registrationCents
   const [data, setData] = useState<RegistrationData>(() => ({ ...defaultData(), ...(initialData ?? {}) }))
   const [showAccessCodeField, setShowAccessCodeField] = useState(Boolean((initialData?.accessCode ?? "").trim()))
   const [donationInput, setDonationInput] = useState(() =>
-    formatUsdFromCents(initialData?.donationAmountCents ?? REGISTRATION_PRICE_CENTS),
+    formatUsdFromCents(initialData?.donationAmountCents ?? COMPILED_REGISTRATION_PRICE_CENTS),
   )
   const [errors, setErrors] = useState<Record<string, string>>({})
   const errorSummaryRef = useRef<HTMLDivElement | null>(null)

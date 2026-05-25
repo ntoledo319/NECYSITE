@@ -6,6 +6,7 @@ import { loadStripe, type Stripe } from "@stripe/stripe-js"
 import { useLocale } from "next-intl"
 import { startBreakfastCheckout } from "@/actions/breakfast"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
+import { usePricing } from "@/lib/use-pricing"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
@@ -24,16 +25,32 @@ export default function BreakfastCheckout() {
   const [checkoutReady, setCheckoutReady] = useState(false)
   const [checkoutKey, setCheckoutKey] = useState(0)
 
+  const pricing = usePricing()
+
+  // Overlay live pricing onto the static product catalog. IDs stay stable;
+  // only the displayed price changes when admin updates Payload.
+  const livePriceFor = (id: string): number => {
+    if (id === "breakfast-friday") return pricing.breakfastFridayCents
+    if (id === "breakfast-saturday") return pricing.breakfastSaturdayCents
+    if (id === "breakfast-sunday") return pricing.breakfastSundayCents
+    return 0
+  }
+  const liveProducts = useMemo(
+    () => BREAKFAST_PRODUCTS.map((bp) => ({ ...bp, priceInCents: livePriceFor(bp.id) || bp.priceInCents })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- depends on pricing values, listed individually
+    [pricing.breakfastFridayCents, pricing.breakfastSaturdayCents, pricing.breakfastSundayCents],
+  )
+
   const selectedBreakfasts = useMemo(
-    () => BREAKFAST_PRODUCTS.filter((bp) => breakfastSelections[bp.id]),
-    [breakfastSelections],
+    () => liveProducts.filter((bp) => breakfastSelections[bp.id]),
+    [breakfastSelections, liveProducts],
   )
   const subtotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
   const processingFee = subtotalCents > 0 ? calculateProcessingFee(subtotalCents) / 100 : 0
   const totalAmount = subtotalCents / 100 + processingFee
 
-  const fridayProduct = BREAKFAST_PRODUCTS.find((p) => p.id === "breakfast-friday")
-  const weekendProducts = BREAKFAST_PRODUCTS.filter((p) => p.id !== "breakfast-friday")
+  const fridayProduct = liveProducts.find((p) => p.id === "breakfast-friday")
+  const weekendProducts = liveProducts.filter((p) => p.id !== "breakfast-friday")
 
   const validateField = (field: string, value: string) => {
     let errorMsg = ""

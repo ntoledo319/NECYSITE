@@ -32,10 +32,33 @@ export const GiftCodes: CollectionConfig = {
     update: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "registration"),
     delete: ({ req: { user } }) => Boolean(user?.role === "admin"),
   },
-  indexes: [{ fields: ["token"], unique: true }],
+  indexes: [
+    { fields: ["token"], unique: true },
+    // Per-recipient atomic key: lets the mint helper safely re-run after a
+    // partial-state crash without minting duplicates. Format:
+    //   <stripeSessionId>:<recipientIndex>
+    // The composite-key field exists alongside the raw stripeSessionId so
+    // admin queries by session still work; the unique constraint sits on
+    // the composite.
+    { fields: ["sessionRecipientKey"], unique: true },
+  ],
   fields: [
     { name: "token", type: "text", required: true, unique: true, index: true, admin: { description: "URL-safe random token used in /claim/<token>" } },
     { name: "correlationId", type: "text", index: true },
+    {
+      name: "sessionRecipientKey",
+      type: "text",
+      required: true,
+      index: true,
+      admin: {
+        description: "Unique slot key per recipient within a session: '<stripeSessionId>:<recipientIndex>'. Used for atomic mint idempotency.",
+      },
+    },
+    {
+      name: "recipientIndex",
+      type: "number",
+      admin: { description: "0-indexed slot within the parent session." },
+    },
     {
       name: "status",
       type: "select",

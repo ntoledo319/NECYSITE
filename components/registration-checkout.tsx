@@ -16,6 +16,7 @@ import type { RegistrationData, PolicyAgreements } from "@/lib/types"
 import AccessCodeCheckout from "@/components/checkout/access-code-checkout"
 import BreakfastAddOns from "@/components/checkout/breakfast-add-ons"
 import { CONTACT_EMAIL } from "@/lib/constants"
+import { usePricing } from "@/lib/use-pricing"
 
 interface RegistrationCheckoutProps {
   registrationData: RegistrationData
@@ -24,13 +25,16 @@ interface RegistrationCheckoutProps {
   correlationId?: string
 }
 
-const REGISTRATION_PRICE_CENTS = REGISTRATION_PRODUCTS[0]?.priceInCents ?? 4000
+const COMPILED_REGISTRATION_PRICE_CENTS = REGISTRATION_PRODUCTS[0]?.priceInCents ?? 4000
+void COMPILED_REGISTRATION_PRICE_CENTS // kept for parity with form; hook supplies the live value
 
 export default function RegistrationCheckout({
   registrationData,
   policyAgreements,
   onBack,
 }: RegistrationCheckoutProps) {
+  const pricing = usePricing()
+  const REGISTRATION_PRICE_CENTS = pricing.registrationCents
   const locale = useLocale()
   const hasAccessCode = (registrationData.accessCode ?? "").trim().length > 0
   const intent = registrationData.intent
