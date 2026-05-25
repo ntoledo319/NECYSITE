@@ -8,6 +8,7 @@ import { withTimeout, safeAsync, TimeoutError } from "@/lib/resilience"
 import { dlqRegistrationFailure } from "@/lib/dlq"
 import { alertCritical } from "@/lib/alerts"
 import { maybeNotifyScholarshipRecipient } from "@/lib/scholarship-email"
+import { mintGiftCodesForPaidSession } from "@/lib/gift-mint"
 
 /**
  * Sweep pending registrations, group registrations, and donations and
@@ -489,8 +490,19 @@ async function reconcileOne(
       summary: `Pending registration ${row.id} was actually paid; webhook didn't fire (or didn't process)`,
       fields: { sessionId, registrationId: String(row.id) },
     })
-    // Fire the scholarship-recipient notification the missed webhook would
-    // have sent. Best-effort; failures are absorbed internally.
+    // If the missed webhook was for a gift purchase, the recipients still
+    // need their codes. Mint helper holds an atomic lock keyed on
+    // stripeSessionId so calling from here is safe even if the webhook
+    // eventually arrives later.
+    if (
+      session.metadata?.intent === "self_plus_gift" ||
+      session.metadata?.intent === "gift_only" ||
+      session.metadata?.purchase_type === "self_plus_scholarship" ||
+      session.metadata?.purchase_type === "scholarship"
+    ) {
+      await mintGiftCodesForPaidSession({ payload, session, correlationId })
+    }
+    // Legacy single-recipient scholarship email — no-op for the new flow.
     await maybeNotifyScholarshipRecipient({ session, correlationId })
     return
   }

@@ -12,6 +12,7 @@ import { CONTACT_EMAIL } from "@/lib/constants"
 import PageArtAccents from "@/components/art/page-art-accents"
 import { withTimeout, safeAsync } from "@/lib/resilience"
 import { maybeNotifyScholarshipRecipient } from "@/lib/scholarship-email"
+import { mintGiftCodesForPaidSession } from "@/lib/gift-mint"
 import { alertCritical } from "@/lib/alerts"
 import type Stripe from "stripe"
 import { newCorrelationId } from "@/lib/correlation"
@@ -144,7 +145,19 @@ async function selfHealPendingRow(session: Stripe.Checkout.Session, correlationI
         summary: `Success page healed a missed webhook for session ${session.id}`,
         fields: { sessionId: session.id, registrationId: String(doc.id) },
       })
-      // Fire the scholarship email the webhook would have sent. Best-effort.
+      // Mint gift codes the missed webhook would have minted. Safe to call
+      // from here because mintGiftCodesForPaidSession holds an atomic lock
+      // keyed on stripeSessionId — if the webhook eventually arrives and
+      // races us, only one of us wins and codes are minted exactly once.
+      if (
+        session.metadata?.intent === "self_plus_gift" ||
+        session.metadata?.intent === "gift_only" ||
+        session.metadata?.purchase_type === "self_plus_scholarship" ||
+        session.metadata?.purchase_type === "scholarship"
+      ) {
+        await mintGiftCodesForPaidSession({ payload, session, correlationId })
+      }
+      // Legacy single-recipient scholarship email path — no-op for new flow.
       await maybeNotifyScholarshipRecipient({ session, correlationId })
     },
     undefined,

@@ -19,6 +19,7 @@ import { dlqRegistrationFailure } from "@/lib/dlq"
 import { buildError, fromUnknown, type RegistrationError } from "@/lib/registration-errors"
 import { isRegistrationPaused, registrationPausedReason } from "@/lib/registration-status"
 import { signSuccessToken } from "@/lib/success-token"
+import { safeStripeMetadata } from "@/lib/stripe-metadata"
 
 const SUPPORTED_LOCALES = new Set(["en", "es"])
 const DEFAULT_LOCALE = "en"
@@ -131,17 +132,19 @@ export async function startBreakfastCheckout(
   const subtotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
   const processingFee = calculateProcessingFee(subtotalCents)
 
-  const metadata = {
+  const rawMetadata: Record<string, unknown> = {
     correlation_id: correlationId,
     purchase_type: "breakfast_only",
     intent: "breakfast_only",
     attendee_first_name: validatedAttendee.firstName,
     attendee_last_name: validatedAttendee.lastName,
     attendee_email: validatedAttendee.email,
-    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ").slice(0, 500),
+    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", "),
     breakfast_count: selectedBreakfasts.length.toString(),
     breakfast_pricing_source: pricing.source,
-  } as const
+  }
+  const payloadMetadata = rawMetadata
+  const stripeMetadata = safeStripeMetadata(rawMetadata, { correlationId, label: "checkout.breakfast" })
 
   let payload: Payload
   try {
@@ -171,7 +174,7 @@ export async function startBreakfastCheckout(
           type: "breakfast_only",
           stripeSessionId: "",
           amountTotalCents: subtotalCents + processingFee,
-          metadata,
+          metadata: payloadMetadata,
           accommodations: "",
           interpretationNeeded: false,
           mobilityAccessibility: false,
@@ -252,9 +255,15 @@ export async function startBreakfastCheckout(
               customer_creation: "always",
               line_items: breakfastLineItems,
               mode: "payment",
-              metadata: { ...metadata, registration_id: String(record.id) },
+              metadata: safeStripeMetadata(
+                { ...stripeMetadata, registration_id: String(record.id) },
+                { correlationId, label: "breakfast.session.metadata" },
+              ),
               payment_intent_data: {
-                metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: "" },
+                metadata: safeStripeMetadata(
+                  { ...stripeMetadata, registration_id: String(record.id), stripeSessionId: "" },
+                  { correlationId, label: "breakfast.pi.metadata" },
+                ),
                 description: `NECYPAA XXXVI · ${selectedBreakfasts.length} breakfast${selectedBreakfasts.length === 1 ? "" : "s"} · ${validatedAttendee.email}`,
                 statement_descriptor_suffix: "NECYPAA BFAST",
                 receipt_email: validatedAttendee.email,

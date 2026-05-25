@@ -34,6 +34,7 @@ import { dlqRegistrationFailure } from "@/lib/dlq"
 import { buildError, fromUnknown, type RegistrationError } from "@/lib/registration-errors"
 import { isRegistrationPaused, registrationPausedReason } from "@/lib/registration-status"
 import { signSuccessToken, signAccessCodePayload } from "@/lib/success-token"
+import { safeStripeMetadata } from "@/lib/stripe-metadata"
 
 const SUPPORTED_LOCALES = new Set(["en", "es"])
 const DEFAULT_LOCALE = "en"
@@ -247,30 +248,35 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
         ? "scholarship"
         : "self"
 
-  const metadata = {
+  // Full, structured recipient data lives ONLY in Payload's metadata column
+  // (no character limit). Stripe metadata gets a marker so the webhook /
+  // self-heal knows to query Payload for the real list. This avoids the
+  // 500-char-per-value Stripe metadata limit that any non-trivial number of
+  // gift recipients would otherwise blow past.
+  const giftRecipientsForPayload = validatedData.giftRecipients.map((r) => ({
+    name: r.name,
+    email: r.email || null,
+    message: r.message || null,
+  }))
+
+  const rawMetadata: Record<string, unknown> = {
     correlation_id: correlationId,
     purchase_type: recordType,
     intent: validatedData.intent,
     self_registration_quantity: selfQuantity.toString(),
     gift_quantity: giftQuantity.toString(),
     gift_unit_amount_cents: product.priceInCents.toString(),
-    gift_recipients_json: JSON.stringify(
-      validatedData.giftRecipients.map((r) => ({
-        name: r.name,
-        email: r.email || null,
-        message: r.message || null,
-      })),
-    ).slice(0, 4000),
+    gift_recipients_source: giftQuantity > 0 ? "payload_row" : "none",
     attendee_name: validatedData.name,
     attendee_state: validatedData.state || "not_attending",
     attendee_email: validatedData.email,
-    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ").slice(0, 500) || "None",
+    breakfast_tickets: selectedBreakfasts.map((bp) => bp.name).join(", ") || "None",
     breakfast_count: selectedBreakfasts.length.toString(),
     breakfast_price_version: "2026-03-26-$25",
     breakfast_ticket_price_cents: "2500",
     attribution_aa_entity: validatedAttribution?.aaEntity || "None",
     attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
-    accommodations: buyerIsAttendee ? validatedData.accommodations?.slice(0, 500) || "None" : "not_attending",
+    accommodations: buyerIsAttendee ? validatedData.accommodations || "None" : "not_attending",
     interpretation_needed: buyerIsAttendee ? validatedData.interpretationNeeded.toString() : "not_attending",
     mobility_accessibility: buyerIsAttendee ? validatedData.mobilityAccessibility.toString() : "not_attending",
     willing_to_serve: buyerIsAttendee ? validatedData.willingToServe.toString() : "not_attending",
@@ -284,7 +290,11 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
       ? validatedPolicy.understandInvestigation.toString()
       : "not_applicable",
     policy_signature_agreement: validatedPolicy ? validatedPolicy.signatureAgreement.toString() : "not_applicable",
-  } as const
+  }
+  // Payload row keeps the full untruncated payload AND the gift recipients
+  // in a dedicated key for the mint helper to read.
+  const payloadMetadata = { ...rawMetadata, gift_recipients: giftRecipientsForPayload }
+  const stripeMetadata = safeStripeMetadata(rawMetadata, { correlationId, label: "checkout.attending" })
 
   let payload: Payload
   try {
@@ -315,7 +325,7 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
           type: recordType,
           stripeSessionId: "",
           amountTotalCents: subtotalCents + processingFee,
-          metadata,
+          metadata: payloadMetadata,
           accommodations: buyerIsAttendee ? validatedData.accommodations || "" : "",
           interpretationNeeded: buyerIsAttendee && validatedData.interpretationNeeded,
           mobilityAccessibility: buyerIsAttendee && validatedData.mobilityAccessibility,
@@ -431,9 +441,15 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
               customer_creation: "always",
               line_items: lineItems,
               mode: "payment",
-              metadata: { ...metadata, registration_id: String(record.id) },
+              metadata: safeStripeMetadata(
+                { ...stripeMetadata, registration_id: String(record.id) },
+                { correlationId, label: "checkout.session.metadata" },
+              ),
               payment_intent_data: {
-                metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: "" },
+                metadata: safeStripeMetadata(
+                  { ...stripeMetadata, registration_id: String(record.id), stripeSessionId: "" },
+                  { correlationId, label: "checkout.pi.metadata" },
+                ),
                 description: piDescription,
                 // Shows on the cardholder's statement. Max 22 chars and limited
                 // character set; keep it short and brand-recognizable.
@@ -530,7 +546,10 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
       () =>
         withTimeout(
           stripe.paymentIntents.update(session.payment_intent as string, {
-            metadata: { ...metadata, registration_id: String(record.id), stripeSessionId: session.id },
+            metadata: safeStripeMetadata(
+              { ...stripeMetadata, registration_id: String(record.id), stripeSessionId: session.id },
+              { correlationId, label: "checkout.pi.backfill_metadata" },
+            ),
           }),
           PI_UPDATE_TIMEOUT_MS,
           "stripe.payment_intent.update",
@@ -566,7 +585,7 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
   const amountCents = validatedData.donationAmountCents
   const processingFee = calculateProcessingFee(amountCents)
 
-  const metadata = {
+  const rawMetadata: Record<string, unknown> = {
     correlation_id: correlationId,
     purchase_type: "donation",
     intent: "donate",
@@ -576,7 +595,9 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
     donation_amount_display: formatUsdFromCents(amountCents),
     attribution_aa_entity: validatedAttribution?.aaEntity || "None",
     attribution_reserved_for_person: validatedAttribution?.reservedForPerson || "None",
-  } as const
+  }
+  const payloadMetadata = rawMetadata
+  const stripeMetadata = safeStripeMetadata(rawMetadata, { correlationId, label: "checkout.donation" })
 
   let payload: Payload
   try {
@@ -605,7 +626,7 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
           status: "pending",
           amountCents,
           amountTotalCents: amountCents + processingFee,
-          metadata,
+          metadata: payloadMetadata,
           attributionAaEntity: validatedAttribution?.aaEntity || undefined,
         },
       }),
@@ -672,9 +693,15 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
               customer_creation: "always",
               line_items: donationLineItems,
               mode: "payment",
-              metadata: { ...metadata, donation_id: String(record.id) },
+              metadata: safeStripeMetadata(
+                { ...stripeMetadata, donation_id: String(record.id) },
+                { correlationId, label: "donation.session.metadata" },
+              ),
               payment_intent_data: {
-                metadata: { ...metadata, donation_id: String(record.id) },
+                metadata: safeStripeMetadata(
+                  { ...stripeMetadata, donation_id: String(record.id) },
+                  { correlationId, label: "donation.pi.metadata" },
+                ),
                 description: `NECYPAA XXXVI · General Fund donation · ${formatUsdFromCents(amountCents)} from ${validatedData.email}`,
                 statement_descriptor_suffix: "NECYPAA DONATE",
                 receipt_email: validatedData.email,
@@ -776,7 +803,7 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
   const processingFee = calculateProcessingFee(subtotalCents)
   const deadline = CONVENTION_START_DATE
 
-  const metadata = {
+  const rawMetadata: Record<string, unknown> = {
     correlation_id: correlationId,
     purchase_type: "group",
     intent: "group",
@@ -787,7 +814,9 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
     contact_email: validatedData.email,
     submission_deadline: deadline,
     pricing_source: pricing.source,
-  } as const
+  }
+  const payloadMetadata = rawMetadata
+  const stripeMetadata = safeStripeMetadata(rawMetadata, { correlationId, label: "checkout.group" })
 
   let payload: Payload
   try {
@@ -819,7 +848,7 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
           status: "pending",
           submissionDeadline: deadline,
           amountTotalCents: subtotalCents + processingFee,
-          metadata,
+          metadata: payloadMetadata,
         },
       }),
       PAYLOAD_TIMEOUT_MS,
@@ -885,9 +914,15 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
               customer_creation: "always",
               line_items: groupLineItems,
               mode: "payment",
-              metadata: { ...metadata, group_registration_id: String(record.id) },
+              metadata: safeStripeMetadata(
+                { ...stripeMetadata, group_registration_id: String(record.id) },
+                { correlationId, label: "group.session.metadata" },
+              ),
               payment_intent_data: {
-                metadata: { ...metadata, group_registration_id: String(record.id) },
+                metadata: safeStripeMetadata(
+                  { ...stripeMetadata, group_registration_id: String(record.id) },
+                  { correlationId, label: "group.pi.metadata" },
+                ),
                 description: `NECYPAA XXXVI · Group ${quantity} seats · ${validatedData.groupName} · ${validatedData.email}`.slice(
                   0,
                   250,
@@ -1265,12 +1300,15 @@ export async function submitAccessCodeRegistration(
         STRIPE_TIMEOUT_MS,
         "stripe.customers.list",
       )
-      const metadata = {
-        correlation_id: correlationId,
-        access_grant_id: result.grantId,
-        access_grant_type: result.grantType,
-        access_code_masked: maskAccessCode(validatedData.accessCode),
-      }
+      const metadata = safeStripeMetadata(
+        {
+          correlation_id: correlationId,
+          access_grant_id: result.grantId,
+          access_grant_type: result.grantType,
+          access_code_masked: maskAccessCode(validatedData.accessCode),
+        },
+        { correlationId, label: "accesscode.customer.metadata" },
+      )
       if (existingCustomers.data.length > 0) {
         await withTimeout(
           stripe.customers.update(existingCustomers.data[0].id, { name: validatedData.name, metadata }),

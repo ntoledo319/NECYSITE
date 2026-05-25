@@ -18,11 +18,19 @@ interface RecipientFromMetadata {
 
 /**
  * After a gift purchase is confirmed paid by Stripe, mint one gift-code row
- * per recipient listed in session metadata, then dispatch the claim email.
+ * per recipient, then dispatch the claim email.
  *
- * Idempotency: if rows already exist for this stripeSessionId, we skip
- * minting (a webhook replay or the success-page self-heal would otherwise
- * double-mint).
+ * Recipients are read from the parent `registrations` row's metadata
+ * (`metadata.gift_recipients`), where they are stored at action-time with
+ * no truncation. Stripe metadata is NOT used as the recipient source
+ * because Stripe enforces a 500-char-per-value cap that any non-trivial
+ * recipient list would blow past. The session is still used to learn
+ * sponsor name/email and other display-only fields.
+ *
+ * Concurrency: a `processed-webhook-events` row keyed on
+ * `mint-<stripeSessionId>` acts as a single-shot lock. Two concurrent
+ * webhooks (or webhook + self-heal) racing on the same session means one
+ * wins the lock and mints, the other no-ops cleanly.
  */
 export async function mintGiftCodesForPaidSession(args: {
   payload: Payload
@@ -31,10 +39,44 @@ export async function mintGiftCodesForPaidSession(args: {
 }): Promise<void> {
   const { payload, session, correlationId } = args
 
-  const recipients = parseRecipients(session.metadata?.gift_recipients_json)
-  if (recipients.length === 0) return
+  // Claim the mint lock first. If another worker already inserted this
+  // marker, we lose the race and return silently.
+  const lockEventId = `mint-${session.id}`
+  try {
+    await withTimeout(
+      payload.create({
+        collection: "processed-webhook-events",
+        data: {
+          eventId: lockEventId,
+          eventType: "internal.gift_mint",
+          correlationId,
+        },
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "gift.mint_lock",
+    )
+  } catch (err) {
+    // Almost certainly a unique-constraint violation — another worker beat
+    // us. That's the desired behavior; bail out cleanly.
+    log.info({
+      event: "gift.mint_lock_lost",
+      correlationId,
+      sessionId: session.id,
+      reason: err instanceof Error ? err.message : String(err),
+    })
+    return
+  }
 
-  // Idempotency: have we already minted for this session?
+  // Resolve recipients from the parent registration row (full, untruncated).
+  const recipients = await resolveRecipients(payload, session, correlationId)
+  if (recipients.length === 0) {
+    log.info({ event: "gift.mint_no_recipients", correlationId, sessionId: session.id })
+    return
+  }
+
+  // Belt-and-suspenders: even with the lock, do an existence check before
+  // creating rows. Covers the unlikely case where a previous attempt
+  // partial-minted and a different worker is retrying via reconciliation.
   try {
     const existing = await withTimeout(
       payload.find({
@@ -56,7 +98,7 @@ export async function mintGiftCodesForPaidSession(args: {
     }
   } catch (err) {
     log.warn({ event: "gift.mint_idempotency_check_failed", correlationId, ...summarizeError(err) })
-    // Fall through — minting anyway is safer than skipping.
+    // Fall through — minting is safer than skipping.
   }
 
   const sponsorName = stringFromMeta(session.metadata, "attendee_name") || "A friend"
@@ -139,8 +181,75 @@ export async function mintGiftCodesForPaidSession(args: {
   }
 }
 
-function parseRecipients(raw: unknown): RecipientFromMetadata[] {
-  if (typeof raw !== "string") return []
+/**
+ * Look up the parent registration row by stripeSessionId and return its
+ * recipient list. Falls back to parsing the legacy `gift_recipients_json`
+ * Stripe metadata key if the Payload row isn't found — this covers
+ * in-flight sessions that pre-date the safer metadata strategy.
+ */
+async function resolveRecipients(
+  payload: Payload,
+  session: Stripe.Checkout.Session,
+  correlationId: CorrelationId,
+): Promise<RecipientFromMetadata[]> {
+  // Preferred path: read from the parent registration row's metadata.
+  try {
+    const found = await withTimeout(
+      payload.find({
+        collection: "registrations",
+        where: { stripeSessionId: { equals: session.id } },
+        limit: 1,
+      }),
+      PAYLOAD_TIMEOUT_MS,
+      "gift.resolve_recipients.find_registration",
+    )
+    if (found.docs.length > 0) {
+      const md = (found.docs[0] as { metadata?: Record<string, unknown> | null }).metadata
+      if (md && Array.isArray(md.gift_recipients)) {
+        const parsed = (md.gift_recipients as unknown[])
+          .map((r) => {
+            if (!r || typeof r !== "object") return null
+            const obj = r as { name?: unknown; email?: unknown; message?: unknown }
+            const name = typeof obj.name === "string" ? obj.name.trim() : ""
+            const email = typeof obj.email === "string" ? obj.email.trim() : null
+            const message = typeof obj.message === "string" ? obj.message.trim() : null
+            if (!name) return null
+            return {
+              name,
+              email: email && email.length > 0 ? email : null,
+              message: message && message.length > 0 ? message : null,
+            }
+          })
+          .filter((v): v is RecipientFromMetadata => v !== null)
+          .slice(0, 20)
+        if (parsed.length > 0) return parsed
+      }
+    }
+  } catch (err) {
+    log.warn({
+      event: "gift.resolve_recipients_payload_failed",
+      correlationId,
+      sessionId: session.id,
+      ...summarizeError(err),
+    })
+  }
+
+  // Back-compat fallback: legacy in-flight sessions stored recipients in
+  // Stripe metadata. The JSON may be truncated; we accept what we can parse.
+  const legacy = parseLegacyJson(stringFromMeta(session.metadata, "gift_recipients_json"))
+  if (legacy.length > 0) {
+    log.info({
+      event: "gift.resolve_recipients_legacy_path",
+      correlationId,
+      sessionId: session.id,
+      recipientCount: legacy.length,
+    })
+  }
+  return legacy
+}
+
+function parseLegacyJson(raw: string): RecipientFromMetadata[] {
+  if (!raw) return []
   try {
     const parsed = JSON.parse(raw) as unknown
     if (!Array.isArray(parsed)) return []
