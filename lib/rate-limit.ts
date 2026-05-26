@@ -74,13 +74,31 @@ const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN
 const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null
 
 // Redis is the only distributed limiter; in-memory is per-instance and won't survive multi-instance deploys.
-// Production must have Redis. Without it we fail closed so an attacker can't bypass via instance hopping.
 const isProduction = process.env.NODE_ENV === "production"
 
-export async function rateLimit(key: string, options: RateLimitOptions): Promise<RateLimitResult> {
+interface RateLimitInternalOptions extends RateLimitOptions {
+  /**
+   * When Redis is unavailable (not configured, or errors during the call),
+   * default behavior is to FAIL CLOSED — return a "rate limited" verdict
+   * so an attacker can't bypass by spawning instances. Set `failOpen: true`
+   * for paths where blocking a legitimate user is worse than letting an
+   * attacker through, like the paid checkout flow — there, Stripe's own
+   * rate limits + the typed-error layer absorb abuse, but a real customer
+   * being shown "Too many checkout attempts" on their first try is fatal.
+   */
+  failOpen?: boolean
+}
+
+export async function rateLimit(key: string, options: RateLimitInternalOptions): Promise<RateLimitResult> {
   if (!redis) {
     if (isProduction) {
-      console.error("[rate-limit] Redis is not configured in production — failing closed")
+      if (options.failOpen) {
+        // Loud one-time-per-process warning so the team sees it. The first
+        // failure path also writes a structured log via the caller.
+        console.error("[rate-limit] CRITICAL: Redis not configured in production — failing open for key:", key)
+        return { success: true, remaining: options.limit, resetMs: options.windowMs }
+      }
+      console.error("[rate-limit] Redis is not configured in production — failing closed for key:", key)
       return { success: false, remaining: 0, resetMs: options.windowMs }
     }
     return rateLimitInMemory(key, options)
@@ -104,13 +122,17 @@ export async function rateLimit(key: string, options: RateLimitOptions): Promise
   try {
     results = await pipeline.exec()
   } catch (err) {
-    console.error("[rate-limit] Redis pipeline failed — failing closed:", err)
-    return { success: false, remaining: 0, resetMs: windowMs }
+    console.error(`[rate-limit] Redis pipeline failed for key ${key} — failing ${options.failOpen ? "open" : "closed"}:`, err)
+    return options.failOpen
+      ? { success: true, remaining: options.limit, resetMs: windowMs }
+      : { success: false, remaining: 0, resetMs: windowMs }
   }
 
   if (!Array.isArray(results) || typeof results[1] !== "number") {
-    console.error("[rate-limit] Unexpected Redis response shape — failing closed")
-    return { success: false, remaining: 0, resetMs: windowMs }
+    console.error(`[rate-limit] Unexpected Redis response shape for key ${key} — failing ${options.failOpen ? "open" : "closed"}`)
+    return options.failOpen
+      ? { success: true, remaining: options.limit, resetMs: windowMs }
+      : { success: false, remaining: 0, resetMs: windowMs }
   }
 
   const count = results[1]
@@ -179,6 +201,11 @@ export async function rateLimitCheckout(parts: { ip: string; email: string }): P
   return rateLimit(composeKey("checkout", { ip: parts.ip, subject: parts.email }), {
     limit: 5,
     windowMs: 60_000,
+    // Paid checkout fails OPEN if Redis is broken — Stripe has its own
+    // rate limits and locking a real customer out of their registration
+    // is worse than letting bots try a few times. BotID is the proper
+    // bot defense for this path.
+    failOpen: true,
   })
 }
 
@@ -212,5 +239,5 @@ export async function rateLimitReadOnly(key: string, options: RateLimitOptions):
   if (!redis) {
     return { success: true, remaining: options.limit, resetMs: options.windowMs }
   }
-  return rateLimit(key, options)
+  return rateLimit(key, { ...options, failOpen: true })
 }
