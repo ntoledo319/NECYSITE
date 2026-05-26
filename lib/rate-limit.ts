@@ -68,8 +68,12 @@ async function rateLimitInMemory(key: string, options: RateLimitOptions): Promis
   }
 }
 
-const redisUrl = process.env.UPSTASH_REDIS_REST_URL
-const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN
+// The Vercel Marketplace Upstash integration provisions env vars under the
+// KV_REST_API_* prefix (Vercel KV's historical naming). Direct Upstash signups
+// give you UPSTASH_REDIS_REST_*. We accept either so the same code works
+// regardless of how Redis was added to the project.
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN
 
 const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null
 
