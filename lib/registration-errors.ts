@@ -148,6 +148,11 @@ export function buildError(code: RegistrationErrorCode, opts: BuildOptions): Reg
 /**
  * Map an unknown thrown value to a RegistrationError. Use as the catch-all
  * in server actions so the UI never sees a bare Error.
+ *
+ * Where a Stripe-side message is available, we surface it in `userMessage`
+ * appended to the friendly template. This gives the user (and especially
+ * the support inbox) the actual diagnostic instead of a generic "something
+ * went wrong" — far easier to triage.
  */
 export function fromUnknown(err: unknown, correlationId: CorrelationId): RegistrationError {
   if (typeof err === "object" && err !== null && "code" in err && typeof (err as { code: unknown }).code === "string") {
@@ -158,16 +163,45 @@ export function fromUnknown(err: unknown, correlationId: CorrelationId): Registr
   }
   // Stripe errors carry `type` like 'StripeConnectionError' / 'StripeAPIError' / 'StripeInvalidRequestError'
   if (typeof err === "object" && err !== null && "type" in err) {
-    const t = (err as { type: unknown }).type
-    if (t === "StripeConnectionError" || t === "StripeAPIError") {
-      return buildError("STRIPE_DOWN", { correlationId })
+    const e = err as { type?: unknown; message?: unknown; code?: unknown; param?: unknown; decline_code?: unknown }
+    const stripeMessage = typeof e.message === "string" ? e.message : ""
+    const stripeCode = typeof e.code === "string" ? e.code : ""
+    const stripeParam = typeof e.param === "string" ? e.param : ""
+    const detail = [stripeCode, stripeParam, stripeMessage].filter(Boolean).join(" — ").slice(0, 280)
+    const ref = ` [ref ${correlationId}${detail ? ` / ${detail}` : ""}]`
+
+    if (e.type === "StripeConnectionError" || e.type === "StripeAPIError") {
+      return buildError("STRIPE_DOWN", {
+        correlationId,
+        userMessage: `${MESSAGES.STRIPE_DOWN.message}${ref}`,
+      })
     }
-    if (t === "StripeInvalidRequestError") {
-      return buildError("STRIPE_INVALID_REQUEST", { correlationId })
+    if (e.type === "StripeInvalidRequestError") {
+      return buildError("STRIPE_INVALID_REQUEST", {
+        correlationId,
+        userMessage: `${MESSAGES.STRIPE_INVALID_REQUEST.message}${ref}`,
+      })
+    }
+    if (e.type === "StripeAuthenticationError") {
+      return buildError("CONFIG_MISSING", {
+        correlationId,
+        userMessage: `${MESSAGES.CONFIG_MISSING.message}${ref}`,
+      })
+    }
+    if (e.type === "StripeRateLimitError") {
+      return buildError("RATE_LIMITED", {
+        correlationId,
+        userMessage: `Stripe rate-limited the request. Wait a moment and try again.${ref}`,
+      })
     }
   }
   if (err instanceof Error && err.name === "TimeoutError") {
     return buildError("STRIPE_TIMEOUT", { correlationId, userMessage: err.message })
   }
-  return buildError("UNKNOWN", { correlationId })
+  return buildError("UNKNOWN", {
+    correlationId,
+    userMessage: err instanceof Error && err.message
+      ? `${MESSAGES.UNKNOWN.message} [ref ${correlationId} / ${err.message.slice(0, 200)}]`
+      : undefined,
+  })
 }

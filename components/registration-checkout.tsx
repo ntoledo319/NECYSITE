@@ -53,9 +53,23 @@ export default function RegistrationCheckout({
   const [isProceeding, setIsProceeding] = useState(false)
 
   const canAddBreakfast = isAttendee
+  // Overlay live pricing onto the static catalog so the order summary
+  // reflects whatever's currently in Payload — server still computes the
+  // canonical charge from getLivePricing() at session creation time.
+  const livePriceFor = (id: string): number => {
+    if (id === "breakfast-friday") return pricing.breakfastFridayCents
+    if (id === "breakfast-saturday") return pricing.breakfastSaturdayCents
+    if (id === "breakfast-sunday") return pricing.breakfastSundayCents
+    return 0
+  }
+  const liveBreakfastProducts = useMemo(
+    () => BREAKFAST_PRODUCTS.map((bp) => ({ ...bp, priceInCents: livePriceFor(bp.id) || bp.priceInCents })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- depends on individual price values
+    [pricing.breakfastFridayCents, pricing.breakfastSaturdayCents, pricing.breakfastSundayCents],
+  )
   const selectedBreakfasts = useMemo(
-    () => (canAddBreakfast ? BREAKFAST_PRODUCTS.filter((bp) => breakfastSelections[bp.id]) : []),
-    [breakfastSelections, canAddBreakfast],
+    () => (canAddBreakfast ? liveBreakfastProducts.filter((bp) => breakfastSelections[bp.id]) : []),
+    [breakfastSelections, canAddBreakfast, liveBreakfastProducts],
   )
   const breakfastTotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
 

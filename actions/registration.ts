@@ -418,6 +418,39 @@ async function runAttendingOrGiftCheckout(args: AttendingArgs): Promise<StartChe
     quantity: 1,
   })
 
+  // Pre-flight: nothing reaches Stripe with malformed line items. Stripe
+  // rejects sessions with empty line_items, with any unit_amount <= 0, or
+  // with non-integer cents. Catch it here so we return a clean error to
+  // the user instead of a 400 from Stripe.
+  const lineItemIssue = validateLineItems(lineItems)
+  if (lineItemIssue) {
+    log.error({
+      event: "checkout.line_items_invalid",
+      correlationId,
+      registrationId: record.id,
+      reason: lineItemIssue,
+    })
+    await dlqRegistrationFailure({
+      correlationId,
+      stage: "stripe.session.create",
+      severity: "error",
+      error: new Error(`Invalid line items: ${lineItemIssue}`),
+      email: validatedData.email,
+      registrationId: record.id,
+    })
+    await safeAsync(
+      () =>
+        withTimeout(
+          payload.delete({ collection: "registrations", id: record.id }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.delete:invalid_lineitems",
+        ),
+      undefined,
+      { correlationId, label: "payload.delete:invalid_lineitems", severity: "warn" },
+    )
+    return { ok: false, error: buildError("STRIPE_INVALID_REQUEST", { correlationId }) }
+  }
+
   const piDescription = buildPaymentIntentDescription({
     intent: validatedData.intent,
     selfQuantity,
@@ -679,6 +712,16 @@ async function runDonationCheckout(args: DonationArgs): Promise<StartCheckoutRes
       quantity: 1,
     },
   ]
+  const donationLineItemIssue = validateLineItems(donationLineItems)
+  if (donationLineItemIssue) {
+    log.error({ event: "donation.line_items_invalid", correlationId, donationId: record.id, reason: donationLineItemIssue })
+    await safeAsync(
+      () => withTimeout(payload.delete({ collection: "donations", id: record.id }), PAYLOAD_TIMEOUT_MS, "payload.delete:invalid_donation"),
+      undefined,
+      { correlationId, label: "payload.delete:invalid_donation", severity: "warn" },
+    )
+    return { ok: false, error: buildError("STRIPE_INVALID_REQUEST", { correlationId }) }
+  }
 
   let session: Stripe.Checkout.Session
   try {
@@ -900,6 +943,21 @@ async function runGroupCheckout(args: GroupArgs): Promise<StartCheckoutResult> {
       quantity: 1,
     },
   ]
+  const groupLineItemIssue = validateLineItems(groupLineItems)
+  if (groupLineItemIssue) {
+    log.error({ event: "group.line_items_invalid", correlationId, groupRegistrationId: record.id, reason: groupLineItemIssue })
+    await safeAsync(
+      () =>
+        withTimeout(
+          payload.delete({ collection: "group-registrations", id: record.id }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.delete:invalid_group",
+        ),
+      undefined,
+      { correlationId, label: "payload.delete:invalid_group", severity: "warn" },
+    )
+    return { ok: false, error: buildError("STRIPE_INVALID_REQUEST", { correlationId }) }
+  }
 
   let session: Stripe.Checkout.Session
   try {
@@ -1364,6 +1422,40 @@ interface PiDescriptionArgs {
  * up everywhere in the dashboard ("Recent payments", refund views, etc).
  * Capped at ~250 chars to stay well inside Stripe's 1000-char limit.
  */
+/**
+ * Pre-flight validator for Stripe Checkout line items. Returns a string
+ * describing the issue, or null if the list is valid. Stripe rejects the
+ * entire session create on any malformed line item; we'd rather fail
+ * loudly here than get a 400 with a generic error message from Stripe.
+ */
+function validateLineItems(items: Stripe.Checkout.SessionCreateParams.LineItem[]): string | null {
+  if (!Array.isArray(items) || items.length === 0) return "no line items"
+  for (let i = 0; i < items.length; i++) {
+    const li = items[i]
+    if (!li || typeof li !== "object") return `line item ${i} is not an object`
+    const qty = li.quantity
+    if (typeof qty !== "number" || qty < 1 || !Number.isInteger(qty)) {
+      return `line item ${i} quantity invalid: ${qty}`
+    }
+    const pd = li.price_data
+    if (!pd) return `line item ${i} missing price_data`
+    if (pd.currency !== "usd") return `line item ${i} currency ${pd.currency} not supported`
+    const amount = pd.unit_amount
+    if (typeof amount !== "number" || amount <= 0 || !Number.isInteger(amount)) {
+      return `line item ${i} unit_amount invalid: ${amount}`
+    }
+    // Either product or product_data must be set, not both.
+    const hasProduct = typeof pd.product === "string" && pd.product.length > 0
+    const hasProductData = typeof pd.product_data === "object" && pd.product_data != null
+    if (!hasProduct && !hasProductData) return `line item ${i} missing product / product_data`
+    if (hasProduct && hasProductData) return `line item ${i} has both product and product_data`
+    if (hasProductData && typeof pd.product_data?.name !== "string") {
+      return `line item ${i} product_data.name missing`
+    }
+  }
+  return null
+}
+
 function buildPaymentIntentDescription(args: PiDescriptionArgs): string {
   const parts: string[] = ["NECYPAA XXXVI"]
   if (args.intent === "self") parts.push("Registration")

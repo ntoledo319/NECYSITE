@@ -21,6 +21,27 @@ import { isRegistrationPaused, registrationPausedReason } from "@/lib/registrati
 import { signSuccessToken } from "@/lib/success-token"
 import { safeStripeMetadata } from "@/lib/stripe-metadata"
 
+/**
+ * Pre-flight line-item validation, mirroring the helper in
+ * actions/registration.ts. Kept inline rather than shared to avoid pulling
+ * in extra cross-file deps for a single-call site.
+ */
+function validateBreakfastLineItems(items: Stripe.Checkout.SessionCreateParams.LineItem[]): string | null {
+  if (!Array.isArray(items) || items.length === 0) return "no line items"
+  for (let i = 0; i < items.length; i++) {
+    const li = items[i]
+    if (!li || typeof li !== "object") return `line item ${i} is not an object`
+    if (typeof li.quantity !== "number" || li.quantity < 1) return `line item ${i} quantity invalid`
+    const pd = li.price_data
+    if (!pd) return `line item ${i} missing price_data`
+    if (typeof pd.unit_amount !== "number" || pd.unit_amount <= 0) {
+      return `line item ${i} unit_amount invalid: ${pd.unit_amount}`
+    }
+    if (!pd.product && !pd.product_data) return `line item ${i} missing product reference`
+  }
+  return null
+}
+
 const SUPPORTED_LOCALES = new Set(["en", "es"])
 const DEFAULT_LOCALE = "en"
 const SUCCESS_COOKIE = "necypaa_checkout_token"
@@ -241,6 +262,24 @@ export async function startBreakfastCheckout(
     })),
     quantity: 1,
   })
+
+  // Same pre-flight as registration.ts — Stripe rejects malformed line items
+  // with a generic 400; we'd rather catch obvious errors here.
+  const breakfastLineItemIssue = validateBreakfastLineItems(breakfastLineItems)
+  if (breakfastLineItemIssue) {
+    log.error({ event: "breakfast.line_items_invalid", correlationId, registrationId: record.id, reason: breakfastLineItemIssue })
+    await safeAsync(
+      () =>
+        withTimeout(
+          payload.delete({ collection: "registrations", id: record.id }),
+          PAYLOAD_TIMEOUT_MS,
+          "payload.delete:invalid_breakfast",
+        ),
+      undefined,
+      { correlationId, label: "payload.delete:invalid_breakfast", severity: "warn" },
+    )
+    return { ok: false, error: buildError("STRIPE_INVALID_REQUEST", { correlationId }) }
+  }
 
   let session: Stripe.Checkout.Session
   try {
