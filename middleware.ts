@@ -16,14 +16,39 @@ function getIssuerOrigin(): string {
 
 function buildCsp(nonce: string): string {
   const issuerOrigin = getIssuerOrigin()
+  // Next.js dev mode uses eval() for React Fast Refresh / HMR. We allow
+  // 'unsafe-eval' ONLY when NODE_ENV is "development"; production builds
+  // never include it. Same with the dev-server WebSocket connection
+  // (`ws:`) that's needed for HMR.
+  const isDev = process.env.NODE_ENV === "development"
+  const scriptSrc = [
+    "script-src",
+    "'self'",
+    `'nonce-${nonce}'`,
+    "'strict-dynamic'",
+    ...(isDev ? ["'unsafe-eval'"] : []),
+    "https://js.stripe.com",
+    "https://va.vercel-scripts.com",
+    "https://www.googletagmanager.com",
+  ].join(" ")
+  const connectSrc = [
+    "connect-src",
+    "'self'",
+    "https://api.stripe.com",
+    "https://va.vercel-scripts.com",
+    "https://vitals.vercel-insights.com",
+    "https://www.google-analytics.com",
+    ...(isDev ? ["ws:", "wss:"] : []),
+    ...(issuerOrigin ? [issuerOrigin] : []),
+  ].join(" ")
   return [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://js.stripe.com https://va.vercel-scripts.com https://www.googletagmanager.com`,
+    scriptSrc,
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self'",
     "img-src 'self' data: blob: https://*.stripe.com",
     "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
-    `connect-src 'self' https://api.stripe.com https://va.vercel-scripts.com https://vitals.vercel-insights.com https://www.google-analytics.com${issuerOrigin ? " " + issuerOrigin : ""}`,
+    connectSrc,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",

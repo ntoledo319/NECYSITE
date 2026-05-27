@@ -55,16 +55,11 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URI || "file:./payload.db",
     },
-    // Auto-sync schema on app boot via Drizzle's `db push`. The project has
-    // no migration files (`/migrations` doesn't exist and no `payload
-    // migrate` script in package.json), so without this, every schema
-    // addition lands in code but never reaches the production Turso DB
-    // and the app errors out on the new columns. All schema changes in
-    // this branch are additive (new tables, new optional columns, new
-    // unique indexes on empty collections), so push is safe — but if a
-    // destructive change is ever introduced (renames, type changes,
-    // dropped columns), pair the change with a proper migration first.
-    push: true,
+    // Schema is owned by the database. Drizzle's `push: true` is intentionally
+    // off so cold starts don't race CREATE INDEX statements against an
+    // already-synced Turso DB. Apply future schema changes by running
+    // `pnpm tsx scripts/push-schema.mts` locally against staging/prod or by
+    // generating proper migrations — never re-enable push in production code.
   }),
   editor: lexicalEditor(),
   typescript: {
