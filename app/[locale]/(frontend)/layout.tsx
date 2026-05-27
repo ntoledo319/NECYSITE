@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Source_Serif_4, Playfair_Display, Cormorant_Garamond } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
+import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import dynamic from "next/dynamic"
 import { routing } from "@/i18n/routing"
@@ -101,15 +102,16 @@ export default async function RootLayout({
   }
 
   const messages = await getMessages()
+  const nonce = (await headers()).get("x-nonce") ?? undefined
 
   return (
     <html lang={locale}>
       <head>
         {/* Applies a11y settings before first paint — eliminates FOUC on color-mode / font-size */}
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var s=JSON.parse(localStorage.getItem('necypaa-a11y-settings')||'{}');var r=document.documentElement;var m=s.colorMode||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');r.setAttribute('data-color-mode',m);r.style.colorScheme=m;if(s.fontSize&&s.fontSize!==1)r.style.fontSize=(s.fontSize*100)+'%';if(s.highContrast)r.classList.add('a11y-high-contrast');if(s.dyslexiaFont)r.classList.add('a11y-dyslexia-font');if(s.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('a11y-reduce-motion');if(s.grayscale)r.classList.add('a11y-grayscale');}catch(e){}})();` }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: `(function(){try{var s=JSON.parse(localStorage.getItem('necypaa-a11y-settings')||'{}');var r=document.documentElement;var m=s.colorMode||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');r.setAttribute('data-color-mode',m);r.style.colorScheme=m;if(s.fontSize&&s.fontSize!==1)r.style.fontSize=(s.fontSize*100)+'%';if(s.highContrast)r.classList.add('a11y-high-contrast');if(s.dyslexiaFont)r.classList.add('a11y-dyslexia-font');if(s.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('a11y-reduce-motion');if(s.grayscale)r.classList.add('a11y-grayscale');}catch(e){}})();` }} />
         <meta name="color-scheme" content="light dark" />
         <link rel="alternate" type="application/rss+xml" title="NECYPAA XXXVI Blog" href="/feed.xml" />
-        <GoogleAnalytics />
+        <GoogleAnalytics nonce={nonce} />
       </head>
       <body className={`${sourceSerif.variable} ${playfair.variable} ${cormorant.variable} ${sourceSerif.className}`}>
         <Analytics />

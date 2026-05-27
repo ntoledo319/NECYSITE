@@ -40,17 +40,17 @@ export default function CTASection() {
               </div>
               <div className="relative z-10">
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--nec-purple)" }}>
-                  Pre-Registration Open
+                  Registration
                 </span>
-                <h3 className="mt-1 text-2xl font-black text-white md:text-3xl">Secure Your Spot</h3>
+                <h3 className="mt-1 text-2xl font-black text-white md:text-3xl">Come to NECYPAA XXXVI</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--nec-muted)]">
-                  Pre-registration is open for NECYPAA XXXVI — Dec 31, 2026 through Jan 3, 2027 at the Hartford Marriott
-                  Downtown. Lock in your spot before the holiday weekend.
+                  Dec 31, 2026 – Jan 3, 2027 at the Hartford Marriott Downtown. Registration is open. If money or travel
+                  is in the way, reach out — we&apos;ll figure it out.
                 </p>
               </div>
               <MagneticButton className="relative z-10 mt-1 self-start" strength={0.2}>
                 <Link href="/register" className="btn-primary">
-                  Register Now <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  Register <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </MagneticButton>
             </div>
@@ -76,11 +76,11 @@ export default function CTASection() {
                 </span>
                 <h3 className="mt-1 text-2xl font-black text-white md:text-3xl">Hartford Marriott Downtown</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--nec-muted)]">
-                  We have a room block at the Marriott with a special NECYPAA group rate. Rooms go fast around New
-                  Year&apos;s Eve — reserve yours early.
+                  We&apos;ve held a room block at the Marriott with a NECYPAA group rate. Hartford has other affordable
+                  options too — staying at the hotel is convenient, not required.
                 </p>
                 <p className="mt-3 text-sm font-bold italic" style={{ color: "var(--nec-gold)" }}>
-                  <span aria-hidden="true">✦</span> Special NECYPAA group rate available
+                  <span aria-hidden="true">✦</span> NECYPAA group rate available
                 </p>
               </div>
               <MagneticButton className="relative z-10 mt-1 self-start" strength={0.2}>

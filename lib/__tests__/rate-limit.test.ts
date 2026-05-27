@@ -1,5 +1,31 @@
 import { describe, it, expect } from "vitest"
-import { rateLimit } from "../rate-limit"
+import { rateLimit, extractClientIp, hashIdentifier } from "../rate-limit"
+
+describe("extractClientIp", () => {
+  it("prefers the first entry in x-forwarded-for", () => {
+    const headers = new Headers({ "x-forwarded-for": "203.0.113.5, 70.0.0.1" })
+    expect(extractClientIp(headers)).toBe("203.0.113.5")
+  })
+
+  it("falls back to x-real-ip when x-forwarded-for is absent", () => {
+    const headers = new Headers({ "x-real-ip": "198.51.100.42" })
+    expect(extractClientIp(headers)).toBe("198.51.100.42")
+  })
+
+  it("returns 'unknown' when no proxy header is present", () => {
+    expect(extractClientIp(new Headers())).toBe("unknown")
+  })
+})
+
+describe("hashIdentifier", () => {
+  it("is stable and salted", () => {
+    const a = hashIdentifier("203.0.113.5")
+    const b = hashIdentifier("203.0.113.5")
+    expect(a).toBe(b)
+    expect(a).not.toBe("203.0.113.5")
+    expect(a.length).toBe(16)
+  })
+})
 
 describe("rateLimit", () => {
   it("allows requests under the limit", async () => {

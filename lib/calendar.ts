@@ -20,11 +20,24 @@ function formatGCalDate(date: Date): string {
 }
 
 export function getGoogleCalendarUrl(event: EventData): string | null {
-  const startTime = event.schedule.length > 0 ? event.schedule[0].time : undefined
-  const start = parseEventDate(event.date, startTime)
+  let start: Date | null = null
+  if (event.startsAt) {
+    const candidate = new Date(event.startsAt)
+    if (!isNaN(candidate.getTime())) start = candidate
+  }
+  if (!start) {
+    const startTime = event.schedule.length > 0 ? event.schedule[0].time : undefined
+    start = parseEventDate(event.date, startTime)
+  }
   if (!start) return null
 
-  const end = new Date(start.getTime() + 3 * 60 * 60 * 1000)
+  let end: Date
+  if (event.endsAt) {
+    const candidate = new Date(event.endsAt)
+    end = isNaN(candidate.getTime()) ? new Date(start.getTime() + 3 * 60 * 60 * 1000) : candidate
+  } else {
+    end = new Date(start.getTime() + 3 * 60 * 60 * 1000)
+  }
 
   const params = new URLSearchParams({
     action: "TEMPLATE",

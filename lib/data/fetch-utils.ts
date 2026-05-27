@@ -94,34 +94,43 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefi
   return posts.find((p) => p.slug === slug)
 }
 
-function isValidEventDate(dateString: string): boolean {
-  // Simple validation to ensure date string isn't completely mangled.
-  return dateString.length > 5
+function getEventStartMs(event: EventData): number | null {
+  if (!event.startsAt) return null
+  const ms = new Date(event.startsAt).getTime()
+  return Number.isFinite(ms) ? ms : null
 }
 
-function isPastEvent(dateString: string): boolean {
-  // Try to parse the year out of the human-readable string (e.g. "April 25th, 2026")
-  const match = dateString.match(/\b(20\d{2})\b/)
-  if (match) {
-    const year = parseInt(match[1], 10)
-    const currentYear = new Date().getFullYear()
-    if (year < currentYear) return true
-    if (year > currentYear) return false
+export function partitionEvents(
+  events: EventData[],
+  now: Date = new Date(),
+): { upcoming: EventData | null; past: EventData[] } {
+  const nowMs = now.getTime()
 
-    // If same year, we'd ideally parse month/day, but the string is unstructured.
-    // For robust architecture, we should add an ISO date field in the future.
+  const dated = events
+    .map((event) => ({ event, startMs: getEventStartMs(event) }))
+    .filter((entry): entry is { event: EventData; startMs: number } => entry.startMs !== null)
+
+  const upcomingList = dated
+    .filter((entry) => entry.startMs >= nowMs)
+    .sort((a, b) => a.startMs - b.startMs)
+    .map((entry) => entry.event)
+
+  const past = dated
+    .filter((entry) => entry.startMs < nowMs)
+    .sort((a, b) => b.startMs - a.startMs)
+    .map((entry) => entry.event)
+
+  return {
+    upcoming: upcomingList[0] ?? null,
+    past: [...upcomingList.slice(1), ...past],
   }
-  return false
 }
 
 export async function getEvents(): Promise<{ upcoming: EventData | null; past: EventData[] }> {
   try {
     const payload = await loadPayload()
     if (!payload) {
-      return {
-        upcoming: upcomingEvent,
-        past: pastEvents,
-      }
+      return partitionEvents([upcomingEvent, ...pastEvents])
     }
 
     const { docs } = await payload.find({
@@ -130,49 +139,40 @@ export async function getEvents(): Promise<{ upcoming: EventData | null; past: E
     })
 
     if (docs.length > 0) {
-      const mappedEvents: EventData[] = docs.map((doc: Record<string, unknown>) => {
-        const schedule = Array.isArray(doc.schedule)
-          ? doc.schedule.map((s: Record<string, unknown>) => ({ label: String(s.label), time: String(s.time) }))
-          : []
-        const details = Array.isArray(doc.details)
-          ? doc.details.map((d: Record<string, unknown>) => ({ label: String(d.label), value: String(d.value) }))
-          : []
-        const flyerImage = doc.flyerImage as Record<string, unknown> | undefined
-        return {
-          id: String(doc.id),
-          title: String(doc.title),
-          date: String(doc.date),
-          location: String(doc.location || ""),
-          schedule,
-          details,
-          description: String(doc.description || ""),
-          flyerSrc: typeof flyerImage?.url === "string" ? flyerImage.url : "/images/placeholder.jpg",
-          flyerAlt: String(doc.flyerAlt || "Event flyer"),
-        }
-      })
+      const mappedEvents: EventData[] = docs
+        .map((doc: Record<string, unknown>) => {
+          const schedule = Array.isArray(doc.schedule)
+            ? doc.schedule.map((s: Record<string, unknown>) => ({ label: String(s.label), time: String(s.time) }))
+            : []
+          const details = Array.isArray(doc.details)
+            ? doc.details.map((d: Record<string, unknown>) => ({ label: String(d.label), value: String(d.value) }))
+            : []
+          const flyerImage = doc.flyerImage as Record<string, unknown> | undefined
+          const startsAtRaw = doc.startsAt
+          const endsAtRaw = doc.endsAt
+          const startsAt = startsAtRaw ? new Date(String(startsAtRaw)).toISOString() : ""
+          const endsAt = endsAtRaw ? new Date(String(endsAtRaw)).toISOString() : undefined
+          return {
+            id: String(doc.id),
+            title: String(doc.title),
+            date: String(doc.date),
+            startsAt,
+            endsAt,
+            location: String(doc.location || ""),
+            schedule,
+            details,
+            description: String(doc.description || ""),
+            flyerSrc: typeof flyerImage?.url === "string" ? flyerImage.url : "/images/placeholder.jpg",
+            flyerAlt: String(doc.flyerAlt || "Event flyer"),
+          }
+        })
+        .filter((e: EventData) => Boolean(e.startsAt))
 
-      // Filter out invalid dates
-      const validEvents = mappedEvents.filter((e) => isValidEventDate(e.date))
-
-      // Basic heuristic: assume the one event that isn't clearly past is upcoming
-      // (This matches the site's current single-upcoming-event design).
-      const past = validEvents.filter((e) => isPastEvent(e.date))
-      const potentialUpcoming = validEvents.filter((e) => !isPastEvent(e.date))
-
-      const upcoming = potentialUpcoming.length > 0 ? potentialUpcoming[0] : null
-      const remainingPast = potentialUpcoming.slice(1) // if there are multiple, push to past for now
-
-      return {
-        upcoming,
-        past: [...past, ...remainingPast],
-      }
+      return partitionEvents(mappedEvents)
     }
   } catch (error) {
     console.error("Failed to fetch events from CMS, falling back to static:", error)
   }
 
-  return {
-    upcoming: upcomingEvent,
-    past: pastEvents,
-  }
+  return partitionEvents([upcomingEvent, ...pastEvents])
 }

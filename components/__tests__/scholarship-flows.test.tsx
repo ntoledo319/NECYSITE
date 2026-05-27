@@ -14,13 +14,16 @@ vi.mock("@/actions/registration", () => ({
   startRegistrationCheckout: mockStartRegistrationCheckout,
 }))
 
+vi.mock("next-intl", () => ({
+  useLocale: () => "en",
+}))
+
 vi.mock("@stripe/stripe-js", () => ({
   loadStripe: vi.fn(() => Promise.resolve({})),
 }))
 
 vi.mock("@stripe/react-stripe-js", async () => {
   const React = await import("react")
-
   return {
     EmbeddedCheckout: () => <div data-testid="embedded-checkout">Embedded checkout</div>,
     EmbeddedCheckoutProvider: ({
@@ -33,7 +36,6 @@ vi.mock("@stripe/react-stripe-js", async () => {
       React.useEffect(() => {
         void options.fetchClientSecret?.()
       }, [options])
-
       return <div data-testid="embedded-provider">{children}</div>
     },
   }
@@ -47,10 +49,6 @@ vi.mock("@/components/checkout/breakfast-add-ons", () => ({
   default: () => <div>Breakfast add-ons</div>,
 }))
 
-vi.mock("@/components/checkout/scholarship-attribution", () => ({
-  default: () => <div>Scholarship attribution</div>,
-}))
-
 const completePolicy: PolicyAgreements = {
   readPolicy: true,
   understandQuestions: true,
@@ -61,57 +59,60 @@ const completePolicy: PolicyAgreements = {
   signatureAgreement: true,
 }
 
-const scholarshipRegistration: RegistrationData = {
+const baseRegistration: RegistrationData = {
+  intent: "self",
   name: "Jordan Sponsor",
-  state: "Connecticut",
   email: "jordan@example.com",
+  state: "Connecticut",
+  homegroup: "Hartford YPAA",
   accommodations: "",
   interpretationNeeded: false,
   mobilityAccessibility: false,
   willingToServe: false,
-  homegroup: "Hartford YPAA",
-  isScholarship: true,
-  scholarshipRecipientName: "Casey Recipient",
-  scholarshipRecipientEmail: "casey@example.com",
+  giftRecipients: [],
+  donationAmountCents: 0,
+  groupName: "",
+  groupQuantity: 0,
   accessCode: "",
 }
 
-const selfRegistration: RegistrationData = {
-  ...scholarshipRegistration,
-  isScholarship: false,
-  scholarshipRecipientName: "",
-  scholarshipRecipientEmail: "",
+const giftOnlyRegistration: RegistrationData = {
+  ...baseRegistration,
+  intent: "gift_only",
+  state: "",
+  homegroup: "",
+  giftRecipients: [
+    { name: "Casey Recipient", email: "casey@example.com", message: "" },
+    { name: "Pat Recipient", email: "", message: "" },
+  ],
 }
 
-describe("scholarship flow integration", () => {
+const donationRegistration: RegistrationData = {
+  ...baseRegistration,
+  intent: "donate",
+  state: "",
+  homegroup: "",
+  donationAmountCents: 5000,
+}
+
+describe("registration checkout flow", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_123"
-    mockStartRegistrationCheckout.mockResolvedValue("cs_test_123")
-  })
-
-  it("lets a standard registration add and remove scholarship pricing in the paid UI", async () => {
-    render(
-      <RegistrationCheckout registrationData={selfRegistration} policyAgreements={completePolicy} onBack={() => {}} />,
-    )
-
-    expect(await screen.findByRole("button", { name: "Add Scholarship" })).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole("button", { name: "Add Scholarship" }))
-
-    expect(screen.getByText("Scholarship Pricing")).toBeInTheDocument()
-    expect(screen.getByRole("button", { name: "Remove scholarship registrations" })).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole("button", { name: "Remove scholarship registrations" }))
-
-    await waitFor(() => {
-      expect(screen.queryByText("Scholarship Pricing")).not.toBeInTheDocument()
+    mockStartRegistrationCheckout.mockResolvedValue({
+      ok: true,
+      clientSecret: "cs_test_123",
+      correlationId: "reg_test_correlation",
     })
   })
 
-  it("keeps default scholarship pricing server-synced in paid checkout", async () => {
+  it("calls the action with intent + locale for a self registration", async () => {
     render(
-      <RegistrationCheckout registrationData={scholarshipRegistration} policyAgreements={null} onBack={() => {}} />,
+      <RegistrationCheckout
+        registrationData={baseRegistration}
+        policyAgreements={completePolicy}
+        onBack={() => {}}
+      />,
     )
 
     fireEvent.click(await screen.findByRole("button", { name: /proceed to payment/i }))
@@ -119,41 +120,57 @@ describe("scholarship flow integration", () => {
     await waitFor(() => {
       expect(mockStartRegistrationCheckout).toHaveBeenCalledWith(
         "necypaa-xxxvi-registration",
-        scholarshipRegistration,
-        null,
-        1,
+        baseRegistration,
+        completePolicy,
         [],
-        { aaEntity: undefined, reservedForPerson: undefined },
         undefined,
+        "en",
       )
     })
   })
 
-  it("sends the custom scholarship amount to Stripe checkout in cents", async () => {
+  it("forwards a gift-only registration without policy agreement", async () => {
     render(
-      <RegistrationCheckout registrationData={scholarshipRegistration} policyAgreements={null} onBack={() => {}} />,
+      <RegistrationCheckout
+        registrationData={giftOnlyRegistration}
+        policyAgreements={null}
+        onBack={() => {}}
+      />,
     )
 
-    fireEvent.click(await screen.findByRole("button", { name: /use custom amount/i }))
-    fireEvent.change(screen.getByLabelText("Custom amount per scholarship"), {
-      target: { value: "55.50" },
-    })
-    fireEvent.blur(screen.getByLabelText("Custom amount per scholarship"))
-
-    expect(screen.getByText("Current scholarship total")).toBeInTheDocument()
-    expect(screen.getAllByText("$55.50").length).toBeGreaterThan(0)
-
-    fireEvent.click(screen.getByRole("button", { name: /proceed to payment/i }))
+    fireEvent.click(await screen.findByRole("button", { name: /proceed to payment/i }))
 
     await waitFor(() => {
       expect(mockStartRegistrationCheckout).toHaveBeenCalledWith(
         "necypaa-xxxvi-registration",
-        scholarshipRegistration,
+        giftOnlyRegistration,
         null,
-        1,
         [],
-        { aaEntity: undefined, reservedForPerson: undefined },
-        5550,
+        undefined,
+        "en",
+      )
+    })
+  })
+
+  it("forwards a donation with no breakfast and no policy", async () => {
+    render(
+      <RegistrationCheckout
+        registrationData={donationRegistration}
+        policyAgreements={null}
+        onBack={() => {}}
+      />,
+    )
+
+    fireEvent.click(await screen.findByRole("button", { name: /proceed to payment/i }))
+
+    await waitFor(() => {
+      expect(mockStartRegistrationCheckout).toHaveBeenCalledWith(
+        "necypaa-xxxvi-registration",
+        donationRegistration,
+        null,
+        [],
+        undefined,
+        "en",
       )
     })
   })

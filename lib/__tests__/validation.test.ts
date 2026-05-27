@@ -5,12 +5,13 @@ import {
   breakfastAttendeeSchema,
   breakfastIdsSchema,
   productIdSchema,
-  scholarshipQuantitySchema,
-  scholarshipUnitAmountCentsSchema,
+  giftRecipientSchema,
+  claimFormSchema,
 } from "../validation"
 
-describe("registrationDataSchema", () => {
-  const validData = {
+describe("registrationDataSchema — self intent", () => {
+  const validSelf = {
+    intent: "self" as const,
     name: "Test Person",
     state: "CT",
     email: "test@example.com",
@@ -19,29 +20,30 @@ describe("registrationDataSchema", () => {
     mobilityAccessibility: false,
     willingToServe: true,
     homegroup: "My Homegroup",
-    isScholarship: false,
-    scholarshipRecipientName: "",
-    scholarshipRecipientEmail: "",
+    giftRecipients: [],
+    donationAmountCents: 0,
+    accessCode: "",
   }
 
-  it("accepts valid registration data", () => {
-    const result = registrationDataSchema.safeParse(validData)
-    expect(result.success).toBe(true)
+  it("accepts a valid self registration", () => {
+    expect(registrationDataSchema.safeParse(validSelf).success).toBe(true)
   })
 
-  it("rejects missing name", () => {
-    const result = registrationDataSchema.safeParse({ ...validData, name: "" })
-    expect(result.success).toBe(false)
+  it("rejects missing state on self", () => {
+    expect(registrationDataSchema.safeParse({ ...validSelf, state: "" }).success).toBe(false)
+  })
+
+  it("rejects missing homegroup on self", () => {
+    expect(registrationDataSchema.safeParse({ ...validSelf, homegroup: "" }).success).toBe(false)
   })
 
   it("rejects invalid email", () => {
-    const result = registrationDataSchema.safeParse({ ...validData, email: "not-an-email" })
-    expect(result.success).toBe(false)
+    expect(registrationDataSchema.safeParse({ ...validSelf, email: "not-an-email" }).success).toBe(false)
   })
 
   it("strips HTML tags from string fields", () => {
     const result = registrationDataSchema.safeParse({
-      ...validData,
+      ...validSelf,
       name: '<script>alert("xss")</script>Test',
       accommodations: "<b>wheelchair</b> access",
     })
@@ -51,13 +53,167 @@ describe("registrationDataSchema", () => {
       expect(result.data.accommodations).toBe("wheelchair access")
     }
   })
+})
 
-  it("rejects excessively long name", () => {
-    const result = registrationDataSchema.safeParse({
-      ...validData,
-      name: "A".repeat(300),
-    })
-    expect(result.success).toBe(false)
+describe("registrationDataSchema — gift_only intent", () => {
+  const base = {
+    intent: "gift_only" as const,
+    name: "Sponsor",
+    email: "sponsor@example.com",
+    state: "",
+    homegroup: "",
+    accommodations: "",
+    interpretationNeeded: false,
+    mobilityAccessibility: false,
+    willingToServe: false,
+    giftRecipients: [{ name: "Recipient One", email: "" }],
+    donationAmountCents: 0,
+    accessCode: "",
+  }
+
+  it("accepts with at least one recipient", () => {
+    expect(registrationDataSchema.safeParse(base).success).toBe(true)
+  })
+
+  it("rejects when no recipients are listed", () => {
+    expect(registrationDataSchema.safeParse({ ...base, giftRecipients: [] }).success).toBe(false)
+  })
+
+  it("rejects an invalid recipient email", () => {
+    expect(
+      registrationDataSchema.safeParse({
+        ...base,
+        giftRecipients: [{ name: "Bad", email: "not-an-email" }],
+      }).success,
+    ).toBe(false)
+  })
+
+  it("does NOT require state or homegroup for gift_only", () => {
+    expect(registrationDataSchema.safeParse({ ...base, state: "", homegroup: "" }).success).toBe(true)
+  })
+})
+
+describe("registrationDataSchema — donate intent", () => {
+  const base = {
+    intent: "donate" as const,
+    name: "Donor",
+    email: "donor@example.com",
+    state: "",
+    homegroup: "",
+    accommodations: "",
+    interpretationNeeded: false,
+    mobilityAccessibility: false,
+    willingToServe: false,
+    giftRecipients: [],
+    donationAmountCents: 4000,
+    accessCode: "",
+  }
+
+  it("accepts a $40 donation", () => {
+    expect(registrationDataSchema.safeParse(base).success).toBe(true)
+  })
+
+  it("rejects a donation below the $10 floor", () => {
+    expect(registrationDataSchema.safeParse({ ...base, donationAmountCents: 999 }).success).toBe(false)
+  })
+
+  it("rejects recipients on a donation", () => {
+    expect(
+      registrationDataSchema.safeParse({
+        ...base,
+        giftRecipients: [{ name: "Should not be here", email: "", message: "" }],
+      }).success,
+    ).toBe(false)
+  })
+})
+
+describe("registrationDataSchema — leftover fields under wrong intent are tolerated", () => {
+  it("accepts a self registration even if donationAmountCents is set", () => {
+    const data = {
+      intent: "self" as const,
+      name: "Test",
+      email: "test@example.com",
+      state: "CT",
+      homegroup: "Test Group",
+      accommodations: "",
+      interpretationNeeded: false,
+      mobilityAccessibility: false,
+      willingToServe: false,
+      giftRecipients: [],
+      donationAmountCents: 4000,
+      groupName: "",
+      groupQuantity: 0,
+      accessCode: "",
+    }
+    expect(registrationDataSchema.safeParse(data).success).toBe(true)
+  })
+
+  it("accepts a self registration even with a leftover groupName/groupQuantity", () => {
+    const data = {
+      intent: "self" as const,
+      name: "Test",
+      email: "test@example.com",
+      state: "CT",
+      homegroup: "Test Group",
+      accommodations: "",
+      interpretationNeeded: false,
+      mobilityAccessibility: false,
+      willingToServe: false,
+      giftRecipients: [],
+      donationAmountCents: 0,
+      groupName: "Some Org",
+      groupQuantity: 5,
+      accessCode: "",
+    }
+    expect(registrationDataSchema.safeParse(data).success).toBe(true)
+  })
+})
+
+describe("registrationDataSchema — group intent", () => {
+  const base = {
+    intent: "group" as const,
+    name: "Contact Person",
+    email: "contact@org.example",
+    state: "",
+    homegroup: "",
+    accommodations: "",
+    interpretationNeeded: false,
+    mobilityAccessibility: false,
+    willingToServe: false,
+    giftRecipients: [],
+    donationAmountCents: 0,
+    groupName: "Hope House",
+    groupQuantity: 5,
+    accessCode: "",
+  }
+
+  it("accepts a valid group purchase", () => {
+    expect(registrationDataSchema.safeParse(base).success).toBe(true)
+  })
+
+  it("requires an organization name", () => {
+    expect(registrationDataSchema.safeParse({ ...base, groupName: "" }).success).toBe(false)
+  })
+
+  it("rejects a single-seat group purchase", () => {
+    expect(registrationDataSchema.safeParse({ ...base, groupQuantity: 1 }).success).toBe(false)
+  })
+
+  it("rejects more than 100 seats", () => {
+    expect(registrationDataSchema.safeParse({ ...base, groupQuantity: 101 }).success).toBe(false)
+  })
+
+  it("does NOT require state/homegroup for group", () => {
+    expect(registrationDataSchema.safeParse({ ...base, state: "", homegroup: "" }).success).toBe(true)
+  })
+
+  it("rejects gift recipients on a group purchase", () => {
+    expect(
+      registrationDataSchema.safeParse({
+        ...base,
+        giftRecipients: [{ name: "stray", email: "", message: "" }],
+      }).success,
+    ).toBe(false)
   })
 })
 
@@ -71,86 +227,72 @@ describe("policyAgreementsSchema", () => {
     understandInvestigation: true,
     signatureAgreement: true,
   }
-
   it("accepts all true", () => {
-    const result = policyAgreementsSchema.safeParse(allTrue)
-    expect(result.success).toBe(true)
+    expect(policyAgreementsSchema.safeParse(allTrue).success).toBe(true)
   })
+  it("rejects if any is false", () => {
+    expect(policyAgreementsSchema.safeParse({ ...allTrue, readPolicy: false }).success).toBe(false)
+  })
+})
 
-  it("rejects if any policy is false", () => {
-    const result = policyAgreementsSchema.safeParse({ ...allTrue, readPolicy: false })
-    expect(result.success).toBe(false)
+describe("giftRecipientSchema", () => {
+  it("accepts a recipient with no email", () => {
+    expect(giftRecipientSchema.safeParse({ name: "Alex", email: "" }).success).toBe(true)
+  })
+  it("accepts a valid email", () => {
+    expect(giftRecipientSchema.safeParse({ name: "Alex", email: "alex@example.com" }).success).toBe(true)
+  })
+  it("rejects an invalid email", () => {
+    expect(giftRecipientSchema.safeParse({ name: "Alex", email: "not-an-email" }).success).toBe(false)
+  })
+})
+
+describe("claimFormSchema", () => {
+  it("requires state and homegroup", () => {
+    const base = {
+      name: "Recipient",
+      email: "r@example.com",
+      state: "CT",
+      homegroup: "Local YPAA",
+      accommodations: "",
+      interpretationNeeded: false,
+      mobilityAccessibility: false,
+      willingToServe: false,
+    }
+    expect(claimFormSchema.safeParse(base).success).toBe(true)
+    expect(claimFormSchema.safeParse({ ...base, state: "" }).success).toBe(false)
+    expect(claimFormSchema.safeParse({ ...base, homegroup: "" }).success).toBe(false)
   })
 })
 
 describe("breakfastAttendeeSchema", () => {
   it("accepts valid attendee", () => {
-    const result = breakfastAttendeeSchema.safeParse({
-      firstName: "Jane",
-      lastName: "D",
-      email: "jane@example.com",
-    })
-    expect(result.success).toBe(true)
+    expect(
+      breakfastAttendeeSchema.safeParse({ firstName: "Jane", lastName: "D", email: "jane@example.com" }).success,
+    ).toBe(true)
   })
-
   it("rejects empty first name", () => {
-    const result = breakfastAttendeeSchema.safeParse({
-      firstName: "",
-      lastName: "D",
-      email: "jane@example.com",
-    })
-    expect(result.success).toBe(false)
+    expect(
+      breakfastAttendeeSchema.safeParse({ firstName: "", lastName: "D", email: "jane@example.com" }).success,
+    ).toBe(false)
   })
 })
 
 describe("breakfastIdsSchema", () => {
-  it("accepts valid IDs array", () => {
-    const result = breakfastIdsSchema.safeParse(["breakfast-friday", "breakfast-saturday"])
-    expect(result.success).toBe(true)
+  it("accepts a valid array", () => {
+    expect(breakfastIdsSchema.safeParse(["breakfast-friday", "breakfast-saturday"]).success).toBe(true)
   })
-
   it("rejects too many IDs", () => {
     const ids = Array.from({ length: 25 }, (_, i) => `id-${i}`)
-    const result = breakfastIdsSchema.safeParse(ids)
-    expect(result.success).toBe(false)
+    expect(breakfastIdsSchema.safeParse(ids).success).toBe(false)
   })
 })
 
 describe("productIdSchema", () => {
-  it("accepts valid product ID", () => {
+  it("accepts a valid product ID", () => {
     expect(productIdSchema.safeParse("necypaa-xxxvi-registration").success).toBe(true)
   })
-
   it("rejects empty string", () => {
     expect(productIdSchema.safeParse("").success).toBe(false)
-  })
-})
-
-describe("scholarshipQuantitySchema", () => {
-  it("defaults to 0", () => {
-    const result = scholarshipQuantitySchema.parse(undefined)
-    expect(result).toBe(0)
-  })
-
-  it("rejects negative numbers", () => {
-    expect(scholarshipQuantitySchema.safeParse(-1).success).toBe(false)
-  })
-
-  it("rejects non-integers", () => {
-    expect(scholarshipQuantitySchema.safeParse(1.5).success).toBe(false)
-  })
-})
-
-describe("scholarshipUnitAmountCentsSchema", () => {
-  it("accepts valid cent amounts", () => {
-    expect(scholarshipUnitAmountCentsSchema.safeParse(4000).success).toBe(true)
-  })
-
-  it("accepts undefined for default pricing", () => {
-    expect(scholarshipUnitAmountCentsSchema.safeParse(undefined).success).toBe(true)
-  })
-
-  it("rejects values below one dollar", () => {
-    expect(scholarshipUnitAmountCentsSchema.safeParse(99).success).toBe(false)
   })
 })

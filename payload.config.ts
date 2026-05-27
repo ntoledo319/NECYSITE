@@ -10,6 +10,13 @@ import { Media } from "./collections/Media"
 import { BlogPosts } from "./collections/BlogPosts"
 import { FAQ } from "./collections/FAQ"
 import { Registrations } from "./collections/Registrations"
+import { RegistrationFailures } from "./collections/RegistrationFailures"
+import { WebhookFailures } from "./collections/WebhookFailures"
+import { ProcessedWebhookEvents } from "./collections/ProcessedWebhookEvents"
+import { GiftCodes } from "./collections/GiftCodes"
+import { Donations } from "./collections/Donations"
+import { GroupRegistrations } from "./collections/GroupRegistrations"
+import { PricingSettings } from "./globals/PricingSettings"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +31,21 @@ export default buildConfig({
       titleSuffix: " — NECYPAA XXXVI CMS",
     },
   },
-  collections: [Users, Events, BlogPosts, FAQ, Media, Registrations],
+  collections: [
+    Users,
+    Events,
+    BlogPosts,
+    FAQ,
+    Media,
+    Registrations,
+    GiftCodes,
+    Donations,
+    GroupRegistrations,
+    RegistrationFailures,
+    WebhookFailures,
+    ProcessedWebhookEvents,
+  ],
+  globals: [PricingSettings],
   secret:
     process.env.PAYLOAD_SECRET ??
     (() => {
@@ -34,6 +55,11 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URI || "file:./payload.db",
     },
+    // Schema is owned by the database. Drizzle's `push: true` is intentionally
+    // off so cold starts don't race CREATE INDEX statements against an
+    // already-synced Turso DB. Apply future schema changes by running
+    // `pnpm tsx scripts/push-schema.mts` locally against staging/prod or by
+    // generating proper migrations — never re-enable push in production code.
   }),
   editor: lexicalEditor(),
   typescript: {

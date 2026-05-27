@@ -1,1 +1,66 @@
+#!/usr/bin/env bash
+# Pre-commit hook
+# 1. Run lint-staged on changed files.
+# 2. Warn (do not block) if the commit touches a documented surface
+#    and HANDOFF/ was not updated in the same commit.
+
+set -e
+
 npx lint-staged
+
+# --- Handoff sync reminder ---------------------------------------------------
+# Soft enforcement: print a warning if the staged changes touch a surface that
+# HANDOFF/ documents, without a corresponding HANDOFF/ update in the same
+# commit. The commit still goes through — a hard block would punish small,
+# legitimate edits. Compliance is the agent's job (see CLAUDE.md).
+
+DOCUMENTED_PATTERNS=(
+  'lib/constants\.ts'
+  'lib/registration-products\.ts'
+  'lib/pricing\.ts'
+  'lib/env\.ts'
+  '\.env\.example'
+  'actions/registration\.ts'
+  'actions/breakfast\.ts'
+  'actions/claim-gift\.ts'
+  'app/api/webhooks/stripe'
+  'collections/Registrations\.ts'
+  'collections/Donations\.ts'
+  'collections/GroupRegistrations\.ts'
+  'collections/GiftCodes\.ts'
+)
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+
+TOUCHED_DOCUMENTED=0
+for pat in "${DOCUMENTED_PATTERNS[@]}"; do
+  if echo "$STAGED" | grep -E "$pat" >/dev/null; then
+    TOUCHED_DOCUMENTED=1
+    break
+  fi
+done
+
+TOUCHED_HANDOFF=0
+if echo "$STAGED" | grep -E '^HANDOFF/' >/dev/null; then
+  TOUCHED_HANDOFF=1
+fi
+
+if [ "$TOUCHED_DOCUMENTED" = "1" ] && [ "$TOUCHED_HANDOFF" = "0" ]; then
+  cat <<'EOF'
+
+╔══════════════════════════════════════════════════════════════════════╗
+║  HANDOFF SYNC REMINDER                                               ║
+║                                                                      ║
+║  This commit touches a surface that HANDOFF/ documents               ║
+║  (dates, prices, env vars, registration flow, or webhook).           ║
+║                                                                      ║
+║  Run /handoff-sync in your coding agent before pushing, and          ║
+║  include the resulting HANDOFF/ updates in the same PR if needed.    ║
+║                                                                      ║
+║  This is a warning, not a block. See CLAUDE.md → Handoff Sync.       ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+EOF
+fi
+
+exit 0

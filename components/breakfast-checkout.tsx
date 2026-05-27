@@ -3,12 +3,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js"
 import { loadStripe, type Stripe } from "@stripe/stripe-js"
+import { useLocale } from "next-intl"
 import { startBreakfastCheckout } from "@/actions/breakfast"
 import { BREAKFAST_PRODUCTS, calculateProcessingFee } from "@/lib/registration-products"
+import { usePricing } from "@/lib/use-pricing"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import EmailTypoHint from "@/components/ui/email-typo-hint"
+import { CONTACT_EMAIL } from "@/lib/constants"
 
 export default function BreakfastCheckout() {
   const [firstName, setFirstName] = useState("")
@@ -21,16 +25,32 @@ export default function BreakfastCheckout() {
   const [checkoutReady, setCheckoutReady] = useState(false)
   const [checkoutKey, setCheckoutKey] = useState(0)
 
+  const pricing = usePricing()
+
+  // Overlay live pricing onto the static product catalog. IDs stay stable;
+  // only the displayed price changes when admin updates Payload.
+  const livePriceFor = (id: string): number => {
+    if (id === "breakfast-friday") return pricing.breakfastFridayCents
+    if (id === "breakfast-saturday") return pricing.breakfastSaturdayCents
+    if (id === "breakfast-sunday") return pricing.breakfastSundayCents
+    return 0
+  }
+  const liveProducts = useMemo(
+    () => BREAKFAST_PRODUCTS.map((bp) => ({ ...bp, priceInCents: livePriceFor(bp.id) || bp.priceInCents })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- depends on pricing values, listed individually
+    [pricing.breakfastFridayCents, pricing.breakfastSaturdayCents, pricing.breakfastSundayCents],
+  )
+
   const selectedBreakfasts = useMemo(
-    () => BREAKFAST_PRODUCTS.filter((bp) => breakfastSelections[bp.id]),
-    [breakfastSelections],
+    () => liveProducts.filter((bp) => breakfastSelections[bp.id]),
+    [breakfastSelections, liveProducts],
   )
   const subtotalCents = selectedBreakfasts.reduce((sum, bp) => sum + bp.priceInCents, 0)
   const processingFee = subtotalCents > 0 ? calculateProcessingFee(subtotalCents) / 100 : 0
   const totalAmount = subtotalCents / 100 + processingFee
 
-  const fridayProduct = BREAKFAST_PRODUCTS.find((p) => p.id === "breakfast-friday")
-  const weekendProducts = BREAKFAST_PRODUCTS.filter((p) => p.id !== "breakfast-friday")
+  const fridayProduct = liveProducts.find((p) => p.id === "breakfast-friday")
+  const weekendProducts = liveProducts.filter((p) => p.id !== "breakfast-friday")
 
   const validateField = (field: string, value: string) => {
     let errorMsg = ""
@@ -72,22 +92,33 @@ export default function BreakfastCheckout() {
     setCheckoutReady(false)
   }
 
+  const locale = useLocale()
+
   const fetchClientSecret = useCallback(async () => {
     try {
       const selectedBreakfastIds = selectedBreakfasts.map((bp) => bp.id)
-      return await startBreakfastCheckout(
+      const result = await startBreakfastCheckout(
         { firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim() },
         selectedBreakfastIds,
+        locale,
       )
+      if (!result.ok) {
+        const message = result.error.contactSupport
+          ? `${result.error.userMessage} (ref ${result.error.correlationId})`
+          : result.error.userMessage
+        setError(message)
+        return Promise.reject(new Error(result.error.userMessage))
+      }
+      return result.clientSecret
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Something didn't go as planned. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
+          : `Something didn't go as planned. Please try again — and if it keeps happening, reach out at ${CONTACT_EMAIL}.`,
       )
       return Promise.reject(err)
     }
-  }, [email, firstName, lastName, selectedBreakfasts])
+  }, [email, firstName, lastName, locale, selectedBreakfasts])
 
   const options = useMemo(() => ({ fetchClientSecret }), [fetchClientSecret])
 
@@ -243,6 +274,9 @@ export default function BreakfastCheckout() {
                     {errors.email}
                   </p>
                 )}
+                <div className="mt-1">
+                  <EmailTypoHint value={email} fieldId="email" onAccept={(v) => setEmail(v)} />
+                </div>
               </div>
             </div>
 

@@ -16,6 +16,13 @@
     "test:watch": "vitest",
     "test:a11y": "playwright test",
     "test:a11y:ui": "playwright test --ui",
+    "stripe:bootstrap-catalog": "node scripts/stripe-bootstrap-catalog.mjs",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe --print-secret",
+    "stripe:trigger:paid": "stripe trigger checkout.session.completed",
+    "stripe:trigger:refund": "stripe trigger charge.refunded",
+    "stripe:trigger:dispute": "stripe trigger charge.dispute.created",
+    "stripe:trigger:failed": "stripe trigger payment_intent.payment_failed",
+    "stripe:trigger:expired": "stripe trigger checkout.session.expired",
     "prepare": "husky"
   },
   "dependencies": {

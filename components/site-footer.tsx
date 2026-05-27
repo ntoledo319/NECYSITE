@@ -1,9 +1,10 @@
 import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { HOTEL_BOOKING_URL, NECYPAA_ADVISORY_URL, CONTACT_EMAIL } from "@/lib/constants"
-import { Mail, ExternalLink, Rss } from "lucide-react"
+import { Mail, Rss } from "lucide-react"
 import { Sparkle, Hex } from "@/components/art/graffiti-elements"
 import { Gear } from "@/components/art/steampunk-elements"
+import ExternalLink from "@/components/external-link"
 
 export default function SiteFooter() {
   return (
@@ -110,15 +111,13 @@ export default function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <a
+                <ExternalLink
                   href={HOTEL_BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  kind="logistics"
                   className="footer-link inline-flex items-center gap-1 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                 >
-                  Book Hotel <ExternalLink className="h-3 w-3" aria-hidden="true" />
-                  <span className="sr-only"> (opens in new tab)</span>
-                </a>
+                  Book Hotel
+                </ExternalLink>
               </li>
               <li>
                 <Link href="/program" className="footer-link text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]">
@@ -146,15 +145,13 @@ export default function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <a
+                <ExternalLink
                   href={NECYPAA_ADVISORY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  kind="aa-resource"
                   className="footer-link inline-flex items-center gap-1 text-sm text-[var(--nec-muted)] transition-colors hover:text-[var(--nec-text)]"
                 >
-                  Advisory Council <ExternalLink className="h-3 w-3" aria-hidden="true" />
-                  <span className="sr-only"> (opens in new tab)</span>
-                </a>
+                  Advisory Council
+                </ExternalLink>
               </li>
             </ul>
           </div>

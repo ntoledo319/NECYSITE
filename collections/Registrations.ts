@@ -7,6 +7,10 @@ export const Registrations: CollectionConfig = {
     defaultColumns: ["name", "email", "status", "type", "createdAt"],
     description: "Attendee registrations and scholarship purchases.",
   },
+  // NOTE: public registration writes happen via the server action in
+  // actions/registration.ts using a system Payload context that bypasses
+  // these access checks. The rules below only govern who can read/edit rows
+  // through the Payload admin UI or authenticated API.
   access: {
     read: ({ req: { user } }) => Boolean(user?.role === "admin" || user?.role === "registration"),
     create: ({ req: { user } }) => Boolean(user),
@@ -41,8 +45,8 @@ export const Registrations: CollectionConfig = {
         { label: "Failed", value: "failed" },
         { label: "Refunded", value: "refunded" },
         { label: "Partially Refunded", value: "partially_refunded" },
-        { label: "Comped", value: "comped" },
-        { label: "Cash", value: "cash" },
+        { label: "Comped (access code or sponsored)", value: "comped" },
+        { label: "Cash (manual / staff-entered only)", value: "cash" },
         { label: "Canceled", value: "canceled" },
         { label: "Disputed", value: "disputed" },
       ],
@@ -129,6 +133,33 @@ export const Registrations: CollectionConfig = {
       name: "homegroup",
       type: "text",
       label: "Homegroup/Committee",
+    },
+    {
+      name: "refundedAt",
+      type: "date",
+      admin: { position: "sidebar", description: "Timestamp of the most recent refund event." },
+    },
+    {
+      name: "refundAmountCents",
+      type: "number",
+      admin: { position: "sidebar", description: "Cumulative amount refunded across all refund events on this charge." },
+    },
+    {
+      name: "refundedFully",
+      type: "checkbox",
+      defaultValue: false,
+      admin: { position: "sidebar", description: "Set when the refund covered the entire original amount." },
+    },
+    {
+      name: "disputedAt",
+      type: "date",
+      admin: { position: "sidebar", description: "Timestamp the chargeback was opened." },
+    },
+    {
+      name: "disputeId",
+      type: "text",
+      index: true,
+      admin: { position: "sidebar" },
     },
   ],
 }

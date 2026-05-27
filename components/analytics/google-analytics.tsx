@@ -18,18 +18,21 @@ function AnalyticsContent() {
   return null
 }
 
-export function GoogleAnalytics() {
+export function GoogleAnalytics({ nonce }: { nonce?: string }) {
   if (!GA_TRACKING_ID) return null
 
   return (
     <>
       <Script
         strategy="afterInteractive"
+        nonce={nonce}
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
       />
+      {/* Privacy-minimum GA config — anonymize_ip + signals/ads off are intentional for an AA-adjacent surface. See AA_TRADITIONS_GUARDRAILS.md. */}
       <Script
         id="gtag-init"
         strategy="afterInteractive"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
@@ -42,8 +45,8 @@ export function GoogleAnalytics() {
               cookie_flags: 'SameSite=None;Secure',
               cookie_expires: 63072000,
               cookie_update: true,
-              anonymize_ip: false,
-              allow_google_signals: true,
+              anonymize_ip: true,
+              allow_google_signals: false,
               allow_ad_personalization_signals: false,
               custom_map: { dimension1: 'user_type', dimension2: 'page_category', dimension3: 'content_language' }
             });

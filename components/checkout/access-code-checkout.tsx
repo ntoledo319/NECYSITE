@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter } from "@/i18n/navigation"
 import { submitAccessCodeRegistration } from "@/actions/registration"
 import { Button } from "@/components/ui/button"
 import type { RegistrationData, PolicyAgreements } from "@/lib/types"
+import { CONTACT_EMAIL } from "@/lib/constants"
 
 interface AccessCodeCheckoutProps {
   registrationData: RegistrationData
@@ -14,12 +15,14 @@ interface AccessCodeCheckoutProps {
 
 export default function AccessCodeCheckout({ registrationData, policyAgreements, onBack }: AccessCodeCheckoutProps) {
   const router = useRouter()
-  const [accessCodeError, setAccessCodeError] = useState<string | null>(null)
+  const [accessCodeError, setAccessCodeError] = useState<{ message: string; correlationId?: string } | null>(null)
   const [isSubmittingCode, setIsSubmittingCode] = useState(false)
 
   const handleAccessCodeSubmit = async () => {
     if (!policyAgreements) {
-      setAccessCodeError("Policy agreements are required. Please go back and complete the policy step.")
+      setAccessCodeError({
+        message: "Policy agreements are required. Please go back and complete the policy step.",
+      })
       return
     }
 
@@ -30,15 +33,20 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
       const result = await submitAccessCodeRegistration(registrationData, policyAgreements)
 
       if (!result.success) {
-        setAccessCodeError(result.error)
+        setAccessCodeError({
+          message: result.error.userMessage,
+          correlationId: result.error.correlationId,
+        })
         return
       }
 
-      router.push("/register/success?flow=access-code")
-    } catch {
-      setAccessCodeError(
-        "Something went wrong. Please try again — and if it keeps happening, reach out to us at info@necypaa.org.",
-      )
+      router.push(`/register/success?flow=access-code&t=${encodeURIComponent(result.successToken)}`)
+    } catch (err) {
+      setAccessCodeError({
+        message: `Something went wrong. Please try again — and if it keeps happening, email ${CONTACT_EMAIL}.${
+          err instanceof Error && err.message ? ` Detail: ${err.message}` : ""
+        }`,
+      })
     } finally {
       setIsSubmittingCode(false)
     }
@@ -70,15 +78,30 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
         <p className="text-xs text-[var(--nec-muted)]">
           Your registration will be completed using your access code. No payment is required.
         </p>
+        <p className="text-xs text-[var(--nec-muted)]">
+          Trouble redeeming?{" "}
+          <a
+            href={`mailto:${CONTACT_EMAIL}?subject=Access%20code%20issue`}
+            className="font-semibold text-[var(--nec-text)] underline underline-offset-4"
+          >
+            Email {CONTACT_EMAIL}
+          </a>{" "}
+          and we&apos;ll handle it manually.
+        </p>
       </div>
 
       <div aria-live="polite">
         {accessCodeError && (
           <div
-            className="rounded-lg border border-red-700 bg-red-900/30 p-3 text-center text-sm text-red-300"
+            className="space-y-2 rounded-lg border border-red-700 bg-red-900/30 p-3 text-sm text-red-200"
             role="alert"
           >
-            {accessCodeError}
+            <p>{accessCodeError.message}</p>
+            {accessCodeError.correlationId && (
+              <p className="text-xs text-red-300">
+                Reference for support: <code>{accessCodeError.correlationId}</code>
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -88,7 +111,7 @@ export default function AccessCodeCheckout({ registrationData, policyAgreements,
         disabled={isSubmittingCode}
         className="w-full bg-[var(--nec-pink)] py-6 text-lg font-bold text-[var(--nec-text)] shadow-[0_2px_16px_rgba(var(--nec-pink-rgb),0.18)]"
       >
-        {isSubmittingCode ? "Completing Registration\u2026" : "Complete Registration"}
+        {isSubmittingCode ? "Completing Registration…" : "Complete Registration"}
       </Button>
     </div>
   )

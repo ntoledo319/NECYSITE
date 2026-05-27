@@ -2,6 +2,8 @@ export interface EventData {
   id: string
   title: string
   date: string
+  startsAt: string
+  endsAt?: string
   location: string
   schedule: { label: string; time: string }[]
   details: { label: string; value: string }[]
@@ -14,6 +16,7 @@ export const upcomingEvent: EventData = {
   id: "ultimate-cool-down-2026",
   title: "The Ultimate Cool Down",
   date: "Saturday, April 25th, 2026",
+  startsAt: "2026-04-25T14:00:00-04:00",
   location: "CCAR, 713 Main St, Willimantic, CT",
   schedule: [{ label: "Ice Cream Social & Speed Fellowship", time: "2:00 PM" }],
   details: [
@@ -36,6 +39,7 @@ export const pastEvents: EventData[] = [
     id: "cardboard-masquerade-2025",
     title: "Cardboard Masquerade",
     date: "Friday, May 30th, 2025",
+    startsAt: "2025-05-30T19:30:00-04:00",
     location: "3 Mountain Rd, Farmington, CT 06032",
     schedule: [
       { label: "Young Grenadiers Tradition Five Meeting", time: "7:30 PM" },
@@ -54,6 +58,7 @@ export const pastEvents: EventData[] = [
     id: "game-night-pajama-rave-2025",
     title: "Game Night, Pajama Party & Half-Assed Rave",
     date: "Friday, April 11th, 2025",
+    startsAt: "2025-04-11T19:30:00-04:00",
     location: "Pathfinders Club, 102 Norman St, Manchester, CT",
     schedule: [
       { label: "'Happy, Joyous, and Free' Panel Meeting", time: "7:30 PM" },
@@ -72,6 +77,7 @@ export const pastEvents: EventData[] = [
     id: "zombie-prom-2026",
     title: "Zombie Prom",
     date: "Friday, February 13th, 2026",
+    startsAt: "2026-02-13T18:30:00-05:00",
     location: "Enfield United Church of Christ, 1295 Enfield St, Enfield, CT 06082",
     schedule: [
       { label: "Hype", time: "6:30 PM" },
@@ -91,6 +97,7 @@ export const pastEvents: EventData[] = [
     id: "nye-bonfire-2025",
     title: "New Year's Eve Bonfire & Fellowship",
     date: "Wednesday, December 31st, 2025",
+    startsAt: "2025-12-31T20:00:00-05:00",
     location: "",
     schedule: [],
     details: [{ label: "Presented by", value: "NECYPAA XXXVI Host Committee" }],
@@ -104,6 +111,7 @@ export const pastEvents: EventData[] = [
     id: "rave-halloween-2024",
     title: "Rave: Halloween 2.0",
     date: "Friday, November 7th, 2024",
+    startsAt: "2024-11-07T19:30:00-05:00",
     location: "Bristol Recovery Club, 67 West St, Bristol, CT 06010",
     schedule: [
       { label: "Meeting", time: "7:30 PM" },
