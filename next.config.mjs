@@ -50,6 +50,35 @@ const nextConfig = {
     deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  // Registration, breakfast, gift-claim, and the registration API surface
+  // moved to NECYREG (https://register.necypaact.com) in the migration. These
+  // permanent (308) redirects keep every legacy share link, QR code, email
+  // recipient, and external bookmark working — clients land directly on the
+  // new host without users seeing necypaact.com at all.
+  async redirects() {
+    return [
+      {
+        source: "/:locale(en|es)/register/:path*",
+        destination: "https://register.necypaact.com/:locale/register/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|es)/breakfast/:path*",
+        destination: "https://register.necypaact.com/:locale/breakfast/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|es)/claim/:token*",
+        destination: "https://register.necypaact.com/:locale/claim/:token*",
+        permanent: true,
+      },
+      {
+        source: "/api/registration/:path*",
+        destination: "https://register.necypaact.com/api/registration/:path*",
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
